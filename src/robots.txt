@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+
+Disallow: /en/flash/
+Disallow: /en/ajax/
+Disallow: /en/*/ajax/
+
+Disallow: /fr/flash/
+Disallow: /fr/ajax/
+Disallow: /fr/*/ajax/
+
+#Disallow: /de/flash/
+#Disallow: /de/ajax/
+#Disallow: /de/*/ajax/
+
+#Disallow: /es/flash/
+#Disallow: /es/ajax/
+#Disallow: /es/*/ajax/
+
+#Disallow: /it/flash/
+#Disallow: /it/ajax/
+#Disallow: /it/*/ajax/
+
+#Sitemap: http://your_website/en/xml/sitemap.xml

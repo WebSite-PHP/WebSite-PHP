@@ -1,0 +1,44 @@
+<MenuItems>
+	<MenuItem>
+		<Menu name="__(ADMIN)" url="$wsp_admin_url/admin.html" icon_16="img/wsp-admin/home_16.png" />
+	</MenuItem>
+	<MenuItem>
+		<Menu name="__(CONFIG)" url="$wsp_admin_url/admin.html?menu=config" icon_16="img/wsp-admin/config_16.png" icon_64="img/wsp-admin/config_64.png" />
+		<MenuItems>
+			<MenuItem>
+				<Menu name="__(CONFIGURE_SITE)" url="$wsp_admin_url/config/configure-site.html" icon_16="img/wsp-admin/website_16.png" icon_64="img/wsp-admin/website_64.png" />
+			</MenuItem>
+			<MenuItem>
+				<Menu name="__(CONFIGURE_DATABASE)" url="$wsp_admin_url/config/configure-database.html" icon_16="img/wsp-admin/database_16.png" icon_64="img/wsp-admin/database_64.png" />
+			</MenuItem>
+			<MenuItem>
+				<Menu name="__(CONFIGURE_SMTP)" url="$wsp_admin_url/config/configure-smtp.html" icon_16="img/wsp-admin/mail_16.png" icon_64="img/wsp-admin/mail_64.png" />
+			</MenuItem>
+		</MenuItems>
+	</MenuItem>
+	<MenuItem>
+		<Menu name="__(TEMPLATE)" url="$wsp_admin_url/admin.html?menu=template" icon_16="img/wsp-admin/template_16.gif" icon_64="img/wsp-admin/template_64.png" />
+	</MenuItem>
+	<MenuItem>
+		<Menu name="__(THEME)" url="$wsp_admin_url/admin.html?menu=theme" icon_16="img/wsp-admin/theme_16.png" icon_64="img/wsp-admin/theme_64.png" />
+		<MenuItems>
+			<MenuItem>
+				<Menu name="__(CONFIGURE_CSS)" url="$wsp_admin_url/theme/configure-css.html" icon_16="img/wsp-admin/css_16.png" icon_64="img/wsp-admin/theme_64.png" />
+			</MenuItem>
+		</MenuItems>
+	</MenuItem>
+	<MenuItem>
+		<Menu name="__(LANGUAGE)" url="$wsp_admin_url/admin.html?menu=language" icon_16="img/wsp-admin/eu_16.png" icon_64="img/wsp-admin/eu_64.png" />
+		<MenuItems>
+			<MenuItem>
+				<Menu name="__(ENGLISH)" url='".BASE_URL."en/".PARAMS_URL."' icon_16="img/wsp-admin/en_16.png" icon_64="img/wsp-admin/en_64.png" />
+			</MenuItem>
+			<MenuItem>
+				<Menu name="__(FRENCH)" url='".BASE_URL."fr/".PARAMS_URL."' icon_16="img/wsp-admin/fr_16.png" icon_64="img/wsp-admin/fr_64.png" />
+			</MenuItem>
+		</MenuItems>
+	</MenuItem>
+	<MenuItem>
+		<Menu name="__(DISCONNECT)" url="$wsp_admin_url/disconnect.html" icon_16="img/wsp-admin/exit_16.png" icon_64="img/wsp-admin/exit_64.png" />
+	</MenuItem>
+</MenuItems>
