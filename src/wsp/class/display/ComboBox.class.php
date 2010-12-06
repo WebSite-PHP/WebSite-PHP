@@ -104,7 +104,11 @@ class ComboBox extends WebSitePhpEventObject {
 	public function addItem($value, $text, $selected=false, $img='', $group_name='') {
 		$this->item_value[] = html_entity_decode($value);
 		$this->item_text[] = $text;
-		$this->item_img[] = $img;
+		if ($img != "" && strtoupper(substr($img, 0, 7)) != "HTTP://") {
+			$this->item_img[] = BASE_URL.$img;
+		} else {
+			$this->item_img[] = $img;
+		}
 		$this->item_group_name[] = $group_name;
 		if ($img != "") {
 			$this->is_image = true;
@@ -203,6 +207,10 @@ class ComboBox extends WebSitePhpEventObject {
 	}
 	
 	public function render($ajax_render=false) {
+		if ((isset($_GET['dialogbox_level']) || isset($_GET['tabs_object_id'])) && $this->form_object != null) {
+			$this->setAjaxEvent();
+		}
+		
 		$html = "<select id=\"".$this->getEventObjectName()."\" name=\"".$this->getEventObjectName()."\" onChange=\"onChangeComboBox_".$this->getEventObjectName()."();\"";
 		if ($this->width != "" && $this->width > 0) {
 			$html .= " style=\"width:".($this->width + 4)."px;\"";
@@ -242,9 +250,6 @@ class ComboBox extends WebSitePhpEventObject {
 		if ($this->is_ajax_event) {
 			if ($this->form_object == null) {
 				throw new NewException("Unable to activate action to this ".get_class($this)." : Attribut page_or_form_object must be a Form object", 0, 8, __FILE__, __LINE__);
-			}
-			if ($this->callback_onchange == "") {
-				throw new NewException("Unable to activate action to this ".get_class($this)." : You must set a change event (method onChange)", 0, 8, __FILE__, __LINE__);
 			}
 			$html .= $this->getAjaxEventFunctionRender();
 		}
