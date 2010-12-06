@@ -16,7 +16,7 @@ class Tabs extends WebSitePhpObject {
 	function __construct($id='') {
 		parent::__construct();
 		
-		if (!isset($id)) {
+		if (!isset($id) || $id == "") {
 			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, 8, __FILE__, __LINE__);
 		}
 		$this->id = $id;
@@ -76,6 +76,7 @@ class Tabs extends WebSitePhpObject {
 			} else {
 				$is_ajax_content = true;
 				$tmp_url = $this->array_tabs_content[$i]->render($ajax_render);
+				$tmp_url = str_replace(".php", ".call", $tmp_url);
 				$html .= $tmp_url;
 				if (find($tmp_url, "?", 0, 0) > 0) {
 					$html .= "&tabs_object_id=".$this->getId();
