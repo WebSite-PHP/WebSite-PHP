@@ -154,7 +154,11 @@ class Picture extends WebSitePhpObject {
 		}
 		$html .= " border=\"".$this->border."\"";
 		if ($this->align != "") {
-			$html .= " align=\"".$this->align."\"";
+			if ($this->align == Picture::ALIGN_ABSMIDDLE) {
+				$html .= " style=\"vertical-align:center;\"";
+			} else {
+				$html .= " align=\"".$this->align."\"";
+			}
 		}
 		if (gettype($this->title) == "object") {
 			$this->title = $this->title->render();

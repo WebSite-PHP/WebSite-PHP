@@ -10,15 +10,15 @@ class LinkPage extends WebSitePhpObject {
 	private $tagH = "";
 	/**#@-*/
 	
-	function __construct($page, $object, $picture_16='') {
+	function __construct($page, $title_object, $picture_16='') {
 		parent::__construct();
 		
-		if (!isset($page) || !isset($object)) {
+		if (!isset($page) || !isset($title_object)) {
 			throw new NewException("2 argument for ".get_class($this)."::__construct() are mandatory", 0, 8, __FILE__, __LINE__);
 		}
 		
 		$this->page = $page;
-		$this->object = $object;
+		$this->object = $title_object;
 		$this->picture_16 = $picture_16;
 		$this->tagH = "";
 	}
