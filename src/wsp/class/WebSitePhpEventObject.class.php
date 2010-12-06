@@ -353,12 +353,12 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 					$html .= "callAjax".get_class($this)."_".$this->getEventObjectName()."_event($('#Callback_".$this->getEventObjectName()."').val());\n";
 				} else if ($this->form_object != null) {
 					$html .= "$('#".$this->form_object->getId()."').submit();\n";
-				} else {
+				} else if ($callback != "") {
 					$html .= "location.href='".$this->generateCurrentUrlWithCallback()."';\n";
 				}
 			} else if ($this->form_object != null) {
 				$html .= "$('#".$this->form_object->getId()."').submit();\n";
-			} else {
+			} else if ($callback != "") {
 				$html .= "location.href='".$this->generateCurrentUrlWithCallback()."';\n";
 			}
 		}

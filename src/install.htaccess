@@ -80,10 +80,10 @@ Options +FollowSymLinks
 	RewriteRule ^([a-z]{2})/(.+)/$ index.php?p=$2/home&l=$1&folder_level=3&%{QUERY_STRING} [L]
 
 	# Rewrite Special URL subfolder (ex: xml, rss, sitemap, ...)
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)\.(.+)$ load-page.php?p=$2/$3/$4/$5&mime=$4&l=$1&folder_level=3&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)\.(.+)$ load-page.php?p=$1$2/$3/$4/$5&mime=$4&folder_level=3&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)\.(.+)$ load-page.php?p=$2/$3/$4&mime=$4&l=$1&folder_level=2&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)\.(.+)$ load-page.php?p=$1$2/$3/$4&mime=$4&folder_level=2&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)\.(.+)$ load-page.php?p=$2/$3/$4/$5&mime=$6&l=$1&folder_level=3&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)\.(.+)$ load-page.php?p=$1$2/$3/$4/$5&mime=$6&folder_level=3&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)\.(.+)$ load-page.php?p=$2/$3/$4&mime=$5&l=$1&folder_level=2&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)\.(.+)$ load-page.php?p=$1$2/$3/$4&mime=$5&folder_level=2&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})/(.+)/(.+)\.(.+)$ load-page.php?p=$2/$3&mime=$4&l=$1&folder_level=1&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})(.+)/(.+)\.(.+)$ load-page.php?p=$1$2/$3&mime=$4&folder_level=1&%{QUERY_STRING} [L]
 	

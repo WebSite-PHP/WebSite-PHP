@@ -80,8 +80,8 @@
 			exit;
 		}
 		
-		if (!method_exists($page_object, "Load")) {
-			header('HTTP/1.1 500 Error : function Load doesn\'t exists for the page '.$_GET['p']);
+		if (!method_exists($page_object, "Load") && !method_exists($page_object, "InitializeComponent")) {
+			header('HTTP/1.1 500 Error : function Load or InitializeComponent doesn\'t exists for the page '.$_GET['p']);
 			exit;
 		}
 		
@@ -98,7 +98,9 @@
 			if (method_exists($page_object, "InitializeComponent")) {
 				$page_object->InitializeComponent();
 			}
-			$page_object->Load();
+			if (method_exists($page_object, "Load")) {
+				$page_object->Load();
+			}
 		}
 		
 		// If page is not caching -> generate HTML

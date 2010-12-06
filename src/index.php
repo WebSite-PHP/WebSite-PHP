@@ -32,8 +32,8 @@
 		$page_object = Page::getInstance("error-user-rights");
 	}
 	
-	if (!method_exists($page_object, "Load")) {
-		throw new NewException(get_class($this)." don't have Load method", 0, 8, __FILE__, __LINE__);
+	if (!method_exists($page_object, "Load") && !method_exists($page_object, "InitializeComponent")) {
+		throw new NewException('function Load or InitializeComponent doesn\'t exists for the page '.$_GET['p'], 0, 8, __FILE__, __LINE__);
 	}
 	
 	// Connect to the DataBase
@@ -56,7 +56,9 @@
 		if (method_exists($page_object, "InitializeComponent")) {
 			$page_object->InitializeComponent();
 		}
-		$page_object->Load();
+		if (method_exists($page_object, "Load")) {
+			$page_object->Load();
+		}
 	}
 	
 	// If page is not caching -> generate HTML
