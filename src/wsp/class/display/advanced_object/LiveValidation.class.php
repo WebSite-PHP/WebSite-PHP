@@ -57,11 +57,11 @@ class LiveValidation extends WebSitePhpObject {
 	
 	/*
 	 *  addValidateNumericality
-	 *  notANumberMessage (optional) - {String} - message to be used when validation fails because value is not a number (DEFAULT: “Must be a number!”)
-	 *	notAnIntegerMessage (optional) - {String} - message to be used when validation fails because value is not an integer (DEFAULT: “Must be an integer!”)
-	 *	wrongNumberMessage (optional) - {String} - message to be used when validation fails when ‘is’ param is used (DEFAULT: “Must be {is}!”)
-	 *	tooLowMessage (optional) - {String} - message to be used when validation fails when ‘minimum’} param is used (DEFAULT: “Must not be less than {minimum}!”)
-	 *	tooHighMessage (optional) - {String} - message to be used when validation fails when ‘maximum’} param is used (DEFAULT: “Must not be more than {maximum}!”)
+	 *  notANumberMessage (optional) - {String} - message to be used when validation fails because value is not a number (DEFAULT: ï¿½Must be a number!ï¿½)
+	 *	notAnIntegerMessage (optional) - {String} - message to be used when validation fails because value is not an integer (DEFAULT: ï¿½Must be an integer!ï¿½)
+	 *	wrongNumberMessage (optional) - {String} - message to be used when validation fails when ï¿½isï¿½ param is used (DEFAULT: ï¿½Must be {is}!ï¿½)
+	 *	tooLowMessage (optional) - {String} - message to be used when validation fails when ï¿½minimumï¿½} param is used (DEFAULT: ï¿½Must not be less than {minimum}!ï¿½)
+	 *	tooHighMessage (optional) - {String} - message to be used when validation fails when ï¿½maximumï¿½} param is used (DEFAULT: ï¿½Must not be more than {maximum}!ï¿½)
 	 *	is (optional) - {mixed} - the value must be equal to this numeric value
 	 *	minimum (optional) - {mixed} - the minimum numeric allowed
 	 *	maximum (optional) - {mixed} - the maximum numeric allowed

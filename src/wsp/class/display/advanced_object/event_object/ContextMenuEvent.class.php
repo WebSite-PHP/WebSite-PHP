@@ -58,6 +58,8 @@ class ContextMenuEvent extends WebSitePhpEventObject {
 	}
 	
 	public function render($ajax_render=false) {
+		$this->automaticAjaxEvent();
+		
 		$event_obj = new Object();
 		$html = "";
 		if ($this->callback_onclick != "") {
@@ -66,9 +68,6 @@ class ContextMenuEvent extends WebSitePhpEventObject {
 		
 		$html .= $this->getJavascriptTagOpen();
 		if ($this->is_ajax_event) {
-			if ($this->callback_onclick == "") {
-				throw new NewException("Unable to activate action to this ".get_class($this)." : You must set a onclick event (method onChange)", 0, 8, __FILE__, __LINE__);
-			}
 			$html .= $this->getAjaxEventFunctionRender();
 		}
 		

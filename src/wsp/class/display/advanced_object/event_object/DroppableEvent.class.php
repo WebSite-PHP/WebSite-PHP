@@ -78,6 +78,8 @@ class DroppableEvent extends WebSitePhpEventObject {
 	}
 	
 	public function render($ajax_render=false) {
+		$this->automaticAjaxEvent();
+		
 		$html = "";
 		if ($this->callback_ondrop != "") {
 			$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
@@ -85,9 +87,6 @@ class DroppableEvent extends WebSitePhpEventObject {
 		
 		$html .= $this->getJavascriptTagOpen();
 		if ($this->is_ajax_event) {
-			if ($this->callback_ondrop == "") {
-				throw new NewException("Unable to activate action to this ".get_class($this)." : You must set a ondrop event (method onChange)", 0, 8, __FILE__, __LINE__);
-			}
 			$html .= $this->getAjaxEventFunctionRender();
 		}
 		

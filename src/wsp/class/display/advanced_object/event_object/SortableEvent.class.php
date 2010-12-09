@@ -125,6 +125,8 @@ class SortableEvent extends WebSitePhpEventObject {
 	}
 	
 	public function render($ajax_render=false) {
+		$this->automaticAjaxEvent();
+		
 		$html = "";
 		if ($this->callback_onsort != "") {
 			$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
@@ -132,9 +134,6 @@ class SortableEvent extends WebSitePhpEventObject {
 		
 		$html .= $this->getJavascriptTagOpen();
 		if ($this->is_ajax_event) {
-			if ($this->callback_onsort == "") {
-				throw new NewException("Unable to activate action to this ".get_class($this)." : You must set a onsort event (method onChange)", 0, 8, __FILE__, __LINE__);
-			}
 			$html .= $this->getAjaxEventFunctionRender();
 		}
 		
