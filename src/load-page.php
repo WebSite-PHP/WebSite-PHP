@@ -119,6 +119,7 @@
 			
 			if ($mime_type == "text/html") {
 				$idLoadPage = rand(0,999999);
+				$__AJAX_LOAD_PAGE_ID__ = $idLoadPage;
 ?>
 				<div align="center" id="idLoadPageLoadingPicture<?php echo $idLoadPage; ?>"><img src="<?php echo BASE_URL; ?>wsp/img/loading.gif"/></div>
 				<div id="idLoadPageContent<?php echo $idLoadPage; ?>" style="display:none;">
