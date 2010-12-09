@@ -13,7 +13,9 @@ class ErrorDebug extends Page {
 		$debug_obj->setWidth("80%");
 		$obj_error_msg->add($debug_obj, "<br/><br/>");
 		
-		$obj_error_msg->add("<a href=\"".$_GET['from_url']."\">Refresh this page</a>", "<br/><br/>");
+		if ($GLOBALS['__AJAX_LOAD_PAGE__'] == false) {
+			$obj_error_msg->add("<a href=\"".$_GET['from_url']."\">Refresh this page</a>", "<br/><br/>");
+		}
 		
 		$obj_error_msg->add("<b>Consult <a href=\"http://www.php.net\" target=\"_blank\">PHP</a> or <a href=\"http://www.website-php.com\" target=\"_blank\">WebSite-PHP</a> documentations.</b>", "<br/>");
 		
