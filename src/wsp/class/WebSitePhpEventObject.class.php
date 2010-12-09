@@ -314,6 +314,11 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	}
 	
 	protected function getObjectEventValidationRender($on_event, $callback, $params='') {
+		if ($callback != "" && $this->form_object == null && 
+			(isset($_GET['dialogbox_level']) || isset($_GET['tabs_object_id']))) {
+				throw new NewException("Object ".get_class($this)." must link to a Form Object when he have a callback method in a DialogBox or a Tabs", 0, 8, __FILE__, __LINE__);
+		}
+		
 		$html = "";
 		if ($on_event != "" || $callback != "") {
 			// force Editor copy to Hidden
@@ -384,6 +389,15 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 			}
 		}
 		return $base_url.$params_url."&Callback_".$this->getEventObjectName()."='+ $('#Callback_".$this->getEventObjectName()."').val() + '";
+	}
+	
+	public function automaticAjaxEvent() {
+		// automatic activation of ajax when events are call from DialogBox or Tabs
+		if ((isset($_GET['dialogbox_level']) || isset($_GET['tabs_object_id'])) && $this->form_object != null) {
+			if ($this->form_object->getAction() == "") {
+				$this->setAjaxEvent();
+			}
+		}
 	}
 }
 ?>

@@ -155,7 +155,7 @@ class Picture extends WebSitePhpObject {
 		$html .= " border=\"".$this->border."\"";
 		if ($this->align != "") {
 			if ($this->align == Picture::ALIGN_ABSMIDDLE) {
-				$html .= " style=\"vertical-align:center;\"";
+				$html .= " style=\"vertical-align:middle;\"";
 			} else {
 				$html .= " align=\"".$this->align."\"";
 			}

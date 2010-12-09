@@ -1,17 +1,6 @@
 <?php
 class Editor extends WebSitePhpObject {
 	/**#@+
-	* Editor style class
-	* @access public
-	* @var string
-	*/
-	const STYLE_MAIN = DEFINE_STYLE_BCK_MAIN;
-	const STYLE_MAIN_HEADER = DEFINE_STYLE_BCK_MAIN_HEADER;
-	const STYLE_SECOND = DEFINE_STYLE_BCK_SECOND;
-	const STYLE_SECOND_HEADER = DEFINE_STYLE_BCK_SECOND_HEADER;
-	/**#@-*/
-	
-	/**#@+
 	* Editor toolbar config
 	* @access public
 	* @var string
@@ -35,6 +24,7 @@ class Editor extends WebSitePhpObject {
 	private $height = "";
 	private $color = "";
 	private $collapse_toolbar = false;
+	private $resizable = false;
 	
 	private $live_validation = null;
 	/**#@-*/
@@ -144,6 +134,12 @@ class Editor extends WebSitePhpObject {
 		return $this;
 	}
 		
+	public function resizable($bool) {
+		$this->resizable = $bool;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+		
 	public function getName() {
 		return $this->name;
 	}
@@ -188,7 +184,11 @@ class Editor extends WebSitePhpObject {
 						CKEDITOR.replace( '".$this->name."', {\n";
 		$html .= "						language: '".$_SESSION['lang']."'\n";
 		$html .= "						, enterMode: CKEDITOR.ENTER_BR\n";
-		$html .= "						, resize_enabled: false\n";
+		if ($this->resizable) {
+			$html .= "						, resize_enabled: true\n";
+		} else {
+			$html .= "						, resize_enabled: false\n";
+		}
 		if ($this->toolbar == Editor::TOOLBAR_NONE || $this->collapse_toolbar) {
 			$html .= "						, toolbarStartupExpanded: false\n";
 		}

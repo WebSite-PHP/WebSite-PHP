@@ -344,6 +344,8 @@ class Object extends WebSitePhpEventObject {
 	}
 	
 	public function render($ajax_render=false) {
+		$this->automaticAjaxEvent();
+		
 		$html = "";
 		$is_span_open = false;
 		if ($this->id != "" || $this->align != "" || $this->border != "" || $this->width != "" || $this->font_size != "" || $this->font_family != "" || $this->font_weight != "" || $this->style != "" || $this->class != "") {
@@ -527,10 +529,6 @@ class Object extends WebSitePhpEventObject {
 		if ($this->callback_onclick != "") {
 			$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
 			if ($this->is_ajax_event && !$ajax_render) {
-				if ($this->callback_onclick == "") {
-					throw new NewException("Unable to activate action to this ".get_class($this)." : You must set a click event (method onClick)", 0, 8, __FILE__, __LINE__);
-				}
-				
 				$html .= $this->getJavascriptTagOpen();
 				$html .= $this->getAjaxEventFunctionRender();
 				$html .= $this->getJavascriptTagClose();
@@ -555,6 +553,8 @@ class Object extends WebSitePhpEventObject {
 	 * @return string javascript code to update initial html with ajax call
 	 */
 	public function getAjaxRender() {
+		$this->automaticAjaxEvent();
+		
 		$html = "";
 		if ($this->object_change && !$this->is_new_object_after_init && $this->id != "") {
 			$content = "";

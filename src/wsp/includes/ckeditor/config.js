@@ -28,7 +28,7 @@ CKEDITOR.editorConfig = function( config )
 		   ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
 		   ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
 		   ['Link','Unlink','Anchor'],
-		   ['Image','Table','HorizontalRule','Smiley','SpecialChar','PageBreak'],
+		   ['Image','Table','HorizontalRule','Smiley','SpecialChar','PageBreak']
 		];
 	
     CKEDITOR.config.toolbar = 

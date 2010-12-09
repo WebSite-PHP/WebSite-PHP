@@ -121,6 +121,16 @@ class NewException extends Exception
 					echo "<link type=\"text/css\" rel=\"StyleSheet\" href=\"".$my_site_base_url."wsp/css/angle.css.php\" media=\"screen\" />\n";
 					echo "</head><body>\n";
 					echo $debug_page->render();
+					if ($GLOBALS['__AJAX_LOAD_PAGE__'] == true && $GLOBALS['__AJAX_LOAD_PAGE_ID__'] != "") {
+						echo "<script type=\"text/javascript\">\n";
+						echo "lauchJavascriptPage_".$GLOBALS['__AJAX_LOAD_PAGE_ID__']." = function() {\n";
+						echo "	$('#idLoadPageLoadingPicture".$GLOBALS['__AJAX_LOAD_PAGE_ID__']."').attr('style', 'display:none;');\n";
+						echo "	$('#idLoadPageContent".$GLOBALS['__AJAX_LOAD_PAGE_ID__']."').attr('style', 'display:block;');\n";
+						echo "};\n";
+						echo "	waitForJsScripts(".$GLOBALS['__AJAX_LOAD_PAGE_ID__'].");\n";
+						echo "	LoadPngPicture();\n";
+						echo "</script>\n";
+					}
 					echo "</body></html>\n";
 				} catch (Exception $e) {
 					echo $e->getMessage();

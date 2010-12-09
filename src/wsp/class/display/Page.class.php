@@ -209,6 +209,10 @@ class Page {
 		}
 	}
 	
+	public function getAllEventObjects() {
+		return $this->objects;
+	}
+	
 	public function getObjectId($id) {
 		$register_objects = WebSitePhpObject::getRegisterObjects();
 		for ($i=0; $i < sizeof($register_objects); $i++) {
@@ -240,6 +244,9 @@ class Page {
 			$form_object = $object;
 		}
 		$nb_elem_object = sizeof($this->getEventObjects($class_name));
+		if (isset($_GET['tabs_object_id'])) {
+			$nb_elem_object = $_GET['tabs_object_id']."_".$nb_elem_object;
+		}
 		if (DialogBox::getCurrentDialogBoxLevel() != -1) {
 			$nb_elem_object = (DialogBox::getCurrentDialogBoxLevel()*1000) + $nb_elem_object;
 		}

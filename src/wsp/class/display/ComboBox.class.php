@@ -11,6 +11,7 @@ class ComboBox extends WebSitePhpEventObject {
 	private $item_group_name = array();
 	private $item_selected = -1;
 	private $item_default_selected = -1;
+	private $option = "";
 	
 	private $list_items_change = false;
 	private $is_changed = false;
@@ -98,6 +99,12 @@ class ComboBox extends WebSitePhpEventObject {
 	
 	public function setName($name) {
 		$this->name = $name;
+		return $this;
+	}
+	
+	public function setOption($option) {
+		$this->option = $option;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
@@ -207,9 +214,7 @@ class ComboBox extends WebSitePhpEventObject {
 	}
 	
 	public function render($ajax_render=false) {
-		if ((isset($_GET['dialogbox_level']) || isset($_GET['tabs_object_id'])) && $this->form_object != null) {
-			$this->setAjaxEvent();
-		}
+		$this->automaticAjaxEvent();
 		
 		$html = "<select id=\"".$this->getEventObjectName()."\" name=\"".$this->getEventObjectName()."\" onChange=\"onChangeComboBox_".$this->getEventObjectName()."();\"";
 		if ($this->width != "" && $this->width > 0) {
@@ -255,8 +260,7 @@ class ComboBox extends WebSitePhpEventObject {
 		}
 		
 		$html .= "	$(document).ready(function(){ $(\"#".$this->getEventObjectName()."\").msDropDown({";
-		$option = "";
-		$html .= $option."}) });\n";
+		$html .= $this->option."}) });\n";
 		$html .= $this->htmlOnChangeFct();
 		$html .= $this->getJavascriptTagClose();
 		$this->object_change = false;
@@ -284,6 +288,8 @@ class ComboBox extends WebSitePhpEventObject {
 	 * @return string javascript code to update initial html with ajax call
 	 */
 	public function getAjaxRender() {
+		$this->automaticAjaxEvent();
+		
 		$html = "";
 		if ($this->object_change && !$this->is_new_object_after_init) {
 			$html .= "$('#Cmb_SelectedIndex_".$this->getEventObjectName()."').val('".$this->getSelectedIndex()."');\n";

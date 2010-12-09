@@ -173,6 +173,8 @@ class TextBox extends WebSitePhpEventObject {
 	}
 	
 	public function render($ajax_render=false) {
+		$this->automaticAjaxEvent();
+		
 		$html = "";
 		if ($this->class_name != "") {
 			if ($this->callback_onchange != "") {
@@ -181,9 +183,6 @@ class TextBox extends WebSitePhpEventObject {
 			if ($this->is_ajax_event) {
 				if ($this->form_object == null) {
 					throw new NewException("Unable to activate action to this ".get_class($this)." : Attribut page_or_form_object must be a Form object", 0, 8, __FILE__, __LINE__);
-				}
-				if ($this->callback_onchange == "") {
-					throw new NewException("Unable to activate action to this ".get_class($this)." : You must set a change event (method onChange)", 0, 8, __FILE__, __LINE__);
 				}
 				$html .= $this->getJavascriptTagOpen();
 				$html .= $this->getAjaxEventFunctionRender();
@@ -248,6 +247,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * @return string javascript code to update initial html with ajax call
 	 */
 	public function getAjaxRender() {
+		$this->automaticAjaxEvent();
+		
 		$html = "";
 		if ($this->object_change && !$this->is_new_object_after_init) {
 			$html .= "$('#".$this->id."').val(\"".str_replace('"', '\\"', $this->value)."\");\n";
