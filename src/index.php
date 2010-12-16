@@ -176,8 +176,8 @@
 		if (!defined('DEFINE_STYLE_JQUERY')) {
 			define("DEFINE_STYLE_JQUERY", "");
 		}
-		if (!defined('DEFINE_JQUERY_LOAD_LOCAL')) {
-			define("DEFINE_STYLE_JQUERY", true);
+		if (!defined('JQUERY_LOAD_LOCAL')) {
+			define("JQUERY_LOAD_LOCAL", true);
 		}
 		
 		if (DEFINE_STYLE_JQUERY == "") {
@@ -186,7 +186,7 @@
 			echo "		<link type=\"text/css\" rel=\"StyleSheet\" href=\"".BASE_URL."wsp/css/jquery1.8.6/".DEFINE_STYLE_JQUERY."/jquery-ui-1.8.6.custom.css\" media=\"screen\" />\n";
 		}
 		
-		if (DEFINE_JQUERY_LOAD_LOCAL == true) {
+		if (JQUERY_LOAD_LOCAL == true) {
 			JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery-1.4.4.min.js");
 			JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery-ui-1.8.6.custom.min.js", "", true);
 		} else {
@@ -262,7 +262,7 @@
 		</script>
 		<?php 
 		}
-		if (!isset($_SESSION['google_geolocalisation']) && DEFINE_JQUERY_LOAD_LOCAL == false) {
+		if (!isset($_SESSION['google_geolocalisation']) && JQUERY_LOAD_LOCAL == false) {
 		?>
 		<script type="text/javascript">
 			function loadGoogleClientLocation() {
