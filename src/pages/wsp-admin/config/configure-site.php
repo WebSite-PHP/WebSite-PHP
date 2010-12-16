@@ -17,6 +17,10 @@ class ConfigureSite extends Page {
 	private $edtRevisitAfter = null;
 	private $cmbCachingAllPage = null;
 	private $edtCacheTime = null;
+	private $cmbJqueryLocal = null;
+	private $cmbJsCompression = null;
+	private $cmbDebug = null;
+	private $edtForceServerName = null;
 	//private $ = null;
 	
 	function __construct() {
@@ -52,7 +56,7 @@ class ConfigureSite extends Page {
 		$table_form->addRow();
 		
 		$this->cmbRating = new ComboBox($form);
-		$this->cmbRating->addItem("general", __(GENERAL), (SITE_RATING=="general")?true:false)->addItem("mature", __(MATURE), (SITE_RATING=="mature")?true:false)->addItem("restricted", __(RESTRICTED), (SITE_RATING=="restricted")?true:false)->addItem("14years", __(YEARS14), (SITE_RATING=="14years")?true:false)->setWidth(143);
+		$this->cmbRating->addItem("general", "general", (SITE_RATING=="general")?true:false)->addItem("mature", "mature", (SITE_RATING=="mature")?true:false)->addItem("restricted", "restricted", (SITE_RATING=="restricted")?true:false)->addItem("14years", "14years", (SITE_RATING=="14years")?true:false)->setWidth(143);
 		$table_form->addRowColumns(__(CMB_RATING).":&nbsp;", $this->cmbRating);
 		
 		$this->edtAuthor = new TextBox($form);
@@ -116,6 +120,21 @@ class ConfigureSite extends Page {
 		
 		$table_form->addRow();
 		
+		$this->cmbJqueryLocal = new ComboBox($form);
+		$this->cmbJqueryLocal->addItem("true", "true", (JQUERY_LOAD_LOCAL==true)?true:false);
+		$this->cmbJqueryLocal->addItem("false", "false", (JQUERY_LOAD_LOCAL==false)?true:false);
+		$this->cmbJqueryLocal->setWidth(143);
+		$table_form->addRowColumns(__(CMB_JQUERY_LOAD_LOCAL).":&nbsp;", $this->cmbJqueryLocal);
+		
+		$this->cmbJsCompression = new ComboBox($form);
+		$this->cmbJsCompression->addItem("NONE", "NONE", (JS_COMPRESSION_TYPE=="NONE")?true:false);
+		$this->cmbJsCompression->addItem("GOOGLE_WS", "GOOGLE_WS", (JS_COMPRESSION_TYPE=="GOOGLE_WS")?true:false);
+		$this->cmbJsCompression->addItem("LOCAL", "LOCAL", (JS_COMPRESSION_TYPE=="LOCAL")?true:false);
+		$this->cmbJsCompression->setWidth(143);
+		$table_form->addRowColumns(__(CMB_JS_COMPRESSION_TYPE).":&nbsp;", $this->cmbJsCompression);
+		
+		$table_form->addRow();
+		
 		$this->cmbDebug = new ComboBox($form);
 		$this->cmbDebug->addItem("true", "true", (DEBUG==true)?true:false);
 		$this->cmbDebug->addItem("false", "false", (DEBUG==false)?true:false);
@@ -146,32 +165,47 @@ class ConfigureSite extends Page {
 	}
 	
 	public function configureSite() {
-		//$config_file = new File(dirname(__FILE__)."/../../../wsp/config/config.inc.php", false, true);
+		$config_file = new File(dirname(__FILE__)."/../../../wsp/config/config.inc.php", false, true);
+		
 		$data_config_file = "<?php\n";
-		$data_config_file .= "define(\"SITE_NAME\", \"Welcome WebSite-PHP\");\n";
-		$data_config_file .= "define(\"SITE_DESC\", \"Générateur gratuit de site web PHP par de simples cliques.\");\n";
-		$data_config_file .= "define(\"SITE_KEYS\", \"generateur,php,site,gratuit\");\n";
-		$data_config_file .= "define(\"SITE_RATING\", \"general\"); // general, mature, restricted, 14years\n";
-		$data_config_file .= "define(\"SITE_AUTHOR\", \"Emilien Morel\");\n";
-		$data_config_file .= "define(\"SITE_DEFAULT_LANG\", \"en\"); // en, fr, ...\n";
+		$data_config_file .= "define(\"SITE_NAME\", \"".$this->edtName->getValue()."\");\n";
+		$data_config_file .= "define(\"SITE_DESC\", \"".$this->edtDesc->getValue()."\");\n";
+		$data_config_file .= "define(\"SITE_KEYS\", \"".$this->edtKey->getValue()."\");\n";
+		$data_config_file .= "define(\"SITE_RATING\", \"".$this->cmbRating->getValue()."\"); // general, mature, restricted, 14years\n";
+		$data_config_file .= "define(\"SITE_AUTHOR\", \"".$this->edtAuthor->getValue()."\");\n";
+		$data_config_file .= "define(\"SITE_DEFAULT_LANG\", \"".$this->cmbLanguage->getValue()."\"); // en, fr, ...\n";
 		$data_config_file .= "\n";
-		$data_config_file .= "define(\"GOOGLE_CODE_TRACKER\", \"\");\n";
-		$data_config_file .= "define(\"GOOGLE_MAP_KEY\", \"\");\n";
+		$data_config_file .= "define(\"GOOGLE_CODE_TRACKER\", \"".$this->edtGoogleTracker->getValue()."\");\n";
+		$data_config_file .= "define(\"GOOGLE_MAP_KEY\", \"".$this->edtGoogleMapKey->getValue()."\");\n";
 		$data_config_file .= "\n";
-		$data_config_file .= "define(\"SITE_META_ROBOTS\", \"index, follow, all\");\n";
-		$data_config_file .= "define(\"SITE_META_GOOGLEBOTS\", \"index,follow\");\n";
-		$data_config_file .= "define(\"SITE_META_REVISIT_AFTER\", 1);\n";
+		$data_config_file .= "define(\"SITE_META_ROBOTS\", \"".$this->cmbMetaRobots->getValue()."\");\n";
+		$data_config_file .= "define(\"SITE_META_GOOGLEBOTS\", \"".$this->cmbMetaGooglebot->getValue()."\");\n";
+		$data_config_file .= "define(\"SITE_META_REVISIT_AFTER\", ".$this->edtRevisitAfter->getValue().");\n";
 		$data_config_file .= "\n";
-		$data_config_file .= "define(\"CACHING_ALL_PAGES\", false); // If use user rights, warning, you may have rights problems\n";
-		$data_config_file .= "define(\"CACHE_TIME\", 60*60*12); // 12 heures = 60*60*12\n";
+		$data_config_file .= "define(\"CACHING_ALL_PAGES\", ".$this->cmbCachingAllPage->getValue()."); // If use user rights, warning, you may have rights problems\n";
+		$data_config_file .= "define(\"CACHE_TIME\", ";
+		if ($this->cmbCachingAllPage->getValue() == "false") {
+			$data_config_file .= "0";
+		} else {
+			$data_config_file .= $this->edtCacheTime->getValue();
+		}
+		$data_config_file .= "); // 12 heures = 60*60*12\n";
 		$data_config_file .= "\n";
-		$data_config_file .= "define(\"DEBUG\", false); // autorize use of method addLogDebug\n";
-		$data_config_file .= "define(\"FORCE_SERVER_NAME\", \"\"); // Force site base url (problem with redirect), whithout http:// (ex: www.website-php.com)\n";
+		$data_config_file .= "define(\"JQUERY_LOAD_LOCAL\", ".$this->cmbJqueryLocal->getValue()."); // if false load jquery from google else load from local\n";
+		$data_config_file .= "define(\"JS_COMPRESSION_TYPE\", \"".$this->cmbJsCompression->getValue()."\"); // type of Javascript compression (GOOGLE_WS, LOCAL, NONE)\n";
+		$data_config_file .= "\n";
+		$data_config_file .= "define(\"DEBUG\", ".$this->cmbDebug->getValue()."); // autorize use of method addLogDebug\n";
+		$data_config_file .= "define(\"FORCE_SERVER_NAME\", \"";
+		if ($this->edtForceServerName->getValue() != "http://") {
+			$data_config_file .= $this->edtForceServerName->getValue();
+		}
+		$data_config_file .= "\"); // Force site base url (problem with redirect), whithout http:// (ex: www.website-php.com)\n";
 		$data_config_file .= "?>";
-		/*if ($config_file->write($data_config_file)){
+		
+		if ($config_file->write($data_config_file)){
 			$config_ok = true;
 		}
-		$config_file->close();*/
+		$config_file->close();
 		
 		if ($config_ok) {
 			$this->addObject(new DialogBox(__(CONFIG_FILE), __(CONFIG_FILE_OK)));

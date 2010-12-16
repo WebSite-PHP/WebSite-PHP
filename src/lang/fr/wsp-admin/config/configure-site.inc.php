@@ -5,9 +5,23 @@
 	define("CMB_RATING", "Classification");
 	define("EDT_AUTHOR", "Auteur");
 	define("CMB_LANGUAGE", "Langue");
+	define("EDT_GOOGLE_CODE_TRACKER", "Code Google Analytics");
+	define("EDT_GOOGLE_MAP_KEY", "Clé Google maps");
+	define("CMB_META_ROBOTS", "Robots");
+	define("CMB_META_GOOGLEBOTS", "Googlebots");
+	define("EDT_REVISIT_AFTER", "Revisite après");
+	define("DAYS", "jours");
+	define("CMB_CACHING_ALL_PAGES", "Cacher toutes les pages");
+	define("EDT_CACHE_TIME", "Temps de cache");
+	define("SECONDS", "secondes");
+	define("CMB_JQUERY_LOAD_LOCAL", "Mode de chargement Jquery");
+	define("CMB_JS_COMPRESSION_TYPE", "Type de compression");
+	define("CMB_DEBUG", "Debug");
+	define("EDT_FORCE_SERVER_NAME", "Forcer le nom du serveur");
+	define("PROBLEM_WITH_REDIRECT", "A utiliser lorsque vous avez des problèmes de redirections"); 
+	define("BTN_VALIDATE", "Valider");
 	
-	define("GENERAL", "general");
-	define("MATURE", "mature");
-	define("RESTRICTED", "restricted");
-	define("YEARS14", "14years");
+	define("CONFIG_FILE", "Configuration");
+	define("CONFIG_FILE_OK", "Votre configuration a été enregistrée !");
+	define("CONFIG_FILE_NOT_OK", "Erreur lors de la sauvegarde, s'il vous plaît vérifier votre configuration!");
 ?>

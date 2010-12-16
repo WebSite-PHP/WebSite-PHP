@@ -232,20 +232,20 @@ class ConfigureCss extends Page {
 	}
 	
 	public function changeBackgroundBody($sender) {
-		$this->addObject(new JavaScript("changeStyleSheetProperty('styles.css.php', 'body', 'background-color', '".addslashes($this->background_body->getValue())."');"));
+		$this->addObject(new JavaScript("changeStyleSheetProperty('styles.php.css', 'body', 'background-color', '".addslashes($this->background_body->getValue())."');"));
 	}
 	
 	public function changeColorBody($sender) {
-		$this->addObject(new JavaScript("changeStyleSheetProperty('styles.css.php', 'body', 'color', '".addslashes($this->color_body->getValue())."');"));
+		$this->addObject(new JavaScript("changeStyleSheetProperty('styles.php.css', 'body', 'color', '".addslashes($this->color_body->getValue())."');"));
 	}
 	
 	public function changeLinkColor($sender) {
 		$array_link_color = array('a,.link', 'a:hover');
-		$this->changeStyleSheetProperty("styles.css.php", $array_link_color, "color", $this->link_color->getValue());
+		$this->changeStyleSheetProperty("styles.php.css", $array_link_color, "color", $this->link_color->getValue());
 	}
 	
 	public function changeLinkHoverColor($sender) {
-		$this->addObject(new JavaScript("changeStyleSheetProperty('styles.css.php', 'a:hover', 'color', '".addslashes($this->link_hover_color->getValue())."');"));
+		$this->addObject(new JavaScript("changeStyleSheetProperty('styles.php.css', 'a:hover', 'color', '".addslashes($this->link_hover_color->getValue())."');"));
 	}
 	
 	public function changeBackgroundPictureMain($sender) {
@@ -260,14 +260,13 @@ class ConfigureCss extends Page {
 	}
 	
 	public function changeBackgroundMainHeader($sender) {
-		$this->changeStyleSheetProperty("angle.css.php", $this->array_round_box_main, "background", $this->background_main_header->getValue());
-		$this->changeStyleSheetProperty("styles.css.php", array(".main_bckg", ".header_main_bckg", ".table_main_round"), "background", $this->background_main_header->getValue());
+		$this->changeStyleSheetProperty("angle.php.css", $this->array_round_box_main, "background", $this->background_main_header->getValue());
+		$this->changeStyleSheetProperty("styles.php.css", array(".main_bckg", ".header_main_bckg", ".table_main_round"), "background", $this->background_main_header->getValue());
 		
-		$this->changeStyleSheetProperty("angle.css.php", array('#topMain'), "background", $this->background_main_header->getValue()." url(".BASE_URL.$this->background_picture_main->getValue().") no-repeat top right");
-		$this->changeStyleSheetProperty("angle.css.php", array('#topMain div'), "background", $this->background_main_header->getValue()." url(".BASE_URL.$this->background_picture_main->getValue().") no-repeat top left");
-		$this->changeStyleSheetProperty("angle.css.php", array('#leftMain'), "background", $this->background_main_header->getValue()." url(".BASE_URL.$this->background_picture_main->getValue().") no-repeat bottom left");
-		$this->changeStyleSheetProperty("angle.css.php", array('#rightMain'), "background", $this->background_main_header->getValue()." url(".BASE_URL.$this->background_picture_main->getValue().") no-repeat bottom right");
-		$this->changeStyleSheetProperty("styles.css.php", array(".button_main"), "background-color", $this->background_main_header->getValue());
+		$this->changeStyleSheetProperty("angle.php.css", array('#topMain'), "background", $this->background_main_header->getValue()." url(".BASE_URL.$this->background_picture_main->getValue().") no-repeat top right");
+		$this->changeStyleSheetProperty("angle.php.css", array('#topMain div'), "background", $this->background_main_header->getValue()." url(".BASE_URL.$this->background_picture_main->getValue().") no-repeat top left");
+		$this->changeStyleSheetProperty("angle.php.css", array('#leftMain'), "background", $this->background_main_header->getValue()." url(".BASE_URL.$this->background_picture_main->getValue().") no-repeat bottom left");
+		$this->changeStyleSheetProperty("angle.php.css", array('#rightMain'), "background", $this->background_main_header->getValue()." url(".BASE_URL.$this->background_picture_main->getValue().") no-repeat bottom right");
 	}
 	
 	public function changeColorMainHeader($sender) {
@@ -276,36 +275,36 @@ class ConfigureCss extends Page {
 		$this->main_header_link_hover->disable();
 		
 		$array_color_main_header = array('.header_main_bckg', '.header_main_bckg a', '.header_main_bckg a:hover', '.button_main');
-		$this->changeStyleSheetProperty("styles.css.php", $array_color_main_header, "color", $this->color_main_header->getValue());
-		$this->changeStyleSheetProperty("angle.css.php", array('#leftMain'), "color", $this->color_main_header->getValue());
+		$this->changeStyleSheetProperty("styles.php.css", $array_color_main_header, "color", $this->color_main_header->getValue());
+		$this->changeStyleSheetProperty("angle.php.css", array('#leftMain'), "color", $this->color_main_header->getValue());
 	}
 	
 	public function changeBackgroundMain($sender) {
 		$array_background_color_main = array('.table_main_angle', '.table_main', '.table_main_bckg', '.main_bckg');
-		$this->changeStyleSheetProperty("styles.css.php", $array_background_color_main, "background", $this->background_main->getValue());
+		$this->changeStyleSheetProperty("styles.php.css", $array_background_color_main, "background", $this->background_main->getValue());
 	}
 	
 	public function changeColorMain($sender) {
 		$array_color_main = array('.table_main_angle', '.table_main', '.table_main_bckg', '.main_bckg');
-		$this->changeStyleSheetProperty("styles.css.php", $array_color_main, "color", $this->color_main->getValue());
+		$this->changeStyleSheetProperty("styles.php.css", $array_color_main, "color", $this->color_main->getValue());
 	}
 	
 	public function changeBorderTableMain($sender) {
 		$array_round_box_border_main = array('.AngleRondMain .pix1', '.AngleRondMainOmbre .pix1');
-		$this->changeStyleSheetProperty("angle.css.php", $this->array_round_box_main, "border-left", "1px solid ".$this->border_table_main->getValue());
-		$this->changeStyleSheetProperty("angle.css.php", $this->array_round_box_main, "border-right", "1px solid ".$this->border_table_main->getValue());
-		$this->changeStyleSheetProperty("angle.css.php", $array_round_box_border_main, "background", $this->border_table_main->getValue());
+		$this->changeStyleSheetProperty("angle.php.css", $this->array_round_box_main, "border-left", "1px solid ".$this->border_table_main->getValue());
+		$this->changeStyleSheetProperty("angle.php.css", $this->array_round_box_main, "border-right", "1px solid ".$this->border_table_main->getValue());
+		$this->changeStyleSheetProperty("angle.php.css", $array_round_box_border_main, "background", $this->border_table_main->getValue());
 		
 		if ($this->background_picture_main->getValue() != "") {
 			$this->addObject(new JavaScript("$('#wsp_box_content_box_main').css('border', '1px solid ".$this->border_table_main->getValue()."');\n"));
 		}
 		
 		$array_box_border_main = array('.table_main_angle');
-		$this->changeStyleSheetProperty("styles.css.php", $array_box_border_main, "border-left", "1px solid ".$this->border_table_main->getValue());
-		$this->changeStyleSheetProperty("styles.css.php", $array_box_border_main, "border-right", "1px solid ".$this->border_table_main->getValue());
-		$this->changeStyleSheetProperty("styles.css.php", $array_box_border_main, "border-bottom", "1px solid ".$this->border_table_main->getValue());
+		$this->changeStyleSheetProperty("styles.php.css", $array_box_border_main, "border-left", "1px solid ".$this->border_table_main->getValue());
+		$this->changeStyleSheetProperty("styles.php.css", $array_box_border_main, "border-right", "1px solid ".$this->border_table_main->getValue());
+		$this->changeStyleSheetProperty("styles.php.css", $array_box_border_main, "border-bottom", "1px solid ".$this->border_table_main->getValue());
 		
-		$this->changeStyleSheetProperty("styles.css.php", array(".button_main"), "border-color", "#808080 ".$this->border_table_main->getValue()." ".$this->border_table_main->getValue()." #808080");
+		$this->changeStyleSheetProperty("styles.php.css", array(".button_main"), "border-color", "#808080 ".$this->border_table_main->getValue()." ".$this->border_table_main->getValue()." #808080");
 	}
 	
 	public function changeMainHeaderLink($sender) {
@@ -315,16 +314,16 @@ class ConfigureCss extends Page {
 		} else {
 			$array_color_main_header_link = array('.header_main_bckg a');
 		}
-		$this->changeStyleSheetProperty("styles.css.php", $array_color_main_header_link, "color", $this->main_header_link->getValue());
+		$this->changeStyleSheetProperty("styles.php.css", $array_color_main_header_link, "color", $this->main_header_link->getValue());
 	}
 	
 	public function changeMainHeaderLinkHover($sender) {
 		$array_color_main_header_link_hover = array('.header_main_bckg a:hover');
-		$this->changeStyleSheetProperty("styles.css.php", $array_color_main_header_link_hover, "color", $this->main_header_link_hover->getValue());
+		$this->changeStyleSheetProperty("styles.php.css", $array_color_main_header_link_hover, "color", $this->main_header_link_hover->getValue());
 	}
 	
 	public function changeColorShadow($sender) {
-		$this->addObject(new JavaScript("changeStyleSheetProperty('angle.css.php', '.ombre', 'background-color', '".addslashes($this->color_shadow->getValue())."');"));
+		$this->addObject(new JavaScript("changeStyleSheetProperty('angle.php.css', '.ombre', 'background-color', '".addslashes($this->color_shadow->getValue())."');"));
 	}
 	
 	public function changeStyleFont($sender) {
@@ -333,14 +332,14 @@ class ConfigureCss extends Page {
 		if ($this->style_font->getValue() != "Arial") {
 			$new_font .= ", \"Arial\"";
 		}
-		$this->changeStyleSheetProperty("styles.css.php", $this->array_font, "font-family", $new_font);
+		$this->changeStyleSheetProperty("styles.php.css", $this->array_font, "font-family", $new_font);
 	}
 	
 	public function changeStyleFontSize($sender) {
 		if ($this->style_font_size->getValue() == "") {
 			$this->style_font_size->setValue(10);
 		}
-		$this->changeStyleSheetProperty("styles.css.php", $this->array_font, "font-size", $this->style_font_size->getValue()."pt");
+		$this->changeStyleSheetProperty("styles.php.css", $this->array_font, "font-size", $this->style_font_size->getValue()."pt");
 	}
 	
 	private function changeStyleSheetProperty($css_file_name, $array_properties, $property, $value) {

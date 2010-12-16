@@ -352,6 +352,7 @@ class ".$class_name."DbTable extends DbTableObject {
 		$isset_key_param = "";
 		$load_clause = "";
 		$load_clause_obj = "";
+		$auto_increment_var = "";
 		
 		$query = "SHOW COLUMNS FROM ".$database.".".$table;
 		$result = $this->dbInstance->prepareStatement($query);
@@ -359,6 +360,10 @@ class ".$class_name."DbTable extends DbTableObject {
 			$var = str_replace("-", "_", strtolower($row['Field']));
 			$array_var[] = $var;
 			$private_var .= "	private \$".$var." = \"\";\n";
+			
+			if ($row['Extra'] == "auto_increment") {
+				$auto_increment_var = $var;
+			}
 			
 			if ($row['Key'] == "PRI") {
 				$array_var_key[] = $var;
@@ -419,7 +424,7 @@ $data .= "		}
 		}
 		\$it = \$sql->retrieve();
 		if (\$it->getRowsNum() > 1) {
-			throw new NewException(\"".$class_name."Obj->load(): too many rows returned\", 0, 8, __FILE__, __LINE__);
+			throw new NewException(\"".$class_name."WspObject->load(): too many rows returned\", 0, 8, __FILE__, __LINE__);
 		} else {
 			if (\$it->hasNext()) {
 				\$row = \$it->next();\n";
@@ -447,7 +452,7 @@ $data .= "		}
 		}
 		\$it = \$sql->retrieve();
 		if (\$it->getRowsNum() > 1) {
-			throw new NewException(\"".$class_name."Obj->loadClause(): too many rows returned\", 0, 8, __FILE__, __LINE__);
+			throw new NewException(\"".$class_name."WspObject->loadClause(): too many rows returned\", 0, 8, __FILE__, __LINE__);
 		} else {
 			if (\$it->hasNext()) {
 				\$row = \$it->next();\n";
@@ -470,8 +475,9 @@ $data .= "		}
 		\$sql->setClause(".$load_clause_obj.");
 		\$it = \$sql->retrieve();
 		if (\$it->getRowsNum() > 1) {
-			throw new NewException(\"".$class_name."Obj->save(): too many rows returned\", 0, 8, __FILE__, __LINE__);
+			throw new NewException(\"".$class_name."WspObject->save(): too many rows returned\", 0, 8, __FILE__, __LINE__);
 		} else {
+			\$insert = false;
 			if (\$it->hasNext()) {
 				\$row = \$it->next();
 			} else {
@@ -479,14 +485,20 @@ $data .= "		}
 				for ($i=0; $i < sizeof($array_var_key); $i++) {
 					$data .= "				\$row->setValue(".$class_name."DbTable::FIELD_".str_replace("-", "_", strtoupper($array_var_key[$i])).", \$this->get".$this->getFormatValue($array_var_key[$i])."());\n";
 				}
+				$data .= "				\$insert = true;\n";
 			$data .= "			}\n";
 			for ($i=0; $i < sizeof($array_var); $i++) {
 				if (!in_array($array_var[$i], $array_var_key)) {
 					$data .= "			\$row->setValue(".$class_name."DbTable::FIELD_".str_replace("-", "_", strtoupper($array_var[$i])).", \$this->get".$this->getFormatValue($array_var[$i])."());\n";
 				}
 			}
-			$data .= "			\$it->save();
-			if (\$transaction_begin_now) {
+			$data .= "			\$it->save();\n";
+			if ($auto_increment_var != "") {
+				$data .= "			if (\$insert) {
+				\$row->setValue(".$class_name."DbTable::FIELD_".str_replace("-", "_", strtoupper($auto_increment_var)).", DataBase::getInstance()->getLastInsertId());
+			}\n";
+			}
+			$data .= "			if (\$transaction_begin_now) {
 				DataBase::getInstance()->commitTransaction();
 			}
 			
@@ -503,7 +515,7 @@ $data .= "		}
 		\$sql->setClause(".$load_clause_obj.");
 		\$it = \$sql->retrieve();
 		if (\$it->getRowsNum() > 1) {
-			throw new NewException(\"".$class_name."Obj->delete(): too many rows returned\", 0, 8, __FILE__, __LINE__);
+			throw new NewException(\"".$class_name."WspObject->delete(): too many rows returned\", 0, 8, __FILE__, __LINE__);
 		} else {
 			if (\$it->hasNext()) {
 				\$row = \$it->next();
