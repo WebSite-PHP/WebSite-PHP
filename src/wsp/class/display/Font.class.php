@@ -97,7 +97,7 @@ class Font extends WebSitePhpObject {
 			$html .= "color:".$this->font_color.";";
 		}
 		$html .= "\">";
-		if (gettype($this->content_object) == "object") {
+		if (gettype($this->content_object) == "object" && method_exists($this->content_object, "render")) {
 			$html .= $this->content_object->render();
 		} else {
 			$html .= $this->content_object;
@@ -114,7 +114,7 @@ class Font extends WebSitePhpObject {
 	public function getAjaxRender() {
 		$html = "";
 		if ($this->object_change && !$this->is_new_object_after_init && $this->id != "") {
-			if (gettype($this->content_object) == "object") {
+			if (gettype($this->content_object) == "object" && method_exists($this->content_object, "render")) {
 				$content = $this->content_object->render();
 			} else {
 				$content = $this->content_object;

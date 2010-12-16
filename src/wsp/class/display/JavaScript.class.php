@@ -25,7 +25,7 @@ class JavaScript extends WebSitePhpObject {
 	
 	public function render($ajax_render=false) {
 		$this->object_change = false;
-		if (gettype($this->code_javascript) == "object") {
+		if (gettype($this->code_javascript) == "object" && method_exists($this->code_javascript, "render")) {
 			return $this->code_javascript->render($ajax_render);
 		} else {
 			return $this->code_javascript;

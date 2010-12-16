@@ -1,4 +1,27 @@
 <?php
+function JavaScriptIncludeComparator($a, $b) {
+	$array_put_js_to_begin = array();
+	$array_put_js_to_end = array("wsp/js/jquery.jqDock.min.js");
+		
+	// put to begin array_js_to_begin js
+	if (sizeof($array_put_js_to_begin) > 0) {
+		if (in_array(str_replace(BASE_URL, "", $a), $array_put_js_to_begin)) { return -1; }
+		if (in_array(str_replace(BASE_URL, "", $b), $array_put_js_to_begin)) { return 1; }
+	}
+	
+	// put to end array_js_to_end js
+	if (sizeof($array_put_js_to_end) > 0) {
+		if (in_array(str_replace(BASE_URL, "", $a), $array_put_js_to_end)) { return 1; }
+		if (in_array(str_replace(BASE_URL, "", $b), $array_put_js_to_end)) { return -1; }
+	}
+	
+	// normal use of comparator
+    if ($a == $b) {
+        return 0;
+    }
+    return ($a < $b) ? -1 : 1;
+}
+
 class JavaScriptInclude {
 	/**#@+
 	* @access private
@@ -28,7 +51,7 @@ class JavaScriptInclude {
 	
 	public function get($sort_by_name=false) {
 		if ($sort_by_name) {
-			asort($this->js_scripts);
+			uasort($this->js_scripts, "JavaScriptIncludeComparator");
 		}
 		return $this->js_scripts;
 	}

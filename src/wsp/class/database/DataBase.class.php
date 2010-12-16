@@ -228,5 +228,9 @@ class DataBase {
 			throw new NewException("Error DataBase::getInstance()->prepareStatement(): Not connect to database", 0, 8, __FILE__, __LINE__);
 		}
 	}
+	
+	public function getLastInsertId() {
+		return $this->connection->insert_id;
+	}
 }
 ?>

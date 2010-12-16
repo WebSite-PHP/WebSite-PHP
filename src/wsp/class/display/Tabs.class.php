@@ -23,6 +23,9 @@ class Tabs extends WebSitePhpObject {
 	}
 	
 	public function addTab($tab_name, $content_or_url_object, $on_select_js="") {
+		if (gettype($content_or_url_object) == "object" && get_class($content_or_url_object) == "DateTime") {
+			throw new NewException(get_class($this)."->addTab() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, 8, __FILE__, __LINE__);
+		}
 		$this->array_tabs_name[] = $tab_name;
 		$this->array_tabs_content[] = $content_or_url_object;
 		$this->array_tabs_select_js[] = $on_select_js;
@@ -89,7 +92,7 @@ class Tabs extends WebSitePhpObject {
 		$html .= "	</ul>\n";
 		for ($i=0; $i < sizeof($this->array_tabs_name); $i++) {
 			if (get_class($this->array_tabs_content[$i]) != "Url") {
-				if (gettype($this->array_tabs_content[$i]) == "object") {
+				if (gettype($this->array_tabs_content[$i]) == "object" && method_exists($this->array_tabs_content[$i], "render")) {
 					$html_content = $this->array_tabs_content[$i]->render($ajax_render);
 				} else {
 					$html_content = $this->array_tabs_content[$i];

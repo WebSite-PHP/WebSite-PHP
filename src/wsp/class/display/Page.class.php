@@ -550,7 +550,7 @@ class Page {
 			throw new NewException("Render object not set for the page ".$this->page." (Please set the variable \$this->render in class ".$this->class_name.")", 0, 8, __FILE__, __LINE__);
 		} else {
 			$html = "";
-			if (gettype($this->render) == "object") {
+			if (gettype($this->render) == "object" && method_exists($this->render, "render")) {
 				$html .= $this->render->render();
 			} else {
 				$html .= $this->render;
@@ -560,7 +560,7 @@ class Page {
 				if ($this->add_to_render[$i]->isJavascriptObject()) {
 					$html .= $this->add_to_render[$i]->getJavascriptTagOpen();
 				}
-				if (gettype($this->add_to_render[$i]) == "object") {
+				if (gettype($this->add_to_render[$i]) == "object" && method_exists($this->add_to_render[$i], "render")) {
 					$html .= $this->add_to_render[$i]->render();
 				} else {
 					$html .= $this->add_to_render[$i];

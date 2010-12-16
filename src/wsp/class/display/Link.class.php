@@ -87,7 +87,11 @@ class Link extends WebSitePhpObject {
 				if (get_class($this->link) == "DialogBox") {
 					$this->link->displayFormURL();
 				}
-				$tmp_link = $this->link->render();
+				if (method_exists($this->link, "render")) {
+					$tmp_link = $this->link->render();
+				} else {
+					$tmp_link = $this->link;
+				}
 			}
 		} else {
 			$tmp_link = $this->link;
@@ -156,7 +160,7 @@ class Link extends WebSitePhpObject {
 			$html .= "\"";
 		}
 		$html .= ">";
-		if (gettype($this->content) == "object") {
+		if (gettype($this->content) == "object" && method_exists($this->content, "render")) {
 			$html .= $this->content->render();
 		} else {
 			$html .= $this->content;

@@ -117,6 +117,9 @@ class RowTable extends WebSitePhpObject {
 	}
 	
 	public function add($content_object=null, $align='', $width='', $class='', $valign='', $style='', $colspan='', $rowspan='') {
+		if (gettype($content_object) == "object" && get_class($content_object) == "DateTime") {
+			throw new NewException(get_class($this)."->add() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, 8, __FILE__, __LINE__);
+		}
 		$ind = sizeof($this->col_object);
 		$this->col_object[$ind]['content_object'] = $content_object;
 		$this->col_object[$ind]['width'] = $width;
@@ -202,7 +205,7 @@ class RowTable extends WebSitePhpObject {
 		$html .= "<tr>\n";
 		for ($i=0; $i < sizeof($this->col_object); $i++) {
 			$is_droppable_object = false;
-			if (gettype($this->col_object[$i]['content_object']) == "object") {
+			if (gettype($this->col_object[$i]['content_object']) == "object" && method_exists($this->col_object[$i]['content_object'], "render")) {
 				if ($this->col_object[$i]['content_object'] != null) {
 					$html_content = $this->col_object[$i]['content_object']->render();
 					if (get_class($this->col_object[$i]['content_object']) == "Object") {

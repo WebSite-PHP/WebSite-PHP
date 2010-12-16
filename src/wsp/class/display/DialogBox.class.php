@@ -53,6 +53,9 @@ class DialogBox extends WebSitePhpObject {
 	}
 	
 	public function setContent($content_or_url) {
+		if (gettype($content_or_url) == "object" && get_class($content_or_url) == "DateTime") {
+			throw new NewException(get_class($this)."->setContent() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, 8, __FILE__, __LINE__);
+		}
 		$this->content = $content_or_url;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
@@ -210,7 +213,7 @@ class DialogBox extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$html = "";
 		$html_content = "";
-		if (gettype($this->content) == "object") {
+		if (gettype($this->content) == "object" && method_exists($this->content, "render")) {
 			$html_content = $this->content->render();
 		} else {
 			$html_content = $this->content;

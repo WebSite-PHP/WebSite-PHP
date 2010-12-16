@@ -33,7 +33,7 @@ class GoogleSearchBar extends WebSitePhpObject {
 		$this->search_style = $search_style;
 		
 		$this->addCss("http://www.google.com/cse/style/look/".$this->search_style.".css");
-		if (DEFINE_JQUERY_LOAD_LOCAL == true) {
+		if (JQUERY_LOAD_LOCAL == true) {
 			$this->addJavaScript("http://www.google.com/jsapi");
 		}
 	}

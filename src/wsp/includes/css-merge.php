@@ -68,6 +68,17 @@
 		}
 	}
 	
+	$is_config_theme_page = false;
+	if (file_exists("../config/config_admin.inc.php")) {
+		include("../config/config_admin.inc.php");
+		
+		$config_css_url = WSP_ADMIN_URL."/theme/configure-css.html";
+		if (substr($_SERVER['HTTP_REFERER'], strlen($config_css_url)*-1) == $config_css_url) {
+			$lastmodified = time();
+			$is_config_theme_page = true;
+		}
+	}
+	
 	// Send Etag hash
 	$hash = $lastmodified . '-' . md5($_GET['files']);
 	header ("Etag: \"" . $hash . "\"");

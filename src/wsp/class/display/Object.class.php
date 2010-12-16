@@ -108,6 +108,9 @@ class Object extends WebSitePhpEventObject {
 	}
 	
 	private function addObject($object) {
+		if (gettype($object) == "object" && get_class($object) == "DateTime") {
+			throw new NewException(get_class($this)."->addObject() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, 8, __FILE__, __LINE__);
+		}
 		if ($this->loaded_from_url || (gettype($object)=="object" && sizeof($this->objects) > 0 && get_class($object)=="Url")) {
 			throw new NewException("Error Object->addObject(): This object already loaded from url", 0, 8, __FILE__, __LINE__);
 		}
@@ -306,19 +309,26 @@ class Object extends WebSitePhpEventObject {
 		return $this->onclick;
 	}
 	
-	public function onClick($page_object, $str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
+	public function onClick($page_or_form_object, $str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		if ($this->id == "") {
 			throw new NewException("Error Object->onClick(): You must specified an id (setId())", 0, 8, __FILE__, __LINE__);
 		}
-		if (!isset($page_object) || gettype($page_object) != "object" || !is_subclass_of($page_object, "Page")) {
-			throw new NewException("Argument page_object for ".get_class($this)."::__construct() error", 0, 8, __FILE__, __LINE__);
+		if (!isset($page_or_form_object) || gettype($page_or_form_object) != "object" || (!is_subclass_of($page_or_form_object, "Page") && get_class($page_or_form_object) != "Form")) {
+			throw new NewException("Argument page_or_form_object for ".get_class($this)."::onClick() error", 0, 8, __FILE__, __LINE__);
 		}
 		
-		$this->class_name = get_class($page_object);
+		if (is_subclass_of($page_or_form_object, "Page")) {
+			$this->class_name = get_class($page_or_form_object);
+			$this->page_object = $page_or_form_object;
+			$this->form_object = null;
+		} else {
+			$this->page_object = $page_or_form_object->getPageObject();
+			$this->class_name = get_class($this->page_object)."_".$page_or_form_object->getName();
+			$this->form_object = $page_or_form_object;
+		}
 		$this->name = $this->getId();
-		$page_object->addEventObject($this);
+		$this->page_object->addEventObject($this);
 		
-		$this->page_object = $page_object;
 		$args = func_get_args();
 		$page_object = array_shift($args);
 		$str_function = array_shift($args);
@@ -450,11 +460,14 @@ class Object extends WebSitePhpEventObject {
 				if ($i != 0) {
 					$html .= " ";
 				}
-				if (gettype($this->objects[$i]) == "object") {
+				if (gettype($this->objects[$i]) == "object" && method_exists($this->objects[$i], "render")) {
 					$html .= $this->objects[$i]->render();
 				} else {
 					$html .= $this->objects[$i];
 				}
+			}
+			if (sizeof($this->objects) == 0) {
+				$html .= "&nbsp;";
 			}
 		}
 		if ($is_span_open) {
@@ -562,7 +575,7 @@ class Object extends WebSitePhpEventObject {
 				if ($i != 0) {
 					$html .= " ";
 				}
-				if (gettype($this->objects[$i]) == "object") {
+				if (gettype($this->objects[$i]) == "object" && method_exists($this->objects[$i], "render")) {
 					$content .= $this->objects[$i]->render();
 				} else {
 					$content .= $this->objects[$i];

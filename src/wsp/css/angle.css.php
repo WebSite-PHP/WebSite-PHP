@@ -14,16 +14,6 @@
 	include("../config/config_css.inc.php"); 
 	include("../config/config.inc.php"); 
 	
-	$is_config_theme_page = false;
-	if (file_exists("../config/config_admin.inc.php")) {
-		include("../config/config_admin.inc.php"); 
-		include("../includes/utils.inc.php"); 
-		
-		if (find($_SERVER['HTTP_REFERER'], WSP_ADMIN_URL."/theme/configure-css.html", 0, 0) > 0) {
-			$is_config_theme_page = true;
-		}
-	}
-	
 	if (DEFINE_STYLE_BCK_PICTURE_MAIN == "" || DEFINE_STYLE_BCK_PICTURE_SECOND == "" || $is_config_theme_page) {
 		if (DEFINE_STYLE_BCK_PICTURE_MAIN == "" || $is_config_theme_page) {
 ?>

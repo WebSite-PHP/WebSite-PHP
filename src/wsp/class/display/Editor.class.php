@@ -237,7 +237,7 @@ class Editor extends WebSitePhpObject {
 		$html .= "  createEditor_".$this->name."();\n";
 		if ($this->content != null) {
 			$html .= "  setEditorContent_".$this->name."('";
-			if (gettype($this->content) == "object") {
+			if (gettype($this->content) == "object" && method_exists($this->content, "render")) {
 				$html .= addslashes(str_replace("\n", "", str_replace("\r", "", $this->content->render())));
 			} else {
 				$html .= addslashes(str_replace("\n", "", str_replace("\r", "", $this->content)));

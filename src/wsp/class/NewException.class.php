@@ -1,4 +1,56 @@
 <?php
+function getDebugBacktrace($remove_nb_level=0) {
+	$output = "";
+    $backtrace = debug_backtrace();
+	$ind = 0;
+    foreach ($backtrace as $bt) {
+    	if ($ind >= $remove_nb_level) {
+	        $args = '';
+	        foreach ($bt['args'] as $a) {
+	            if (!empty($args)) {
+	                $args .= ', ';
+	            }
+	            switch (gettype($a)) {
+	            case 'integer':
+	            case 'double':
+	                $args .= $a;
+	                break;
+	            case 'string':
+	                $a = htmlspecialchars(substr($a, 0, 64)).((strlen($a) > 64) ? '...' : '');
+	                $args .= "\"$a\"";
+	                break;
+	            case 'array':
+	                $args .= 'Array('.count($a).')';
+	                break;
+	            case 'object':
+	                $args .= 'Object('.get_class($a).')';
+	                break;
+	            case 'resource':
+	                $args .= 'Resource('.strstr($a, '#').')';
+	                break;
+	            case 'boolean':
+	                $args .= $a ? 'True' : 'False';
+	                break;
+	            case 'NULL':
+	                $args .= 'Null';
+	                break;
+	            default:
+	                $args .= 'Unknown';
+	            }
+	        }
+	        $output .= "\n";
+	        if (isset($bt['file'])) { $output .= "file: {$bt['line']} - {$bt['file']}\n"; }
+	        $output .= "call: ";
+	        if (isset($bt['class'])) { $output .= $bt['class']; }
+	        if (isset($bt['type'])) { $output .= $bt['type']; }
+	        if (isset($bt['function'])) { $output .= $bt['function']."(".$args.")"; }
+	        $output .= "\n";
+    	}
+        $ind++;
+    }
+    return $output;
+}
+
 class NewException extends Exception
 {
     public function __construct($message, $code=NULL) {
@@ -26,13 +78,16 @@ class NewException extends Exception
         $str .= "<b>Line:</b> ".$line."<br/>";
         $str .= "<b>Class :</b> ".$class_name."<br/>\n";
 		$str .= "<b>Method :</b> ".$method."<br/><br/>\n";
+		if ($trace == "") {
+			$trace = getDebugBacktrace(2);
+		}
 		if ($trace != "") {
         	$str .= "<b>Trace:</b><br/>".str_replace("\n", "<br/>", htmlentities($trace))."<br/>";
         }
         
         return $str;
     }
-   
+
     public function getException() {
         return $this; // This will print the return from the above method __toString()
     }

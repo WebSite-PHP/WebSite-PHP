@@ -19,15 +19,22 @@ class SortableEvent extends WebSitePhpEventObject {
 	private $onsortout = "";
 	/**#@-*/
 	
-	function __construct($page_object, $name='', $over_style="droppablehover") {
+	function __construct($page_or_form_object, $name='', $over_style="droppablehover") {
 		parent::__construct();
 		
-		if (!isset($page_object) || gettype($page_object) != "object" || !is_subclass_of($page_object, "Page")) {
+		if (!isset($page_or_form_object) || gettype($page_or_form_object) != "object" || (!is_subclass_of($page_or_form_object, "Page") && get_class($page_or_form_object) != "Form")) {
 			throw new NewException("Argument page_object for ".get_class($this)."::__construct() error", 0, 8, __FILE__, __LINE__);
 		}
 		
-		$this->page_object = $page_object;
-		$this->class_name = get_class($this->page_object);
+		if (is_subclass_of($page_or_form_object, "Page")) {
+			$this->class_name = get_class($page_or_form_object);
+			$this->page_object = $page_or_form_object;
+			$this->form_object = null;
+		} else {
+			$this->page_object = $page_or_form_object->getPageObject();
+			$this->class_name = get_class($this->page_object)."_".$page_or_form_object->getName();
+			$this->form_object = $page_or_form_object;
+		}
 		
 		if ($name == "") {
 			$this->name = $this->page_object->createObjectName($this);

@@ -183,6 +183,9 @@ class Box extends WebSitePhpObject {
 	 * @param object|string $content content of the box
 	 */
 	public function setContent($content) {
+		if (gettype($content) == "object" && get_class($content) == "DateTime") {
+			throw new NewException(get_class($this)."->setContent() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, 8, __FILE__, __LINE__);
+		}
 		$this->content = $content;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
@@ -277,8 +280,10 @@ class Box extends WebSitePhpObject {
 			$html .= "<b>";
 			if (gettype($this->title) != "object") {
 				$html .= $this->title;
-			} else if (gettype($this->title) == "object") {
+			} else if (gettype($this->title) == "object" && method_exists($this->title, "render")) {
 				$html .= $this->title->render();
+			} else {
+				$html .= $this->title;
 			}
 			$html .= "</b>";
 			if ($this->link != "") {
@@ -299,7 +304,7 @@ class Box extends WebSitePhpObject {
 			}
 			$html .= "\">\n";
 			if ($this->content != null) {
-				if (gettype($this->content) == "object") {
+				if (gettype($this->content) == "object" && method_exists($this->content, "render")) {
 					$html .= "						".$this->content->render($ajax_render)."\n";
 				} else {
 					$html .= "						".$this->content."\n";
@@ -335,8 +340,10 @@ class Box extends WebSitePhpObject {
 			$html .= "<b>";
 			if (gettype($this->title) != "object") {
 				$html .= $this->title;
-			} else if (gettype($this->title) == "object") {
+			} else if (gettype($this->title) == "object" && method_exists($this->title, "render")) {
 				$html .= $this->title->render();
+			} else {
+				$html .= $this->title;
 			}
 			$html .= "</b>";
 			if ($this->link != "") {
@@ -387,7 +394,7 @@ class Box extends WebSitePhpObject {
 			}
 			$html .= "margin:5px;padding-right:5px;\">\n";
 			if ($this->content != null) {
-				if (gettype($this->content) == "object") {
+				if (gettype($this->content) == "object" && method_exists($this->content, "render")) {
 					$html .= "					".$this->content->render($ajax_render)."\n";
 				} else {
 					$html .= "					".$this->content."\n";

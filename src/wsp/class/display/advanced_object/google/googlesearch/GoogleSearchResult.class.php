@@ -32,7 +32,7 @@ class GoogleSearchResult extends WebSitePhpObject {
 		$html .= "</div>\n";
 		$html .= "<div id=\"cse-normal-content\">";
 		if ($this->content_page != "") {
-			if (gettype($this->content_page) == "object") {
+			if (gettype($this->content_page) == "object" && method_exists($this->content_page, "render")) {
 				$html .= "\n".$this->content_page->render($ajax_render)."\n";
 			} else {
 				$html .= "\n".$this->content_page."\n";

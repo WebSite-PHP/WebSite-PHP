@@ -16,7 +16,7 @@ define("SITE_META_REVISIT_AFTER", 1);
 define("CACHING_ALL_PAGES", false); // If use user rights, warning, you may have rights problems
 define("CACHE_TIME", 0); // 12 heures = 60*60*12
 
-define("DEFINE_JQUERY_LOAD_LOCAL", true); // if false load jquery from google else load from local 
+define("JQUERY_LOAD_LOCAL", true); // if false load jquery from google else load from local 
 define("JS_COMPRESSION_TYPE", "NONE"); // type of Javascript compression (GOOGLE_WS, LOCAL, NONE) 
 
 define("DEBUG", false); // autorize use of method addLogDebug

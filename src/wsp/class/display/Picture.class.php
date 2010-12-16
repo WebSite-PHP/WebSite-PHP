@@ -160,7 +160,7 @@ class Picture extends WebSitePhpObject {
 				$html .= " align=\"".$this->align."\"";
 			}
 		}
-		if (gettype($this->title) == "object") {
+		if (gettype($this->title) == "object" && method_exists($this->title, "render")) {
 			$this->title = $this->title->render();
 		}
 		if ($this->title != "") {
@@ -169,7 +169,7 @@ class Picture extends WebSitePhpObject {
 				$html .= " alt=\"".str_replace("\"", "&quot;", strip_tags($this->title))."\"";
 			}
 		}
-		if (gettype($this->alt) == "object") {
+		if (gettype($this->alt) == "object" && method_exists($this->alt, "render")) {
 			$this->alt = $this->alt->render();
 		}
 		if ($this->alt != "") {
