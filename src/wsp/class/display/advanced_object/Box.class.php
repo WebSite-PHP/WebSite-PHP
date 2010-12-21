@@ -204,32 +204,24 @@ class Box extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		$html = "";
+		if ($this->browser_ie_version <= 7) {
+			$this->shadow = false;
+		}
 		if ($this->force_box_with_picture) {
 			$this->shadow = true;
 		}
 		
 		if (!$ajax_render) {
-			$html .= "<div id=\"wsp_box_".$this->id."\">\n";
-		}
-		if (!$this->shadow && !$this->is_browser_ie_6 && !$this->force_box_with_picture) {
-			$html .= "<div style=\"position:relative;top:-5px;\">\n";
+			$html .= "<div id=\"wsp_box_".$this->id."\" class=\"\">\n";
 		}
 		$html .= "<div id=\"drag_box_".$this->id."\" align=\"left\" class=\"";
 		if ($this->move) {
 			$html .= "draggable";
 		}
-		if (!$this->force_box_with_picture) {
-			if ($this->move) {
-				$html .= " ";
-			}
-			$html .= "AngleRond".ucfirst($this->style_header);
-			if ($this->shadow) {
-				$html .= "Ombre";
-			}
-		}
+		$html .= "\"";
 		
 		if ($this->width != "" || $this->height != "") {
-			$html .= "\" style=\"";
+			$html .= " style=\"";
 			if ($this->width != "") {
 				if (is_integer($this->width)) {
 					$html .= "width:".$this->width."px;";
@@ -244,16 +236,26 @@ class Box extends WebSitePhpObject {
 					$html .= "height:".$this->height.";";
 				}
 			}
-			$html .= "\">\n";
+			$html .= "\"";
 		}
+		$html .= ">\n";
 		
 		if (!$this->force_box_with_picture) {
 			if (!$this->is_browser_ie_6) {
-				$html .= "	<b class=\"pix1\"></b>\n";
-				$html .= "	<b class=\"pix2\"></b>\n";
-				$html .= "	<b class=\"pix3\"></b>\n";
-				$html .= "	<b class=\"pix4\"></b>\n";
-				$html .= "	<b class=\"pix5\"></b>\n";
+				$angle_class = "AngleRond".ucfirst($this->style_header);
+				$shadow_class = "";
+				$html .= "<div style=\"height:5px;";
+				if ($this->shadow) {
+					$shadow_class = "Ombre";
+					$html .= "position: relative; top: -5px;";
+				}
+				$html .= "\">\n";
+				$html .= "	<b class=\"".$angle_class." pix1".ucfirst($this->style_header).$shadow_class."\"></b>\n";
+				$html .= "	<b class=\"".$angle_class." pix2".$shadow_class."\"></b>\n";
+				$html .= "	<b class=\"".$angle_class." pix3".$shadow_class."\"></b>\n";
+				$html .= "	<b class=\"".$angle_class." pix4".$shadow_class."\"></b>\n";
+				$html .= "	<b class=\"".$angle_class." pix5".$shadow_class."\"></b>\n";
+				$html .= "</div>\n";
 			}
 			
 			if ($this->shadow) {
@@ -264,13 +266,13 @@ class Box extends WebSitePhpObject {
 				$html .= " class=\"boiteTxt\"";
 			}
 			$html .= " >\n";
-			$html .= "			<table class=\"table_".$this->style_header."_angle\" cellpadding=\"6\" cellspacing=\"0\"";
+			$html .= "			<table class=\"table_".$this->style_header."_angle\" cellpadding=\"0\" cellspacing=\"0\"";
 			if ($this->height != "") {
 				$html .= " height=\"".$this->height."\"";
 			}
 			$html .= " style=\"table-layout:fixed;overflow:hidden;\">\n";
 			$html .= "				<tr>\n";
-			$html .= "					<td class=\"header_".$this->style_header."_bckg\">";
+			$html .= "					<td class=\"header_".$this->style_header."_bckg\" style=\"padding: ".($this->browser_ie_version!=false?0:2)."px 0px 4px 5px;\">";
 			if ($this->tagH != "") {
 				$html .= "<".$this->tagH.">";
 			}
@@ -295,7 +297,7 @@ class Box extends WebSitePhpObject {
 			$html .= "</td>\n";
 			$html .= "				</tr>\n";
 			$html .= "				<tr id=\"".$this->id."\">\n";
-			$html .= "					<td class=\"table_".$this->style_content."_bckg\" width=\"9999\" valign=\"".$this->valign."\" style=\"height:100%;\">\n";
+			$html .= "					<td class=\"table_".$this->style_content."_bckg\" width=\"9999\" valign=\"".$this->valign."\" style=\"height:100%;padding:4px;border-top:1px solid ".$this->box_border_color.";\">\n";
 			$html .= "						<div ";
 			if ($this->align == Box::ALIGN_JUSTIFY) {
 				$html .= "style=\"text-align:justify;";
@@ -415,9 +417,6 @@ class Box extends WebSitePhpObject {
 		}
 		
 		$html .= "</div>\n";
-		if (!$this->shadow && !$this->is_browser_ie_6 && !$this->force_box_with_picture) {
-			$html .= "</div>\n";
-		}
 		if (!$ajax_render) {
 			$html .= "</div>\n";
 		}

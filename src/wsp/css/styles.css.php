@@ -57,7 +57,7 @@
 body {
 	font-size: <?php echo $style_font_size_value; ?>;
 	font-family: <?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
-	background-color:<?php echo DEFINE_STYLE_BCK_BODY; ?>;
+	background:<?php echo DEFINE_STYLE_BCK_BODY; ?>;
 	color: <?php echo DEFINE_STYLE_COLOR_BODY; ?>;
 	margin:0px;
 	padding:3px;

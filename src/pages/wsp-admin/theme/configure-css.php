@@ -26,7 +26,7 @@ class ConfigureCss extends Page {
 	private $example_obj = null;
 	
 	private $array_font = array('body', 'form', 'blockquote', 'p', 'h1', 'h2,h3,h4,h5,h6', 'a,.link', 'a:hover', '.table_main', '.table_main_bckg', '.main_bckg', '.header_main_bckg', '.header_main_bckg a', '.header_main_bckg a:hover', '.table_second', '.table_second_bckg', '.second_bckg', '.header_second_bckg', '.header_second_bckg a', '.header_second_bckg a:hover', 'td');
-	private $array_round_box_main = array('.AngleRondMain .pix1, .AngleRondMain .pix2, .AngleRondMain .pix3, .AngleRondMain .pix4, .AngleRondMain .pix5', '.AngleRondMainOmbre .pix1, .AngleRondMainOmbre .pix2, .AngleRondMainOmbre .pix3, .AngleRondMainOmbre .pix4, .AngleRondMainOmbre .pix5');
+	private $array_round_box_main = array('.AngleRondMain', '.AngleRondMainOmbre');
 	
 	function __construct() {
 		parent::__construct();
@@ -195,33 +195,33 @@ class ConfigureCss extends Page {
 		
 		$table_box->addRow();
 		
-		$main_box = new Box("link", true, Box::STYLE_MAIN, Box::STYLE_MAIN, BASE_URL, "box_main", 200);
+		$main_box = new Box("link", false, Box::STYLE_MAIN, Box::STYLE_MAIN, BASE_URL, "box_main", 200);
 		if ($this->background_picture_main->getValue() != "") {
 			$main_box->forceBoxWithPicture(true, $this->border_table_main->getValue());
 		} else {
 			$main_box->forceBoxWithPicture(false);
 		}
-		$main_box->setDraggable(true);
+		$main_box->setDraggable(true)->setShadow(true);
 		$table_box->addRow($main_box->setContent("Box Object [style main]"));
 		
-		$main_box = new RoundBox(Box::STYLE_MAIN, "box_main", 200);
+		$main_box = new RoundBox(Box::STYLE_MAIN, "round_box_main", 200);
 		$main_box->setDraggable(true)->setShadow(true);
 		if ($this->background_picture_main->getValue() != "") {
 			$main_box->forceBoxWithPicture(true, $this->border_table_main->getValue());
 		} else {
 			$main_box->forceBoxWithPicture(false);
 		}
-		$table_box->addRow($main_box->setContent("Box Object [style main]"));
+		$table_box->addRow($main_box->setContent("RoundBox Object<br/>[style main]"));
 		
 		$table_box->addRow();
 		
-		$second_box = new Box("link", false, Box::STYLE_SECOND, Box::STYLE_SECOND, BASE_URL, "second_box", 200);
+		$second_box = new Box("link", false, Box::STYLE_SECOND, Box::STYLE_SECOND, BASE_URL, "box_second", 200);
 		$second_box->setDraggable(true);
 		$table_box->addRow($second_box->setContent("Box Object [style second]"));
 		
-		$second_box = new RoundBox(Box::STYLE_SECOND, "second_box", 200);
+		$second_box = new RoundBox(Box::STYLE_SECOND, "round_box_second", 200);
 		$second_box->setDraggable(true);
-		$table_box->addRow($second_box->setContent("Box Object [style second]"));
+		$table_box->addRow($second_box->setContent("RoundBox Object<br/>[style second]"));
 		
 		$table_box->addRow();
 		
@@ -274,7 +274,7 @@ class ConfigureCss extends Page {
 		$this->main_header_link_hover->setValue("");
 		$this->main_header_link_hover->disable();
 		
-		$array_color_main_header = array('.header_main_bckg', '.header_main_bckg a', '.header_main_bckg a:hover', '.button_main');
+		$array_color_main_header = array('.header_main_bckg', '.header_main_bckg a', '.header_main_bckg a:hover');
 		$this->changeStyleSheetProperty("styles.php.css", $array_color_main_header, "color", $this->color_main_header->getValue());
 		$this->changeStyleSheetProperty("angle.php.css", array('#leftMain'), "color", $this->color_main_header->getValue());
 	}
@@ -290,7 +290,7 @@ class ConfigureCss extends Page {
 	}
 	
 	public function changeBorderTableMain($sender) {
-		$array_round_box_border_main = array('.AngleRondMain .pix1', '.AngleRondMainOmbre .pix1');
+		$array_round_box_border_main = array('.pix1Main', '.pix1MainOmbre');
 		$this->changeStyleSheetProperty("angle.php.css", $this->array_round_box_main, "border-left", "1px solid ".$this->border_table_main->getValue());
 		$this->changeStyleSheetProperty("angle.php.css", $this->array_round_box_main, "border-right", "1px solid ".$this->border_table_main->getValue());
 		$this->changeStyleSheetProperty("angle.php.css", $array_round_box_border_main, "background", $this->border_table_main->getValue());
@@ -303,8 +303,6 @@ class ConfigureCss extends Page {
 		$this->changeStyleSheetProperty("styles.php.css", $array_box_border_main, "border-left", "1px solid ".$this->border_table_main->getValue());
 		$this->changeStyleSheetProperty("styles.php.css", $array_box_border_main, "border-right", "1px solid ".$this->border_table_main->getValue());
 		$this->changeStyleSheetProperty("styles.php.css", $array_box_border_main, "border-bottom", "1px solid ".$this->border_table_main->getValue());
-		
-		$this->changeStyleSheetProperty("styles.php.css", array(".button_main"), "border-color", "#808080 ".$this->border_table_main->getValue()." ".$this->border_table_main->getValue()." #808080");
 	}
 	
 	public function changeMainHeaderLink($sender) {

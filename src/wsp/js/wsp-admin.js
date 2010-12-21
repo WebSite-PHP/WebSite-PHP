@@ -29,7 +29,7 @@ changeStyleSheetProperty = function(css_file_name, rule_name, property, value) {
 				var my_property=cssText.substring(pos1, pos2);
 				cssText=cssText.replace(my_property, property.toUpperCase() + ': ' + addslashes(value));
 				arrayCssRules[stylesheet_rule_ind].style.cssText=cssText;
-			} else {
+			} else if (cssText != "") {
 				alert('can\'t find ' + property + ' in rule ' + rule_name + ' [CssText: ' + cssText + ']')
 			}
 		} else {

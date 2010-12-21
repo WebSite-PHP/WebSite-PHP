@@ -53,6 +53,7 @@ class RoundBox extends WebSitePhpObject {
 	private $valign = "top";
 	private $align = "center";
 	private $is_browser_ie_6 = false;
+	private $browser_ie_version = false;
 	
 	private $padding_top = 0;
 	private $padding_bottom = 0;
@@ -79,6 +80,8 @@ class RoundBox extends WebSitePhpObject {
 		parent::__construct();
 		
 		$this->is_browser_ie_6 = is_browser_ie_6();
+		$this->browser_ie_version = get_browser_ie_version();
+		
 		$this->style_content = $style_content;
 		$this->id = $id;
 		$this->move = $move;
@@ -182,6 +185,9 @@ class RoundBox extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		$html = "";
+		if ($this->browser_ie_version <= 7) {
+			$this->shadow = false;
+		}
 		
 		if (!$ajax_render) {
 			$html .= "<div id=\"wsp_round_box_".$this->id."\">\n";
@@ -190,18 +196,10 @@ class RoundBox extends WebSitePhpObject {
 		if ($this->move) {
 			$html .= "draggable";
 		}
-		if (!$this->force_box_with_picture) {
-			if ($this->move) {
-				$html .= " ";
-			}
-			$html .= "AngleRond".ucfirst($this->style_content);
-			if ($this->shadow) {
-				$html .= "Ombre";
-			}
-		}
+		$html .= "\"";
 		
 		if ($this->width != "" || $this->height != "") {
-			$html .= "\" style=\"";
+			$html .= " style=\"";
 			if ($this->width != "") {
 				if (is_integer($this->width)) {
 					$html .= "width:".$this->width."px;";
@@ -216,16 +214,26 @@ class RoundBox extends WebSitePhpObject {
 					$html .= "height:".(str_replace("px", "", $this->height) + 25).";";
 				}
 			}
-			$html .= "\">\n";
+			$html .= "\"";
 		}
+		$html .= ">\n";
 		
 		if (!$this->force_box_with_picture) {
 			if (!$this->is_browser_ie_6) {
-				$html .= "	<b class=\"pix1\"></b>\n";
-				$html .= "	<b class=\"pix2\"></b>\n";
-				$html .= "	<b class=\"pix3\"></b>\n";
-				$html .= "	<b class=\"pix4\"></b>\n";
-				$html .= "	<b class=\"pix5\"></b>\n";
+				$angle_class = "AngleRond".ucfirst($this->style_content);
+				$shadow_class = "";
+				$html .= "<div style=\"height:5px;";
+				if ($this->shadow) {
+					$shadow_class = "Ombre";
+					$html .= "position: relative; top: -5px;";
+				}
+				$html .= "\">\n";
+				$html .= "	<b class=\"".$angle_class." pix1".ucfirst($this->style_content).$shadow_class."\"></b>\n";
+				$html .= "	<b class=\"".$angle_class." pix2".$shadow_class."\"></b>\n";
+				$html .= "	<b class=\"".$angle_class." pix3".$shadow_class."\"></b>\n";
+				$html .= "	<b class=\"".$angle_class." pix4".$shadow_class."\"></b>\n";
+				$html .= "	<b class=\"".$angle_class." pix5".$shadow_class."\"></b>\n";
+				$html .= "</div>\n";
 			}
 			
 			if ($this->shadow) {
@@ -264,11 +272,18 @@ class RoundBox extends WebSitePhpObject {
 			$html .= "		</div>\n";
 			
 			if (!$this->is_browser_ie_6) {
-				$html .= "	<b class=\"pix5\" style=\"left:-5px;margin-right:0px;\"></b>\n";
-				$html .= "	<b class=\"pix4\" style=\"left:-5px;margin-right:0px;\"></b>\n";
-				$html .= "	<b class=\"pix3\" style=\"left:-5px;margin-right:1px;\"></b>\n";
-				$html .= "	<b class=\"pix2\" style=\"left:-5px;margin-right:2px;\"></b>\n";
-				$html .= "	<b class=\"pix1\" style=\"left:-5px;margin-right:4px;\"></b>\n";
+				$html .= "<div style=\"height:5px;";
+				if ($this->shadow) {
+					$shadow_class = "Ombre";
+					$html .= "position: relative; top: -5px; left:-5px;";
+				}
+				$html .= "\">\n";
+				$html .= "	<b class=\"".$angle_class." pix5".$shadow_class."\" style=\"left:-5px;margin-right:0px;\"></b>\n";
+				$html .= "	<b class=\"".$angle_class." pix4".$shadow_class."\" style=\"left:-5px;margin-right:0px;\"></b>\n";
+				$html .= "	<b class=\"".$angle_class." pix3".$shadow_class."\" style=\"left:-5px;margin-right:1px;\"></b>\n";
+				$html .= "	<b class=\"".$angle_class." pix2".$shadow_class."\" style=\"left:-5px;margin-right:2px;\"></b>\n";
+				$html .= "	<b class=\"".$angle_class." pix1".ucfirst($this->style_content).$shadow_class."\" style=\"left:-5px;margin-right:4px;\"></b>\n";
+				$html .= "</div>\n";
 			}
 			
 			if ($this->shadow) {

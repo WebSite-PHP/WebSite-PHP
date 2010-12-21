@@ -25,6 +25,7 @@ class Connect extends Page {
 		$this->render->setWidth("100%");
 		
 		$connect_box = new RoundBox(RoundBox::STYLE_SECOND, "connect_box", 400, 150);
+		$connect_box->setShadow(true);
 		$connect_box->setValign(RoundBox::VALIGN_CENTER);
 		
 		$connect_table = new Table();

@@ -18,7 +18,7 @@
 		if (DEFINE_STYLE_BCK_PICTURE_MAIN == "" || $is_config_theme_page) {
 ?>
 /* définition des pixels d'angles */
-.AngleRondMain .pix1, .AngleRondMain .pix2, .AngleRondMain .pix3, .AngleRondMain .pix4, .AngleRondMain .pix5 {
+.AngleRondMain {
 	display:block;
 	overflow:hidden;
 	height:1px;
@@ -27,7 +27,7 @@
 	background:<?php echo DEFINE_STYLE_BCK_MAIN_HEADER; ?>;
 }
 
-.AngleRondMainOmbre .pix1, .AngleRondMainOmbre .pix2, .AngleRondMainOmbre .pix3, .AngleRondMainOmbre .pix4, .AngleRondMainOmbre .pix5 {
+.AngleRondMainOmbre {
 	position:relative;
 	display:block;
 	overflow:hidden;
@@ -37,24 +37,17 @@
 	background:<?php echo DEFINE_STYLE_BCK_MAIN_HEADER; ?>;
 }
 
-.AngleRondMain .pix1 {margin:0 5px; background:<?php echo DEFINE_STYLE_BORDER_TABLE_MAIN; ?>;}
-.AngleRondMain .pix2 {margin:0 3px;}
-.AngleRondMain .pix3 {margin:0 2px;}
-.AngleRondMain .pix4 {margin:0 1px;}
-.AngleRondMain .pix5 {margin:0 1px;}
+.pix1Main {margin:0 5px; background:<?php echo DEFINE_STYLE_BORDER_TABLE_MAIN; ?>;}
 
-.AngleRondMainOmbre .pix1 {top:-5px; margin:0; margin-left:5px; margin-right:9px; background:<?php echo DEFINE_STYLE_BORDER_TABLE_MAIN; ?>;}
-.AngleRondMainOmbre .pix2 {top:-5px; margin:0; margin-left:3px; margin-right:7px;}
-.AngleRondMainOmbre .pix3 {top:-5px; margin:0; margin-left:2px; margin-right:6px;}
-.AngleRondMainOmbre .pix4 {top:-5px; margin:0; margin-left:1px; margin-right:5px;}
-.AngleRondMainOmbre .pix5 {top:-5px; margin:0; margin-left:1px; margin-right:5px;}
+.pix1MainOmbre {top:-5px; margin:0; margin-left:5px; margin-right:9px; background:<?php echo DEFINE_STYLE_BORDER_TABLE_MAIN; ?>;}
+
 
 <?php 
 		}
 		if (DEFINE_STYLE_BCK_PICTURE_SECOND == "" || $is_config_theme_page) {
 ?>
 
-.AngleRondSecond .pix1, .AngleRondSecond .pix2, .AngleRondSecond .pix3, .AngleRondSecond .pix4, .AngleRondSecond .pix5 {
+.AngleRondSecond {
 	display:block;
 	overflow:hidden;
 	height:1px;
@@ -63,27 +56,29 @@
 	background:<?php echo DEFINE_STYLE_BCK_SECOND_HEADER; ?>;
 }
 
-.AngleRondSecondOmbre .pix1, .AngleRondSecondOmbre .pix2, .AngleRondSecondOmbre .pix3, .AngleRondSecondOmbre .pix4, .AngleRondSecondOmbre .pix5 {
+.AngleRondSecondOmbre {
 	position:relative;
 	display:block;
-	overflow:hidden;
 	height:1px;
 	border-left:1px solid <?php echo DEFINE_STYLE_BORDER_TABLE_SECOND; ?>;
 	border-right:1px solid <?php echo DEFINE_STYLE_BORDER_TABLE_SECOND; ?>;
 	background:<?php echo DEFINE_STYLE_BCK_SECOND_HEADER; ?>;
 }
 
-.AngleRondSecond .pix1 {margin:0 5px; background:<?php echo DEFINE_STYLE_BORDER_TABLE_SECOND; ?>;}
-.AngleRondSecond .pix2 {margin:0 3px;}
-.AngleRondSecond .pix3 {margin:0 2px;}
-.AngleRondSecond .pix4 {margin:0 1px;}
-.AngleRondSecond .pix5 {margin:0 1px;}
+.pix1Second {margin:0 5px; background:<?php echo DEFINE_STYLE_BORDER_TABLE_SECOND; ?>;}
 
-.AngleRondSecondOmbre .pix1 {top:-5px; margin:0; margin-left:5px; margin-right:9px; background:<?php echo DEFINE_STYLE_BORDER_TABLE_SECOND; ?>;}
-.AngleRondSecondOmbre .pix2 {top:-5px; margin:0; margin-left:3px; margin-right:7px;}
-.AngleRondSecondOmbre .pix3 {top:-5px; margin:0; margin-left:2px; margin-right:6px;}
-.AngleRondSecondOmbre .pix4 {top:-5px; margin:0; margin-left:1px; margin-right:5px;}
-.AngleRondSecondOmbre .pix5 {top:-5px; margin:0; margin-left:1px; margin-right:5px;}
+.pix1SecondOmbre {top:-5px; margin:0; margin-left:5px; margin-right:9px; background:<?php echo DEFINE_STYLE_BORDER_TABLE_SECOND; ?>;}
+
+
+.pix2 {margin:0 3px;}
+.pix3 {margin:0 2px;}
+.pix4 {margin:0 1px;}
+.pix5 {margin:0 1px;}
+
+.pix2Ombre {top:-5px; margin:0; margin-left:3px; margin-right:7px;}
+.pix3Ombre {top:-5px; margin:0; margin-left:2px; margin-right:6px;}
+.pix4Ombre {top:-5px; margin:0; margin-left:1px; margin-right:5px;}
+.pix5Ombre {top:-5px; margin:0; margin-left:1px; margin-right:5px;}
 
 <?php
 		} 
