@@ -167,6 +167,7 @@
 		}
 		if ($my_site_base_url != "") {
 			$contents = str_replace("../wsp/img/", $my_site_base_url."wsp/img/", $contents);
+			$contents = str_replace("../img/", $my_site_base_url."img/", $contents);
 		}
 		
 		if ($type == 'css') {
