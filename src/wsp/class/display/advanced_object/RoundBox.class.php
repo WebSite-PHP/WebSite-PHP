@@ -90,9 +90,8 @@ class RoundBox extends WebSitePhpObject {
 		
 		if (constant("DEFINE_STYLE_BCK_PICTURE_".strtoupper($this->style_content)) == "") {
 			$this->force_box_with_picture = false;
-		} else {
-			$this->box_border_color = constant("DEFINE_STYLE_BORDER_TABLE_".strtoupper($this->style_content));
 		}
+		$this->box_border_color = constant("DEFINE_STYLE_BORDER_TABLE_".strtoupper($this->style_content));
 		
 		$this->addCss(BASE_URL."wsp/css/angle.css.php", "", true);
 	}
@@ -154,7 +153,9 @@ class RoundBox extends WebSitePhpObject {
 	
 	public function forceBoxWithPicture($bool, $border_color="") {
 		$this->force_box_with_picture = $bool;
-		$this->box_border_color = $border_color;
+		if ($border_color != "") {
+			$this->box_border_color = $border_color;
+		}
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
