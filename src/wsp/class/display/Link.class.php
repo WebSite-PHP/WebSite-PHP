@@ -96,7 +96,9 @@ class Link extends WebSitePhpObject {
 		} else {
 			$tmp_link = $this->link;
 		}
-		if (strtoupper(substr($tmp_link, 0, 11)) != "JAVASCRIPT:") {
+		if (strtoupper(substr($tmp_link, 0, 11)) != "JAVASCRIPT:" && 
+			strtoupper(substr($tmp_link, 0, 7)) != "MAILTO:" &&
+			strtoupper(substr($tmp_link, 0, 6)) != "FTP://") {
 			if (strtoupper(substr($tmp_link, 0, strlen(BASE_URL))) == strtoupper(BASE_URL)
 				|| strtoupper(substr($tmp_link, 0, 7)) != "HTTP://") {
 				
