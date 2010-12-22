@@ -80,6 +80,12 @@
 .pix4Ombre {top:-5px; margin:0; margin-left:1px; margin-right:5px;}
 .pix5Ombre {top:-5px; margin:0; margin-left:1px; margin-right:5px;}
 
+.pix1Gradient { opacity:0.5;filter:alpha(opacity=50); }
+.pix2Gradient { opacity:0.6;filter:alpha(opacity=60); }
+.pix3Gradient { opacity:0.7;filter:alpha(opacity=70); }
+.pix4Gradient { opacity:0.8;filter:alpha(opacity=80); }
+.pix5Gradient { opacity:0.9;filter:alpha(opacity=90); }
+
 <?php
 		} 
 ?>

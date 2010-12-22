@@ -64,6 +64,7 @@ class Box extends WebSitePhpObject {
 	
 	private $force_box_with_picture = true;
 	private $box_border_color = "";
+	private $box_gradient = false;
 	/**#@-*/
 	
 	/**
@@ -107,6 +108,11 @@ class Box extends WebSitePhpObject {
 			$this->force_box_with_picture = false;
 		}
 		$this->box_border_color = constant("DEFINE_STYLE_BORDER_TABLE_".strtoupper($this->style_header));
+		
+		if (!defined('DEFINE_STYLE_GRADIENT_'.strtoupper($this->style_header))) {
+			define("DEFINE_STYLE_GRADIENT_".strtoupper($this->style_header), false);
+		}
+		$this->box_gradient = constant("DEFINE_STYLE_GRADIENT_".strtoupper($this->style_header));
 		
 		$this->addCss(BASE_URL."wsp/css/angle.css.php", "", true);
 	}
@@ -205,7 +211,7 @@ class Box extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		$html = "";
-		if ($this->browser_ie_version <= 7) {
+		if ($this->browser_ie_version != false && $this->browser_ie_version <= 7) {
 			$this->shadow = false;
 		}
 		if ($this->force_box_with_picture) {
@@ -242,7 +248,9 @@ class Box extends WebSitePhpObject {
 		$html .= ">\n";
 		
 		if (!$this->force_box_with_picture) {
-			if (!$this->is_browser_ie_6) {
+			if ($this->browser_ie_version != false && $this->browser_ie_version <= 7) {
+				// do nothing
+			} else {
 				$angle_class = "AngleRond".ucfirst($this->style_header);
 				$shadow_class = "";
 				$html .= "<div style=\"height:5px;";
@@ -251,11 +259,11 @@ class Box extends WebSitePhpObject {
 					$html .= "position: relative; top: -5px;";
 				}
 				$html .= "\">\n";
-				$html .= "	<b class=\"".$angle_class." pix1".ucfirst($this->style_header).$shadow_class."\"></b>\n";
-				$html .= "	<b class=\"".$angle_class." pix2".$shadow_class."\"></b>\n";
-				$html .= "	<b class=\"".$angle_class." pix3".$shadow_class."\"></b>\n";
-				$html .= "	<b class=\"".$angle_class." pix4".$shadow_class."\"></b>\n";
-				$html .= "	<b class=\"".$angle_class." pix5".$shadow_class."\"></b>\n";
+				$html .= "	<b class=\"".$angle_class." pix1".ucfirst($this->style_header).$shadow_class.($this->box_gradient?" pix1Gradient":"")."\"></b>\n";
+				$html .= "	<b class=\"".$angle_class." pix2".$shadow_class.($this->box_gradient?" pix2Gradient":"")."\"></b>\n";
+				$html .= "	<b class=\"".$angle_class." pix3".$shadow_class.($this->box_gradient?" pix3Gradient":"")."\"></b>\n";
+				$html .= "	<b class=\"".$angle_class." pix4".$shadow_class.($this->box_gradient?" pix4Gradient":"")."\"></b>\n";
+				$html .= "	<b class=\"".$angle_class." pix5".$shadow_class.($this->box_gradient?" pix5Gradient":"")."\"></b>\n";
 				$html .= "</div>\n";
 			}
 			
@@ -273,7 +281,7 @@ class Box extends WebSitePhpObject {
 			}
 			$html .= " style=\"table-layout:fixed;overflow:hidden;\">\n";
 			$html .= "				<tr>\n";
-			$html .= "					<td class=\"header_".$this->style_header."_bckg\" style=\"padding: ".($this->browser_ie_version!=false?0:2)."px 0px 4px 5px;\">";
+			$html .= "					<td class=\"header_".$this->style_header."_bckg\" style=\"padding: ".($this->browser_ie_version!=false?($this->browser_ie_version!=false&&$this->browser_ie_version<=7?4:0):2)."px 0px 4px 5px;\">";
 			if ($this->tagH != "") {
 				$html .= "<".$this->tagH.">";
 			}
