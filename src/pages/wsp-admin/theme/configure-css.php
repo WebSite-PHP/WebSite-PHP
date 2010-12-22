@@ -228,6 +228,10 @@ class ConfigureCss extends Page {
 		$button_main = new Button($this);
 		$table_box->addRow($button_main->setValue("Button [style jquery]"));
 		
+		$table_box->addRow();
+		
+		$table_box->addRow(new Link("/", Link::TARGET_BLANK, "My Link"));
+		
 		return $table_box;
 	}
 	

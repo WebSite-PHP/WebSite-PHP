@@ -42,10 +42,10 @@ class Connect extends Page {
 		
 		$this->edtLogin = new TextBox($form);
 		$loginValid = new LiveValidation();
-		$con_table->addRowColumns(__(LOGIN)." :&nbsp;", $this->edtLogin->setFocus()->setLiveValidation($loginValid->addValidatePresence()));
+		$con_table->addRowColumns(__(LOGIN)." :&nbsp;", $this->edtLogin->setFocus()->setLiveValidation($loginValid->addValidatePresence()))->setNowrap();
 		$this->edtPassword = new Password($form);
 		$passValid = new LiveValidation();
-		$con_table->addRowColumns(__(PASSWORD)." :&nbsp;", $this->edtPassword->setLiveValidation($passValid->addValidatePresence()));
+		$con_table->addRowColumns(__(PASSWORD)." :&nbsp;", $this->edtPassword->setLiveValidation($passValid->addValidatePresence()))->setNowrap();
 		
 		$con_table->addRow();
 		
