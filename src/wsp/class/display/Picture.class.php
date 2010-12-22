@@ -20,6 +20,10 @@ class Picture extends WebSitePhpObject {
 	private $alt = "";
 	private $hspace = 0;
 	private $vspace = 0;
+	private $id = "";
+	private $tooltip = false;
+	private $tooltip_content = "";
+	private $tooltip_params = "";
 	
 	private $is_lightbox = false;
 	private $lightbox_name = "";
@@ -39,6 +43,11 @@ class Picture extends WebSitePhpObject {
 		$this->border = $border;
 		$this->align = $align;
 		$this->title = $title;
+	}
+	
+	public function setId($id) {
+		$this->id = $id;
+		return $this;
 	}
 	
 	public function setHeight($height) {
@@ -105,6 +114,20 @@ class Picture extends WebSitePhpObject {
 		return $this;
 	}
 	
+	public function tooltip($params='', $content='') {
+		if ($this->id == "") {
+			throw new NewException(get_class($this)."->tooltip() error: Please set an id", 0, 8, __FILE__, __LINE__);
+		}
+		
+		$this->tooltip = true;
+		$this->tooltip_params = $params;
+		$this->tooltip_content = $content;
+		$this->addJavaScript(BASE_URL."wsp/js/jquery.qtip-1.0.0-rc3.min.js", "", true);
+		
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
 	public function getSrc() {
 		return $this->src;
 	}
@@ -115,6 +138,10 @@ class Picture extends WebSitePhpObject {
 
 	public function getWidth() {
 		return $this->width;
+	}
+	
+	public function getId() {
+		return $this->id;
 	}
 	
 	public function render($ajax_render=false) {
@@ -146,6 +173,9 @@ class Picture extends WebSitePhpObject {
 			$this->src = BASE_URL.$this->src;
 		}
 		$html .= "<img src=\"".$this->src."\"";
+		if ($this->id != "") {
+			$html .= " id=\"".$this->id."\"";
+		}
 		if ($this->height != 0) {
 			$html .= " height=\"".$this->height."\"";
 		}
@@ -201,6 +231,17 @@ class Picture extends WebSitePhpObject {
 				$html .= $this->getJavascriptTagClose();
 				self::$array_lightbox[$this->lightbox_name] = true;
 			}
+		}
+		if ($this->tooltip) {
+			$html .= $this->getJavascriptTagOpen();
+			$html .= "$(document).ready(function() {\n";
+			$html .= "	$('#".$this->getId()."').qtip({ content: ".(($this->tooltip_content=="")?"$('#".$this->getId()."').title":"'".addslashes($this->tooltip_content)."'");
+			if ($this->tooltip_params != "") {
+				$html .= ", ".$this->tooltip_params;
+			}
+			$html .= " });\n";
+			$html .= "});\n";
+			$html .= $this->getJavascriptTagClose();
 		}
 		$this->object_change = false;
 		return $html;
