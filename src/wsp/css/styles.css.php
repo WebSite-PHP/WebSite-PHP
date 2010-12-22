@@ -263,20 +263,20 @@ background-position: 10px center;
 .info {
 color: #00529B;
 background-color: #BDE5F8;
-background-image: url('../img/msg/info.png');
+background-image: url('../wsp/img/msg/info.png');
 }
 .success {
 color: #4F8A10;
 background-color: #DFF2BF;
-background-image:url('../img/msg/success.png');
+background-image:url('../wsp/img/msg/success.png');
 }
 .warning {
 color: #9F6000;
 background-color: #FEEFB3;
-background-image: url('../img/msg/warning.png');
+background-image: url('../wsp/img/msg/warning.png');
 }
 .error {
 color: #D8000C;
 background-color: #FFBABA;
-background-image: url('../img/msg/error.png');
+background-image: url('../wsp/img/msg/error.png');
 }
