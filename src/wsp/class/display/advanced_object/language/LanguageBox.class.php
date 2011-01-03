@@ -16,16 +16,16 @@ class LanguageBox extends WebSitePhpObject {
 		* @access public
 		* @var string
 		*/
-	const STYLE_MAIN = "main";
-	const STYLE_SECOND = "second";
+	const STYLE_MAIN = "1";
+	const STYLE_SECOND = "2";
 	/**#@-*/
 	
 	/**#@+
 		* @access private
 		*/
 	private $languages = array();
-	private $style_header = "main";
-	private $style_content = "main";
+	private $style_header = "1";
+	private $style_content = "1";
 	private $shadow = false;
 	private $width = "";
 	/**#@-*/
@@ -37,7 +37,7 @@ class LanguageBox extends WebSitePhpObject {
 	 * @param string $style_header style of the header (Box::STYLE_MAIN or Box::STYLE_SECOND)
 	 * @param string $style_content style of the content (Box::STYLE_MAIN or Box::STYLE_SECOND)
 	 */
-	function __construct($shadow=false, $style_header='main', $style_content='main') {
+	function __construct($shadow=false, $style_header='1', $style_content='1') {
 		parent::__construct();
 		
 		$this->shadow = $shadow;

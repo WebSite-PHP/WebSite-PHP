@@ -5,10 +5,10 @@ class Table extends WebSitePhpObject {
 	* @access public
 	* @var string
 	*/
-	const STYLE_MAIN = "main";
-	const STYLE_SECOND = "second";
-	const STYLE_MAIN_ROUNDBOX = "main table_main_round";
-	const STYLE_SECOND_ROUNDBOX = "second table_second_round";
+	const STYLE_MAIN = "1";
+	const STYLE_SECOND = "2";
+	const STYLE_MAIN_ROUNDBOX = "1 table_1_round";
+	const STYLE_SECOND_ROUNDBOX = "2 table_2_round";
 	
 	/**#@+
 	* border style properties
@@ -169,8 +169,7 @@ class Table extends WebSitePhpObject {
 			$row->setValign($valign);
 			$row->add($content);
 		}
-		if ($row->getClass() == "" && ($this->class == Table::STYLE_MAIN || $this->class == Table::STYLE_SECOND
-									|| $this->class == Table::STYLE_MAIN_ROUNDBOX || $this->class == Table::STYLE_SECOND_ROUNDBOX)) {
+		if ($row->getClass() == "" && $this->class != "") {
 			$row->setClass($this->class);
 		}
 		$this->rows[sizeof($this->rows)] = $row;
@@ -189,8 +188,7 @@ class Table extends WebSitePhpObject {
 				$row->add($args[$i]);
     		}
     	}
-		if ($row->getClass() == "" && ($this->class == Table::STYLE_MAIN || $this->class == Table::STYLE_SECOND
-									|| $this->class == Table::STYLE_MAIN_ROUNDBOX || $this->class == Table::STYLE_SECOND_ROUNDBOX)) {
+		if ($row->getClass() == "" && $this->class != "" ) {
 			$row->setClass($this->class);
 		}
     	$this->rows[sizeof($this->rows)] = $row;
@@ -210,8 +208,7 @@ class Table extends WebSitePhpObject {
 		}
 		if ($this->class != "") {
 			$html .= " class=\"";
-			if ($this->class == Table::STYLE_MAIN || $this->class == Table::STYLE_SECOND
-				|| $this->class == Table::STYLE_MAIN_ROUNDBOX || $this->class == Table::STYLE_SECOND_ROUNDBOX) {
+			if (is_integer($this->class) || (is_integer(substr($this->class, 0, 1)) && find($this->class, "_round") > 0)) {
 				$html .= "table_".$this->class;
 			} else {
 				$html .= $this->class;

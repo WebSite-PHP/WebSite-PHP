@@ -16,8 +16,8 @@ class Box extends WebSitePhpObject {
 	* @access public
 	* @var string
 	*/
-	const STYLE_MAIN = "main";
-	const STYLE_SECOND = "second";
+	const STYLE_MAIN = "1";
+	const STYLE_SECOND = "2";
 	/**#@-*/
 	
 	/**#@+
@@ -45,8 +45,8 @@ class Box extends WebSitePhpObject {
 	* @access private
 	*/
 	private $title = "";
-	private $style_header = "main";
-	private $style_content = "main";
+	private $style_header = "1";
+	private $style_content = "1";
 	private $shadow = false;
 	private $link = "";
 	private $id = "";
@@ -79,7 +79,7 @@ class Box extends WebSitePhpObject {
 	 * @param string $height height of the bo
 	 * @param string $move if box can be move
 	 */
-	function __construct($title, $shadow=false, $style_header='main', $style_content='main', $link='', $id='main_box', $width='100%', $height="", $move=false) {
+	function __construct($title, $shadow=false, $style_header='1', $style_content='1', $link='', $id='main_box', $width='100%', $height="", $move=false) {
 		parent::__construct();
 		
 		if (!isset($title)) {
@@ -369,11 +369,7 @@ class Box extends WebSitePhpObject {
 			$html .= "				<div id=\"wsp_box_content_".$this->id."\" class=\"table_".$this->style_content."_bckg\" style=\"padding-left:0px;border:1px solid ".$this->box_border_color.";";
 			$html .= "display:table-cell;";
 			if (is_integer($this->width)) {
-				if ($this->style_content == Box::STYLE_MAIN) {
-					$html .= "width:".($this->width - 12)."px;";
-				} else {
-					$html .= "width:".($this->width - 7)."px;";
-				}
+				$html .= "width:".($this->width - 12)."px;";
 			} else {
 				throw new NewException("width attribute in ".get_class($this)." must be an integer", 0, 8, __FILE__, __LINE__);
 			}

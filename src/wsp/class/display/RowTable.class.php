@@ -5,8 +5,8 @@ class RowTable extends WebSitePhpObject {
 		* @access public
 		* @var string
 		*/
-	const STYLE_MAIN = "main";
-	const STYLE_SECOND = "second";
+	const STYLE_MAIN = "1";
+	const STYLE_SECOND = "2";
 	/**#@-*/
 	
 	/**#@+
@@ -67,7 +67,7 @@ class RowTable extends WebSitePhpObject {
 		return $this;
 	}
 	
-	public function setHeaderClass($class="main") {
+	public function setHeaderClass($class="1") {
 		if ($class == Table::STYLE_MAIN || $class == Table::STYLE_SECOND) {
 			$this->is_header_row = true;
 		}
@@ -228,26 +228,18 @@ class RowTable extends WebSitePhpObject {
 					$html .= "header_";
 				}
 				if ($this->col_object[$i]['class'] != "") {
-					if ($this->col_object[$i]['class'] == Table::STYLE_MAIN || $this->col_object[$i]['class'] == Table::STYLE_SECOND) {
-						$html .= $this->col_object[$i]['class']."_bckg";
-					} else if ($this->col_object[$i]['class'] == Table::STYLE_MAIN_ROUNDBOX || $this->col_object[$i]['class'] == Table::STYLE_SECOND_ROUNDBOX) {
-						if ($this->col_object[$i]['class'] == Table::STYLE_MAIN_ROUNDBOX) {
-							$html .= Table::STYLE_MAIN."_bckg table_main_round";
-						} else {
-							$html .= Table::STYLE_SECOND."_bckg table_second_round";
-						}
+					if (is_integer($this->col_object[$i]['class'])) {
+						$html .= "bckg_".$this->col_object[$i]['class'];
+					} else if (is_integer(substr($this->col_object[$i]['class'], 0, 1)) && find($this->col_object[$i]['class'], "_round") > 0) {
+						$html .= "table_".substr($this->col_object[$i]['class'], 0, 1)."_round bckg_".substr($this->col_object[$i]['class'], 0, 1);
 					} else {
 						$html .= $this->col_object[$i]['class'];
 					}
 				} else {
-					if ($this->class == Table::STYLE_MAIN || $this->class == Table::STYLE_SECOND) {
-						$html .= $this->class."_bckg";
-					} else if ($this->class == Table::STYLE_MAIN_ROUNDBOX || $this->class == Table::STYLE_SECOND_ROUNDBOX) {
-						if ($this->class == Table::STYLE_MAIN_ROUNDBOX) {
-							$html .= "table_main_round ".Table::STYLE_MAIN."_bckg";
-						} else {
-							$html .= "table_second_round ".Table::STYLE_SECOND."_bckg";
-						}
+					if (is_integer($this->class)) {
+						$html .= "bckg_".$this->class;
+					} else if (is_integer(substr($this->class, 0, 1)) && find($this->class, "_round") > 0) {
+						$html .= "table_".substr($this->class, 0, 1)."_round bckg_".substr($this->class, 0, 1);
 					} else {
 						$html .= $this->class;
 					}

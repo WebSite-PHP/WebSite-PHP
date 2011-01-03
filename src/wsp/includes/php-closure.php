@@ -211,9 +211,7 @@ class PhpClosure {
     header("Content-Type: text/javascript");
     header("Cache-control: public");
     
-	$zlib_OC_is_set = eregi('On|(^[0-9]+$)', ini_get('zlib.output_compression'));
-	if (!$zlib_OC_is_set) { ini_set('zlib.output_compression','On'); }
-	$zlib_OC_is_set = eregi('On|(^[0-9]+$)', ini_get('zlib.output_compression'));
+	$zlib_OC_is_set = preg_match('/On|(^[0-9]+$)/i', ini_get('zlib.output_compression'));
 	if ($zlib_OC_is_set) { header("Content-Encoding: gzip"); }
 	
 	$expires = 60*60*24; // 24 hours

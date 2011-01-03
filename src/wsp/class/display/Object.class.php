@@ -81,6 +81,8 @@ class Object extends WebSitePhpEventObject {
 	private $is_clicked = false;
 	
 	private $loaded_from_url = false;
+	private $force_div_tag = false;
+	private $force_span_tag = false;
 	/**#@-*/
 	
 	function __construct($str_or_object=null, $str_or_object2=null, $str_or_object3=null, $str_or_object4=null, $str_or_object5=null) {
@@ -353,17 +355,36 @@ class Object extends WebSitePhpEventObject {
 		return $this->is_clicked;
 	}
 	
+	public function forceDivTag() {
+		$this->force_div_tag = true;
+		$this->force_span_tag = false;
+	
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	public function forceSpanTag() {
+		$this->force_div_tag = false;
+		$this->force_span_tag = true;
+	
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
 	public function render($ajax_render=false) {
 		$this->automaticAjaxEvent();
 		
 		$html = "";
 		$is_span_open = false;
 		if ($this->id != "" || $this->align != "" || $this->border != "" || $this->width != "" || $this->font_size != "" || $this->font_family != "" || $this->font_weight != "" || $this->style != "" || $this->class != "") {
-			if ($this->align != "" || $this->height != "" || $this->width != "" || $this->class != "") {
-				$html .= "<div ";
-				$html .= "align=\"".$this->align."\" ";
+			if ($this->force_div_tag || (!$this->force_span_tag &&
+				($this->align != "" || $this->height != "" || $this->width != "" || $this->class != ""))) {
+					$html .= "<div ";
+					if ($this->align != "") {
+						$html .= "align=\"".$this->align."\" ";
+					}
 			} else {
-				$html .= "<span ";
+					$html .= "<span ";
 			}
 			if ($this->id != "") {
 				$html .= "id=\"".$this->getId()."\" ";
@@ -471,10 +492,11 @@ class Object extends WebSitePhpEventObject {
 			}
 		}
 		if ($is_span_open) {
-			if ($this->align != "" || $this->height != "" || $this->width != "" || $this->class != "") {
-				$html .= "</div>";
+			if ($this->force_div_tag || (!$this->force_span_tag &&
+				($this->align != "" || $this->height != "" || $this->width != "" || $this->class != ""))) {
+					$html .= "</div>";
 			} else {
-				$html .= "</span>";
+					$html .= "</span>";
 			}
 		}
 		

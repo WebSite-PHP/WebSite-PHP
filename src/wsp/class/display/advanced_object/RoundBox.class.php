@@ -16,8 +16,8 @@ class RoundBox extends WebSitePhpObject {
 	* @access public
 	* @var string
 	*/
-	const STYLE_MAIN = "main";
-	const STYLE_SECOND = "second";
+	const STYLE_MAIN = "1";
+	const STYLE_SECOND = "2";
 	/**#@-*/
 	
 	/**#@+
@@ -44,7 +44,7 @@ class RoundBox extends WebSitePhpObject {
 	/**#@+
 	* @access private
 	*/
-	private $style_content = "main";
+	private $style_content = "1";
 	private $shadow = false;
 	private $id = "";
 	private $content = null;
@@ -77,7 +77,7 @@ class RoundBox extends WebSitePhpObject {
 	 * @param string $height height of the bo
 	 * @param string $move if box can be move
 	 */
-	function __construct($style_content='main', $id='main_box', $width='100%', $height="", $move=false) {
+	function __construct($style_content='1', $id='main_box', $width='100%', $height="", $move=false) {
 		parent::__construct();
 		
 		$this->is_browser_ie_6 = is_browser_ie_6();

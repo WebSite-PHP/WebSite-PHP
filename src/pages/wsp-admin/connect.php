@@ -93,11 +93,11 @@ class Connect extends Page {
 			    $this->mod_obj->add("<li>We recomand to install PHP lib GD2.</li>");
 				$nb_mod_error++;
 			}
-			/*$zlib_OC_is_set = eregi('On|(^[0-9]+$)', ini_get('zlib.output_compression'));
+			$zlib_OC_is_set = preg_match('/On|(^[0-9]+$)/i', ini_get('zlib.output_compression'));
 			if (!$zlib_OC_is_set) { 
 				$this->mod_obj->add("<li>We recomand to configure php.ini with zlib.output_compression = On.</li>");
 				$nb_mod_error++;
-			}*/
+			}
 		}
 		if ($nb_mod_error > 0) {
 			$this->mod_obj->setClass("warning");
