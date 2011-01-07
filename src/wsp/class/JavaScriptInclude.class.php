@@ -1,7 +1,7 @@
 <?php
 function JavaScriptIncludeComparator($a, $b) {
 	$array_put_js_to_begin = array();
-	$array_put_js_to_end = array("wsp/js/jquery.jqDock.min.js");
+	$array_put_js_to_end = array("wsp/js/jquery.dd.js", "wsp/js/jquery.jqDock.min.js");
 		
 	// put to begin array_js_to_begin js
 	if (sizeof($array_put_js_to_begin) > 0) {

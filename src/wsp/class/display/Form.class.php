@@ -68,7 +68,17 @@ class Form extends WebSitePhpObject {
 	}
 	
 	public function setAction($action_file_name) {
+		if (gettype($action_file_name) == "object" && get_class($action_file_name) != "Url") {
+			throw new NewException(get_class($this)."->setAction() error: \$action_file_name must be a string or a Url object", 0, 8, __FILE__, __LINE__);
+		}
+		if (gettype($action_file_name) == "object" && get_class($action_file_name) == "Url") {
+			$action_file_name = $action_file_name->render();
+		}
+		
 		$this->action = str_replace(".php", ".html", str_replace(".call", ".html", str_replace(".do", ".html", str_replace(".xhtml", ".html", $action_file_name))));
+		$this->action = str_replace($this->page_object->getBaseLanguageURL(), "", $this->action);
+		$this->action = str_replace($this->page_object->getBaseURL(), "", $this->action);
+		
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -115,7 +125,11 @@ class Form extends WebSitePhpObject {
 			if ($this->action == "") {
 				$html .= str_replace("ajax/", "", $this->page_object->getCurrentURL());
 			} else {
-				$html .= $this->page_object->getBaseLanguageURL().$this->action;
+				if (strtoupper(substr($this->action, 0, 7)) != "HTTP://") {
+					$html .= $this->page_object->getBaseLanguageURL().$this->action;
+				} else {
+					$html .= $this->action;
+				}
 			}
 			$html .= "\" ";
 			$html .= "method=\"".$this->method."\" ";

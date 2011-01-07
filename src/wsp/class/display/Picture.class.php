@@ -9,8 +9,8 @@ class Picture extends WebSitePhpObject {
 	private static $array_lightbox = array();
 	
 	/**#@+
-		* @access private
-		*/
+	* @access private
+	*/
 	private $src = "";
 	private $height = 0;
 	private $width = 0;
@@ -24,6 +24,7 @@ class Picture extends WebSitePhpObject {
 	private $tooltip = false;
 	private $tooltip_content = "";
 	private $tooltip_params = "";
+	private $picture_map = "";
 	
 	private $is_lightbox = false;
 	private $lightbox_name = "";
@@ -128,6 +129,17 @@ class Picture extends WebSitePhpObject {
 		return $this;
 	}
 	
+	public function setPictureMap($picture_map) {
+		if (gettype($picture_map) != "object" && get_class($picture_map) != "PictureMap") {
+			throw new NewException(get_class($this)."->setPictureMap() error: \$picture_map must be a PictureMap object", 0, 8, __FILE__, __LINE__);
+		}
+		
+		$this->picture_map = $picture_map;
+		
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
 	public function getSrc() {
 		return $this->src;
 	}
@@ -211,6 +223,9 @@ class Picture extends WebSitePhpObject {
 		if ($this->vspace > 0) {
 			$html .= " vspace=\"".$this->vspace."\"";
 		}
+		if ($this->picture_map != "") {
+			$html .= " usemap=\"#".$this->picture_map->getId()."\"";
+		}
 		$html .= "/>\n";
 		
 		if ($this->is_lightbox) {
@@ -218,6 +233,9 @@ class Picture extends WebSitePhpObject {
 		}
 		if ($align_center) {
 			$html .= "</div>\n";
+		}
+		if ($this->picture_map != "") {
+			$html .= $this->picture_map->render();
 		}
 		
 		if ($this->is_lightbox) {

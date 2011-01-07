@@ -129,7 +129,7 @@ class NewException extends Exception
 				}
 			}
 			
-			if ($GLOBALS['__AJAX_PAGE__'] == false || $GLOBALS['__AJAX_LOAD_PAGE__'] == true) {
+			if ($GLOBALS['__AJAX_PAGE__'] == false || ($GLOBALS['__AJAX_LOAD_PAGE__'] == true && $_GET['mime'] == "text/html")) {
 				$_GET['debug'] = $debug_msg;
 				$_GET['p'] = "error-debug";
 				

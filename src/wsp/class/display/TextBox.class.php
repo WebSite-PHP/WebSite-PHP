@@ -23,6 +23,10 @@ class TextBox extends WebSitePhpEventObject {
 	private $is_changed = false;
 	private $onchange = "";
 	private $callback_onchange = "";
+	
+	private $autocomplete = false;
+	private $autocomplete_url = null;
+	private $autocomplete_min_length = 4;
 	/**#@-*/
 	
 	function __construct($page_or_form_object, $name='', $id='', $value='', $width='', $length=0) {
@@ -124,6 +128,17 @@ class TextBox extends WebSitePhpEventObject {
 		}
 		$live_validation_object->setObject($this);
 		$this->live_validation = $live_validation_object;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	public function setAutoComplete($url_object, $min_lenght=4) {
+		$this->autocomplete = true;
+		if (get_class($url_object) != "Url") {
+			throw new NewException("setAutoComplete(): \$url_object must be a Url object", 0, 8, __FILE__, __LINE__);
+		}
+		$this->autocomplete_url = $url_object;
+		$this->autocomplete_min_length = $min_lenght;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -235,6 +250,11 @@ class TextBox extends WebSitePhpEventObject {
 			if ($this->has_focus) {
 				$html .= $this->getJavascriptTagOpen();
 				$html .= "\$('#".$this->getId()."').focus();\n";
+				$html .= $this->getJavascriptTagClose();
+			}
+			if ($this->autocomplete) {
+				$html .= $this->getJavascriptTagOpen();
+				$html .= "\$('#".$this->getId()."').autocomplete({ source: '".$this->autocomplete_url->render()."', minLength: ".$this->autocomplete_min_length.", select: function( event, ui ) { } });\n";
 				$html .= $this->getJavascriptTagClose();
 			}
 		}

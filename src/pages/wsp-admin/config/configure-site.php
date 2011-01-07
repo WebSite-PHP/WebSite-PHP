@@ -168,9 +168,9 @@ class ConfigureSite extends Page {
 		$config_file = new File(dirname(__FILE__)."/../../../wsp/config/config.inc.php", false, true);
 		
 		$data_config_file = "<?php\n";
-		$data_config_file .= "define(\"SITE_NAME\", \"".$this->edtName->getValue()."\");\n";
-		$data_config_file .= "define(\"SITE_DESC\", \"".$this->edtDesc->getValue()."\");\n";
-		$data_config_file .= "define(\"SITE_KEYS\", \"".$this->edtKey->getValue()."\");\n";
+		$data_config_file .= "define(\"SITE_NAME\", \"".utf8_decode($this->edtName->getValue())."\");\n";
+		$data_config_file .= "define(\"SITE_DESC\", \"".utf8_decode($this->edtDesc->getValue())."\");\n";
+		$data_config_file .= "define(\"SITE_KEYS\", \"".utf8_decode($this->edtKey->getValue())."\");\n";
 		$data_config_file .= "define(\"SITE_RATING\", \"".$this->cmbRating->getValue()."\"); // general, mature, restricted, 14years\n";
 		$data_config_file .= "define(\"SITE_AUTHOR\", \"".$this->edtAuthor->getValue()."\");\n";
 		$data_config_file .= "define(\"SITE_DEFAULT_LANG\", \"".$this->cmbLanguage->getValue()."\"); // en, fr, ...\n";

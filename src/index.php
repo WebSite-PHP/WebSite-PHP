@@ -262,7 +262,12 @@
 		</script>
 		<?php 
 		}
-		if (!isset($_SESSION['google_geolocalisation']) && JQUERY_LOAD_LOCAL == false) {
+		if (!isset($_SESSION['google_geolocalisation'])) {
+			if (JQUERY_LOAD_LOCAL == true) {
+		?>
+		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+		<?php
+			}
 		?>
 		<script type="text/javascript">
 			function loadGoogleClientLocation() {

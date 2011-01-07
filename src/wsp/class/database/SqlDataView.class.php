@@ -150,7 +150,11 @@ class SqlDataView {
 		}
 		$this->iterator = new DataRowIterator($this->db_table_object);
 		if ($list_attribute != "") {
-			$query = "SELECT ".$list_attribute;
+			$query = "SELECT ";
+			if (sizeof($this->joins_object) > 0) {
+				$query .= "DISTINCT ";
+			}
+			$query .= $list_attribute;
 			$query .= " FROM ".$this->db_table_object->getDbTableSchemaName();
 			for ($i=0; $i < sizeof($this->joins_object); $i++) {
 				$query .= " ".$this->joins_type[$i]." JOIN ".$this->joins_object[$i]->getDbTableSchemaName()." ON ".$this->join_clause[$i];

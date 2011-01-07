@@ -41,23 +41,26 @@
 	header("Cache-Control: post-check=0, pre-check=0", false);
 	header("Pragma: no-cache");
 	if (isset($_GET['mime'])) {
-		$mime_type = "text/".$_GET['mime'];
 		if ($_GET['mime'] == "rss") {
-			$mime_type = "application/rss+xml";
+			$_GET['mime'] = "application/rss+xml";
 		} else if ($_GET['mime'] == "doc") {
-			$mime_type = "application/doc";
+			$_GET['mime'] = "application/doc";
 		} else if ($_GET['mime'] == "xls") {
-			$mime_type = "application/vnd.ms-excel";
+			$_GET['mime'] = "application/vnd.ms-excel";
 		} else if ($_GET['mime'] == "pdf") {
-			$mime_type = "application/pdf";
-		} else if ($_GET['mime'] == "wsdl") {
-			$mime_type = "text/xml";
+			$_GET['mime'] = "application/pdf";
+		} else if ($_GET['mime'] == "wsdl" || $_GET['mime'] == "xml") {
+			$_GET['mime'] = "text/xml";
+		} else if ($_GET['mime'] == "json") {
+			$_GET['mime'] = "text/plain";
 		} else if ($_GET['mime'] == "php" || $_GET['mime'] == "do" || $_GET['mime'] == "call" || $_GET['mime'] == "xhtml" || $_GET['mime'] == "wsp") {
-			$mime_type = "text/html";
+			$_GET['mime'] = "text/html";
 		} else if ($_GET['p'] == "rss" || find($_GET['p'], "rss-", 0, 0) > 0) {
-			$mime_type = "application/rss+xml";
+			$_GET['mime'] = "application/rss+xml";
+		} else {
+			$_GET['mime'] = "text/".$_GET['mime'];
 		}
-		header("Content-Type: ".$mime_type);
+		header("Content-Type: ".$_GET['mime']);
 	}
 	
 	if ($_GET['mime'] == "wsdl") {
@@ -117,7 +120,7 @@
 				$page_object->Loaded();
 			}
 			
-			if ($mime_type == "text/html") {
+			if ($_GET['mime'] == "text/html") {
 				$idLoadPage = rand(0,999999);
 				$__AJAX_LOAD_PAGE_ID__ = $idLoadPage;
 ?>

@@ -458,7 +458,7 @@ class Page {
 			// if method is call from an other page
 			foreach ($_REQUEST as $key => $value) {
 				if (find($key, "Callback_", 0, 0) > 0 && find($value, get_class($this)."().", 0, 0) > 0 && 
-					find($value, "public_", 0, 0) > 0) {
+					find($value, ").public_", 0, 0) > 0) {
 					list($callback_method, $callback_params) = $this->extractCallbackParameters(str_replace(get_class($this)."().", "", $value));
 					
 					if ($callback_method != "") {
@@ -507,10 +507,16 @@ class Page {
 	}
 	
 	private function extractCallbackParameters($callback_value) {
-		$pos = find($callback_value, "(", 0, 0);
-		$pos2 = find($callback_value, ")", 0, 0);
-		$callback_params = ",".substr($callback_value, $pos, $pos2-$pos-1);
-		$callback_method = substr($callback_value, 0, $pos-1);
+		if (find($callback_value, ").public_", 0, 0) > 0) {
+			$callback_method = "";
+			$callback_params = "";
+		} else {
+			$pos = find($callback_value, "(", 0, 0);
+			$pos2 = find($callback_value, ")", 0, 0);
+			$callback_params = ",".substr($callback_value, $pos, $pos2-$pos-1);
+			$callback_method = substr($callback_value, 0, $pos-1);
+		}
+		
  		return array($callback_method, explodeFunky(",", $callback_params));
 	}
 	

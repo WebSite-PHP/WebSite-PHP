@@ -195,6 +195,8 @@ class ConfigureDatabase extends Page {
 	public function configureGenDbObject($sender) {
 		$selected_db = $this->cmb_databases->getValue();
 		if ($selected_db != "") {
+			$this->setTimeout(120);
+			
 			$selected_table = $this->cmb_tables->getValue();
 			$this->cmb_tables->removeItems();
 			$this->cmb_tables->addItem("all", __(ALL_TABLES));

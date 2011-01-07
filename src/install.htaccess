@@ -86,6 +86,7 @@ Options +FollowSymLinks
 	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)\.(.+)$ load-page.php?p=$1$2/$3/$4&mime=$5&folder_level=2&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})/(.+)/(.+)\.(.+)$ load-page.php?p=$2/$3&mime=$4&l=$1&folder_level=1&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})(.+)/(.+)\.(.+)$ load-page.php?p=$1$2/$3&mime=$4&folder_level=1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)\.([^php]+)$ load-page.php?p=$2&l=$1&mime=$3&%{QUERY_STRING} [L]
 	
 	# Rewrite URL with home.html, index.html and index.php
 	RewriteRule ^([a-z]{2})/home.html$ /$1/ [R=301,L] 

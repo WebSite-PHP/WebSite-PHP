@@ -145,7 +145,8 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		if ($this->form_object == null || $this->form_object->getAction() == "") {
 			$page_object = $this->page_object;
 		} else {
-			$action_page = explode('?', $this->form_object->getAction());
+			$action_page = $this->form_object->getAction();
+			$action_page = explode('?', $action_page);
 			$action_page = str_replace(".html", "", $action_page[0]);
 			$page_object = Page::getInstance($action_page);
 		}
