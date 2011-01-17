@@ -24,9 +24,7 @@ class TextBox extends WebSitePhpEventObject {
 	private $onchange = "";
 	private $callback_onchange = "";
 	
-	private $autocomplete = false;
-	private $autocomplete_url = null;
-	private $autocomplete_min_length = 4;
+	private $autocomplete_object = null;
 	/**#@-*/
 	
 	function __construct($page_or_form_object, $name='', $id='', $value='', $width='', $length=0) {
@@ -114,6 +112,7 @@ class TextBox extends WebSitePhpEventObject {
 		if ($id == "") {
 			$this->id = $name;
 		}
+		return $this;
 	}
 	
 	public function setFocus() {
@@ -132,13 +131,12 @@ class TextBox extends WebSitePhpEventObject {
 		return $this;
 	}
 	
-	public function setAutoComplete($url_object, $min_lenght=4) {
-		$this->autocomplete = true;
-		if (get_class($url_object) != "Url") {
-			throw new NewException("setAutoComplete(): \$url_object must be a Url object", 0, 8, __FILE__, __LINE__);
+	public function setAutoComplete($autocomplete_object) {
+		if (gettype($autocomplete_object) != "object" && get_class($autocomplete_object) != "AutoComplete") {
+			throw new NewException(get_class($this)."->setAutoComplete(): \$autocomplete_object must be a AutoComplete object", 0, 8, __FILE__, __LINE__);
 		}
-		$this->autocomplete_url = $url_object;
-		$this->autocomplete_min_length = $min_lenght;
+		$this->autocomplete_object = $autocomplete_object;
+		
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -252,10 +250,12 @@ class TextBox extends WebSitePhpEventObject {
 				$html .= "\$('#".$this->getId()."').focus();\n";
 				$html .= $this->getJavascriptTagClose();
 			}
-			if ($this->autocomplete) {
-				$html .= $this->getJavascriptTagOpen();
-				$html .= "\$('#".$this->getId()."').autocomplete({ source: '".$this->autocomplete_url->render()."', minLength: ".$this->autocomplete_min_length.", select: function( event, ui ) { } });\n";
-				$html .= $this->getJavascriptTagClose();
+			if ($this->autocomplete_object != null) {
+				if ($this->id == "") {
+					throw new NewException("Error : You must specified an id for this object to use autocomplete functionality", 0, 8, __FILE__, __LINE__);
+				}
+				$this->autocomplete_object->setLinkObjectId($this->getId());
+				$html .= $this->autocomplete_object->render();
 			}
 		}
 		$this->object_change = false;

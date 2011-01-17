@@ -12,6 +12,8 @@ define("DEFINE_STYLE_BCK_PICTURE_1", "../img/round_bgd_red.png"); // ex : img/ro
 define("DEFINE_STYLE_COLOR_1_HEADER", "white");
 define("DEFINE_STYLE_BCK_1", "white");
 define("DEFINE_STYLE_COLOR_1", "#333");
+define("DEFINE_STYLE_COLOR_1_LINK", "");
+define("DEFINE_STYLE_COLOR_1_LINK_HOVER", "");
 define("DEFINE_STYLE_BORDER_TABLE_1", "#a73e3d");
 define("DEFINE_STYLE_COLOR_1_HEADER_LINK", "");
 define("DEFINE_STYLE_COLOR_1_HEADER_LINK_HOVER", "");
@@ -21,6 +23,8 @@ define("DEFINE_STYLE_BCK_PICTURE_2", "../img/round_bgd_blue.png"); // ex : img/r
 define("DEFINE_STYLE_COLOR_2_HEADER", "white");
 define("DEFINE_STYLE_BCK_2", "white");
 define("DEFINE_STYLE_COLOR_2", "#333");
+define("DEFINE_STYLE_COLOR_2_LINK", "");
+define("DEFINE_STYLE_COLOR_2_LINK_HOVER", "");
 define("DEFINE_STYLE_BORDER_TABLE_2", "#6b80a6");
 define("DEFINE_STYLE_COLOR_2_HEADER_LINK", "");
 define("DEFINE_STYLE_COLOR_2_HEADER_LINK_HOVER", "");

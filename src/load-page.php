@@ -124,7 +124,8 @@
 				$idLoadPage = rand(0,999999);
 				$__AJAX_LOAD_PAGE_ID__ = $idLoadPage;
 ?>
-				<div align="center" id="idLoadPageLoadingPicture<?php echo $idLoadPage; ?>"><img src="<?php echo BASE_URL; ?>wsp/img/loading.gif"/></div>
+				<div align="center" id="idLoadPageLoadingPicture<?php echo $idLoadPage; ?>" style="width:100%;height:100%;#position:absolute;#top:50%;display:table-cell;vertical-align:middle;"><img src="<?php echo BASE_URL; ?>wsp/img/loading.gif"/></div>
+				<script language="JavaScript">$('#idLoadPageLoadingPicture<?php echo $idLoadPage; ?>').height($('#idLoadPageLoadingPicture<?php echo $idLoadPage; ?>').parent().height());</script>
 				<div id="idLoadPageContent<?php echo $idLoadPage; ?>" style="display:none;">
 <?php 
 				// call current page page

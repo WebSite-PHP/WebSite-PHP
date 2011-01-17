@@ -33,7 +33,8 @@ class RowTable extends WebSitePhpObject {
 		* @access private
 		*/
 	private $col_object = array();
-	private $width = "100%";
+	private $width = "";
+	private $height = "";
 	private $align = "";
 	private $class = "";
 	private $style = "";
@@ -57,6 +58,12 @@ class RowTable extends WebSitePhpObject {
 	
 	public function setWidth($width) {
 		$this->width = $width;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	public function setHeight($height) {
+		$this->height = $height;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -144,6 +151,14 @@ class RowTable extends WebSitePhpObject {
 	public function setColumnWidth($column_ind, $width) {
 		if (isset($this->col_object[$column_ind-1])) {
 			$this->col_object[$column_ind-1]['width'] = $width;
+		}
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	public function setColumnHeight($column_ind, $height) {
+		if (isset($this->col_object[$column_ind-1])) {
+			$this->col_object[$column_ind-1]['height'] = $height;
 		}
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
@@ -259,6 +274,19 @@ class RowTable extends WebSitePhpObject {
 					$html .= "width:".$this->width."px;";
 				} else {
 					$html .= "width:".$this->width.";";
+				}
+			}
+			if ($this->col_object[$i]['height'] != "") {
+				if (is_integer($this->col_object[$i]['height'])) {
+					$html .= "height:".$this->col_object[$i]['height']."px;";
+				} else {
+					$html .= "height:".$this->col_object[$i]['height'].";";
+				}
+			} else if ($this->height != "") {
+				if (is_integer($this->height)) {
+					$html .= "height:".$this->height."px;";
+				} else {
+					$html .= "height:".$this->height.";";
 				}
 			}
 			if ($this->style != "" || $this->col_object[$i]['style'] != "") {

@@ -49,6 +49,7 @@
 }
 .dd .ddChild a:hover {
 	background-color:#66CCFF;
+	color:#000;
 }
 .dd .ddChild a img {
 	border:0;

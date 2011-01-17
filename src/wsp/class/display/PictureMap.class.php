@@ -31,7 +31,7 @@ class PictureMap extends WebSitePhpObject {
 	}
 	
 	public function addRect($link, $title, $tooltip_params, $x1, $y1, $x2, $y2) {
-		if (gettype($link) != "object" && get_class($link) != "Link") {
+		if (gettype($link) != "object" || get_class($link) != "Link") {
 			throw new NewException(get_class($this)."->addRect() error: \$link must be a Link object", 0, 8, __FILE__, __LINE__);
 		}
 		
@@ -54,7 +54,7 @@ class PictureMap extends WebSitePhpObject {
 	}
 	
 	public function addPolygon($link, $title, $tooltip_params, $x1, $y1, $x2, $y2, $x3, $y3) {
-		if (gettype($link) != "object" && get_class($link) != "Link") {
+		if (gettype($link) != "object" || get_class($link) != "Link") {
 			throw new NewException(get_class($this)."->addPolygon() error: \$link must be a Link object", 0, 8, __FILE__, __LINE__);
 		}
 		
@@ -75,7 +75,7 @@ class PictureMap extends WebSitePhpObject {
 	}
 	
 	public function addCircle($link, $title, $tooltip_params, $x, $y, $r) {
-		if (gettype($link) != "object" && get_class($link) != "Link") {
+		if (gettype($link) != "object" || get_class($link) != "Link") {
 			throw new NewException(get_class($this)."->addCircle() error: \$link must be a Link object", 0, 8, __FILE__, __LINE__);
 		}
 		
@@ -97,7 +97,7 @@ class PictureMap extends WebSitePhpObject {
 	}
 	
 	public function setDefault($link, $title='', $tooltip_params='') {
-		if (gettype($link) != "object" && get_class($link) != "Link") {
+		if (gettype($link) != "object" || get_class($link) != "Link") {
 			throw new NewException(get_class($this)."->setDefault() error: \$link must be a Link object", 0, 8, __FILE__, __LINE__);
 		}
 		

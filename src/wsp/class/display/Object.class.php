@@ -376,7 +376,9 @@ class Object extends WebSitePhpEventObject {
 		
 		$html = "";
 		$is_span_open = false;
-		if ($this->id != "" || $this->align != "" || $this->border != "" || $this->width != "" || $this->font_size != "" || $this->font_family != "" || $this->font_weight != "" || $this->style != "" || $this->class != "") {
+		if ($this->force_div_tag || $this->force_span_tag || $this->id != "" || $this->align != "" || 
+			$this->border != "" || $this->width != "" || $this->font_size != "" || $this->font_family != "" || 
+			$this->font_weight != "" || $this->style != "" || $this->class != "") {
 			if ($this->force_div_tag || (!$this->force_span_tag &&
 				($this->align != "" || $this->height != "" || $this->width != "" || $this->class != ""))) {
 					$html .= "<div ";
@@ -490,6 +492,16 @@ class Object extends WebSitePhpEventObject {
 			if (sizeof($this->objects) == 0) {
 				$html .= "&nbsp;";
 			}
+		} else {
+			$html .= "<div align=\"center\" style=\"";
+			if ($this->height != "") {
+				if (is_integer($this->height)) {
+					$html .= "height:".$this->height."px;";
+				} else {
+					$html .= "height:".$this->height.";";
+				}
+			}
+			$html .= "#position:absolute;#top:50%;display:table-cell;vertical-align:middle;\"><img src=\"".BASE_URL."wsp/img/loading.gif\"/></div>";
 		}
 		if ($is_span_open) {
 			if ($this->force_div_tag || (!$this->force_span_tag &&

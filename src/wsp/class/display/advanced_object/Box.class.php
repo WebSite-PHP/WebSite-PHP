@@ -309,11 +309,11 @@ class Box extends WebSitePhpObject {
 			$html .= "					<td class=\"table_".$this->style_content."_bckg\" width=\"9999\" valign=\"".$this->valign."\" style=\"height:100%;padding:4px;border-top:1px solid ".$this->box_border_color.";\">\n";
 			$html .= "						<div ";
 			if ($this->align == Box::ALIGN_JUSTIFY) {
-				$html .= "style=\"text-align:justify;";
+				$html .= "style=\"text-align:justify;\" ";
 			} else {
-				$html .= "align=\"".$this->align."\"";
+				$html .= "align=\"".$this->align."\" ";
 			}
-			$html .= "\">\n";
+			$html .= ">\n";
 			if ($this->content != null) {
 				if (gettype($this->content) == "object" && method_exists($this->content, "render")) {
 					$html .= "						".$this->content->render($ajax_render)."\n";

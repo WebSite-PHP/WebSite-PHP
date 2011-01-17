@@ -137,7 +137,7 @@ class Page {
 		if ($this->is_browser_ie_6) {
 			$this->cache_file_name = urlencode(str_replace(".cache", "_ie6.cache", $file_name));
 		} else if ($this->is_browser_ie) {
-			$this->cache_file_name = urlencode(str_replace(".cache", "_ie.cache", $file_name));
+			$this->cache_file_name = urlencode(str_replace(".cache", "_ie".get_browser_ie_version().".cache", $file_name));
 		} else {
 			$this->cache_file_name = urlencode($file_name);
 		}
