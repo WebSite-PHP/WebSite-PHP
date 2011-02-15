@@ -676,6 +676,20 @@ class Page {
 		return ($_COOKIE['wsp_window_width']==""?null:$_COOKIE['wsp_window_width']);
 	}
 	
+	public function isAjaxPage() {
+		if ($GLOBALS['__AJAX_PAGE__'] == true) {
+			return true;
+		}
+		return false;
+	}
+	
+	public function isLoadPage() {
+		if ($GLOBALS['__AJAX_LOAD_PAGE__'] == true) {
+			return true;
+		}
+		return false;
+	}
+	
 	/*
 	 * Use to add JS and CSS to the page when when Object never load on init, but load dynamically (on DialogBox, Map, ...)
 	 */

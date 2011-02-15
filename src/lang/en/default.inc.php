@@ -39,7 +39,7 @@
 	define("LIVE_VALIDATION_FORMULAR_FIELD_ERROR", "Your formular is not correct, please check the field {#SIMPLE_QUOTE#} + lv_error_alert_field_name + {#SIMPLE_QUOTE#}.");
 	define("LIVE_VALIDATION_FORMULAR_ERROR_DEBUG", "Your formular is not correct, please check the field {#SIMPLE_QUOTE#} + lv_error_alert_id + {#SIMPLE_QUOTE#}.");
 	define("LIVE_VALIDATION_FORMULAR_ERROR_MSG", "lv_error_alert_msg");
-	define("INCLUDE_OBJECT_TO_MAIN_PAGE", "Please include %s object to the parent page (\$this->includeJsAndCssFromObjectToPage(\"%s\")).");
+	define("INCLUDE_OBJECT_TO_MAIN_PAGE", "Please include %s object to the parent page (\$this->includeJsAndCssFromObjectToPage('%s')).");
 	
 	define('NOT_SUPPORTED_BROWSER_TITLE', 'Not supported browser');
 	define('NOT_SUPPORTED_BROWSER', '<b>Internet Explorer 6 and older version are not fully supported.</b><br/>We recommand to use an other browser.<br/><br/>There must be 50 ways to leave your browser - here are 5:<br/><br/>');

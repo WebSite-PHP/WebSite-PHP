@@ -63,7 +63,7 @@ class GoogleWeatherAPI {
 	* @return ...
 	*/
 	 
-	function __construct ($city_code,$lang='') {
+	function __construct ($city_code,$lang='',$unit='C') {
 		if ($lang == '') {
 			$lang = $_SESSION['lang'];
 		}
@@ -92,14 +92,28 @@ class GoogleWeatherAPI {
 				$this->current_conditions['icon'] = utf8_decode($this->prefix_images.(string)$xml->weather->current_conditions->icon->attributes()->data);
 				$this->current_conditions['wind_condition'] = utf8_decode((string)$xml->weather->current_conditions->wind_condition->attributes()->data);
 				
+				$ind = 0;
 				foreach($xml->weather->forecast_conditions as $this->forecast_conditions_value) {
 					$this->forecast_conditions_temp = array();
 					$this->forecast_conditions_temp['day_of_week'] = utf8_decode((string)$this->forecast_conditions_value->day_of_week->attributes()->data);
-					$this->forecast_conditions_temp['low'] = utf8_decode((string)$this->forecast_conditions_value->low->attributes()->data);
-					$this->forecast_conditions_temp['high'] = utf8_decode((string)$this->forecast_conditions_value->high->attributes()->data);
+					$this->forecast_conditions_temp['low'] = (int) utf8_decode((string)$this->forecast_conditions_value->low->attributes()->data);
+					$this->forecast_conditions_temp['high'] = (int) utf8_decode((string)$this->forecast_conditions_value->high->attributes()->data);
+					if ($unit == "C" && $xml->weather->forecast_information->unit_system->attributes()->data == "US") {
+						$this->forecast_conditions_temp['low'] = round(($this->forecast_conditions_temp['low']-32)*5/9, 0);
+						$this->forecast_conditions_temp['high'] = round(($this->forecast_conditions_temp['high']-32)*5/9, 0);
+					} else if ($unit == "F" && $xml->weather->forecast_information->unit_system->attributes()->data == "SI") {
+						$this->forecast_conditions_temp['low'] = round($this->forecast_conditions_temp['low']*9/5+32, 0);
+						$this->forecast_conditions_temp['high'] = round($this->forecast_conditions_temp['high']*9/5+32, 0);
+					}
 					$this->forecast_conditions_temp['icon'] = utf8_decode($this->prefix_images.(string)$this->forecast_conditions_value->icon->attributes()->data);
 					$this->forecast_conditions_temp['condition'] = utf8_decode((string)$this->forecast_conditions_value->condition->attributes()->data);
-					$this->forecast_conditions []= utf8_decode($this->forecast_conditions_temp);
+					if ($ind == 0) {
+						$this->current_conditions['low'] = $this->forecast_conditions_temp['low'];
+						$this->current_conditions['high'] = $this->forecast_conditions_temp['high'];
+						$this->current_conditions['condition'] = $this->forecast_conditions_temp['condition'];
+					}
+					$this->forecast_conditions []= $this->forecast_conditions_temp;
+					$ind++;
 				}
 			} else {
 				$this->is_found = false;

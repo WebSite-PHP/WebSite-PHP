@@ -279,7 +279,7 @@ class Box extends WebSitePhpObject {
 			if ($this->height != "") {
 				$html .= " height=\"".$this->height."\"";
 			}
-			$html .= " style=\"table-layout:fixed;overflow:hidden;\">\n";
+			$html .= " style=\"table-layout:fixed;overflow:hidden;".(($this->browser_ie_version != false && $this->browser_ie_version <= 7) ? "border-top:1px solid ".$this->box_border_color.";":"")."\">\n";
 			$html .= "				<tr>\n";
 			$html .= "					<td class=\"header_".$this->style_header."_bckg\" style=\"padding: ".($this->browser_ie_version!=false?($this->browser_ie_version!=false&&$this->browser_ie_version<=7?4:0):2)."px 0px 4px 5px;\">";
 			if ($this->tagH != "") {

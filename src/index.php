@@ -284,11 +284,11 @@
 		<?php 
 			if (is_browser_ie_6() && !isset($_SESSION['WSP_IE6_MSG_'.formalize_to_variable(SITE_NAME)]) && $_SESSION['WSP_IE6_MSG_'.formalize_to_variable(SITE_NAME)] != "ok") {
 				$alternative_browser = '';
-				$alternative_browser .= '<a href="http://www.mozilla.com/"><img src="'.BASE_URL.'/img/Firefox_128x128.png" height="60" width="60" border="0" title="Mozilla FireFox"/></a> ';
-				$alternative_browser .= '<a href="http://www.microsoft.com/windows/internet-explorer/"><img src="'.BASE_URL.'/img/IE_128x128.png" height="60" width="60" border="0" title="Internet Explorer"/></a> ';
-				$alternative_browser .= '<a href="http://www.apple.com/safari/"><img src="'.BASE_URL.'/img/Safari_128x128.png" height="60" width="60" border="0" title="Safari"/></a> ';
-				$alternative_browser .= '<a href="http://www.google.com/chrome"><img src="'.BASE_URL.'/img/Chrome_128x128.png" height="60" width="60" border="0" title="Chrome"/></a> ';
-				$alternative_browser .= '<a href="http://www.opera.com/browser/"><img src="'.BASE_URL.'/img/Opera_128x128.png" height="60" width="60" border="0" title="Opera"/></a> ';
+				$alternative_browser .= '<a href="http://www.mozilla.com/"><img src="'.BASE_URL.'wsp/img/Firefox_128x128.png" height="60" width="60" border="0" title="Mozilla FireFox"/></a> ';
+				$alternative_browser .= '<a href="http://www.microsoft.com/windows/internet-explorer/"><img src="'.BASE_URL.'wsp/img/IE_128x128.png" height="60" width="60" border="0" title="Internet Explorer"/></a> ';
+				$alternative_browser .= '<a href="http://www.apple.com/safari/"><img src="'.BASE_URL.'wsp/img/Safari_128x128.png" height="60" width="60" border="0" title="Safari"/></a> ';
+				$alternative_browser .= '<a href="http://www.google.com/chrome"><img src="'.BASE_URL.'wsp/img/Chrome_128x128.png" height="60" width="60" border="0" title="Chrome"/></a> ';
+				$alternative_browser .= '<a href="http://www.opera.com/browser/"><img src="'.BASE_URL.'wsp/img/Opera_128x128.png" height="60" width="60" border="0" title="Opera"/></a> ';
 				$page_object->addObject(new DialogBox(__(NOT_SUPPORTED_BROWSER_TITLE), "<br/>".__(NOT_SUPPORTED_BROWSER).$alternative_browser."<br/>"));
 				$_SESSION['WSP_IE6_MSG_'.formalize_to_variable(SITE_NAME)] = "ok";
 			}

@@ -32,7 +32,7 @@ class Map extends WebSitePhpObject {
 		}
 	}
 	
-	public function addMarker($address, $text='', $icon_url_32='', $define_as_center=false) {
+	public function addMarker($address, $text='', $icon_url_32='', $define_as_center=true) {
 		$this->location[] = $address;
 		$this->location_text[] = $text;
 		$this->location_is_center[] = $define_as_center;
@@ -46,6 +46,32 @@ class Map extends WebSitePhpObject {
 		} else {
 			$this->location_icon_id[] = -1;
 		}
+		return $this;
+	}
+	
+	public function setWidth($width) {
+		$this->width = $width;
+		return $this;
+	}
+	
+	public function setHeight($height) {
+		$this->height = $height;
+		return $this;
+	}
+	
+	public function setZoom($zoom) {
+		$this->zoom = $zoom;
+		return $this;
+	}
+	
+	public function setDefaultLatitude($default_latitude) {
+		$this->default_latitude = $default_latitude;
+		return $this;
+	}
+	
+	public function setDefaultLongitude($default_longitude) {
+		$this->default_longitude = $default_longitude;
+		return $this;
 	}
 	
 	public function render($ajax_render=false) {

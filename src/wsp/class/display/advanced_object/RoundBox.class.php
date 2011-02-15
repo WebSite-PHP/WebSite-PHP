@@ -257,7 +257,7 @@ class RoundBox extends WebSitePhpObject {
 			if ($this->height != "") {
 				$html .= " height=\"".$this->height."\"";
 			}
-			$html .= "width=\"100%\" style=\"table-layout:fixed;overflow:hidden;border-bottom:0px;\">\n";
+			$html .= "width=\"100%\" style=\"table-layout:fixed;overflow:hidden;border-bottom:0px;".(($this->browser_ie_version != false && $this->browser_ie_version <= 7) ? "border-top:1px solid ".$this->box_border_color.";border-bottom:1px solid ".$this->box_border_color.";":"")."\">\n";
 			$html .= "				<tr>\n";
 			$html .= "					<td class=\"header_".$this->style_content."_bckg\" style=\"font-weight:normal;\">";
 			$html .= "						<div ";

@@ -168,6 +168,9 @@ class Table extends WebSitePhpObject {
 			$row = new RowTable($align);
 			$row->setValign($valign);
 			$row->add($content);
+		} else {
+			$row->setAlign($align);
+			$row->setValign($valign);
 		}
 		if ($row->getClass() == "" && $this->class != "") {
 			$row->setClass($this->class);

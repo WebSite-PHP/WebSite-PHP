@@ -276,25 +276,27 @@ class DialogBox extends WebSitePhpObject {
 			$html .= ", buttons: { '".addslashes(__(CLOSE))."': function() { $(this).dialog('close');".$this->close_button_js." } }";
 		}
 	 	$html .= "});";
-		$html .= "if (create_div) {";
-			if ($this->width != "") {
-				$html .= "wspDialogBox".$this->dialogbox_indice.".dialog('option', 'width', ".$this->width.");";
-			} else {
-				$html .= "wspDialogBox".$this->dialogbox_indice.".dialog('option', 'minWidth', 350);";
-			}
-			if ($this->height != "") {
-				$html .= "wspDialogBox".$this->dialogbox_indice.".dialog('option', 'height', ".$this->height.");";
-			}
-			if ($this->position != "") {
-				if (find($this->position, "[", 0, 0) > 0) {
-					$html .= "wspDialogBox".$this->dialogbox_indice.".dialog('option', 'position', ".$this->position.");";
+	 	if (!is_browser_ie_6()) {
+			$html .= "if (create_div) {";
+				if ($this->width != "") {
+					$html .= "wspDialogBox".$this->dialogbox_indice.".dialog('option', 'width', ".$this->width.");";
 				} else {
-					$html .= "wspDialogBox".$this->dialogbox_indice.".dialog('option', 'position', '".$this->position."');";
+					$html .= "wspDialogBox".$this->dialogbox_indice.".dialog('option', 'minWidth', 350);";
 				}
-			} else if ($this->position_x > -1 || $this->position_y > -1) {
-				$html .= "wspDialogBox".$this->dialogbox_indice.".dialog('option', 'position', [".$this->position_x.",".$this->position_y."]);";
-			}
-		$html .= "}";
+				if ($this->height != "") {
+					$html .= "wspDialogBox".$this->dialogbox_indice.".dialog('option', 'height', ".$this->height.");";
+				}
+				if ($this->position != "") {
+					if (find($this->position, "[", 0, 0) > 0) {
+						$html .= "wspDialogBox".$this->dialogbox_indice.".dialog('option', 'position', ".$this->position.");";
+					} else {
+						$html .= "wspDialogBox".$this->dialogbox_indice.".dialog('option', 'position', '".$this->position."');";
+					}
+				} else if ($this->position_x > -1 || $this->position_y > -1) {
+					$html .= "wspDialogBox".$this->dialogbox_indice.".dialog('option', 'position', [".$this->position_x.",".$this->position_y."]);";
+				}
+			$html .= "}";
+	 	}
 	 	if ($this->desactivate) {
 	 		$html .= "wspDialogBox".$this->dialogbox_indice.".dialog('widget').find('.ui-dialog-titlebar-close').hide();";
 	 	}
