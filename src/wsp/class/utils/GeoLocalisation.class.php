@@ -36,7 +36,7 @@ class GeoLocalisation {
   * @return	array
   */
 	public function getGeoLocation(){
-		if (!isset($_SESSION['ipinfodb_geolocalisation']) && (!isset($_SESSION['google_geolocalisation']) && $this->_ip==$_SERVER["REMOTE_ADDR"])) {
+		if (!isset($_SESSION['ipinfodb_geolocalisation']) && (!isset($_SESSION['google_geolocalisation']) && $this->_ip==$_SERVER["REMOTE_ADDR"]) || $this->_ip!=$_SERVER["REMOTE_ADDR"]) {
   		if(preg_match('/^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:[.](?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$/', $this->_ip)){
   			$service_url = 'http://' . $this->service . '/' . $this->version . '/' . 'ip_query.php?key=' . $this->apiKey . '&ip=' . $this->_ip;
   			$xml = @file_get_contents($service_url);
@@ -55,7 +55,9 @@ class GeoLocalisation {
 			$this->errors[] = '"' . $host . '" is not a valid IP address or hostname.';
 			
 			$this->_geolocation = $result;
-	    $_SESSION['ipinfodb_geolocalisation'] = $this->_geolocation;
+			if ($this->_ip==$_SERVER["REMOTE_ADDR"]) {
+	    	$_SESSION['ipinfodb_geolocalisation'] = $this->_geolocation;
+	    }
   	} else {
   		if (isset($_SESSION['google_geolocalisation']) && $this->_ip==$_SERVER["REMOTE_ADDR"]) {
 	  		$this->_geolocation = $_SESSION['google_geolocalisation'];

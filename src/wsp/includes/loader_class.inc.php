@@ -1,13 +1,15 @@
 <?php
 	function loadWspClass($folder, $sub_folder=false) {
-		$array_components_dir = scandir($folder);
-		for ($i=0; $i < sizeof($array_components_dir); $i++) {
-			if (is_file($folder."/".$array_components_dir[$i]) && 
-					strtolower(substr($array_components_dir[$i], strlen($array_components_dir[$i])-10, 10)) == ".class.php") {
-				require_once($folder."/".$array_components_dir[$i]);
-			} else if ($sub_folder==true && is_dir($folder."/".$array_components_dir[$i]) && 
-					$array_components_dir[$i] != "." && $array_components_dir[$i] != "..") {
-				loadWspClass($folder."/".$array_components_dir[$i], $sub_folder);
+		if (is_dir($folder)) {
+			$array_components_dir = scandir($folder);
+			for ($i=0; $i < sizeof($array_components_dir); $i++) {
+				if (is_file($folder."/".$array_components_dir[$i]) && 
+						strtolower(substr($array_components_dir[$i], strlen($array_components_dir[$i])-10, 10)) == ".class.php") {
+					require_once($folder."/".$array_components_dir[$i]);
+				} else if ($sub_folder==true && is_dir($folder."/".$array_components_dir[$i]) && 
+						$array_components_dir[$i] != "." && $array_components_dir[$i] != "..") {
+					loadWspClass($folder."/".$array_components_dir[$i], $sub_folder);
+				}
 			}
 		}
 	}

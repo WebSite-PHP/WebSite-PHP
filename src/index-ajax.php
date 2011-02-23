@@ -113,7 +113,7 @@
 	}
 	
 	$array_ajax_object_render[] = "window.scrollTo(wsp_save_hscroll, wsp_save_vscroll);";
-	echo json_encode($array_ajax_object_render);
+	echo str_replace("\n\n", "\n", str_replace("\r", "", str_replace("\t", "", json_encode($array_ajax_object_render))));
 	
 	// Disconnect DataBase
 	if (DB_ACTIVE) {

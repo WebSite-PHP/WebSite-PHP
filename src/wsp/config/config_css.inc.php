@@ -17,6 +17,8 @@ define("DEFINE_STYLE_COLOR_1_LINK_HOVER", "");
 define("DEFINE_STYLE_BORDER_TABLE_1", "#a73e3d");
 define("DEFINE_STYLE_COLOR_1_HEADER_LINK", "");
 define("DEFINE_STYLE_COLOR_1_HEADER_LINK_HOVER", "");
+define("DEFINE_STYLE_GRADIENT_1", true);
+define("DEFINE_STYLE_OMBRE_COLOR_1", "#B5B5B5");
 
 define("DEFINE_STYLE_BCK_2_HEADER", "#90a8d4"); // If DEFINE_STYLE_BCK_PICTURE_2 is defined", DEFINE_STYLE_BCK_2_HEADER not use for Box object
 define("DEFINE_STYLE_BCK_PICTURE_2", "../img/round_bgd_blue.png"); // ex : img/round_bgd.png (please use the default file img/round_bgd.png to create your own background)
@@ -28,8 +30,8 @@ define("DEFINE_STYLE_COLOR_2_LINK_HOVER", "");
 define("DEFINE_STYLE_BORDER_TABLE_2", "#6b80a6");
 define("DEFINE_STYLE_COLOR_2_HEADER_LINK", "");
 define("DEFINE_STYLE_COLOR_2_HEADER_LINK_HOVER", "");
-
-define("DEFINE_STYLE_OMBRE_COLOR", "#B5B5B5");
+define("DEFINE_STYLE_GRADIENT_2", true);
+define("DEFINE_STYLE_OMBRE_COLOR_2", "#B5B5B5");
 
 define("DEFINE_STYLE_JQUERY", "");	// ex: redmond, smoothness, start, flick
 									// complete list : http://www.socialblogr.com/2010/08/how-to-change-jquiery-ui-themes.html

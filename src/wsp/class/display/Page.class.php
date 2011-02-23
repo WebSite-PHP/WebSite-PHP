@@ -34,6 +34,7 @@ class Page {
 	
 	private $is_browser_ie_6 = false;
 	private $is_browser_ie = false;
+	private $browser = null;
 	
 	private $objects = array();
 	private $force_objects_default_values = false;
@@ -135,13 +136,21 @@ class Page {
 			$file_name .= ".cache";
 		}
 		if ($this->is_browser_ie_6) {
-			$this->cache_file_name = urlencode(str_replace(".cache", "_ie6.cache", $file_name));
+			$this->cache_file_name = str_replace(".cache", "_ie6.cache", $file_name);
 		} else if ($this->is_browser_ie) {
-			$this->cache_file_name = urlencode(str_replace(".cache", "_ie".get_browser_ie_version().".cache", $file_name));
+			$this->cache_file_name = str_replace(".cache", "_ie".get_browser_ie_version().".cache", $file_name);
 		} else {
-			$this->cache_file_name = urlencode($file_name);
+			$this->cache_file_name = $file_name;
 		}
-		$this->cache_file_name = $cache_directory."/".$this->cache_file_name;
+		if ($this->isCss3Browser()){
+			$this->cache_file_name = str_replace(".cache", "_css3.cache", $this->cache_file_name);
+		}
+		if ($this->isAjaxPage()){
+			$this->cache_file_name = str_replace(".cache", "_ajax.cache", $this->cache_file_name);
+		} else if ($this->isLoadPage()){
+			$this->cache_file_name = str_replace(".cache", "_load.cache", $this->cache_file_name);
+		}
+		$this->cache_file_name = $cache_directory."/".urlencode($this->cache_file_name);
 	}
 	
 	protected function setCacheTime($cache_time) {
@@ -677,7 +686,9 @@ class Page {
 	}
 	
 	public function isAjaxPage() {
-		if ($GLOBALS['__AJAX_PAGE__'] == true) {
+		if ($GLOBALS['__AJAX_LOAD_PAGE__'] == true) {
+			return false;
+		} else if ($GLOBALS['__AJAX_PAGE__'] == true) {
 			return true;
 		}
 		return false;
@@ -688,6 +699,20 @@ class Page {
 			return true;
 		}
 		return false;
+	}
+	
+	public function isCss3Browser() {
+		if ($this->browser == null) {
+			$this->browser = get_browser_info(null, true);
+		}
+		return ($this->browser[cssversion] >= 3)?true:false;
+	}
+	
+	public function isMobileDevice() {
+		if ($this->browser == null) {
+			$this->browser = get_browser_info(null, true);
+		}
+		return ($this->browser[ismobiledevice])?true:false;
 	}
 	
 	/*

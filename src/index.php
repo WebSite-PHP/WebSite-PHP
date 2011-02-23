@@ -294,7 +294,7 @@
 			}
 			
 			// call current page page
-			echo str_replace("\t", "", $page_object->render());
+			echo str_replace("\n\n", "\n", str_replace("\r", "", str_replace("\t", "", $page_object->render())));
 		?>
 		<div align="center">
 			<img src="http://www.website-php.com/img/logo_16x16.png" height="16" width="16" align="absmiddle"/> Site created with framework <a href="http://www.website-php.com" target="_blank">WebSite-PHP</a>

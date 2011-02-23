@@ -129,8 +129,8 @@
 				<div id="idLoadPageContent<?php echo $idLoadPage; ?>" style="display:none;">
 <?php 
 				// call current page page
-				list($html_current_page, $javascript_current_page) = extractJavaScriptFromHtml($page_object->render());
-				echo $html_current_page;
+				list($html_current_page, $javascript_current_page) = extractJavaScriptFromHtml(str_replace("\r", "", str_replace("\t", "", $page_object->render())));
+				echo str_replace("\n\n", "\n", $html_current_page);
 				
 				$ind_load_js = rand(0, 99999999);
 ?>
@@ -143,7 +143,7 @@
 				};
 				lauchJavascriptPageExecute<?php echo $ind_load_js; ?> = function() {
 <?php
-					echo $javascript_current_page;
+					echo str_replace("\n\n", "\n", $javascript_current_page);
 ?>
 				};
 <?php

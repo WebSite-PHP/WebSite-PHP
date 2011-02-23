@@ -54,6 +54,7 @@ class RoundBox extends WebSitePhpObject {
 	private $align = "center";
 	private $is_browser_ie_6 = false;
 	private $browser_ie_version = false;
+	private $css3=false;
 	
 	private $padding_top = 0;
 	private $padding_bottom = 0;
@@ -64,6 +65,7 @@ class RoundBox extends WebSitePhpObject {
 	private $force_box_with_picture = true;
 	private $box_border_color = "";
 	private $box_gradient = false;
+	private $shadow_color = "";
 	/**#@-*/
 	
 	/**
@@ -89,6 +91,9 @@ class RoundBox extends WebSitePhpObject {
 		$this->width = $width;
 		$this->height = $height;
 		
+		$browser = get_browser_info(null, true);
+		$this->css3 = (($browser[cssversion] >= 3)?true:false) && (($this->browser_ie_version != false && $this->browser_ie_version <= 8)?false:true);
+		
 		if (constant("DEFINE_STYLE_BCK_PICTURE_".strtoupper($this->style_content)) == "") {
 			$this->force_box_with_picture = false;
 		}
@@ -98,6 +103,11 @@ class RoundBox extends WebSitePhpObject {
 			define("DEFINE_STYLE_GRADIENT_".strtoupper($this->style_content), false);
 		}
 		$this->box_gradient = constant("DEFINE_STYLE_GRADIENT_".strtoupper($this->style_content));
+		
+		if (!defined('DEFINE_STYLE_OMBRE_COLOR_'.strtoupper($this->style_header))) {
+			define("DEFINE_STYLE_OMBRE_COLOR_".strtoupper($this->style_header), DEFINE_STYLE_OMBRE_COLOR);
+		}
+		$this->shadow_color = constant("DEFINE_STYLE_OMBRE_COLOR_".strtoupper($this->style_header));
 		
 		$this->addCss(BASE_URL."wsp/css/angle.css.php", "", true);
 	}
@@ -226,40 +236,67 @@ class RoundBox extends WebSitePhpObject {
 		$html .= ">\n";
 		
 		if (!$this->force_box_with_picture) {
-			if ($this->browser_ie_version != false && $this->browser_ie_version <= 7) {
-				// do nothing
-			} else {
-				$angle_class = "AngleRond".ucfirst($this->style_content);
-				$shadow_class = "";
-				$html .= "<div style=\"height:5px;";
-				if ($this->shadow) {
-					$shadow_class = "Ombre";
-					$html .= "position: relative; top: -5px;";
+			if (!$this->css3) {
+				if ($this->browser_ie_version != false && $this->browser_ie_version <= 7) {
+					// do nothing
+				} else {
+					$angle_class = "AngleRond".ucfirst($this->style_content);
+					$shadow_class = "";
+					$html .= "<div style=\"height:5px;";
+					if ($this->shadow) {
+						$shadow_class = "Ombre";
+						$html .= "position: relative; top: -5px;";
+					}
+					$html .= "\">\n";
+					$html .= "	<b class=\"".$angle_class." pix1".ucfirst($this->style_content).$shadow_class.($this->box_gradient?" pix1Gradient":"")."\"></b>\n";
+					$html .= "	<b class=\"".$angle_class." pix2".$shadow_class.($this->box_gradient?" pix2Gradient":"")."\"></b>\n";
+					$html .= "	<b class=\"".$angle_class." pix3".$shadow_class.($this->box_gradient?" pix3Gradient":"")."\"></b>\n";
+					$html .= "	<b class=\"".$angle_class." pix4".$shadow_class.($this->box_gradient?" pix4Gradient":"")."\"></b>\n";
+					$html .= "	<b class=\"".$angle_class." pix5".$shadow_class.($this->box_gradient?" pix5Gradient":"")."\"></b>\n";
+					$html .= "</div>\n";
 				}
-				$html .= "\">\n";
-				$html .= "	<b class=\"".$angle_class." pix1".ucfirst($this->style_content).$shadow_class.($this->box_gradient?" pix1Gradient":"")."\"></b>\n";
-				$html .= "	<b class=\"".$angle_class." pix2".$shadow_class.($this->box_gradient?" pix2Gradient":"")."\"></b>\n";
-				$html .= "	<b class=\"".$angle_class." pix3".$shadow_class.($this->box_gradient?" pix3Gradient":"")."\"></b>\n";
-				$html .= "	<b class=\"".$angle_class." pix4".$shadow_class.($this->box_gradient?" pix4Gradient":"")."\"></b>\n";
-				$html .= "	<b class=\"".$angle_class." pix5".$shadow_class.($this->box_gradient?" pix5Gradient":"")."\"></b>\n";
-				$html .= "</div>\n";
+				
+				if ($this->shadow) {
+					$html .= "	<div class=\"ombre".ucfirst($this->style_content)."\">\n";
+				}
+				$html .= "		<div";
+				if ($this->shadow) {
+					$html .= " class=\"boiteTxt\"";
+				}
+				$html .= " >\n";
 			}
-			
-			if ($this->shadow) {
-				$html .= "	<div class=\"ombre\">\n";
+			$html .= "			<table class=\"table_".$this->style_content."_angle";
+			if ($this->css3) {
+				$html .= " Css3RadiusRoundBox".$this->style_content;
+				if ($this->box_gradient) {
+					$html .= " Css3GradientBoxTitle".$this->style_content;
+				}
+				if ($this->shadow) {
+					$html .= " Css3ShadowBox".$this->style_content;
+				}
 			}
-			$html .= "		<div";
-			if ($this->shadow) {
-				$html .= " class=\"boiteTxt\"";
-			}
-			$html .= " >\n";
-			$html .= "			<table class=\"table_".$this->style_content."_angle\" cellpadding=\"6\" cellspacing=\"0\"";
+			$html .= "\" cellpadding=\"6\" cellspacing=\"0\"";
 			if ($this->height != "") {
 				$html .= " height=\"".$this->height."\"";
 			}
-			$html .= "width=\"100%\" style=\"table-layout:fixed;overflow:hidden;border-bottom:0px;".(($this->browser_ie_version != false && $this->browser_ie_version <= 7) ? "border-top:1px solid ".$this->box_border_color.";border-bottom:1px solid ".$this->box_border_color.";":"")."\">\n";
+			$html .= "width=\"100%\" style=\"table-layout:fixed;overflow:hidden;";
+			if (!$this->css3) {
+				$html .= "border-bottom:0px;";
+			}
+			$html .= (($this->browser_ie_version != false && $this->browser_ie_version <= 7) ? "border-top:1px solid ".$this->box_border_color.";border-bottom:1px solid ".$this->box_border_color.";":"")."\">\n";
 			$html .= "				<tr>\n";
-			$html .= "					<td class=\"header_".$this->style_content."_bckg\" style=\"font-weight:normal;\">";
+			$html .= "					<td class=\"header_".$this->style_content."_bckg";
+			if ($this->css3) {
+				$html .= " Css3RadiusRoundBox".$this->style_content;
+				if ($this->box_gradient) {
+					$html .= " Css3GradientBoxTitle".$this->style_content;
+				}
+			}
+			$html .= "\" style=\"font-weight:normal;";
+			if ($this->css3) {
+				$html .= "border:none;";
+			}
+			$html .= "\">";
 			$html .= "						<div ";
 			if ($this->align == Box::ALIGN_JUSTIFY) {
 				$html .= "style=\"text-align:justify;";
@@ -278,25 +315,28 @@ class RoundBox extends WebSitePhpObject {
 			$html .= "					</td>\n";
 			$html .= "				</tr>\n";
 			$html .= "			</table>\n";
-			$html .= "		</div>\n";
 			
-			if (!$this->is_browser_ie_6) {
-				$html .= "<div style=\"height:5px;";
-				if ($this->shadow) {
-					$shadow_class = "Ombre";
-					$html .= "position: relative; top: -5px; left:-5px;";
+			if (!$this->css3) {
+				$html .= "		</div>\n";
+				
+				if (!$this->is_browser_ie_6) {
+					$html .= "<div style=\"height:5px;";
+					if ($this->shadow) {
+						$shadow_class = "Ombre";
+						$html .= "position: relative; top: -5px; left:-5px;";
+					}
+					$html .= "\">\n";
+					$html .= "	<b class=\"".$angle_class." pix5".$shadow_class.($this->box_gradient?" pix5Gradient":"")."\" style=\"left:-5px;margin-right:0px;\"></b>\n";
+					$html .= "	<b class=\"".$angle_class." pix4".$shadow_class.($this->box_gradient?" pix4Gradient":"")."\" style=\"left:-5px;margin-right:0px;\"></b>\n";
+					$html .= "	<b class=\"".$angle_class." pix3".$shadow_class.($this->box_gradient?" pix3Gradient":"")."\" style=\"left:-5px;margin-right:1px;\"></b>\n";
+					$html .= "	<b class=\"".$angle_class." pix2".$shadow_class.($this->box_gradient?" pix2Gradient":"")."\" style=\"left:-5px;margin-right:2px;\"></b>\n";
+					$html .= "	<b class=\"".$angle_class." pix1".ucfirst($this->style_content).$shadow_class.($this->box_gradient?" pix1Gradient":"")."\" style=\"left:-5px;margin-right:4px;\"></b>\n";
+					$html .= "</div>\n";
 				}
-				$html .= "\">\n";
-				$html .= "	<b class=\"".$angle_class." pix5".$shadow_class.($this->box_gradient?" pix5Gradient":"")."\" style=\"left:-5px;margin-right:0px;\"></b>\n";
-				$html .= "	<b class=\"".$angle_class." pix4".$shadow_class.($this->box_gradient?" pix4Gradient":"")."\" style=\"left:-5px;margin-right:0px;\"></b>\n";
-				$html .= "	<b class=\"".$angle_class." pix3".$shadow_class.($this->box_gradient?" pix3Gradient":"")."\" style=\"left:-5px;margin-right:1px;\"></b>\n";
-				$html .= "	<b class=\"".$angle_class." pix2".$shadow_class.($this->box_gradient?" pix2Gradient":"")."\" style=\"left:-5px;margin-right:2px;\"></b>\n";
-				$html .= "	<b class=\"".$angle_class." pix1".ucfirst($this->style_content).$shadow_class.($this->box_gradient?" pix1Gradient":"")."\" style=\"left:-5px;margin-right:4px;\"></b>\n";
-				$html .= "</div>\n";
-			}
-			
-			if ($this->shadow) {
-				$html .= "	</div>\n";
+				
+				if ($this->shadow) {
+					$html .= "	</div>\n";
+				}
 			}
 		} else {
 			$html .= "		<div id=\"left".ucfirst($this->style_content)."\">\n";

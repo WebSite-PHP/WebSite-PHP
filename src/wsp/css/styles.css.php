@@ -124,12 +124,36 @@ for ($i=1; $i <= NB_DEFINE_STYLE_BCK; $i++) {
 		define("DEFINE_STYLE_COLOR_".$i."_LINK_HOVER", "");
 	}
 ?>
-/*** Tableau 1 ***/
+/*** Tableau <?php echo $i; ?> Header ***/
+.header_<?php echo $i; ?>_bckg {
+	background: <?php echo constant("DEFINE_STYLE_BCK_".$i."_HEADER"); ?>;
+	color: <?php echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER"); ?>;
+	font-size: <?php echo $style_font_size_value; ?>;
+	font-family: <?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
+	font-weight: bold;
+	height: 21px;
+	padding-left: 5px;
+	vertical-align: middle;
+	text-align: left;
+}
+.header_<?php echo $i; ?>_bckg a {
+	color:<?php if (constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK") == "") { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER"); } else { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK"); } ?>;
+	text-decoration: none;
+	font-size:<?php echo $style_font_size_value; ?>;
+	font-family:<?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
+}
+.header_<?php echo $i; ?>_bckg a:hover {
+	color: <?php if (constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK_HOVER") == "") { if (constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK") == "") { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER"); } else { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK"); } } else { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK_HOVER"); } ?>;
+	font-size:<?php echo $style_font_size_value; ?>;
+	font-family:<?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
+}
+
+/*** Tableau <?php echo $i; ?> ***/
 .table_<?php echo $i; ?>_angle {
 	border-left: 1px solid <?php echo constant("DEFINE_STYLE_BORDER_TABLE_".$i); ?>;
 	border-right: 1px solid <?php echo constant("DEFINE_STYLE_BORDER_TABLE_".$i); ?>;
 	border-bottom: 1px solid <?php echo constant("DEFINE_STYLE_BORDER_TABLE_".$i); ?>;
-	background: <?php echo constant("DEFINE_STYLE_BCK_".$i); ?>;
+	background: <?php echo constant("DEFINE_STYLE_BCK_".$i."_HEADER"); ?>;
 	color: <?php echo constant("DEFINE_STYLE_COLOR_".$i); ?>;
 	padding-right:-10px;
 }
@@ -170,34 +194,30 @@ for ($i=1; $i <= NB_DEFINE_STYLE_BCK; $i++) {
 	font-family: <?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
 	text-align: left;
 }
-.header_<?php echo $i; ?>_bckg {
-	background: <?php echo constant("DEFINE_STYLE_BCK_".$i."_HEADER"); ?>;
-	color: <?php echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER"); ?>;
-	font-size: <?php echo $style_font_size_value; ?>;
-	font-family: <?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
-	font-weight: bold;
-	height: 21px;
-	padding-left: 5px;
-	vertical-align: middle;
-	text-align: left;
-}
+
 .table_<?php echo $i; ?>_round {
 	background: <?php echo constant("DEFINE_STYLE_BCK_".$i."_HEADER"); ?>;
 }
+<?php
+}
 
-.header_<?php echo $i; ?>_bckg a {
+for ($i=1; $i <= NB_DEFINE_STYLE_BCK; $i++) {
+?>
+/*** Box Header <?php echo $i; ?> ***/
+.header_<?php echo $i; ?>_bckg_a a {
 	color:<?php if (constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK") == "") { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER"); } else { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK"); } ?>;
 	text-decoration: none;
 	font-size:<?php echo $style_font_size_value; ?>;
 	font-family:<?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
 }
-
-.header_<?php echo $i; ?>_bckg a:hover {
+.header_<?php echo $i; ?>_bckg_a a:hover {
 	color: <?php if (constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK_HOVER") == "") { if (constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK") == "") { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER"); } else { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK"); } } else { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK_HOVER"); } ?>;
 	font-size:<?php echo $style_font_size_value; ?>;
 	font-family:<?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
 }
-<?php } ?>
+<?php
+}
+?>
 
 td {
 	font-size: <?php echo $style_font_size_value; ?>;

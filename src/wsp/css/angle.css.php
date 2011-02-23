@@ -50,6 +50,64 @@
 
 .pix1<?php echo $i; ?>Ombre {top:-5px; margin:0; margin-left:5px; margin-right:9px; background:<?php echo constant("DEFINE_STYLE_BORDER_TABLE_".$i); ?>;}
 
+.ombre<?php echo $i; ?> {
+  background-color: <?php echo(!defined("DEFINE_STYLE_OMBRE_COLOR_".$i))?DEFINE_STYLE_OMBRE_COLOR:constant("DEFINE_STYLE_OMBRE_COLOR_".$i); ?>;
+  padding: 0px;
+  margin-left:5px;
+  clear:left;
+}
+
+.Css3RadiusBox<?php echo $i; ?> {
+<?php
+	$css = "";
+	$radius = 8;
+	$css .= "border-top:1px solid ".constant("DEFINE_STYLE_BORDER_TABLE_".$i).";";
+	$css .= "border-top-left-radius:".$radius."px;-moz-border-radius-topleft:".$radius."px;-webkit-border-top-left-radius:".$radius."px;";
+	$css .= "border-top-right-radius:".$radius."px;-moz-border-radius-topright:".$radius."px;-webkit-border-top-right-radius:".$radius."px;";
+	echo $css;
+?>
+}
+.Css3RadiusRoundBox<?php echo $i; ?> {
+<?php 
+	$css = "";
+	$css .= "border-top:1px solid ".constant("DEFINE_STYLE_BORDER_TABLE_".$i).";";
+	$css .= "border-bottom:1px solid ".constant("DEFINE_STYLE_BORDER_TABLE_".$i).";";
+	$css .= "border-radius:10px;-moz-border-radius:10px;-webkit-border-radius:10px;";
+	echo $css;
+?>
+}
+
+.Css3ShadowBox<?php echo $i; ?> {
+<?php
+	$css = "";
+	$shadow_color = (!defined("DEFINE_STYLE_OMBRE_COLOR_".$i))?DEFINE_STYLE_OMBRE_COLOR:constant("DEFINE_STYLE_OMBRE_COLOR_".$i);
+	$css .= "box-shadow:5px 5px 5px ".$shadow_color.";-webkit-box-shadow:5px 5px 5px ".$shadow_color.";-moz-box-shadow:5px 5px 5px ".$shadow_color.";";
+	echo $css;
+?>
+}
+
+.Css3RadiusBoxTitle<?php echo $i; ?> {
+<?php 
+	$css = "";
+	$radius = 8;
+	$css .= "background: ".constant("DEFINE_STYLE_BCK_".$i."_HEADER").";";
+	$css .= "border-top-left-radius:".$radius."px;-moz-border-radius-topleft:".$radius."px;-webkit-border-top-left-radius:".$radius."px;";
+	$css .= "border-top-right-radius:".$radius."px;-moz-border-radius-topright:".$radius."px;-webkit-border-top-right-radius:".$radius."px;";
+	$css .= "padding:4px 0px 4px 5px;";
+	echo $css;
+?>
+}
+
+.Css3GradientBoxTitle<?php echo $i; ?> {
+<?php 
+	$css = "";
+	$css .= "background:-moz-linear-gradient(90deg, ".constant("DEFINE_STYLE_BCK_".$i."_HEADER")." 70%, ".constant("DEFINE_STYLE_BORDER_TABLE_".$i)." 100%);";
+	$css .= "background:-webkit-gradient(linear, left top, left bottom, from(".constant("DEFINE_STYLE_BCK_".$i."_HEADER")."), to(".constant("DEFINE_STYLE_BORDER_TABLE_".$i)."));";
+	$css .= "background-image:-webkit-gradient(linear, left bottom, left top, color-stop(0.7,".constant("DEFINE_STYLE_BCK_".$i."_HEADER")."), color-stop(1,".constant("DEFINE_STYLE_BORDER_TABLE_".$i)."));";
+	$css .= "filter: progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr=".constant("DEFINE_STYLE_BCK_".$i."_HEADER").",endColorstr=".constant("DEFINE_STYLE_BORDER_TABLE_".$i).",GradientType=0); zoom: 1;";
+	echo $css;
+?>
+}
 <?php
 			}
 		} 
@@ -70,13 +128,6 @@
 .pix3Gradient { opacity:0.7;filter:alpha(opacity=70); }
 .pix4Gradient { opacity:0.8;filter:alpha(opacity=80); }
 .pix5Gradient { opacity:0.9;filter:alpha(opacity=90); }
-
-.ombre {
-  background-color: <?php echo DEFINE_STYLE_OMBRE_COLOR; ?>;
-  padding: 0px;
-  margin-left:5px;
-  clear:left;
-}
 
 .boiteTxt {
 	padding-right:4px;

@@ -17,6 +17,7 @@ class Form extends WebSitePhpObject {
 	private $method = "POST";
 	private $action = "";
 	private $content = null;
+	private $onsubmitjs = "";
 	
 	private $register_object = array();
 	/**#@-*/
@@ -114,6 +115,11 @@ class Form extends WebSitePhpObject {
 		return $this->action;
 	}
 	
+	public function onSubmitJs($js){
+		$this->onsubmitjs = $js;
+		return $this;
+	}
+	
 	public function render($ajax_render=false) {
 		$html = "";
 		if ($this->page_object != null) {
@@ -133,6 +139,9 @@ class Form extends WebSitePhpObject {
 			}
 			$html .= "\" ";
 			$html .= "method=\"".$this->method."\" ";
+			if ($this->onsubmitjs != "") {
+				$html .= "onSubmit=\"".$this->onsubmitjs."\" ";
+			}
 			$html .= ">\n";
 			if ($this->content != null) {
 				if (gettype($this->content) == "object" && method_exists($this->content, "render")) {

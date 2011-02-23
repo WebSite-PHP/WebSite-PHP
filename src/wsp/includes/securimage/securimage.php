@@ -528,7 +528,7 @@ class Securimage {
 		$this->gd_font_size  = 24;
 		$this->text_x_start  = 15;
 
-		putenv('GDFONTPATH=' . realpath('./'));
+		@putenv('GDFONTPATH=' . realpath('./'));
 		$this->ttf_file      = 'AHGBold.ttf';
 
 		$this->perturbation       = 0.75;

@@ -1,5 +1,5 @@
 <?php
-include_once("TextBox.class.php");
+include_once(dirname(__FILE__)."/../TextBox.class.php");
 
 class ColorPicker extends TextBox {
 	const COLORPICKER_MODE_HSV = "HSV";

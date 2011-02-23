@@ -57,7 +57,13 @@ class Box extends WebSitePhpObject {
 	private $align = "center";
 	private $is_browser_ie_6 = false;
 	private $browser_ie_version = false;
+	private $browser_name = "";
+	private $css3=false;
 	private $tagH = "";
+	private $icon_16_pixels = "";
+	private $icon_16_pixels_text = "";
+	private $icon_48_pixels = "";
+	private $icon_48_pixels_text = "";
 	
 	private $move = false;
 	private $move_revert = false;
@@ -65,6 +71,7 @@ class Box extends WebSitePhpObject {
 	private $force_box_with_picture = true;
 	private $box_border_color = "";
 	private $box_gradient = false;
+	private $shadow_color = "";
 	/**#@-*/
 	
 	/**
@@ -104,6 +111,10 @@ class Box extends WebSitePhpObject {
 		$this->height = $height;
 		$this->tagH = "";
 		
+		$browser = get_browser_info(null, true);
+		$this->css3 = (($browser[cssversion] >= 3)?true:false) && (($this->browser_ie_version != false && $this->browser_ie_version <= 8)?false:true);
+		$this->browser_name = strtolower($browser[browser]);
+		
 		if (constant("DEFINE_STYLE_BCK_PICTURE_".strtoupper($this->style_header)) == "") {
 			$this->force_box_with_picture = false;
 		}
@@ -114,7 +125,26 @@ class Box extends WebSitePhpObject {
 		}
 		$this->box_gradient = constant("DEFINE_STYLE_GRADIENT_".strtoupper($this->style_header));
 		
+		if (!defined('DEFINE_STYLE_OMBRE_COLOR_'.strtoupper($this->style_header))) {
+			define("DEFINE_STYLE_OMBRE_COLOR_".strtoupper($this->style_header), DEFINE_STYLE_OMBRE_COLOR);
+		}
+		$this->shadow_color = constant("DEFINE_STYLE_OMBRE_COLOR_".strtoupper($this->style_header));
+		
 		$this->addCss(BASE_URL."wsp/css/angle.css.php", "", true);
+	}
+	
+	public function setSmallIcon($icon_16_pixels, $text='') {
+		$this->icon_16_pixels = $icon_16_pixels;
+		$this->icon_16_pixels_text = $text;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	public function setBigIcon($icon_48_pixels, $text='') {
+		$this->icon_48_pixels = $icon_48_pixels;
+		$this->icon_48_pixels_text = $text;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
 	}
 	
 	/**
@@ -248,47 +278,90 @@ class Box extends WebSitePhpObject {
 		$html .= ">\n";
 		
 		if (!$this->force_box_with_picture) {
-			if ($this->browser_ie_version != false && $this->browser_ie_version <= 7) {
-				// do nothing
-			} else {
-				$angle_class = "AngleRond".ucfirst($this->style_header);
-				$shadow_class = "";
-				$html .= "<div style=\"height:5px;";
-				if ($this->shadow) {
-					$shadow_class = "Ombre";
-					$html .= "position: relative; top: -5px;";
+			if (!$this->css3) {
+				if ($this->browser_ie_version != false && $this->browser_ie_version <= 7) {
+					// do nothing
+				} else {
+					$angle_class = "AngleRond".ucfirst($this->style_header);
+					$shadow_class = "";
+					$html .= "<div style=\"height:5px;";
+					if ($this->shadow) {
+						$shadow_class = "Ombre";
+						$html .= "position: relative; top: -5px;";
+					}
+					$html .= "\">\n";
+					$html .= "	<b class=\"".$angle_class." pix1".ucfirst($this->style_header).$shadow_class.($this->box_gradient?" pix1Gradient":"")."\"></b>\n";
+					$html .= "	<b class=\"".$angle_class." pix2".$shadow_class.($this->box_gradient?" pix2Gradient":"")."\"></b>\n";
+					$html .= "	<b class=\"".$angle_class." pix3".$shadow_class.($this->box_gradient?" pix3Gradient":"")."\"></b>\n";
+					$html .= "	<b class=\"".$angle_class." pix4".$shadow_class.($this->box_gradient?" pix4Gradient":"")."\"></b>\n";
+					$html .= "	<b class=\"".$angle_class." pix5".$shadow_class.($this->box_gradient?" pix5Gradient":"")."\"></b>\n";
+					$html .= "</div>\n";
 				}
-				$html .= "\">\n";
-				$html .= "	<b class=\"".$angle_class." pix1".ucfirst($this->style_header).$shadow_class.($this->box_gradient?" pix1Gradient":"")."\"></b>\n";
-				$html .= "	<b class=\"".$angle_class." pix2".$shadow_class.($this->box_gradient?" pix2Gradient":"")."\"></b>\n";
-				$html .= "	<b class=\"".$angle_class." pix3".$shadow_class.($this->box_gradient?" pix3Gradient":"")."\"></b>\n";
-				$html .= "	<b class=\"".$angle_class." pix4".$shadow_class.($this->box_gradient?" pix4Gradient":"")."\"></b>\n";
-				$html .= "	<b class=\"".$angle_class." pix5".$shadow_class.($this->box_gradient?" pix5Gradient":"")."\"></b>\n";
-				$html .= "</div>\n";
+				
+				if ($this->shadow) {
+					$html .= "	<div class=\"ombre".ucfirst($this->style_header)."\">\n";
+				}
+				$html .= "		<div";
+				if ($this->shadow) {
+					$html .= " class=\"boiteTxt\"";
+				}
+				$html .= " >\n";
 			}
-			
-			if ($this->shadow) {
-				$html .= "	<div class=\"ombre\">\n";
+			$html .= "			<table class=\"table_".$this->style_header."_angle";
+			if ($this->css3) {
+				$html .= " Css3RadiusBox".$this->style_header;
+				if ($this->shadow) {
+					$html .= " Css3ShadowBox".$this->style_header;
+				}
 			}
-			$html .= "		<div";
-			if ($this->shadow) {
-				$html .= " class=\"boiteTxt\"";
-			}
-			$html .= " >\n";
-			$html .= "			<table class=\"table_".$this->style_header."_angle\" cellpadding=\"0\" cellspacing=\"0\"";
+			$html .= "\" cellpadding=\"0\" cellspacing=\"0\"";
 			if ($this->height != "") {
 				$html .= " height=\"".$this->height."\"";
 			}
 			$html .= " style=\"table-layout:fixed;overflow:hidden;".(($this->browser_ie_version != false && $this->browser_ie_version <= 7) ? "border-top:1px solid ".$this->box_border_color.";":"")."\">\n";
 			$html .= "				<tr>\n";
-			$html .= "					<td class=\"header_".$this->style_header."_bckg\" style=\"padding: ".($this->browser_ie_version!=false?($this->browser_ie_version!=false&&$this->browser_ie_version<=7?4:0):2)."px 0px 4px 5px;\">";
+			$html .= "					<td class=\"header_".$this->style_header."_bckg header_".$this->style_header."_bckg_a";
+			if ($this->css3) {
+				$html .= " Css3RadiusBoxTitle".$this->style_header;
+				if ($this->box_gradient) {
+					$html .= " Css3GradientBoxTitle".$this->style_header;
+				}
+			}
+			$html .= "\"";
+			if (!$this->css3) {
+				$html .= " style=\"padding: ".($this->browser_ie_version!=false?($this->browser_ie_version!=false&&$this->browser_ie_version<=7?4:0):2)."px 0px 4px 5px;";
+			}
+			$html .= "\">";
+			if ($this->icon_48_pixels != ""){
+				$html .= "<img src=\"".$this->icon_48_pixels."\" height=\"48\" width=\"48\" style=\"position:absolute;";
+				if ($this->css3 || $this->browser_ie_version != false && $this->browser_ie_version <= 7) {
+					if ($this->browser_name == "firefox") {
+						$html .= "margin-top:-16px;margin-left:-50px;";
+					} else {
+						$html .= "margin-top:-16px;margin-left:-5px;";
+					}
+				} else {
+					$html .= "top:-14px;left:0px;";
+				}
+				$html .= "\"";
+				if ($this->icon_48_pixels_text != ""){
+					$html .= " title=\"".str_replace("\"", " ", $this->icon_48_pixels_text)."\" alt=\"".str_replace("\"", " ", $this->icon_48_pixels_text)."\"";
+				}
+				$html .= "><span style=\"width:44px;display:block;float:left;height:1px;\"><!-- --></span>";
+			}
+			if ($this->icon_16_pixels != ""){
+				$html .= "<img src=\"".$this->icon_16_pixels."\" height=\"16\" width=\"16\" style=\"vertical-align: middle;\"";
+				if ($this->icon_16_pixels_text != ""){
+					$html .= " title=\"".str_replace("\"", " ", $this->icon_16_pixels_text)."\" alt=\"".str_replace("\"", " ", $this->icon_16_pixels_text)."\"";
+				}
+				$html .= "> ";
+			}
 			if ($this->tagH != "") {
-				$html .= "<".$this->tagH.">";
+				$html .= "<".$this->tagH." style=\"font-weight:bold;\">";
 			}
 			if ($this->link != "") {
 				$html .= "<a href=\"".$this->link."\">";
 			}
-			$html .= "<b>";
 			if (gettype($this->title) != "object") {
 				$html .= $this->title;
 			} else if (gettype($this->title) == "object" && method_exists($this->title, "render")) {
@@ -296,7 +369,6 @@ class Box extends WebSitePhpObject {
 			} else {
 				$html .= $this->title;
 			}
-			$html .= "</b>";
 			if ($this->link != "") {
 				$html .= "</a>";
 			}
@@ -325,10 +397,12 @@ class Box extends WebSitePhpObject {
 			$html .= "					</td>\n";
 			$html .= "				</tr>\n";
 			$html .= "			</table>\n";
-			$html .= "		</div>\n";
 			
-			if ($this->shadow) {
-				$html .= "	</div>\n";
+			if (!$this->css3) {
+				$html .= "		</div>\n";
+				if ($this->shadow) {
+					$html .= "	</div>\n";
+				}
 			}
 		} else {
 			$html .= "		<div id=\"left".ucfirst($this->style_header)."\">\n";
@@ -341,14 +415,27 @@ class Box extends WebSitePhpObject {
 			$html .= "					<div style=\"height:30px;\"></div>\n";
 			$html .= "				</div>\n";
 			
-			$html .= "				<div class=\"header_".$this->style_header."_bckg\" style=\"background:none;padding-bottom:3px;position:relative;top:-20px;height:0px;\">";
+			$html .= "				<div class=\"header_".$this->style_header."_bckg header_".$this->style_header."_bckg_a\" style=\"background:none;padding-bottom:3px;position:relative;top:-20px;height:0px;\">";
+			if ($this->icon_48_pixels != ""){
+				$html .= "<img src=\"".$this->icon_48_pixels."\" height=\"48\" width=\"48\" style=\"position:absolute;top:-16px;left:-6px;\"";
+				if ($this->icon_48_pixels_text != ""){
+					$html .= " title=\"".str_replace("\"", " ", $this->icon_48_pixels_text)."\" alt=\"".str_replace("\"", " ", $this->icon_48_pixels_text)."\"";
+				}
+				$html .= "><span style=\"width:38px;display:block;float:left;height:1px;\">&nbsp;</span>";
+			}
+			if ($this->icon_16_pixels != ""){
+				$html .= "<img src=\"".$this->icon_16_pixels."\" height=\"16\" width=\"16\" style=\"vertical-align: middle;\"";
+				if ($this->icon_16_pixels_text != ""){
+					$html .= " title=\"".str_replace("\"", " ", $this->icon_16_pixels_text)."\" alt=\"".str_replace("\"", " ", $this->icon_16_pixels_text)."\"";
+				}
+				$html .= "> ";
+			}
 			if ($this->tagH != "") {
-				$html .= "<".$this->tagH.">";
+				$html .= "<".$this->tagH." style=\"font-weight:bold;\">";
 			}
 			if ($this->link != "") {
 				$html .= "<a href=\"".$this->link."\">";
 			}
-			$html .= "<b>";
 			if (gettype($this->title) != "object") {
 				$html .= $this->title;
 			} else if (gettype($this->title) == "object" && method_exists($this->title, "render")) {
@@ -356,7 +443,6 @@ class Box extends WebSitePhpObject {
 			} else {
 				$html .= $this->title;
 			}
-			$html .= "</b>";
 			if ($this->link != "") {
 				$html .= "</a>";
 			}
@@ -365,7 +451,7 @@ class Box extends WebSitePhpObject {
 			}
 			$html .= "				</div>\n";
 			
-			$html .= "				<div style=\"margin-left:".(($this->browser_ie_version!=false && $this->browser_ie_version > 7) ? -9 : -7)."px;\">\n";
+			$html .= "				<div style=\"clear:both;margin-left:".(($this->browser_ie_version!=false && $this->browser_ie_version > 7) ? -9 : -7)."px;\">\n";
 			$html .= "				<div id=\"wsp_box_content_".$this->id."\" class=\"table_".$this->style_content."_bckg\" style=\"padding-left:0px;border:1px solid ".$this->box_border_color.";";
 			$html .= "display:table-cell;";
 			if (is_integer($this->width)) {

@@ -345,7 +345,7 @@
 				if ($tmp_link->getTarget() != "") {
 					$html .= "\" target=\"".$tmp_link->getTarget()."";
 				}
-			} else if (strtoupper(substr($str_or_object_link, 0, 11)) == "JAVASCRIPT:") {
+			} else if (gettype($str_or_object_link) != "object" && strtoupper(substr($str_or_object_link, 0, 11)) == "JAVASCRIPT:") {
 				$html .= "javascript:void(0);\" onClick=\"".$str_or_object_link;
 			} else {
 				if (get_class($str_or_object_link) == "Link") {
@@ -401,6 +401,17 @@
 	        $retval[] = implode($delimiter, $hold);
 	    }
 	    return $retval;
+	}
+	
+	function get_browser_info($user_agent=null,$return_array=false) {
+		$browser = array();
+		if (get_cfg_var('browscap')) {
+			$browser=get_browser($user_agent,$return_array); //If available, use PHP native function
+		} else {
+			require_once('browscap/php-local-browscap.php');
+			$browser=get_browser_local($user_agent,$return_array,'php_browscap.ini',true);
+		}
+		return $browser;
 	}
 	
 	include("utils2.inc.php");

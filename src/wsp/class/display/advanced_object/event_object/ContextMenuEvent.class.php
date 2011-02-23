@@ -6,6 +6,7 @@ class ContextMenuEvent extends WebSitePhpEventObject {
 	private $onclick = "";
 	private $callback_onclick = "";
 	private $is_clicked = false;
+	private $is_render = false;
 	/**#@-*/
 	
 	function __construct($page_or_form_object, $name='') {
@@ -68,27 +69,31 @@ class ContextMenuEvent extends WebSitePhpEventObject {
 	}
 	
 	public function render($ajax_render=false) {
-		$this->automaticAjaxEvent();
-		
-		$event_obj = new Object();
 		$html = "";
-		if ($this->callback_onclick != "") {
-			$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
-		}
 		
-		$html .= $this->getJavascriptTagOpen();
-		if ($this->is_ajax_event) {
-			$html .= $this->getAjaxEventFunctionRender();
+		if (!$this->is_render) {
+			$this->automaticAjaxEvent();
+			
+			$event_obj = new Object();
+			if ($this->callback_onclick != "") {
+				$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
+			}
+			
+			$html .= $this->getJavascriptTagOpen();
+			if ($this->is_ajax_event) {
+				$html .= $this->getAjaxEventFunctionRender();
+			}
+			
+			if ($this->onclick != "" || $this->callback_onclick != "") {
+				$html .= "	function onClickContextMenu_".$this->getEventObjectName()."(selected_object_id) {\n";
+				$html .= $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick, "' + selected_object_id + '");
+				$html .= "	}\n";
+			}
+			$html .= $this->getJavascriptTagClose();
+			
+			$this->is_render = true;
+			$this->object_change = false;
 		}
-		
-		if ($this->onclick != "" || $this->callback_onclick != "") {
-			$html .= "	function onClickContextMenu_".$this->getEventObjectName()."(selected_object_id) {\n";
-			$html .= $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick, "' + selected_object_id + '");
-			$html .= "	}\n";
-		}
-		$html .= $this->getJavascriptTagClose();
-		
-		$this->object_change = false;
 		return $html;
 	}
 }

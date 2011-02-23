@@ -34,7 +34,6 @@ class Connect extends Page {
 		
 		$form = new Form($this);
 		$con_table = new Table();
-		$con_table->setClass(Table::STYLE_SECOND_ROUNDBOX);
 		
 		$this->error_obj = new Object();
 		$this->error_obj->setId("idErrorMsg");
