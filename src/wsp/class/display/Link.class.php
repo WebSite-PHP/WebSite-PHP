@@ -13,6 +13,7 @@ class Link extends WebSitePhpObject {
 	private $target = "";
 	private $content = null;
 	private $tagH = "";
+	private $tagH_bold = false;
 	
 	private $is_lightbox = false;
 	private $lightbox_name = "";
@@ -37,20 +38,23 @@ class Link extends WebSitePhpObject {
 		return $this;
 	}
 	
-	public function setTitleTagH1() {
+	public function setTitleTagH1($bold=true) {
 		$this->tagH = "h1";
+		$this->tagH_bold = $bold;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
-	public function setTitleTagH2() {
+	public function setTitleTagH2($bold=false) {
 		$this->tagH = "h2";
+		$this->tagH_bold = $bold;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
-	public function setTitleTagH($value) {
+	public function setTitleTagH($value, $bold=false) {
 		$this->tagH = "h".$value;
+		$this->tagH_bold = $bold;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -161,6 +165,13 @@ class Link extends WebSitePhpObject {
 				$html .= $this->lightbox_name;
 			}
 			$html .= "\"";
+		}
+		if ($this->tagH != "") {
+			if ($this->tagH == "h1" && !$this->tagH_bold) {
+				$html .= " style=\"font-weight:normal;\"";
+			} else if ($this->tagH != "h1" && $this->tagH_bold) {
+				$html .= " style=\"font-weight:bold;\"";
+			}
 		}
 		$html .= ">";
 		if (gettype($this->content) == "object" && method_exists($this->content, "render")) {

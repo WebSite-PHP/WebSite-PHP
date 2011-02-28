@@ -28,6 +28,11 @@ class LanguageBox extends WebSitePhpObject {
 	private $style_content = "1";
 	private $shadow = false;
 	private $width = "";
+	
+	private $icon_16_pixels = "";
+	private $icon_16_pixels_text = "";
+	private $icon_48_pixels = "";
+	private $icon_48_pixels_text = "";
 	/**#@-*/
 	
 	/**
@@ -43,6 +48,20 @@ class LanguageBox extends WebSitePhpObject {
 		$this->shadow = $shadow;
 		$this->style_header = $style_header;
 		$this->style_content = $style_content;
+	}
+	
+	public function setSmallIcon($icon_16_pixels, $text='') {
+		$this->icon_16_pixels = $icon_16_pixels;
+		$this->icon_16_pixels_text = $text;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	public function setBigIcon($icon_48_pixels, $text='') {
+		$this->icon_48_pixels = $icon_48_pixels;
+		$this->icon_48_pixels_text = $text;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
 	}
 	
 	/**
@@ -67,13 +86,22 @@ class LanguageBox extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		$lang_box = new Box(translate(BOX_LANGUAGE_TITLE), $this->shadow, $this->style_header, $this->style_content, "", "select_language_box");
+		if ($this->icon_48_pixels != "") {
+			$lang_box->setBigIcon($this->icon_48_pixels, $this->icon_48_pixels_text);
+		} else if ($this->icon_16_pixels != "") {
+			$lang_box->setSmallIcon($this->icon_16_pixels, $this->icon_16_pixels_text);
+		}
 		if ($this->width != "") {
 			$lang_box->setWidth($this->width);
 		}
 		$lang_obj = new Object();
+		if ($this->icon_48_pixels != "") {
+			$lang_obj->add("<br/>");
+		}
 		for ($i=0; $i < sizeof($this->languages); $i++) {
 			$lang_obj->add(new Language($this->languages[$i]));
 		}
+		$lang_obj->add("<br/>");
 		$lang_box->setContent($lang_obj);
 		$this->object_change = false;
 		return $lang_box->render();

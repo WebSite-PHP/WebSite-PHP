@@ -334,20 +334,20 @@ class Box extends WebSitePhpObject {
 			$html .= "\">";
 			if ($this->icon_48_pixels != ""){
 				$html .= "<img src=\"".$this->icon_48_pixels."\" height=\"48\" width=\"48\" style=\"position:absolute;";
-				if ($this->css3 || $this->browser_ie_version != false && $this->browser_ie_version <= 7) {
-					if ($this->browser_name == "firefox") {
-						$html .= "margin-top:-16px;margin-left:-50px;";
+				if ($this->css3 || ($this->browser_ie_version != false && $this->browser_ie_version <= 7)) {
+					if ($this->browser_name == "firefox" || ($this->browser_ie_version != false && $this->browser_ie_version <= 7)) {
+						$html .= "margin-top:-16px;margin-left:-48px;";
 					} else {
-						$html .= "margin-top:-16px;margin-left:-5px;";
+						$html .= "margin-top:-16px;margin-left:-3px;";
 					}
 				} else {
-					$html .= "top:-14px;left:0px;";
+					$html .= "top:-14px;left:2px;";
 				}
 				$html .= "\"";
 				if ($this->icon_48_pixels_text != ""){
 					$html .= " title=\"".str_replace("\"", " ", $this->icon_48_pixels_text)."\" alt=\"".str_replace("\"", " ", $this->icon_48_pixels_text)."\"";
 				}
-				$html .= "><span style=\"width:44px;display:block;float:left;height:1px;\"><!-- --></span>";
+				$html .= "><span style=\"width:46px;display:block;float:left;height:1px;\"><!-- --></span>";
 			}
 			if ($this->icon_16_pixels != ""){
 				$html .= "<img src=\"".$this->icon_16_pixels."\" height=\"16\" width=\"16\" style=\"vertical-align: middle;\"";
@@ -417,11 +417,11 @@ class Box extends WebSitePhpObject {
 			
 			$html .= "				<div class=\"header_".$this->style_header."_bckg header_".$this->style_header."_bckg_a\" style=\"background:none;padding-bottom:3px;position:relative;top:-20px;height:0px;\">";
 			if ($this->icon_48_pixels != ""){
-				$html .= "<img src=\"".$this->icon_48_pixels."\" height=\"48\" width=\"48\" style=\"position:absolute;top:-16px;left:-6px;\"";
+				$html .= "<img src=\"".$this->icon_48_pixels."\" height=\"48\" width=\"48\" style=\"position:absolute;top:-16px;left:-4px;\"";
 				if ($this->icon_48_pixels_text != ""){
 					$html .= " title=\"".str_replace("\"", " ", $this->icon_48_pixels_text)."\" alt=\"".str_replace("\"", " ", $this->icon_48_pixels_text)."\"";
 				}
-				$html .= "><span style=\"width:38px;display:block;float:left;height:1px;\">&nbsp;</span>";
+				$html .= "><span style=\"width:40px;display:block;float:left;height:1px;\">&nbsp;</span>";
 			}
 			if ($this->icon_16_pixels != ""){
 				$html .= "<img src=\"".$this->icon_16_pixels."\" height=\"16\" width=\"16\" style=\"vertical-align: middle;\"";

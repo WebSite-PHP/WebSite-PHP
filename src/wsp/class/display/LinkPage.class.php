@@ -8,6 +8,7 @@ class LinkPage extends WebSitePhpObject {
 	private $object = null;
 	private $get = "";
 	private $tagH = "";
+	private $tagH_bold = false;
 	/**#@-*/
 	
 	function __construct($page, $title_object, $picture_16='') {
@@ -29,20 +30,23 @@ class LinkPage extends WebSitePhpObject {
 		return $this;
 	}
 	
-	public function setTitleTagH1() {
+	public function setTitleTagH1($bold=true) {
 		$this->tagH = "1";
+		$this->tagH_bold = $bold;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
-	public function setTitleTagH2() {
+	public function setTitleTagH2($bold=false) {
 		$this->tagH = "2";
+		$this->tagH_bold = $bold;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
-	public function setTitleTagH($value) {
+	public function setTitleTagH($value, $bold=false) {
 		$this->tagH = $value;
+		$this->tagH_bold = $bold;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -71,7 +75,7 @@ class LinkPage extends WebSitePhpObject {
 		}
 		$html = new Link($link_url, Link::TARGET_NONE, $link_obj);
 		if ($this->tagH != "") {
-			$html->setTitleTagH($this->tagH);
+			$html->setTitleTagH($this->tagH, $this->tagH_bold);
 		}
 		$this->object_change = false;
 		return $html->render();

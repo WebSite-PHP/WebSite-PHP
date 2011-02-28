@@ -1,10 +1,16 @@
 <?php
 class Picture extends WebSitePhpObject {
+	/**#@+
+	* Align
+	* @access public
+	* @var string
+	*/
 	const ALIGN_LEFT = "left";
 	const ALIGN_MIDDLE = "middle";
 	const ALIGN_ABSMIDDLE = "absmiddle";
 	const ALIGN_RIGHT = "right";
 	const ALIGN_CENTER = "center";
+	/**#@-*/
 	
 	private static $array_lightbox = array();
 	
