@@ -1,4 +1,24 @@
 <?php
+/**
+ * Description of PHP file wsp\includes\utils_image.inc.php
+ * WebSite-PHP file utils_image.inc.php
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2011 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 03/10/2010
+ *
+ * @version     1.0.30
+ * @access      public
+ * @since       1.0.19
+ */
+
 	function gif2jpeg($p_fl, $p_new_fl='', $bgcolor=false) {
 	  list($wd, $ht, $tp, $at)=getimagesize($p_fl);
 	  $img_src=imagecreatefromgif($p_fl);
@@ -60,7 +80,7 @@
 	function reduction($InFile, $OutFile, $Width) {
 		$dim=getimagesize($InFile);
 		$image = ImageCreateFromJPEG($InFile);
-		$pixmaxi=$Width; //on fixe ici la taille maximum souhaitée.
+		$pixmaxi=$Width; //on fixe ici la taille maximum souhaitï¿½e.
 	
 		$haut=$dim[1];
 		$larg=$dim[0];
@@ -82,7 +102,7 @@
 	function reductionHeight($InFile, $OutFile, $Height) {
 		$dim=getimagesize($InFile);
 		$image = ImageCreateFromJPEG($InFile);
-		$pixmaxi=$Height; //on fixe ici la taille maximum souhaitée.
+		$pixmaxi=$Height; //on fixe ici la taille maximum souhaitï¿½e.
 	
 		$haut=$dim[1];
 		$larg=$dim[0];

@@ -1,4 +1,24 @@
 <?php
+/**
+ * Description of PHP file index.php
+ * Entry point of all HTML pages
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2011 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 03/10/2010
+ *
+ * @version     1.0.30
+ * @access      public
+ * @since       1.0.18
+ */
+
 	error_reporting(E_ALL);
 	
 	include_once("wsp/config/config.inc.php");
@@ -231,7 +251,7 @@
 		
 		<script type="text/javascript">
 			function windowHeaderTitle() {
-				document.title = '<?php echo addslashes(html_entity_decode($current_page_title)); ?>';
+				document.title = '<?php echo addslashes(str_replace("\n", "", str_replace("\r", "", str_replace("\t", "", html_entity_decode($current_page_title))))); ?>';
 			}
 		 	StkFunc(windowHeaderTitle);
 			StkFunc(SaveDocumentSize);StkFuncOR(SaveDocumentSize);

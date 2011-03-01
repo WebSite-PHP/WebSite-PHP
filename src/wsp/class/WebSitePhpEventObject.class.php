@@ -1,4 +1,24 @@
 <?php
+/**
+ * Description of PHP file wsp\class\WebSitePhpEventObject.class.php
+ * Class WebSitePhpEventObject
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2011 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 03/10/2010
+ *
+ * @version     1.0.30
+ * @access      public
+ * @since       1.0.18
+ */
+
 include_once("WebSitePhpObject.class.php");
 
 class WebSitePhpEventObject extends WebSitePhpObject {
@@ -241,22 +261,13 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 			$html .= $tmp_url;
 		} else {
 			if ($this->form_object->getAction() == "") {
+				$html .= $this->form_object->getPageObject()->getPage().".html";
 				if (PARAMS_URL != "") {
-					$params_url = PARAMS_URL;
-					$pos = find($params_url, $this->form_object->getPageObject()->getPage().".", 0, 0);
+					$pos = find(PARAMS_URL, "?", 0, $pos);
 					if ($pos > 0) {
-						$pos2 = find($params_url, "?", 0, $pos);
-						if ($pos2 == 0) {
-							$pos2 = strlen($params_url);
-						} else {
-							$pos2 = $pos2 - 1;
-						}
-						$pos = $pos - strlen($this->form_object->getPageObject()->getPage().".");
-						$params_url = str_replace(substr($params_url, $pos, $pos2-$pos), $this->form_object->getPageObject()->getPage().".html", $params_url);
+						$pos2 = strlen(PARAMS_URL);
+						$html .= "?".substr(PARAMS_URL, $pos, $pos2-$pos);
 					}
-					$html .= $params_url;
-				} else {
-					$html .= $this->form_object->getPageObject()->getPage().".html";
 				}
 			} else {
 				$html .= $this->form_object->getAction();

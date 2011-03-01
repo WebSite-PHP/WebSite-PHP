@@ -1,29 +1,49 @@
 <?php
+/**
+ * Description of PHP file wsp\includes\utils_session.inc.php
+ * WebSite-PHP file utils_session.inc.php
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2011 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 03/10/2010
+ *
+ * @version     1.0.30
+ * @access      public
+ * @since       1.0.19
+ */
+
 	function formalize_to_variable($txt) {
-		 $txt = str_replace("Î", "i", $txt);
-		 $txt = str_replace("ï", "i", $txt);
-		 $txt = str_replace("î", "i", $txt);
-		 $txt = str_replace("Â", "n", $txt);
-		 $txt = str_replace("ä", "a", $txt);
-		 $txt = str_replace("â", "a", $txt);
-		 $txt = str_replace("à", "a", $txt);
-		 $txt = str_replace("á", "a", $txt);
-		 $txt = str_replace("ë", "e", $txt);
-		 $txt = str_replace("ê", "e", $txt);
-		 $txt = str_replace("è", "e", $txt);
-		 $txt = str_replace("é", "e", $txt);
+		 $txt = str_replace("ï¿½", "i", $txt);
+		 $txt = str_replace("ï¿½", "i", $txt);
+		 $txt = str_replace("ï¿½", "i", $txt);
+		 $txt = str_replace("ï¿½", "n", $txt);
+		 $txt = str_replace("ï¿½", "a", $txt);
+		 $txt = str_replace("ï¿½", "a", $txt);
+		 $txt = str_replace("ï¿½", "a", $txt);
+		 $txt = str_replace("ï¿½", "a", $txt);
+		 $txt = str_replace("ï¿½", "e", $txt);
+		 $txt = str_replace("ï¿½", "e", $txt);
+		 $txt = str_replace("ï¿½", "e", $txt);
+		 $txt = str_replace("ï¿½", "e", $txt);
 		 $txt = str_replace(")", "", $txt);
 		 $txt = str_replace("(", "", $txt);
 		 $txt = str_replace("]", "", $txt);
 		 $txt = str_replace("[", "", $txt);
 		 $txt = str_replace("-", "", $txt);
-		 $txt = str_replace("ß", "s", $txt);
-		 $txt = str_replace("ñ", "n", $txt);
-		 $txt = str_replace("ô", "o", $txt);
-		 $txt = str_replace("ç", "c", $txt);
-		 $txt = str_replace("ù", "u", $txt);
-		 $txt = str_replace("ü", "u", $txt);
-		 $txt = str_replace("û", "u", $txt);
+		 $txt = str_replace("ï¿½", "s", $txt);
+		 $txt = str_replace("ï¿½", "n", $txt);
+		 $txt = str_replace("ï¿½", "o", $txt);
+		 $txt = str_replace("ï¿½", "c", $txt);
+		 $txt = str_replace("ï¿½", "u", $txt);
+		 $txt = str_replace("ï¿½", "u", $txt);
+		 $txt = str_replace("ï¿½", "u", $txt);
 		 $txt = str_replace("$", "", $txt);
 		 $txt = str_replace("@", "", $txt);
 		 $txt = str_replace("#", "", $txt);
@@ -40,7 +60,7 @@
 		 $txt = str_replace("'", "", $txt);
 		 $txt = str_replace("\\", "", $txt);
 		 $txt = str_replace(" ", "_", $txt);
-		 $txt = str_replace("²", "2", $txt);
+		 $txt = str_replace("ï¿½", "2", $txt);
 		 $txt = str_replace("%", "", $txt);
 		 $txt = str_replace("&", "", $txt);
 		

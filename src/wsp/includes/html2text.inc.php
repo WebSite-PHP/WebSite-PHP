@@ -1,4 +1,24 @@
 <?php
+/**
+ * Description of PHP file wsp\includes\html2text.inc.php
+ * WebSite-PHP file html2text.inc.php
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2011 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 03/10/2010
+ *
+ * @version     1.0.30
+ * @access      public
+ * @since       1.0.19
+ */
+
 
 /*************************************************************************
  *                                                                       *
@@ -232,8 +252,8 @@ class html2text
         '--',
         '-',
         '*',
-        '£',
-        'EUR',                                  // Euro sign. € ?
+        'ï¿½',
+        'EUR',                                  // Euro sign. ï¿½ ?
         '',                                     // Unknown/unhandled entities
         ' '                                     // Runs of spaces, post-handling
     );

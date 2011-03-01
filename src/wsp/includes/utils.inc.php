@@ -1,4 +1,24 @@
 <?php
+/**
+ * Description of PHP file wsp\includes\utils.inc.php
+ * WebSite-PHP file utils.inc.php
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2011 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 03/10/2010
+ *
+ * @version     1.0.30
+ * @access      public
+ * @since       1.0.19
+ */
+
 	function __() {
 		$args = func_get_args();
 		return translate($args);
@@ -32,22 +52,22 @@
 	}
 	
 	$html_convert_table = array (
-	    "&" => "&amp;", "¡" => "&iexcl;", "¢" => "&cent;", "£" => "&pound;", "¤" => "&curren;", "¥" => "&yen;",
-	    "¦" => "&brvbar;", "§" => "&sect;", "¨" => "&uml;", "©" => "&copy;", "ª" => "&ordf;", "«" => "&laquo;",
-	    "¬" => "&not;", "­" => "&shy;", "®" => "&reg;", "¯" => "&macr;", "°" => "&deg;", "±" => "&plusmn;",
-	    "²" => "&sup2;", "³" => "&sup3;", "´" => "&acute;", "µ" => "&micro;", "¶" => "&para;", "·" => "&middot;",
-	    "¸" => "&cedil;", "¹" => "&sup1;", "º" => "&ordm;", "»" => "&raquo;", "¼" => "&frac14;", "½" => "&frac12;",
-	    "¾" => "&frac34;", "¿" => "&iquest;", "À" => "&Agrave;", "Á" => "&Aacute;", "Â" => "&Acirc;", "Ã" => "&Atilde;",
-	    "Ä" => "&Auml;", "Å" => "&Aring;", "Æ" => "&AElig;", "Ç" => "&Ccedil;", "È" => "&Egrave;", "É" => "&Eacute;",
-	    "Ê" => "&Ecirc;", "Ë" => "&Euml;", "Ì" => "&Igrave;", "Í" => "&Iacute;", "Î" => "&Icirc;", "Ï" => "&Iuml;",
-	    "Ð" => "&ETH;", "Ñ" => "&Ntilde;", "Ò" => "&Ograve;", "Ó" => "&Oacute;", "Ô" => "&Ocirc;", "Õ" => "&Otilde;",
-	    "Ö" => "&Ouml;", "×" => "&times;", "Ø" => "&Oslash;", "Ù" => "&Ugrave;", "Ú" => "&Uacute;", "Û" => "&Ucirc;",
-	    "Ü" => "&Uuml;", "Ý" => "&Yacute;", "Þ" => "&THORN;", "ß" => "&szlig;", "à" => "&agrave;", "á" => "&aacute;",
-	    "â" => "&acirc;", "ã" => "&atilde;", "ä" => "&auml;", "å" => "&aring;", "æ" => "&aelig;", "ç" => "&ccedil;",
-	    "è" => "&egrave;", "é" => "&eacute;", "ê" => "&ecirc;", "ë" => "&euml;", "ì" => "&igrave;", "í" => "&iacute;",
-	    "î" => "&icirc;", "ï" => "&iuml;", "ð" => "&eth;", "ñ" => "&ntilde;", "ò" => "&ograve;", "ó" => "&oacute;",
-	    "ô" => "&ocirc;", "õ" => "&otilde;", "ö" => "&ouml;", "÷" => "&divide;", "ø" => "&oslash;", "ù" => "&ugrave;",
-	    "ú" => "&uacute;", "û" => "&ucirc;", "ü" => "&uuml;", "ý" => "&yacute;", "þ" => "&thorn;", "ÿ" => "&yuml;",
+	    "&" => "&amp;", "ï¿½" => "&iexcl;", "ï¿½" => "&cent;", "ï¿½" => "&pound;", "ï¿½" => "&curren;", "ï¿½" => "&yen;",
+	    "ï¿½" => "&brvbar;", "ï¿½" => "&sect;", "ï¿½" => "&uml;", "ï¿½" => "&copy;", "ï¿½" => "&ordf;", "ï¿½" => "&laquo;",
+	    "ï¿½" => "&not;", "ï¿½" => "&shy;", "ï¿½" => "&reg;", "ï¿½" => "&macr;", "ï¿½" => "&deg;", "ï¿½" => "&plusmn;",
+	    "ï¿½" => "&sup2;", "ï¿½" => "&sup3;", "ï¿½" => "&acute;", "ï¿½" => "&micro;", "ï¿½" => "&para;", "ï¿½" => "&middot;",
+	    "ï¿½" => "&cedil;", "ï¿½" => "&sup1;", "ï¿½" => "&ordm;", "ï¿½" => "&raquo;", "ï¿½" => "&frac14;", "ï¿½" => "&frac12;",
+	    "ï¿½" => "&frac34;", "ï¿½" => "&iquest;", "ï¿½" => "&Agrave;", "ï¿½" => "&Aacute;", "ï¿½" => "&Acirc;", "ï¿½" => "&Atilde;",
+	    "ï¿½" => "&Auml;", "ï¿½" => "&Aring;", "ï¿½" => "&AElig;", "ï¿½" => "&Ccedil;", "ï¿½" => "&Egrave;", "ï¿½" => "&Eacute;",
+	    "ï¿½" => "&Ecirc;", "ï¿½" => "&Euml;", "ï¿½" => "&Igrave;", "ï¿½" => "&Iacute;", "ï¿½" => "&Icirc;", "ï¿½" => "&Iuml;",
+	    "ï¿½" => "&ETH;", "ï¿½" => "&Ntilde;", "ï¿½" => "&Ograve;", "ï¿½" => "&Oacute;", "ï¿½" => "&Ocirc;", "ï¿½" => "&Otilde;",
+	    "ï¿½" => "&Ouml;", "ï¿½" => "&times;", "ï¿½" => "&Oslash;", "ï¿½" => "&Ugrave;", "ï¿½" => "&Uacute;", "ï¿½" => "&Ucirc;",
+	    "ï¿½" => "&Uuml;", "ï¿½" => "&Yacute;", "ï¿½" => "&THORN;", "ï¿½" => "&szlig;", "ï¿½" => "&agrave;", "ï¿½" => "&aacute;",
+	    "ï¿½" => "&acirc;", "ï¿½" => "&atilde;", "ï¿½" => "&auml;", "ï¿½" => "&aring;", "ï¿½" => "&aelig;", "ï¿½" => "&ccedil;",
+	    "ï¿½" => "&egrave;", "ï¿½" => "&eacute;", "ï¿½" => "&ecirc;", "ï¿½" => "&euml;", "ï¿½" => "&igrave;", "ï¿½" => "&iacute;",
+	    "ï¿½" => "&icirc;", "ï¿½" => "&iuml;", "ï¿½" => "&eth;", "ï¿½" => "&ntilde;", "ï¿½" => "&ograve;", "ï¿½" => "&oacute;",
+	    "ï¿½" => "&ocirc;", "ï¿½" => "&otilde;", "ï¿½" => "&ouml;", "ï¿½" => "&divide;", "ï¿½" => "&oslash;", "ï¿½" => "&ugrave;",
+	    "ï¿½" => "&uacute;", "ï¿½" => "&ucirc;", "ï¿½" => "&uuml;", "ï¿½" => "&yacute;", "ï¿½" => "&thorn;", "ï¿½" => "&yuml;",
 	    "\"" => "&quot;", "<" => "&lt;", ">" => "&gt;"
 	);
 	function html_convert($text) { 
@@ -101,14 +121,14 @@
 	  if ($minus==1) {
 	    $str=strtolower($str);
 	    $find=strtolower($find);
-	  }     //Si $minus=1, ne différencie pas les majuscules des minuscules
+	  }     //Si $minus=1, ne diffï¿½rencie pas les majuscules des minuscules
 	  for ($l=$pos_dep;$l<strlen($str);$l++) {  //Faire une boucle du debut jusqu'a la fin de str
-	    if (substr($str,$l,strlen($find))==$find){    //Si $trouve est trouvé dans $str
+	    if (substr($str,$l,strlen($find))==$find){    //Si $trouve est trouvï¿½ dans $str
 	      $pos = $l+strlen($find);
 	      return $pos;     //on retourne la position
 	    }
 	  }
-	  return 0;   //Sinon, retourner 0 pour dire que c'est pas trouvé
+	  return 0;   //Sinon, retourner 0 pour dire que c'est pas trouvï¿½
 	}
 	
 	function is_browser_ie() {
