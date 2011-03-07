@@ -14,10 +14,17 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
- * @since       1.0.12
+ * @since       1.0.36
  */
+
+	/**
+	 * Method add
+	 * @access public static
+	 * @param mixed $key 
+	 * @param mixed $string_or_object 
+	 */
 
 class ContextSession {
 	
@@ -32,6 +39,13 @@ class ContextSession {
 		}
 	}
 	
+	/**
+	 * Method get
+	 * @access public static
+	 * @param mixed $key 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public static function get($key) {
 		if (!is_array($_SESSION['wsp_context_session'])) {
 			$_SESSION['wsp_context_session'] = array();

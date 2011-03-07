@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -42,6 +42,13 @@ class Form extends WebSitePhpObject {
 	private $register_object = array();
 	/**#@-*/
 	
+	/**
+	 * Constructor Form
+	 * @param mixed $page_object 
+	 * @param string $name 
+	 * @param string $id 
+	 * @param string $method [default value: POST]
+	 */
 	function __construct($page_object, $name='', $id='', $method="POST") {
 		parent::__construct();
 		
@@ -70,24 +77,52 @@ class Form extends WebSitePhpObject {
 		$page_object->addEventObject($this);
 	}
 	
+	/**
+	 * Method setName
+	 * @access public
+	 * @param mixed $name 
+	 * @return Form
+	 * @since 1.0.35
+	 */
 	public function setName($name) {
 		$this->name = $name;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setMethod
+	 * @access public
+	 * @param mixed $method 
+	 * @return Form
+	 * @since 1.0.35
+	 */
 	public function setMethod($method) {
 		$this->method = $method;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setContent
+	 * @access public
+	 * @param object $content 
+	 * @return Form
+	 * @since 1.0.35
+	 */
 	public function setContent($content) {
 		$this->content = $content;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setAction
+	 * @access public
+	 * @param mixed $action_file_name 
+	 * @return Form
+	 * @since 1.0.35
+	 */
 	public function setAction($action_file_name) {
 		if (gettype($action_file_name) == "object" && get_class($action_file_name) != "Url") {
 			throw new NewException(get_class($this)."->setAction() error: \$action_file_name must be a string or a Url object", 0, 8, __FILE__, __LINE__);
@@ -104,22 +139,53 @@ class Form extends WebSitePhpObject {
 		return $this;
 	}
 		
+	/**
+	 * Method getName
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getName() {
 		return $this->name;
 	}
 		
+	/**
+	 * Method getMethod
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getMethod() {
 		return $this->method;
 	}
 		
+	/**
+	 * Method getPageObject
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getPageObject() {
 		return $this->page_object;
 	}
 		
+	/**
+	 * Method getId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getId() {
 		return $this->id;
 	}
 	
+	/**
+	 * Method registerObjectToForm
+	 * @access public
+	 * @param mixed $object 
+	 * @return Form
+	 * @since 1.0.35
+	 */
 	public function registerObjectToForm($object) {
 		if ($object->isEventObject()) {
 			$this->register_object[] = $object;
@@ -127,19 +193,45 @@ class Form extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getFormObjects
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getFormObjects() {
 		return $this->register_object;
 	}
 	
+	/**
+	 * Method getAction
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getAction() {
 		return $this->action;
 	}
 	
+	/**
+	 * Method onSubmitJs
+	 * @access public
+	 * @param mixed $js 
+	 * @return Form
+	 * @since 1.0.35
+	 */
 	public function onSubmitJs($js){
 		$this->onsubmitjs = $js;
 		return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object Form
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		if ($this->page_object != null) {

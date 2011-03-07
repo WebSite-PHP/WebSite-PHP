@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -32,6 +32,13 @@ class CheckBox extends WebSitePhpObject {
 	private $default_value = "";
 	/**#@-*/
 	
+	/**
+	 * Constructor CheckBox
+	 * @param mixed $page_or_form_object 
+	 * @param string $name 
+	 * @param string $text 
+	 * @param string $checked 
+	 */
 	function __construct($page_or_form_object, $name='', $text='', $checked='') {
 		parent::__construct();
 		
@@ -70,6 +77,13 @@ class CheckBox extends WebSitePhpObject {
 		$this->page_object->addEventObject($this, $this->form_object);
 	}
 	
+	/**
+	 * Method setValue
+	 * @access public
+	 * @param mixed $value 
+	 * @return CheckBox
+	 * @since 1.0.36
+	 */
 	public function setValue($value) {
 		if ($value != "on" && $value != "off" && $value != "") {
 			throw new NewException("Object ".get_class($this)." don't accept the check value ".$value." (accepted values: `empty`, on, off)", 0, 8, __FILE__, __LINE__);
@@ -79,56 +93,132 @@ class CheckBox extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setText
+	 * @access public
+	 * @param mixed $text 
+	 * @return CheckBox
+	 * @since 1.0.36
+	 */
 	public function setText($text) {
 		$this->text = $text;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setChecked
+	 * @access public
+	 * @return CheckBox
+	 * @since 1.0.36
+	 */
 	public function setChecked() {
 		$this->setValue("on");
 		return $this;
 	}
 
+	/**
+	 * Method setDefaultValue
+	 * @access public
+	 * @param mixed $value 
+	 * @return CheckBox
+	 * @since 1.0.36
+	 */
 	public function setDefaultValue($value) {
 		$this->default_value = $value;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setName
+	 * @access public
+	 * @param mixed $name 
+	 * @return CheckBox
+	 * @since 1.0.36
+	 */
 	public function setName($name) {
 		$this->name = $name;
 		return $this;
 	}
 	
+	/**
+	 * Method getName
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getName() {
 		return $this->name;
 	}
 		
+	/**
+	 * Method getId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getId() {
 		return $this->name;
 	}
 	
+	/**
+	 * Method getEventObjectName
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getEventObjectName() {
 		return $this->class_name."_".$this->name;
 	}
 
+	/**
+	 * Method getValue
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getValue() {
 		return $this->checked;
 	}
 
+	/**
+	 * Method isChecked
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function isChecked() {
 		return ($this->checked == "on") ? true : false;
 	}
 
+	/**
+	 * Method getDefaultValue
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getDefaultValue() {
 		return $this->default_value;
 	}
 
+	/**
+	 * Method getFormObject
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getFormObject() {
 		return $this->form_object;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object CheckBox
+	 * @since 1.0.36
+	 */
 	public function render($ajax_render=false) {
 		$html = "<label for=\"".$this->getEventObjectName()."\"><input type=\"checkbox\" id=\"".$this->getEventObjectName()."\" name=\"".$this->getEventObjectName()."\"";
 		if ($this->checked == "on") {
@@ -140,8 +230,10 @@ class CheckBox extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function getAjaxRender
-	 * @return string javascript code to update initial html with ajax call
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object CheckBox (call with AJAX)
+	 * @since 1.0.36
 	 */
 	public function getAjaxRender() {
 		$html = "";

@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 04/01/2011
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -34,6 +34,12 @@ class PictureMap extends WebSitePhpObject {
 	private $default_link = "";
 	/**#@-*/
 	
+	/**
+	 * Constructor PictureMap
+	 * @param mixed $id 
+	 * @param boolean $tooltip [default value: false]
+	 * @param string $tooltip_params 
+	 */
 	function __construct($id, $tooltip=false, $tooltip_params="") {
 		parent::__construct();
 		
@@ -50,6 +56,19 @@ class PictureMap extends WebSitePhpObject {
 		}
 	}
 	
+	/**
+	 * Method addRect
+	 * @access public
+	 * @param mixed $link 
+	 * @param mixed $title 
+	 * @param mixed $tooltip_params 
+	 * @param mixed $x1 
+	 * @param mixed $y1 
+	 * @param mixed $x2 
+	 * @param mixed $y2 
+	 * @return PictureMap
+	 * @since 1.0.35
+	 */
 	public function addRect($link, $title, $tooltip_params, $x1, $y1, $x2, $y2) {
 		if (gettype($link) != "object" || get_class($link) != "Link") {
 			throw new NewException(get_class($this)."->addRect() error: \$link must be a Link object", 0, 8, __FILE__, __LINE__);
@@ -73,6 +92,21 @@ class PictureMap extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method addPolygon
+	 * @access public
+	 * @param mixed $link 
+	 * @param mixed $title 
+	 * @param mixed $tooltip_params 
+	 * @param mixed $x1 
+	 * @param mixed $y1 
+	 * @param mixed $x2 
+	 * @param mixed $y2 
+	 * @param mixed $x3 
+	 * @param mixed $y3 
+	 * @return PictureMap
+	 * @since 1.0.35
+	 */
 	public function addPolygon($link, $title, $tooltip_params, $x1, $y1, $x2, $y2, $x3, $y3) {
 		if (gettype($link) != "object" || get_class($link) != "Link") {
 			throw new NewException(get_class($this)."->addPolygon() error: \$link must be a Link object", 0, 8, __FILE__, __LINE__);
@@ -94,6 +128,18 @@ class PictureMap extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method addCircle
+	 * @access public
+	 * @param mixed $link 
+	 * @param mixed $title 
+	 * @param mixed $tooltip_params 
+	 * @param mixed $x 
+	 * @param mixed $y 
+	 * @param mixed $r 
+	 * @return PictureMap
+	 * @since 1.0.35
+	 */
 	public function addCircle($link, $title, $tooltip_params, $x, $y, $r) {
 		if (gettype($link) != "object" || get_class($link) != "Link") {
 			throw new NewException(get_class($this)."->addCircle() error: \$link must be a Link object", 0, 8, __FILE__, __LINE__);
@@ -116,6 +162,15 @@ class PictureMap extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setDefault
+	 * @access public
+	 * @param mixed $link 
+	 * @param string $title 
+	 * @param string $tooltip_params 
+	 * @return PictureMap
+	 * @since 1.0.35
+	 */
 	public function setDefault($link, $title='', $tooltip_params='') {
 		if (gettype($link) != "object" || get_class($link) != "Link") {
 			throw new NewException(get_class($this)."->setDefault() error: \$link must be a Link object", 0, 8, __FILE__, __LINE__);
@@ -127,10 +182,23 @@ class PictureMap extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getId() {
 		return $this->id;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object PictureMap
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		$tooltip_params = "";
@@ -196,6 +264,14 @@ class PictureMap extends WebSitePhpObject {
 		return $html;
 	}
 	
+	/**
+	 * Method createToolTips
+	 * @access private
+	 * @param mixed $map_area_info 
+	 * @param mixed $ind 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	private function createToolTips($map_area_info, $ind) {
 		$html = "	$('#".$this->getId()."_".$ind."').qtip({ content: $('#".$this->getId()."_".$ind."').title";
 		if ($this->tooltip_params != "" || $map_area_info['tooltip_params'] != "") {

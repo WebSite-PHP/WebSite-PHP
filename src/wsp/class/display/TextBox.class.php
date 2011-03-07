@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -47,6 +47,15 @@ class TextBox extends WebSitePhpEventObject {
 	private $autocomplete_object = null;
 	/**#@-*/
 	
+	/**
+	 * Constructor TextBox
+	 * @param mixed $page_or_form_object 
+	 * @param string $name 
+	 * @param string $id 
+	 * @param string $value 
+	 * @param string $width 
+	 * @param double $length [default value: 0]
+	 */
 	function __construct($page_or_form_object, $name='', $id='', $value='', $width='', $length=0) {
 		parent::__construct();
 		
@@ -87,6 +96,13 @@ class TextBox extends WebSitePhpEventObject {
 		$this->page_object->addEventObject($this, $this->form_object);
 	}
 	
+	/**
+	 * Method setValue
+	 * @access public
+	 * @param mixed $value 
+	 * @return TextBox
+	 * @since 1.0.36
+	 */
 	public function setValue($value) {
 		$this->value = $value;
 		if (!$GLOBALS['__LOAD_VARIABLES__']) { 
@@ -97,36 +113,78 @@ class TextBox extends WebSitePhpEventObject {
 		return $this;
 	}
 
+	/**
+	 * Method setDefaultValue
+	 * @access public
+	 * @param mixed $value 
+	 * @return TextBox
+	 * @since 1.0.36
+	 */
 	public function setDefaultValue($value) {
 		$this->default_value = $value;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return TextBox
+	 * @since 1.0.36
+	 */
 	public function setWidth($width) {
 		$this->width = $width;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setStyle
+	 * @access public
+	 * @param mixed $style 
+	 * @return TextBox
+	 * @since 1.0.36
+	 */
 	public function setStyle($style) {
 		$this->style = $style;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setClass
+	 * @access public
+	 * @param mixed $class 
+	 * @return TextBox
+	 * @since 1.0.36
+	 */
 	public function setClass($class) {
 		$this->class = $class;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setLength
+	 * @access public
+	 * @param mixed $length 
+	 * @return TextBox
+	 * @since 1.0.36
+	 */
 	public function setLength($length) {
 		$this->length = $length;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setName
+	 * @access public
+	 * @param mixed $name 
+	 * @return TextBox
+	 * @since 1.0.36
+	 */
 	public function setName($name) {
 		$this->name = $name;
 		if ($id == "") {
@@ -135,12 +193,25 @@ class TextBox extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setFocus
+	 * @access public
+	 * @return TextBox
+	 * @since 1.0.36
+	 */
 	public function setFocus() {
 		$this->has_focus = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setLiveValidation
+	 * @access public
+	 * @param mixed $live_validation_object 
+	 * @return TextBox
+	 * @since 1.0.36
+	 */
 	public function setLiveValidation($live_validation_object) {
 		if (get_class($live_validation_object) != "LiveValidation") {
 			throw new NewException("setLiveValidation(): \$live_validation_object must be a valid LiveValidation object", 0, 8, __FILE__, __LINE__);
@@ -151,6 +222,13 @@ class TextBox extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setAutoComplete
+	 * @access public
+	 * @param mixed $autocomplete_object 
+	 * @return TextBox
+	 * @since 1.0.36
+	 */
 	public function setAutoComplete($autocomplete_object) {
 		if (gettype($autocomplete_object) != "object" && get_class($autocomplete_object) != "AutoComplete") {
 			throw new NewException(get_class($this)."->setAutoComplete(): \$autocomplete_object must be a AutoComplete object", 0, 8, __FILE__, __LINE__);
@@ -161,31 +239,73 @@ class TextBox extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method enable
+	 * @access public
+	 * @return TextBox
+	 * @since 1.0.36
+	 */
 	public function enable() {
 		$this->disable = false;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method disable
+	 * @access public
+	 * @return TextBox
+	 * @since 1.0.36
+	 */
 	public function disable() {
 		$this->disable = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 
+	/**
+	 * Method getValue
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getValue() {
 		$this->initSubmitValue(); // init value with submit value if not already do
 		return $this->value;
 	}
 
+	/**
+	 * Method getDefaultValue
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getDefaultValue() {
 		return $this->default_value;
 	}
 		
+	/**
+	 * Method getClass
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getClass() {
 		return $this->class;
 	}
 	
+	/**
+	 * Method onChange
+	 * @access public
+	 * @param mixed $str_function 
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return TextBox
+	 * @since 1.0.36
+	 */
 	public function onChange($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		$args = func_get_args();
 		$str_function = array_shift($args);
@@ -193,11 +313,24 @@ class TextBox extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method onChangeJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return TextBox
+	 * @since 1.0.36
+	 */
 	public function onChangeJs($js_function) {
 		$this->onchange = trim($js_function);
 		return $this;
 	}
 	
+	/**
+	 * Method isChanged
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function isChanged() {
 		if (!$this->is_changed) {
 			$this->page_object->getUserEventObject();
@@ -205,6 +338,13 @@ class TextBox extends WebSitePhpEventObject {
 		return $this->is_changed;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object TextBox
+	 * @since 1.0.36
+	 */
 	public function render($ajax_render=false) {
 		$this->automaticAjaxEvent();
 		
@@ -283,8 +423,10 @@ class TextBox extends WebSitePhpEventObject {
 	}
 	
 	/**
-	 * function getAjaxRender
-	 * @return string javascript code to update initial html with ajax call
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object TextBox (call with AJAX)
+	 * @since 1.0.36
 	 */
 	public function getAjaxRender() {
 		$this->automaticAjaxEvent();

@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -41,6 +41,12 @@ class GoogleSearchBar extends WebSitePhpObject {
 	private $search_style = "";
 	/**#@-*/
 	
+	/**
+	 * Constructor GoogleSearchBar
+	 * @param mixed $search_control_code 
+	 * @param string $search_label 
+	 * @param string $search_style [default value: default]
+	 */
 	function __construct($search_control_code, $search_label='', $search_style='default') {
 		parent::__construct();
 		
@@ -58,6 +64,13 @@ class GoogleSearchBar extends WebSitePhpObject {
 		}
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object GoogleSearchBar
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "<div id=\"cse-search-form\" style=\"width: 100%;\">Loading</div>
 				<script type=\"text/javascript\">

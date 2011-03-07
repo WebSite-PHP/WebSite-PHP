@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -29,6 +29,10 @@ class DataRowIterator {
 	private $current_row = 0;
 	/**#@-*/
 	
+	/**
+	 * Constructor DataRowIterator
+	 * @param mixed $db_table_object 
+	 */
 	function __construct($db_table_object) {
 		if (!isset($db_table_object)) {
 			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, 8, __FILE__, __LINE__);
@@ -38,12 +42,23 @@ class DataRowIterator {
 		$this->rows_num = 0;
 	}
 	
+	/**
+	 * Method insert
+	 * @access public
+	 * @param boolean $is_sql_load_mode [default value: false]
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function insert($is_sql_load_mode=false) {
 		$data_row = new DataRow($this->db_table_object, $is_sql_load_mode);
 		$this->rows[] = $data_row;
 		return $data_row;
 	}
 	
+	/**
+	 * Method save
+	 * @access public
+	 */
 	public function save() {
 		$where_cond = "";
 		$db_table_primary_keys = $this->db_table_object->getDbTablePrimaryKeys();
@@ -68,6 +83,12 @@ class DataRowIterator {
 		}
 	}
 	
+	/**
+	 * Method insertRow
+	 * @access private
+	 * @param mixed $data_row 
+	 * @param mixed $db_table_attributes 
+	 */
 	private function insertRow($data_row, $db_table_attributes) {
 		// insert row
 		$stmt_objects = array();
@@ -94,6 +115,13 @@ class DataRowIterator {
 		DataBase::getInstance()->prepareStatement($query, $stmt_objects);
 	}
 	
+	/**
+	 * Method deleteRow
+	 * @access private
+	 * @param mixed $data_row 
+	 * @param mixed $where_cond 
+	 * @param mixed $db_table_primary_keys 
+	 */
 	private function deleteRow($data_row, $where_cond, $db_table_primary_keys) {
 		// delete row
 		$stmt_objects = array();
@@ -113,6 +141,14 @@ class DataRowIterator {
 		DataBase::getInstance()->prepareStatement($query, $stmt_objects);
 	}
 	
+	/**
+	 * Method updateRow
+	 * @access private
+	 * @param mixed $data_row 
+	 * @param mixed $where_cond 
+	 * @param mixed $db_table_attributes 
+	 * @param mixed $db_table_primary_keys 
+	 */
 	private function updateRow($data_row, $where_cond, $db_table_attributes, $db_table_primary_keys) {
 		// update row
 		$stmt_objects = array();
@@ -141,6 +177,12 @@ class DataRowIterator {
 		DataBase::getInstance()->prepareStatement($query, $stmt_objects);
 	}
 	
+	/**
+	 * Method toArray
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function toArray() {
 		$next_row = 0;
 		$array_rows = array();
@@ -154,6 +196,12 @@ class DataRowIterator {
 		return $array_rows;
 	}
 
+	/**
+	 * Method getRowsNum
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getRowsNum() {
 		$next_row = 0;
 		$rows_num = 0;
@@ -167,6 +215,12 @@ class DataRowIterator {
 		return $rows_num;
 	}
 	
+	/**
+	 * Method next
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function next() {
 		$data_row = null;
 		while ($this->current_row < sizeof($this->rows)) {
@@ -180,6 +234,12 @@ class DataRowIterator {
 		return $data_row;
 	}
 	
+	/**
+	 * Method hasNext
+	 * @access public
+	 * @return boolean
+	 * @since 1.0.35
+	 */
 	public function hasNext() {
 		$data_row = null;
 		$next_row = $this->current_row;
@@ -198,6 +258,10 @@ class DataRowIterator {
 		}
 	}
 	
+	/**
+	 * Method initIterator
+	 * @access public
+	 */
 	public function initIterator() {
 		$this->current_row = 0;
 	}

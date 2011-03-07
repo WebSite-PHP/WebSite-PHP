@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -78,15 +78,12 @@ class RoundBox extends WebSitePhpObject {
 	/**#@-*/
 	
 	/**
-	 * Constructor Box
-	 * @param object|string $title title in the header the box
-	 * @param boolean $shadow if box has shadow
-	 * @param string $style_content style of the content (Box::STYLE_MAIN or Box::STYLE_SECOND)
-	 * @param string $link heander title link
-	 * @param string $id unique id of the box
-	 * @param string $width width of the box
+	 * Constructor RoundBox
+	 * @param string $style_content style of the content (Box::STYLE_MAIN or Box::STYLE_SECOND) [default value: 1]
+	 * @param string $id unique id of the box [default value: main_box]
+	 * @param string $width width of the box [default value: 100%]
 	 * @param string $height height of the bo
-	 * @param string $move if box can be move
+	 * @param string $move if box can be move [default value: false]
 	 */
 	function __construct($style_content='1', $id='main_box', $width='100%', $height="", $move=false) {
 		parent::__construct();
@@ -122,9 +119,12 @@ class RoundBox extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function setDraggable
-	 * @param string $bool if box can be move
-	 * @param string $revert if box revert first place when dropped
+	 * Method setDraggable
+	 * @access public
+	 * @param string $bool if box can be move [default value: true]
+	 * @param string $revert if box revert first place when dropped [default value: false]
+	 * @return RoundBox
+	 * @since 1.0.35
 	 */
 	public function setDraggable($bool=true, $revert=false) {
 		$this->move = $bool;
@@ -133,30 +133,65 @@ class RoundBox extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setHeight
+	 * @access public
+	 * @param integer $height 
+	 * @return RoundBox
+	 * @since 1.0.35
+	 */
 	public function setHeight($height) {
 		$this->height = $height;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return RoundBox
+	 * @since 1.0.35
+	 */
 	public function setWidth($width) {
 		$this->width = $width;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setValign
+	 * @access public
+	 * @param string $valign 
+	 * @return RoundBox
+	 * @since 1.0.35
+	 */
 	public function setValign($valign) {
 		$this->valign = $valign;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setAlign
+	 * @access public
+	 * @param string $align 
+	 * @return RoundBox
+	 * @since 1.0.35
+	 */
 	public function setAlign($align) {
 		$this->align = $align;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setShadow
+	 * @access public
+	 * @param mixed $shadow 
+	 * @return RoundBox
+	 * @since 1.0.35
+	 */
 	public function setShadow($shadow) {
 		$this->shadow = $shadow;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
@@ -164,8 +199,11 @@ class RoundBox extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function setContent
+	 * Method setContent
+	 * @access public
 	 * @param object|string $content content of the box
+	 * @return RoundBox
+	 * @since 1.0.35
 	 */
 	public function setContent($content) {
 		if (gettype($content) == "object" && get_class($content) == "DateTime") {
@@ -176,6 +214,14 @@ class RoundBox extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method forceBoxWithPicture
+	 * @access public
+	 * @param mixed $bool 
+	 * @param string $border_color 
+	 * @return RoundBox
+	 * @since 1.0.35
+	 */
 	public function forceBoxWithPicture($bool, $border_color="") {
 		$this->force_box_with_picture = $bool;
 		if ($border_color != "") {
@@ -186,8 +232,11 @@ class RoundBox extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function setPaddingTop
+	 * Method setPaddingTop
+	 * @access public
 	 * @param integer $padding top of the box
+	 * @return RoundBox
+	 * @since 1.0.35
 	 */
 	public function setPaddingTop($padding) {
 		$this->padding_top = str_replace("px", "", $padding);
@@ -196,8 +245,11 @@ class RoundBox extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function setPaddingBottom
+	 * Method setPaddingBottom
+	 * @access public
 	 * @param integer $padding bottom of the box
+	 * @return RoundBox
+	 * @since 1.0.35
 	 */
 	public function setPaddingBottom($padding) {
 		$this->padding_bottom = str_replace("px", "", $padding);
@@ -206,8 +258,11 @@ class RoundBox extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function render
-	 * @return string html code of the box
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object RoundBox
+	 * @since 1.0.35
 	 */
 	public function render($ajax_render=false) {
 		$html = "";
@@ -433,8 +488,10 @@ class RoundBox extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function getAjaxRender
-	 * @return string javascript code to update initial html with ajax call
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object RoundBox (call with AJAX)
+	 * @since 1.0.35
 	 */
 	public function getAjaxRender() {
 		$html = "";

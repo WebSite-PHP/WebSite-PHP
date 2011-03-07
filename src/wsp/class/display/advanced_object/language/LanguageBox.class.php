@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -46,10 +46,9 @@ class LanguageBox extends WebSitePhpObject {
 	
 	/**
 	 * Constructor LanguageBox
-	 * @param object|string $title title in the header the box
-	 * @param boolean $shadow if box has shadow
-	 * @param string $style_header style of the header (Box::STYLE_MAIN or Box::STYLE_SECOND)
-	 * @param string $style_content style of the content (Box::STYLE_MAIN or Box::STYLE_SECOND)
+	 * @param boolean $shadow if box has shadow [default value: false]
+	 * @param string $style_header style of the header (Box::STYLE_MAIN or Box::STYLE_SECOND) [default value: 1]
+	 * @param string $style_content style of the content (Box::STYLE_MAIN or Box::STYLE_SECOND) [default value: 1]
 	 */
 	function __construct($shadow=false, $style_header='1', $style_content='1') {
 		parent::__construct();
@@ -59,6 +58,14 @@ class LanguageBox extends WebSitePhpObject {
 		$this->style_content = $style_content;
 	}
 	
+	/**
+	 * Method setSmallIcon
+	 * @access public
+	 * @param mixed $icon_16_pixels 
+	 * @param string $text 
+	 * @return LanguageBox
+	 * @since 1.0.33
+	 */
 	public function setSmallIcon($icon_16_pixels, $text='') {
 		$this->icon_16_pixels = $icon_16_pixels;
 		$this->icon_16_pixels_text = $text;
@@ -66,6 +73,14 @@ class LanguageBox extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setBigIcon
+	 * @access public
+	 * @param mixed $icon_48_pixels 
+	 * @param string $text 
+	 * @return LanguageBox
+	 * @since 1.0.33
+	 */
 	public function setBigIcon($icon_48_pixels, $text='') {
 		$this->icon_48_pixels = $icon_48_pixels;
 		$this->icon_48_pixels_text = $text;
@@ -74,8 +89,11 @@ class LanguageBox extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function addLanguage
-	 * @param string language code (ex: en, fr, de, ...)
+	 * Method addLanguage
+	 * @access public
+	 * @param string $language_code language code (ex: en, fr, de, ...)
+	 * @return LanguageBox
+	 * @since 1.0.33
 	 */
 	public function addLanguage($language_code) {
 		$this->languages[sizeof($this->languages)] = $language_code;
@@ -83,6 +101,13 @@ class LanguageBox extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return LanguageBox
+	 * @since 1.0.33
+	 */
 	public function setWidth($width) {
 		$this->width = $width;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
@@ -90,8 +115,11 @@ class LanguageBox extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function render
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
 	 * @return object generate html box with country flag
+	 * @since 1.0.33
 	 */
 	public function render($ajax_render=false) {
 		$lang_box = new Box(translate(BOX_LANGUAGE_TITLE), $this->shadow, $this->style_header, $this->style_content, "", "select_language_box");

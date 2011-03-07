@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -32,6 +32,12 @@ class DockMenuItem extends WebSitePhpObject {
 	private $valign = "bottom";
 	/**#@-*/
 	
+	/**
+	 * Constructor DockMenuItem
+	 * @param mixed $img 
+	 * @param mixed $value 
+	 * @param string $link 
+	 */
 	function __construct($img, $value, $link='') {
 		parent::__construct();
 		
@@ -44,12 +50,26 @@ class DockMenuItem extends WebSitePhpObject {
 		$this->link = $link;
 	}
 	
+	/**
+	 * Method setLink
+	 * @access public
+	 * @param mixed $link 
+	 * @return DockMenuItem
+	 * @since 1.0.35
+	 */
 	public function setLink($link) {
 		$this->link = $link;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object DockMenuItem
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		

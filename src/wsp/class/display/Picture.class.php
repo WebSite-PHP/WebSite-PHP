@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -57,6 +57,15 @@ class Picture extends WebSitePhpObject {
 	private $pic_link = "";
 	/**#@-*/
 	
+	/**
+	 * Constructor Picture
+	 * @param mixed $src 
+	 * @param double $height [default value: 0]
+	 * @param double $width [default value: 0]
+	 * @param double $border [default value: 0]
+	 * @param string $align 
+	 * @param string $title 
+	 */
 	function __construct($src, $height=0, $width=0, $border=0, $align='', $title='') {
 		parent::__construct();
 		
@@ -72,59 +81,130 @@ class Picture extends WebSitePhpObject {
 		$this->title = $title;
 	}
 	
+	/**
+	 * Method setId
+	 * @access public
+	 * @param mixed $id 
+	 * @return Picture
+	 * @since 1.0.35
+	 */
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
 	}
 	
+	/**
+	 * Method setHeight
+	 * @access public
+	 * @param integer $height 
+	 * @return Picture
+	 * @since 1.0.35
+	 */
 	public function setHeight($height) {
 		$this->height = $height;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return Picture
+	 * @since 1.0.35
+	 */
 	public function setWidth($width) {
 		$this->width = $width;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setBorder
+	 * @access public
+	 * @param mixed $border 
+	 * @return Picture
+	 * @since 1.0.35
+	 */
 	public function setBorder($border) {
 		$this->border = $border;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setAlign
+	 * @access public
+	 * @param string $align 
+	 * @return Picture
+	 * @since 1.0.35
+	 */
 	public function setAlign($align) {
 		$this->align = $align;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setTitle
+	 * @access public
+	 * @param mixed $title 
+	 * @return Picture
+	 * @since 1.0.35
+	 */
 	public function setTitle($title) {
 		$this->title = $title;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setAlt
+	 * @access public
+	 * @param mixed $alt 
+	 * @return Picture
+	 * @since 1.0.35
+	 */
 	public function setAlt($alt) {
 		$this->alt = $alt;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setHspace
+	 * @access public
+	 * @param mixed $hspace 
+	 * @return Picture
+	 * @since 1.0.35
+	 */
 	public function setHspace($hspace) {
 		$this->hspace = $hspace;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setVspace
+	 * @access public
+	 * @param mixed $vspace 
+	 * @return Picture
+	 * @since 1.0.35
+	 */
 	public function setVspace($vspace) {
 		$this->vspace = $vspace;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method addLightbox
+	 * @access public
+	 * @param string $lightbox_name 
+	 * @param string $pic_link 
+	 * @return Picture
+	 * @since 1.0.35
+	 */
 	public function addLightbox($lightbox_name='', $pic_link='') {
 		$this->is_lightbox = true;
 		$this->lightbox_name = $lightbox_name;
@@ -141,6 +221,14 @@ class Picture extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method tooltip
+	 * @access public
+	 * @param string $params 
+	 * @param string $content 
+	 * @return Picture
+	 * @since 1.0.35
+	 */
 	public function tooltip($params='', $content='') {
 		if ($this->id == "") {
 			throw new NewException(get_class($this)."->tooltip() error: Please set an id", 0, 8, __FILE__, __LINE__);
@@ -155,6 +243,13 @@ class Picture extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setPictureMap
+	 * @access public
+	 * @param mixed $picture_map 
+	 * @return Picture
+	 * @since 1.0.35
+	 */
 	public function setPictureMap($picture_map) {
 		if (gettype($picture_map) != "object" && get_class($picture_map) != "PictureMap") {
 			throw new NewException(get_class($this)."->setPictureMap() error: \$picture_map must be a PictureMap object", 0, 8, __FILE__, __LINE__);
@@ -166,22 +261,53 @@ class Picture extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getSrc
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getSrc() {
 		return $this->src;
 	}
 	
+	/**
+	 * Method getHeight
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getHeight() {
 		return $this->height;
 	}
 
+	/**
+	 * Method getWidth
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getWidth() {
 		return $this->width;
 	}
 	
+	/**
+	 * Method getId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getId() {
 		return $this->id;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object Picture
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		$align_center = false;

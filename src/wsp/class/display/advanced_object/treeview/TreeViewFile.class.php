@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -22,10 +22,22 @@
 include_once("TreeViewItem.class.php");
 
 class TreeViewFile extends TreeViewItem {
+	/**
+	 * Constructor TreeViewFile
+	 * @param mixed $value 
+	 * @param string $path_file 
+	 * @param string $link 
+	 */
 	function __construct($value, $path_file='', $link='') {
 		parent::__construct($value, $link, true, $path_file);
 	}
 	
+	/**
+	 * Method getLocalPath
+	 * @access public
+	 * @return string
+	 * @since 1.0.35
+	 */
 	public function getLocalPath() {
 		$path = $this->getPath();
 		if ($this->treeview_object == null) {
@@ -37,6 +49,10 @@ class TreeViewFile extends TreeViewItem {
 		return str_replace("\\", "/", $this->treeview_object->getLoadedPath().$path);
 	}
 	
+	/**
+	 * Method remove
+	 * @access public
+	 */
 	public function remove() {
 		$path = $this->getLocalPath();
 		
@@ -59,6 +75,11 @@ class TreeViewFile extends TreeViewItem {
 		}
 	} 
 	
+	/**
+	 * Method rename
+	 * @access public
+	 * @param mixed $value 
+	 */
 	public function rename($value) {
 		if (!$this->nodeValueAlreadyExists($value)) {
 			$path = $this->getLocalPath();

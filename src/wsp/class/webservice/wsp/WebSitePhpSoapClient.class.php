@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -22,6 +22,10 @@
 class WebSitePhpSoapClient extends SoapClient {
 	private $session = "";
 	
+	/**
+	 * Constructor WebSitePhpSoapClient
+	 * @param mixed $wsdl 
+	 */
 	function __construct($wsdl) {
 		$wsdl = urlencode($wsdl);
 		parent::__construct($wsdl);
@@ -29,6 +33,12 @@ class WebSitePhpSoapClient extends SoapClient {
 		$this->__setCookie('WSP_WS_SESSION', $this->session);
 	}
 	
+	/**
+	 * Method getSession
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getSession() {
 		return $this->session;
 	}

@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -35,6 +35,13 @@ class Captcha extends WebSitePhpObject {
 	private $height = 80;
 	/**#@-*/
 	
+	/**
+	 * Constructor Captcha
+	 * @param mixed $page_or_form_object 
+	 * @param string $name 
+	 * @param boolean $refresh [default value: true]
+	 * @param boolean $sound [default value: true]
+	 */
 	function __construct($page_or_form_object, $name='', $refresh=true, $sound=true) {
 		parent::__construct();
 		
@@ -68,18 +75,39 @@ class Captcha extends WebSitePhpObject {
 		$this->page_object->addEventObject($this, $this->form_object);
 	}
 	
+	/**
+	 * Method setValue
+	 * @access public
+	 * @param mixed $value 
+	 * @return Captcha
+	 * @since 1.0.35
+	 */
 	public function setValue($value) {
 		$this->value = $value;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 
+	/**
+	 * Method setDefaultValue
+	 * @access public
+	 * @param mixed $value 
+	 * @return Captcha
+	 * @since 1.0.35
+	 */
 	public function setDefaultValue($value) {
 		$this->default_value = $value;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return Captcha
+	 * @since 1.0.35
+	 */
 	public function setWidth($width) {
 		if (!is_integer($width)) {
 			throw new NewException("width attribut must be an integer in the method setWidth (Captcha object)", 0, 8, __FILE__, __LINE__);
@@ -89,42 +117,98 @@ class Captcha extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setHeight
+	 * @access public
+	 * @param integer $height 
+	 * @return Captcha
+	 * @since 1.0.35
+	 */
 	public function setHeight($height) {
 		$this->height = $height;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method forceObjectChange
+	 * @access public
+	 * @return Captcha
+	 * @since 1.0.35
+	 */
 	public function forceObjectChange() {
 		$this->object_change =true;
 		return $this;
 	}
 	
+	/**
+	 * Method getName
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getName() {
 		return $this->name;
 	}
 	
+	/**
+	 * Method getEventObjectName
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getEventObjectName() {
 		return $this->class_name."_".$this->name;
 	}
 
+	/**
+	 * Method getValue
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getValue() {
 		return $this->value;
 	}
 
+	/**
+	 * Method getDefaultValue
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getDefaultValue() {
 		return $this->default_value;
 	}
 
+	/**
+	 * Method getFormObject
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getFormObject() {
 		return $this->form_object;
 	}
 	
+	/**
+	 * Method check
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function check() {
 		$securimage = new Securimage();
 		return $securimage->check($this->value);
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object Captcha
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		if ($this->class_name != "") {
@@ -163,8 +247,10 @@ class Captcha extends WebSitePhpObject {
 
 	
 	/**
-	 * function getAjaxRender
-	 * @return string javascript code to update initial html with ajax call
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object Captcha (call with AJAX)
+	 * @since 1.0.35
 	 */
 	public function getAjaxRender() {
 		$html = "";

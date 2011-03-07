@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -51,6 +51,10 @@ class ContextMenu extends WebSitePhpObject {
 	private $dialogbox_level = -1;
 	/**#@-*/
 	
+	/**
+	 * Constructor ContextMenu
+	 * @param mixed $id 
+	 */
 	function __construct($id) {
 		parent::__construct();
 		
@@ -64,6 +68,16 @@ class ContextMenu extends WebSitePhpObject {
 		$this->addJavaScript(BASE_URL."wsp/js/jquery.contextMenu.js", "", true);
 	}
 	
+	/**
+	 * Method addItem
+	 * @access public
+	 * @param mixed $text 
+	 * @param string $contextmenu_icon 
+	 * @param string $event_js_or_object 
+	 * @param boolean $separator [default value: false]
+	 * @return ContextMenu
+	 * @since 1.0.35
+	 */
 	public function addItem($text, $contextmenu_icon='', $event_js_or_object='', $separator=false) {
 		if (gettype($event_js_or_object) == "object") {
 			if (get_class($event_js_or_object) != "ContextMenuEvent" && get_class($event_js_or_object) != "DialogBox") {
@@ -78,6 +92,13 @@ class ContextMenu extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method attachContextMenuToObjectId
+	 * @access public
+	 * @param mixed $object_id 
+	 * @return ContextMenu
+	 * @since 1.0.35
+	 */
 	public function attachContextMenuToObjectId($object_id) {
 		$this->attach_object_id[] = $object_id;
 		if (DialogBox::getCurrentDialogBoxLevel() > 0) {
@@ -87,11 +108,25 @@ class ContextMenu extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method isInDialogBoxLevel
+	 * @access private
+	 * @param mixed $dialogbox_level 
+	 * @return ContextMenu
+	 * @since 1.0.35
+	 */
 	private function isInDialogBoxLevel($dialogbox_level) {
 		$this->dialogbox_level = $dialogbox_level;
 		return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object ContextMenu
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		if (!$ajax_render) {

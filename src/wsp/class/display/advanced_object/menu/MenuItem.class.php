@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -43,6 +43,13 @@ class MenuItem extends WebSitePhpObject {
 	private $menu_items = null;
 	/**#@-*/
 	
+	/**
+	 * Constructor MenuItem
+	 * @param mixed $value 
+	 * @param string $link 
+	 * @param string $img 
+	 * @param boolean $current [default value: false]
+	 */
 	function __construct($value, $link='', $img='', $current=false) {
 		parent::__construct();
 		
@@ -56,6 +63,13 @@ class MenuItem extends WebSitePhpObject {
 		$this->current = $current;
 	}
 	
+	/**
+	 * Method setMenuItems
+	 * @access public
+	 * @param mixed $menu_items_object 
+	 * @return MenuItem
+	 * @since 1.0.35
+	 */
 	public function setMenuItems($menu_items_object) {
 		if (get_class($menu_items_object) != "MenuItems") {
 			throw new NewException("Error MenuItem->setMenuItems(): $menu_items_object is not a MenuItems object", 0, 8, __FILE__, __LINE__);
@@ -65,12 +79,25 @@ class MenuItem extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setCurrent
+	 * @access public
+	 * @return MenuItem
+	 * @since 1.0.35
+	 */
 	public function setCurrent() {
 		$this->current = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object MenuItem
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "\t<li";
 		if ($this->current) {

@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -40,6 +40,11 @@ class DataRow {
 									);
 	/**#@-*/
 	
+	/**
+	 * Constructor DataRow
+	 * @param mixed $db_table_object 
+	 * @param boolean $is_sql_load_mode [default value: false]
+	 */
 	function __construct($db_table_object, $is_sql_load_mode=false) {
 		$this->db_table_object = $db_table_object;
 		$this->is_sql_load_mode = $is_sql_load_mode;
@@ -48,8 +53,18 @@ class DataRow {
 		$this->is_deleted = false;
 	}
 	
+	/**
+	 * Destructor DataRow
+	 */
 	function __destruct() {}
 	
+	/**
+	 * Method getValue
+	 * @access public
+	 * @param mixed $attribute 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getValue($attribute) {
 		if (!array_key_exists($attribute, $this->row)) {
 			throw new NewException("Error DataRow->getValue(): attribute ".$attribute." unknow in table ".$this->db_table_object->getDbTableName(), 0, 8, __FILE__, __LINE__);
@@ -73,6 +88,12 @@ class DataRow {
 		}
 	}
 	
+	/**
+	 * Method setValue
+	 * @access public
+	 * @param mixed $attribute 
+	 * @param mixed $value 
+	 */
 	public function setValue($attribute, $value) {
 		if (!$this->is_deleted) {
 			$pos_attribute = array_search($attribute, $this->db_table_object->getDbTableAttributes());
@@ -115,6 +136,12 @@ class DataRow {
 		}
 	}
 	
+	/**
+	 * Method isUpdated
+	 * @access public
+	 * @return boolean
+	 * @since 1.0.35
+	 */
 	public function isUpdated() {
 		if (!$this->is_deleted) {
 			return $this->is_updated;
@@ -123,26 +150,56 @@ class DataRow {
 		}
 	}
 	
+	/**
+	 * Method delete
+	 * @access public
+	 */
 	public function delete() {
 		$this->is_deleted = true;
 	}
 	
+	/**
+	 * Method isDeleted
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function isDeleted() {
 		return $this->is_deleted;
 	}
 	
+	/**
+	 * Method isInserted
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function isInserted() {
 		return $this->is_inserted;
 	}
 	
+	/**
+	 * Method disableSqlLoadMode
+	 * @access public
+	 */
 	public function disableSqlLoadMode() {
 		$this->is_sql_load_mode = false;
 	}
 	
+	/**
+	 * Method enableHtmlentitiesMode
+	 * @access public
+	 */
 	public function enableHtmlentitiesMode() {
 		$this->activate_htmlentities = true;
 	}
 	
+	/**
+	 * Method __toString
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function __toString() {
 		$str = "";
 		foreach ($this->row as $key =>$value) {

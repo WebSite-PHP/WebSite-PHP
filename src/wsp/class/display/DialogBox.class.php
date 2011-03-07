@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -53,6 +53,12 @@ class DialogBox extends WebSitePhpObject {
 	private $close_if_instance_exists = false;
 	/**#@-*/
 	
+	/**
+	 * Constructor DialogBox
+	 * @param string $title 
+	 * @param string|object|Url $content_or_url_object 
+	 * @param string $width 
+	 */
 	function __construct($title, $content_or_url_object, $width='') {
 		parent::__construct();
 		
@@ -67,11 +73,24 @@ class DialogBox extends WebSitePhpObject {
 		$this->setDialogBoxLevel(DialogBox::getFirstAvailableDialogBoxLevel());
 	}
 	
+	/**
+	 * Method displayFormURL
+	 * @access public
+	 * @return DialogBox
+	 * @since 1.0.35
+	 */
 	public function displayFormURL() {
 		$this->display_from_url = true;
 		return $this;
 	}
 	
+	/**
+	 * Method setContent
+	 * @access public
+	 * @param string|object|Url $content_or_url 
+	 * @return DialogBox
+	 * @since 1.0.35
+	 */
 	public function setContent($content_or_url) {
 		if (gettype($content_or_url) == "object" && get_class($content_or_url) == "DateTime") {
 			throw new NewException(get_class($this)."->setContent() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, 8, __FILE__, __LINE__);
@@ -81,42 +100,91 @@ class DialogBox extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setAlign
+	 * @access public
+	 * @param string $align 
+	 * @return DialogBox
+	 * @since 1.0.35
+	 */
 	public function setAlign($align) {
 		$this->align = $align;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return DialogBox
+	 * @since 1.0.35
+	 */
 	public function setWidth($width) {
 		$this->width = $width;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setHeight
+	 * @access public
+	 * @param integer $height 
+	 * @return DialogBox
+	 * @since 1.0.35
+	 */
 	public function setHeight($height) {
 		$this->height = $height;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setPosition
+	 * @access public
+	 * @param mixed $position 
+	 * @return DialogBox
+	 * @since 1.0.35
+	 */
 	public function setPosition($position) {
 		$this->position = $position;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setPositionX
+	 * @access public
+	 * @param mixed $position_x 
+	 * @return DialogBox
+	 * @since 1.0.35
+	 */
 	public function setPositionX($position_x) {
 		$this->position_x = $position_x;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setPositionY
+	 * @access public
+	 * @param mixed $position_y 
+	 * @return DialogBox
+	 * @since 1.0.35
+	 */
 	public function setPositionY($position_y) {
 		$this->position_y = $position_y;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method activateOneInstance
+	 * @access public
+	 * @param boolean $close_if_exists [default value: false]
+	 * @return DialogBox
+	 * @since 1.0.35
+	 */
 	public function activateOneInstance($close_if_exists=false) {
 		$this->one_instance = true;
 		$this->close_if_instance_exists = $close_if_exists;
@@ -124,12 +192,24 @@ class DialogBox extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method modal
+	 * @access public
+	 * @return DialogBox
+	 * @since 1.0.35
+	 */
 	public function modal() {
 		$this->desactivate = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method close
+	 * @access public
+	 * @return JavaScript
+	 * @since 1.0.35
+	 */
 	public function close() {
 		$js = "";
 		$js .= "if (typeof(wspDialogBox".$this->dialogbox_indice.") !== 'undefined') { if (wspDialogBox".$this->dialogbox_indice.".dialog('widget').css('display') == 'block') { ";
@@ -138,6 +218,13 @@ class DialogBox extends WebSitePhpObject {
 		return new JavaScript($js);
 	}
 	
+	/**
+	 * Method activateCloseButton
+	 * @access public
+	 * @param string $close_button_js 
+	 * @return DialogBox
+	 * @since 1.0.35
+	 */
 	public function activateCloseButton($close_button_js="") {
 		$this->close_button = true;
 		$this->close_button_js = $close_button_js;
@@ -145,6 +232,12 @@ class DialogBox extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method closeAll
+	 * @access public static
+	 * @return JavaScript
+	 * @since 1.0.35
+	 */
 	public static function closeAll() {
 		$js = "";
 		$array_dialogbox = DialogBox::getArrayDialogBoxLevels();
@@ -156,6 +249,13 @@ class DialogBox extends WebSitePhpObject {
 		return new JavaScript($js);
 	}
 	
+	/**
+	 * Method closeLevel
+	 * @access public static
+	 * @param mixed $level 
+	 * @return JavaScript
+	 * @since 1.0.35
+	 */
 	public static function closeLevel($level) {
 		$js = "";
 		$js .= "if (typeof(wspDialogBox".$level.") !== 'undefined') { if (wspDialogBox".$level.".dialog('widget').css('display') == 'block') { ";
@@ -165,10 +265,23 @@ class DialogBox extends WebSitePhpObject {
 	}
 	
 	/* Intern management of DialogBox level */
+	/**
+	 * Method addLevelToInitDialogBox
+	 * @access private static
+	 * @param integer $level 
+	 * @param DialogBox $dialog_box_object 
+	 */
 	private static function addLevelToInitDialogBox($level, $dialog_box_object) {
 		self::$array_dialog_indices[$level] = $dialog_box_object;
 	}
 	
+	/**
+	 * Method setDialogBoxLevel
+	 * @access public
+	 * @param mixed $level 
+	 * @return DialogBox
+	 * @since 1.0.35
+	 */
 	public function setDialogBoxLevel($level) {
 		if ($level > 1) {
 			$this->dialogbox_indice = $level;
@@ -181,6 +294,12 @@ class DialogBox extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getFirstAvailableDialogBoxLevel
+	 * @access private static
+	 * @return integer
+	 * @since 1.0.35
+	 */
 	private static function getFirstAvailableDialogBoxLevel() {
 		if (isset($_GET['dialogbox_level']) && $_GET['dialogbox_level'] >= 2) {
 			$indice = $_GET['dialogbox_level']+1;
@@ -193,6 +312,12 @@ class DialogBox extends WebSitePhpObject {
 		return $indice;
 	}
 	
+	/**
+	 * Method getArrayDialogBoxLevels
+	 * @access public static
+	 * @return array
+	 * @since 1.0.35
+	 */
 	public static function getArrayDialogBoxLevels() {
 		if (isset($_GET['dialogbox_level'])) {
 			$page_is_init_var = $GLOBALS['__PAGE_IS_INIT__'];
@@ -210,6 +335,12 @@ class DialogBox extends WebSitePhpObject {
 		return self::$array_dialog_indices;
 	}
 	
+	/**
+	 * Method getCurrentDialogBoxLevel
+	 * @access public static
+	 * @return integer
+	 * @since 1.0.35
+	 */
 	public static function getCurrentDialogBoxLevel() {
 		if (isset($_GET['dialogbox_level'])) {
 			return $_GET['dialogbox_level'];
@@ -218,18 +349,43 @@ class DialogBox extends WebSitePhpObject {
 		}
 	}
 	
+	/**
+	 * Method getDialogBoxLevel
+	 * @access public
+	 * @return integer
+	 * @since 1.0.35
+	 */
 	public function getDialogBoxLevel() {
 		return $this->dialogbox_indice;
 	}
 	
+	/**
+	 * Method getWidth
+	 * @access public
+	 * @return integer
+	 * @since 1.0.35
+	 */
 	public function getWidth() {
 		return $this->width;
 	}
 	
+	/**
+	 * Method getHeight
+	 * @access public
+	 * @return integer
+	 * @since 1.0.35
+	 */
 	public function getHeight() {
 		return $this->height;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object DialogBox
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		$html_content = "";
@@ -334,8 +490,10 @@ class DialogBox extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function getAjaxRender
-	 * @return string javascript code to update initial html with ajax call
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object DialogBox (call with AJAX)
+	 * @since 1.0.35
 	 */
 	public function getAjaxRender() {
 		$html = "";

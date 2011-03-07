@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -30,6 +30,14 @@ class DataBase {
 	private $is_begin_transaction = false;
 	private $connection = null;
 	
+	/**
+	 * Constructor DataBase
+	 * @param mixed $host 
+	 * @param mixed $root 
+	 * @param mixed $password 
+	 * @param string $database 
+	 * @param double $port [default value: 3306]
+	 */
 	function __construct($host, $root, $password, $database='', $port=3306) {
 		$this->host = $host;
 		$this->root = $root;
@@ -40,6 +48,12 @@ class DataBase {
 		$this->is_begin_transaction = false;
 	}
 	
+	/**
+	 * Method getInstance
+	 * @access final public static
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	final public static function getInstance() {
 		static $dbInstance = null;
 		if (!isset($dbInstance)) {
@@ -48,6 +62,12 @@ class DataBase {
 		return $dbInstance;
 	}
 	
+	/**
+	 * Method connect
+	 * @access public
+	 * @return boolean
+	 * @since 1.0.35
+	 */
 	public function connect() {
 		$this->db_is_connect = false;
 		if (!function_exists('mysqli_init') && !extension_loaded('mysqli')) {
@@ -70,6 +90,13 @@ class DataBase {
 		}
 	}
 	
+	/**
+	 * Method select_db
+	 * @access public
+	 * @param mixed $schema 
+	 * @return boolean
+	 * @since 1.0.35
+	 */
 	public function select_db($schema) {
 		if ($this->db_is_connect) {
 			if ($schema != "") {
@@ -87,6 +114,10 @@ class DataBase {
 		return false;
 	}
 	
+	/**
+	 * Method disconnect
+	 * @access public
+	 */
 	public function disconnect() {
 		if ($this->connection != null) {
 			if ($this->connection != false) {
@@ -96,6 +127,14 @@ class DataBase {
 		$this->db_is_connect = false;
 	}
 	
+	/**
+	 * Method prepareStatement
+	 * @access public
+	 * @param mixed $query 
+	 * @param mixed $stmt_objects [default value: array(]
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function prepareStatement($query, $stmt_objects=array()) {
 		if ($this->db_is_connect) {
 			$list_type = "";
@@ -163,6 +202,13 @@ class DataBase {
 		}
 	}
 	
+	/**
+	 * Method convertInvisibleCar
+	 * @access private
+	 * @param mixed $txt 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	private function convertInvisibleCar($txt) {
 		$txt = str_replace("\\r", "\r", $txt);
 		$txt = str_replace("\\n", "\n", $txt);
@@ -172,6 +218,13 @@ class DataBase {
 		return $txt;
 	}
 	
+	/**
+	 * Method getStmtObjectsList
+	 * @access private
+	 * @param mixed $stmt_objects 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	private function getStmtObjectsList($stmt_objects) {
 		$list_stmt_objects = "";
 		for ($i=0; $i < sizeof($stmt_objects); $i++) {
@@ -181,6 +234,13 @@ class DataBase {
 		return $list_stmt_objects;
 	}
 	
+	/**
+	 * Method stmtBindAssoc
+	 * @access public
+	 * @param mixed $&stmt 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function stmtBindAssoc(&$stmt) {
 	    $data = $stmt->result_metadata();
 	    $fields = array();
@@ -195,6 +255,13 @@ class DataBase {
 	    return $row;
 	}
 	
+	/**
+	 * Method refValues
+	 * @access private
+	 * @param mixed $arr 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	private function refValues($arr){
 	    if (strnatcmp(phpversion(),'5.3') >= 0) { //Reference is required for PHP 5.3+
 	        $refs = array();
@@ -206,6 +273,12 @@ class DataBase {
 	    return $arr;
 	} 
 	
+	/**
+	 * Method beginTransaction
+	 * @access public
+	 * @return boolean
+	 * @since 1.0.35
+	 */
 	public function beginTransaction() {
 		if ($this->db_is_connect) {
 			if ($this->is_begin_transaction == true) {
@@ -220,6 +293,10 @@ class DataBase {
 		}
 	}
 	
+	/**
+	 * Method commitTransaction
+	 * @access public
+	 */
 	public function commitTransaction() {
 		if ($this->db_is_connect && $this->is_begin_transaction) {
 			$this->is_begin_transaction = false;
@@ -229,6 +306,10 @@ class DataBase {
 		}
 	}
 	
+	/**
+	 * Method rollbackTransaction
+	 * @access public
+	 */
 	public function rollbackTransaction() {
 		if ($this->db_is_connect && $this->is_begin_transaction) {
 			$this->is_begin_transaction = false;
@@ -238,6 +319,12 @@ class DataBase {
 		}
 	}
 	
+	/**
+	 * Method getLastInsertId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getLastInsertId() {
 		return $this->connection->insert_id;
 	}

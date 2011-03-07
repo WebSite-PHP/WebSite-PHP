@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -29,6 +29,13 @@ class Adsense extends WebSitePhpObject {
 	private $google_ad_height = 0;
 	/**#@-*/
 	
+	/**
+	 * Constructor Adsense
+	 * @param mixed $google_ad_client 
+	 * @param mixed $google_ad_slot 
+	 * @param mixed $google_ad_width 
+	 * @param mixed $google_ad_height 
+	 */
 	function __construct($google_ad_client, $google_ad_slot, $google_ad_width, $google_ad_height) {
 		parent::__construct();
 		
@@ -42,6 +49,13 @@ class Adsense extends WebSitePhpObject {
 		$this->google_ad_height = $google_ad_height;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object Adsense
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$dirname = "wsp/cache/adsense/";
 		$file = $dirname.$this->google_ad_client."-".$this->google_ad_slot."-".$this->google_ad_width."x".$this->google_ad_height.".html";

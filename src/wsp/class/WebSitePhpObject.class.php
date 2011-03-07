@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -37,22 +37,42 @@ class WebSitePhpObject {
 	private $array_css = array();
 	/**#@-*/
 	
+	/**
+	 * Constructor WebSitePhpObject
+	 */
 	function __construct() {
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->is_new_object_after_init = true; }
 		$this->registerObject();
 	}
 	
+	/**
+	 * Method setTag
+	 * @access public
+	 * @param mixed $value 
+	 * @return WebSitePhpObject
+	 * @since 1.0.35
+	 */
 	public function setTag($value) {
 		$this->tag = $value;
 		return $this;
 	}
 	
+	/**
+	 * Method registerObject
+	 * @access private
+	 */
 	private function registerObject() {
 		$register_objects = WebSitePhpObject::getRegisterObjects();
 		$register_objects[] = $this;
 		$_SESSION['websitephp_register_object'] = $register_objects;
 	}
 	
+	/**
+	 * Method getRegisterObjects
+	 * @access public static
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public static function getRegisterObjects() {
 		if (!isset($_SESSION['websitephp_register_object'])) {
 			$_SESSION['websitephp_register_object'] = array();
@@ -60,24 +80,56 @@ class WebSitePhpObject {
 		return $_SESSION['websitephp_register_object'];
 	}
 	
+	/**
+	 * Method addJavaScript
+	 * @access protected
+	 * @param mixed $js_url 
+	 * @param string $conditional_comment 
+	 * @param boolean $conbine [default value: false]
+	 */
 	protected function addJavaScript($js_url, $conditional_comment='', $conbine=false) {
 		$this->array_js[] = $js_url;
 		JavaScriptInclude::getInstance()->add($js_url, $conditional_comment, $conbine);
 	}
 	
+	/**
+	 * Method getJavaScriptArray
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getJavaScriptArray() {
 		return $this->array_js;
 	}
 	
+	/**
+	 * Method addCss
+	 * @access protected
+	 * @param mixed $css_url 
+	 * @param string $conditional_comment 
+	 * @param boolean $conbine [default value: false]
+	 */
 	protected function addCss($css_url, $conditional_comment='', $conbine=false) {
 		$this->array_css[] = $css_url;
 		CssInclude::getInstance()->add($css_url, $conditional_comment, $conbine);
 	}
 	
+	/**
+	 * Method getCssArray
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getCssArray() {
 		return $this->array_css;
 	}
 	
+	/**
+	 * Method getName
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getName() {
 		if (isset($this->name)) {
 			return $this->name;
@@ -86,6 +138,12 @@ class WebSitePhpObject {
 		}
 	}
 	
+	/**
+	 * Method isEventObject
+	 * @access public
+	 * @return boolean
+	 * @since 1.0.35
+	 */
 	public function isEventObject() {
 		if (isset($this->page_object) && $this->page_object != null) {
 			if (get_class($this->page_object) == "Form") {
@@ -98,6 +156,12 @@ class WebSitePhpObject {
 		}
 	}
 	
+	/**
+	 * Method displayJavascriptTag
+	 * @access public
+	 * @return WebSitePhpObject
+	 * @since 1.0.35
+	 */
 	public function displayJavascriptTag() {
 		if (!$this->is_javascript_object) {
 			throw new NewException("displayJavascriptTag Error : You display JavaScript tag only for Javascript object", 0, 8, __FILE__, __LINE__);
@@ -106,37 +170,72 @@ class WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method isJavascriptObject
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function isJavascriptObject() {
 		return $this->is_javascript_object;
 	}
 	
+	/**
+	 * Method isObjectChange
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function isObjectChange() {
 		return $this->object_change;
 	}
 	
+	/**
+	 * Method getTag
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getTag() {
 		return $this->tag;
 	}
 	
+	/**
+	 * Method getJavascriptTagOpen
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getJavascriptTagOpen() {
 		return "<script type='text/javascript'>\n	//<![CDATA[\n";
 	}
 	
+	/**
+	 * Method getJavascriptTagClose
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getJavascriptTagClose() {
 		return "	//]]>\n</script>\n";
 	}
 	
 	/**
-	 * function render
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
 	 * @return string html code from object
+	 * @since 1.0.35
 	 */
 	public function render($ajax_render=false) {
 		return "<!-- Warning: No render method for object ".get_class($this)." !!! -->\n";
 	}
 	
 	/**
-	 * function getAjaxRender
+	 * Method getAjaxRender
+	 * @access public
 	 * @return string javascript code to update initial html with ajax call
+	 * @since 1.0.35
 	 */
 	public function getAjaxRender() {
 		if ($this->object_change && !$this->is_new_object_after_init) {

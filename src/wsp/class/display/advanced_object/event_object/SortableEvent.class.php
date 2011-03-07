@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 05/11/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -39,6 +39,12 @@ class SortableEvent extends WebSitePhpEventObject {
 	private $onsortout = "";
 	/**#@-*/
 	
+	/**
+	 * Constructor SortableEvent
+	 * @param mixed $page_or_form_object 
+	 * @param string $name 
+	 * @param string $over_style [default value: droppablehover]
+	 */
 	function __construct($page_or_form_object, $name='', $over_style="droppablehover") {
 		parent::__construct();
 		
@@ -73,6 +79,12 @@ class SortableEvent extends WebSitePhpEventObject {
 	}
 	
 	/* Intern management of SortableEvent */
+	/**
+	 * Method setSort
+	 * @access public
+	 * @return SortableEvent
+	 * @since 1.0.35
+	 */
 	public function setSort() {
 		if ($GLOBALS['__LOAD_VARIABLES__']) { 
 			$this->is_sorted = true; 
@@ -80,10 +92,28 @@ class SortableEvent extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getOnSortJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getOnSortJs() {
 		return $this->onsort;
 	}
 	
+	/**
+	 * Method onSort
+	 * @access public
+	 * @param mixed $str_function 
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return SortableEvent
+	 * @since 1.0.35
+	 */
 	public function onSort($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		$args = func_get_args();
 		$str_function = array_shift($args);
@@ -91,46 +121,108 @@ class SortableEvent extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method onSortJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return SortableEvent
+	 * @since 1.0.35
+	 */
 	public function onSortJs($js_function) {
 		$this->onsort = trim($js_function);
 		return $this;
 	}
 	
+	/**
+	 * Method onSortStartJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return SortableEvent
+	 * @since 1.0.35
+	 */
 	public function onSortStartJs($js_function) {
 		$this->onsortstart = trim($js_function);
 		return $this;
 	}
 	
+	/**
+	 * Method onSortChangeJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return SortableEvent
+	 * @since 1.0.35
+	 */
 	public function onSortChangeJs($js_function) {
 		$this->onsortchange = trim($js_function);
 		return $this;
 	}
 	
+	/**
+	 * Method onSortUpdateJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return SortableEvent
+	 * @since 1.0.35
+	 */
 	public function onSortUpdateJs($js_function) {
 		$this->onsortupdate = trim($js_function);
 		return $this;
 	}
 	
+	/**
+	 * Method onSortStopJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return SortableEvent
+	 * @since 1.0.35
+	 */
 	public function onSortStopJs($js_function) {
 		$this->onsortstop = trim($js_function);
 		return $this;
 	}
 	
+	/**
+	 * Method onSortRemoveJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return SortableEvent
+	 * @since 1.0.35
+	 */
 	public function onSortRemoveJs($js_function) {
 		$this->onsortremove = trim($js_function);
 		return $this;
 	}
 	
+	/**
+	 * Method onSortOverJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return SortableEvent
+	 * @since 1.0.35
+	 */
 	public function onSortOverJs($js_function) {
 		$this->onsortover = trim($js_function);
 		return $this;
 	}
 	
+	/**
+	 * Method onSortOutJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return SortableEvent
+	 * @since 1.0.35
+	 */
 	public function onSortOutJs($js_function) {
 		$this->onsortout = trim($js_function);
 		return $this;
 	}
 	
+	/**
+	 * Method isSorted
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function isSorted() {
 		if (!$this->is_sorted) {
 			$this->page_object->getUserEventObject();
@@ -139,18 +231,42 @@ class SortableEvent extends WebSitePhpEventObject {
 	}
 	
 	/* Intern management of SortableEvent */
+	/**
+	 * Method setSortableId
+	 * @access public
+	 * @param mixed $id 
+	 */
 	public function setSortableId($id) {
 		$this->sortable_id = $id;
 	}
 	
+	/**
+	 * Method getSortableId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getSortableId() {
 		return $this->sortable_id;
 	}
 	
+	/**
+	 * Method getName
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getName() {
 		return $this->name;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object SortableEvent
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$this->automaticAjaxEvent();
 		

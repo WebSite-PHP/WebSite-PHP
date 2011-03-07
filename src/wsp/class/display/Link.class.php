@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -39,6 +39,12 @@ class Link extends WebSitePhpObject {
 	private $lightbox_name = "";
 	/**#@-*/
 	
+	/**
+	 * Constructor Link
+	 * @param mixed $link 
+	 * @param string $target 
+	 * @param object $content [default value: null]
+	 */
 	function __construct($link, $target='', $content=null) {
 		parent::__construct();
 		
@@ -52,12 +58,26 @@ class Link extends WebSitePhpObject {
 		$this->tagH = "";
 	}
 	
+	/**
+	 * Method setContent
+	 * @access public
+	 * @param object $content 
+	 * @return Link
+	 * @since 1.0.35
+	 */
 	public function setContent($content) {
 		$this->content = $content;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setTitleTagH1
+	 * @access public
+	 * @param boolean $bold [default value: true]
+	 * @return Link
+	 * @since 1.0.35
+	 */
 	public function setTitleTagH1($bold=true) {
 		$this->tagH = "h1";
 		$this->tagH_bold = $bold;
@@ -65,6 +85,13 @@ class Link extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setTitleTagH2
+	 * @access public
+	 * @param boolean $bold [default value: false]
+	 * @return Link
+	 * @since 1.0.35
+	 */
 	public function setTitleTagH2($bold=false) {
 		$this->tagH = "h2";
 		$this->tagH_bold = $bold;
@@ -72,6 +99,14 @@ class Link extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setTitleTagH
+	 * @access public
+	 * @param mixed $value 
+	 * @param boolean $bold [default value: false]
+	 * @return Link
+	 * @since 1.0.35
+	 */
 	public function setTitleTagH($value, $bold=false) {
 		$this->tagH = "h".$value;
 		$this->tagH_bold = $bold;
@@ -79,6 +114,13 @@ class Link extends WebSitePhpObject {
 		return $this;
 	}
 		
+	/**
+	 * Method addLightbox
+	 * @access public
+	 * @param string $lightbox_name 
+	 * @return Link
+	 * @since 1.0.35
+	 */
 	public function addLightbox($lightbox_name='') {
 		$this->is_lightbox = true;
 		$this->lightbox_name = $lightbox_name;
@@ -94,14 +136,32 @@ class Link extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getLink
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getLink() {
 		return $this->link;
 	}
 	
+	/**
+	 * Method getTarget
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getTarget() {
 		return $this->target;
 	}
 	
+	/**
+	 * Method getUserHaveRights
+	 * @access public
+	 * @return boolean
+	 * @since 1.0.35
+	 */
 	public function getUserHaveRights() {
 		// check user have right to view this local link
 		if (gettype($this->link) == "object") {
@@ -167,6 +227,13 @@ class Link extends WebSitePhpObject {
 		return true;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object Link
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		if (!$this->getUserHaveRights()) {
 			return "";

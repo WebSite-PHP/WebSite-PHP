@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -40,6 +40,12 @@ class ComboBox extends WebSitePhpEventObject {
 	private $callback_onchange = "";
 	/**#@-*/
 
+	/**
+	 * Constructor ComboBox
+	 * @param mixed $page_or_form_object 
+	 * @param string $name 
+	 * @param string $width 
+	 */
 	function __construct($page_or_form_object, $name='', $width='') {
 		parent::__construct();
 		
@@ -75,6 +81,13 @@ class ComboBox extends WebSitePhpEventObject {
 		$this->page_object->addEventObject($this, $this->form_object);
 	}
 	
+	/**
+	 * Method setValue
+	 * @access public
+	 * @param mixed $value 
+	 * @return ComboBox
+	 * @since 1.0.36
+	 */
 	public function setValue($value) {
 		$find_item = false;
 		for ($i=0; $i < sizeof($this->item_value); $i++) {
@@ -96,6 +109,13 @@ class ComboBox extends WebSitePhpEventObject {
 		return $this;
 	}
 
+	/**
+	 * Method setDefaultValue
+	 * @access public
+	 * @param mixed $value 
+	 * @return ComboBox
+	 * @since 1.0.36
+	 */
 	public function setDefaultValue($value) {
 		$find_item = false;
 		for ($i=0; $i < sizeof($this->item_value); $i++) {
@@ -111,23 +131,55 @@ class ComboBox extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return ComboBox
+	 * @since 1.0.36
+	 */
 	public function setWidth($width) {
 		$this->width = $width;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setName
+	 * @access public
+	 * @param mixed $name 
+	 * @return ComboBox
+	 * @since 1.0.36
+	 */
 	public function setName($name) {
 		$this->name = $name;
 		return $this;
 	}
 	
+	/**
+	 * Method setOption
+	 * @access public
+	 * @param mixed $option 
+	 * @return ComboBox
+	 * @since 1.0.36
+	 */
 	public function setOption($option) {
 		$this->option = $option;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method addItem
+	 * @access public
+	 * @param mixed $value 
+	 * @param mixed $text 
+	 * @param boolean $selected [default value: false]
+	 * @param string $img 
+	 * @param string $group_name 
+	 * @return ComboBox
+	 * @since 1.0.36
+	 */
 	public function addItem($value, $text, $selected=false, $img='', $group_name='') {
 		$this->item_value[] = html_entity_decode($value);
 		$this->item_text[] = $text;
@@ -147,6 +199,12 @@ class ComboBox extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method removeItems
+	 * @access public
+	 * @return ComboBox
+	 * @since 1.0.36
+	 */
 	public function removeItems() {
 		$this->item_value = array();
 		$this->item_text = array();
@@ -157,6 +215,13 @@ class ComboBox extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setSelectedIndex
+	 * @access public
+	 * @param mixed $index 
+	 * @return ComboBox
+	 * @since 1.0.36
+	 */
 	public function setSelectedIndex($index) {
 		if (sizeof($this->item_value) > 0) { $this->initSubmitValue(); } // init selected index with submit value if not already do
 		if (isset($this->item_value[$index])) {
@@ -166,6 +231,12 @@ class ComboBox extends WebSitePhpEventObject {
 		return $this;
 	}
 
+	/**
+	 * Method getValue
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getValue() {
 		if (sizeof($this->item_value) > 0) { $this->initSubmitValue(); } // init selected index with submit value if not already do
 		else if ($this->item_selected == -1) { // get the value when combobox not init whith items
@@ -196,24 +267,60 @@ class ComboBox extends WebSitePhpEventObject {
 		return (isset($this->item_value[$this->item_selected])?$this->item_value[$this->item_selected]:"");
 	}
 	
+	/**
+	 * Method getSelectedIndex
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getSelectedIndex() {
 		if (sizeof($this->item_value) > 0) { $this->initSubmitValue(); } // init selected index with submit value if not already do
 		return $this->item_selected;
 	}
 
+	/**
+	 * Method getDefaultValue
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getDefaultValue() {
 		return $this->item_value[$this->item_default_selected];
 	}
 
+	/**
+	 * Method getId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getId() {
 		return $this->getEventObjectName();
 	}
 
+	/**
+	 * Method getText
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getText() {
 		if (sizeof($this->item_value) > 0) { $this->initSubmitValue(); } // init selected index with submit value if not already do
 		return $this->item_text[$this->item_selected];
 	}
 	
+	/**
+	 * Method onChange
+	 * @access public
+	 * @param mixed $str_function 
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return ComboBox
+	 * @since 1.0.36
+	 */
 	public function onChange($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		$args = func_get_args();
 		$str_function = array_shift($args);
@@ -221,11 +328,24 @@ class ComboBox extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method onChangeJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return ComboBox
+	 * @since 1.0.36
+	 */
 	public function onChangeJs($js_function) {
 		$this->onchange = trim($js_function);
 		return $this;
 	}
 	
+	/**
+	 * Method isChanged
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function isChanged() {
 		if (!$this->is_changed) {
 			$this->page_object->getUserEventObject();
@@ -233,6 +353,13 @@ class ComboBox extends WebSitePhpEventObject {
 		return $this->is_changed;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object ComboBox
+	 * @since 1.0.36
+	 */
 	public function render($ajax_render=false) {
 		$this->automaticAjaxEvent();
 		
@@ -288,6 +415,12 @@ class ComboBox extends WebSitePhpEventObject {
 		return $html;
 	}
 	
+	/**
+	 * Method htmlOnChangeFct
+	 * @access private
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	private function htmlOnChangeFct() {
 		$html = "";
 		$html .= "	onChangeComboBox_".$this->getEventObjectName()." = function() {\n";
@@ -304,8 +437,10 @@ class ComboBox extends WebSitePhpEventObject {
 	}
 	
 	/**
-	 * function getAjaxRender
-	 * @return string javascript code to update initial html with ajax call
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object ComboBox (call with AJAX)
+	 * @since 1.0.36
 	 */
 	public function getAjaxRender() {
 		$this->automaticAjaxEvent();

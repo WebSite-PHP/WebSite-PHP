@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.16
  */
@@ -32,6 +32,15 @@ class SmtpMail {
 	private $smtp_object = null;
 	/**#@-*/
 	
+	/**
+	 * Constructor SmtpMail
+	 * @param mixed $to_mail 
+	 * @param mixed $to_name 
+	 * @param mixed $subject 
+	 * @param mixed $message 
+	 * @param string $from_mail 
+	 * @param string $from_name 
+	 */
 	function __construct($to_mail, $to_name, $subject, $message, $from_mail='', $from_name='') {
 		if (!isset($to_mail) || !isset($to_name) || !isset($subject) || !isset($message)) {
 			throw new NewException("4 arguments for ".get_class($this)."::__construct() are mandatory", 0, 8, __FILE__, __LINE__);
@@ -52,6 +61,13 @@ class SmtpMail {
 		}
 	}
 	
+	/**
+	 * Method addAttachment
+	 * @access public
+	 * @param mixed $file 
+	 * @return SmtpMail
+	 * @since 1.0.35
+	 */
 	public function addAttachment($file) {
 		if (file_exists($file)) {
 			$this->attachement[] = $file;
@@ -61,6 +77,14 @@ class SmtpMail {
 		return $this;
 	}
 	
+	/**
+	 * Method addAddress
+	 * @access public
+	 * @param mixed $to_mail 
+	 * @param mixed $to_name 
+	 * @return SmtpMail
+	 * @since 1.0.35
+	 */
 	public function addAddress($to_mail, $to_name) {
 		$ind = sizeof($this->to);
 		$this->to[$ind] = array();
@@ -69,6 +93,12 @@ class SmtpMail {
 		return $this;
 	}
 	
+	/**
+	 * Method getErrorInfo
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getErrorInfo() {
 		if ($this->smtp_object != null) {
 			return $this->smtp_object->ErrorInfo;
@@ -77,6 +107,12 @@ class SmtpMail {
 		}
 	}
 	
+	/**
+	 * Method send
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function send() {
 		$this->smtp_object = new PHPMailer(true);
 		

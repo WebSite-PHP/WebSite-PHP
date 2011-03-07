@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 16/11/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -26,6 +26,10 @@ class Url extends WebSitePhpObject {
 	private $url = "http://";
 	/**#@-*/
 	
+	/**
+	 * Constructor Url
+	 * @param mixed $url 
+	 */
 	function __construct($url) {
 		parent::__construct();
 		
@@ -36,6 +40,13 @@ class Url extends WebSitePhpObject {
 		$this->url = $url;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		if (strtoupper(substr($this->url, 0, 7)) != "HTTP://") {
 			$this->url = BASE_URL.$_SESSION['lang']."/".$this->url;

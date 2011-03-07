@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -43,6 +43,13 @@ class Label extends WebSitePhpObject {
 	private $id = "";
 	/**#@-*/
 
+	/**
+	 * Constructor Label
+	 * @param string $label 
+	 * @param boolean $bold [default value: false]
+	 * @param boolean $italic [default value: false]
+	 * @param boolean $underline [default value: false]
+	 */
 	function __construct($label='', $bold=false, $italic=false, $underline=false) {
 		parent::__construct();
 		
@@ -52,34 +59,74 @@ class Label extends WebSitePhpObject {
 		$this->underline = $underline;
 	}
 	
+	/**
+	 * Method setBold
+	 * @access public
+	 * @return Label
+	 * @since 1.0.36
+	 */
 	public function setBold() {
 		$this->bold = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setItalic
+	 * @access public
+	 * @return Label
+	 * @since 1.0.36
+	 */
 	public function setItalic() {
 		$this->italic = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setUnderline
+	 * @access public
+	 * @return Label
+	 * @since 1.0.36
+	 */
 	public function setUnderline() {
 		$this->underline = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setId
+	 * @access public
+	 * @param mixed $id 
+	 * @return Label
+	 * @since 1.0.36
+	 */
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
 	}
 	
+	/**
+	 * Method setLabel
+	 * @access public
+	 * @param mixed $label 
+	 * @return Label
+	 * @since 1.0.36
+	 */
 	public function setLabel($label) {
 		$this->label = $label;
 		return $this;
 	}
 	
+	/**
+	 * Method setFont
+	 * @access public
+	 * @param mixed $font_size 
+	 * @param mixed $font_family 
+	 * @return Label
+	 * @since 1.0.36
+	 */
 	public function setFont($font_size, $font_family) {
 		$this->font_size = $font_size;
 		$this->font_family = $font_family;
@@ -87,10 +134,23 @@ class Label extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getId() {
 		return $this->id;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object Label
+	 * @since 1.0.36
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		

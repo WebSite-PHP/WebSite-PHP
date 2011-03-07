@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -32,6 +32,13 @@ class Hidden extends WebSitePhpObject {
 	private $default_value = "";
 	/**#@-*/
 	
+	/**
+	 * Constructor Hidden
+	 * @param mixed $page_or_form_object 
+	 * @param string $name 
+	 * @param string $id 
+	 * @param string $value 
+	 */
 	function __construct($page_or_form_object, $name='', $id='', $value='') {
 		parent::__construct();
 		
@@ -70,42 +77,99 @@ class Hidden extends WebSitePhpObject {
 		$this->page_object->addEventObject($this, $this->form_object);
 	}
 	
+	/**
+	 * Method setValue
+	 * @access public
+	 * @param mixed $value 
+	 * @return Hidden
+	 * @since 1.0.35
+	 */
 	public function setValue($value) {
 		$this->value = $value;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 
+	/**
+	 * Method setDefaultValue
+	 * @access public
+	 * @param mixed $value 
+	 * @return Hidden
+	 * @since 1.0.35
+	 */
 	public function setDefaultValue($value) {
 		$this->default_value = $value;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 		
+	/**
+	 * Method getName
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getName() {
 		return $this->name;
 	}
 		
+	/**
+	 * Method getId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getId() {
 		return $this->id;
 	}
 	
+	/**
+	 * Method getEventObjectName
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getEventObjectName() {
 		return $this->class_name."_".$this->name;
 	}
 
+	/**
+	 * Method getValue
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getValue() {
 		return $this->value;
 	}
 
+	/**
+	 * Method getDefaultValue
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getDefaultValue() {
 		return $this->default_value;
 	}
 
+	/**
+	 * Method getFormObject
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getFormObject() {
 		return $this->form_object;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object Hidden
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		if ($this->class_name != "") {
@@ -116,8 +180,10 @@ class Hidden extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function getAjaxRender
-	 * @return string javascript code to update initial html with ajax call
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object Hidden (call with AJAX)
+	 * @since 1.0.35
 	 */
 	public function getAjaxRender() {
 		$html = "";

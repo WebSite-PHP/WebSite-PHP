@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -31,6 +31,12 @@ class LinkPage extends WebSitePhpObject {
 	private $tagH_bold = false;
 	/**#@-*/
 	
+	/**
+	 * Constructor LinkPage
+	 * @param mixed $page 
+	 * @param mixed $title_object 
+	 * @param string $picture_16 
+	 */
 	function __construct($page, $title_object, $picture_16='') {
 		parent::__construct();
 		
@@ -44,12 +50,26 @@ class LinkPage extends WebSitePhpObject {
 		$this->tagH = "";
 	}
 	
+	/**
+	 * Method setGetParameters
+	 * @access public
+	 * @param mixed $get 
+	 * @return LinkPage
+	 * @since 1.0.35
+	 */
 	public function setGetParameters($get) {
 		$this->get = $get;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setTitleTagH1
+	 * @access public
+	 * @param boolean $bold [default value: true]
+	 * @return LinkPage
+	 * @since 1.0.35
+	 */
 	public function setTitleTagH1($bold=true) {
 		$this->tagH = "1";
 		$this->tagH_bold = $bold;
@@ -57,6 +77,13 @@ class LinkPage extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setTitleTagH2
+	 * @access public
+	 * @param boolean $bold [default value: false]
+	 * @return LinkPage
+	 * @since 1.0.35
+	 */
 	public function setTitleTagH2($bold=false) {
 		$this->tagH = "2";
 		$this->tagH_bold = $bold;
@@ -64,6 +91,14 @@ class LinkPage extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setTitleTagH
+	 * @access public
+	 * @param mixed $value 
+	 * @param boolean $bold [default value: false]
+	 * @return LinkPage
+	 * @since 1.0.35
+	 */
 	public function setTitleTagH($value, $bold=false) {
 		$this->tagH = $value;
 		$this->tagH_bold = $bold;
@@ -71,11 +106,24 @@ class LinkPage extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getUserHaveRights
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getUserHaveRights() {
 		$tmp_link = new Link($this->page, Link::TARGET_NONE);
 		return $tmp_link->getUserHaveRights();
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$link_obj = new Object($this->object);
 		if ($this->picture_16 != "") {

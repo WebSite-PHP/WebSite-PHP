@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -26,6 +26,10 @@ class Anchor extends WebSitePhpObject {
 	private $name = "";
 	/**#@-*/
 	
+	/**
+	 * Constructor Anchor
+	 * @param mixed $name 
+	 */
 	function __construct($name) {
 		parent::__construct();
 		
@@ -36,6 +40,13 @@ class Anchor extends WebSitePhpObject {
 		$this->name = $name;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object Anchor
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "<a name=\"".$this->name."\"></a>";
 		$this->object_change = false;

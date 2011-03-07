@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -31,6 +31,10 @@ class LiveValidation extends WebSitePhpObject {
 	private $validate_js = "";
 	/**#@-*/
 
+	/**
+	 * Constructor LiveValidation
+	 * @param boolean $onlyOnSubmit [default value: false]
+	 */
 	function __construct($onlyOnSubmit=false) {
 		parent::__construct();
 		
@@ -40,6 +44,13 @@ class LiveValidation extends WebSitePhpObject {
 		$this->addJavaScript(BASE_URL."wsp/js/livevalidation_standalone.compressed.js", "", true);
 	}
 	
+	/**
+	 * Method setObject
+	 * @access public
+	 * @param mixed $object 
+	 * @return LiveValidation
+	 * @since 1.0.35
+	 */
 	public function setObject($object) {
 		if (!isset($object)) {
 			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, 8, __FILE__, __LINE__);
@@ -53,39 +64,64 @@ class LiveValidation extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setFieldName
+	 * @access public
+	 * @param mixed $name 
+	 * @return LiveValidation
+	 * @since 1.0.35
+	 */
 	public function setFieldName($name) {
 		$this->field_name = $name;
 		return $this;
 	}
 	
+	/**
+	 * Method setAlertMessage
+	 * @access public
+	 * @param mixed $message 
+	 * @return LiveValidation
+	 * @since 1.0.35
+	 */
 	public function setAlertMessage($message) {
 		$this->alert_msg = $message;
 		return $this;
 	}
 	
+	/**
+	 * Method addValidatePresence
+	 * @access public
+	 * @return LiveValidation
+	 * @since 1.0.35
+	 */
 	public function addValidatePresence() {
 		//.add( Validate.Presence )
 		$this->validate_js .= ".add(Validate.Presence)";
 		return $this;
 	}
 	
+	/**
+	 * Method addValidateFormat
+	 * @access public
+	 * @param mixed $pattern 
+	 * @return LiveValidation
+	 * @since 1.0.35
+	 */
 	public function addValidateFormat($pattern) {
 		//.add( Validate.Format, { pattern: /live/i } );
 		$this->validate_js .= ".add(Validate.Format, {pattern: ".$pattern."})";
 		return $this;
 	}
 	
-	/*
-	 *  addValidateNumericality
-	 *  notANumberMessage (optional) - {String} - message to be used when validation fails because value is not a number (DEFAULT: �Must be a number!�)
-	 *	notAnIntegerMessage (optional) - {String} - message to be used when validation fails because value is not an integer (DEFAULT: �Must be an integer!�)
-	 *	wrongNumberMessage (optional) - {String} - message to be used when validation fails when �is� param is used (DEFAULT: �Must be {is}!�)
-	 *	tooLowMessage (optional) - {String} - message to be used when validation fails when �minimum�} param is used (DEFAULT: �Must not be less than {minimum}!�)
-	 *	tooHighMessage (optional) - {String} - message to be used when validation fails when �maximum�} param is used (DEFAULT: �Must not be more than {maximum}!�)
-	 *	is (optional) - {mixed} - the value must be equal to this numeric value
-	 *	minimum (optional) - {mixed} - the minimum numeric allowed
-	 *	maximum (optional) - {mixed} - the maximum numeric allowed
-	 *	onlyInteger (optional) - {Boolean} - if true will only allow integers to be valid (DEFAULT: false) 
+	/**
+	 * Method addValidateNumericality
+	 * @access public
+	 * @param boolean $onlyInteger [default value: false]
+	 * @param integer $minimum 
+	 * @param integer $maximum 
+	 * @param integer $is 
+	 * @return LiveValidation
+	 * @since 1.0.35
 	 */
 	public function addValidateNumericality($onlyInteger=false, $minimum='', $maximum='', $is='') {
 		$this->validate_js .= ".add(Validate.Numericality, {";
@@ -111,37 +147,81 @@ class LiveValidation extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method addValidateLength
+	 * @access public
+	 * @param mixed $length 
+	 * @return LiveValidation
+	 * @since 1.0.35
+	 */
 	public function addValidateLength($length) {
 		$this->validate_js .= ".add(Validate.Length, {is: ".$length."})";
 		return $this;
 	}
 	
+	/**
+	 * Method addValidateInclusion
+	 * @access public
+	 * @return LiveValidation
+	 * @since 1.0.35
+	 */
 	public function addValidateInclusion() {
 		//add( Validate.Inclusion, { within: [ 'cow' , 'pigeon', 'giraffe' ], partialMatch: true } )
 		return $this;
 	}
 	
+	/**
+	 * Method addValidateExclusion
+	 * @access public
+	 * @return LiveValidation
+	 * @since 1.0.35
+	 */
 	public function addValidateExclusion() {
 		//.add( Validate.Exclusion, { within: [ 'cow' , 'pigeon', 'giraffe' ], partialMatch: true } )
 		return $this;
 	}
 	
+	/**
+	 * Method addValidateAcceptance
+	 * @access public
+	 * @return LiveValidation
+	 * @since 1.0.35
+	 */
 	public function addValidateAcceptance() {
 		//for checkbox
 		//.add( Validate.Acceptance )
 		return $this;
 	}
 	
+	/**
+	 * Method addValidateConfirmation
+	 * @access public
+	 * @param mixed $confirm_from_id 
+	 * @return LiveValidation
+	 * @since 1.0.35
+	 */
 	public function addValidateConfirmation($confirm_from_id) {
 		$this->validate_js .= ".add(Validate.Confirmation, {match:'".$confirm_from_id."'})";
 		return $this;
 	}
 	
+	/**
+	 * Method addValidateEmail
+	 * @access public
+	 * @return LiveValidation
+	 * @since 1.0.35
+	 */
 	public function addValidateEmail() {
 		$this->validate_js .= ".add(Validate.Email)";
 		return $this;
 	}
 	
+	/**
+	 * Method addValidateCustom
+	 * @access public
+	 * @return LiveValidation
+	 * @since 1.0.35
+	 */
 	public function addValidateCustom() {
 		// Pass a function that checks if a number is divisible by one that you pass it in args object
 		// In this case, 5 is passed, so should return true and validation will pass
@@ -149,6 +229,13 @@ class LiveValidation extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object LiveValidation
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		if (!isset($this->object)) {
 			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, 8, __FILE__, __LINE__);

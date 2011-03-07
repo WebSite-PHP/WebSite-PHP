@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -29,6 +29,13 @@ class ContactForm extends WebSitePhpObject {
 	private $render = null;
 	/**#@-*/
 	
+	/**
+	 * Constructor ContactForm
+	 * @param mixed $page_object 
+	 * @param mixed $send_method 
+	 * @param mixed $table_style 
+	 * @param mixed $button_class 
+	 */
 	function __construct($page_object, $send_method, $table_style, $button_class) {
 		parent::__construct();
 		
@@ -85,22 +92,50 @@ class ContactForm extends WebSitePhpObject {
 		$this->render = $form;
 	}
 	
+	/**
+	 * Method getContactName
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getContactName() {
 		return $this->page_object->getObjectValue("contact_name");
 	}
 	
+	/**
+	 * Method getContactEmail
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getContactEmail() {
 		return $this->page_object->getObjectValue("contact_email");
 	}
 	
+	/**
+	 * Method getContactSubject
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getContactSubject() {
 		return $this->page_object->getObjectValue("contact_subject");
 	}
 	
+	/**
+	 * Method getContactMessage
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getContactMessage() {
 		return $this->page_object->getObjectValue("contact_message");
 	}
 	
+	/**
+	 * Method sendMail
+	 * @access public
+	 */
 	public function sendMail() {
 		if (!$this->captcha->check()) {
 			$this->captcha->forceObjectChange();
@@ -120,6 +155,13 @@ class ContactForm extends WebSitePhpObject {
 		}
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		return $this->render->render();
 	}

@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -49,6 +49,13 @@ class DownloadButton extends WebSitePhpObject {
 	private $left_position_text = 62;
 	/**#@-*/
 	
+	/**
+	 * Constructor DownloadButton
+	 * @param mixed $link 
+	 * @param mixed $download_text 
+	 * @param string $download_sub_text 
+	 * @param string $link_target 
+	 */
 	function __construct($link, $download_text, $download_sub_text='', $link_target='') {
 		parent::__construct();
 		
@@ -62,36 +69,78 @@ class DownloadButton extends WebSitePhpObject {
 		$this->link_target = $link_target;
 	}
 	
+	/**
+	 * Method setImageSrc
+	 * @access public
+	 * @param mixed $image_src 
+	 * @return DownloadButton
+	 * @since 1.0.35
+	 */
 	public function setImageSrc($image_src) {
 		$this->download_image = $image_src;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setImageWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return DownloadButton
+	 * @since 1.0.35
+	 */
 	public function setImageWidth($width) {
 		$this->download_image_width = $width;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setImageHeight
+	 * @access public
+	 * @param integer $height 
+	 * @return DownloadButton
+	 * @since 1.0.35
+	 */
 	public function setImageHeight($height) {
 		$this->download_image_height = $height;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setTopPositionText
+	 * @access public
+	 * @param mixed $top 
+	 * @return DownloadButton
+	 * @since 1.0.35
+	 */
 	public function setTopPositionText($top) {
 		$this->top_position_text = $top;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setLeftPositionText
+	 * @access public
+	 * @param mixed $left 
+	 * @return DownloadButton
+	 * @since 1.0.35
+	 */
 	public function setLeftPositionText($left) {
 		$this->left_position_text = $left;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object DownloadButton
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		

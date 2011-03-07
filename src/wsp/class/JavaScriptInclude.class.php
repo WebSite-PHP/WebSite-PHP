@@ -14,10 +14,19 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
- * @since       1.0.18
+ * @since       1.0.36
  */
+
+	/**
+	 * Method JavaScriptIncludeComparator
+	 * @access 
+	 * @param mixed $a 
+	 * @param mixed $b 
+	 * @return mixed
+	 * @since 1.0.18
+	 */
 
 function JavaScriptIncludeComparator($a, $b) {
 	$array_put_js_to_begin = array();
@@ -51,8 +60,17 @@ class JavaScriptInclude {
 	private $combine = array();
 	/**#@-*/
 
+	/**
+	 * Constructor JavaScriptInclude
+	 */
 	function __construct() {}
 	
+	/**
+	 * Method getInstance
+	 * @access final public static
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	final public static function getInstance() {
 		static $instance = null;
 		if (!isset($instance)) {
@@ -61,6 +79,13 @@ class JavaScriptInclude {
 		return $instance;
 	}
 	
+	/**
+	 * Method add
+	 * @access public
+	 * @param mixed $js_url 
+	 * @param string $conditional_comment 
+	 * @param boolean $conbine [default value: false]
+	 */
 	public function add($js_url, $conditional_comment='', $conbine=false) {
 		if (!in_array($js_url, $this->js_scripts)) {
 			$this->js_scripts[] = $js_url;
@@ -69,6 +94,13 @@ class JavaScriptInclude {
 		}
 	}
 	
+	/**
+	 * Method get
+	 * @access public
+	 * @param boolean $sort_by_name [default value: false]
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function get($sort_by_name=false) {
 		if ($sort_by_name) {
 			uasort($this->js_scripts, "JavaScriptIncludeComparator");
@@ -76,10 +108,24 @@ class JavaScriptInclude {
 		return $this->js_scripts;
 	}
 	
+	/**
+	 * Method getConditionalComment
+	 * @access public
+	 * @param mixed $indice 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getConditionalComment($indice) {
 		return $this->conditional_comment[$indice];
 	}
 	
+	/**
+	 * Method getCombine
+	 * @access public
+	 * @param mixed $indice 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getCombine($indice) {
 		return $this->combine[$indice];
 	}

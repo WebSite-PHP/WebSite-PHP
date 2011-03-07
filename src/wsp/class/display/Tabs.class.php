@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -33,6 +33,10 @@ class Tabs extends WebSitePhpObject {
 	private $cache = false;
 	/**#@-*/
 	
+	/**
+	 * Constructor Tabs
+	 * @param string $id 
+	 */
 	function __construct($id='') {
 		parent::__construct();
 		
@@ -42,6 +46,15 @@ class Tabs extends WebSitePhpObject {
 		$this->id = $id;
 	}
 	
+	/**
+	 * Method addTab
+	 * @access public
+	 * @param mixed $tab_name 
+	 * @param object $content_or_url_object 
+	 * @param string $on_select_js 
+	 * @return Tabs
+	 * @since 1.0.35
+	 */
 	public function addTab($tab_name, $content_or_url_object, $on_select_js="") {
 		if (gettype($content_or_url_object) == "object" && get_class($content_or_url_object) == "DateTime") {
 			throw new NewException(get_class($this)."->addTab() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, 8, __FILE__, __LINE__);
@@ -53,28 +66,61 @@ class Tabs extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setHeight
+	 * @access public
+	 * @param integer $height 
+	 * @return Tabs
+	 * @since 1.0.35
+	 */
 	public function setHeight($height) {
 		$this->height = $height;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setMinHeight
+	 * @access public
+	 * @param mixed $min_height 
+	 * @return Tabs
+	 * @since 1.0.35
+	 */
 	public function setMinHeight($min_height) {
 		$this->min_height = $min_height;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method activateCache
+	 * @access public
+	 * @return Tabs
+	 * @since 1.0.35
+	 */
 	public function activateCache() {
 		$this->cache = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 
+	/**
+	 * Method getId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getId() {
 		return $this->id;
 	}
 		
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object Tabs
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$is_ajax_content = false;
 		

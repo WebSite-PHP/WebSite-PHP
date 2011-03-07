@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -47,6 +47,14 @@ class ImageRotator extends WebSitePhpObject {
 	private $array_img_link = array();
 	/**#@-*/
 	
+	/**
+	 * Constructor ImageRotator
+	 * @param mixed $id 
+	 * @param integer $width 
+	 * @param integer $height 
+	 * @param string $transition [default value: blocks]
+	 * @param string $rotate_time 
+	 */
 	function __construct($id, $width, $height, $transition='blocks', $rotate_time='') {
 		parent::__construct();
 		
@@ -63,6 +71,15 @@ class ImageRotator extends WebSitePhpObject {
 		$this->addJavaScript(BASE_URL."wsp/js/swfobject.js", "", true);
 	}
 	
+	/**
+	 * Method addImage
+	 * @access public
+	 * @param mixed $src 
+	 * @param string $title 
+	 * @param string $link 
+	 * @return ImageRotator
+	 * @since 1.0.35
+	 */
 	public function addImage($src, $title='', $link='') {
 		$this->array_img_src[] = $src;
 		$this->array_img_title[] = $title;
@@ -74,12 +91,25 @@ class ImageRotator extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method disableNavigationBar
+	 * @access public
+	 * @return ImageRotator
+	 * @since 1.0.35
+	 */
 	public function disableNavigationBar() {
 		$this->navigation_bar = false;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		// remove old cache files
 		$dirname = "wsp/cache/xml/image-rotator/";

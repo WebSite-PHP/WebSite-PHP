@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2011
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -26,15 +26,32 @@ class AutoCompleteEvent extends WebSitePhpObject {
 	private $onselect = "";
 	/**#@-*/
 	
+	/**
+	 * Constructor AutoCompleteEvent
+	 */
 	function __construct() {
 		parent::__construct();
 	}
 	
+	/**
+	 * Method onSelectJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return AutoCompleteEvent
+	 * @since 1.0.35
+	 */
 	public function onSelectJs($js_function) {
 		$this->onselect = trim($js_function);
 		return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object AutoCompleteEvent
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		$html = $this->onselect;

@@ -14,12 +14,16 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
 
 class WebSitePhpSoapServer {
+	/**
+	 * Constructor WebSitePhpSoapServer
+	 * @param mixed $class_name 
+	 */
 	function __construct($class_name) {
 		include_once('wsp/class/webservice/Soap/AutoDiscover.php');
 		

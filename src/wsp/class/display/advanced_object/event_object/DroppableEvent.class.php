@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -30,6 +30,11 @@ class DroppableEvent extends WebSitePhpEventObject {
 	private $is_droped = false;
 	/**#@-*/
 	
+	/**
+	 * Constructor DroppableEvent
+	 * @param mixed $page_or_form_object 
+	 * @param string $name 
+	 */
 	function __construct($page_or_form_object, $name='') {
 		parent::__construct();
 		
@@ -61,6 +66,12 @@ class DroppableEvent extends WebSitePhpEventObject {
 	}
 	
 	/* Intern management of DroppableEvent */
+	/**
+	 * Method setDrop
+	 * @access public
+	 * @return DroppableEvent
+	 * @since 1.0.35
+	 */
 	public function setDrop() {
 		if ($GLOBALS['__LOAD_VARIABLES__']) { 
 			$this->is_droped = true; 
@@ -68,10 +79,28 @@ class DroppableEvent extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getOnDropJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getOnDropJs() {
 		return $this->ondrop;
 	}
 	
+	/**
+	 * Method onDrop
+	 * @access public
+	 * @param mixed $str_function 
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return DroppableEvent
+	 * @since 1.0.35
+	 */
 	public function onDrop($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		$args = func_get_args();
 		$str_function = array_shift($args);
@@ -79,11 +108,24 @@ class DroppableEvent extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method onDropJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return DroppableEvent
+	 * @since 1.0.35
+	 */
 	public function onDropJs($js_function) {
 		$this->ondrop = trim($js_function);
 		return $this;
 	}
 	
+	/**
+	 * Method isDroped
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function isDroped() {
 		if (!$this->is_droped) {
 			$this->page_object->getUserEventObject();
@@ -92,18 +134,42 @@ class DroppableEvent extends WebSitePhpEventObject {
 	}
 	
 	/* Intern management of DroppableEvent */
+	/**
+	 * Method setDroppableId
+	 * @access public
+	 * @param mixed $id 
+	 */
 	public function setDroppableId($id) {
 		$this->droppable_id = $id;
 	}
 	
+	/**
+	 * Method getDroppableId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getDroppableId() {
 		return $this->droppable_id;
 	}
 	
+	/**
+	 * Method getName
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getName() {
 		return $this->name;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object DroppableEvent
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$this->automaticAjaxEvent();
 		

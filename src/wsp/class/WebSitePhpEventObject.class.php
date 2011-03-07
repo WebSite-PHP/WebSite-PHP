@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.18
  */
@@ -44,6 +44,9 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	private $callback_args = "";
 	/**#@-*/
 	
+	/**
+	 * Constructor WebSitePhpEventObject
+	 */
 	function __construct() {
 		parent::__construct();
 		
@@ -51,6 +54,10 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		$this->disable_ajax_wait_message = false;
 	}
 	
+	/**
+	 * Method initSubmitValue
+	 * @access protected
+	 */
 	protected function initSubmitValue() {
 		if (!$this->is_init_submit_value && $this->page_object != null) {
 			$this->is_init_submit_value = true;
@@ -112,35 +119,84 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		}
 	}
 		
+	/**
+	 * Method getName
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getName() {
 		return $this->name;
 	}
 		
+	/**
+	 * Method getId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getId() {
 		return ($this->id==""?$this->getName():$this->id);
 	}
 	
+	/**
+	 * Method getEventObjectName
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getEventObjectName() {
 		return $this->class_name."_".$this->name;
 	}
 
+	/**
+	 * Method getFormObject
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getFormObject() {
 		return $this->form_object;
 	}
 	
+	/**
+	 * Method isEventObject
+	 * @access public
+	 * @return boolean
+	 * @since 1.0.35
+	 */
 	public function isEventObject() {
 		return true;
 	}
 	
+	/**
+	 * Method isAjaxEvent
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function isAjaxEvent() {
 		return $this->is_ajax_event;
 	}
 	
+	/**
+	 * Method setAjaxEvent
+	 * @access public
+	 * @return WebSitePhpEventObject
+	 * @since 1.0.35
+	 */
 	public function setAjaxEvent() {
 		$this->is_ajax_event = true;
 		return $this;
 	}
 	
+	/**
+	 * Method setAjaxWaitMessage
+	 * @access public
+	 * @param mixed $message_or_object 
+	 * @return WebSitePhpEventObject
+	 * @since 1.0.35
+	 */
 	public function setAjaxWaitMessage($message_or_object) {
 		if (gettype($message_or_object) == "object") {
 			if (get_class($message_or_object) != "Object") {
@@ -152,11 +208,25 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		return $this;
 	} 
 	
+	/**
+	 * Method disableAjaxWaitMessage
+	 * @access public
+	 * @return WebSitePhpEventObject
+	 * @since 1.0.35
+	 */
 	public function disableAjaxWaitMessage() {
 		$this->disable_ajax_wait_message = true;
 		return $this;
 	}
 	
+	/**
+	 * Method loadCallbackMethod
+	 * @access protected
+	 * @param mixed $str_function 
+	 * @param mixed $array_args [default value: array(]
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	protected function loadCallbackMethod($str_function, $array_args=array()) {
 		$callback = "";
 		$this->callback_args = "";
@@ -213,6 +283,12 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		return $callback;
 	}
 	
+	/**
+	 * Method getAjaxEventFunctionRender
+	 * @access protected
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	protected function getAjaxEventFunctionRender() {
 		if (gettype($this->ajax_wait_message) != "object") {
 			$loading_img = new Picture("wsp/img/loading.gif", 32, 32);
@@ -325,6 +401,15 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		return $html;
 	}
 	
+	/**
+	 * Method getObjectEventValidationRender
+	 * @access protected
+	 * @param mixed $on_event 
+	 * @param mixed $callback 
+	 * @param string $params 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	protected function getObjectEventValidationRender($on_event, $callback, $params='') {
 		if ($callback != "" && $this->form_object == null && 
 			(isset($_GET['dialogbox_level']) || isset($_GET['tabs_object_id']))) {
@@ -382,6 +467,12 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		return $html;
 	}
 	
+	/**
+	 * Method generateCurrentUrlWithCallback
+	 * @access private
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	private function generateCurrentUrlWithCallback() {
 		$array_params = explode("?", PARAMS_URL);
 		$base_url = $array_params[0];
@@ -403,6 +494,10 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		return $base_url.$params_url."&Callback_".$this->getEventObjectName()."='+ $('#Callback_".$this->getEventObjectName()."').val() + '";
 	}
 	
+	/**
+	 * Method automaticAjaxEvent
+	 * @access public
+	 */
 	public function automaticAjaxEvent() {
 		// automatic activation of ajax when events are call from DialogBox or Tabs
 		if ((isset($_GET['dialogbox_level']) || isset($_GET['tabs_object_id'])) && $this->form_object != null) {

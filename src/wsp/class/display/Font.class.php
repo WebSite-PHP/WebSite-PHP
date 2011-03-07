@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -49,6 +49,13 @@ class Font extends WebSitePhpObject {
 	private $id = "";
 	/**#@-*/
 
+	/**
+	 * Constructor Font
+	 * @param object $content_object 
+	 * @param string $font_size 
+	 * @param string $font_family 
+	 * @param string $font_weight 
+	 */
 	function __construct($content_object, $font_size='', $font_family='', $font_weight='') {
 		parent::__construct();
 		
@@ -62,38 +69,84 @@ class Font extends WebSitePhpObject {
 		$this->font_weight = $font_weight;
 	}
 	
+	/**
+	 * Method setFontSize
+	 * @access public
+	 * @param mixed $font_size 
+	 * @return Font
+	 * @since 1.0.35
+	 */
 	public function setFontSize($font_size) {
 		$this->font_size = $font_size;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setFontFamily
+	 * @access public
+	 * @param mixed $font_family 
+	 * @return Font
+	 * @since 1.0.35
+	 */
 	public function setFontFamily($font_family) {
 		$this->font_family = $font_family;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setFontWeight
+	 * @access public
+	 * @param mixed $font_weight 
+	 * @return Font
+	 * @since 1.0.35
+	 */
 	public function setFontWeight($font_weight) {
 		$this->font_weight = $font_weight;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setFontColor
+	 * @access public
+	 * @param mixed $font_color 
+	 * @return Font
+	 * @since 1.0.35
+	 */
 	public function setFontColor($font_color) {
 		$this->font_color = $font_color;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 		
+	/**
+	 * Method setId
+	 * @access public
+	 * @param mixed $id 
+	 */
 	public function setId($id) {
 		$this->id = $id;
 	}
 		
+	/**
+	 * Method getId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getId() {
 		return $this->id;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object Font
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "<span ";
 		if ($this->id != "") {
@@ -128,8 +181,10 @@ class Font extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function getAjaxRender
-	 * @return string javascript code to update initial html with ajax call
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object Font (call with AJAX)
+	 * @since 1.0.35
 	 */
 	public function getAjaxRender() {
 		$html = "";

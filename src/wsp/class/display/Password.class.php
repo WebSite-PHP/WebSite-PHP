@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -22,6 +22,15 @@
 include_once("TextBox.class.php");
 
 class Password extends TextBox {
+	/**
+	 * Constructor Password
+	 * @param mixed $page_or_form_object 
+	 * @param string $name 
+	 * @param string $id 
+	 * @param string $value 
+	 * @param string $width 
+	 * @param double $length [default value: 0]
+	 */
 	function __construct($page_or_form_object, $name='', $id='', $value='', $width='', $length=0) {
 		parent::__construct($page_or_form_object, $name, $id, $value, $width, $length);
 		$this->type = "password";

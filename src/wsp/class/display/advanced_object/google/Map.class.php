@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -37,6 +37,15 @@ class Map extends WebSitePhpObject {
 	private $location_icon = array();
 	/**#@-*/
 	
+	/**
+	 * Constructor Map
+	 * @param string $id [default value: map_canvas]
+	 * @param double $zoom [default value: 13]
+	 * @param double $width [default value: 400]
+	 * @param double $height [default value: 300]
+	 * @param double $default_latitude [default value: 48.85667]
+	 * @param double $default_longitude [default value: 2.35099]
+	 */
 	function __construct($id='map_canvas', $zoom=13, $width=400, $height=300, $default_latitude=48.85667, $default_longitude=2.35099) {
 		parent::__construct();
 		
@@ -52,6 +61,16 @@ class Map extends WebSitePhpObject {
 		}
 	}
 	
+	/**
+	 * Method addMarker
+	 * @access public
+	 * @param mixed $address 
+	 * @param string $text 
+	 * @param string $icon_url_32 
+	 * @param boolean $define_as_center [default value: true]
+	 * @return Map
+	 * @since 1.0.35
+	 */
 	public function addMarker($address, $text='', $icon_url_32='', $define_as_center=true) {
 		$this->location[] = $address;
 		$this->location_text[] = $text;
@@ -69,31 +88,73 @@ class Map extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return Map
+	 * @since 1.0.35
+	 */
 	public function setWidth($width) {
 		$this->width = $width;
 		return $this;
 	}
 	
+	/**
+	 * Method setHeight
+	 * @access public
+	 * @param integer $height 
+	 * @return Map
+	 * @since 1.0.35
+	 */
 	public function setHeight($height) {
 		$this->height = $height;
 		return $this;
 	}
 	
+	/**
+	 * Method setZoom
+	 * @access public
+	 * @param mixed $zoom 
+	 * @return Map
+	 * @since 1.0.35
+	 */
 	public function setZoom($zoom) {
 		$this->zoom = $zoom;
 		return $this;
 	}
 	
+	/**
+	 * Method setDefaultLatitude
+	 * @access public
+	 * @param mixed $default_latitude 
+	 * @return Map
+	 * @since 1.0.35
+	 */
 	public function setDefaultLatitude($default_latitude) {
 		$this->default_latitude = $default_latitude;
 		return $this;
 	}
 	
+	/**
+	 * Method setDefaultLongitude
+	 * @access public
+	 * @param mixed $default_longitude 
+	 * @return Map
+	 * @since 1.0.35
+	 */
 	public function setDefaultLongitude($default_longitude) {
 		$this->default_longitude = $default_longitude;
 		return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object Map
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "<div id=\"".$this->id."\" style=\"width:".$this->width."px;height:".$this->height."px\"></div>";
 		

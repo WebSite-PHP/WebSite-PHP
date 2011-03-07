@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2011
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -28,6 +28,12 @@ class AutoComplete extends WebSitePhpObject {
 	private $autocomplete_event = null;
 	/**#@-*/
 	
+	/**
+	 * Constructor AutoComplete
+	 * @param mixed $url_object 
+	 * @param double $min_lenght [default value: 4]
+	 * @param mixed $autocomplete_event [default value: null]
+	 */
 	function __construct($url_object, $min_lenght=4, $autocomplete_event=null) {
 		parent::__construct();
 		
@@ -45,10 +51,22 @@ class AutoComplete extends WebSitePhpObject {
 	}
 	
 	/* Intern management of AutoComplete */
+	/**
+	 * Method setLinkObjectId
+	 * @access public
+	 * @param mixed $id 
+	 */
 	public function setLinkObjectId($id) {
 		$this->link_object_id = $id;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object AutoComplete
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		$html .= $this->getJavascriptTagOpen();

@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -33,6 +33,14 @@ class SwfObject extends WebSitePhpObject {
 	private $variables = array();
 	/**#@-*/
 	
+	/**
+	 * Constructor SwfObject
+	 * @param mixed $id 
+	 * @param mixed $swf_file 
+	 * @param integer $width 
+	 * @param integer $height 
+	 * @param string $optional_text 
+	 */
 	function __construct($id, $swf_file, $width, $height, $optional_text='') {
 		parent::__construct();
 		
@@ -49,19 +57,45 @@ class SwfObject extends WebSitePhpObject {
 		$this->addJavaScript(BASE_URL."wsp/js/swfobject.js", "", true);
 	}
 	
+	/**
+	 * Method addParam
+	 * @access public
+	 * @param mixed $name 
+	 * @param mixed $value 
+	 */
 	public function addParam($name, $value) {
 		$this->params[$name] = $value;
 	}
 	
+	/**
+	 * Method addVariable
+	 * @access public
+	 * @param mixed $name 
+	 * @param mixed $value 
+	 */
 	public function addVariable($name, $value) {
 		$this->variables[$name] = $value;
 	}
 	
+	/**
+	 * Method setOptionalText
+	 * @access public
+	 * @param mixed $text 
+	 * @return SwfObject
+	 * @since 1.0.35
+	 */
 	public function setOptionalText($text) {
 		$this->text = $text;
 		return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object SwfObject
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		$html .= "<div id=\"".$this->id."\" align=\"center\">\n";

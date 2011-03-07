@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -85,6 +85,14 @@ class Table extends WebSitePhpObject {
 	private $style = "";
 	/**#@-*/
 	
+	/**
+	 * Constructor Table
+	 * @param double $cellpadding [default value: 0]
+	 * @param double $cellspacing [default value: 0]
+	 * @param string $width 
+	 * @param string $default_align 
+	 * @param string $default_valign 
+	 */
 	function __construct($cellpadding=0, $cellspacing=0, $width='', $default_align='', $default_valign='') {
 		parent::__construct();
 		
@@ -95,48 +103,106 @@ class Table extends WebSitePhpObject {
 		$this->default_valign = $default_valign;
 	}
 	
+	/**
+	 * Method setCellpadding
+	 * @access public
+	 * @param mixed $cellpadding 
+	 * @return Table
+	 * @since 1.0.36
+	 */
 	public function setCellpadding($cellpadding) {
 		$this->cellpadding = $cellpadding;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setCellspacing
+	 * @access public
+	 * @param mixed $cellspacing 
+	 * @return Table
+	 * @since 1.0.36
+	 */
 	public function setCellspacing($cellspacing) {
 		$this->cellspacing = $cellspacing;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return Table
+	 * @since 1.0.36
+	 */
 	public function setWidth($width) {
 		$this->width = $width;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setHeight
+	 * @access public
+	 * @param integer $height 
+	 * @return Table
+	 * @since 1.0.36
+	 */
 	public function setHeight($height) {
 		$this->height = $height;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setClass
+	 * @access public
+	 * @param mixed $class 
+	 * @return Table
+	 * @since 1.0.36
+	 */
 	public function setClass($class) {
 		$this->class = $class;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setDefaultAlign
+	 * @access public
+	 * @param mixed $default_align 
+	 * @return Table
+	 * @since 1.0.36
+	 */
 	public function setDefaultAlign($default_align) {
 		$this->default_align = $default_align;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setDefaultValign
+	 * @access public
+	 * @param mixed $default_valign 
+	 * @return Table
+	 * @since 1.0.36
+	 */
 	public function setDefaultValign($default_valign) {
 		$this->default_valign = $default_valign;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 
+	/**
+	 * Method setBorder
+	 * @access public
+	 * @param double $border [default value: 1]
+	 * @param string $border_color [default value: grey]
+	 * @param string $border_style [default value: solid]
+	 * @return Table
+	 * @since 1.0.36
+	 */
 	public function setBorder($border=1, $border_color="grey", $border_style="solid") {
 		$this->border = $border;
 		$this->border_color = $border_color;
@@ -145,6 +211,15 @@ class Table extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setFont
+	 * @access public
+	 * @param mixed $font_size 
+	 * @param mixed $font_family 
+	 * @param mixed $font_weight 
+	 * @return Table
+	 * @since 1.0.36
+	 */
 	public function setFont($font_size, $font_family, $font_weight) {
 		$this->font_size = $font_size;
 		$this->font_family = $font_family;
@@ -153,21 +228,50 @@ class Table extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setStyle
+	 * @access public
+	 * @param mixed $style 
+	 * @return Table
+	 * @since 1.0.36
+	 */
 	public function setStyle($style) {
 		$this->style = $style;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setId
+	 * @access public
+	 * @param mixed $id 
+	 * @return Table
+	 * @since 1.0.36
+	 */
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
 	}
 		
+	/**
+	 * Method getId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getId() {
 		return $this->id;
 	}
 	
+	/**
+	 * Method addRow
+	 * @access public
+	 * @param mixed $row [default value: null]
+	 * @param string $align 
+	 * @param string $valign 
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function addRow($row=null, $align='', $valign='') {
 		if ($align == "") {
 			$align = $this->default_align;
@@ -200,6 +304,17 @@ class Table extends WebSitePhpObject {
 		return $row;
 	}
 	
+	/**
+	 * Method addRowColumns
+	 * @access public
+	 * @param mixed $object [default value: null]
+	 * @param mixed $object2 [default value: null]
+	 * @param mixed $object3 [default value: null]
+	 * @param mixed $object4 [default value: null]
+	 * @param mixed $object5 [default value: null]
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function addRowColumns($object=null, $object2=null, $object3=null, $object4=null, $object5=null) {
 		$row = new RowTable();
 		$row->setAlign($this->default_align);
@@ -219,6 +334,13 @@ class Table extends WebSitePhpObject {
     	return $row;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object Table
+	 * @since 1.0.36
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		$html .= "<table ";

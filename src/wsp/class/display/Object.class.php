@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -105,6 +105,14 @@ class Object extends WebSitePhpEventObject {
 	private $force_span_tag = false;
 	/**#@-*/
 	
+	/**
+	 * Constructor Object
+	 * @param mixed $str_or_object [default value: null]
+	 * @param mixed $str_or_object2 [default value: null]
+	 * @param mixed $str_or_object3 [default value: null]
+	 * @param mixed $str_or_object4 [default value: null]
+	 * @param mixed $str_or_object5 [default value: null]
+	 */
 	function __construct($str_or_object=null, $str_or_object2=null, $str_or_object3=null, $str_or_object4=null, $str_or_object5=null) {
 		parent::__construct();
 		
@@ -116,6 +124,17 @@ class Object extends WebSitePhpEventObject {
     	}
 	}
 	
+	/**
+	 * Method add
+	 * @access public
+	 * @param mixed $str_or_object 
+	 * @param mixed $str_or_object2 [default value: null]
+	 * @param mixed $str_or_object3 [default value: null]
+	 * @param mixed $str_or_object4 [default value: null]
+	 * @param mixed $str_or_object5 [default value: null]
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function add($str_or_object, $str_or_object2=null, $str_or_object3=null, $str_or_object4=null, $str_or_object5=null) {
 		$args = func_get_args();
 		$object = array_shift($args);
@@ -129,6 +148,11 @@ class Object extends WebSitePhpEventObject {
     	return $this;
 	}
 	
+	/**
+	 * Method addObject
+	 * @access private
+	 * @param mixed $object 
+	 */
 	private function addObject($object) {
 		if (gettype($object) == "object" && get_class($object) == "DateTime") {
 			throw new NewException(get_class($this)."->addObject() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, 8, __FILE__, __LINE__);
@@ -142,24 +166,52 @@ class Object extends WebSitePhpEventObject {
 		$this->objects[sizeof($this->objects)] = $object;
 	}
 	
+	/**
+	 * Method setAlign
+	 * @access public
+	 * @param string $align 
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function setAlign($align) {
 		$this->align = $align;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function setWidth($width) {
 		$this->width = $width;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setHeight
+	 * @access public
+	 * @param integer $height 
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function setHeight($height) {
 		$this->height = $height;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setMinHeight
+	 * @access public
+	 * @param mixed $min_height 
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function setMinHeight($min_height) {
 		if (is_integer($this->min_height)) {
 			$this->min_height = $min_height;
@@ -170,6 +222,15 @@ class Object extends WebSitePhpEventObject {
 		return $this;
 	}
 
+	/**
+	 * Method setBorder
+	 * @access public
+	 * @param double $border [default value: 1]
+	 * @param string $border_color [default value: black]
+	 * @param string $border_style [default value: solid]
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function setBorder($border=1, $border_color="black", $border_style="solid") {
 		$this->border = $border;
 		$this->border_color = $border_color;
@@ -178,6 +239,15 @@ class Object extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setFont
+	 * @access public
+	 * @param mixed $font_size 
+	 * @param mixed $font_family 
+	 * @param mixed $font_weight 
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function setFont($font_size, $font_family, $font_weight) {
 		$this->font_size = $font_size;
 		$this->font_family = $font_family;
@@ -186,33 +256,72 @@ class Object extends WebSitePhpEventObject {
 		return $this;
 	}
 		
+	/**
+	 * Method setStyle
+	 * @access public
+	 * @param mixed $style 
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function setStyle($style) {
 		$this->style = $style;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 		
+	/**
+	 * Method setClass
+	 * @access public
+	 * @param mixed $class 
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function setClass($class) {
 		$this->class = $class;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 		
+	/**
+	 * Method setId
+	 * @access public
+	 * @param mixed $id 
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function setId($id) {
 		$this->id = $id;
 		return $this;
 	}
 		
+	/**
+	 * Method emptyObject
+	 * @access public
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function emptyObject() {
 		$this->objects = array();
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 		
+	/**
+	 * Method getId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getId() {
 		return "wsp_object_".$this->id;
 	}
 	
+	/**
+	 * Method hide
+	 * @access public
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function hide() {
 		if ($this->id == "") {
 			throw new NewException("Error Object->hide(): You must specified an id (setId())", 0, 8, __FILE__, __LINE__);
@@ -222,6 +331,12 @@ class Object extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method show
+	 * @access public
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function show() {
 		if ($this->id == "") {
 			throw new NewException("Error Object->show(): You must specified an id (setId())", 0, 8, __FILE__, __LINE__);
@@ -232,9 +347,15 @@ class Object extends WebSitePhpEventObject {
 	}
 	
 	/**
-	 * function setDraggable
-	 * @param string $bool if object can be move
-	 * @param string $revert if object revert first place when dropped
+	 * Method setDraggable
+	 * @access public
+	 * @param string $bool if object can be move [default value: true]
+	 * @param string $revert if object revert first place when dropped [default value: false]
+	 * @param mixed $draggable_event [default value: null]
+	 * @param boolean $sortable_zone [default value: false]
+	 * @param string $draggable_params 
+	 * @return Object
+	 * @since 1.0.36
 	 */
 	public function setDraggable($bool=true, $revert=false, $draggable_event=null, $sortable_zone=false, $draggable_params="") {
 		if ($this->id == "") {
@@ -258,13 +379,25 @@ class Object extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getIsDraggable
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getIsDraggable() {
 		return $this->draggable;
 	}
 	
 	/**
-	 * function setDroppable
-	 * @param string $bool if object can be dropped
+	 * Method setDroppable
+	 * @access public
+	 * @param string $bool if object can be dropped [default value: true]
+	 * @param mixed $droppable_event [default value: null]
+	 * @param string $droppable_params 
+	 * @param string $droppable_style [default value: droppablehover]
+	 * @return Object
+	 * @since 1.0.36
 	 */
 	public function setDroppable($bool=true, $droppable_event=null, $droppable_params="", $droppable_style="droppablehover") {
 		if ($this->id == "") {
@@ -287,13 +420,24 @@ class Object extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getIsDroppable
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getIsDroppable() {
 		return $this->droppable;
 	}
 	
 	/**
-	 * function setSortable
-	 * @param string $bool if object can be sort
+	 * Method setSortable
+	 * @access public
+	 * @param string $bool if object can be sort [default value: true]
+	 * @param mixed $sortable_event [default value: null]
+	 * @param string $sortable_params 
+	 * @return Object
+	 * @since 1.0.36
 	 */
 	public function setSortable($bool=true, $sortable_event=null, $sortable_params="") {
 		if ($this->id == "") {
@@ -315,11 +459,23 @@ class Object extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getIsSortable
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getIsSortable() {
 		return $this->sortable;
 	}
 	
 	/* Intern management of Object */
+	/**
+	 * Method setClick
+	 * @access public
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function setClick() {
 		if ($GLOBALS['__LOAD_VARIABLES__']) { 
 			$this->is_clicked = true; 
@@ -327,10 +483,29 @@ class Object extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getOnClickJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getOnClickJs() {
 		return $this->onclick;
 	}
 	
+	/**
+	 * Method onClick
+	 * @access public
+	 * @param mixed $page_or_form_object 
+	 * @param mixed $str_function 
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function onClick($page_or_form_object, $str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		if ($this->id == "") {
 			throw new NewException("Error Object->onClick(): You must specified an id (setId())", 0, 8, __FILE__, __LINE__);
@@ -360,6 +535,13 @@ class Object extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method onClickJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function onClickJs($js_function) {
 		if ($this->id == "") {
 			throw new NewException("Error Object->onClickJs(): You must specified an id (setId())", 0, 8, __FILE__, __LINE__);
@@ -368,6 +550,12 @@ class Object extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method isClicked
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function isClicked() {
 		if (!$this->is_clicked) {
 			$this->page_object->getUserEventObject();
@@ -375,6 +563,12 @@ class Object extends WebSitePhpEventObject {
 		return $this->is_clicked;
 	}
 	
+	/**
+	 * Method forceDivTag
+	 * @access public
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function forceDivTag() {
 		$this->force_div_tag = true;
 		$this->force_span_tag = false;
@@ -383,6 +577,12 @@ class Object extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method forceSpanTag
+	 * @access public
+	 * @return Object
+	 * @since 1.0.36
+	 */
 	public function forceSpanTag() {
 		$this->force_div_tag = false;
 		$this->force_span_tag = true;
@@ -391,6 +591,13 @@ class Object extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object Object
+	 * @since 1.0.36
+	 */
 	public function render($ajax_render=false) {
 		$this->automaticAjaxEvent();
 		
@@ -616,8 +823,10 @@ class Object extends WebSitePhpEventObject {
 	}
 	
 	/**
-	 * function getAjaxRender
-	 * @return string javascript code to update initial html with ajax call
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object Object (call with AJAX)
+	 * @since 1.0.36
 	 */
 	public function getAjaxRender() {
 		$this->automaticAjaxEvent();

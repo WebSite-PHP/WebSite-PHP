@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.16
  */
@@ -34,27 +34,49 @@ class GeoLocalisation {
 	protected $version = 'v2';
 	protected $apiKey = '';
 
+	/**
+	 * Constructor GeoLocalisation
+	 */
 	public function __construct(){}
 
+	/**
+	 * Destructor GeoLocalisation
+	 */
 	public function __destruct(){}
 
+	/**
+	 * Method setKey
+	 * @access public
+	 * @param mixed $key 
+	 */
 	public function setKey($key){
 		if(!empty($key)) $this->apiKey = $key;
 	}
 
+	/**
+	 * Method showTimezone
+	 * @access public
+	 */
 	public function showTimezone(){
 		$this->showTimezone = true;
 	}
 
+	/**
+	 * Method getError
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getError(){
 		return implode("\n", $this->errors);
 	}
 
 	/**
-  * Get geolocation as an array
-  * @access public
-  * @return	array
-  */
+	 * Method getGeoLocation
+	 * @access public
+	 * @return array
+	 * @since 1.0.35
+	 */
 	public function getGeoLocation(){
 		if (!isset($_SESSION['ipinfodb_geolocalisation']) && (!isset($_SESSION['google_geolocalisation']) && $this->_ip==$_SERVER["REMOTE_ADDR"]) || $this->_ip!=$_SERVER["REMOTE_ADDR"]) {
   		if(preg_match('/^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:[.](?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$/', $this->_ip)){
@@ -90,12 +112,12 @@ class GeoLocalisation {
 	}
 	
 	/**
-  * Set IP address
-  * @param string $ip The ip address
-  * @param bool $test To test if the IP is valid or not
-  * @access public
-  * @return	void
-  */
+	 * Method setIP
+	 * @access public
+	 * @param string $ip The ip address
+	 * @return void
+	 * @since 1.0.35
+	 */
   public function setIP($ip)
   {
     $this->_ip = $ip;

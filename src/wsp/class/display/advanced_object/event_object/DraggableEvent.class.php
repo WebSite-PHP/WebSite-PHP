@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -30,6 +30,10 @@ class DraggableEvent extends WebSitePhpObject {
 	private $ondragend = "";
 	/**#@-*/
 	
+	/**
+	 * Constructor DraggableEvent
+	 * @param mixed $page_object 
+	 */
 	function __construct($page_object) {
 		parent::__construct();
 		
@@ -42,33 +46,77 @@ class DraggableEvent extends WebSitePhpObject {
 		$this->id = $name;
 	}
 	
+	/**
+	 * Method getOnDragStartJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getOnDragStartJs() {
 		return $this->ondragstart;
 	}
 	
+	/**
+	 * Method onDragStartJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return DraggableEvent
+	 * @since 1.0.35
+	 */
 	public function onDragStartJs($js_function) {
 		$this->ondragstart = trim($js_function);
 		return $this;
 	}
 	
+	/**
+	 * Method getOnDragEndJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getOnDragEndJs() {
 		return $this->ondragend;
 	}
 	
+	/**
+	 * Method onDragEndJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return DraggableEvent
+	 * @since 1.0.35
+	 */
 	public function onDragEndJs($js_function) {
 		$this->ondragend = trim($js_function);
 		return $this;
 	}
 	
 	/* Intern management of DraggableEvent */
+	/**
+	 * Method setDraggableId
+	 * @access public
+	 * @param mixed $id 
+	 */
 	public function setDraggableId($id) {
 		$this->draggable_id = $id;
 	}
 	
+	/**
+	 * Method getDraggableId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getDraggableId() {
 		return $this->draggable_id;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		if (DialogBox::getCurrentDialogBoxLevel() > -1) {
 			$this->ondragstart  = "wspDialogBox".DialogBox::getCurrentDialogBoxLevel().".dialog('widget').css('overflow', 'visible'); wspDialogBox".DialogBox::getCurrentDialogBoxLevel().".dialog('widget').find('.ui-dialog-content').css('overflow', 'visible');".$this->ondragstart;

@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -74,10 +74,12 @@ class GoogleSitemap
   private $footer = "\t</urlset>\n";
   private $items = array();
 
-  /** Adds a new item to the channel contents.
-   *@param google_sitemap item $new_item
-   *@access public
-   */
+	/**
+	 * Method addItem
+	 * @access public
+	 * @param google_sitemap item $new_item 
+	 * Adds a new item to the channel contents.
+	 */
   public function addItem($new_item) {
     //Make sure $new_item is an 'google_sitemap item' object
     if(!is_a($new_item, "GoogleSitemapItem")) {
@@ -87,11 +89,14 @@ class GoogleSitemap
     $this->items[] = $new_item;
   }
 
-  /** Generates the sitemap XML data based on object properties.
-   *@param string $file_name ( optional ) if file name is supplied the XML data is saved in it otherwise returned as a string.
-   *@access public
-   *@return [void|string]
-   */
+	/**
+	 * Method build
+	 * @access public
+	 * @param string $file_name ( optional ) if file name is supplied the XML data is saved in it otherwise returned as a string. [default value:  null]
+	 * @return [void|string]
+	 * @since 1.0.35
+	 * Generates the sitemap XML data based on object properties.
+	 */
   public function build($file_name = null) {
     //$map = $this->tag_open.$this->header1.$this->tag_close . "\n";
     $map = "";
@@ -150,6 +155,12 @@ class GoogleSitemap
     }
   }
 
+	/**
+	 * Method render
+	 * @access 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
   function render() {
   	return $this->build();
   }
@@ -174,14 +185,14 @@ class GoogleSitemapItem
     public $video_description = "";
     public $video_thumbnail = "";
     public $video_player_loc = "";
-	
-  /** Assigns constructor parameters to their corresponding object properties.
-   *@access public
-   *@param string $loc location
-   *@param string $lastmod date (optional) format in YYYY-MM-DD or in "ISO 8601" format
-   *@param string $changefreq (optional)( always,hourly,daily,weekly,monthly,yearly,never )
-   *@param string $priority (optional) current link's priority ( 0.0-1.0 )
-   */
+
+	/**
+	 * Constructor GoogleSitemap
+	 * @param string $loc location
+	 * @param string $lastmod date (optional) format in YYYY-MM-DD or in "ISO 8601" format
+	 * @param string $changefreq 
+	 * @param string $priority (optional) current link's priority (0.0-1.0)
+	 */
   function __construct($loc, $lastmod = '', $changefreq = '', $priority = '') {
     $this->loc = $loc;
     $this->lastmod = $lastmod;
@@ -189,6 +200,15 @@ class GoogleSitemapItem
     $this->priority = $priority;
   }
   
+	/**
+	 * Method setVideo
+	 * @access public
+	 * @param object $video_content 
+	 * @param mixed $video_title 
+	 * @param string $video_description 
+	 * @param string $video_thumbnail 
+	 * @param string $video_player_loc 
+	 */
   public function setVideo($video_content, $video_title, $video_description = '', $video_thumbnail = '', $video_player_loc = '') {
   	$this->video_content = $video_content;
     $this->video_title = $video_title;

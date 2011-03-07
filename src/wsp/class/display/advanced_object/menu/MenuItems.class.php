@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -30,6 +30,14 @@ class MenuItems extends WebSitePhpObject {
 	private $position = "";
 	/**#@-*/
 	
+	/**
+	 * Constructor MenuItems
+	 * @param mixed $menu_item_object [default value: null]
+	 * @param mixed $menu_item_object2 [default value: null]
+	 * @param mixed $menu_item_object3 [default value: null]
+	 * @param mixed $menu_item_object4 [default value: null]
+	 * @param mixed $menu_item_object5 [default value: null]
+	 */
 	function __construct($menu_item_object=null, $menu_item_object2=null, $menu_item_object3=null, $menu_item_object4=null, $menu_item_object5=null) {
 		parent::__construct();
 		
@@ -41,16 +49,41 @@ class MenuItems extends WebSitePhpObject {
     	}
 	}
 	
+	/**
+	 * Method setMenuRoot
+	 * @access public
+	 * @param mixed $root_id 
+	 * @return MenuItems
+	 * @since 1.0.35
+	 */
 	public function setMenuRoot($root_id) {
 		$this->root_id = $root_id;
 		return $this;
 	}
 	
+	/**
+	 * Method setPosition
+	 * @access public
+	 * @param mixed $position 
+	 * @return MenuItems
+	 * @since 1.0.35
+	 */
 	public function setPosition($position) {
 		$this->position = $position;
 		return $this;
 	}
 	
+	/**
+	 * Method add
+	 * @access public
+	 * @param mixed $menu_item_object 
+	 * @param mixed $menu_item_object2 [default value: null]
+	 * @param mixed $menu_item_object3 [default value: null]
+	 * @param mixed $menu_item_object4 [default value: null]
+	 * @param mixed $menu_item_object5 [default value: null]
+	 * @return MenuItems
+	 * @since 1.0.35
+	 */
 	public function add($menu_item_object, $menu_item_object2=null, $menu_item_object3=null, $menu_item_object4=null, $menu_item_object5=null) {
 		$args = func_get_args();
 		$menu_item_object = array_shift($args);
@@ -70,6 +103,13 @@ class MenuItems extends WebSitePhpObject {
     	return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object MenuItems
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		$html .= "<ul";

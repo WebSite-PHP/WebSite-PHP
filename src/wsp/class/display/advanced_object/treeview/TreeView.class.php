@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -37,6 +37,10 @@ class TreeView extends WebSitePhpObject {
 	private $synchronize_dir = false;
 	/**#@-*/
 	
+	/**
+	 * Constructor TreeView
+	 * @param mixed $id 
+	 */
 	function __construct($id) {
 		parent::__construct();
 		
@@ -50,6 +54,13 @@ class TreeView extends WebSitePhpObject {
 		$this->addJavaScript(BASE_URL."wsp/js/jquery.treeview.min.js", "", true);
 	}
 	
+	/**
+	 * Method setTreeViewItems
+	 * @access public
+	 * @param mixed $treeview_items_object 
+	 * @return TreeView
+	 * @since 1.0.35
+	 */
 	public function setTreeViewItems($treeview_items_object) {
 		if (get_class($treeview_items_object) != "TreeViewItems") {
 			throw new NewException("Error TreeViewItem->setTreeViewItems(): $treeview_items_object is not a TreeViewItems object", 0, 8, __FILE__, __LINE__);
@@ -59,6 +70,10 @@ class TreeView extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method generateTreeViewIds
+	 * @access public
+	 */
 	public function generateTreeViewIds() {
 		if (self::$refresh_all_ids) {
 			$this->generateTreeViewItemId($this->treeview_items->getTreeViewItemArray(), $this->id);
@@ -66,6 +81,12 @@ class TreeView extends WebSitePhpObject {
 		}
 	}
 	
+	/**
+	 * Method generateTreeViewItemId
+	 * @access private
+	 * @param mixed $treeview_items 
+	 * @param mixed $parent_id 
+	 */
 	private function generateTreeViewItemId($treeview_items, $parent_id) {
 		for ($i=0; $i < sizeof($treeview_items); $i++) {
 			if ($treeview_items[$i] != null) {
@@ -78,10 +99,23 @@ class TreeView extends WebSitePhpObject {
 	}
 	
 	/* Intern management of TreeView */
+	/**
+	 * Method refreshAllIds
+	 * @access public static
+	 */
 	public static function refreshAllIds() {
 		self::$refresh_all_ids = true;
 	}
 	
+	/**
+	 * Method loadFromPath
+	 * @access public
+	 * @param mixed $path 
+	 * @param string $link_file_template 
+	 * @param string $root_dir_name 
+	 * @return TreeView
+	 * @since 1.0.35
+	 */
 	public function loadFromPath($path, $link_file_template='', $root_dir_name='') {
 		$this->load_from_path = $path;
 		$this->is_root_dir = ($root_dir_name!="")?true:false;
@@ -97,6 +131,13 @@ class TreeView extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method createFolderNode
+	 * @access private
+	 * @param mixed $path 
+	 * @param mixed $treeview_folder 
+	 * @param mixed $link_file_template 
+	 */
 	private function createFolderNode($path, $treeview_folder, $link_file_template) {
 		$treeview_items = null;
 		$nb_file = 0;
@@ -123,20 +164,45 @@ class TreeView extends WebSitePhpObject {
 		}
 	}
 	
+	/**
+	 * Method synchronizeWithDir
+	 * @access public
+	 * @return TreeView
+	 * @since 1.0.35
+	 */
 	public function synchronizeWithDir() {
 		$this->synchronize_dir = true;
 		return $this;
 	}
 	
+	/**
+	 * Method unSynchronizeWithDir
+	 * @access public
+	 * @return TreeView
+	 * @since 1.0.35
+	 */
 	public function unSynchronizeWithDir() {
 		$this->synchronize_dir = false;
 		return $this;
 	}
 	
+	/**
+	 * Method isSynchronizeWithDir
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function isSynchronizeWithDir() {
 		return $this->synchronize_dir;
 	}
 	
+	/**
+	 * Method setContextMenuRoot
+	 * @access public
+	 * @param mixed $context_menu_object 
+	 * @return TreeView
+	 * @since 1.0.35
+	 */
 	public function setContextMenuRoot($context_menu_object) {
 		if (get_class($context_menu_object) != "ContextMenu") {
 			throw new NewException("Error TreeView->setContextMenuRoot(): $context_menu_object is not a ContextMenu object", 0, 8, __FILE__, __LINE__);
@@ -146,6 +212,13 @@ class TreeView extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setContextMenuFile
+	 * @access public
+	 * @param mixed $context_menu_object 
+	 * @return TreeView
+	 * @since 1.0.35
+	 */
 	public function setContextMenuFile($context_menu_object) {
 		if (get_class($context_menu_object) != "ContextMenu") {
 			throw new NewException("Error TreeView->setContextMenuFile(): $context_menu_object is not a ContextMenu object", 0, 8, __FILE__, __LINE__);
@@ -155,6 +228,13 @@ class TreeView extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setContextMenuFolder
+	 * @access public
+	 * @param mixed $context_menu_object 
+	 * @return TreeView
+	 * @since 1.0.35
+	 */
 	public function setContextMenuFolder($context_menu_object) {
 		if (get_class($context_menu_object) != "ContextMenu") {
 			throw new NewException("Error TreeView->setContextMenuFolder(): $context_menu_object is not a ContextMenu object", 0, 8, __FILE__, __LINE__);
@@ -164,6 +244,14 @@ class TreeView extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setContextMenuOnTreeViewItem
+	 * @access public
+	 * @param mixed $context_menu_object 
+	 * @param mixed $treeview_item_object 
+	 * @return TreeView
+	 * @since 1.0.35
+	 */
 	public function setContextMenuOnTreeViewItem($context_menu_object, $treeview_item_object) {
 		if (get_class($context_menu_object) != "ContextMenu") {
 			throw new NewException("Error TreeView->setContextMenuOnTreeViewItem(): $context_menu_object is not a ContextMenu object", 0, 8, __FILE__, __LINE__);
@@ -180,6 +268,13 @@ class TreeView extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method createContextMenu
+	 * @access private
+	 * @param boolean $ajax_render [default value: false]
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	private function createContextMenu($ajax_render=false) {
 		$html = "";
 		if ($this->context_menu_root != null) {
@@ -203,27 +298,64 @@ class TreeView extends WebSitePhpObject {
 		return $html;
 	}
 	
+	/**
+	 * Method getLoadedPath
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getLoadedPath() {
 		return $this->load_from_path;
 	}
 	
+	/**
+	 * Method isRootFolder
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function isRootFolder() {
 		return $this->is_root_dir;
 	}
 	
+	/**
+	 * Method getId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getId() {
 		return $this->id;
 	}
 	
 	/* Intern management of TreeView */
+	/**
+	 * Method getTreeViewItemsObject
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getTreeViewItemsObject() {
 		return $this->treeview_items;
 	}
 	
+	/**
+	 * Method getChildsTreeViewItemArray
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getChildsTreeViewItemArray() {
 		return ($this->treeview_items == null)?array():$this->treeview_items->getTreeViewItemArray();
 	}
 	
+	/**
+	 * Method searchTreeViewItemId
+	 * @access public
+	 * @param mixed $id 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function searchTreeViewItemId($id) {
 		if (substr($id, strlen($id)-3, strlen($id)) == "_id") {
 			$id = substr($id, 0, strlen($id)-3);
@@ -232,6 +364,14 @@ class TreeView extends WebSitePhpObject {
 		return $this->searchNodeId($this, $id);
 	}
 	
+	/**
+	 * Method searchNodeId
+	 * @access private
+	 * @param mixed $treeview_item 
+	 * @param mixed $id 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	private function searchNodeId($treeview_item, $id) {
 		if ($treeview_item->getId() == $id) {
 			return $treeview_item;
@@ -247,6 +387,13 @@ class TreeView extends WebSitePhpObject {
 		return null;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object TreeView
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		if ($this->treeview_items != null) {
@@ -267,8 +414,10 @@ class TreeView extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function getAjaxRender
-	 * @return string javascript code to update initial html with ajax call
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object TreeView (call with AJAX)
+	 * @since 1.0.35
 	 */
 	public function getAjaxRender() {
 		$html = str_replace("\n", "", str_replace("\r", "", $this->createContextMenu(true)));

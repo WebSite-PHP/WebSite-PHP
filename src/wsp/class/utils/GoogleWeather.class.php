@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -79,12 +79,11 @@ class GoogleWeatherAPI {
 	private $response;
 	
 	/**
-	* Class constructor
-	* @param $city_code is the label of the city
-	* @param $lang the lang of the return weather labels
-	* @return ...
-	*/
-	 
+	 * Constructor GoogleWeather
+	 * @param mixed $city_code is the label of the city
+	 * @param string $lang the lang of the return weather labels
+	 * @param string $unit [default value: C]
+	 */
 	function __construct ($city_code,$lang='',$unit='C') {
 		if ($lang == '') {
 			$lang = $_SESSION['lang'];
@@ -148,12 +147,12 @@ class GoogleWeatherAPI {
 	}
 	
 	/**
-           * Get URL content using cURL.
-          * 
-          * @param string $url the url 
-          * 
-          * @return string the html code
-          */
+	 * Method getContent
+	 * @access public
+	 * @param string $url the url
+	 * @return string the html code
+	 * @since 1.0.35
+	 */
 		  
 	public function getContent($url)
     {

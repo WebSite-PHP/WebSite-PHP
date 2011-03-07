@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -65,6 +65,13 @@ class RowTable extends WebSitePhpObject {
 	private $is_nowrap = false;
 	/**#@-*/
 	
+	/**
+	 * Constructor RowTable
+	 * @param string $align [default value: center]
+	 * @param string $width 
+	 * @param string $class 
+	 * @param string $valign 
+	 */
 	function __construct($align='center', $width='', $class='', $valign='') {
 		parent::__construct();
 		
@@ -76,24 +83,52 @@ class RowTable extends WebSitePhpObject {
 		$this->is_header_row = false;
 	}
 	
+	/**
+	 * Method setWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setWidth($width) {
 		$this->width = $width;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setHeight
+	 * @access public
+	 * @param integer $height 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setHeight($height) {
 		$this->height = $height;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setClass
+	 * @access public
+	 * @param mixed $class 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setClass($class) {
 		$this->class = $class;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setHeaderClass
+	 * @access public
+	 * @param string $class [default value: 1]
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setHeaderClass($class="1") {
 		if ($class == Table::STYLE_MAIN || $class == Table::STYLE_SECOND) {
 			$this->is_header_row = true;
@@ -103,46 +138,107 @@ class RowTable extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setStyle
+	 * @access public
+	 * @param mixed $style 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setStyle($style) {
 		$this->style = $style;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setAlign
+	 * @access public
+	 * @param string $align 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setAlign($align) {
 		$this->align = $align;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setValign
+	 * @access public
+	 * @param string $valign 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setValign($valign) {
 		$this->valign = $valign;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setColspan
+	 * @access public
+	 * @param mixed $colspan 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setColspan($colspan) {
 		$this->colspan = $colspan;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setRowspan
+	 * @access public
+	 * @param mixed $rowspan 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setRowspan($rowspan) {
 		$this->rowspan = $rowspan;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setNowrap
+	 * @access public
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setNowrap() {
 		$this->is_nowrap = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method getClass
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getClass() {
 		return $this->class;
 	}
 	
+	/**
+	 * Method add
+	 * @access public
+	 * @param object $content_object [default value: null]
+	 * @param string $align 
+	 * @param string $width 
+	 * @param string $class 
+	 * @param string $valign 
+	 * @param string $style 
+	 * @param string $colspan 
+	 * @param string $rowspan 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function add($content_object=null, $align='', $width='', $class='', $valign='', $style='', $colspan='', $rowspan='') {
 		if (gettype($content_object) == "object" && get_class($content_object) == "DateTime") {
 			throw new NewException(get_class($this)."->add() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, 8, __FILE__, __LINE__);
@@ -160,6 +256,14 @@ class RowTable extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setColumnContent
+	 * @access public
+	 * @param mixed $column_ind 
+	 * @param object $content_object 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setColumnContent($column_ind, $content_object) {
 		if (isset($this->col_object[$column_ind-1])) {
 			$this->col_object[$column_ind-1]['content_object'] = $content_object;
@@ -168,6 +272,14 @@ class RowTable extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setColumnWidth
+	 * @access public
+	 * @param mixed $column_ind 
+	 * @param integer $width 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setColumnWidth($column_ind, $width) {
 		if (isset($this->col_object[$column_ind-1])) {
 			$this->col_object[$column_ind-1]['width'] = $width;
@@ -176,6 +288,14 @@ class RowTable extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setColumnHeight
+	 * @access public
+	 * @param mixed $column_ind 
+	 * @param integer $height 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setColumnHeight($column_ind, $height) {
 		if (isset($this->col_object[$column_ind-1])) {
 			$this->col_object[$column_ind-1]['height'] = $height;
@@ -184,6 +304,14 @@ class RowTable extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setColumnClass
+	 * @access public
+	 * @param mixed $column_ind 
+	 * @param mixed $class 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setColumnClass($column_ind, $class) {
 		if (isset($this->col_object[$column_ind-1])) {
 			$this->col_object[$column_ind-1]['class'] = $class;
@@ -192,6 +320,14 @@ class RowTable extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setColumnStyle
+	 * @access public
+	 * @param mixed $column_ind 
+	 * @param mixed $style 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setColumnStyle($column_ind, $style) {
 		if (isset($this->col_object[$column_ind-1])) {
 			$this->col_object[$column_ind-1]['style'] = $style;
@@ -200,6 +336,14 @@ class RowTable extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setColumnAlign
+	 * @access public
+	 * @param mixed $column_ind 
+	 * @param string $align 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setColumnAlign($column_ind, $align) {
 		if (isset($this->col_object[$column_ind-1])) {
 			$this->col_object[$column_ind-1]['align'] = $align;
@@ -208,6 +352,14 @@ class RowTable extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setColumnValign
+	 * @access public
+	 * @param mixed $column_ind 
+	 * @param string $valign 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setColumnValign($column_ind, $valign) {
 		if (isset($this->col_object[$column_ind-1])) {
 			$this->col_object[$column_ind-1]['valign'] = $valign;
@@ -216,6 +368,14 @@ class RowTable extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setColumnColspan
+	 * @access public
+	 * @param mixed $column_ind 
+	 * @param mixed $colspan 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setColumnColspan($column_ind, $colspan) {
 		if (isset($this->col_object[$column_ind-1])) {
 			$this->col_object[$column_ind-1]['colspan'] = $colspan;
@@ -224,6 +384,14 @@ class RowTable extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setColumnRowspan
+	 * @access public
+	 * @param mixed $column_ind 
+	 * @param mixed $rowspan 
+	 * @return RowTable
+	 * @since 1.0.36
+	 */
 	public function setColumnRowspan($column_ind, $rowspan) {
 		if (isset($this->col_object[$column_ind-1])) {
 			$this->col_object[$column_ind-1]['rowspan'] = $rowspan;
@@ -232,6 +400,13 @@ class RowTable extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object RowTable
+	 * @since 1.0.36
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		if (sizeof($this->col_object) == 0) {

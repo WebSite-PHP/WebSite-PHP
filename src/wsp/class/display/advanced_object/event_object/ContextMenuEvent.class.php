@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -29,6 +29,11 @@ class ContextMenuEvent extends WebSitePhpEventObject {
 	private $is_render = false;
 	/**#@-*/
 	
+	/**
+	 * Constructor ContextMenuEvent
+	 * @param mixed $page_or_form_object 
+	 * @param string $name 
+	 */
 	function __construct($page_or_form_object, $name='') {
 		parent::__construct();
 		
@@ -58,6 +63,12 @@ class ContextMenuEvent extends WebSitePhpEventObject {
 	}
 	
 	/* Intern management of ContextMenuEvent */
+	/**
+	 * Method setClick
+	 * @access public
+	 * @return ContextMenuEvent
+	 * @since 1.0.35
+	 */
 	public function setClick() {
 		if ($GLOBALS['__LOAD_VARIABLES__']) { 
 			$this->is_clicked = true; 
@@ -65,10 +76,28 @@ class ContextMenuEvent extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getOnClickJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getOnClickJs() {
 		return $this->onclick;
 	}
 	
+	/**
+	 * Method onClick
+	 * @access public
+	 * @param mixed $str_function 
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return ContextMenuEvent
+	 * @since 1.0.35
+	 */
 	public function onClick($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		$args = func_get_args();
 		$str_function = array_shift($args);
@@ -76,11 +105,24 @@ class ContextMenuEvent extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method onClickJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return ContextMenuEvent
+	 * @since 1.0.35
+	 */
 	public function onClickJs($js_function) {
 		$this->onclick = trim($js_function);
 		return $this;
 	}
 	
+	/**
+	 * Method isClicked
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function isClicked() {
 		if (!$this->is_clicked) {
 			$this->page_object->getUserEventObject();
@@ -88,6 +130,13 @@ class ContextMenuEvent extends WebSitePhpEventObject {
 		return $this->is_clicked;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object ContextMenuEvent
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		

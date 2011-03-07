@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 28/02/2011
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -37,18 +37,36 @@ class ListItem extends WebSitePhpObject {
 	private $item_array = array();
 	/**#@-*/
 
+	/**
+	 * Constructor ListItem
+	 * @param string $align [default value: left]
+	 */
 	function __construct($align="left") {
 		parent::__construct();
 		
 		$this->align = $align;
 	}
 	
+	/**
+	 * Method addItem
+	 * @access public
+	 * @param mixed $str_item 
+	 * @return ListItem
+	 * @since 1.0.35
+	 */
 	public function addItem($str_item) {
 		$this->item_array[] = $str_item;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object ListItem
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "<ul style=\"text-align:".$this->align."\">";
 		
@@ -65,6 +83,5 @@ class ListItem extends WebSitePhpObject {
 		$this->object_change = false;
 		return $html;
 	}
-	
 }
 ?>

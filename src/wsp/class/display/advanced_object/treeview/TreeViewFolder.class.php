@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -24,10 +24,21 @@ include_once("TreeViewItem.class.php");
 class TreeViewFolder extends TreeViewItem {
 	private $treeview_object = null;
 	
+	/**
+	 * Constructor TreeViewFolder
+	 * @param mixed $value 
+	 * @param mixed $path_folder 
+	 */
 	function __construct($value, $path_folder) {
 		parent::__construct($value, '', false, $path_folder);
 	}
 	
+	/**
+	 * Method getLocalPath
+	 * @access public
+	 * @return string
+	 * @since 1.0.35
+	 */
 	public function getLocalPath() {
 		$path = $this->getPath();
 		if ($this->treeview_object == null) {
@@ -39,6 +50,15 @@ class TreeViewFolder extends TreeViewItem {
 		return str_replace("\\", "/", $this->treeview_object->getLoadedPath().$path);
 	}
 	
+	/**
+	 * Method addFolder
+	 * @access public
+	 * @param string $value [default value: New Folder]
+	 * @param mixed $context_menu_object [default value: null]
+	 * @param boolean $collapse [default value: true]
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function addFolder($value="New Folder", $context_menu_object=null, $collapse=true) {
 		$path = $this->getLocalPath();
 		
@@ -67,6 +87,16 @@ class TreeViewFolder extends TreeViewItem {
 		return null;
 	}
 	
+	/**
+	 * Method addFile
+	 * @access public
+	 * @param string $value [default value: New File]
+	 * @param string $data 
+	 * @param string $link 
+	 * @param mixed $context_menu_object [default value: null]
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function addFile($value="New File", $data='', $link='', $context_menu_object=null) {
 		$path = $this->getLocalPath();
 		$file = new File($path.$value);
@@ -94,6 +124,10 @@ class TreeViewFolder extends TreeViewItem {
 		return null;
 	}
 	
+	/**
+	 * Method remove
+	 * @access public
+	 */
 	public function remove() {
 		$path = $this->getLocalPath();
 		
@@ -116,6 +150,13 @@ class TreeViewFolder extends TreeViewItem {
 		}
 	}
 	
+	/**
+	 * Method rrmdir
+	 * @access private
+	 * @param mixed $dir 
+	 * @return boolean
+	 * @since 1.0.35
+	 */
 	private function rrmdir($dir) {
 		if (is_dir($dir)) {
 			$objects = scandir($dir);
@@ -130,6 +171,11 @@ class TreeViewFolder extends TreeViewItem {
 		return false;
 	} 
 	
+	/**
+	 * Method rename
+	 * @access public
+	 * @param mixed $value 
+	 */
 	public function rename($value) {
 		if (!$this->nodeValueAlreadyExists($value)) {
 			$path = $this->getLocalPath();

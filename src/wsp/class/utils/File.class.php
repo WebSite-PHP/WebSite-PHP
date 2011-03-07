@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.13
  */
@@ -42,6 +42,13 @@ class File{
 	* @param boolean $binarty Optional. If file is a binary file then set TRUE, otherwise FALSE
 	* @desc Constructor of class
 	*/
+	/**
+	 * Method File
+	 * @access 
+	 * @param mixed $filename 
+	 * @param boolean $binary [default value: false]
+	 * @param boolean $delete_if_exists [default value: false]
+	 */
 	function File($filename,$binary=false,$delete_if_exists=false){
 		$filename = str_replace("\\", "/", $filename);
 		$project_folder = str_replace("wsp/class/utils", "", dirname(__FILE__));
@@ -86,69 +93,81 @@ class File{
 	}
 	
 	/**
-	* Close the file
-	*/
+	 * Method close
+	 * @access 
+	 * Close the file
+	 */
 	function close(){
 		fclose($this->file);
 	}
 	
 	/**
-	* Close the file
-	*/
+	 * Method exists
+	 * @access 
+	 * @return mixed
+	 * @since 1.0.35
+	 * Close the file
+	 */
 	function exists(){
 		return $this->exists;
 	}
 	
 	/**
-	* Returns the filesize in bytes
-	* @return int $filesize The filesize in bytes
-	* @desc Returns the filesize in bytes
-	*/
+	 * Method get_size
+	 * @access 
+	 * @return int $filesize The filesize in bytes
+	 * @since 1.0.35
+	 */
 	function get_size(){
 		return filesize($this->name);
 	}
 	
 	/**
-	* Returns the timestamp of the last change
-	* @return timestamp $timestamp The time of the last change as timestamp
-	* @desc Returns the timestamp of the last change
-	*/
+	 * Method get_time
+	 * @access 
+	 * @return timestamp $timestamp The time of the last change as timestamp
+	 * @since 1.0.35
+	 */
 	function get_time(){
 		return fileatime($this->name);
 	}
 	
 	/**
-	* Returns the filename
-	* @return string $filename The filename
-	* @desc Returns the filename
-	*/
+	 * Method get_name
+	 * @access 
+	 * @return string $filename The filename
+	 * @since 1.0.35
+	 */
 	function get_name(){
 		return $this->name;
 	}
 	
 	/**
-	* Returns user id of the file
-	* @return string $user_id The user id of the file
-	* @desc Returns user id of the file
-	*/
+	 * Method get_owner_id
+	 * @access 
+	 * @return string $user_id The user id of the file
+	 * @since 1.0.35
+	 */
 	function get_owner_id(){
 		return fileowner($this->name);
 	}
 	
 	/**
-	* Returns group id of the file
-	* @return string $group_id The group id of the file
-	* @desc Returns group id of the file
-	*/
+	 * Method get_group_id
+	 * @access 
+	 * @return string $group_id The group id of the file
+	 * @since 1.0.35
+	 */
 	function get_group_id(){
 		return filegroup($this->name);
 	}
 	
 	/**
-	* Returns the suffix of the file
-	* @return string $suffix The suffix of the file. If no suffix exists FALSE will be returned
-	* @desc Returns the suffix of the file
-	*/
+	 * Method get_suffix
+	 * @access 
+	 * @return string $suffix The suffix of the file. If no suffix exists FALSE will be returned
+	 * @since 1.0.35
+	 */
 	function get_suffix(){
 		$file_array=explode("\.",$this->name); // Splitting prefix and suffix of real filename
 		$suffix=$file_array[count($file_array)-1]; // Returning file type
@@ -160,29 +179,33 @@ class File{
 	}
 	
 	/**
-	* Sets the actual pointer position
-	* @return int $offset Returns the actual pointer position
-	* @desc Returns the actual pointer position
-	*/
+	 * Method pointer_set
+	 * @access 
+	 * @param mixed $offset 
+	 * @return int $offset Returns the actual pointer position
+	 * @since 1.0.35
+	 */
 	function pointer_set($offset){
 		$this->action_before_reading=true;
 		return fseek($this->file,$offset);
 	}
 	
 	/**
-	* Returns the actual pointer position
-	* @param int $offset Returns the actual pointer position
-	* @desc Returns the actual pointer position
-	*/
+	 * Method pointer_get
+	 * @access 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	function pointer_get(){
 		return ftell($this->file);
 	}
 	
 	/**
-	* Reads a line from the file
-	* @return string $line A line from the file. If is EOF, false will be returned
-	* @desc Reads a line from the file
-	*/
+	 * Method read_line
+	 * @access 
+	 * @return string $line A line from the file. If is EOF, false will be returned
+	 * @since 1.0.35
+	 */
 	function read_line(){
 		if($this->action_before_reading){
 			if(rewind($this->file)){
@@ -198,10 +221,13 @@ class File{
 	}
 	
 	/**
-	* Reads data from a binary file
-	* @return string $line Data from a binary file
-	* @desc Reads data from a binary file
-	*/
+	 * Method read_bytes
+	 * @access 
+	 * @param mixed $bytes 
+	 * @param double $start_byte [default value: 0]
+	 * @return string $line Data from a binary file
+	 * @since 1.0.35
+	 */
 	function read_bytes($bytes,$start_byte=0){
 		if(is_int($start_byte)){
 			if(rewind($this->file)){
@@ -222,11 +248,12 @@ class File{
 	}
 	
 	/**
-	* Writes data to the file
-	* @param string $data The data which have to be written
-	* @return boolean $written Returns TRUE if data could be written, FALSE if not
-	* @desc Writes data to the file
-	*/
+	 * Method write
+	 * @access 
+	 * @param string $data The data which have to be written
+	 * @return boolean $written Returns TRUE if data could be written, FALSE if not
+	 * @since 1.0.35
+	 */
 	function write($data){
 		$this->action_before_reading=true;
 		if(strlen($data)>0){
@@ -253,11 +280,12 @@ class File{
 	}
 	
 	/**
-	* Copies a file to the given destination
-	* @param string $destination The new file destination
-	* @return boolean $copied Returns TRUE if file could bie copied, FALSE if not
-	* @desc Copies a file to the given destination
-	*/
+	 * Method copy
+	 * @access 
+	 * @param string $destination The new file destination
+	 * @return boolean $copied Returns TRUE if file could bie copied, FALSE if not
+	 * @since 1.0.35
+	 */
 	function copy($destination){
 		if(strlen($destination)>0){
 			if(copy($this->name,$destination)){
@@ -272,11 +300,12 @@ class File{
 	}
 	
 	/**
-	* Searches a string in file
-	* @param string $string The string which have to be searched
-	* @return array $found_bytes Pointer offsets where string have been found. On no match, function returns false
-	* @desc Searches a string in file
-	*/
+	 * Method search
+	 * @access 
+	 * @param string $string The string which have to be searched
+	 * @return array $found_bytes Pointer offsets where string have been found. On no match, function returns false
+	 * @since 1.0.35
+	 */
 	function search($string){
 		if(strlen($string)!=0){
 			
@@ -334,10 +363,10 @@ class File{
 	}
 	
 	/**
-	* Prints out a error message
-	* @param string $message all occurred errors as array
-	* @desc Returns all occurred errors
-	*/
+	 * Method halt
+	 * @access 
+	 * @param string $message all occurred errors as array
+	 */
 	function halt($message){
 		if($this->debug){
 			throw new NewException($message, 0, 8, __FILE__, __LINE__);
@@ -345,10 +374,10 @@ class File{
 	}
 	
 	/**
-	* Switches to debug mode
-	* @param boolean $switch
-	* @desc Switches to debug mode
-	*/
+	 * Method debug_mode
+	 * @access 
+	 * @param boolean $debug [default value: true]
+	 */
 	function debug_mode($debug=true){
 		$this->debug=$debug;
 		if(!$this->file){

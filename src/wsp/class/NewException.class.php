@@ -14,10 +14,18 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
- * @since       1.0.18
+ * @since       1.0.36
  */
+
+	/**
+	 * Method getDebugBacktrace
+	 * @access 
+	 * @param double $remove_nb_level [default value: 0]
+	 * @return mixed
+	 * @since 1.0.18
+	 */
 
 function getDebugBacktrace($remove_nb_level=0) {
 	$output = "";
@@ -73,10 +81,21 @@ function getDebugBacktrace($remove_nb_level=0) {
 
 class NewException extends Exception
 {
+	/**
+	 * Constructor NewException
+	 * @param mixed $message 
+	 * @param mixed $code [default value: NULL]
+	 */
     public function __construct($message, $code=NULL) {
         parent::__construct($message, $code);
     }
    
+	/**
+	 * Method __toString
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
     public function __toString() {
     	try {
 			return NewException::generateErrorMessage($this->getCode(), $this->getMessage(), $this->getFile(), $this->getLine(), (isset($this->_class)?$this->_class:""), (isset($this->_method)?$this->_method:""), $this->getTraceAsString());
@@ -86,6 +105,19 @@ class NewException extends Exception
 		}
     }
     
+	/**
+	 * Method generateErrorMessage
+	 * @access public static
+	 * @param mixed $code 
+	 * @param mixed $message 
+	 * @param mixed $file 
+	 * @param mixed $line 
+	 * @param string $class_name 
+	 * @param string $method 
+	 * @param string $trace 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
     public static function generateErrorMessage($code, $message, $file, $line, $class_name='', $method='', $trace='') {
     	if ($message == "Class 'WebSitePhpSoapClient' not found") {
     		$message = "You must activate PHP extension php_soap in php.ini";
@@ -108,10 +140,21 @@ class NewException extends Exception
         return $str;
     }
 
+	/**
+	 * Method getException
+	 * @access public
+	 * @return NewException
+	 * @since 1.0.35
+	 */
     public function getException() {
         return $this; // This will print the return from the above method __toString()
     }
    
+	/**
+	 * Method getStaticException
+	 * @access public static
+	 * @param mixed $exception 
+	 */
 	public static function getStaticException($exception) {
 		if (method_exists($exception, "getException")) {
          	print $exception->getException(); // $exception is an instance of this class
@@ -120,6 +163,11 @@ class NewException extends Exception
         }
     }
     
+	/**
+	 * Method printStaticException
+	 * @access public static
+	 * @param mixed $exception 
+	 */
 	public static function printStaticException($exception) {
 		if (method_exists($exception, "getException")) {
 			NewException::printStaticDebugMessage($exception->getException());
@@ -128,6 +176,13 @@ class NewException extends Exception
 		}
     }
     
+	/**
+	 * Method redirectOnError
+	 * @access public static
+	 * @param mixed $buffer 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
     public static function redirectOnError($buffer) {  
 		$lastError = error_get_last();  
 		if(!is_null($lastError) && ($lastError['type'] === E_ERROR || $lastError['type'] === E_PARSE)) {
@@ -137,6 +192,11 @@ class NewException extends Exception
 		return $buffer;  
 	}
 	
+	/**
+	 * Method printStaticDebugMessage
+	 * @access public static
+	 * @param mixed $debug_msg 
+	 */
 	public static function printStaticDebugMessage($debug_msg) {
 		// print the debug
 		if ($GLOBALS['__DEBUG_PAGE_IS_PRINTING__'] == false) {

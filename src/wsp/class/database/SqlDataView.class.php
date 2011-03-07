@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -60,6 +60,10 @@ class SqlDataView {
 	private $activate_htmlentities = false;
 	/**#@-*/
 	
+	/**
+	 * Constructor SqlDataView
+	 * @param mixed $db_table_object 
+	 */
 	function __construct($db_table_object) {
 		if (!isset($db_table_object)) {
 			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, 8, __FILE__, __LINE__);
@@ -68,12 +72,28 @@ class SqlDataView {
 		$this->last_query = "";
 	}
 	
+	/**
+	 * Method setClause
+	 * @access public
+	 * @param mixed $clause 
+	 * @param mixed $clause_objects [default value: array(]
+	 * @return SqlDataView
+	 * @since 1.0.35
+	 */
 	public function setClause($clause, $clause_objects=array()) {
 		$this->clause = $clause;
 		$this->clause_objects = $clause_objects;
 		return $this;
 	}
 	
+	/**
+	 * Method setLimit
+	 * @access public
+	 * @param mixed $offset 
+	 * @param mixed $row_count 
+	 * @return SqlDataView
+	 * @since 1.0.35
+	 */
 	public function setLimit($offset, $row_count) {
 		if (!is_integer($offset)) {
 			throw new NewException("Error SqlDataView->setLimit(): offset must be an integer", 0, 8, __FILE__, __LINE__);
@@ -86,6 +106,14 @@ class SqlDataView {
 		return $this;
 	}
 	
+	/**
+	 * Method addOrder
+	 * @access public
+	 * @param mixed $attribute 
+	 * @param string $order [default value: ASC]
+	 * @return SqlDataView
+	 * @since 1.0.35
+	 */
 	public function addOrder($attribute, $order='ASC') {
 		if (strtoupper($order) != "ASC" && strtoupper($order) != "DESC") {
 			throw new NewException("Error SqlDataView->addOrder(): order must be like ASC or DESC", 0, 8, __FILE__, __LINE__);
@@ -95,6 +123,14 @@ class SqlDataView {
 		return $this;
 	}
 	
+	/**
+	 * Method addJoinAttribute
+	 * @access public
+	 * @param mixed $db_table_object_join 
+	 * @param mixed $join_attribute_1 
+	 * @param mixed $join_attribute_2 
+	 * @param string $join_type [default value: INNER]
+	 */
 	public function addJoinAttribute($db_table_object_join, $join_attribute_1, $join_attribute_2, $join_type='INNER') {
 		if (!isset($db_table_object_join) && !isset($join_attribute_1) && !isset($join_attribute_2)) {
 			throw new NewException("Error SqlDataView->addJoinAttribute(): 3 arguments for method addJoin are mandatory", 0, 8, __FILE__, __LINE__);
@@ -103,6 +139,15 @@ class SqlDataView {
 		$this->addJoinTableAttribute($db_table_object_join, null, $join_attribute_1, $join_attribute_2, $join_type);
 	}
 	
+	/**
+	 * Method addJoinTableAttribute
+	 * @access public
+	 * @param mixed $db_table_object_join_1 
+	 * @param mixed $db_table_object_join_2 
+	 * @param mixed $join_attribute_1 
+	 * @param mixed $join_attribute_2 
+	 * @param string $join_type [default value: INNER]
+	 */
 	public function addJoinTableAttribute($db_table_object_join_1, $db_table_object_join_2, $join_attribute_1, $join_attribute_2, $join_type='INNER') {
 		if (!isset($db_table_object_join_1) && !isset($db_table_object_join_2) && !isset($join_attribute_1) && !isset($join_attribute_2)) {
 			throw new NewException("Error SqlDataView->addJoinTableAttribute(): 4 arguments for method addJoin are mandatory", 0, 8, __FILE__, __LINE__);
@@ -127,6 +172,13 @@ class SqlDataView {
 		$this->addJoinClause($db_table_object_join_1, $join_clause, $join_type);
 	}
 	
+	/**
+	 * Method addJoinClause
+	 * @access public
+	 * @param mixed $db_table_object_join 
+	 * @param mixed $join_clause 
+	 * @param string $join_type [default value: INNER]
+	 */
 	public function addJoinClause($db_table_object_join, $join_clause, $join_type='INNER') {
 		if (!isset($db_table_object_join) && !isset($join_clause)) {
 			throw new NewException("Error SqlDataView->addJoinClause(): 2 arguments for method addJoin are mandatory", 0, 8, __FILE__, __LINE__);
@@ -143,6 +195,12 @@ class SqlDataView {
 		$this->joins_type[] = $join_type;
 	}
 	
+	/**
+	 * Method retrieve
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function retrieve() {
 		$list_attribute = "";
 		$db_table_attributes = $this->db_table_object->getDbTableAttributes();
@@ -210,6 +268,13 @@ class SqlDataView {
 		return $this->iterator;
 	}
 	
+	/**
+	 * Method getLastQuery
+	 * @access public
+	 * @param boolean $display_params [default value: true]
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getLastQuery($display_params=true) {
 		$params = "";
 		for ($i=0; $i < sizeof($this->clause_objects); $i++) {
@@ -231,12 +296,24 @@ class SqlDataView {
 		}
 	}
 	
+	/**
+	 * Method createEmpty
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function createEmpty() {
 		$this->last_query = "";
 		$this->iterator = new DataRowIterator($this->db_table_object);
 		return $this->iterator;
 	}
 	
+	/**
+	 * Method enableHtmlentitiesMode
+	 * @access public
+	 * @return SqlDataView
+	 * @since 1.0.35
+	 */
 	public function enableHtmlentitiesMode() {
 		$this->activate_htmlentities = true;
 		return $this;

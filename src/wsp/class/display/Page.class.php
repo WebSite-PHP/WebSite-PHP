@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -83,6 +83,13 @@ class Page {
 		ob_end_flush();
 	}
 	
+	/**
+	 * Method getInstance
+	 * @access final public static
+	 * @param mixed $page 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	final public static function getInstance($page) {
 		$page_tmp = str_replace("_", "-", $page);
 		$page_tmp = explode('/', $page_tmp);
@@ -107,6 +114,12 @@ class Page {
 		return $aoInstance[$page_class_name];
 	}
    
+	/**
+	 * Method setCache
+	 * @access public
+	 * @return boolean
+	 * @since 1.0.35
+	 */
 	public function setCache() {
 		$this->page_is_display = true;
 		$this->PAGE_CACHING = true;
@@ -130,6 +143,11 @@ class Page {
 		return false;
 	}
 	
+	/**
+	 * Method setCacheFileName
+	 * @access protected
+	 * @param mixed $file_name 
+	 */
 	protected function setCacheFileName($file_name) {
 		$cache_directory = SITE_DIRECTORY."/wsp/cache";
 		if (!is_dir($cache_directory)) {
@@ -162,46 +180,109 @@ class Page {
 		$this->cache_file_name = $cache_directory."/".urlencode($this->cache_file_name);
 	}
 	
+	/**
+	 * Method setCacheTime
+	 * @access protected
+	 * @param mixed $cache_time 
+	 */
 	protected function setCacheTime($cache_time) {
 		$this->cache_time = $cache_time;
 	}
 	
+	/**
+	 * Method disableCache
+	 * @access protected
+	 */
 	protected function disableCache() {
 		$this->PAGE_CACHING = false;
 	}
 		
+	/**
+	 * Method getPageTitle
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getPageTitle() {
 		return self::$PAGE_TITLE;
 	}
 	
+	/**
+	 * Method getPageKeywords
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getPageKeywords() {
 		return self::$PAGE_KEYWORDS;
 	}
 	
+	/**
+	 * Method getPageDescription
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getPageDescription() {
 		return self::$PAGE_DESCRIPTION;
 	}
 	
+	/**
+	 * Method getPageMetaRobots
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getPageMetaRobots() {
 		return self::$PAGE_META_ROBOTS;
 	}
 	
+	/**
+	 * Method getPageMetaGooglebots
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getPageMetaGooglebots() {
 		return self::$PAGE_META_GOOGLEBOTS;
 	}
 	
+	/**
+	 * Method getPageMetaRevisitAfter
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getPageMetaRevisitAfter() {
 		return self::$PAGE_META_REVISIT_AFTER;
 	}
 	
+	/**
+	 * Method getPageIsCaching
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getPageIsCaching() {
 		return $this->page_is_caching;
 	}
 	
+	/**
+	 * Method getPage
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getPage() {
 		return $this->page;
 	}
 	
+	/**
+	 * Method addEventObject
+	 * @access public
+	 * @param mixed $object 
+	 * @param mixed $form_object [default value: null]
+	 */
 	public function addEventObject($object, $form_object=null) {
 		if ($object->isEventObject() && !$this->create_object_to_get_css_js) {
 			$class_name = get_class($object);
@@ -219,6 +300,13 @@ class Page {
 		}
 	}
 	
+	/**
+	 * Method getEventObjects
+	 * @access public
+	 * @param mixed $event_object_name 
+	 * @return array
+	 * @since 1.0.35
+	 */
 	public function getEventObjects($event_object_name) {
 		if (isset($this->objects[$event_object_name])) {
 			return $this->objects[$event_object_name];
@@ -227,10 +315,23 @@ class Page {
 		}
 	}
 	
+	/**
+	 * Method getAllEventObjects
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getAllEventObjects() {
 		return $this->objects;
 	}
 	
+	/**
+	 * Method getObjectId
+	 * @access public
+	 * @param mixed $id 
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getObjectId($id) {
 		$register_objects = WebSitePhpObject::getRegisterObjects();
 		for ($i=0; $i < sizeof($register_objects); $i++) {
@@ -244,8 +345,11 @@ class Page {
 	}
 	
 	/**
-	 * function createObjectName
+	 * Method createObjectName
+	 * @access public
 	 * @param Object $object event object (ex: TextBox, Editor, Button, ...)
+	 * @return mixed
+	 * @since 1.0.35
 	 * Create an automatique and unique name for an event object
 	 */
 	public function createObjectName($object) {
@@ -273,8 +377,11 @@ class Page {
 	}
 	
 	/**
-	 * function existsObjectName
-	 * @param string $name
+	 * Method existsObjectName
+	 * @access public
+	 * @param string $name 
+	 * @return boolean
+	 * @since 1.0.35
 	 * Test if an event object already exists for this name
 	 */
 	public function existsObjectName($name) {
@@ -289,8 +396,11 @@ class Page {
 	}
 	
 	/**
-	 * function getObjectValue
+	 * Method getObjectValue
+	 * @access public
 	 * @param string $name get the value of an event object (ex: TextBox, Editor, Button, ...)
+	 * @return boolean
+	 * @since 1.0.35
 	 */
 	public function getObjectValue($name) {
 		$object = $this->existsObjectName($name);
@@ -301,8 +411,10 @@ class Page {
 	}
 	
 	/**
-	 * function setObjectValue
+	 * Method setObjectValue
+	 * @access public
 	 * @param string $name set the value of an event object (ex: TextBox, Editor, Button, ...)
+	 * @param mixed $value 
 	 */
 	public function setObjectValue($name, $value) {
 		$object = $this->existsObjectName($name);
@@ -312,7 +424,8 @@ class Page {
 	}
 	
 	/**
-	 * function loadAllVariables
+	 * Method loadAllVariables
+	 * @access public
 	 * Load all GET and POST Varaibles after submit a form
 	 */
 	public function loadAllVariables() {
@@ -391,7 +504,8 @@ class Page {
 	}
 	
 	/**
-	 * function forceObjectsDefaultValues
+	 * Method forceObjectsDefaultValues
+	 * @access public
 	 * Force all event object (ex: TextBox, Editor, Button, ...) to the default value (like a reset)
 	 * Cancel method loadAllVariables
 	 */
@@ -409,7 +523,10 @@ class Page {
 	}
 	
 	/**
-	 * function getUserEventObject
+	 * Method getUserEventObject
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
 	 * Save the callback method and params from user event
 	 */
 	public function getUserEventObject() {
@@ -494,7 +611,8 @@ class Page {
 	}
 	
 	/**
-	 * function executeCallback
+	 * Method executeCallback
+	 * @access public
 	 * Execute method link to the user action
 	 */
 	public function executeCallback() {
@@ -524,6 +642,13 @@ class Page {
 		}
 	}
 	
+	/**
+	 * Method extractCallbackParameters
+	 * @access private
+	 * @param mixed $callback_value 
+	 * @return array
+	 * @since 1.0.35
+	 */
 	private function extractCallbackParameters($callback_value) {
 		if (find($callback_value, ").public_", 0, 0) > 0) {
 			$callback_method = "";
@@ -539,7 +664,8 @@ class Page {
 	}
 	
 	/**
-	 * function addObject
+	 * Method addObject
+	 * @access public
 	 * @param Object $object add script after the render of the page (ex: DialogBox, ...)
 	 */
 	public function addObject($object) {
@@ -549,24 +675,40 @@ class Page {
 		$this->add_to_render[] = $object;
 	}
 	
+	/**
+	 * Method getAddedObjects
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getAddedObjects() {
 		return $this->add_to_render;
 	}
 	
 	/**
-	 * function addLogDebug
+	 * Method addLogDebug
+	 * @access public
 	 * @param string $str add string to debug consol
 	 */
 	public function addLogDebug($str) {
 		$this->log_debug_str[] = $str;
 	}
 	
+	/**
+	 * Method getLogDebug
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getLogDebug() {
 		return $this->log_debug_str;
 	}
 	
 	/**
-	 * function render
+	 * Method render
+	 * @access public
+	 * @return string
+	 * @since 1.0.35
 	 * Render the page
 	 */
 	public function render() {
@@ -607,10 +749,22 @@ class Page {
 		}
 	}
 	
+	/**
+	 * Method getRenderObject
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getRenderObject() {
 		return $this->render;
 	}
 	
+	/**
+	 * Method userHaveRights
+	 * @access public
+	 * @return boolean
+	 * @since 1.0.35
+	 */
 	public function userHaveRights() {
 		$user_rights = $this->USER_RIGHTS;
 		if (isset($user_rights) && $user_rights != "") {
@@ -624,11 +778,21 @@ class Page {
 		return true;
 	}
 	
+	/**
+	 * Method setUserRights
+	 * @access public
+	 * @param mixed $rights 
+	 */
 	public function setUserRights($rights) {
 		$_SESSION['USER_RIGHTS'] = $rights;
 	}
 
 	
+	/**
+	 * Method redirect
+	 * @access public
+	 * @param mixed $url 
+	 */
 	public function redirect($url) {
 		if ($GLOBALS['__AJAX_PAGE__'] == true) {
 			$this->addObject(new JavaScript("location.href='".$url."';"));
@@ -640,14 +804,31 @@ class Page {
 		}
 	}
 	
+	/**
+	 * Method setTimeout
+	 * @access public
+	 * @param double $timeout [default value: 30]
+	 */
 	public function setTimeout($timeout=30) {
 		set_time_limit($timeout);
 	}
 	
+	/**
+	 * Method getLanguage
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getLanguage() {
 		return $_SESSION['lang'];
 	}
 	
+	/**
+	 * Method getCurrentURL
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getCurrentURL() {
 		if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
 			return "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
@@ -656,44 +837,104 @@ class Page {
 		}
 	}
 	
+	/**
+	 * Method getCurrentURLDirectory
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getCurrentURLDirectory() {
 		$current_url = $this->getCurrentURL();
 		$current_dir = substr($current_url, 0, strrpos($current_url, "/"))."/";
 		return $current_dir;
 	}
 	
+	/**
+	 * Method getBaseURL
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getBaseURL() {
 		return BASE_URL;
 	}
 	
+	/**
+	 * Method getBaseLanguageURL
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getBaseLanguageURL() {
 		return BASE_URL.$_SESSION['lang']."/";
 	}
 	
+	/**
+	 * Method getSubDomainURL
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getSubDomainURL() {
 		return SUBDOMAIN_URL;
 	}
 	
+	/**
+	 * Method getRefererURL
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getRefererURL() {
 		return $_SERVER['HTTP_REFERER'];
 	}
 	
+	/**
+	 * Method getDocumentHeight
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getDocumentHeight() {
 		return ($_COOKIE['wsp_document_height']==""?null:$_COOKIE['wsp_document_height']);
 	}
 	
+	/**
+	 * Method getDocumentWidth
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getDocumentWidth() {
 		return ($_COOKIE['wsp_document_width']==""?null:$_COOKIE['wsp_document_width']);
 	}
 	
+	/**
+	 * Method getWindowHeight
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getWindowHeight() {
 		return ($_COOKIE['wsp_window_height']==""?null:$_COOKIE['wsp_window_height']);
 	}
 	
+	/**
+	 * Method getWindowWidth
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function getWindowWidth() {
 		return ($_COOKIE['wsp_window_width']==""?null:$_COOKIE['wsp_window_width']);
 	}
 	
+	/**
+	 * Method isAjaxPage
+	 * @access public
+	 * @return boolean
+	 * @since 1.0.35
+	 */
 	public function isAjaxPage() {
 		if ($GLOBALS['__AJAX_LOAD_PAGE__'] == true) {
 			return false;
@@ -703,6 +944,12 @@ class Page {
 		return false;
 	}
 	
+	/**
+	 * Method isLoadPage
+	 * @access public
+	 * @return boolean
+	 * @since 1.0.35
+	 */
 	public function isLoadPage() {
 		if ($GLOBALS['__AJAX_LOAD_PAGE__'] == true) {
 			return true;
@@ -710,6 +957,12 @@ class Page {
 		return false;
 	}
 	
+	/**
+	 * Method isCss3Browser
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function isCss3Browser() {
 		if ($this->browser == null) {
 			$this->browser = get_browser_info(null, true);
@@ -717,6 +970,12 @@ class Page {
 		return ($this->browser[cssversion] >= 3)?true:false;
 	}
 	
+	/**
+	 * Method isMobileDevice
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function isMobileDevice() {
 		if ($this->browser == null) {
 			$this->browser = get_browser_info(null, true);
@@ -726,6 +985,11 @@ class Page {
 	
 	/*
 	 * Use to add JS and CSS to the page when when Object never load on init, but load dynamically (on DialogBox, Map, ...)
+	 */
+	/**
+	 * Method includeJsAndCssFromObjectToPage
+	 * @access public
+	 * @param mixed $str_object 
 	 */
 	public function includeJsAndCssFromObjectToPage($str_object) {
 		$this->create_object_to_get_css_js = true;

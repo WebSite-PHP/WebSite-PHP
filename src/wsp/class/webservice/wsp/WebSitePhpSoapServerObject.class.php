@@ -14,19 +14,23 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
 
 class WebSitePhpSoapServerObject {
+	/**
+	 * Constructor WebSitePhpSoapServerObject
+	 */
 	function __construct() {}
 	
 	/**
-    * getSessionId
-    *
-    * @return string str, session id
-    */
+	 * Method getSessionId
+	 * @access public
+	 * @return string str, session id
+	 * @since 1.0.35
+	 */
 	public function getSessionId() {
     	return session_id();
     }

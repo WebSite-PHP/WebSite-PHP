@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -49,6 +49,13 @@ class Editor extends WebSitePhpObject {
 	private $live_validation = null;
 	/**#@-*/
 	
+	/**
+	 * Constructor Editor
+	 * @param mixed $page_or_form_object 
+	 * @param string $name 
+	 * @param string $width 
+	 * @param string $height 
+	 */
 	function __construct($page_or_form_object, $name='', $width='', $height='') {
 		parent::__construct();
 		
@@ -83,51 +90,114 @@ class Editor extends WebSitePhpObject {
 		$this->addJavaScript(BASE_URL."wsp/includes/ckeditor/ckeditor.js");
 	}
 	
+	/**
+	 * Method setWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return Editor
+	 * @since 1.0.36
+	 */
 	public function setWidth($width) {
 		$this->width = $width;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setHeight
+	 * @access public
+	 * @param integer $height 
+	 * @return Editor
+	 * @since 1.0.36
+	 */
 	public function setHeight($height) {
 		$this->height = $height;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setValue
+	 * @access public
+	 * @param mixed $value 
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function setValue($value) {
 		return $this->setContent($value);
 	}
 
+	/**
+	 * Method setDefaultValue
+	 * @access public
+	 * @param mixed $value 
+	 * @return Editor
+	 * @since 1.0.36
+	 */
 	public function setDefaultValue($value) {
 		$this->setDefaultContent($value);
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setName
+	 * @access public
+	 * @param mixed $name 
+	 * @return Editor
+	 * @since 1.0.36
+	 */
 	public function setName($name) {
 		$this->name = $name;
 		return $this;
 	}
 	
+	/**
+	 * Method setContent
+	 * @access public
+	 * @param object $content 
+	 * @return Editor
+	 * @since 1.0.36
+	 */
 	public function setContent($content) {
 		$this->content = $content;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setDefaultContent
+	 * @access public
+	 * @param object $content 
+	 * @return Editor
+	 * @since 1.0.36
+	 */
 	public function setDefaultContent($content) {
 		$this->default_content = $content;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 		
+	/**
+	 * Method setColor
+	 * @access public
+	 * @param mixed $color 
+	 * @return Editor
+	 * @since 1.0.36
+	 */
 	public function setColor($color) {
 		$this->color = $color;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 		
+	/**
+	 * Method setToolbar
+	 * @access public
+	 * @param mixed $toolbar 
+	 * @return Editor
+	 * @since 1.0.36
+	 */
 	public function setToolbar($toolbar) {
 		if ($toolbar != Editor::TOOLBAR_DEFAULT && $toolbar != Editor::TOOLBAR_MEDIUM && $toolbar != Editor::TOOLBAR_SIMPLE && $toolbar != Editor::TOOLBAR_NONE) {
 			throw new NewException("Editor->setToolbar() : Undefined toolbar type", 0, 8, __FILE__, __LINE__);
@@ -138,6 +208,13 @@ class Editor extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setLiveValidation
+	 * @access public
+	 * @param mixed $live_validation_object 
+	 * @return Editor
+	 * @since 1.0.36
+	 */
 	public function setLiveValidation($live_validation_object) {
 		if (get_class($live_validation_object) != "LiveValidation") {
 			throw new NewException("setLiveValidation(): \$live_validation_object must be a valid LiveValidation object", 0, 8, __FILE__, __LINE__);
@@ -148,54 +225,127 @@ class Editor extends WebSitePhpObject {
 		return $this;
 	}
 		
+	/**
+	 * Method collapseToolbar
+	 * @access public
+	 * @return Editor
+	 * @since 1.0.36
+	 */
 	public function collapseToolbar() {
 		$this->collapse_toolbar = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 		
+	/**
+	 * Method resizable
+	 * @access public
+	 * @param mixed $bool 
+	 * @return Editor
+	 * @since 1.0.36
+	 */
 	public function resizable($bool) {
 		$this->resizable = $bool;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 		
+	/**
+	 * Method getName
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getName() {
 		return $this->name;
 	}
 		
+	/**
+	 * Method getId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getId() {
 		return $this->name;
 	}
 		
+	/**
+	 * Method getHiddenId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getHiddenId() {
 		return "hidden_".$this->name;
 	}
 	
+	/**
+	 * Method getEventObjectName
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getEventObjectName() {
 		return $this->class_name."_".$this->name;
 	}
 
+	/**
+	 * Method getValue
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getValue() {
 		return $this->getContent();
 	}
 
+	/**
+	 * Method getDefaultValue
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getDefaultValue() {
 		return $this->getDefaultContent();
 	}
 	
+	/**
+	 * Method getContent
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getContent() {
 		return $this->content;
 	}
 	
+	/**
+	 * Method getDefaultContent
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getDefaultContent() {
 		return $this->default_content;
 	}
 
+	/**
+	 * Method getFormObject
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getFormObject() {
 		return $this->form_object;
 	}
 	
+	/**
+	 * Method getCreateEditorJs
+	 * @access private
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	private function getCreateEditorJs() {
 		$html .= "	createEditor_".$this->name." = function() {
 						if (CKEDITOR.instances['".$this->name."']) {
@@ -267,6 +417,13 @@ class Editor extends WebSitePhpObject {
 		return $html;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object Editor
+	 * @since 1.0.36
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		if ($this->class_name != "") {
@@ -308,8 +465,10 @@ class Editor extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function getAjaxRender
-	 * @return string javascript code to update initial html with ajax call
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object Editor (call with AJAX)
+	 * @since 1.0.36
 	 */
 	public function getAjaxRender() {
 		$html = "";

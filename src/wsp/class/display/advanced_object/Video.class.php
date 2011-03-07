@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -43,6 +43,14 @@ class Video extends WebSitePhpObject {
 	private $repeat = "";
 	/**#@-*/
 	
+	/**
+	 * Constructor Video
+	 * @param mixed $id 
+	 * @param mixed $video 
+	 * @param integer $width 
+	 * @param integer $height 
+	 * @param string $snapshot 
+	 */
 	function __construct($id, $video, $width, $height, $snapshot='') {
 		parent::__construct();
 		
@@ -59,36 +67,77 @@ class Video extends WebSitePhpObject {
 		$this->addJavaScript(BASE_URL."wsp/js/swfobject.js", "", true);
 	}
 	
+	/**
+	 * Method setSnapshot
+	 * @access public
+	 * @param mixed $snapshot 
+	 * @return Video
+	 * @since 1.0.35
+	 */
 	public function setSnapshot($snapshot) {
 		$this->snapshot = $snapshot;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setScreencolor
+	 * @access public
+	 * @param mixed $screencolor 
+	 * @return Video
+	 * @since 1.0.35
+	 */
 	public function setScreencolor($screencolor) {
 		$this->screencolor = $screencolor;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setControlbar
+	 * @access public
+	 * @param mixed $controlbar 
+	 * @return Video
+	 * @since 1.0.35
+	 */
 	public function setControlbar($controlbar) {
 		$this->controlbar = $controlbar;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setRepeat
+	 * @access public
+	 * @param mixed $repeat 
+	 * @return Video
+	 * @since 1.0.35
+	 */
 	public function setRepeat($repeat) {
 		$this->repeat = $repeat;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method activeAutostart
+	 * @access public
+	 * @return Video
+	 * @since 1.0.35
+	 */
 	public function activeAutostart() {
 		$this->autostart = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return mixed
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$video_object = new SwfObject($this->id, BASE_URL."wsp/flash/mediaplayer.swf", $this->width, $this->height);
 		$video_object->addParam("allowfullscreen","true");

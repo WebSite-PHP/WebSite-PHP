@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -45,6 +45,15 @@ class DockMenu extends WebSitePhpObject {
 	private $dock_menu_items = array();
 	/**#@-*/
 	
+	/**
+	 * Constructor DockMenu
+	 * @param string $id [default value: menu_dock]
+	 * @param string $align 
+	 * @param double $top [default value: 0]
+	 * @param double $left [default value: 0]
+	 * @param double $img_size [default value: 48]
+	 * @param string $opacity 
+	 */
 	function __construct($id='menu_dock', $align='', $top=0, $left=0, $img_size=48, $opacity='') {
 		parent::__construct();
 		
@@ -58,6 +67,14 @@ class DockMenu extends WebSitePhpObject {
 		$this->addJavaScript(BASE_URL."wsp/js/jquery.jqDock.min.js", "", true);
 	}
 	
+	/**
+	 * Method setDockBackground
+	 * @access public
+	 * @param string $color [default value: #a5b5d3]
+	 * @param string $border_color [default value: #7890be]
+	 * @return DockMenu
+	 * @since 1.0.35
+	 */
 	public function setDockBackground($color='#a5b5d3', $border_color='#7890be') {
 		$this->background_color=$color;
 		$this->border_background_color=$border_color;
@@ -65,18 +82,39 @@ class DockMenu extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setDockOpacity
+	 * @access public
+	 * @param double $opacity [default value: 0.8]
+	 * @return DockMenu
+	 * @since 1.0.35
+	 */
 	public function setDockOpacity($opacity=0.8) {
 		$this->opacity=$opacity;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setLabelsColor
+	 * @access public
+	 * @param mixed $color 
+	 * @return DockMenu
+	 * @since 1.0.35
+	 */
 	public function setLabelsColor($color) {
 		$this->labels_color=$color;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method addDockMenuItem
+	 * @access public
+	 * @param mixed $dock_menu_item_object 
+	 * @return DockMenu
+	 * @since 1.0.35
+	 */
 	public function addDockMenuItem($dock_menu_item_object) {
 		if (get_class($dock_menu_item_object) != "DockMenuItem") {
 			throw new NewException("Error DockMenu->addDockMenuItem(): dock_menu_item_object is not a DockMenuItem object", 0, 8, __FILE__, __LINE__);
@@ -86,6 +124,13 @@ class DockMenu extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object DockMenu
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		

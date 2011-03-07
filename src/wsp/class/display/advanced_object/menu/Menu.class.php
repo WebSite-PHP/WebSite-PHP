@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -44,6 +44,11 @@ class Menu extends WebSitePhpObject {
 	private $is_supersubs = false;
 	/**#@-*/
 	
+	/**
+	 * Constructor Menu
+	 * @param string $position [default value: Horizontal]
+	 * @param string $id [default value: listMenu]
+	 */
 	function __construct($position='Horizontal', $id='listMenu') {
 		parent::__construct();
 		
@@ -59,6 +64,13 @@ class Menu extends WebSitePhpObject {
 		$this->setPosition($position);
 	}
 	
+	/**
+	 * Method setMenuItems
+	 * @access public
+	 * @param mixed $menu_items_object 
+	 * @return Menu
+	 * @since 1.0.35
+	 */
 	public function setMenuItems($menu_items_object) {
 		if (get_class($menu_items_object) != "MenuItems") {
 			throw new NewException("Error Menu->setMenuItems(): menu_items_object is not a MenuItems object", 0, 8, __FILE__, __LINE__);
@@ -68,6 +80,13 @@ class Menu extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setPosition
+	 * @access public
+	 * @param mixed $position 
+	 * @return Menu
+	 * @since 1.0.35
+	 */
 	public function setPosition($position) {
 		if ($position != Menu::POSITION_VERTICAL && $position != Menu::POSITION_HORIZONTAL
 			&& $position != Menu::POSITION_NAV_BAR) {
@@ -85,12 +104,25 @@ class Menu extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method activateSupersubs
+	 * @access public
+	 * @return Menu
+	 * @since 1.0.35
+	 */
 	public function activateSupersubs() {
 		$this->is_supersubs = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setMaxWidth
+	 * @access public
+	 * @param mixed $max_width 
+	 * @return Menu
+	 * @since 1.0.35
+	 */
 	public function setMaxWidth($max_width) {
 		$this->max_width = $max_width;
 		$this->is_supersubs = true;
@@ -98,6 +130,13 @@ class Menu extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setMinWidth
+	 * @access public
+	 * @param mixed $min_width 
+	 * @return Menu
+	 * @since 1.0.35
+	 */
 	public function setMinWidth($min_width) {
 		$this->min_width = $min_width;
 		$this->is_supersubs = true;
@@ -105,6 +144,13 @@ class Menu extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object Menu
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "";
 		

@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -35,6 +35,16 @@ class Button extends WebSitePhpEventObject {
 	private $is_clicked = false;
 	/**#@-*/
 	
+	/**
+	 * Constructor Button
+	 * @param mixed $page_or_form_object 
+	 * @param string $name 
+	 * @param string $id 
+	 * @param string $value 
+	 * @param double $width [default value: 0]
+	 * @param boolean $is_link [default value: false]
+	 * @param string $class 
+	 */
 	function __construct($page_or_form_object, $name='', $id='', $value='', $width=0, $is_link=false, $class='') {
 		parent::__construct();
 		
@@ -77,6 +87,13 @@ class Button extends WebSitePhpEventObject {
 		$this->page_object->addEventObject($this, $this->form_object);
 	}
 	
+	/**
+	 * Method setValue
+	 * @access public
+	 * @param mixed $value 
+	 * @return Button
+	 * @since 1.0.36
+	 */
 	public function setValue($value) {
 		$this->value = $value;
 		if (!$GLOBALS['__LOAD_VARIABLES__']) { 
@@ -87,30 +104,65 @@ class Button extends WebSitePhpEventObject {
 		return $this;
 	}
 
+	/**
+	 * Method setDefaultValue
+	 * @access public
+	 * @param mixed $value 
+	 * @return Button
+	 * @since 1.0.36
+	 */
 	public function setDefaultValue($value) {
 		$this->default_value = $value;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return Button
+	 * @since 1.0.36
+	 */
 	public function setWidth($width) {
 		$this->width = $width;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setIsLink
+	 * @access public
+	 * @param boolean $is_link [default value: true]
+	 * @return Button
+	 * @since 1.0.36
+	 */
 	public function setIsLink($is_link=true) {
 		$this->is_link = $is_link;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setClass
+	 * @access public
+	 * @param mixed $class 
+	 * @return Button
+	 * @since 1.0.36
+	 */
 	public function setClass($class) {
 		$this->class = $class;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setName
+	 * @access public
+	 * @param mixed $name 
+	 * @return Button
+	 * @since 1.0.36
+	 */
 	public function setName($name) {
 		$this->name = $name;
 		if ($id == "") {
@@ -119,6 +171,12 @@ class Button extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method assignEnterKey
+	 * @access public
+	 * @return Button
+	 * @since 1.0.36
+	 */
 	public function assignEnterKey() {
 		if ($this->form_object == null) {
 			throw new NewException("You can't assign enter key to Button not in a Form", 0, 8, __FILE__, __LINE__);
@@ -128,18 +186,48 @@ class Button extends WebSitePhpEventObject {
 		return $this;
 	}
 
+	/**
+	 * Method getValue
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getValue() {
 		return $this->value;
 	}
 
+	/**
+	 * Method getDefaultValue
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getDefaultValue() {
 		return $this->default_value;
 	}
 	
+	/**
+	 * Method getOnClickJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function getOnClickJs() {
 		return $this->onclick;
 	}
 	
+	/**
+	 * Method onClick
+	 * @access public
+	 * @param mixed $str_function 
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return Button
+	 * @since 1.0.36
+	 */
 	public function onClick($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		$args = func_get_args();
 		$str_function = array_shift($args);
@@ -147,11 +235,24 @@ class Button extends WebSitePhpEventObject {
 		return $this;
 	}
 	
+	/**
+	 * Method onClickJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return Button
+	 * @since 1.0.36
+	 */
 	public function onClickJs($js_function) {
 		$this->onclick = trim($js_function);
 		return $this;
 	}
 	
+	/**
+	 * Method isClicked
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
 	public function isClicked() {
 		if (!$this->is_clicked) {
 			$this->page_object->getUserEventObject();
@@ -159,6 +260,13 @@ class Button extends WebSitePhpEventObject {
 		return $this->is_clicked;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object Button
+	 * @since 1.0.36
+	 */
 	public function render($ajax_render=false) {
 		$this->automaticAjaxEvent();
 		
@@ -256,8 +364,10 @@ class Button extends WebSitePhpEventObject {
 	}
 	
 	/**
-	 * function getAjaxRender
-	 * @return string javascript code to update initial html with ajax call
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object Button (call with AJAX)
+	 * @since 1.0.36
 	 */
 	public function getAjaxRender() {
 		$this->automaticAjaxEvent();

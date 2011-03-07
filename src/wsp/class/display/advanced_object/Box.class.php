@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -86,14 +86,14 @@ class Box extends WebSitePhpObject {
 	/**
 	 * Constructor Box
 	 * @param object|string $title title in the header the box
-	 * @param boolean $shadow if box has shadow
-	 * @param string $style_header style of the header (Box::STYLE_MAIN or Box::STYLE_SECOND)
-	 * @param string $style_content style of the content (Box::STYLE_MAIN or Box::STYLE_SECOND)
+	 * @param boolean $shadow if box has shadow [default value: false]
+	 * @param string $style_header style of the header (Box::STYLE_MAIN or Box::STYLE_SECOND) [default value: 1]
+	 * @param string $style_content style of the content (Box::STYLE_MAIN or Box::STYLE_SECOND) [default value: 1]
 	 * @param string $link heander title link
-	 * @param string $id unique id of the box
-	 * @param string $width width of the box
+	 * @param string $id unique id of the box [default value: main_box]
+	 * @param string $width width of the box [default value: 100%]
 	 * @param string $height height of the bo
-	 * @param string $move if box can be move
+	 * @param string $move if box can be move [default value: false]
 	 */
 	function __construct($title, $shadow=false, $style_header='1', $style_content='1', $link='', $id='main_box', $width='100%', $height="", $move=false) {
 		parent::__construct();
@@ -142,6 +142,14 @@ class Box extends WebSitePhpObject {
 		$this->addCss(BASE_URL."wsp/css/angle.css.php", "", true);
 	}
 	
+	/**
+	 * Method setSmallIcon
+	 * @access public
+	 * @param mixed $icon_16_pixels 
+	 * @param string $text 
+	 * @return Box
+	 * @since 1.0.35
+	 */
 	public function setSmallIcon($icon_16_pixels, $text='') {
 		$this->icon_16_pixels = $icon_16_pixels;
 		$this->icon_16_pixels_text = $text;
@@ -149,6 +157,14 @@ class Box extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setBigIcon
+	 * @access public
+	 * @param mixed $icon_48_pixels 
+	 * @param string $text 
+	 * @return Box
+	 * @since 1.0.35
+	 */
 	public function setBigIcon($icon_48_pixels, $text='') {
 		$this->icon_48_pixels = $icon_48_pixels;
 		$this->icon_48_pixels_text = $text;
@@ -157,9 +173,12 @@ class Box extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function setDraggable
-	 * @param string $bool if box can be move
-	 * @param string $revert if box revert first place when dropped
+	 * Method setDraggable
+	 * @access public
+	 * @param string $bool if box can be move [default value: true]
+	 * @param string $revert if box revert first place when dropped [default value: false]
+	 * @return Box
+	 * @since 1.0.35
 	 */
 	public function setDraggable($bool=true, $revert=false) {
 		$this->move = $bool;
@@ -168,54 +187,113 @@ class Box extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setHeight
+	 * @access public
+	 * @param integer $height 
+	 * @return Box
+	 * @since 1.0.35
+	 */
 	public function setHeight($height) {
 		$this->height = $height;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return Box
+	 * @since 1.0.35
+	 */
 	public function setWidth($width) {
 		$this->width = $width;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setValign
+	 * @access public
+	 * @param string $valign 
+	 * @return Box
+	 * @since 1.0.35
+	 */
 	public function setValign($valign) {
 		$this->valign = $valign;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setAlign
+	 * @access public
+	 * @param string $align 
+	 * @return Box
+	 * @since 1.0.35
+	 */
 	public function setAlign($align) {
 		$this->align = $align;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setShadow
+	 * @access public
+	 * @param mixed $shadow 
+	 * @return Box
+	 * @since 1.0.35
+	 */
 	public function setShadow($shadow) {
 		$this->shadow = $shadow;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setTitleTagH1
+	 * @access public
+	 * @return Box
+	 * @since 1.0.35
+	 */
 	public function setTitleTagH1() {
 		$this->tagH = "h1";
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setTitleTagH2
+	 * @access public
+	 * @return Box
+	 * @since 1.0.35
+	 */
 	public function setTitleTagH2() {
 		$this->tagH = "h2";
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setTitleTagH3
+	 * @access public
+	 * @return Box
+	 * @since 1.0.35
+	 */
 	public function setTitleTagH3() {
 		$this->tagH = "h3";
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
+	/**
+	 * Method setTitleTagH4
+	 * @access public
+	 * @return Box
+	 * @since 1.0.35
+	 */
 	public function setTitleTagH4() {
 		$this->tagH = "h4";
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
@@ -223,8 +301,11 @@ class Box extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function setObject
+	 * Method setContent
+	 * @access public
 	 * @param object|string $content content of the box
+	 * @return Box
+	 * @since 1.0.35
 	 */
 	public function setContent($content) {
 		if (gettype($content) == "object" && get_class($content) == "DateTime") {
@@ -235,6 +316,14 @@ class Box extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method forceBoxWithPicture
+	 * @access public
+	 * @param mixed $bool 
+	 * @param string $border_color 
+	 * @return Box
+	 * @since 1.0.35
+	 */
 	public function forceBoxWithPicture($bool, $border_color="") {
 		$this->force_box_with_picture = $bool;
 		if ($border_color != "") {
@@ -245,8 +334,11 @@ class Box extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function render
-	 * @return string html code of the box
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object Box
+	 * @since 1.0.35
 	 */
 	public function render($ajax_render=false) {
 		$html = "";
@@ -541,8 +633,10 @@ class Box extends WebSitePhpObject {
 	}
 	
 	/**
-	 * function getAjaxRender
-	 * @return string javascript code to update initial html with ajax call
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object Box (call with AJAX)
+	 * @since 1.0.35
 	 */
 	public function getAjaxRender() {
 		$html = "";

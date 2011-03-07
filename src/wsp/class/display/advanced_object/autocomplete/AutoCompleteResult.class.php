@@ -14,7 +14,7 @@
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 05/01/2011
  *
- * @version     1.0.30
+ * @version     1.0.40
  * @access      public
  * @since       1.0.17
  */
@@ -28,11 +28,23 @@ class AutoCompleteResult extends WebSitePhpObject {
 	private $array_result_value = array();
 	/**#@-*/
 	
+	/**
+	 * Constructor AutoCompleteResult
+	 */
 	function __construct() {
 		parent::__construct();
 	}
 	
 	/* Intern management of ContextMenuEvent */
+	/**
+	 * Method add
+	 * @access public
+	 * @param mixed $id 
+	 * @param mixed $label 
+	 * @param mixed $value 
+	 * @return AutoCompleteResult
+	 * @since 1.0.35
+	 */
 	public function add($id, $label, $value) {
 		$this->array_result_id[] = $id;
 		$this->array_result_label[] = $label;
@@ -40,6 +52,13 @@ class AutoCompleteResult extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method render
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return string html code of object AutoCompleteResult
+	 * @since 1.0.35
+	 */
 	public function render($ajax_render=false) {
 		$html = "[";
 		for ($i=0; $i < sizeof($this->array_result_id); $i++) {
