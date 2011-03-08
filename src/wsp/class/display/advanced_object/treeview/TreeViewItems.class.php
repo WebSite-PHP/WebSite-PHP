@@ -1,6 +1,10 @@
 <?php
 /**
- * Description of PHP file wsp\class\display\advanced_object\treeview\TreeViewItems.class.php
+ * PHP file wsp\class\display\advanced_object\treeview\TreeViewItems.class.php
+ * @package display
+ * @subpackage advanced_object.treeview
+ */
+/**
  * Class TreeViewItems
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
@@ -9,16 +13,18 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
+ * 
+ * @package display
+ * @subpackage advanced_object.treeview
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- *
- * @version     1.0.40
+ * @version     1.0.57
  * @access      public
  * @since       1.0.17
  */
 
+ 
 class TreeViewItems extends WebSitePhpObject {
 	/**#@+
 	* @access private
@@ -57,7 +63,7 @@ class TreeViewItems extends WebSitePhpObject {
 	 * @param mixed $treeview_item_object4 [default value: null]
 	 * @param mixed $treeview_item_object5 [default value: null]
 	 * @return TreeViewItems
-	 * @since 1.0.35
+	 * @since 1.0.55
 	 */
 	public function add($treeview_item_object, $treeview_item_object2=null, $treeview_item_object3=null, $treeview_item_object4=null, $treeview_item_object5=null) {
 		$add_noded = false;
@@ -98,7 +104,7 @@ class TreeViewItems extends WebSitePhpObject {
 	 * @access private
 	 * @param mixed $treeview_item_object 
 	 * @return boolean
-	 * @since 1.0.35
+	 * @since 1.0.55
 	 */
 	private function nodeValueAlreadyExists($treeview_item_object) {
 		for ($i=0; $i < sizeof($this->treeview_items); $i++) {
@@ -114,7 +120,7 @@ class TreeViewItems extends WebSitePhpObject {
 	 * @access public
 	 * @param mixed $indice 
 	 * @return TreeViewItems
-	 * @since 1.0.35
+	 * @since 1.0.55
 	 */
 	public function remove($indice) {
 		if (isset($this->treeview_items[$indice])) {
@@ -133,7 +139,7 @@ class TreeViewItems extends WebSitePhpObject {
 	 * @access public
 	 * @param mixed $treeview_item_object 
 	 * @return TreeViewItems
-	 * @since 1.0.35
+	 * @since 1.0.55
 	 */
 	public function setTreeViewItemParent($treeview_item_object) {
 		if (get_class($treeview_item_object) != "TreeViewItem" && get_class($treeview_item_object) != "TreeViewFolder" && 
@@ -152,7 +158,7 @@ class TreeViewItems extends WebSitePhpObject {
 	 * Method getTreeViewItemArray
 	 * @access public
 	 * @return mixed
-	 * @since 1.0.35
+	 * @since 1.0.55
 	 */
 	public function getTreeViewItemArray() {
 		return $this->treeview_items;
@@ -163,7 +169,7 @@ class TreeViewItems extends WebSitePhpObject {
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
 	 * @return string html code of object TreeViewItems
-	 * @since 1.0.35
+	 * @since 1.0.55
 	 */
 	public function render($ajax_render=false) {
 		$html = "";
@@ -187,10 +193,14 @@ class TreeViewItems extends WebSitePhpObject {
 	}
 	
 	/**
+	 * function getAjaxRender
+	 * @return string javascript code to update initial html with ajax call
+	 */
+	/**
 	 * Method getAjaxRender
 	 * @access public
 	 * @return string javascript code to update initial html of object TreeViewItems (call with AJAX)
-	 * @since 1.0.35
+	 * @since 1.0.55
 	 */
 	public function getAjaxRender() {
 		$html = "";

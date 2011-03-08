@@ -1,6 +1,10 @@
 <?php
 /**
- * Description of PHP file wsp\class\display\advanced_object\DownloadButton.class.php
+ * PHP file wsp\class\display\advanced_object\DownloadButton.class.php
+ * @package display
+ * @subpackage advanced_object
+ */
+/**
  * Class DownloadButton
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
@@ -9,12 +13,13 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
+ * 
+ * @package display
+ * @subpackage advanced_object
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- *
- * @version     1.0.40
+ * @version     1.0.57
  * @access      public
  * @since       1.0.17
  */
@@ -74,7 +79,7 @@ class DownloadButton extends WebSitePhpObject {
 	 * @access public
 	 * @param mixed $image_src 
 	 * @return DownloadButton
-	 * @since 1.0.35
+	 * @since 1.0.55
 	 */
 	public function setImageSrc($image_src) {
 		$this->download_image = $image_src;
@@ -87,7 +92,7 @@ class DownloadButton extends WebSitePhpObject {
 	 * @access public
 	 * @param integer $width 
 	 * @return DownloadButton
-	 * @since 1.0.35
+	 * @since 1.0.55
 	 */
 	public function setImageWidth($width) {
 		$this->download_image_width = $width;
@@ -100,7 +105,7 @@ class DownloadButton extends WebSitePhpObject {
 	 * @access public
 	 * @param integer $height 
 	 * @return DownloadButton
-	 * @since 1.0.35
+	 * @since 1.0.55
 	 */
 	public function setImageHeight($height) {
 		$this->download_image_height = $height;
@@ -113,7 +118,7 @@ class DownloadButton extends WebSitePhpObject {
 	 * @access public
 	 * @param mixed $top 
 	 * @return DownloadButton
-	 * @since 1.0.35
+	 * @since 1.0.55
 	 */
 	public function setTopPositionText($top) {
 		$this->top_position_text = $top;
@@ -126,7 +131,7 @@ class DownloadButton extends WebSitePhpObject {
 	 * @access public
 	 * @param mixed $left 
 	 * @return DownloadButton
-	 * @since 1.0.35
+	 * @since 1.0.55
 	 */
 	public function setLeftPositionText($left) {
 		$this->left_position_text = $left;
@@ -139,7 +144,7 @@ class DownloadButton extends WebSitePhpObject {
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
 	 * @return string html code of object DownloadButton
-	 * @since 1.0.35
+	 * @since 1.0.55
 	 */
 	public function render($ajax_render=false) {
 		$html = "";

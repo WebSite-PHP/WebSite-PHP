@@ -1,6 +1,10 @@
 <?php
 /**
- * Description of PHP file wsp\class\webservice\wsp\WebSitePhpSoapClient.class.php
+ * PHP file wsp\class\webservice\wsp\WebSitePhpSoapClient.class.php
+ * @package webservice
+ * @subpackage wsp
+ */
+/**
  * Class WebSitePhpSoapClient
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
@@ -9,12 +13,13 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
+ * 
+ * @package webservice
+ * @subpackage wsp
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- *
- * @version     1.0.40
+ * @version     1.0.57
  * @access      public
  * @since       1.0.17
  */
@@ -37,7 +42,7 @@ class WebSitePhpSoapClient extends SoapClient {
 	 * Method getSession
 	 * @access public
 	 * @return mixed
-	 * @since 1.0.35
+	 * @since 1.0.55
 	 */
 	public function getSession() {
 		return $this->session;

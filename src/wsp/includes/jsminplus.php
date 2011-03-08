@@ -1,6 +1,8 @@
 <?php
 /**
- * Description of PHP file wsp\includes\jsminplus.php
+ * PHP file wsp\includes\jsminplus.php
+ */
+/**
  * WebSite-PHP file jsminplus.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
@@ -9,12 +11,11 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
+ * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 02/12/2010
- *
- * @version     1.0.30
+ * @version     1.0.57
  * @access      public
  * @since       1.0.19
  */

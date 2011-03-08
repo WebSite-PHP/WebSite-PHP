@@ -1,6 +1,8 @@
 <?php
 /**
- * Description of PHP file pages\home.php
+ * PHP file pages\home.php
+ */
+/**
  * Page home
  * URL: http://127.0.0.1/website-php-install/home.html
  *
@@ -10,15 +12,34 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
+ * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 21/07/2010
+ * @version     1.0.57
+ * @access      public
+ * @since       1.0.51
+ */
+
+/**
+ * Page home
+ * URL: http://127.0.0.1/website-php-install/home.html
  *
- * @version     1.0.30
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2011 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 21/07/2010
+ * @version     1.0.50
  * @access      public
  * @since       1.0.27
  */
+
 
 require_once("wsp-admin/includes/utils.inc.php");
 

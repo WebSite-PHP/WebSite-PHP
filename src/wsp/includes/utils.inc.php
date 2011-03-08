@@ -1,6 +1,8 @@
 <?php
 /**
- * Description of PHP file wsp\includes\utils.inc.php
+ * PHP file wsp\includes\utils.inc.php
+ */
+/**
  * WebSite-PHP file utils.inc.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
@@ -9,12 +11,11 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
+ * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- *
- * @version     1.0.30
+ * @version     1.0.57
  * @access      public
  * @since       1.0.19
  */
@@ -51,25 +52,6 @@
     	return $txt;
 	}
 	
-	$html_convert_table = array (
-	    "&" => "&amp;", "�" => "&iexcl;", "�" => "&cent;", "�" => "&pound;", "�" => "&curren;", "�" => "&yen;",
-	    "�" => "&brvbar;", "�" => "&sect;", "�" => "&uml;", "�" => "&copy;", "�" => "&ordf;", "�" => "&laquo;",
-	    "�" => "&not;", "�" => "&shy;", "�" => "&reg;", "�" => "&macr;", "�" => "&deg;", "�" => "&plusmn;",
-	    "�" => "&sup2;", "�" => "&sup3;", "�" => "&acute;", "�" => "&micro;", "�" => "&para;", "�" => "&middot;",
-	    "�" => "&cedil;", "�" => "&sup1;", "�" => "&ordm;", "�" => "&raquo;", "�" => "&frac14;", "�" => "&frac12;",
-	    "�" => "&frac34;", "�" => "&iquest;", "�" => "&Agrave;", "�" => "&Aacute;", "�" => "&Acirc;", "�" => "&Atilde;",
-	    "�" => "&Auml;", "�" => "&Aring;", "�" => "&AElig;", "�" => "&Ccedil;", "�" => "&Egrave;", "�" => "&Eacute;",
-	    "�" => "&Ecirc;", "�" => "&Euml;", "�" => "&Igrave;", "�" => "&Iacute;", "�" => "&Icirc;", "�" => "&Iuml;",
-	    "�" => "&ETH;", "�" => "&Ntilde;", "�" => "&Ograve;", "�" => "&Oacute;", "�" => "&Ocirc;", "�" => "&Otilde;",
-	    "�" => "&Ouml;", "�" => "&times;", "�" => "&Oslash;", "�" => "&Ugrave;", "�" => "&Uacute;", "�" => "&Ucirc;",
-	    "�" => "&Uuml;", "�" => "&Yacute;", "�" => "&THORN;", "�" => "&szlig;", "�" => "&agrave;", "�" => "&aacute;",
-	    "�" => "&acirc;", "�" => "&atilde;", "�" => "&auml;", "�" => "&aring;", "�" => "&aelig;", "�" => "&ccedil;",
-	    "�" => "&egrave;", "�" => "&eacute;", "�" => "&ecirc;", "�" => "&euml;", "�" => "&igrave;", "�" => "&iacute;",
-	    "�" => "&icirc;", "�" => "&iuml;", "�" => "&eth;", "�" => "&ntilde;", "�" => "&ograve;", "�" => "&oacute;",
-	    "�" => "&ocirc;", "�" => "&otilde;", "�" => "&ouml;", "�" => "&divide;", "�" => "&oslash;", "�" => "&ugrave;",
-	    "�" => "&uacute;", "�" => "&ucirc;", "�" => "&uuml;", "�" => "&yacute;", "�" => "&thorn;", "�" => "&yuml;",
-	    "\"" => "&quot;", "<" => "&lt;", ">" => "&gt;"
-	);
 	function html_convert($text) { 
 		global $html_convert_table; 
 		foreach($html_convert_table as $key => $val) {

@@ -1,6 +1,8 @@
 <?php
 /**
- * Description of PHP file pages\defined_zone\header.php
+ * PHP file pages\defined_zone\header.php
+ */
+/**
  * Defined zone header: define the render of the zone header
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
@@ -9,15 +11,33 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
+ * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/03/2010
+ * @version     1.0.57
+ * @access      public
+ * @since       1.0.51
+ */
+
+/**
+ * Defined zone header: define the render of the zone header
  *
- * @version     1.0.30
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2011 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 17/03/2010
+ * @version     1.0.50
  * @access      public
  * @since       1.0.27
  */
+
 
 class Header extends DefinedZone {
 	function __construct() {

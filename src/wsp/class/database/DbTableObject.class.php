@@ -1,6 +1,9 @@
 <?php
 /**
- * Description of PHP file wsp\class\database\DbTableObject.class.php
+ * PHP file wsp\class\database\DbTableObject.class.php
+ * @package database
+ */
+/**
  * Class DbTableObject
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
@@ -9,12 +12,12 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
+ * 
+ * @package database
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- *
- * @version     1.0.40
+ * @version     1.0.57
  * @access      public
  * @since       1.0.17
  */
@@ -37,7 +40,6 @@ class DbTableObject {
 
 	/**
 	 * Method getDbSchemaName
-	 * @access 
 	 * @return mixed
 	 * @since 1.0.35
 	 */
@@ -47,7 +49,6 @@ class DbTableObject {
 	
 	/**
 	 * Method getDbTableName
-	 * @access 
 	 * @return mixed
 	 * @since 1.0.35
 	 */
@@ -57,7 +58,6 @@ class DbTableObject {
 	
 	/**
 	 * Method getDbTableSchemaName
-	 * @access 
 	 * @return mixed
 	 * @since 1.0.35
 	 */
@@ -67,7 +67,6 @@ class DbTableObject {
 	
 	/**
 	 * Method getDbTableAttributes
-	 * @access 
 	 * @return mixed
 	 * @since 1.0.35
 	 */
@@ -77,7 +76,6 @@ class DbTableObject {
 	
 	/**
 	 * Method getDbTableAttributesType
-	 * @access 
 	 * @return mixed
 	 * @since 1.0.35
 	 */
@@ -87,7 +85,6 @@ class DbTableObject {
 	
 	/**
 	 * Method getDbTablePrimaryKeys
-	 * @access 
 	 * @return mixed
 	 * @since 1.0.35
 	 */
@@ -97,7 +94,6 @@ class DbTableObject {
 	
 	/**
 	 * Method setDbSchemaName
-	 * @access 
 	 * @param mixed $db_schema_name 
 	 */
 	function setDbSchemaName($db_schema_name) {
@@ -106,7 +102,6 @@ class DbTableObject {
 	
 	/**
 	 * Method setDbTableName
-	 * @access 
 	 * @param mixed $db_table_name 
 	 */
 	function setDbTableName($db_table_name) {
@@ -115,7 +110,6 @@ class DbTableObject {
 	
 	/**
 	 * Method setDbTableAttributes
-	 * @access 
 	 * @param mixed $db_table_attributes 
 	 */
 	function setDbTableAttributes($db_table_attributes) {
@@ -124,7 +118,6 @@ class DbTableObject {
 	
 	/**
 	 * Method setDbTableAttributesType
-	 * @access 
 	 * @param mixed $db_table_attributes_type 
 	 */
 	function setDbTableAttributesType($db_table_attributes_type) {
@@ -133,7 +126,6 @@ class DbTableObject {
 	
 	/**
 	 * Method setDbTablePrimaryKeys
-	 * @access 
 	 * @param mixed $db_table_primary_keys 
 	 */
 	function setDbTablePrimaryKeys($db_table_primary_keys) {

@@ -1,6 +1,9 @@
 <?php
 /**
- * Description of PHP file wsp\class\display\DialogBox.class.php
+ * PHP file wsp\class\display\DialogBox.class.php
+ * @package display
+ */
+/**
  * Class DialogBox
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
@@ -9,12 +12,12 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
+ * 
+ * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- *
- * @version     1.0.40
+ * @version     1.0.57
  * @access      public
  * @since       1.0.17
  */
@@ -234,7 +237,7 @@ class DialogBox extends WebSitePhpObject {
 	
 	/**
 	 * Method closeAll
-	 * @access public static
+	 * @access public
 	 * @return JavaScript
 	 * @since 1.0.35
 	 */
@@ -251,7 +254,7 @@ class DialogBox extends WebSitePhpObject {
 	
 	/**
 	 * Method closeLevel
-	 * @access public static
+	 * @access public
 	 * @param mixed $level 
 	 * @return JavaScript
 	 * @since 1.0.35
@@ -267,7 +270,7 @@ class DialogBox extends WebSitePhpObject {
 	/* Intern management of DialogBox level */
 	/**
 	 * Method addLevelToInitDialogBox
-	 * @access private static
+	 * @access private
 	 * @param integer $level 
 	 * @param DialogBox $dialog_box_object 
 	 */
@@ -296,7 +299,7 @@ class DialogBox extends WebSitePhpObject {
 	
 	/**
 	 * Method getFirstAvailableDialogBoxLevel
-	 * @access private static
+	 * @access private
 	 * @return integer
 	 * @since 1.0.35
 	 */
@@ -314,7 +317,7 @@ class DialogBox extends WebSitePhpObject {
 	
 	/**
 	 * Method getArrayDialogBoxLevels
-	 * @access public static
+	 * @access public
 	 * @return array
 	 * @since 1.0.35
 	 */
@@ -337,7 +340,7 @@ class DialogBox extends WebSitePhpObject {
 	
 	/**
 	 * Method getCurrentDialogBoxLevel
-	 * @access public static
+	 * @access public
 	 * @return integer
 	 * @since 1.0.35
 	 */

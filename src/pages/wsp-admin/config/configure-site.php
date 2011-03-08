@@ -1,6 +1,8 @@
 <?php
 /**
- * Description of PHP file pages\wsp-admin\config\configure-site.php
+ * PHP file pages\wsp-admin\config\configure-site.php
+ */
+/**
  * Content of the Page configure-site
  * URL: http://127.0.0.1/website-php-install/wsp-admin/config/configure-site.html
  *
@@ -10,12 +12,11 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
+ * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- *
- * @version     1.0.30
+ * @version     1.0.57
  * @access      public
  * @since       1.0.25
  */

@@ -1,6 +1,9 @@
 <?php
 /**
- * Description of PHP file wsp\class\utils\ContextSession.class.php
+ * PHP file wsp\class\utils\ContextSession.class.php
+ * @package utils
+ */
+/**
  * Class ContextSession
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
@@ -9,25 +12,24 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
+ * 
+ * @package utils
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- *
- * @version     1.0.40
+ * @version     1.0.57
  * @access      public
  * @since       1.0.36
  */
 
+class ContextSession {
+	
 	/**
 	 * Method add
-	 * @access public static
+	 * @access public
 	 * @param mixed $key 
 	 * @param mixed $string_or_object 
 	 */
-
-class ContextSession {
-	
 	public static function add($key, $string_or_object) {
 		if (!is_array($_SESSION['wsp_context_session'])) {
 			$_SESSION['wsp_context_session'] = array();
@@ -41,7 +43,7 @@ class ContextSession {
 	
 	/**
 	 * Method get
-	 * @access public static
+	 * @access public
 	 * @param mixed $key 
 	 * @return mixed
 	 * @since 1.0.35

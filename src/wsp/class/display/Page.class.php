@@ -1,6 +1,9 @@
 <?php
 /**
- * Description of PHP file wsp\class\display\Page.class.php
+ * PHP file wsp\class\display\Page.class.php
+ * @package display
+ */
+/**
  * Class Page
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
@@ -9,12 +12,12 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
+ * 
+ * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- *
- * @version     1.0.40
+ * @version     1.0.57
  * @access      public
  * @since       1.0.17
  */
@@ -85,7 +88,7 @@ class Page {
 	
 	/**
 	 * Method getInstance
-	 * @access final public static
+	 * @access public
 	 * @param mixed $page 
 	 * @return mixed
 	 * @since 1.0.35
@@ -346,11 +349,11 @@ class Page {
 	
 	/**
 	 * Method createObjectName
+	 * Create an automatique and unique name for an event object
 	 * @access public
 	 * @param Object $object event object (ex: TextBox, Editor, Button, ...)
 	 * @return mixed
 	 * @since 1.0.35
-	 * Create an automatique and unique name for an event object
 	 */
 	public function createObjectName($object) {
 		$class_name = get_class($object);
@@ -378,11 +381,11 @@ class Page {
 	
 	/**
 	 * Method existsObjectName
+	 * Test if an event object already exists for this name
 	 * @access public
 	 * @param string $name 
 	 * @return boolean
 	 * @since 1.0.35
-	 * Test if an event object already exists for this name
 	 */
 	public function existsObjectName($name) {
 		foreach ($this->objects as $object_array) {
@@ -425,8 +428,8 @@ class Page {
 	
 	/**
 	 * Method loadAllVariables
-	 * @access public
 	 * Load all GET and POST Varaibles after submit a form
+	 * @access public
 	 */
 	public function loadAllVariables() {
 		//$this->addLogDebug(echo_r($_POST));
@@ -505,9 +508,9 @@ class Page {
 	
 	/**
 	 * Method forceObjectsDefaultValues
-	 * @access public
 	 * Force all event object (ex: TextBox, Editor, Button, ...) to the default value (like a reset)
 	 * Cancel method loadAllVariables
+	 * @access public
 	 */
 	public function forceObjectsDefaultValues() {
 		foreach ($this->objects as $class_name => $object_array) {
@@ -524,10 +527,10 @@ class Page {
 	
 	/**
 	 * Method getUserEventObject
+	 * Save the callback method and params from user event
 	 * @access public
 	 * @return mixed
 	 * @since 1.0.35
-	 * Save the callback method and params from user event
 	 */
 	public function getUserEventObject() {
 		if ($this->callback_method == "") {
@@ -612,8 +615,8 @@ class Page {
 	
 	/**
 	 * Method executeCallback
-	 * @access public
 	 * Execute method link to the user action
+	 * @access public
 	 */
 	public function executeCallback() {
 		$this->getUserEventObject();
@@ -706,10 +709,10 @@ class Page {
 	
 	/**
 	 * Method render
+	 * Render the page
 	 * @access public
 	 * @return string
 	 * @since 1.0.35
-	 * Render the page
 	 */
 	public function render() {
 		if ($this->render == null) {

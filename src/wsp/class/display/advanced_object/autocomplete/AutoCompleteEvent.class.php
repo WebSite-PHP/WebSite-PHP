@@ -1,6 +1,10 @@
 <?php
 /**
- * Description of PHP file wsp\class\display\advanced_object\autocomplete\AutoCompleteEvent.class.php
+ * PHP file wsp\class\display\advanced_object\autocomplete\AutoCompleteEvent.class.php
+ * @package display
+ * @subpackage advanced_object.autocomplete
+ */
+/**
  * Class AutoCompleteEvent
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
@@ -9,12 +13,13 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
+ * 
+ * @package display
+ * @subpackage advanced_object.autocomplete
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2011
- *
- * @version     1.0.40
+ * @version     1.0.57
  * @access      public
  * @since       1.0.17
  */

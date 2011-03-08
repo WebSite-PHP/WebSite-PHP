@@ -1,6 +1,8 @@
 <?php
 /**
- * Description of PHP file wsp\class\NewException.class.php
+ * PHP file wsp\class\NewException.class.php
+ */
+/**
  * Class NewException
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
@@ -9,23 +11,14 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
+ * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- *
- * @version     1.0.40
+ * @version     1.0.57
  * @access      public
  * @since       1.0.36
  */
-
-	/**
-	 * Method getDebugBacktrace
-	 * @access 
-	 * @param double $remove_nb_level [default value: 0]
-	 * @return mixed
-	 * @since 1.0.18
-	 */
 
 function getDebugBacktrace($remove_nb_level=0) {
 	$output = "";
@@ -107,7 +100,7 @@ class NewException extends Exception
     
 	/**
 	 * Method generateErrorMessage
-	 * @access public static
+	 * @access public
 	 * @param mixed $code 
 	 * @param mixed $message 
 	 * @param mixed $file 
@@ -152,7 +145,7 @@ class NewException extends Exception
    
 	/**
 	 * Method getStaticException
-	 * @access public static
+	 * @access public
 	 * @param mixed $exception 
 	 */
 	public static function getStaticException($exception) {
@@ -165,7 +158,7 @@ class NewException extends Exception
     
 	/**
 	 * Method printStaticException
-	 * @access public static
+	 * @access public
 	 * @param mixed $exception 
 	 */
 	public static function printStaticException($exception) {
@@ -178,7 +171,7 @@ class NewException extends Exception
     
 	/**
 	 * Method redirectOnError
-	 * @access public static
+	 * @access public
 	 * @param mixed $buffer 
 	 * @return mixed
 	 * @since 1.0.35
@@ -194,7 +187,7 @@ class NewException extends Exception
 	
 	/**
 	 * Method printStaticDebugMessage
-	 * @access public static
+	 * @access public
 	 * @param mixed $debug_msg 
 	 */
 	public static function printStaticDebugMessage($debug_msg) {

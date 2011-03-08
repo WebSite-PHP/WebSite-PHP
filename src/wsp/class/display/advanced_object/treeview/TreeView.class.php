@@ -1,6 +1,10 @@
 <?php
 /**
- * Description of PHP file wsp\class\display\advanced_object\treeview\TreeView.class.php
+ * PHP file wsp\class\display\advanced_object\treeview\TreeView.class.php
+ * @package display
+ * @subpackage advanced_object.treeview
+ */
+/**
  * Class TreeView
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
@@ -9,12 +13,13 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
+ * 
+ * @package display
+ * @subpackage advanced_object.treeview
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- *
- * @version     1.0.40
+ * @version     1.0.57
  * @access      public
  * @since       1.0.17
  */
@@ -101,7 +106,7 @@ class TreeView extends WebSitePhpObject {
 	/* Intern management of TreeView */
 	/**
 	 * Method refreshAllIds
-	 * @access public static
+	 * @access public
 	 */
 	public static function refreshAllIds() {
 		self::$refresh_all_ids = true;

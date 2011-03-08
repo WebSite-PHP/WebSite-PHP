@@ -1,6 +1,8 @@
 <?php
 /**
- * Description of PHP file load-page.php
+ * PHP file load-page.php
+ */
+/**
  * Entry point of all other pages (.pdf, .xml, .call, ...)
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
@@ -9,15 +11,33 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
+ * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
+ * @version     1.0.57
+ * @access      public
+ * @since       1.0.51
+ */
+
+/**
+ * Entry point of all other pages (.pdf, .xml, .call, ...)
  *
- * @version     1.0.30
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2011 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 03/10/2010
+ * @version     1.0.50
  * @access      public
  * @since       1.0.18
  */
+
 
 	error_reporting(E_ALL);
 	

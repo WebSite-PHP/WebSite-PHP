@@ -1,6 +1,9 @@
 <?php
 /**
- * Description of PHP file wsp\class\utils\File.class.php
+ * PHP file wsp\class\utils\File.class.php
+ * @package utils
+ */
+/**
  * Class File
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
@@ -9,23 +12,16 @@
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
- *
+ * 
+ * @package utils
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- *
- * @version     1.0.40
+ * @version     1.0.57
  * @access      public
  * @since       1.0.13
  */
 
-/**
-* File handling class
-*
-* @author    Sven Wagener <wagener_at_indot_dot_de>
-* @include 	 Funktion:_include_
-*
-*/
 class File{
 	var $file;
 	var $binary;
@@ -37,19 +33,12 @@ class File{
 	var $action_before_reading=false;
 	
 	/**
-	* Constructor of class
-	* @param string $filename The name of the file
-	* @param boolean $binarty Optional. If file is a binary file then set TRUE, otherwise FALSE
-	* @desc Constructor of class
-	*/
-	/**
-	 * Method File
-	 * @access 
+	 * Constructor File
 	 * @param mixed $filename 
 	 * @param boolean $binary [default value: false]
 	 * @param boolean $delete_if_exists [default value: false]
 	 */
-	function File($filename,$binary=false,$delete_if_exists=false){
+	function __construct($filename,$binary=false,$delete_if_exists=false){
 		$filename = str_replace("\\", "/", $filename);
 		$project_folder = str_replace("wsp/class/utils", "", dirname(__FILE__));
 		
@@ -94,7 +83,6 @@ class File{
 	
 	/**
 	 * Method close
-	 * @access 
 	 * Close the file
 	 */
 	function close(){
@@ -103,10 +91,9 @@ class File{
 	
 	/**
 	 * Method exists
-	 * @access 
+	 * Close the file
 	 * @return mixed
 	 * @since 1.0.35
-	 * Close the file
 	 */
 	function exists(){
 		return $this->exists;
@@ -114,7 +101,6 @@ class File{
 	
 	/**
 	 * Method get_size
-	 * @access 
 	 * @return int $filesize The filesize in bytes
 	 * @since 1.0.35
 	 */
@@ -124,7 +110,6 @@ class File{
 	
 	/**
 	 * Method get_time
-	 * @access 
 	 * @return timestamp $timestamp The time of the last change as timestamp
 	 * @since 1.0.35
 	 */
@@ -134,7 +119,6 @@ class File{
 	
 	/**
 	 * Method get_name
-	 * @access 
 	 * @return string $filename The filename
 	 * @since 1.0.35
 	 */
@@ -144,7 +128,6 @@ class File{
 	
 	/**
 	 * Method get_owner_id
-	 * @access 
 	 * @return string $user_id The user id of the file
 	 * @since 1.0.35
 	 */
@@ -154,7 +137,6 @@ class File{
 	
 	/**
 	 * Method get_group_id
-	 * @access 
 	 * @return string $group_id The group id of the file
 	 * @since 1.0.35
 	 */
@@ -164,7 +146,6 @@ class File{
 	
 	/**
 	 * Method get_suffix
-	 * @access 
 	 * @return string $suffix The suffix of the file. If no suffix exists FALSE will be returned
 	 * @since 1.0.35
 	 */
@@ -180,7 +161,6 @@ class File{
 	
 	/**
 	 * Method pointer_set
-	 * @access 
 	 * @param mixed $offset 
 	 * @return int $offset Returns the actual pointer position
 	 * @since 1.0.35
@@ -192,7 +172,6 @@ class File{
 	
 	/**
 	 * Method pointer_get
-	 * @access 
 	 * @return mixed
 	 * @since 1.0.35
 	 */
@@ -202,7 +181,6 @@ class File{
 	
 	/**
 	 * Method read_line
-	 * @access 
 	 * @return string $line A line from the file. If is EOF, false will be returned
 	 * @since 1.0.35
 	 */
@@ -222,7 +200,6 @@ class File{
 	
 	/**
 	 * Method read_bytes
-	 * @access 
 	 * @param mixed $bytes 
 	 * @param double $start_byte [default value: 0]
 	 * @return string $line Data from a binary file
@@ -249,7 +226,6 @@ class File{
 	
 	/**
 	 * Method write
-	 * @access 
 	 * @param string $data The data which have to be written
 	 * @return boolean $written Returns TRUE if data could be written, FALSE if not
 	 * @since 1.0.35
@@ -281,7 +257,6 @@ class File{
 	
 	/**
 	 * Method copy
-	 * @access 
 	 * @param string $destination The new file destination
 	 * @return boolean $copied Returns TRUE if file could bie copied, FALSE if not
 	 * @since 1.0.35
@@ -301,7 +276,6 @@ class File{
 	
 	/**
 	 * Method search
-	 * @access 
 	 * @param string $string The string which have to be searched
 	 * @return array $found_bytes Pointer offsets where string have been found. On no match, function returns false
 	 * @since 1.0.35
@@ -364,7 +338,6 @@ class File{
 	
 	/**
 	 * Method halt
-	 * @access 
 	 * @param string $message all occurred errors as array
 	 */
 	function halt($message){
@@ -375,7 +348,6 @@ class File{
 	
 	/**
 	 * Method debug_mode
-	 * @access 
 	 * @param boolean $debug [default value: true]
 	 */
 	function debug_mode($debug=true){
