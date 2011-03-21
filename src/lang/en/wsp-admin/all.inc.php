@@ -17,4 +17,7 @@
 	define("CHANGE_PASSWD", "Change password");
 	define("CHANGE_PASSWD_CONGRATULATION", "Congratulation, your password has been changed.");
 	define("CHANGE_PASSWD_ERROR", "Error, please check your new password not empty or your old password is correct.");
+	
+	define("NEW_WSP_VERSION", "You can <a href=\"http://www.website-php.com/download.html\" target=\"_blank\">download the last version of Website-PHP</a> (version %s).");
+	define("CURRENT_WSP_VERSION", "Current version of Website-PHP: %s");
 ?>
