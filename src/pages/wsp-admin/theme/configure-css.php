@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.25
  */
@@ -34,11 +34,13 @@ class ConfigureCss extends Page {
 	private $background_picture_1 = null;
 	private $background_1_header = null;
 	private $color_1_header = null;
-	private $background_1 = null;
-	private $color_1 = null;
-	private $border_table_1 = null;
 	private $style1_header_link = null;
 	private $style1_header_link_hover = null;
+	private $background_1 = null;
+	private $color_1 = null;
+	private $style1_color_link = null;
+	private $style1_color_link_hover = null;
+	private $border_table_1 = null;
 	private $color_shadow = null;
 	
 	private $style_font = null;
@@ -119,21 +121,6 @@ class ConfigureCss extends Page {
 		$this->color_1_header->disableAjaxWaitMessage()->onChange("changeColor1Header")->setAjaxEvent();
 		$table_form->addRowColumns(__(EDT_COLOR_1_HEADER).":&nbsp;", $this->color_1_header);
 		
-		$this->background_1 = new ColorPicker($form);
-		$this->background_1->setValue(DEFINE_STYLE_BCK_1)->hash(true)->setWidth(200);
-		$this->background_1->disableAjaxWaitMessage()->onChange("changeBackground1")->setAjaxEvent();
-		$table_form->addRowColumns(__(EDT_BCK_1).":&nbsp;", $this->background_1);
-		
-		$this->color_1 = new ColorPicker($form);
-		$this->color_1->setValue(DEFINE_STYLE_COLOR_1)->hash(true)->setWidth(200);
-		$this->color_1->disableAjaxWaitMessage()->onChange("changeColor1")->setAjaxEvent();
-		$table_form->addRowColumns(__(EDT_COLOR_1).":&nbsp;", $this->color_1);
-		
-		$this->border_table_1 = new ColorPicker($form);
-		$this->border_table_1->setValue(DEFINE_STYLE_BORDER_TABLE_1)->hash(true)->setWidth(200);
-		$this->border_table_1->disableAjaxWaitMessage()->onChange("changeBorderTable1")->setAjaxEvent();
-		$table_form->addRowColumns(__(EDT_BCK_BORDER_TABLE_1).":&nbsp;", $this->border_table_1);
-		
 		$this->style1_header_link = new ColorPicker($form);
 		$this->style1_header_link->setValue(DEFINE_STYLE_COLOR_1_HEADER_LINK)->hash(true)->required(false)->setWidth(200);
 		if ($this->color_1_header->getValue() != "") {
@@ -150,6 +137,38 @@ class ConfigureCss extends Page {
 		}
 		$this->style1_header_link_hover->disableAjaxWaitMessage()->onChange("change1HeaderLinkHover")->setAjaxEvent();
 		$table_form->addRowColumns(__(EDT_COLOR_1_HEADER_LINK_HOVER).":&nbsp;", $this->style1_header_link_hover);
+		
+		$this->background_1 = new ColorPicker($form);
+		$this->background_1->setValue(DEFINE_STYLE_BCK_1)->hash(true)->setWidth(200);
+		$this->background_1->disableAjaxWaitMessage()->onChange("changeBackground1")->setAjaxEvent();
+		$table_form->addRowColumns(__(EDT_BCK_1).":&nbsp;", $this->background_1);
+		
+		$this->color_1 = new ColorPicker($form);
+		$this->color_1->setValue(DEFINE_STYLE_COLOR_1)->hash(true)->setWidth(200);
+		$this->color_1->disableAjaxWaitMessage()->onChange("changeColor1")->setAjaxEvent();
+		$table_form->addRowColumns(__(EDT_COLOR_1).":&nbsp;", $this->color_1);
+		
+		$this->style1_color_link = new ColorPicker($form);
+		$this->style1_color_link->setValue(DEFINE_STYLE_COLOR_1_LINK)->hash(true)->required(false)->setWidth(200);
+		if ($this->color_1->getValue() != "") {
+			$this->style1_color_link->forceEmptyValue();
+		}
+		$this->style1_color_link->disableAjaxWaitMessage()->onChange("change1ColorLink")->setAjaxEvent();
+		$table_form->addRowColumns(__(EDT_COLOR_1_HEADER_LINK).":&nbsp;", $this->style1_color_link);
+		
+		$this->style1_color_link_hover = new ColorPicker($form);
+		$this->style1_color_link_hover->setValue(DEFINE_STYLE_COLOR_1_LINK_HOVER)->hash(true)->required(false)->setWidth(200);
+		if ($this->style1_color_link->getValue() == "") {
+			$this->style1_color_link_hover->disable();
+			$this->style1_color_link_hover->forceEmptyValue();
+		}
+		$this->style1_color_link_hover->disableAjaxWaitMessage()->onChange("change1ColorLinkHover")->setAjaxEvent();
+		$table_form->addRowColumns(__(EDT_COLOR_1_HEADER_LINK_HOVER).":&nbsp;", $this->style1_color_link_hover);
+		
+		$this->border_table_1 = new ColorPicker($form);
+		$this->border_table_1->setValue(DEFINE_STYLE_BORDER_TABLE_1)->hash(true)->setWidth(200);
+		$this->border_table_1->disableAjaxWaitMessage()->onChange("changeBorderTable1")->setAjaxEvent();
+		$table_form->addRowColumns(__(EDT_BCK_BORDER_TABLE_1).":&nbsp;", $this->border_table_1);
 		
 		$table_form->addRow();
 		
@@ -224,7 +243,7 @@ class ConfigureCss extends Page {
 			$style1_box->forceBoxWithPicture(false);
 		}
 		$style1_box->setDraggable(true)->setShadow(true);
-		$table_box->addRow($style1_box->setContent("Box Object [style 1]"));
+		$table_box->addRow($style1_box->setContent("Box Object [<a href=\"javascript:void(0);\">style 1</a>]"));
 		
 		$style1_box = new RoundBox(Box::STYLE_MAIN, "round_box_1", 200);
 		$style1_box->setDraggable(true)->setShadow(true);
@@ -239,7 +258,7 @@ class ConfigureCss extends Page {
 		
 		$style2_box = new Box("link", false, Box::STYLE_SECOND, Box::STYLE_SECOND, BASE_URL, "box_2", 200);
 		$style2_box->setDraggable(true);
-		$table_box->addRow($style2_box->setContent("Box Object [style 2]"));
+		$table_box->addRow($style2_box->setContent("Box Object [<a href=\"javascript:void(0);\">style 2</a>]"));
 		
 		$style2_box = new RoundBox(Box::STYLE_SECOND, "round_box_2", 200);
 		$style2_box->setDraggable(true);
@@ -258,7 +277,7 @@ class ConfigureCss extends Page {
 	}
 	
 	public function changeBackgroundBody($sender) {
-		$this->addObject(new JavaScript("changeStyleSheetProperty('styles.php.css', 'body', 'background-color', '".addslashes($this->background_body->getValue())."');"));
+		$this->addObject(new JavaScript("changeStyleSheetProperty('styles.php.css', 'body', 'background', '".addslashes($this->background_body->getValue())."');"));
 	}
 	
 	public function changeColorBody($sender) {
@@ -266,12 +285,13 @@ class ConfigureCss extends Page {
 	}
 	
 	public function changeLinkColor($sender) {
-		$array_link_color = array('a,.link', 'a:hover');
+		$array_link_color = array('a,.link', 'a:hover,.link:hover');
 		$this->changeStyleSheetProperty("styles.php.css", $array_link_color, "color", $this->link_color->getValue());
+		$this->changeLinkHoverColor($sender);
 	}
 	
 	public function changeLinkHoverColor($sender) {
-		$this->addObject(new JavaScript("changeStyleSheetProperty('styles.php.css', 'a:hover', 'color', '".addslashes($this->link_hover_color->getValue())."');"));
+		$this->addObject(new JavaScript("changeStyleSheetProperty('styles.php.css', 'a:hover,.link:hover', 'color', '".addslashes($this->link_hover_color->getValue())."');"));
 	}
 	
 	public function changeBackgroundPicture1($sender) {
@@ -293,26 +313,103 @@ class ConfigureCss extends Page {
 		$this->changeStyleSheetProperty("angle.php.css", array('#top1 div'), "background", $this->background_1_header->getValue()." url(".BASE_URL.$this->background_picture_1->getValue().") no-repeat top left");
 		$this->changeStyleSheetProperty("angle.php.css", array('#left1'), "background", $this->background_1_header->getValue()." url(".BASE_URL.$this->background_picture_1->getValue().") no-repeat bottom left");
 		$this->changeStyleSheetProperty("angle.php.css", array('#right1'), "background", $this->background_1_header->getValue()." url(".BASE_URL.$this->background_picture_1->getValue().") no-repeat bottom right");
+		$this->changeStyleSheetProperty("angle.php.css", array('.Css3RadiusBoxTitle1'), "background", $this->background_1_header->getValue());
+		$this->changeBoxBackgroundGradient();
+	}
+	
+	
+	private function changeBoxBackgroundGradient() {
+		if ($this->isCss3Browser()) {
+			if ($this->getBrowserName() == "Firefox") {
+				$this->changeStyleSheetProperty("angle.php.css", array('.Css3GradientBoxTitle1'), "background", "-moz-linear-gradient(90deg, ".$this->background_1_header->getValue()." 70%, ".$this->border_table_1->getValue()." 100%);");
+			} else {
+				$this->changeStyleSheetProperty("angle.php.css", array('.Css3GradientBoxTitle1'), "background", "-webkit-gradient(linear, left top, left bottom, from(".$this->background_1_header->getValue()."), to(".$this->border_table_1->getValue()."));");
+				$this->changeStyleSheetProperty("angle.php.css", array('.Css3GradientBoxTitle1'), "background-image", "-webkit-gradient(linear, left bottom, left top, color-stop(0.7,".$this->background_1_header->getValue()."), color-stop(1,".$this->border_table_1->getValue()."));");
+				$this->changeStyleSheetProperty("angle.php.css", array('.Css3GradientBoxTitle1'), "filter", "progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr=".$this->background_1_header->getValue().",endColorstr=".$this->border_table_1->getValue().",GradientType=0); zoom: 1;");
+			}
+		}
 	}
 	
 	public function changeColor1Header($sender) {
-		$this->style1_header_link->setValue("");
-		$this->style1_header_link_hover->setValue("");
-		$this->style1_header_link_hover->disable();
-		
-		$array_color_1_header = array('.header_1_bckg', '.header_1_bckg a', '.header_1_bckg a:hover');
-		$this->changeStyleSheetProperty("styles.php.css", $array_color_1_header, "color", $this->color_1_header->getValue());
-		$this->changeStyleSheetProperty("angle.php.css", array('#left1'), "color", $this->color_1_header->getValue());
+		if ($this->color_1_header->getValue() == "") {
+			$this->addObject(new DialogBox(__(ERROR), "Color header can't be empty"));
+		} else {
+			$array_color_1_header = array('.header_1_bckg', '.header_1_bckg_a a', '.header_1_bckg_a a:hover');
+			$this->changeStyleSheetProperty("styles.php.css", $array_color_1_header, "color", $this->color_1_header->getValue());
+			$this->changeStyleSheetProperty("angle.php.css", array('#left1'), "color", $this->color_1_header->getValue());
+			$this->change1HeaderLink($sender);
+		}
+	}
+
+	public function change1HeaderLink($sender) {
+		if ($this->style1_header_link->getValue() != "") {
+			$this->style1_header_link_hover->enable();
+		} else {
+			$this->style1_header_link_hover->disable();
+			$this->style1_header_link_hover->setValue("");
+		}
+		if ($this->style1_header_link_hover->getValue() == "") {
+			$array_color_1_header_link = array('.header_1_bckg_a a', '.header_1_bckg_a a:hover');
+		} else {
+			$array_color_1_header_link = array('.header_1_bckg_a a');
+		}
+		if ($this->style1_header_link->getValue() == "") {
+			$this->changeStyleSheetProperty("styles.php.css", $array_color_1_header_link, "color", $this->color_1_header->getValue());
+		} else {
+			$this->changeStyleSheetProperty("styles.php.css", $array_color_1_header_link, "color", $this->style1_header_link->getValue());
+		}
+		$this->change1HeaderLinkHover($sender);
+	}
+	
+	public function change1HeaderLinkHover($sender) {
+		if ($this->style1_header_link_hover->getValue() != "") {
+			$this->changeStyleSheetProperty("styles.php.css", array('.header_1_bckg_a a:hover'), "color", $this->style1_header_link_hover->getValue());
+		}
 	}
 	
 	public function changeBackground1($sender) {
-		$array_background_color_1 = array('.table_1_angle', '.table_1', '.table_1_bckg', '.bckg_1');
-		$this->changeStyleSheetProperty("styles.php.css", $array_background_color_1, "background", $this->background_1->getValue());
+		if ($this->color_1->getValue() == "") {
+			$this->addObject(new DialogBox(__(ERROR), "Background can't be empty"));
+		} else {
+			$array_background_color_1 = array('.table_1_angle', '.table_1', '.table_1_bckg', '.bckg_1');
+			$this->changeStyleSheetProperty("styles.php.css", $array_background_color_1, "background", $this->background_1->getValue());
+		}
 	}
 	
 	public function changeColor1($sender) {
-		$array_color_1 = array('.table_1_angle', '.table_1', '.table_1_bckg', '.bckg_1');
-		$this->changeStyleSheetProperty("styles.php.css", $array_color_1, "color", $this->color_1->getValue());
+		if ($this->color_1->getValue() == "") {
+			$this->addObject(new DialogBox(__(ERROR), "Color can't be empty"));
+		} else {
+			$array_color_1 = array('.table_1_angle', '.table_1', '.table_1_bckg', '.bckg_1');
+			$this->changeStyleSheetProperty("styles.php.css", $array_color_1, "color", $this->color_1->getValue());
+			$this->change1ColorLink($sender);
+		}
+	}
+	
+	public function change1ColorLink($sender) {
+		if ($this->style1_color_link->getValue() != "") {
+			$this->style1_color_link_hover->enable();
+		} else {
+			$this->style1_color_link_hover->disable();
+			$this->style1_color_link_hover->setValue("");
+		}
+		if ($this->style1_color_link_hover->getValue() == "") {
+			$array_color_1_link = array('.table_1_bckg a,a.box_style_1:link', '.table_1_bckg a:hover,a.box_style_1:hover');
+		} else {
+			$array_color_1_link = array('.table_1_bckg a,a.box_style_1:link');
+		}
+		if ($this->style1_color_link->getValue() == "") {
+			$this->changeStyleSheetProperty("styles.php.css", $array_color_1_link, "color", $this->color_1->getValue());
+		} else {
+			$this->changeStyleSheetProperty("styles.php.css", $array_color_1_link, "color", $this->style1_color_link->getValue());
+		}
+		$this->change1ColorLinkHover($sender);
+	}
+	
+	public function change1ColorLinkHover($sender) {
+		if ($this->style1_color_link_hover->getValue() != "") {
+			$this->changeStyleSheetProperty("styles.php.css", array('.table_1_bckg a:hover,a.box_style_1:hover'), "color", $this->style1_color_link_hover->getValue());
+		}
 	}
 	
 	public function changeBorderTable1($sender) {
@@ -320,6 +417,9 @@ class ConfigureCss extends Page {
 		$this->changeStyleSheetProperty("angle.php.css", $this->array_round_box_1, "border-left", "1px solid ".$this->border_table_1->getValue());
 		$this->changeStyleSheetProperty("angle.php.css", $this->array_round_box_1, "border-right", "1px solid ".$this->border_table_1->getValue());
 		$this->changeStyleSheetProperty("angle.php.css", $array_round_box_border_1, "background", $this->border_table_1->getValue());
+		$this->changeStyleSheetProperty("angle.php.css", array('.Css3RadiusBox1', '.Css3RadiusRoundBox1'), "border-top", "1px solid ".$this->border_table_1->getValue());
+		$this->changeStyleSheetProperty("angle.php.css", array('.Css3RadiusRoundBox1'), "border-bottom", "1px solid ".$this->border_table_1->getValue());
+		$this->changeBoxBackgroundGradient();
 		
 		if ($this->background_picture_1->getValue() != "") {
 			$this->addObject(new JavaScript("$('#wsp_box_content_box_1').css('border', '1px solid ".$this->border_table_1->getValue()."');\n"));
@@ -329,21 +429,6 @@ class ConfigureCss extends Page {
 		$this->changeStyleSheetProperty("styles.php.css", $array_box_border_1, "border-left", "1px solid ".$this->border_table_1->getValue());
 		$this->changeStyleSheetProperty("styles.php.css", $array_box_border_1, "border-right", "1px solid ".$this->border_table_1->getValue());
 		$this->changeStyleSheetProperty("styles.php.css", $array_box_border_1, "border-bottom", "1px solid ".$this->border_table_1->getValue());
-	}
-	
-	public function change1HeaderLink($sender) {
-		$this->style1_header_link_hover->enable();
-		if ($this->style1_header_link_hover->getValue() == "") {
-			$array_color_1_header_link = array('.header_1_bckg a', '.header_1_bckg a:hover');
-		} else {
-			$array_color_1_header_link = array('.header_1_bckg a');
-		}
-		$this->changeStyleSheetProperty("styles.php.css", $array_color_1_header_link, "color", $this->style1_header_link->getValue());
-	}
-	
-	public function change1HeaderLinkHover($sender) {
-		$array_color_1_header_link_hover = array('.header_1_bckg a:hover');
-		$this->changeStyleSheetProperty("styles.php.css", $array_color_1_header_link_hover, "color", $this->style1_header_link_hover->getValue());
 	}
 	
 	public function changeColorShadow($sender) {

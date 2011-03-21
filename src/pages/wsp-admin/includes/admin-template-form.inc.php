@@ -55,6 +55,13 @@ class AdminTemplateForm extends DefinedZone {
 		
 		// Header
 		$table->addRowColumns(new AdminMenu($page_object, $array_menu), new Link("http://www.website-php.com", Link::TARGET_BLANK, new Picture("img/wsp-admin/logo_60x160_".$_SESSION['lang'].".png", 60, 160, 0)))->setColumnAlign(2, RowTable::ALIGN_RIGHT);
+
+		// check WSP version
+		if (($wsp_version = isNewWspVersion()) != false) {
+			$alert_version_obj = new Object(__(NEW_WSP_VERSION, $wsp_version));
+			$alert_version_obj->setClass("warning");
+			$table->addRowColumns($alert_version_obj)->setColspan(2);
+		}
 		
 		// Main
 		$small_img = new Picture($page_icon_16, 16, 16, 0, Picture::ALIGN_ABSMIDDLE);
@@ -67,6 +74,7 @@ class AdminTemplateForm extends DefinedZone {
 		$table->addRow($configure_box)->setColspan(2);
 		
 		$this->render->addRow($table);
+		$this->render->addRow(__(CURRENT_WSP_VERSION, getCurrentWspVersion()));
 	}
 }
 ?>
