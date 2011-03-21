@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -37,11 +37,11 @@ class TreeViewItems extends WebSitePhpObject {
 	
 	/**
 	 * Constructor TreeViewItems
-	 * @param mixed $treeview_item_object [default value: null]
-	 * @param mixed $treeview_item_object2 [default value: null]
-	 * @param mixed $treeview_item_object3 [default value: null]
-	 * @param mixed $treeview_item_object4 [default value: null]
-	 * @param mixed $treeview_item_object5 [default value: null]
+	 * @param TreeViewItem $treeview_item_object [default value: null]
+	 * @param TreeViewItem $treeview_item_object2 [default value: null]
+	 * @param TreeViewItem $treeview_item_object3 [default value: null]
+	 * @param TreeViewItem $treeview_item_object4 [default value: null]
+	 * @param TreeViewItem $treeview_item_object5 [default value: null]
 	 */
 	function __construct($treeview_item_object=null, $treeview_item_object2=null, $treeview_item_object3=null, $treeview_item_object4=null, $treeview_item_object5=null) {
 		parent::__construct();
@@ -57,11 +57,11 @@ class TreeViewItems extends WebSitePhpObject {
 	/**
 	 * Method add
 	 * @access public
-	 * @param mixed $treeview_item_object 
-	 * @param mixed $treeview_item_object2 [default value: null]
-	 * @param mixed $treeview_item_object3 [default value: null]
-	 * @param mixed $treeview_item_object4 [default value: null]
-	 * @param mixed $treeview_item_object5 [default value: null]
+	 * @param TreeViewItem $treeview_item_object 
+	 * @param TreeViewItem $treeview_item_object2 [default value: null]
+	 * @param TreeViewItem $treeview_item_object3 [default value: null]
+	 * @param TreeViewItem $treeview_item_object4 [default value: null]
+	 * @param TreeViewItem $treeview_item_object5 [default value: null]
 	 * @return TreeViewItems
 	 * @since 1.0.55
 	 */
@@ -102,7 +102,7 @@ class TreeViewItems extends WebSitePhpObject {
 	/**
 	 * Method nodeValueAlreadyExists
 	 * @access private
-	 * @param mixed $treeview_item_object 
+	 * @param TreeViewItem $treeview_item_object 
 	 * @return boolean
 	 * @since 1.0.55
 	 */
@@ -118,7 +118,7 @@ class TreeViewItems extends WebSitePhpObject {
 	/**
 	 * Method remove
 	 * @access public
-	 * @param mixed $indice 
+	 * @param integer $indice 
 	 * @return TreeViewItems
 	 * @since 1.0.55
 	 */
@@ -137,7 +137,7 @@ class TreeViewItems extends WebSitePhpObject {
 	/**
 	 * Method setTreeViewItemParent
 	 * @access public
-	 * @param mixed $treeview_item_object 
+	 * @param TreeViewItem $treeview_item_object 
 	 * @return TreeViewItems
 	 * @since 1.0.55
 	 */
@@ -157,7 +157,7 @@ class TreeViewItems extends WebSitePhpObject {
 	/**
 	 * Method getTreeViewItemArray
 	 * @access public
-	 * @return mixed
+	 * @return array
 	 * @since 1.0.55
 	 */
 	public function getTreeViewItemArray() {
@@ -192,10 +192,6 @@ class TreeViewItems extends WebSitePhpObject {
 		return $html;
 	}
 	
-	/**
-	 * function getAjaxRender
-	 * @return string javascript code to update initial html with ajax call
-	 */
 	/**
 	 * Method getAjaxRender
 	 * @access public

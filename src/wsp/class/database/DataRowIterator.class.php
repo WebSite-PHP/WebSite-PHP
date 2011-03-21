@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -61,6 +61,7 @@ class DataRowIterator {
 	/**
 	 * Method save
 	 * @access public
+	 * @since 1.0.59
 	 */
 	public function save() {
 		$where_cond = "";
@@ -91,6 +92,7 @@ class DataRowIterator {
 	 * @access private
 	 * @param mixed $data_row 
 	 * @param mixed $db_table_attributes 
+	 * @since 1.0.59
 	 */
 	private function insertRow($data_row, $db_table_attributes) {
 		// insert row
@@ -124,6 +126,7 @@ class DataRowIterator {
 	 * @param mixed $data_row 
 	 * @param mixed $where_cond 
 	 * @param mixed $db_table_primary_keys 
+	 * @since 1.0.59
 	 */
 	private function deleteRow($data_row, $where_cond, $db_table_primary_keys) {
 		// delete row
@@ -151,6 +154,7 @@ class DataRowIterator {
 	 * @param mixed $where_cond 
 	 * @param mixed $db_table_attributes 
 	 * @param mixed $db_table_primary_keys 
+	 * @since 1.0.59
 	 */
 	private function updateRow($data_row, $where_cond, $db_table_attributes, $db_table_primary_keys) {
 		// update row
@@ -264,6 +268,7 @@ class DataRowIterator {
 	/**
 	 * Method initIterator
 	 * @access public
+	 * @since 1.0.59
 	 */
 	public function initIterator() {
 		$this->current_row = 0;

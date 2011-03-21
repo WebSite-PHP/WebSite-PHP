@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.16
  */
@@ -51,6 +51,7 @@ class GeoLocalisation {
 	 * Method setKey
 	 * @access public
 	 * @param mixed $key 
+	 * @since 1.0.59
 	 */
 	public function setKey($key){
 		if(!empty($key)) $this->apiKey = $key;
@@ -59,6 +60,7 @@ class GeoLocalisation {
 	/**
 	 * Method showTimezone
 	 * @access public
+	 * @since 1.0.59
 	 */
 	public function showTimezone(){
 		$this->showTimezone = true;

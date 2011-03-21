@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 05/11/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -240,6 +240,7 @@ class SortableEvent extends WebSitePhpEventObject {
 	 * Method setSortableId
 	 * @access public
 	 * @param mixed $id 
+	 * @since 1.0.59
 	 */
 	public function setSortableId($id) {
 		$this->sortable_id = $id;

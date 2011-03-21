@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -96,6 +96,7 @@ class DataRow {
 	 * @access public
 	 * @param mixed $attribute 
 	 * @param mixed $value 
+	 * @since 1.0.59
 	 */
 	public function setValue($attribute, $value) {
 		if (!$this->is_deleted) {
@@ -156,6 +157,7 @@ class DataRow {
 	/**
 	 * Method delete
 	 * @access public
+	 * @since 1.0.59
 	 */
 	public function delete() {
 		$this->is_deleted = true;
@@ -184,6 +186,7 @@ class DataRow {
 	/**
 	 * Method disableSqlLoadMode
 	 * @access public
+	 * @since 1.0.59
 	 */
 	public function disableSqlLoadMode() {
 		$this->is_sql_load_mode = false;
@@ -192,6 +195,7 @@ class DataRow {
 	/**
 	 * Method enableHtmlentitiesMode
 	 * @access public
+	 * @since 1.0.59
 	 */
 	public function enableHtmlentitiesMode() {
 		$this->activate_htmlentities = true;

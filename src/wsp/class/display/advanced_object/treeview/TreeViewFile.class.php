@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -29,9 +29,9 @@ include_once("TreeViewItem.class.php");
 class TreeViewFile extends TreeViewItem {
 	/**
 	 * Constructor TreeViewFile
-	 * @param mixed $value 
-	 * @param string $path_file 
-	 * @param string $link 
+	 * @param string $value file node text
+	 * @param string $path_file path to the file
+	 * @param string $link file node link
 	 */
 	function __construct($value, $path_file='', $link='') {
 		parent::__construct($value, $link, true, $path_file);
@@ -57,6 +57,7 @@ class TreeViewFile extends TreeViewItem {
 	/**
 	 * Method remove
 	 * @access public
+	 * @since 1.0.59
 	 */
 	public function remove() {
 		$path = $this->getLocalPath();
@@ -83,7 +84,8 @@ class TreeViewFile extends TreeViewItem {
 	/**
 	 * Method rename
 	 * @access public
-	 * @param mixed $value 
+	 * @param string $value new file node text
+	 * @since 1.0.59
 	 */
 	public function rename($value) {
 		if (!$this->nodeValueAlreadyExists($value)) {

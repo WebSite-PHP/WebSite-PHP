@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -110,11 +110,11 @@ class Object extends WebSitePhpEventObject {
 	
 	/**
 	 * Constructor Object
-	 * @param mixed $str_or_object [default value: null]
-	 * @param mixed $str_or_object2 [default value: null]
-	 * @param mixed $str_or_object3 [default value: null]
-	 * @param mixed $str_or_object4 [default value: null]
-	 * @param mixed $str_or_object5 [default value: null]
+	 * @param string|Object|Url $str_or_object [default value: null]
+	 * @param string|Object $str_or_object2 [default value: null]
+	 * @param string|Object $str_or_object3 [default value: null]
+	 * @param string|Object $str_or_object4 [default value: null]
+	 * @param string|Object $str_or_object5 [default value: null]
 	 */
 	function __construct($str_or_object=null, $str_or_object2=null, $str_or_object3=null, $str_or_object4=null, $str_or_object5=null) {
 		parent::__construct();
@@ -130,11 +130,11 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method add
 	 * @access public
-	 * @param mixed $str_or_object 
-	 * @param mixed $str_or_object2 [default value: null]
-	 * @param mixed $str_or_object3 [default value: null]
-	 * @param mixed $str_or_object4 [default value: null]
-	 * @param mixed $str_or_object5 [default value: null]
+	 * @param string|Object|Url $str_or_object 
+	 * @param string|Object $str_or_object2 [default value: null]
+	 * @param string|Object $str_or_object3 [default value: null]
+	 * @param string|Object $str_or_object4 [default value: null]
+	 * @param string|Object $str_or_object5 [default value: null]
 	 * @return Object
 	 * @since 1.0.36
 	 */
@@ -155,6 +155,7 @@ class Object extends WebSitePhpEventObject {
 	 * Method addObject
 	 * @access private
 	 * @param mixed $object 
+	 * @since 1.0.59
 	 */
 	private function addObject($object) {
 		if (gettype($object) == "object" && get_class($object) == "DateTime") {
@@ -731,7 +732,12 @@ class Object extends WebSitePhpEventObject {
 					$html .= "height:".$this->height.";";
 				}
 			}
-			$html .= "#position:absolute;#top:50%;display:table-cell;vertical-align:middle;\"><img src=\"".BASE_URL."wsp/img/loading.gif\"/></div>";
+			if (!$this->disable_ajax_wait_message) {
+				$html .= "#position:absolute;#top:50%;display:table-cell;vertical-align:middle;\"><img src=\"".BASE_URL."wsp/img/loading.gif\"/>";
+			} else {
+				$html .= "\">";
+			}
+			$html .= "</div>";
 		}
 		if ($is_span_open) {
 			if ($this->force_div_tag || (!$this->force_span_tag &&

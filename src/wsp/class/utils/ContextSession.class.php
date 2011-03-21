@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.36
  */
@@ -26,9 +26,10 @@ class ContextSession {
 	
 	/**
 	 * Method add
-	 * @access public
+	 * @access static
 	 * @param mixed $key 
 	 * @param mixed $string_or_object 
+	 * @since 1.0.59
 	 */
 	public static function add($key, $string_or_object) {
 		if (!is_array($_SESSION['wsp_context_session'])) {
@@ -43,7 +44,7 @@ class ContextSession {
 	
 	/**
 	 * Method get
-	 * @access public
+	 * @access static
 	 * @param mixed $key 
 	 * @return mixed
 	 * @since 1.0.35

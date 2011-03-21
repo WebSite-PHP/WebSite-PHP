@@ -9,8 +9,8 @@
 	header("Cache-Control: maxage=".$expires);
 	header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
   
-	include("../config/config_css.inc.php"); 
-	include("../config/config.inc.php"); 
+	include_once("../config/config_css.inc.php"); 
+	include_once("../config/config.inc.php"); 
 	
 	$is_css_round_box = false;
 	$is_pic_round_box = false;

@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -100,6 +100,7 @@ class DraggableEvent extends WebSitePhpObject {
 	 * Method setDraggableId
 	 * @access public
 	 * @param mixed $id 
+	 * @since 1.0.59
 	 */
 	public function setDraggableId($id) {
 		$this->draggable_id = $id;

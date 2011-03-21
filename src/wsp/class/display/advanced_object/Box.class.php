@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -494,10 +494,11 @@ class Box extends WebSitePhpObject {
 			$html .= ">\n";
 			if ($this->content != null) {
 				if (gettype($this->content) == "object" && method_exists($this->content, "render")) {
-					$html .= "						".$this->content->render($ajax_render)."\n";
+					$html_content = $this->content->render($ajax_render);
 				} else {
-					$html .= "						".$this->content."\n";
+					$html_content = $this->content;
 				}
+				$html .= "						".str_replace("<a href=", "<a class=\"box_style_".$this->style_content."\" href=", $html_content)."\n";
 			}
 			$html .= "						</div>\n";
 			$html .= "					</td>\n";
@@ -594,10 +595,11 @@ class Box extends WebSitePhpObject {
 			$html .= "margin:5px;padding-right:5px;\">\n";
 			if ($this->content != null) {
 				if (gettype($this->content) == "object" && method_exists($this->content, "render")) {
-					$html .= "					".$this->content->render($ajax_render)."\n";
+					$html_content = $this->content->render($ajax_render);
 				} else {
-					$html .= "					".$this->content."\n";
+					$html_content = $this->content;
 				}
+				$html .= "						".str_replace("<a href=", "<a class=\"box_style_".$this->style_content."\" href=", $html_content)."\n";
 			}
 			$html .= "				</div>\n";
 		

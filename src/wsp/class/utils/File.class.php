@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.13
  */
@@ -84,6 +84,7 @@ class File{
 	/**
 	 * Method close
 	 * Close the file
+	 * @since 1.0.59
 	 */
 	function close(){
 		fclose($this->file);
@@ -339,6 +340,7 @@ class File{
 	/**
 	 * Method halt
 	 * @param string $message all occurred errors as array
+	 * @since 1.0.59
 	 */
 	function halt($message){
 		if($this->debug){
@@ -349,6 +351,7 @@ class File{
 	/**
 	 * Method debug_mode
 	 * @param boolean $debug [default value: true]
+	 * @since 1.0.59
 	 */
 	function debug_mode($debug=true){
 		$this->debug=$debug;

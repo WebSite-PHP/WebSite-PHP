@@ -15,9 +15,9 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
- * @since       1.0.36
+ * @since       1.0.23
  */
 
 function JavaScriptIncludeComparator($a, $b) {
@@ -59,7 +59,7 @@ class JavaScriptInclude {
 	
 	/**
 	 * Method getInstance
-	 * @access public
+	 * @access static
 	 * @return mixed
 	 * @since 1.0.35
 	 */
@@ -77,6 +77,7 @@ class JavaScriptInclude {
 	 * @param mixed $js_url 
 	 * @param string $conditional_comment 
 	 * @param boolean $conbine [default value: false]
+	 * @since 1.0.59
 	 */
 	public function add($js_url, $conditional_comment='', $conbine=false) {
 		if (!in_array($js_url, $this->js_scripts)) {

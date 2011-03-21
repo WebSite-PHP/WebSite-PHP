@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.19
  */
@@ -94,7 +94,7 @@
 		include("../config/config_admin.inc.php");
 		
 		$config_css_url = WSP_ADMIN_URL."/theme/configure-css.html";
-		if (substr($_SERVER['HTTP_REFERER'], strlen($config_css_url)*-1) == $config_css_url) {
+		if (isset($_SERVER['HTTP_REFERER']) && substr($_SERVER['HTTP_REFERER'], strlen($config_css_url)*-1) == $config_css_url) {
 			$lastmodified = time();
 			$is_config_theme_page = true;
 		}

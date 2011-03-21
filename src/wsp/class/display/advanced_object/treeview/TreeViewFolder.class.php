@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -31,8 +31,8 @@ class TreeViewFolder extends TreeViewItem {
 	
 	/**
 	 * Constructor TreeViewFolder
-	 * @param mixed $value 
-	 * @param mixed $path_folder 
+	 * @param string $value folder node text
+	 * @param string $path_folder path to the folder
 	 */
 	function __construct($value, $path_folder) {
 		parent::__construct($value, '', false, $path_folder);
@@ -58,8 +58,8 @@ class TreeViewFolder extends TreeViewItem {
 	/**
 	 * Method addFolder
 	 * @access public
-	 * @param string $value [default value: New Folder]
-	 * @param mixed $context_menu_object [default value: null]
+	 * @param string $value new folder node text [default value: New Folder]
+	 * @param ContextMenu $context_menu_object [default value: null]
 	 * @param boolean $collapse [default value: true]
 	 * @return mixed
 	 * @since 1.0.35
@@ -95,10 +95,10 @@ class TreeViewFolder extends TreeViewItem {
 	/**
 	 * Method addFile
 	 * @access public
-	 * @param string $value [default value: New File]
-	 * @param string $data 
-	 * @param string $link 
-	 * @param mixed $context_menu_object [default value: null]
+	 * @param string $value new file name [default value: New File]
+	 * @param string $data data to set in the file if TreeView synchronized with directory
+	 * @param string $link node link
+	 * @param ContextMenu $context_menu_object [default value: null]
 	 * @return mixed
 	 * @since 1.0.35
 	 */
@@ -132,6 +132,7 @@ class TreeViewFolder extends TreeViewItem {
 	/**
 	 * Method remove
 	 * @access public
+	 * @since 1.0.59
 	 */
 	public function remove() {
 		$path = $this->getLocalPath();
@@ -158,7 +159,7 @@ class TreeViewFolder extends TreeViewItem {
 	/**
 	 * Method rrmdir
 	 * @access private
-	 * @param mixed $dir 
+	 * @param string $dir 
 	 * @return boolean
 	 * @since 1.0.35
 	 */
@@ -179,7 +180,8 @@ class TreeViewFolder extends TreeViewItem {
 	/**
 	 * Method rename
 	 * @access public
-	 * @param mixed $value 
+	 * @param string $value new folder name (rename real folder if synchronized)
+	 * @since 1.0.59
 	 */
 	public function rename($value) {
 		if (!$this->nodeValueAlreadyExists($value)) {

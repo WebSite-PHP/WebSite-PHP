@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -44,7 +44,7 @@ class TreeView extends WebSitePhpObject {
 	
 	/**
 	 * Constructor TreeView
-	 * @param mixed $id 
+	 * @param string $id 
 	 */
 	function __construct($id) {
 		parent::__construct();
@@ -62,7 +62,7 @@ class TreeView extends WebSitePhpObject {
 	/**
 	 * Method setTreeViewItems
 	 * @access public
-	 * @param mixed $treeview_items_object 
+	 * @param TreeViewItems $treeview_items_object 
 	 * @return TreeView
 	 * @since 1.0.35
 	 */
@@ -78,6 +78,7 @@ class TreeView extends WebSitePhpObject {
 	/**
 	 * Method generateTreeViewIds
 	 * @access public
+	 * @since 1.0.59
 	 */
 	public function generateTreeViewIds() {
 		if (self::$refresh_all_ids) {
@@ -89,8 +90,9 @@ class TreeView extends WebSitePhpObject {
 	/**
 	 * Method generateTreeViewItemId
 	 * @access private
-	 * @param mixed $treeview_items 
-	 * @param mixed $parent_id 
+	 * @param TreeviewItems $treeview_items 
+	 * @param string $parent_id 
+	 * @since 1.0.59
 	 */
 	private function generateTreeViewItemId($treeview_items, $parent_id) {
 		for ($i=0; $i < sizeof($treeview_items); $i++) {
@@ -106,7 +108,8 @@ class TreeView extends WebSitePhpObject {
 	/* Intern management of TreeView */
 	/**
 	 * Method refreshAllIds
-	 * @access public
+	 * @access static
+	 * @since 1.0.59
 	 */
 	public static function refreshAllIds() {
 		self::$refresh_all_ids = true;
@@ -115,9 +118,9 @@ class TreeView extends WebSitePhpObject {
 	/**
 	 * Method loadFromPath
 	 * @access public
-	 * @param mixed $path 
-	 * @param string $link_file_template 
-	 * @param string $root_dir_name 
+	 * @param string $path path to the folder to load
+	 * @param string|Link|DialogBox $link_file_template template when click a TreeViewFile : new DialogBox('open file', 'open file {#file}');
+	 * @param string $root_dir_name name of the root directory
 	 * @return TreeView
 	 * @since 1.0.35
 	 */
@@ -139,9 +142,10 @@ class TreeView extends WebSitePhpObject {
 	/**
 	 * Method createFolderNode
 	 * @access private
-	 * @param mixed $path 
-	 * @param mixed $treeview_folder 
-	 * @param mixed $link_file_template 
+	 * @param string $path 
+	 * @param TreeViewFolder $treeview_folder 
+	 * @param string $link_file_template 
+	 * @since 1.0.59
 	 */
 	private function createFolderNode($path, $treeview_folder, $link_file_template) {
 		$treeview_items = null;
@@ -194,7 +198,7 @@ class TreeView extends WebSitePhpObject {
 	/**
 	 * Method isSynchronizeWithDir
 	 * @access public
-	 * @return mixed
+	 * @return boolean
 	 * @since 1.0.35
 	 */
 	public function isSynchronizeWithDir() {
@@ -204,7 +208,7 @@ class TreeView extends WebSitePhpObject {
 	/**
 	 * Method setContextMenuRoot
 	 * @access public
-	 * @param mixed $context_menu_object 
+	 * @param ContextMenu $context_menu_object 
 	 * @return TreeView
 	 * @since 1.0.35
 	 */
@@ -220,7 +224,7 @@ class TreeView extends WebSitePhpObject {
 	/**
 	 * Method setContextMenuFile
 	 * @access public
-	 * @param mixed $context_menu_object 
+	 * @param ContextMenu $context_menu_object 
 	 * @return TreeView
 	 * @since 1.0.35
 	 */
@@ -236,7 +240,7 @@ class TreeView extends WebSitePhpObject {
 	/**
 	 * Method setContextMenuFolder
 	 * @access public
-	 * @param mixed $context_menu_object 
+	 * @param ContextMenu $context_menu_object 
 	 * @return TreeView
 	 * @since 1.0.35
 	 */
@@ -252,8 +256,8 @@ class TreeView extends WebSitePhpObject {
 	/**
 	 * Method setContextMenuOnTreeViewItem
 	 * @access public
-	 * @param mixed $context_menu_object 
-	 * @param mixed $treeview_item_object 
+	 * @param ContextMenu $context_menu_object 
+	 * @param TreeViewItem|TreeViewFolder|TreeViewFile|TreeView $treeview_item_object 
 	 * @return TreeView
 	 * @since 1.0.35
 	 */
@@ -277,7 +281,7 @@ class TreeView extends WebSitePhpObject {
 	 * Method createContextMenu
 	 * @access private
 	 * @param boolean $ajax_render [default value: false]
-	 * @return mixed
+	 * @return string html code of TreeView ContextMenu
 	 * @since 1.0.35
 	 */
 	private function createContextMenu($ajax_render=false) {
@@ -306,7 +310,7 @@ class TreeView extends WebSitePhpObject {
 	/**
 	 * Method getLoadedPath
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getLoadedPath() {
@@ -316,7 +320,7 @@ class TreeView extends WebSitePhpObject {
 	/**
 	 * Method isRootFolder
 	 * @access public
-	 * @return mixed
+	 * @return boolean
 	 * @since 1.0.35
 	 */
 	public function isRootFolder() {
@@ -326,7 +330,7 @@ class TreeView extends WebSitePhpObject {
 	/**
 	 * Method getId
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getId() {
@@ -337,7 +341,7 @@ class TreeView extends WebSitePhpObject {
 	/**
 	 * Method getTreeViewItemsObject
 	 * @access public
-	 * @return mixed
+	 * @return TreeViewItems
 	 * @since 1.0.35
 	 */
 	public function getTreeViewItemsObject() {
@@ -347,7 +351,7 @@ class TreeView extends WebSitePhpObject {
 	/**
 	 * Method getChildsTreeViewItemArray
 	 * @access public
-	 * @return mixed
+	 * @return array
 	 * @since 1.0.35
 	 */
 	public function getChildsTreeViewItemArray() {
@@ -357,8 +361,8 @@ class TreeView extends WebSitePhpObject {
 	/**
 	 * Method searchTreeViewItemId
 	 * @access public
-	 * @param mixed $id 
-	 * @return mixed
+	 * @param string $id 
+	 * @return TreeViewItem
 	 * @since 1.0.35
 	 */
 	public function searchTreeViewItemId($id) {
@@ -372,9 +376,9 @@ class TreeView extends WebSitePhpObject {
 	/**
 	 * Method searchNodeId
 	 * @access private
-	 * @param mixed $treeview_item 
-	 * @param mixed $id 
-	 * @return mixed
+	 * @param TreeViewItem $treeview_item 
+	 * @param string $id 
+	 * @return TreeViewItem
 	 * @since 1.0.35
 	 */
 	private function searchNodeId($treeview_item, $id) {

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -53,7 +53,7 @@ class DataBase {
 	
 	/**
 	 * Method getInstance
-	 * @access public
+	 * @access static
 	 * @return mixed
 	 * @since 1.0.35
 	 */
@@ -120,6 +120,7 @@ class DataBase {
 	/**
 	 * Method disconnect
 	 * @access public
+	 * @since 1.0.59
 	 */
 	public function disconnect() {
 		if ($this->connection != null) {
@@ -299,6 +300,7 @@ class DataBase {
 	/**
 	 * Method commitTransaction
 	 * @access public
+	 * @since 1.0.59
 	 */
 	public function commitTransaction() {
 		if ($this->db_is_connect && $this->is_begin_transaction) {
@@ -312,6 +314,7 @@ class DataBase {
 	/**
 	 * Method rollbackTransaction
 	 * @access public
+	 * @since 1.0.59
 	 */
 	public function rollbackTransaction() {
 		if ($this->db_is_connect && $this->is_begin_transaction) {

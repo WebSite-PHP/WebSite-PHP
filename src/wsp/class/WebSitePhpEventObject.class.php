@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.18
  */
@@ -58,6 +58,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	/**
 	 * Method initSubmitValue
 	 * @access protected
+	 * @since 1.0.59
 	 */
 	protected function initSubmitValue() {
 		if (!$this->is_init_submit_value && $this->page_object != null) {
@@ -332,7 +333,11 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		}
 		$html .= "', url: '".BASE_URL.LANGUAGE_URL."/ajax/";
 		if ($this->form_object == null) {
-			$tmp_url = str_replace(BASE_URL.LANGUAGE_URL."/ajax/", "", "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI']);
+			$port = "";
+			if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
+				$port = ":".$_SERVER['SERVER_PORT'];
+			}
+			$tmp_url = str_replace(BASE_URL.LANGUAGE_URL."/ajax/", "", "http://".$_SERVER['SERVER_NAME'].$port.$_SERVER['REQUEST_URI']);
 			$tmp_url = str_replace(BASE_URL.LANGUAGE_URL."/", "", $tmp_url);
 			$tmp_url = str_replace(".php?", ".html?", str_replace(".call?", ".html?", str_replace(".do?", ".html?", str_replace(".xhtml?", ".html?", $tmp_url))));
 			$html .= $tmp_url;
@@ -498,6 +503,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	/**
 	 * Method automaticAjaxEvent
 	 * @access public
+	 * @since 1.0.59
 	 */
 	public function automaticAjaxEvent() {
 		// automatic activation of ajax when events are call from DialogBox or Tabs

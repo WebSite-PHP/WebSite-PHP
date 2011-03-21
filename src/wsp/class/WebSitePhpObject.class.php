@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -61,6 +61,7 @@ class WebSitePhpObject {
 	/**
 	 * Method registerObject
 	 * @access private
+	 * @since 1.0.59
 	 */
 	private function registerObject() {
 		$register_objects = WebSitePhpObject::getRegisterObjects();
@@ -70,7 +71,7 @@ class WebSitePhpObject {
 	
 	/**
 	 * Method getRegisterObjects
-	 * @access public
+	 * @access static
 	 * @return mixed
 	 * @since 1.0.35
 	 */
@@ -87,6 +88,7 @@ class WebSitePhpObject {
 	 * @param mixed $js_url 
 	 * @param string $conditional_comment 
 	 * @param boolean $conbine [default value: false]
+	 * @since 1.0.59
 	 */
 	protected function addJavaScript($js_url, $conditional_comment='', $conbine=false) {
 		$this->array_js[] = $js_url;
@@ -109,6 +111,7 @@ class WebSitePhpObject {
 	 * @param mixed $css_url 
 	 * @param string $conditional_comment 
 	 * @param boolean $conbine [default value: false]
+	 * @since 1.0.59
 	 */
 	protected function addCss($css_url, $conditional_comment='', $conbine=false) {
 		$this->array_css[] = $css_url;

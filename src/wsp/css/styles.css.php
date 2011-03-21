@@ -10,7 +10,7 @@
 	header("Cache-Control: maxage=".$expires);
 	header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
   
-	include("../config/config_css.inc.php");
+	include_once("../config/config_css.inc.php");
 
 	if (!defined('DEFINE_STYLE_COLOR_2_HEADER_LINK')) {
 		define("DEFINE_STYLE_COLOR_2_HEADER_LINK", "");
@@ -174,14 +174,14 @@ for ($i=1; $i <= NB_DEFINE_STYLE_BCK; $i++) {
 	font-size: <?php echo $style_font_size_value; ?>;
 	font-family: <?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
 }
-.table_<?php echo $i; ?>_bckg a {
+.table_<?php echo $i; ?>_bckg a,a.box_style_<?php echo $i; ?>:link {
 	color: <?php if (constant("DEFINE_STYLE_COLOR_".$i."_LINK") != "") { echo constant("DEFINE_STYLE_COLOR_".$i."_LINK"); } else { echo DEFINE_STYLE_LINK_COLOR; } ?>;
 	text-decoration: none;
 	font-size:<?php echo $style_font_size_value; ?>;
 	font-family:<?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
 }
 
-.table_<?php echo $i; ?>_bckg a:hover {
+.table_<?php echo $i; ?>_bckg a:hover,a.box_style_<?php echo $i; ?>:hover {
 	color: <?php if (constant("DEFINE_STYLE_COLOR_".$i."_LINK_HOVER") != "") { echo constant("DEFINE_STYLE_COLOR_".$i."_LINK_HOVER"); } else { echo DEFINE_STYLE_LINK_HOVER_COLOR; } ?>;
 	font-size:<?php echo $style_font_size_value; ?>;
 	font-family:<?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;

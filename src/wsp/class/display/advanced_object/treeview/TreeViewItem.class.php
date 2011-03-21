@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -42,10 +42,10 @@ class TreeViewItem extends WebSitePhpObject {
 	
 	/**
 	 * Constructor TreeViewItem
-	 * @param mixed $value 
-	 * @param string $link 
-	 * @param boolean $is_file [default value: true]
-	 * @param string $path 
+	 * @param string $value node text
+	 * @param string $link node link
+	 * @param boolean $is_file is the node a file [default value: true]
+	 * @param string $path path to the file (if $is_file is true)
 	 */
 	function __construct($value, $link='', $is_file=true, $path='') {
 		parent::__construct();
@@ -65,7 +65,7 @@ class TreeViewItem extends WebSitePhpObject {
 	/**
 	 * Method addItem
 	 * @access public
-	 * @param mixed $treeview_item_object 
+	 * @param TreeViewItem|TreeViewFolder|TreeViewFile|TreeView $treeview_item_object 
 	 * @return TreeViewItem
 	 * @since 1.0.35
 	 */
@@ -85,7 +85,7 @@ class TreeViewItem extends WebSitePhpObject {
 	/**
 	 * Method setTreeViewItems
 	 * @access public
-	 * @param mixed $treeview_items_object 
+	 * @param TreeViewItems $treeview_items_object 
 	 * @return TreeViewItem
 	 * @since 1.0.35
 	 */
@@ -103,7 +103,7 @@ class TreeViewItem extends WebSitePhpObject {
 	/**
 	 * Method setTreeViewItemParent
 	 * @access public
-	 * @param mixed $treeview_item_object 
+	 * @param TreeViewItem|TreeViewFolder|TreeViewFile|TreeView $treeview_item_object 
 	 * @return TreeViewItem
 	 * @since 1.0.35
 	 */
@@ -183,7 +183,7 @@ class TreeViewItem extends WebSitePhpObject {
 	/**
 	 * Method nodeValueAlreadyExists
 	 * @access protected
-	 * @param mixed $value 
+	 * @param string $value 
 	 * @return boolean
 	 * @since 1.0.35
 	 */
@@ -201,7 +201,7 @@ class TreeViewItem extends WebSitePhpObject {
 	/**
 	 * Method setPrefixId
 	 * @access public
-	 * @param mixed $prefix_id 
+	 * @param string $prefix_id 
 	 * @return TreeViewItem
 	 * @since 1.0.35
 	 */
@@ -214,7 +214,7 @@ class TreeViewItem extends WebSitePhpObject {
 	/**
 	 * Method setPath
 	 * @access public
-	 * @param mixed $path 
+	 * @param string $path 
 	 * @return TreeViewItem
 	 * @since 1.0.35
 	 */
@@ -237,7 +237,7 @@ class TreeViewItem extends WebSitePhpObject {
 	/**
 	 * Method getValue
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getValue() {
@@ -258,7 +258,7 @@ class TreeViewItem extends WebSitePhpObject {
 	/**
 	 * Method getChildsTreeViewItemArray
 	 * @access public
-	 * @return mixed
+	 * @return array
 	 * @since 1.0.35
 	 */
 	public function getChildsTreeViewItemArray() {
@@ -268,7 +268,7 @@ class TreeViewItem extends WebSitePhpObject {
 	/**
 	 * Method getParentTreeViewItem
 	 * @access public
-	 * @return mixed
+	 * @return TreeViewItem
 	 * @since 1.0.35
 	 */
 	public function getParentTreeViewItem() {
@@ -278,7 +278,7 @@ class TreeViewItem extends WebSitePhpObject {
 	/**
 	 * Method getTreeViewObject
 	 * @access public
-	 * @return mixed
+	 * @return TreeView
 	 * @since 1.0.35
 	 */
 	public function getTreeViewObject() {
@@ -292,7 +292,7 @@ class TreeViewItem extends WebSitePhpObject {
 	/**
 	 * Method getPath
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getPath() {
@@ -384,10 +384,10 @@ class TreeViewItem extends WebSitePhpObject {
 	/**
 	 * Method generateHtmlChangeSubItemId
 	 * @access private
-	 * @param mixed $treeview_item 
-	 * @param mixed $new_prefix_id_length 
-	 * @param mixed $old_prefix_id 
-	 * @return mixed
+	 * @param TreeViewItem $treeview_item 
+	 * @param string $new_prefix_id_length 
+	 * @param string $old_prefix_id 
+	 * @return string javascript code to update node id value
 	 * @since 1.0.35
 	 */
 	private function generateHtmlChangeSubItemId($treeview_item, $new_prefix_id_length, $old_prefix_id) {

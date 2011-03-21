@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -237,7 +237,7 @@ class DialogBox extends WebSitePhpObject {
 	
 	/**
 	 * Method closeAll
-	 * @access public
+	 * @access static
 	 * @return JavaScript
 	 * @since 1.0.35
 	 */
@@ -254,7 +254,7 @@ class DialogBox extends WebSitePhpObject {
 	
 	/**
 	 * Method closeLevel
-	 * @access public
+	 * @access static
 	 * @param mixed $level 
 	 * @return JavaScript
 	 * @since 1.0.35
@@ -270,9 +270,10 @@ class DialogBox extends WebSitePhpObject {
 	/* Intern management of DialogBox level */
 	/**
 	 * Method addLevelToInitDialogBox
-	 * @access private
+	 * @access static
 	 * @param integer $level 
 	 * @param DialogBox $dialog_box_object 
+	 * @since 1.0.59
 	 */
 	private static function addLevelToInitDialogBox($level, $dialog_box_object) {
 		self::$array_dialog_indices[$level] = $dialog_box_object;
@@ -299,7 +300,7 @@ class DialogBox extends WebSitePhpObject {
 	
 	/**
 	 * Method getFirstAvailableDialogBoxLevel
-	 * @access private
+	 * @access static
 	 * @return integer
 	 * @since 1.0.35
 	 */
@@ -317,7 +318,7 @@ class DialogBox extends WebSitePhpObject {
 	
 	/**
 	 * Method getArrayDialogBoxLevels
-	 * @access public
+	 * @access static
 	 * @return array
 	 * @since 1.0.35
 	 */
@@ -340,7 +341,7 @@ class DialogBox extends WebSitePhpObject {
 	
 	/**
 	 * Method getCurrentDialogBoxLevel
-	 * @access public
+	 * @access static
 	 * @return integer
 	 * @since 1.0.35
 	 */

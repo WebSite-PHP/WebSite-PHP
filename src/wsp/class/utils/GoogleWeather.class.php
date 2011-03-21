@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -93,7 +93,7 @@ class GoogleWeatherAPI {
 		}
 		$this->city_code = $city_code;
 		$this->prefix_images = 'http://'.$this->domain;
-		$this->url = 'http://'.$this->domain.'/ig/api?weather='.urlencode($this->city_code).'&hl='.$lang;
+		$this->url = 'http://'.$this->domain.'/ig/api?weather='.urlencode(str_replace("-", " ", url_rewrite_format($this->city_code))).'&hl='.$lang;
 		
 		$getContentCode = $this->getContent($this->url);
 				

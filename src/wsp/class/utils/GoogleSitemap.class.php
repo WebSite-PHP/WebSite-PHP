@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -52,6 +52,7 @@ class GoogleSitemap
 	 * Adds a new item to the channel contents.
 	 * @access public
 	 * @param google_sitemap item $new_item 
+	 * @since 1.0.59
 	 */
   public function addItem($new_item) {
     //Make sure $new_item is an 'google_sitemap item' object
@@ -173,6 +174,7 @@ class GoogleSitemapItem
 	 * @param string $video_description 
 	 * @param string $video_thumbnail 
 	 * @param string $video_player_loc 
+	 * @since 1.0.59
 	 */
   public function setVideo($video_content, $video_title, $video_description = '', $video_thumbnail = '', $video_player_loc = '') {
   	$this->video_content = $video_content;

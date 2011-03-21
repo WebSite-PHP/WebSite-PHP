@@ -15,9 +15,9 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
- * @since       1.0.36
+ * @since       1.0.15
  */
 
 function getDebugBacktrace($remove_nb_level=0) {
@@ -76,7 +76,7 @@ class NewException extends Exception
 {
 	/**
 	 * Constructor NewException
-	 * @param mixed $message 
+	 * @param string $message 
 	 * @param mixed $code [default value: NULL]
 	 */
     public function __construct($message, $code=NULL) {
@@ -86,7 +86,7 @@ class NewException extends Exception
 	/**
 	 * Method __toString
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
     public function __toString() {
@@ -100,15 +100,15 @@ class NewException extends Exception
     
 	/**
 	 * Method generateErrorMessage
-	 * @access public
-	 * @param mixed $code 
-	 * @param mixed $message 
-	 * @param mixed $file 
-	 * @param mixed $line 
+	 * @access static
+	 * @param string $code 
+	 * @param string $message 
+	 * @param string $file 
+	 * @param string $line 
 	 * @param string $class_name 
 	 * @param string $method 
 	 * @param string $trace 
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
     public static function generateErrorMessage($code, $message, $file, $line, $class_name='', $method='', $trace='') {
@@ -145,8 +145,9 @@ class NewException extends Exception
    
 	/**
 	 * Method getStaticException
-	 * @access public
-	 * @param mixed $exception 
+	 * @access static
+	 * @param string|Exception $exception 
+	 * @since 1.0.59
 	 */
 	public static function getStaticException($exception) {
 		if (method_exists($exception, "getException")) {
@@ -158,8 +159,9 @@ class NewException extends Exception
     
 	/**
 	 * Method printStaticException
-	 * @access public
-	 * @param mixed $exception 
+	 * @access static
+	 * @param string|Exception $exception 
+	 * @since 1.0.59
 	 */
 	public static function printStaticException($exception) {
 		if (method_exists($exception, "getException")) {
@@ -171,8 +173,8 @@ class NewException extends Exception
     
 	/**
 	 * Method redirectOnError
-	 * @access public
-	 * @param mixed $buffer 
+	 * @access static
+	 * @param string $buffer 
 	 * @return mixed
 	 * @since 1.0.35
 	 */
@@ -187,11 +189,13 @@ class NewException extends Exception
 	
 	/**
 	 * Method printStaticDebugMessage
-	 * @access public
-	 * @param mixed $debug_msg 
+	 * @access static
+	 * @param string|object $debug_msg 
+	 * @since 1.0.59
 	 */
 	public static function printStaticDebugMessage($debug_msg) {
 		// print the debug
+		$GLOBALS['__ERROR_DEBUG_PAGE__'] = true;
 		if ($GLOBALS['__DEBUG_PAGE_IS_PRINTING__'] == false) {
 			$GLOBALS['__DEBUG_PAGE_IS_PRINTING__'] = true;
 			if (gettype($debug_msg) == "object") {
@@ -208,7 +212,11 @@ class NewException extends Exception
 				
 				try {
 					if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
-						$from_url = "http://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+						$port = "";
+						if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
+							$port = ":".$_SERVER['SERVER_PORT'];
+						}
+						$from_url = "http://".$_SERVER['SERVER_NAME'].$port.$_SERVER['REQUEST_URI'];
 					} else {
 						$from_url = "http://".FORCE_SERVER_NAME.$_SERVER['REQUEST_URI'];
 					}
@@ -220,7 +228,11 @@ class NewException extends Exception
 					
 					$split_request_uri = explode("\?", $_SERVER['REQUEST_URI']);
 					if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
-						$my_site_base_url = "http://".str_replace("//", "/", $_SERVER['SERVER_NAME'].substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
+						$port = "";
+						if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
+							$port = ":".$_SERVER['SERVER_PORT'];
+						}
+						$my_site_base_url = "http://".str_replace("//", "/", $_SERVER['SERVER_NAME'].$port.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
 					} else {
 						$my_site_base_url = "http://".str_replace("//", "/", FORCE_SERVER_NAME.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
 					}

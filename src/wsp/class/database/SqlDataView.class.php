@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -133,6 +133,7 @@ class SqlDataView {
 	 * @param mixed $join_attribute_1 
 	 * @param mixed $join_attribute_2 
 	 * @param string $join_type [default value: INNER]
+	 * @since 1.0.59
 	 */
 	public function addJoinAttribute($db_table_object_join, $join_attribute_1, $join_attribute_2, $join_type='INNER') {
 		if (!isset($db_table_object_join) && !isset($join_attribute_1) && !isset($join_attribute_2)) {
@@ -150,6 +151,7 @@ class SqlDataView {
 	 * @param mixed $join_attribute_1 
 	 * @param mixed $join_attribute_2 
 	 * @param string $join_type [default value: INNER]
+	 * @since 1.0.59
 	 */
 	public function addJoinTableAttribute($db_table_object_join_1, $db_table_object_join_2, $join_attribute_1, $join_attribute_2, $join_type='INNER') {
 		if (!isset($db_table_object_join_1) && !isset($db_table_object_join_2) && !isset($join_attribute_1) && !isset($join_attribute_2)) {
@@ -181,6 +183,7 @@ class SqlDataView {
 	 * @param mixed $db_table_object_join 
 	 * @param mixed $join_clause 
 	 * @param string $join_type [default value: INNER]
+	 * @since 1.0.59
 	 */
 	public function addJoinClause($db_table_object_join, $join_clause, $join_type='INNER') {
 		if (!isset($db_table_object_join) && !isset($join_clause)) {

@@ -15,9 +15,9 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
- * @since       1.0.19
+ * @since       1.0.0
  */
 
 	if (version_compare(PHP_VERSION, '5.2.0', '<') ) { 
@@ -34,7 +34,11 @@
 	date_default_timezone_set('Europe/Paris');
 	$split_request_uri = explode("\?", $_SERVER['REQUEST_URI']);
 	if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
-		define("SITE_URL", "http://".str_replace("//", "/", $_SERVER['SERVER_NAME'].substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/"));
+		$port = "";
+		if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
+			$port = ":".$_SERVER['SERVER_PORT'];
+		}
+		define("SITE_URL", "http://".str_replace("//", "/", $_SERVER['SERVER_NAME'].$port.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/"));
 	} else {
 		define("SITE_URL", "http://".str_replace("//", "/", FORCE_SERVER_NAME.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/"));
 	}

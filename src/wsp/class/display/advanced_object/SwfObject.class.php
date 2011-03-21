@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -67,6 +67,7 @@ class SwfObject extends WebSitePhpObject {
 	 * @access public
 	 * @param mixed $name 
 	 * @param mixed $value 
+	 * @since 1.0.59
 	 */
 	public function addParam($name, $value) {
 		$this->params[$name] = $value;
@@ -77,6 +78,7 @@ class SwfObject extends WebSitePhpObject {
 	 * @access public
 	 * @param mixed $name 
 	 * @param mixed $value 
+	 * @since 1.0.59
 	 */
 	public function addVariable($name, $value) {
 		$this->variables[$name] = $value;

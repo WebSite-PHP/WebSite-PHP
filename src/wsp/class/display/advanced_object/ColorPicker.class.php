@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
  * @since       1.0.17
  */
@@ -273,6 +273,7 @@ class ColorPicker extends TextBox {
 	 * @access private
 	 * @param mixed $name 
 	 * @param mixed $value 
+	 * @since 1.0.59
 	 */
 	private function setProperty($name, $value) {
 		$class = $this->getClass();
