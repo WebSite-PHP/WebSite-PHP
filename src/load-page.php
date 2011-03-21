@@ -15,29 +15,10 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.57
+ * @version     1.0.62
  * @access      public
- * @since       1.0.51
+ * @since       1.0.0
  */
-
-/**
- * Entry point of all other pages (.pdf, .xml, .call, ...)
- *
- * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
- * PHP versions >= 5.2
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- * 
- * @author      Emilien MOREL <admin@website-php.com>
- * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.50
- * @access      public
- * @since       1.0.18
- */
-
 
 	error_reporting(E_ALL);
 	
@@ -80,6 +61,8 @@
 	header("Cache-Control: no-store, no-cache, must-revalidate");
 	header("Cache-Control: post-check=0, pre-check=0", false);
 	header("Pragma: no-cache");
+	
+	$isWSDL = false;
 	if (isset($_GET['mime'])) {
 		if ($_GET['mime'] == "rss") {
 			$_GET['mime'] = "application/rss+xml";
@@ -90,6 +73,9 @@
 		} else if ($_GET['mime'] == "pdf") {
 			$_GET['mime'] = "application/pdf";
 		} else if ($_GET['mime'] == "wsdl" || $_GET['mime'] == "xml") {
+			if ($_GET['mime'] == "wsdl") {
+				$isWSDL = true;
+			}
 			$_GET['mime'] = "text/xml";
 		} else if ($_GET['mime'] == "json") {
 			$_GET['mime'] = "text/plain";
@@ -103,7 +89,7 @@
 		header("Content-Type: ".$_GET['mime']);
 	}
 	
-	if ($_GET['mime'] == "wsdl") {
+	if ($isWSDL) {
 		include_once("pages/".$_GET['p'].".php");
 		
 		$page_tmp = str_replace("_", "-", $_GET['p']);
