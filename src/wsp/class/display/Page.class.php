@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.62
+ * @version     1.0.66
  * @access      public
  * @since       1.0.0
  */
@@ -206,7 +206,7 @@ class Page {
 	/**
 	 * Method setCacheTime
 	 * @access protected
-	 * @param integer $cache_time time in milliseconds
+	 * @param integer $cache_time time in seconds
 	 * @param boolean $reset_on_midnight true if the cache is replace after midnight [default value: false]
 	 * @since 1.0.3
 	 */

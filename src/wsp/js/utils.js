@@ -87,19 +87,13 @@ function PreloadImage(image_url) {
 }
 
 function SaveDocumentSize() {
-	var date = new Date();
-    date.setTime(date.getTime() + (24 * 60 * 60 * 1000)); /* 1 day */
-
-    $.cookie("wsp_document_width", $(document).width(), { path: '/', expires: date });
-	$.cookie("wsp_document_height", $(document).height(), { path: '/', expires: date });
+	$.cookie("wsp_document_width", $(document).width(), { path: '/', expires: 1 });
+	$.cookie("wsp_document_height", $(document).height(), { path: '/', expires: 1 });
 }
 
 function SaveWindowSize() {
-	var date = new Date();
-    date.setTime(date.getTime() + (24 * 60 * 60 * 1000)); /* 1 day */
-
-	$.cookie("wsp_window_width", $(window).width(), { path: '/', expires: date });
-	$.cookie("wsp_window_height", $(window).height(), { path: '/', expires: date });
+	$.cookie("wsp_window_width", $(window).width(), { path: '/', expires: 1 });
+	$.cookie("wsp_window_height", $(window).height(), { path: '/', expires: 1 });
 }
 
 function addToFavorite(siteURL, siteNOM) {

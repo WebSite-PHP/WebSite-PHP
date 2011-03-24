@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.62
+ * @version     1.0.66
  * @access      public
  * @since       1.0.17
  */
@@ -241,11 +241,17 @@ class Button extends WebSitePhpEventObject {
 	/**
 	 * Method onClickJs
 	 * @access public
-	 * @param mixed $js_function 
+	 * @param string|JavaScript $js_function 
 	 * @return Button
 	 * @since 1.0.36
 	 */
 	public function onClickJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
 		$this->onclick = trim($js_function);
 		return $this;
 	}

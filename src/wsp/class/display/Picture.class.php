@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.62
+ * @version     1.0.66
  * @access      public
  * @since       1.0.17
  */
@@ -315,71 +315,71 @@ class Picture extends WebSitePhpObject {
 		$html = "";
 		$align_center = false;
 		if ($this->align == Picture::ALIGN_CENTER) {
-			$html .= "<div align=\"center\">\n\t";
+			$html .= "<div align='center'>\n\t";
 			$align_center = true;
 			$this->align = "";
 		}
 		if ($this->is_lightbox) {
-			$html .= "<a href=\"";
+			$html .= "<a href='";
 			if ($this->pic_link != "") {
 				$html .= $this->pic_link;
 			} else {
 				$html .= $this->src;
 			}
-			$html .= "\" rel=\"lightbox";
+			$html .= "' rel='lightbox";
 			if ($this->lightbox_name != "") {
 				$html .= $this->lightbox_name;
 			}
-			$html .= "\"";
+			$html .= "'";
 			if ($this->title != "") {
-				$html .= " title=\"".str_replace("\"", "&quot;", strip_tags($this->title))."\"";
+				$html .= " title='".addslashes(str_replace("\"", "&quot;", strip_tags($this->title)))."'";
 			}
 			$html .= ">";
 		}
 		if (strtoupper(substr($this->src, 0, 7)) != "HTTP://") {
 			$this->src = BASE_URL.$this->src;
 		}
-		$html .= "<img src=\"".$this->src."\"";
+		$html .= "<img src='".$this->src."'";
 		if ($this->id != "") {
-			$html .= " id=\"".$this->id."\"";
+			$html .= " id='".$this->id."'";
 		}
 		if ($this->height != 0) {
-			$html .= " height=\"".$this->height."\"";
+			$html .= " height='".$this->height."'";
 		}
 		if ($this->width != 0) {
-			$html .= " width=\"".$this->width."\"";
+			$html .= " width='".$this->width."'";
 		}
-		$html .= " border=\"".$this->border."\"";
+		$html .= " border='".$this->border."'";
 		if ($this->align != "") {
 			if ($this->align == Picture::ALIGN_ABSMIDDLE) {
-				$html .= " style=\"vertical-align:middle;\"";
+				$html .= " style='vertical-align:middle;'";
 			} else {
-				$html .= " align=\"".$this->align."\"";
+				$html .= " align='".$this->align."'";
 			}
 		}
 		if (gettype($this->title) == "object" && method_exists($this->title, "render")) {
 			$this->title = $this->title->render();
 		}
 		if ($this->title != "") {
-			$html .= " title=\"".str_replace("\"", "&quot;", strip_tags($this->title))."\"";
+			$html .= " title='".addslashes(str_replace("\"", "&quot;", strip_tags($this->title)))."'";
 			if ($this->alt == "") {
-				$html .= " alt=\"".str_replace("\"", "&quot;", strip_tags($this->title))."\"";
+				$html .= " alt='".addslashes(str_replace("\"", "&quot;", strip_tags($this->title)))."'";
 			}
 		}
 		if (gettype($this->alt) == "object" && method_exists($this->alt, "render")) {
 			$this->alt = $this->alt->render();
 		}
 		if ($this->alt != "") {
-			$html .= " alt=\"".str_replace("\"", "&quot;", strip_tags($this->alt))."\"";
+			$html .= " alt='".addslashes(str_replace("\"", "&quot;", strip_tags($this->alt)))."'";
 		}
 		if ($this->hspace > 0) {
-			$html .= " hspace=\"".$this->hspace."\"";
+			$html .= " hspace='".$this->hspace."'";
 		}
 		if ($this->vspace > 0) {
-			$html .= " vspace=\"".$this->vspace."\"";
+			$html .= " vspace='".$this->vspace."'";
 		}
 		if ($this->picture_map != "") {
-			$html .= " usemap=\"#".$this->picture_map->getId()."\"";
+			$html .= " usemap='#".$this->picture_map->getId()."'";
 		}
 		$html .= "/>\n";
 		

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.62
+ * @version     1.0.66
  * @access      public
  * @since       1.0.13
  */
@@ -34,7 +34,7 @@ class File{
 	
 	/**
 	 * Constructor File
-	 * @param mixed $filename 
+	 * @param mixed $filename path to the file
 	 * @param boolean $binary [default value: false]
 	 * @param boolean $delete_if_exists [default value: false]
 	 */
@@ -84,73 +84,81 @@ class File{
 	/**
 	 * Method close
 	 * Close the file
+	 * @access public
 	 * @since 1.0.59
 	 */
-	function close(){
+	public function close(){
 		fclose($this->file);
 	}
 	
 	/**
 	 * Method exists
 	 * Close the file
+	 * @access public
 	 * @return mixed
 	 * @since 1.0.35
 	 */
-	function exists(){
+	public function exists(){
 		return $this->exists;
 	}
 	
 	/**
 	 * Method get_size
+	 * @access public
 	 * @return int $filesize The filesize in bytes
 	 * @since 1.0.35
 	 */
-	function get_size(){
+	public function get_size(){
 		return filesize($this->name);
 	}
 	
 	/**
 	 * Method get_time
+	 * @access public
 	 * @return timestamp $timestamp The time of the last change as timestamp
 	 * @since 1.0.35
 	 */
-	function get_time(){
+	public function get_time(){
 		return fileatime($this->name);
 	}
 	
 	/**
 	 * Method get_name
+	 * @access public
 	 * @return string $filename The filename
 	 * @since 1.0.35
 	 */
-	function get_name(){
+	public function get_name(){
 		return $this->name;
 	}
 	
 	/**
 	 * Method get_owner_id
+	 * @access public
 	 * @return string $user_id The user id of the file
 	 * @since 1.0.35
 	 */
-	function get_owner_id(){
+	public function get_owner_id(){
 		return fileowner($this->name);
 	}
 	
 	/**
 	 * Method get_group_id
+	 * @access public
 	 * @return string $group_id The group id of the file
 	 * @since 1.0.35
 	 */
-	function get_group_id(){
+	public function get_group_id(){
 		return filegroup($this->name);
 	}
 	
 	/**
 	 * Method get_suffix
+	 * @access public
 	 * @return string $suffix The suffix of the file. If no suffix exists FALSE will be returned
 	 * @since 1.0.35
 	 */
-	function get_suffix(){
+	public function get_suffix(){
 		$file_array=explode("\.",$this->name); // Splitting prefix and suffix of real filename
 		$suffix=$file_array[count($file_array)-1]; // Returning file type
 		if(strlen($suffix)>0){
@@ -162,30 +170,50 @@ class File{
 	
 	/**
 	 * Method pointer_set
+	 * @access public
 	 * @param mixed $offset 
 	 * @return int $offset Returns the actual pointer position
 	 * @since 1.0.35
 	 */
-	function pointer_set($offset){
+	public function pointer_set($offset){
 		$this->action_before_reading=true;
 		return fseek($this->file,$offset);
 	}
 	
 	/**
 	 * Method pointer_get
+	 * @access public
 	 * @return mixed
 	 * @since 1.0.35
 	 */
-	function pointer_get(){
+	public function pointer_get(){
 		return ftell($this->file);
 	}
 	
 	/**
+	 * Method read
+	 * @access public
+	 * @return string return data
+	 * @since 1.0.64
+	 */
+	public function read(){
+		if($this->action_before_reading){
+			rewind($this->file);
+		}
+		$data = "";
+		while (($buffer = fgets($this->file, 4096)) !== false) {
+			$data .= $buffer;
+		}
+		return $data;
+	}
+	
+	/**
 	 * Method read_line
+	 * @access public
 	 * @return string $line A line from the file. If is EOF, false will be returned
 	 * @since 1.0.35
 	 */
-	function read_line(){
+	public function read_line(){
 		if($this->action_before_reading){
 			if(rewind($this->file)){
 				$this->action_before_reading=false;
@@ -201,12 +229,13 @@ class File{
 	
 	/**
 	 * Method read_bytes
+	 * @access public
 	 * @param mixed $bytes 
 	 * @param double $start_byte [default value: 0]
 	 * @return string $line Data from a binary file
 	 * @since 1.0.35
 	 */
-	function read_bytes($bytes,$start_byte=0){
+	public function read_bytes($bytes,$start_byte=0){
 		if(is_int($start_byte)){
 			if(rewind($this->file)){
 				if($start_byte>0){
@@ -227,11 +256,12 @@ class File{
 	
 	/**
 	 * Method write
+	 * @access public
 	 * @param string $data The data which have to be written
 	 * @return boolean $written Returns TRUE if data could be written, FALSE if not
 	 * @since 1.0.35
 	 */
-	function write($data){
+	public function write($data){
 		$this->action_before_reading=true;
 		if(strlen($data)>0){
 			if($this->binary){
@@ -258,11 +288,12 @@ class File{
 	
 	/**
 	 * Method copy
+	 * @access public
 	 * @param string $destination The new file destination
 	 * @return boolean $copied Returns TRUE if file could bie copied, FALSE if not
 	 * @since 1.0.35
 	 */
-	function copy($destination){
+	public function copy($destination){
 		if(strlen($destination)>0){
 			if(copy($this->name,$destination)){
 				return true;
@@ -277,11 +308,12 @@ class File{
 	
 	/**
 	 * Method search
+	 * @access public
 	 * @param string $string The string which have to be searched
 	 * @return array $found_bytes Pointer offsets where string have been found. On no match, function returns false
 	 * @since 1.0.35
 	 */
-	function search($string){
+	public function search($string){
 		if(strlen($string)!=0){
 			
 			$offsets=array();
@@ -339,10 +371,11 @@ class File{
 	
 	/**
 	 * Method halt
+	 * @access public
 	 * @param string $message all occurred errors as array
 	 * @since 1.0.59
 	 */
-	function halt($message){
+	public function halt($message){
 		if($this->debug){
 			throw new NewException($message, 0, 8, __FILE__, __LINE__);
 		}
@@ -350,10 +383,11 @@ class File{
 	
 	/**
 	 * Method debug_mode
+	 * @access public
 	 * @param boolean $debug [default value: true]
 	 * @since 1.0.59
 	 */
-	function debug_mode($debug=true){
+	public function debug_mode($debug=true){
 		$this->debug=$debug;
 		if(!$this->file){
 			$this->halt("File couln't be opened, please check permissions");

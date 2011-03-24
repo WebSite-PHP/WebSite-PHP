@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.62
+ * @version     1.0.66
  * @access      public
  * @since       1.0.17
  */
@@ -219,12 +219,18 @@ class Form extends WebSitePhpObject {
 	/**
 	 * Method onSubmitJs
 	 * @access public
-	 * @param mixed $js 
+	 * @param string|JavaScript $js_function 
 	 * @return Form
 	 * @since 1.0.35
 	 */
-	public function onSubmitJs($js){
-		$this->onsubmitjs = $js;
+	public function onSubmitJs($js_function){
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onSubmitJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onsubmitjs = $js_function;
 		return $this;
 	}
 	

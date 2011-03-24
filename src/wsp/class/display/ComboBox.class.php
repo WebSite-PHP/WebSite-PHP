@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.62
+ * @version     1.0.66
  * @access      public
  * @since       1.0.17
  */
@@ -334,11 +334,17 @@ class ComboBox extends WebSitePhpEventObject {
 	/**
 	 * Method onChangeJs
 	 * @access public
-	 * @param mixed $js_function 
+	 * @param string|JavaScript $js_function 
 	 * @return ComboBox
 	 * @since 1.0.36
 	 */
 	public function onChangeJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
 		$this->onchange = trim($js_function);
 		return $this;
 	}
@@ -427,6 +433,9 @@ class ComboBox extends WebSitePhpEventObject {
 	private function htmlOnChangeFct() {
 		$html = "";
 		$html .= "	onChangeComboBox_".$this->getEventObjectName()." = function() {\n";
+		$html .= "		setTimeout(\"onChangeComboBox_".$this->getEventObjectName()."Fct();\", 1);\n";
+		$html .= "	};\n";
+		$html .= "	onChangeComboBox_".$this->getEventObjectName()."Fct = function() {\n";
 		$html .= "		if ($('#Cmb_SelectedIndex_".$this->getEventObjectName()."').val() != document.getElementById('".$this->getEventObjectName()."').selectedIndex) {\n";
 		if ($this->callback_onchange != "") {
 			$html .= $this->getObjectEventValidationRender($this->onchange, $this->callback_onchange);
@@ -435,7 +444,7 @@ class ComboBox extends WebSitePhpEventObject {
 		}
 		$html .= "		}\n";
 		$html .= "		$('#Cmb_SelectedIndex_".$this->getEventObjectName()."').val(document.getElementById('".$this->getEventObjectName()."').selectedIndex);\n";
-		$html .= "	}\n";
+		$html .= "	};\n";
 		return $html;
 	}
 	

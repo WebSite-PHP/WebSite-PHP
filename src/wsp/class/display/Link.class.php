@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.62
+ * @version     1.0.66
  * @access      public
  * @since       1.0.17
  */
@@ -171,7 +171,7 @@ class Link extends WebSitePhpObject {
 			if (get_class($this->link) == "Link") {
 				$tmp_link = $this->link->getLink();
 			} else {
-				if (get_class($this->link) == "DialogBox") {
+				if (get_class($this->link) == "DialogBox" || get_class($this->link) == "JavaScript") {
 					$this->link->displayFormURL();
 				}
 				if (method_exists($this->link, "render")) {

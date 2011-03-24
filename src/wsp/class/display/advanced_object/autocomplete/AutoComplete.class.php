@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2011
- * @version     1.0.62
+ * @version     1.0.66
  * @access      public
  * @since       1.0.17
  */
@@ -31,15 +31,17 @@ class AutoComplete extends WebSitePhpObject {
 	private $autocomplete_url = null;
 	private $autocomplete_min_length = 4;
 	private $autocomplete_event = null;
+	private $indicator_id = "";
 	/**#@-*/
 	
 	/**
 	 * Constructor AutoComplete
-	 * @param mixed $url_object 
+	 * @param Url $url_object 
 	 * @param double $min_lenght [default value: 4]
-	 * @param mixed $autocomplete_event [default value: null]
+	 * @param AutoCompleteEvent $autocomplete_event [default value: null]
+	 * @param string $indicator_id id of object to display when searching
 	 */
-	function __construct($url_object, $min_lenght=4, $autocomplete_event=null) {
+	function __construct($url_object, $min_lenght=4, $autocomplete_event=null, $indicator_id="") {
 		parent::__construct();
 		
 		if (gettype($url_object) != "object" && get_class($url_object) != "Url") {
@@ -53,13 +55,14 @@ class AutoComplete extends WebSitePhpObject {
 		$this->autocomplete_url = $url_object;
 		$this->autocomplete_min_length = $min_lenght;
 		$this->autocomplete_event = $autocomplete_event;
+		$this->indicator_id = $indicator_id;
 	}
 	
 	/* Intern management of AutoComplete */
 	/**
 	 * Method setLinkObjectId
 	 * @access public
-	 * @param mixed $id 
+	 * @param string $id 
 	 * @since 1.0.59
 	 */
 	public function setLinkObjectId($id) {
@@ -76,7 +79,12 @@ class AutoComplete extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$html = "";
 		$html .= $this->getJavascriptTagOpen();
-		$html .= "\$('#".$this->link_object_id."').autocomplete({ source: '".$this->autocomplete_url->render()."', minLength: ".$this->autocomplete_min_length.", select: function( event, ui ) { ";
+		$html .= "\$('#".$this->link_object_id."').autocomplete({ source: '".$this->autocomplete_url->render()."', minLength: ".$this->autocomplete_min_length.", ";
+		if ($this->indicator_id != "") {
+			$html .= "search: function( event, ui ) { $('#".$this->indicator_id."').css('display', 'block');$('#".$this->indicator_id."').css('visibility', 'visible'); }, ";
+			$html .= "open: function( event, ui ) { $('#".$this->indicator_id."').css('visibility', 'hidden'); }, ";
+		}
+		$html .= "select: function( event, ui ) { ";
 		if ($this->autocomplete_event != null) {
 			$html .= $this->autocomplete_event->render();
 		}

@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.62
+ * @version     1.0.66
  * @access      public
  * @since       1.0.25
  */
@@ -29,6 +29,7 @@ class Disconnect extends Page {
 	}
 	
 	public function Load() {
+		unset($_SESSION['server_wsp_version']);
 		$this->setUserRights("");
 		$this->redirect("connect.html");
 	}

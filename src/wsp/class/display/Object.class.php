@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.62
+ * @version     1.0.66
  * @access      public
  * @since       1.0.17
  */
@@ -102,6 +102,8 @@ class Object extends WebSitePhpEventObject {
 	private $onclick = "";
 	private $callback_onclick = "";
 	private $is_clicked = false;
+	private $onmouseover = "";
+	private $onmouseout = "";
 	
 	private $loaded_from_url = false;
 	private $force_div_tag = false;
@@ -542,15 +544,54 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method onClickJs
 	 * @access public
-	 * @param mixed $js_function 
+	 * @param string|JavaScript $js_function 
 	 * @return Object
 	 * @since 1.0.36
 	 */
 	public function onClickJs($js_function) {
-		if ($this->id == "") {
-			throw new NewException("Error Object->onClickJs(): You must specified an id (setId())", 0, 8, __FILE__, __LINE__);
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
 		}
 		$this->onclick = trim($js_function);
+		return $this;
+	}
+
+	/**
+	 * Method onMouseOverJs
+	 * @access public
+	 * @param string|JavaScript $js_function 
+	 * @return Object
+	 * @since 1.0.63
+	 */
+	public function onMouseOverJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onMouseOverJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onmouseover = trim($js_function);
+		return $this;
+	}
+
+	/**
+	 * Method onMouseOutJs
+	 * @access public
+	 * @param string|JavaScript $js_function 
+	 * @return Object
+	 * @since 1.0.63
+	 */
+	public function onMouseOutJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onMouseOutJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onmouseout = trim($js_function);
 		return $this;
 	}
 	
@@ -704,6 +745,13 @@ class Object extends WebSitePhpEventObject {
 				$html .= " onClick=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick, $this->getId()))."\"";
 			} else if ($this->onclick != "") {
 				$html .= " onClick=\"".str_replace("\n", "", $this->onclick)."\"";
+			}
+			
+			if ($this->onmouseover != "") {
+				$html .= " onMouseOver=\"".str_replace("\n", "", $this->onmouseover)."\"";
+			}
+			if ($this->onmouseout != "") {
+				$html .= " onMouseOut=\"".str_replace("\n", "", $this->onmouseout)."\"";
 			}
 			
 			$html .= ">";

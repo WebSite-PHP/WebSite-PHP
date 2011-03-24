@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.62
+ * @version     1.0.66
  * @access      public
  * @since       1.0.25
  */
@@ -98,7 +98,7 @@ class ConfigureCss extends Page {
 		$this->background_picture_1 = new ComboBox($form);
 		$this->background_picture_1->addItem("", __(NO_PICTURE));
 		if (DEFINE_STYLE_BCK_PICTURE_1 != "") {
-			$this->background_picture_1->addItem(str_replace("../img/", "img/", DEFINE_STYLE_BCK_PICTURE_1), DEFINE_STYLE_BCK_PICTURE_1." (".__(CURRENT).")", true);
+			$this->background_picture_1->addItem(str_replace("../img/", "img/", str_replace("../wsp/img/", "wsp/img/", DEFINE_STYLE_BCK_PICTURE_1)), DEFINE_STYLE_BCK_PICTURE_1." (".__(CURRENT).")", true);
 		}
 		if ($handle = opendir(dirname(__FILE__)."/../../../wsp/img/round_bgd/")) {
 			while (false !== ($file = readdir($handle))) {
@@ -115,6 +115,11 @@ class ConfigureCss extends Page {
 		$this->background_1_header->setValue(DEFINE_STYLE_BCK_1_HEADER)->hash(true)->setWidth(200);
 		$this->background_1_header->disableAjaxWaitMessage()->onChange("changeBackground1Header")->setAjaxEvent();
 		$table_form->addRowColumns(__(EDT_BCK_1_HEADER).":&nbsp;", $this->background_1_header);
+		
+		$this->border_table_1 = new ColorPicker($form);
+		$this->border_table_1->setValue(DEFINE_STYLE_BORDER_TABLE_1)->hash(true)->setWidth(200);
+		$this->border_table_1->disableAjaxWaitMessage()->onChange("changeBorderTable1")->setAjaxEvent();
+		$table_form->addRowColumns(__(EDT_BCK_BORDER_TABLE_1).":&nbsp;", $this->border_table_1);
 		
 		$this->color_1_header = new ColorPicker($form);
 		$this->color_1_header->setValue(DEFINE_STYLE_COLOR_1_HEADER)->hash(true)->required(false)->setWidth(200);
@@ -154,7 +159,7 @@ class ConfigureCss extends Page {
 			$this->style1_color_link->forceEmptyValue();
 		}
 		$this->style1_color_link->disableAjaxWaitMessage()->onChange("change1ColorLink")->setAjaxEvent();
-		$table_form->addRowColumns(__(EDT_COLOR_1_HEADER_LINK).":&nbsp;", $this->style1_color_link);
+		$table_form->addRowColumns(__(EDT_COLOR_1_LINK).":&nbsp;", $this->style1_color_link);
 		
 		$this->style1_color_link_hover = new ColorPicker($form);
 		$this->style1_color_link_hover->setValue(DEFINE_STYLE_COLOR_1_LINK_HOVER)->hash(true)->required(false)->setWidth(200);
@@ -163,12 +168,7 @@ class ConfigureCss extends Page {
 			$this->style1_color_link_hover->forceEmptyValue();
 		}
 		$this->style1_color_link_hover->disableAjaxWaitMessage()->onChange("change1ColorLinkHover")->setAjaxEvent();
-		$table_form->addRowColumns(__(EDT_COLOR_1_HEADER_LINK_HOVER).":&nbsp;", $this->style1_color_link_hover);
-		
-		$this->border_table_1 = new ColorPicker($form);
-		$this->border_table_1->setValue(DEFINE_STYLE_BORDER_TABLE_1)->hash(true)->setWidth(200);
-		$this->border_table_1->disableAjaxWaitMessage()->onChange("changeBorderTable1")->setAjaxEvent();
-		$table_form->addRowColumns(__(EDT_BCK_BORDER_TABLE_1).":&nbsp;", $this->border_table_1);
+		$table_form->addRowColumns(__(EDT_COLOR_1_LINK_HOVER).":&nbsp;", $this->style1_color_link_hover);
 		
 		$table_form->addRow();
 		

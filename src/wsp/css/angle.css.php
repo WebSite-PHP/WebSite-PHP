@@ -22,6 +22,7 @@
 		}
 	}
 	
+	if (!isset($is_config_theme_page)) { $is_config_theme_page = false; }
 	if ($is_css_round_box || $is_config_theme_page) {
 		for ($i=1; $i <= NB_DEFINE_STYLE_BCK; $i++) {
 			if (constant("DEFINE_STYLE_BCK_PICTURE_".$i) == "" || $is_config_theme_page) {

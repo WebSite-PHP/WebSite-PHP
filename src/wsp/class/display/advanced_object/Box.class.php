@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.62
+ * @version     1.0.66
  * @access      public
  * @since       1.0.17
  */
@@ -150,7 +150,7 @@ class Box extends WebSitePhpObject {
 	/**
 	 * Method setSmallIcon
 	 * @access public
-	 * @param mixed $icon_16_pixels 
+	 * @param string $icon_16_pixels path to icon 16px x 16px
 	 * @param string $text 
 	 * @return Box
 	 * @since 1.0.35

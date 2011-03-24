@@ -8,7 +8,7 @@ define("DEFINE_STYLE_LINK_HOVER_COLOR", "#F87628");
 define("NB_DEFINE_STYLE_BCK", 2); 
 
 define("DEFINE_STYLE_BCK_1_HEADER", "#d46766"); // If DEFINE_STYLE_BCK_PICTURE_1 is defined", DEFINE_STYLE_BCK_1_HEADER not use for Box object
-define("DEFINE_STYLE_BCK_PICTURE_1", "../img/round_bgd_red.png"); // ex : img/round_bgd.png (please use the default file img/round_bgd.png to create your own background)
+define("DEFINE_STYLE_BCK_PICTURE_1", "../wsp/img/round_bgd/round_bgd_red.png"); // ex : ../wsp/img/round_bgd/round_bgd.png (please use the default file wsp/img/round_bgd/round_bgd.png to create your own background)
 define("DEFINE_STYLE_COLOR_1_HEADER", "white");
 define("DEFINE_STYLE_BCK_1", "white");
 define("DEFINE_STYLE_COLOR_1", "#333");
@@ -21,7 +21,7 @@ define("DEFINE_STYLE_GRADIENT_1", true);
 define("DEFINE_STYLE_OMBRE_COLOR_1", "#B5B5B5");
 
 define("DEFINE_STYLE_BCK_2_HEADER", "#90a8d4"); // If DEFINE_STYLE_BCK_PICTURE_2 is defined", DEFINE_STYLE_BCK_2_HEADER not use for Box object
-define("DEFINE_STYLE_BCK_PICTURE_2", "../img/round_bgd_blue.png"); // ex : img/round_bgd.png (please use the default file img/round_bgd.png to create your own background)
+define("DEFINE_STYLE_BCK_PICTURE_2", "../wsp/img/round_bgd/round_bgd_blue.png"); // ex : ../wsp/img/round_bgd/round_bgd.png (please use the default file wsp/img/round_bgd/round_bgd.png to create your own background)
 define("DEFINE_STYLE_COLOR_2_HEADER", "white");
 define("DEFINE_STYLE_BCK_2", "white");
 define("DEFINE_STYLE_COLOR_2", "#333");

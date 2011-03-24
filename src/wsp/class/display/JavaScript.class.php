@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.62
+ * @version     1.0.66
  * @access      public
  * @since       1.0.17
  */
@@ -27,6 +27,7 @@ class JavaScript extends WebSitePhpObject {
 	* @access private
 	*/
 	private $code_javascript = "";
+	private $display_from_url = false;
 	/**#@-*/
 
 	/**
@@ -52,6 +53,17 @@ class JavaScript extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method displayFormURL
+	 * @access public
+	 * @return JavaScript
+	 * @since 1.0.63
+	 */
+	public function displayFormURL() {
+		$this->display_from_url = true;
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -60,11 +72,16 @@ class JavaScript extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		$this->object_change = false;
-		if (gettype($this->code_javascript) == "object" && method_exists($this->code_javascript, "render")) {
-			return $this->code_javascript->render($ajax_render);
-		} else {
-			return $this->code_javascript;
+		$js = "";
+		if ($this->display_from_url) {
+			$js .= "javascript:";
 		}
+		if (gettype($this->code_javascript) == "object" && method_exists($this->code_javascript, "render")) {
+			$js .= $this->code_javascript->render($ajax_render);
+		} else {
+			$js .= $this->code_javascript;
+		}
+		return $js;
 	}
 	
 	/**

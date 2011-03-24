@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.62
+ * @version     1.0.66
  * @access      public
  * @since       1.0.17
  */
@@ -358,7 +358,7 @@ class RowTable extends WebSitePhpObject {
 	/**
 	 * Method setColumnValign
 	 * @access public
-	 * @param mixed $column_ind 
+	 * @param integer $column_ind 
 	 * @param string $valign 
 	 * @return RowTable
 	 * @since 1.0.36
