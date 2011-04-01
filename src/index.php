@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.0
  */
@@ -50,6 +50,16 @@
 	// Create current page object
 	$page_object = Page::getInstance($_GET['p']);
 	if (!$page_object->userHaveRights()) {
+		$user_no_rights_redirect = $page_object->getUserNoRightsRedirect();
+		if ($user_no_rights_redirect != "") {
+			if (strtoupper(substr($user_no_rights_redirect, 0, 7)) != "HTTP://") {
+				$user_no_rights_redirect = BASE_URL.$user_no_rights_redirect;
+			}
+			header('HTTP/1.1 301 Moved Temporarily');  
+			header('Status: 301 Moved Temporarily');  
+			header("Location:".$user_no_rights_redirect);
+			exit;
+		}
 		$page_object = Page::getInstance("error-user-rights");
 	}
 	
@@ -260,6 +270,14 @@
 		</script>
 	</head>
 	
+	<noscript>
+		<div style="width:100%;" align="center">
+			<div style="width:80%;text-align:center;background-color:#FEEFB3;color:#9F6000;border: 1px solid;">
+				<img src="<?php echo BASE_URL; ?>wsp/img/msg/warning.png" width="24" height="24" style="vertical-align:middle;">
+				<?php echo __(JAVASCRIPT_NOT_ACTIVATE); ?>
+			</div>
+		</div>
+	</noscript>
 	<body>
 		<?php if (GOOGLE_CODE_TRACKER != "" && find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0 && !defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) { ?>
 		<script type="text/javascript">
@@ -336,4 +354,5 @@
 	if (DB_ACTIVE) {
 		DataBase::getInstance()->disconnect();
 	}
+	unset($_SESSION['websitephp_register_object']);
 ?>

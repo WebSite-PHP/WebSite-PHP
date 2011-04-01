@@ -58,7 +58,15 @@ Options +FollowSymLinks
 	RewriteRule ^([a-z]{2})/cache/(.*)$ cache/$2 [L] 
 	RewriteRule ^cache/(.*)$ wsp/cache/$1 [L] 
 	
+	# Banned folders of the FrameWork
+	RewriteRule ^wsp/class/(.*)\.php$ index.php?p=error-page&error-redirect=404&folder_level=2 [L] 
+	RewriteRule ^wsp/config/(.*)\.php$ index.php?p=error-page&error-redirect=404&folder_level=2 [L] 
+	
 	# Rewrite Ajax URL
+	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4/$5/$6/$7&l=$1&folder_level=6&%{QUERY_STRING} [L] 
+	RewriteRule ^ajax/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2/$3/$5/$6/$7&folder_level=6&%{QUERY_STRING} [L] 
+	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4/$5/$6&l=$1&folder_level=5&%{QUERY_STRING} [L] 
+	RewriteRule ^ajax/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2/$3/$5/$6&folder_level=5&%{QUERY_STRING} [L] 
 	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4/$5&l=$1&folder_level=4&%{QUERY_STRING} [L] 
 	RewriteRule ^ajax/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2/$3/$5&folder_level=4&%{QUERY_STRING} [L] 
 	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4&l=$1&folder_level=3&%{QUERY_STRING} [L] 
@@ -68,27 +76,37 @@ Options +FollowSymLinks
 	RewriteRule ^([a-z]{2})/ajax/(.+)\.html$ index-ajax.php?p=$2&l=$1&folder_level=1&%{QUERY_STRING} [L] 
 	RewriteRule ^ajax/(.+)\.html$ index-ajax.php?p=$1&folder_level=1&%{QUERY_STRING} [L] 
 
-	# Rewrite URL subfolder (ex: admin, ...)
+	# Rewrite URL subfolder (ex: wsp-admin, ...)
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$2/$3/$4/$5/$6/$7&l=$1&folder_level=5&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$1$2/$3/$4/$5/$6/$7&folder_level=5&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)/$ index.php?p=$2/$3/$4/$5/$6/home&l=$1&folder_level=5&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$2/$3/$4/$5/$6&l=$1&folder_level=4&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$1$2/$3/$4/$5/$6&folder_level=4&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/$ index.php?p=$2/$3/$4/$5/home&l=$1&folder_level=4&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$2/$3/$4/$5&l=$1&folder_level=3&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$1$2/$3/$4/$5&folder_level=3&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/$ index.php?p=$2/$3/$4/home&l=$1&folder_level=3&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)\.html$ index.php?p=$2/$3/$4&l=$1&folder_level=2&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)\.html$ index.php?p=$1$2/$3/$4&folder_level=2&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/$ index.php?p=$2/$3/home&l=$1&folder_level=3&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/$ index.php?p=$2/$3/home&l=$1&folder_level=2&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})/(.+)/(.+)\.html$ index.php?p=$2/$3&l=$1&folder_level=1&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})(.+)/(.+)\.html$ index.php?p=$1$2/$3&folder_level=1&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/$ index.php?p=$2/home&l=$1&folder_level=3&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/$ index.php?p=$2/home&l=$1&folder_level=1&%{QUERY_STRING} [L]
 
 	# Rewrite Special URL subfolder (ex: xml, rss, sitemap, ...)
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)\.(.+)$ load-page.php?p=$2/$3/$4/$5&mime=$6&l=$1&folder_level=3&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)\.(.+)$ load-page.php?p=$1$2/$3/$4/$5&mime=$6&folder_level=3&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)\.(.+)$ load-page.php?p=$2/$3/$4&mime=$5&l=$1&folder_level=2&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)\.(.+)$ load-page.php?p=$1$2/$3/$4&mime=$5&folder_level=2&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/(.+)\.(.+)$ load-page.php?p=$2/$3&mime=$4&l=$1&folder_level=1&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})(.+)/(.+)\.(.+)$ load-page.php?p=$1$2/$3&mime=$4&folder_level=1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4/$5/$6/$7&mime=$6&l=$1&folder_level=5&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4/$5/$6/$7&mime=$6&folder_level=5&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4/$5/$6&mime=$6&l=$1&folder_level=4&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4/$5/$6&mime=$6&folder_level=4&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4/$5&mime=$6&l=$1&folder_level=3&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4/$5&mime=$6&folder_level=3&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4&mime=$5&l=$1&folder_level=2&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4&mime=$5&folder_level=2&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3&mime=$4&l=$1&folder_level=1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3&mime=$4&folder_level=1&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})/(.+)\.([^php]+)$ load-page.php?p=$2&l=$1&mime=$3&%{QUERY_STRING} [L]
 	
-	# Rewrite URL with home.html, index.html and index.php
+	# Rewrite URL home.html, index.html and index.php
 	RewriteRule ^([a-z]{2})/home.html$ /$1/ [R=301,L] 
 	RewriteRule ^([a-z]{2})/home.html\?(.*)$ /$1/?$2 [R=301,L] 
 	RewriteRule ^([a-z]{2})/index.html$ /$1/ [R=301,L] 
@@ -103,7 +121,7 @@ Options +FollowSymLinks
 	RewriteRule ^(.+)\.html$ index.php?p=$1&%{QUERY_STRING}
 	
 	# Error 404
-	ErrorDocument 404 /error-404.html
+	ErrorDocument 404 /index.php?p=error-page&folder_level=2
 </IfModule>
 
 
