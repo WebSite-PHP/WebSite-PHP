@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.25
  */
@@ -26,6 +26,7 @@ require_once(dirname(__FILE__)."/includes/admin-template-button.inc.php");
 
 class Admin extends Page {
 	protected $USER_RIGHTS = "administrator";
+	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/connect.html";
 	
 	function __construct() {
 		parent::__construct();

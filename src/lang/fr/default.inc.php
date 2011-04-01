@@ -43,4 +43,6 @@
 	
 	define('NOT_SUPPORTED_BROWSER_TITLE', 'Navigateur non supporté');
 	define('NOT_SUPPORTED_BROWSER', '<b>Internet Explorer 6 et les versions plus anciennes ne sont pas complètements supportés.</b><br/>Nous vous recommandons d\'utiliser un autre navigateur.<br/><br/>Il existe plus de 50 façon de changer de navigateur - en voici 5 :<br/><br/>');
+	
+	define("JAVASCRIPT_NOT_ACTIVATE", "JavaScript n'est pas activé sur votre navigateur. Activez le pour profiter de tous les avantages du site, ensuite rafraichissez la page.");
 ?>

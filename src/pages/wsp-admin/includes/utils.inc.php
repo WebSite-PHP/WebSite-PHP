@@ -98,22 +98,4 @@
 		
 		return false;
 	}
-	
-	function getCurrentWspVersion() {
-		return file_get_contents(dirname(__FILE__)."/../../../wsp/version.txt");
-	}
-	
-	function isNewWspVersion() {
-		if (extension_loaded('soap')) {
-			$user_wsp_version = getCurrentWspVersion();
-			if (!isset($_SESSION['server_wsp_version'])) {
-				$client = new WebSitePhpSoapClient("http://www.website-php.com/en/webservices/wsp-information-server.wsdl?wsdl");
-				$_SESSION['server_wsp_version'] = $client->getLastVersionNumber();
-			}
-			if ($user_wsp_version != $_SESSION['server_wsp_version']) {
-				return trim($_SESSION['server_wsp_version']);
-			}
-		}
-		return false;
-	}
 ?>

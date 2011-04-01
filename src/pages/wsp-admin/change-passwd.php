@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.25
  */
@@ -26,6 +26,7 @@ require_once(dirname(__FILE__)."/../../lang/".$_SESSION['lang']."/wsp-admin/all.
 
 class ChangePasswd extends Page {
 	protected $USER_RIGHTS = "administrator";
+	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/connect.html";
 	
 	private $edt_old_passwd = null;
 	private $edt_new_passwd = null;

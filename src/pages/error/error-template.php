@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.30
  */
@@ -39,7 +39,7 @@ class ErrorTemplate extends Page {
 		// Header
 		$logo = new Picture("img/logo_128x400_".$_SESSION['lang'].".png", 128, 400);
 		$logo->setTitle(SITE_NAME);
-		$logo_link = new Link(SITE_URL, Link::TARGET_NONE, $logo);
+		$logo_link = new Link($page_object->getBaseLanguageURL(), Link::TARGET_NONE, $logo);
 		$img_obj = new Object($logo_link);
 		$img_obj->add("<br/><br/>");
 		$this->render->addRow($img_obj);

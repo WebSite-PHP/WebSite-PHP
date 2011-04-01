@@ -19,5 +19,11 @@
 	define("CHANGE_PASSWD_ERROR", "Error, please check your new password not empty or your old password is correct.");
 	
 	define("NEW_WSP_VERSION", "You can <a href=\"http://www.website-php.com/download.html\" target=\"_blank\">download the last version of Website-PHP</a> (version %s).");
+	define("NEW_BROWSCAP_VERSION", "Browscap.ini is not to date, <a href=\"javascript:void(0);\" onClick=\"%s\">click here to update</a> (version %s).");
 	define("CURRENT_WSP_VERSION", "Current version of Website-PHP: %s");
+	
+	define("UPDATE_FRAMEWORK", "Update");
+	define("UPDATE_FRAMEWORK_WAITING", "Waiting ...");
+	define("UPDATE_FRAMEWORK_COMPLETE", "Update complete");
+	define("UPDATE_FRAMEWORK_COMPLETE_OK", "Congratulation, %s is to date");
 ?>

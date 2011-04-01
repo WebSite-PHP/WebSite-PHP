@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.25
  */
@@ -25,12 +25,19 @@ require_once(dirname(__FILE__)."/../includes/admin-template-form.inc.php");
 
 class ConfigureCss extends Page {
 	protected $USER_RIGHTS = "administrator";
+	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/connect.html";
 	
 	private $background_body = null;
 	private $color_body = null;
 	private $link_color = null;
 	private $link_hover_color = null;
 	
+	private $style_font = null;
+	private $style_font_serif = null;
+	private $style_font_size = null;
+	
+	private $nb_define_style_bck = null;
+	private $current_style_display = null;
 	private $background_picture_1 = null;
 	private $background_1_header = null;
 	private $color_1_header = null;
@@ -42,10 +49,6 @@ class ConfigureCss extends Page {
 	private $style1_color_link_hover = null;
 	private $border_table_1 = null;
 	private $color_shadow = null;
-	
-	private $style_font = null;
-	private $style_font_serif = null;
-	private $style_font_size = null;
 	
 	private $example_obj = null;
 	
@@ -95,93 +98,6 @@ class ConfigureCss extends Page {
 		
 		$table_form->addRow();
 		
-		$this->background_picture_1 = new ComboBox($form);
-		$this->background_picture_1->addItem("", __(NO_PICTURE));
-		if (DEFINE_STYLE_BCK_PICTURE_1 != "") {
-			$this->background_picture_1->addItem(str_replace("../img/", "img/", str_replace("../wsp/img/", "wsp/img/", DEFINE_STYLE_BCK_PICTURE_1)), DEFINE_STYLE_BCK_PICTURE_1." (".__(CURRENT).")", true);
-		}
-		if ($handle = opendir(dirname(__FILE__)."/../../../wsp/img/round_bgd/")) {
-			while (false !== ($file = readdir($handle))) {
-				if (is_file(dirname(__FILE__)."/../../../wsp/img/round_bgd/".$file)) {
-					$this->background_picture_1->addItem("wsp/img/round_bgd/".$file, $file, (DEFINE_STYLE_BCK_PICTURE_1=="img/round_bgd/".$file?true:false));
-				}
-			}
-			closedir($handle);
-		}
-		$this->background_picture_1->onChange("changeBackgroundPicture1")->setAjaxEvent()->disableAjaxWaitMessage();
-		$table_form->addRowColumns(__(CMB_BCK_PICTURE_1).":&nbsp;", $this->background_picture_1->setWidth(200));
-		
-		$this->background_1_header = new ColorPicker($form);
-		$this->background_1_header->setValue(DEFINE_STYLE_BCK_1_HEADER)->hash(true)->setWidth(200);
-		$this->background_1_header->disableAjaxWaitMessage()->onChange("changeBackground1Header")->setAjaxEvent();
-		$table_form->addRowColumns(__(EDT_BCK_1_HEADER).":&nbsp;", $this->background_1_header);
-		
-		$this->border_table_1 = new ColorPicker($form);
-		$this->border_table_1->setValue(DEFINE_STYLE_BORDER_TABLE_1)->hash(true)->setWidth(200);
-		$this->border_table_1->disableAjaxWaitMessage()->onChange("changeBorderTable1")->setAjaxEvent();
-		$table_form->addRowColumns(__(EDT_BCK_BORDER_TABLE_1).":&nbsp;", $this->border_table_1);
-		
-		$this->color_1_header = new ColorPicker($form);
-		$this->color_1_header->setValue(DEFINE_STYLE_COLOR_1_HEADER)->hash(true)->required(false)->setWidth(200);
-		$this->color_1_header->disableAjaxWaitMessage()->onChange("changeColor1Header")->setAjaxEvent();
-		$table_form->addRowColumns(__(EDT_COLOR_1_HEADER).":&nbsp;", $this->color_1_header);
-		
-		$this->style1_header_link = new ColorPicker($form);
-		$this->style1_header_link->setValue(DEFINE_STYLE_COLOR_1_HEADER_LINK)->hash(true)->required(false)->setWidth(200);
-		if ($this->color_1_header->getValue() != "") {
-			$this->style1_header_link->forceEmptyValue();
-		}
-		$this->style1_header_link->disableAjaxWaitMessage()->onChange("change1HeaderLink")->setAjaxEvent();
-		$table_form->addRowColumns(__(EDT_COLOR_1_HEADER_LINK).":&nbsp;", $this->style1_header_link);
-		
-		$this->style1_header_link_hover = new ColorPicker($form);
-		$this->style1_header_link_hover->setValue(DEFINE_STYLE_COLOR_1_HEADER_LINK_HOVER)->hash(true)->required(false)->setWidth(200);
-		if ($this->style1_header_link->getValue() == "") {
-			$this->style1_header_link_hover->disable();
-			$this->style1_header_link_hover->forceEmptyValue();
-		}
-		$this->style1_header_link_hover->disableAjaxWaitMessage()->onChange("change1HeaderLinkHover")->setAjaxEvent();
-		$table_form->addRowColumns(__(EDT_COLOR_1_HEADER_LINK_HOVER).":&nbsp;", $this->style1_header_link_hover);
-		
-		$this->background_1 = new ColorPicker($form);
-		$this->background_1->setValue(DEFINE_STYLE_BCK_1)->hash(true)->setWidth(200);
-		$this->background_1->disableAjaxWaitMessage()->onChange("changeBackground1")->setAjaxEvent();
-		$table_form->addRowColumns(__(EDT_BCK_1).":&nbsp;", $this->background_1);
-		
-		$this->color_1 = new ColorPicker($form);
-		$this->color_1->setValue(DEFINE_STYLE_COLOR_1)->hash(true)->setWidth(200);
-		$this->color_1->disableAjaxWaitMessage()->onChange("changeColor1")->setAjaxEvent();
-		$table_form->addRowColumns(__(EDT_COLOR_1).":&nbsp;", $this->color_1);
-		
-		$this->style1_color_link = new ColorPicker($form);
-		$this->style1_color_link->setValue(DEFINE_STYLE_COLOR_1_LINK)->hash(true)->required(false)->setWidth(200);
-		if ($this->color_1->getValue() != "") {
-			$this->style1_color_link->forceEmptyValue();
-		}
-		$this->style1_color_link->disableAjaxWaitMessage()->onChange("change1ColorLink")->setAjaxEvent();
-		$table_form->addRowColumns(__(EDT_COLOR_1_LINK).":&nbsp;", $this->style1_color_link);
-		
-		$this->style1_color_link_hover = new ColorPicker($form);
-		$this->style1_color_link_hover->setValue(DEFINE_STYLE_COLOR_1_LINK_HOVER)->hash(true)->required(false)->setWidth(200);
-		if ($this->style1_color_link->getValue() == "") {
-			$this->style1_color_link_hover->disable();
-			$this->style1_color_link_hover->forceEmptyValue();
-		}
-		$this->style1_color_link_hover->disableAjaxWaitMessage()->onChange("change1ColorLinkHover")->setAjaxEvent();
-		$table_form->addRowColumns(__(EDT_COLOR_1_LINK_HOVER).":&nbsp;", $this->style1_color_link_hover);
-		
-		$table_form->addRow();
-		
-		$this->color_shadow = new ColorPicker($form);
-		if (DEFINE_STYLE_BCK_PICTURE_1 != "" && DEFINE_STYLE_BCK_PICTURE_SECOND != "") {
-			$this->color_shadow->disable();
-		}
-		$this->color_shadow->setValue(DEFINE_STYLE_OMBRE_COLOR)->hash(true)->setWidth(200);
-		$this->color_shadow->disableAjaxWaitMessage()->onChange("changeColorShadow")->setAjaxEvent();
-		$table_form->addRowColumns(__(EDT_COLOR_SHADOW).":&nbsp;", $this->color_shadow);
-		
-		$table_form->addRow();
-		
 		$this->style_font = new ComboBox($form, "style_font", 200);
 		$this->style_font->addItem("Arial", "Arial", (DEFINE_STYLE_FONT=="Arial"?true:false));
 		$this->style_font->addItem("Times New Roman", "Times New Roman", (DEFINE_STYLE_FONT=="Times New Roman"?true:false));
@@ -219,6 +135,109 @@ class ConfigureCss extends Page {
 		$this->style_font_size->setValue(str_replace("pt", "", $font_size))->setWidth(200);
 		$this->style_font_size->disableAjaxWaitMessage()->onChange("changeStyleFontSize")->setAjaxEvent();
 		$table_form->addRowColumns(__(EDT_FONT_SIZE).":&nbsp;", $this->style_font_size->setLiveValidation($validation->addValidateNumericality(true)));
+		
+		$table_form->addRow();
+		
+		$this->nb_define_style_bck = new ComboBox($form);
+		for ($i=1; $i<=99; $i++) {
+			$this->nb_define_style_bck->addItem($i, $i, ($i==NB_DEFINE_STYLE_BCK?true:false));
+		}
+		$this->nb_define_style_bck->onChange("changeNbDefineStyleBck")->disableAjaxWaitMessage()->setAjaxEvent();
+		$table_form->addRowColumns(__(CMB_NB_PREDEFINE_STYLE).":&nbsp;", $this->nb_define_style_bck->setWidth(50));
+		
+		$table_form->addRow();
+		
+		$this->current_style_display = new ComboBox($form);
+		for ($i=1; $i<=$this->nb_define_style_bck->getValue(); $i++) {
+			$this->current_style_display->addItem($i, $i);
+		}
+		if ($this->current_style_display->getValue() == "") {
+			$this->current_style_display->setSelectedIndex(0);
+		}
+		$table_form->addRowColumns(__(CMB_CURRENT_PREDEFINE_STYLE).":&nbsp;", $this->current_style_display->setWidth(50));
+		
+		$this->background_picture_1 = new ComboBox($form);
+		$this->background_picture_1->addItem("", __(NO_PICTURE));
+		if (DEFINE_STYLE_BCK_PICTURE_1 != "") {
+			$this->background_picture_1->addItem(str_replace("../img/", "img/", str_replace("../wsp/img/", "wsp/img/", DEFINE_STYLE_BCK_PICTURE_1)), DEFINE_STYLE_BCK_PICTURE_1." (".__(CURRENT).")", true);
+		}
+		if ($handle = opendir(dirname(__FILE__)."/../../../wsp/img/round_bgd/")) {
+			while (false !== ($file = readdir($handle))) {
+				if (is_file(dirname(__FILE__)."/../../../wsp/img/round_bgd/".$file)) {
+					$this->background_picture_1->addItem("wsp/img/round_bgd/".$file, $file, (DEFINE_STYLE_BCK_PICTURE_1=="img/round_bgd/".$file?true:false));
+				}
+			}
+			closedir($handle);
+		}
+		$this->background_picture_1->onChange("changeBackgroundPicture1")->setAjaxEvent()->disableAjaxWaitMessage();
+		$table_form->addRowColumns(__(CMB_BCK_PICTURE_1, $this->current_style_display->getValue()).":&nbsp;", $this->background_picture_1->setWidth(200));
+		
+		$this->background_1_header = new ColorPicker($form);
+		$this->background_1_header->setValue(DEFINE_STYLE_BCK_1_HEADER)->hash(true)->setWidth(200);
+		$this->background_1_header->disableAjaxWaitMessage()->onChange("changeBackground1Header")->setAjaxEvent();
+		$table_form->addRowColumns(__(EDT_BCK_1_HEADER, $this->current_style_display->getValue()).":&nbsp;", $this->background_1_header);
+		
+		$this->border_table_1 = new ColorPicker($form);
+		$this->border_table_1->setValue(DEFINE_STYLE_BORDER_TABLE_1)->hash(true)->setWidth(200);
+		$this->border_table_1->disableAjaxWaitMessage()->onChange("changeBorderTable1")->setAjaxEvent();
+		$table_form->addRowColumns(__(EDT_BCK_BORDER_TABLE_1, $this->current_style_display->getValue()).":&nbsp;", $this->border_table_1);
+		
+		$this->color_1_header = new ColorPicker($form);
+		$this->color_1_header->setValue(DEFINE_STYLE_COLOR_1_HEADER)->hash(true)->required(false)->setWidth(200);
+		$this->color_1_header->disableAjaxWaitMessage()->onChange("changeColor1Header")->setAjaxEvent();
+		$table_form->addRowColumns(__(EDT_COLOR_1_HEADER, $this->current_style_display->getValue()).":&nbsp;", $this->color_1_header);
+		
+		$this->style1_header_link = new ColorPicker($form);
+		$this->style1_header_link->setValue(DEFINE_STYLE_COLOR_1_HEADER_LINK)->hash(true)->required(false)->setWidth(200);
+		if ($this->color_1_header->getValue() != "") {
+			$this->style1_header_link->forceEmptyValue();
+		}
+		$this->style1_header_link->disableAjaxWaitMessage()->onChange("change1HeaderLink")->setAjaxEvent();
+		$table_form->addRowColumns(__(EDT_COLOR_1_HEADER_LINK, $this->current_style_display->getValue()).":&nbsp;", $this->style1_header_link);
+		
+		$this->style1_header_link_hover = new ColorPicker($form);
+		$this->style1_header_link_hover->setValue(DEFINE_STYLE_COLOR_1_HEADER_LINK_HOVER)->hash(true)->required(false)->setWidth(200);
+		if ($this->style1_header_link->getValue() == "") {
+			$this->style1_header_link_hover->disable();
+			$this->style1_header_link_hover->forceEmptyValue();
+		}
+		$this->style1_header_link_hover->disableAjaxWaitMessage()->onChange("change1HeaderLinkHover")->setAjaxEvent();
+		$table_form->addRowColumns(__(EDT_COLOR_1_HEADER_LINK_HOVER, $this->current_style_display->getValue()).":&nbsp;", $this->style1_header_link_hover);
+		
+		$this->background_1 = new ColorPicker($form);
+		$this->background_1->setValue(DEFINE_STYLE_BCK_1)->hash(true)->setWidth(200);
+		$this->background_1->disableAjaxWaitMessage()->onChange("changeBackground1")->setAjaxEvent();
+		$table_form->addRowColumns(__(EDT_BCK_1, $this->current_style_display->getValue()).":&nbsp;", $this->background_1);
+		
+		$this->color_1 = new ColorPicker($form);
+		$this->color_1->setValue(DEFINE_STYLE_COLOR_1)->hash(true)->setWidth(200);
+		$this->color_1->disableAjaxWaitMessage()->onChange("changeColor1")->setAjaxEvent();
+		$table_form->addRowColumns(__(EDT_COLOR_1, $this->current_style_display->getValue()).":&nbsp;", $this->color_1);
+		
+		$this->style1_color_link = new ColorPicker($form);
+		$this->style1_color_link->setValue(DEFINE_STYLE_COLOR_1_LINK)->hash(true)->required(false)->setWidth(200);
+		if ($this->color_1->getValue() != "") {
+			$this->style1_color_link->forceEmptyValue();
+		}
+		$this->style1_color_link->disableAjaxWaitMessage()->onChange("change1ColorLink")->setAjaxEvent();
+		$table_form->addRowColumns(__(EDT_COLOR_1_LINK, $this->current_style_display->getValue()).":&nbsp;", $this->style1_color_link);
+		
+		$this->style1_color_link_hover = new ColorPicker($form);
+		$this->style1_color_link_hover->setValue(DEFINE_STYLE_COLOR_1_LINK_HOVER)->hash(true)->required(false)->setWidth(200);
+		if ($this->style1_color_link->getValue() == "") {
+			$this->style1_color_link_hover->disable();
+			$this->style1_color_link_hover->forceEmptyValue();
+		}
+		$this->style1_color_link_hover->disableAjaxWaitMessage()->onChange("change1ColorLinkHover")->setAjaxEvent();
+		$table_form->addRowColumns(__(EDT_COLOR_1_LINK_HOVER, $this->current_style_display->getValue()).":&nbsp;", $this->style1_color_link_hover);
+		
+		$this->color_shadow = new ColorPicker($form);
+		if (DEFINE_STYLE_BCK_PICTURE_1 != "" && DEFINE_STYLE_BCK_PICTURE_SECOND != "") {
+			$this->color_shadow->disable();
+		}
+		$this->color_shadow->setValue(DEFINE_STYLE_OMBRE_COLOR_1)->hash(true)->setWidth(200);
+		$this->color_shadow->disableAjaxWaitMessage()->onChange("changeColorShadow")->setAjaxEvent();
+		$table_form->addRowColumns(__(EDT_COLOR_SHADOW, $this->current_style_display->getValue()).":&nbsp;", $this->color_shadow);
 		
 		$table_form->addRow();
 		$form->setContent($table_form);
@@ -449,6 +468,10 @@ class ConfigureCss extends Page {
 			$this->style_font_size->setValue(10);
 		}
 		$this->changeStyleSheetProperty("styles.php.css", $this->array_font, "font-size", $this->style_font_size->getValue()."pt");
+	}
+	
+	public function changeNbDefineStyleBck($sender) {
+		$this->current_style_display->setListItemsChange();
 	}
 	
 	private function changeStyleSheetProperty($css_file_name, $array_properties, $property, $value) {

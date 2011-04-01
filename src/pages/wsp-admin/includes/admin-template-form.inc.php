@@ -2,6 +2,7 @@
 require_once(dirname(__FILE__)."/../../../lang/".$_SESSION['lang']."/wsp-admin/all.inc.php");
 require_once(dirname(__FILE__)."/admin-menu.inc.php");
 require_once(dirname(__FILE__)."/utils.inc.php");
+require_once(dirname(__FILE__)."/utils-version.inc.php");
 
 class AdminTemplateForm extends DefinedZone {
 	function __construct($page_object, $content) {
@@ -57,10 +58,9 @@ class AdminTemplateForm extends DefinedZone {
 		$table->addRowColumns(new AdminMenu($page_object, $array_menu), new Link("http://www.website-php.com", Link::TARGET_BLANK, new Picture("img/wsp-admin/logo_60x160_".$_SESSION['lang'].".png", 60, 160, 0)))->setColumnAlign(2, RowTable::ALIGN_RIGHT);
 
 		// check WSP version
-		if (($wsp_version = isNewWspVersion()) != false) {
-			$alert_version_obj = new Object(__(NEW_WSP_VERSION, $wsp_version));
-			$alert_version_obj->setClass("warning");
-			$table->addRowColumns($alert_version_obj)->setColspan(2);
+		$alert_version_obj = getAlertVersiobObject($page_object);
+		if ($alert_version_obj != null) {
+			$table->addRowColumns()->setColspan(2);
 		}
 		
 		// Main

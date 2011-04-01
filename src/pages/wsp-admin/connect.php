@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.25
  */
@@ -39,6 +39,9 @@ class Connect extends Page {
 	}
 	
 	public function Load() {
+		require_once(dirname(__FILE__)."/includes/utils-unset-var.inc.php");
+		unsetWspAdminVariables();
+		
 		parent::$PAGE_TITLE = __(CONNECT_PAGE_TITLE);
 		$this->setUserRights("");
 		
@@ -55,6 +58,9 @@ class Connect extends Page {
 		$admin_pic = new Picture("img/wsp-admin/admin_128.png", 128, 128);
 		
 		$form = new Form($this);
+		if (extension_loaded('openssl')) {
+			$form->setEncryptObject(new EncryptDataWspObject("wsp-admin connection"));
+		}
 		$con_table = new Table();
 		
 		$this->error_obj = new Object();
@@ -64,6 +70,7 @@ class Connect extends Page {
 		$this->edtLogin = new TextBox($form);
 		$loginValid = new LiveValidation();
 		$con_table->addRowColumns(__(LOGIN)." :&nbsp;", $this->edtLogin->setFocus()->setLiveValidation($loginValid->addValidatePresence()))->setNowrap();
+		
 		$this->edtPassword = new Password($form);
 		$passValid = new LiveValidation();
 		$con_table->addRowColumns(__(PASSWORD)." :&nbsp;", $this->edtPassword->setLiveValidation($passValid->addValidatePresence()))->setNowrap();
@@ -145,6 +152,8 @@ class Connect extends Page {
 		
 		if ($strAdminLogin != "" && $strAdminLogin == $this->edtLogin->getValue() && $strAdminPasswd == sha1($this->edtPassword->getValue())) {
 			$this->setUserRights($strAdminRights);
+			$str_error = new Font(__(LOGIN_OK_REDIRECT));
+			$this->error_obj->add($str_error->setFontColor("green"));
 			$this->redirect($this->getBaseLanguageURL().WSP_ADMIN_URL."/admin.html");
 		} else {
 			$str_error = new Font(__(ERROR_LOGIN_PASS));

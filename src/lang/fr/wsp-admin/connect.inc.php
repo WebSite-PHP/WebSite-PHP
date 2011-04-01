@@ -5,4 +5,5 @@
 	define("PASSWORD", "Mot de passe");
 	define("BTN_VALIDATE", "Valider");
 	define("ERROR_LOGIN_PASS", "Erreur dans le login ou le mot de passe.<br/><br/>");
+	define("LOGIN_OK_REDIRECT", "Connexion réussie, vous allez être redirigé.<br/><br/>");
 ?>
