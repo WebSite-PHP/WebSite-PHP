@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.18
  */
@@ -58,17 +58,19 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	/**
 	 * Method initSubmitValue
 	 * @access protected
+	 * @return boolean
 	 * @since 1.0.59
 	 */
 	protected function initSubmitValue() {
 		if (!$this->is_init_submit_value && $this->page_object != null) {
 			$this->is_init_submit_value = true;
 			
-			// WARNING if change : This code is identical with Page->getUserEventObject()
+			// WARNING if change : This code is almost identical with: Page->getUserEventObject(), Page->loadAllVariables()
 			$class_name = get_class($this->page_object);
 			$form_name = "";
 			if ($this->form_object != null) {
 				$form_name = $this->form_object->getName();
+				decryptRequestEncryptData($this->form_object, "EncryptData_".$class_name."_".$this->form_object->getName()); // decrypt Form data
 			}
 			if ($form_name == "") {
 				$name = $class_name."_".$this->getName();
@@ -90,35 +92,44 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 			if ($form_object == null) { // no form associate to event object
 				if (isset($_POST[$name])) {
 					if ($name_hidden != "") {
-						$this->setValue($_POST[$name_hidden]);
+						$this->setValue(decryptRequestEncryptData($this, $name_hidden, "POST"));
+						return true;
 					} else {
-						$this->setValue($_POST[$name]);
+						$this->setValue(decryptRequestEncryptData($this, $name, "POST"));
+						return true;
 					}
 				} else if (isset($_GET[$name])) {
 					if ($name_hidden != "") {
-						$this->setValue($_GET[$name_hidden]);
+						$this->setValue(decryptRequestEncryptData($this, $name_hidden, "GET"));
+						return true;
 					} else {
-						$this->setValue($_GET[$name]);
+						$this->setValue(decryptRequestEncryptData($this, $name, "GET"));
+						return true;
 					}
 				}
 			} else if ($form_object->getMethod() == "POST") { // form rights is POST
 				if (isset($_POST[$name])) {
 					if ($name_hidden != "") {
-						$this->setValue($_POST[$name_hidden]);
+						$this->setValue(decryptRequestEncryptData($this, $name_hidden, "POST"));
+						return true;
 					} else {
-						$this->setValue($_POST[$name]);
+						$this->setValue(decryptRequestEncryptData($this, $name, "POST"));
+						return true;
 					}
 				}
 			} else { // form rights is GET
 				if (isset($_GET[$name])) {
 					if ($name_hidden != "") {
-						$this->setValue($_GET[$name_hidden]);
+						$this->setValue(decryptRequestEncryptData($this, $name_hidden, "GET"));
+						return true;
 					} else {
-						$this->setValue($_GET[$name]);
+						$this->setValue(decryptRequestEncryptData($this, $name, "GET"));
+						return true;
 					}
 				}
 			}
 		}
+		return false;
 	}
 		
 	/**
@@ -302,17 +313,10 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		$error_alert->setDialogBoxLevel(rand(90000, 99999));
 		
 		$html = "";
+		$html .= "	var isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;\n";
 		$html .= "	callAjax".get_class($this)."_".$this->getEventObjectName()."_event = function(callback_value) {\n";
-		$event_object_name = "Editor";
-		if ($this->form_object != null) {
-			$event_object_name .= "_".$this->form_object->getName();
-		}
-		$eventObject = $this->page_object->getEventObjects($event_object_name);
-		for ($i=0; $i < sizeof($eventObject); $i++) {
-			$object = $eventObject[$i];
-			$html .= "		var editor_content = getEditorContent_".$object->getName()."();\n";
-			$html .= "		$('#hidden_".$object->getName()."').val(editor_content);\n";
-		}
+		$html .= "		if (isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName().") { return; }\n";
+		$html .= "		isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = true;\n";
 		if (!$this->disable_ajax_wait_message) {
 			if (gettype($this->ajax_wait_message) == "object") {
 				$html .= "		$('#".$this->ajax_wait_message->getId()."').css('display', 'block');\n";
@@ -324,7 +328,13 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 			$html .= "		setTimeout(\"requestAjaxEvent".get_class($this)."_".$this->getEventObjectName()."(\\\"\" + callback_value + \"\\\");\", 1);\n";
 		}
 		$html .= "	};\n";
+		
 		$html .= "	requestAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = function(callback_value) {\n";
+		
+		// encrypt formular if encrypt is active
+		if ($this->form_object != null) {
+			$html .= "		".$this->encryptObjectData($this->form_object, "isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;".$loading_modalbox->close()->render());
+		}
 		$html .= "		$.ajax({ type: '";
 		if ($this->form_object != null) {
 			$html .= $this->form_object->getMethod();
@@ -357,12 +367,19 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		}
 		$html .= "',\n";
 		if ($this->form_object != null) {
-        	$html .= "			data: $('#".$this->form_object->getId()."').serialize(),\n";
+			$html .= "			data: ";
+			if ($this->form_object->isEncrypted()) {
+				$html .= "'EncryptData_".$this->form_object->getPageObject()->getClassName()."_".$this->form_object->getName()."=' + urlencode(encrypt_data)";
+			} else {
+        		$html .= "$('#".$this->form_object->getId()."').serialize()";
+			}
+			$html .= ",\n";
 		} else {
 			$html .= "			data: 'Callback_".$this->getEventObjectName()."=' + callback_value,\n";
 		}
         $html .= "			dataType: 'json',\n";
         $html .= "			success: function(ajax_event_response) {\n";
+        $html .= "				isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;\n";
 		$html .= "				if (ajax_event_response != \"\") {\n";
 		$html .= "					var dialogbox_is_change = false;\n";
 		$html .= "					for (var ajax_event_ind=0; ajax_event_ind < ajax_event_response.length; ajax_event_ind++) {\n";
@@ -393,6 +410,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	    $html .= "				$('#Callback_".$this->getEventObjectName()."').val('');\n";
 	    $html .= "			},\n";
 	    $html .= "			error: function(transport) {\n";
+	    $html .= "				isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;\n";
 	    if (gettype($this->ajax_wait_message) == "object") {
 			$html .= "				$('#".$this->ajax_wait_message->getId()."').css('display', 'none');\n";
 		} else {
@@ -404,6 +422,36 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		$html .= "		});\n";
 		$html .= "	};\n";
 		
+		return $html;
+	}
+	
+	/**
+	 * Method encryptObjectData
+	 * @access private
+	 * @param mixed $object 
+	 * @param string $js_on_error 
+	 * @return mixed
+	 * @since 1.0.67
+	 */
+	private function encryptObjectData($object, $js_on_error='') {
+		$html = "";
+		if ($object->isEncrypted()) {
+			$public_key = str_replace("\r", "", str_replace("\n", "", $object->getEncryptObject()->getPublicKey()));
+			$public_key_length = strlen($public_key);
+			$html .= "	var public_key = '".addslashes($public_key)."';\n";
+			if (get_class($object)=="Form") {
+				$html .= "	var object_data = $('#".$object->getId()."').serialize();\n";
+			} else {
+				$html .= "	var object_data = $('#".$object->getId()."').val();\n";
+			}
+			$html .= "	var encrypt_data = RSA.encrypt(object_data, RSA.getPublicKey(public_key));\n";
+			$html .= "	if (encrypt_data==false) {\n";
+			$html .= "		var encrypt_msg_error = 'Error when encrypting your ".(get_class($object)=="Form"?"formular":get_class($object)).".';\n";
+			$html .= "		encrypt_msg_error += '\\nYour public key length is probably bigger than your data (increase your private key bits value).';\n";
+			// $html .= "		encrypt_msg_error += '\\n[public key length: ' + public_key.length + ', data length: ' + object_data.length + ']';\n"; 
+			$html .= "		alert(encrypt_msg_error);".$js_on_error."return false;\n";
+			$html .= "	}\n";
+		}
 		return $html;
 	}
 	
@@ -440,6 +488,22 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 				$html .= "stopEventPropagation(event);\n";
 			}
 			$html = $html.$js_force_editor_copy;
+			
+			// object encryption
+			$encrypt_html = "";
+			for ($i=0; $i < sizeof($_SESSION['websitephp_register_object']); $i++) {
+				$object = $_SESSION['websitephp_register_object'][$i];
+				if (get_class($object) != "Form" && method_exists($object, "isEncrypted") && $object->isEncrypted()) {
+					$encrypt_html .= $this->encryptObjectData($object);
+					if (get_class($object) == "Editor") {
+						$encrypt_html .= "$('#".$object->getId()."').val('')\n;";
+						$encrypt_html .= "$('#hidden_".$object->getName()."').val(encrypt_data)\n;";
+					} else {
+						$encrypt_html .= "$('#".$object->getId()."').val(encrypt_data)\n;";
+					}
+				}
+			}
+			
 			if ($callback != "") {
 				$html .= "ResetCallbackObjectValue();\n$('#Callback_".$this->getEventObjectName()."').val('".$callback."(".$params;
 				if ($this->callback_args != "") {
@@ -458,13 +522,16 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 					$html .= "\n";
 				}
 				if ($this->is_ajax_event) {
+					$html .= $encrypt_html;
 					$html .= "callAjax".get_class($this)."_".$this->getEventObjectName()."_event($('#Callback_".$this->getEventObjectName()."').val());\n";
 				} else if ($this->form_object != null) {
+					$html .= $encrypt_html;
 					$html .= "$('#".$this->form_object->getId()."').submit();\n";
 				} else if ($callback != "") {
 					$html .= "location.href='".$this->generateCurrentUrlWithCallback()."';\n";
 				}
 			} else if ($this->form_object != null) {
+				$html .= $encrypt_html;
 				$html .= "$('#".$this->form_object->getId()."').submit();\n";
 			} else if ($callback != "") {
 				$html .= "location.href='".$this->generateCurrentUrlWithCallback()."';\n";

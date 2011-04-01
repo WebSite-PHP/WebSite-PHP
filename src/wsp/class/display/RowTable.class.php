@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.17
  */
@@ -249,6 +249,7 @@ class RowTable extends WebSitePhpObject {
 		$ind = sizeof($this->col_object);
 		$this->col_object[$ind]['content_object'] = $content_object;
 		$this->col_object[$ind]['width'] = $width;
+		$this->col_object[$ind]['height'] = "";
 		$this->col_object[$ind]['align'] = $align;
 		$this->col_object[$ind]['class'] = $class;
 		$this->col_object[$ind]['valign'] = $valign;

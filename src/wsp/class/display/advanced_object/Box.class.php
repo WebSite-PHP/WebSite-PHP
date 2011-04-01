@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.17
  */
@@ -126,8 +126,8 @@ class Box extends WebSitePhpObject {
 		$this->tagH = "";
 		
 		$browser = get_browser_info(null, true);
-		$this->css3 = (($browser[cssversion] >= 3)?true:false) && (($this->browser_ie_version != false && $this->browser_ie_version <= 8)?false:true);
-		$this->browser_name = strtolower($browser[browser]);
+		$this->css3 = (($browser['cssversion'] >= 3)?true:false) && (($this->browser_ie_version != false && $this->browser_ie_version <= 8)?false:true);
+		$this->browser_name = strtolower($browser['browser']);
 		
 		if (constant("DEFINE_STYLE_BCK_PICTURE_".strtoupper($this->style_header)) == "") {
 			$this->force_box_with_picture = false;

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.17
  */
@@ -46,6 +46,8 @@ class TextBox extends WebSitePhpEventObject {
 	private $is_changed = false;
 	private $onchange = "";
 	private $callback_onchange = "";
+	
+	private $encrypt_object = null;
 	
 	private $autocomplete_object = null;
 	/**#@-*/
@@ -240,6 +242,51 @@ class TextBox extends WebSitePhpEventObject {
 		
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
+	}
+	
+	/**
+	 * Method setEncryptObject
+	 * @access public
+	 * @param mixed $encrypt_object 
+	 * @return TextBox
+	 * @since 1.0.67
+	 */
+	public function setEncryptObject($encrypt_object) {
+		if ($encrypt_object == null) {
+			$encrypt_object = new EncryptDataWspObject();
+		}
+		if (gettype($encrypt_object) != "object" || get_class($encrypt_object) != "EncryptDataWspObject") {
+			throw new NewException(get_class($this)."->setEncryption(): \$encrypt_object must be a EncryptDataWspObject object.", 0, 8, __FILE__, __LINE__);
+		}
+		
+		$this->addJavaScript(BASE_URL."wsp/js/jsbn.js", "", true);
+		$this->addJavaScript(BASE_URL."wsp/js/lowpro.jquery.js", "", true);
+		$this->addJavaScript(BASE_URL."wsp/js/rsa.js", "", true);
+		
+		$this->encrypt_object = $encrypt_object;
+		$this->encrypt_object->setObject($this);
+		
+		return $this;
+	}
+	
+	/**
+	 * Method getEncryptObject
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.67
+	 */
+	public function getEncryptObject() {
+		return $this->encrypt_object;
+	}
+	
+	/**
+	 * Method isEncrypted
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.67
+	 */
+	public function isEncrypted() {
+		return ($this->encrypt_object==null?false:true);
 	}
 	
 	/**
@@ -442,7 +489,9 @@ class TextBox extends WebSitePhpEventObject {
 		
 		$html = "";
 		if ($this->object_change && !$this->is_new_object_after_init) {
-			$html .= "$('#".$this->id."').val(\"".str_replace('"', '\\"', $this->value)."\");\n";
+			if ($this->isChanged()) {
+				$html .= "$('#".$this->id."').val(\"".str_replace('"', '\\"', $this->value)."\");\n";
+			}
 			$html .= "$('#".$this->id."').css('width', \"";
 			if (is_integer($this->width)) {
 				$html .= $this->width."px";

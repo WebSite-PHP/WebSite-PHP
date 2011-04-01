@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.17
  */
@@ -38,6 +38,7 @@ class ComboBox extends WebSitePhpEventObject {
 	
 	private $list_items_change = false;
 	private $is_changed = false;
+	private $item_loaded = false;
 	
 	private $onchange = "";
 	private $callback_onchange = "";
@@ -45,7 +46,7 @@ class ComboBox extends WebSitePhpEventObject {
 
 	/**
 	 * Constructor ComboBox
-	 * @param mixed $page_or_form_object 
+	 * @param Page|Form $page_or_form_object 
 	 * @param string $name 
 	 * @param string $width 
 	 */
@@ -87,7 +88,7 @@ class ComboBox extends WebSitePhpEventObject {
 	/**
 	 * Method setValue
 	 * @access public
-	 * @param mixed $value 
+	 * @param string $value 
 	 * @return ComboBox
 	 * @since 1.0.36
 	 */
@@ -96,6 +97,7 @@ class ComboBox extends WebSitePhpEventObject {
 		for ($i=0; $i < sizeof($this->item_value); $i++) {
 			if ($this->item_value[$i] == $value) {
 				$this->setSelectedIndex($i);
+				$this->item_loaded = true;
 				$find_item = true;
 				break;
 			}
@@ -115,7 +117,7 @@ class ComboBox extends WebSitePhpEventObject {
 	/**
 	 * Method setDefaultValue
 	 * @access public
-	 * @param mixed $value 
+	 * @param string $value 
 	 * @return ComboBox
 	 * @since 1.0.36
 	 */
@@ -150,7 +152,7 @@ class ComboBox extends WebSitePhpEventObject {
 	/**
 	 * Method setName
 	 * @access public
-	 * @param mixed $name 
+	 * @param string $name 
 	 * @return ComboBox
 	 * @since 1.0.36
 	 */
@@ -161,8 +163,9 @@ class ComboBox extends WebSitePhpEventObject {
 	
 	/**
 	 * Method setOption
+	 * set jquery msDropDown options
 	 * @access public
-	 * @param mixed $option 
+	 * @param string $option 
 	 * @return ComboBox
 	 * @since 1.0.36
 	 */
@@ -175,8 +178,8 @@ class ComboBox extends WebSitePhpEventObject {
 	/**
 	 * Method addItem
 	 * @access public
-	 * @param mixed $value 
-	 * @param mixed $text 
+	 * @param string $value 
+	 * @param string $text 
 	 * @param boolean $selected [default value: false]
 	 * @param string $img 
 	 * @param string $group_name 
@@ -221,12 +224,14 @@ class ComboBox extends WebSitePhpEventObject {
 	/**
 	 * Method setSelectedIndex
 	 * @access public
-	 * @param mixed $index 
+	 * @param integer $index 
 	 * @return ComboBox
 	 * @since 1.0.36
 	 */
 	public function setSelectedIndex($index) {
-		if (sizeof($this->item_value) > 0) { $this->initSubmitValue(); } // init selected index with submit value if not already do
+		if (sizeof($this->item_value) > 0) { // init selected index with submit value if not already do 
+			$this->initSubmitValue();
+		}
 		if (isset($this->item_value[$index])) {
 			$this->item_selected = $index;
 			if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
@@ -237,12 +242,14 @@ class ComboBox extends WebSitePhpEventObject {
 	/**
 	 * Method getValue
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.36
 	 */
 	public function getValue() {
-		if (sizeof($this->item_value) > 0) { $this->initSubmitValue(); } // init selected index with submit value if not already do
-		else if ($this->item_selected == -1) { // get the value when combobox not init whith items
+		if (sizeof($this->item_value) > 0) { // init selected index with submit value if not already do
+			$this->initSubmitValue();
+		}
+		if (!$this->item_loaded) { // get the value when combobox not init whith items
 			$class_name = get_class($this->page_object);
 			$form_name = "";
 			if ($this->form_object != null) {
@@ -264,6 +271,7 @@ class ComboBox extends WebSitePhpEventObject {
 				}
 			}
 			if ($value != "") {
+				$this->setValue($value);
 				return $value;
 			} 
 		} 
@@ -273,7 +281,7 @@ class ComboBox extends WebSitePhpEventObject {
 	/**
 	 * Method getSelectedIndex
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.36
 	 */
 	public function getSelectedIndex() {
@@ -284,7 +292,7 @@ class ComboBox extends WebSitePhpEventObject {
 	/**
 	 * Method getDefaultValue
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.36
 	 */
 	public function getDefaultValue() {
@@ -294,7 +302,7 @@ class ComboBox extends WebSitePhpEventObject {
 	/**
 	 * Method getId
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.36
 	 */
 	public function getId() {
@@ -304,7 +312,7 @@ class ComboBox extends WebSitePhpEventObject {
 	/**
 	 * Method getText
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.36
 	 */
 	public function getText() {
@@ -315,7 +323,7 @@ class ComboBox extends WebSitePhpEventObject {
 	/**
 	 * Method onChange
 	 * @access public
-	 * @param mixed $str_function 
+	 * @param string $str_function 
 	 * @param mixed $arg1 [default value: null]
 	 * @param mixed $arg2 [default value: null]
 	 * @param mixed $arg3 [default value: null]
@@ -352,7 +360,7 @@ class ComboBox extends WebSitePhpEventObject {
 	/**
 	 * Method isChanged
 	 * @access public
-	 * @return mixed
+	 * @return boolean
 	 * @since 1.0.36
 	 */
 	public function isChanged() {
@@ -360,6 +368,20 @@ class ComboBox extends WebSitePhpEventObject {
 			$this->page_object->getUserEventObject();
 		}
 		return $this->is_changed;
+	}
+	
+	/**
+	 * Method setListItemsChange
+	 * To be use only if your are sur ComboBox list items have been changed
+	 * @access public
+	 * @return ComboBox
+	 * @since 1.0.36
+	 */
+	public function setListItemsChange() {
+		$this->is_changed = true;
+		$this->list_items_change = true;
+		$this->object_change =true;
+		return $this;
 	}
 	
 	/**
@@ -427,7 +449,7 @@ class ComboBox extends WebSitePhpEventObject {
 	/**
 	 * Method htmlOnChangeFct
 	 * @access private
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.36
 	 */
 	private function htmlOnChangeFct() {

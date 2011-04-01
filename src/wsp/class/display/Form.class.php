@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.17
  */
@@ -42,6 +42,7 @@ class Form extends WebSitePhpObject {
 	private $content = null;
 	private $onsubmitjs = "";
 	
+	private $encrypt_object = null;
 	private $register_object = array();
 	/**#@-*/
 	
@@ -140,6 +141,51 @@ class Form extends WebSitePhpObject {
 		
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
+	}
+	
+	/**
+	 * Method setEncryptObject
+	 * @access public
+	 * @param mixed $encrypt_object [default value: null]
+	 * @return Form
+	 * @since 1.0.67
+	 */
+	public function setEncryptObject($encrypt_object=null) {
+		if ($encrypt_object == null) {
+			$encrypt_object = new EncryptDataWspObject();
+		}
+		if (gettype($encrypt_object) != "object" || get_class($encrypt_object) != "EncryptDataWspObject") {
+			throw new NewException(get_class($this)."->setEncryption(): \$encrypt_object must be a EncryptDataWspObject object.", 0, 8, __FILE__, __LINE__);
+		}
+		
+		$this->addJavaScript(BASE_URL."wsp/js/jsbn.js", "", true);
+		$this->addJavaScript(BASE_URL."wsp/js/lowpro.jquery.js", "", true);
+		$this->addJavaScript(BASE_URL."wsp/js/rsa.js", "", true);
+		
+		$this->encrypt_object = $encrypt_object;
+		$this->encrypt_object->setObject($this);
+		
+		return $this;
+	}
+	
+	/**
+	 * Method getEncryptObject
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.67
+	 */
+	public function getEncryptObject() {
+		return $this->encrypt_object;
+	}
+	
+	/**
+	 * Method isEncrypted
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.67
+	 */
+	public function isEncrypted() {
+		return ($this->encrypt_object==null?false:true);
 	}
 		
 	/**

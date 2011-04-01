@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.0
  */
@@ -34,6 +34,7 @@ class Page {
 	protected static $PAGE_META_REVISIT_AFTER = "";
 	
 	protected $USER_RIGHTS = "";
+	protected $USER_NO_RIGHTS_REDIRECT = "";
 	protected $PAGE_CACHING = false;
 	
 	private $page_is_display = false;
@@ -103,7 +104,7 @@ class Page {
 		
 		static $aoInstance = array();
 		if (!isset($aoInstance[$page_class_name])) {
-			if (strtoupper(substr($page, 0, 5)) == "ERROR") {
+			if (strtoupper(substr($page, 0, 6)) == "ERROR-") {
 				require_once("pages/error/".$page.".php");
 			} else {
 				require_once("pages/".$page.".php");
@@ -305,6 +306,16 @@ class Page {
 	}
 	
 	/**
+	 * Method getClassName
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.67
+	 */
+	public function getClassName() {
+		return $this->class_name;
+	}
+	
+	/**
 	 * Method addEventObject
 	 * @access public
 	 * @param WebSitePhpObject $object 
@@ -473,6 +484,8 @@ class Page {
 					$form_name .= $array_class_name[$i];
 				}
 				foreach ($object_array as $object) {
+					// WARNING if change : This code is almost identical with: Page->getUserEventObject(), WebSitePhpEventObject->initSubmitValue()
+					
 					// create object name
 					if ($form_name == "") {
 						$name = $this->class_name."_".$object->getName();
@@ -490,6 +503,7 @@ class Page {
 					}
 					if (method_exists($object, "getFormObject")) {
 						$form_object = $object->getFormObject();
+						decryptRequestEncryptData($form_object, "EncryptData_".$this->class_name."_".$form_object->getName()); // decrypt Form data
 					} else {
 						$form_object = null;
 					}
@@ -498,31 +512,31 @@ class Page {
 					if ($form_object == null) { // no form associate to event object
 						if (isset($_POST[$name])) {
 							if ($name_hidden != "") {
-								$object->setValue($_POST[$name_hidden]);
+								$object->setValue(decryptRequestEncryptData($this, $name_hidden, "POST"));
 							} else {
-								$object->setValue($_POST[$name]);
+								$object->setValue(decryptRequestEncryptData($this, $name, "POST"));
 							}
 						} else if (isset($_GET[$name])) {
 							if ($name_hidden != "") {
-								$object->setValue($_GET[$name_hidden]);
+								$object->setValue(decryptRequestEncryptData($this, $name_hidden, "GET"));
 							} else {
-								$object->setValue($_GET[$name]);
+								$object->setValue(decryptRequestEncryptData($this, $name, "GET"));
 							}
 						}
 					} else if ($form_object->getMethod() == "POST") { // form rights is POST
 						if (isset($_POST[$name])) {
 							if ($name_hidden != "") {
-								$object->setValue($_POST[$name_hidden]);
+								$object->setValue(decryptRequestEncryptData($this, $name_hidden, "POST"));
 							} else {
-								$object->setValue($_POST[$name]);
+								$object->setValue(decryptRequestEncryptData($this, $name, "POST"));
 							}
 						}
 					} else { // form rights is GET
 						if (isset($_GET[$name])) {
 							if ($name_hidden != "") {
-								$object->setValue($_GET[$name_hidden]);
+								$object->setValue(decryptRequestEncryptData($this, $name_hidden, "GET"));
 							} else {
-								$object->setValue($_GET[$name]);
+								$object->setValue(decryptRequestEncryptData($this, $name, "GET"));
 							}
 						}
 					}
@@ -567,12 +581,13 @@ class Page {
 				// For all event objects (button, combobox, ...), check if event exists
 				if (in_array($array_class_name[0], $this->array_callback_object)) {
 					foreach ($object_array as $object) {
-						// WARNING if change : This code is identical with WebSitePhpEventObject->initSubmitValue()
+						// WARNING if change : This code is almost identical with WebSitePhpEventObject->initSubmitValue(), Page->loadAllVariables()
 						 
 						// create object name
 						if ($object->getFormObject() == null) {
 							$name = "Callback_".$this->class_name."_".$object->getName();
 						} else {
+							decryptRequestEncryptData($object->getFormObject(), "EncryptData_".$this->class_name."_".$object->getFormObject()->getName()); // decrypt Form data
 							$name = "Callback_".$this->class_name."_".$object->getFormObject()->getName()."_".$object->getName();
 						}
 						$form_object = $object->getFormObject();
@@ -581,17 +596,17 @@ class Page {
 						$callback_params = "";
 						if ($form_object == null) { // no form associate to event object
 							if (isset($_POST[$name]) && $_POST[$name] != "") {
-								list($callback_method, $callback_params) = $this->extractCallbackParameters($_POST[$name]);
+								list($callback_method, $callback_params) = $this->extractCallbackParameters(decryptRequestEncryptData($object, $name, "POST"));
 							} else if (isset($_GET[$name]) && $_GET[$name] != "") {
-								list($callback_method, $callback_params) = $this->extractCallbackParameters($_GET[$name]);
+								list($callback_method, $callback_params) = $this->extractCallbackParameters(decryptRequestEncryptData($object, $name, "GET"));
 							}
 						} else if ($form_object->getMethod() == "POST") { // form rights is POST
 							if (isset($_POST[$name]) && $_POST[$name] != "") {
-								list($callback_method, $callback_params) = $this->extractCallbackParameters($_POST[$name]);
+								list($callback_method, $callback_params) = $this->extractCallbackParameters(decryptRequestEncryptData($object, $name, "POST"));
 							}
 						} else { // form rights is GET
 							if (isset($_GET[$name]) && $_GET[$name] != "") {
-								list($callback_method, $callback_params) = $this->extractCallbackParameters($_GET[$name]);
+								list($callback_method, $callback_params) = $this->extractCallbackParameters(decryptRequestEncryptData($object, $name, "GET"));
 							}
 						}
 						
@@ -821,6 +836,16 @@ class Page {
 	public function setUserRights($rights) {
 		$_SESSION['USER_RIGHTS'] = $rights;
 	}
+	
+	/**
+	 * Method getUserNoRightsRedirect
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.67
+	 */
+	public function getUserNoRightsRedirect() {
+		return $this->USER_NO_RIGHTS_REDIRECT;
+	}
 
 	
 	/**
@@ -1008,7 +1033,7 @@ class Page {
 		if ($this->browser == null) {
 			$this->browser = get_browser_info(null, true);
 		}
-		return ($this->browser[cssversion] >= 3)?true:false;
+		return ($this->browser['cssversion'] >= 3)?true:false;
 	}
 	
 	/**
@@ -1021,7 +1046,7 @@ class Page {
 		if ($this->browser == null) {
 			$this->browser = get_browser_info(null, true);
 		}
-		return ($this->browser[ismobiledevice])?true:false;
+		return ($this->browser['ismobiledevice'])?true:false;
 	}
 	
 	/**

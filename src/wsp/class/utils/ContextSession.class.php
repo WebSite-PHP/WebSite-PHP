@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.36
  */
@@ -35,6 +35,7 @@ class ContextSession {
 		if (!is_array($_SESSION['wsp_context_session'])) {
 			$_SESSION['wsp_context_session'] = array();
 		}
+		unset($_SESSION['wsp_context_session'][$key]);
 		if (gettype($string_or_object) == "object" || gettype($string_or_object) == "array") {
 			$_SESSION['wsp_context_session'][$key] = array('serialize' => true, 'value' => serialize($string_or_object));
 		} else {
@@ -62,6 +63,16 @@ class ContextSession {
 		} else {
 			return null;
 		}
+	}
+	
+	/**
+	 * Method toString
+	 * @access static
+	 * @return mixed
+	 * @since 1.0.67
+	 */
+	public static function toString() {
+		return echo_r($_SESSION['wsp_context_session']);
 	}
 }
 ?>

@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.19
  */
@@ -103,14 +103,14 @@
 	  if ($minus==1) {
 	    $str=strtolower($str);
 	    $find=strtolower($find);
-	  }     //Si $minus=1, ne diff�rencie pas les majuscules des minuscules
+	  }     //Si $minus=1, ne differencie pas les majuscules des minuscules
 	  for ($l=$pos_dep;$l<strlen($str);$l++) {  //Faire une boucle du debut jusqu'a la fin de str
-	    if (substr($str,$l,strlen($find))==$find){    //Si $trouve est trouv� dans $str
+	    if (substr($str,$l,strlen($find))==$find){    //Si $trouve est trouve dans $str
 	      $pos = $l+strlen($find);
 	      return $pos;     //on retourne la position
 	    }
 	  }
-	  return 0;   //Sinon, retourner 0 pour dire que c'est pas trouv�
+	  return 0;   //Sinon, retourner 0 pour dire que c'est pas trouve
 	}
 	
 	function is_browser_ie() {

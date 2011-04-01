@@ -43,6 +43,9 @@ function urlencode(str) {
 	ret = ret.replace(/%20/g, '+');
 	return ret;
 }
+function urldecode(str) {
+    return decodeURIComponent((str + '').replace(/\+/g, '%20'));
+}
 function noaccent(chaine) {
   temp = chaine.replace(/[ÀÁÂÃÄÅàáâãäå]/gi,"a")
   temp = temp.replace(/[ÈÉÊËèéêë]/gi,"e")
@@ -81,9 +84,9 @@ window.onresize = function() {
 }
 
 //Preload Image
-function PreloadImage(image_url) {
+function PreloadPicture(picture_url) {
 	preload_image_object = new Image();
-  preload_image_object.src = image_url;
+	preload_image_object.src = image_url;
 }
 
 function SaveDocumentSize() {

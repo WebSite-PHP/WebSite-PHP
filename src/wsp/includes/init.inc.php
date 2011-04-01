@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.0
  */
@@ -149,6 +149,7 @@
 	}
 	
 	include("wsp/includes/utils_image.inc.php"); 
+	include("wsp/includes/utils_openssl.inc.php");
 	include("wsp/includes/loader_lang.inc.php");
 
 	global $months;

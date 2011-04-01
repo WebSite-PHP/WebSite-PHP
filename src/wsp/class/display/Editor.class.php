@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.17
  */
@@ -50,6 +50,7 @@ class Editor extends WebSitePhpObject {
 	private $resizable = false;
 	
 	private $live_validation = null;
+	private $encrypt_object = null;
 	/**#@-*/
 	
 	/**
@@ -227,6 +228,51 @@ class Editor extends WebSitePhpObject {
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
+	
+	/**
+	 * Method setEncryptObject
+	 * @access public
+	 * @param mixed $encrypt_object 
+	 * @return Editor
+	 * @since 1.0.67
+	 */
+	public function setEncryptObject($encrypt_object) {
+		if ($encrypt_object == null) {
+			$encrypt_object = new EncryptDataWspObject();
+		}
+		if (gettype($encrypt_object) != "object" || get_class($encrypt_object) != "EncryptDataWspObject") {
+			throw new NewException(get_class($this)."->setEncryption(): \$encrypt_object must be a EncryptDataWspObject object.", 0, 8, __FILE__, __LINE__);
+		}
+		
+		$this->addJavaScript(BASE_URL."wsp/js/jsbn.js", "", true);
+		$this->addJavaScript(BASE_URL."wsp/js/lowpro.jquery.js", "", true);
+		$this->addJavaScript(BASE_URL."wsp/js/rsa.js", "", true);
+		
+		$this->encrypt_object = $encrypt_object;
+		$this->encrypt_object->setObject($this);
+		
+		return $this;
+	}
+	
+	/**
+	 * Method getEncryptObject
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.67
+	 */
+	public function getEncryptObject() {
+		return $this->encrypt_object;
+	}
+	
+	/**
+	 * Method isEncrypted
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.67
+	 */
+	public function isEncrypted() {
+		return ($this->encrypt_object==null?false:true);
+	}
 		
 	/**
 	 * Method collapseToolbar
@@ -382,7 +428,7 @@ class Editor extends WebSitePhpObject {
 		$html .= "				 });
 						CKEDITOR.instances['".$this->name."'].on('blur', copyEditorContent_".$this->name."ToHidden);
 					};";
-		$html .= "	copyEditorContent_".$this->name."ToHidden = function() { var content_editor=getEditorContent_".$this->name."(); if (strip_tags(content_editor)==''||strip_tags(content_editor)=='&nbsp;') { $('#hidden_".$this->name."').val(''); } else { $('#hidden_".$this->name."').val(content_editor); } };\n";
+		$html .= "	copyEditorContent_".$this->name."ToHidden = function() { var content_editor=getEditorContent_".$this->name."();$('#hidden_".$this->name."').val(content_editor);$('#".$this->getId()."').val(''); };\n";
 		$html .= "	setEditorContent_".$this->name." = function(content) {
 						if (CKEDITOR.instances['".$this->name."']) {
 							CKEDITOR.document.getById('".$this->name."').setHtml(content);
@@ -391,9 +437,14 @@ class Editor extends WebSitePhpObject {
 					};";
 		$html .= "	getEditorContent_".$this->name." = function() {
 						if (CKEDITOR.instances['".$this->name."']) {
-							return CKEDITOR.instances['".$this->name."'].getData();
+							var content_editor = CKEDITOR.instances['".$this->name."'].getData();
+							if (strip_tags(content_editor)==''||strip_tags(content_editor)=='&nbsp;') {
+								return '';
+							} else { 
+								return content_editor;
+							}
 						}
-						return \"\";
+						return '';
 					};";
 		$html .= "	getEditorSelectedContent_".$this->name." = function() {
 						var selected_text = \"\"; 

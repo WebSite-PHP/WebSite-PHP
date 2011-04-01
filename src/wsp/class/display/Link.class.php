@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.66
+ * @version     1.0.68
  * @access      public
  * @since       1.0.17
  */
@@ -37,6 +37,7 @@ class Link extends WebSitePhpObject {
 	private $content = null;
 	private $tagH = "";
 	private $tagH_bold = false;
+	private $nofollow = false;
 	
 	private $is_lightbox = false;
 	private $lightbox_name = "";
@@ -114,6 +115,17 @@ class Link extends WebSitePhpObject {
 		$this->tagH = "h".$value;
 		$this->tagH_bold = $bold;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method setNofollowLink
+	 * @access public
+	 * @return Link
+	 * @since 1.0.67
+	 */
+	public function setNofollowLink() {
+		$this->nofollow = true;
 		return $this;
 	}
 		
@@ -262,6 +274,9 @@ class Link extends WebSitePhpObject {
 			} else if ($this->tagH != "h1" && $this->tagH_bold) {
 				$html .= " style=\"font-weight:bold;\"";
 			}
+		}
+		if ($this->nofollow && !$this->is_lightbox) {
+			$html .= " rel=\"nofollow\"";
 		}
 		$html .= ">";
 		if (gettype($this->content) == "object" && method_exists($this->content, "render")) {
