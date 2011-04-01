@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.68
+ * @version     1.0.69
  * @access      public
  * @since       1.0.0
  */
@@ -503,7 +503,9 @@ class Page {
 					}
 					if (method_exists($object, "getFormObject")) {
 						$form_object = $object->getFormObject();
-						decryptRequestEncryptData($form_object, "EncryptData_".$this->class_name."_".$form_object->getName()); // decrypt Form data
+						if ($form_object != null) {
+							decryptRequestEncryptData($form_object, "EncryptData_".$this->class_name."_".$form_object->getName()); // decrypt Form data
+						}
 					} else {
 						$form_object = null;
 					}
