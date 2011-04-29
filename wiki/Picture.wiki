@@ -1,0 +1,29 @@
+#labels Class,WebSite-PHP,Picture
+= Class Picture =
+File located in : /display/Picture.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=Picture
+
+WebSitePhpObject
+   |
+   --Picture
+
+= Method Summary =
+  * addLightbox ([string $lightbox_name = ''], [string $pic_link = '']) Picture
+  * __construct (mixed $src, [double $height = 0], [double $width = 0], [double $border = 0], [string $align = ''], [string $title = '']) Picture
+  * getHeight () mixed
+  * getId () mixed
+  * getSrc () mixed
+  * getWidth () mixed
+  * render ([boolean $ajax_render = false]) string
+  * setAlign (string $align) Picture
+  * setAlt (mixed $alt) Picture
+  * setBorder (mixed $border) Picture
+  * setHeight (integer $height) Picture
+  * setHspace (mixed $hspace) Picture
+  * setId (mixed $id) Picture
+  * setPictureMap (mixed $picture_map) Picture
+  * setTitle (mixed $title) Picture
+  * setVspace (mixed $vspace) Picture
+  * setWidth (integer $width) Picture
+  * tooltip ([string $params = ''], [string $content = '']) Picture
