@@ -1,6 +1,6 @@
 #labels Class,WebSite-PHP,CssInclude
 = Class CssInclude =
-File located in : /display/CssInclude.class.php
+File located in : /CssInclude.class.php
 
 See complete documentation on : http://www.website-php.com/documentation/?package=default&cls=CssInclude
 
