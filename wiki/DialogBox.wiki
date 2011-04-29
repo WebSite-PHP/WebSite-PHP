@@ -1,0 +1,36 @@
+#labels Class,WebSite-PHP,DialogBox
+= Class DialogBox =
+File located in : /display/DialogBox.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=DialogBox
+
+WebSitePhpObject
+   |
+   --WebSitePhpEventObject
+      |
+      --DialogBox
+
+= Method Summary =
+  * static closeAll () JavaScript
+  * static closeLevel (mixed $level) JavaScript
+  * static getArrayDialogBoxLevels () array
+  * static getCurrentDialogBoxLevel () integer
+  * __construct (string $title, string|object|Url $content_or_url_object, [string $width = '']) DialogBox
+activateCloseButton ([string $close_button_js = ""]) DialogBox
+activateOneInstance ([boolean $close_if_exists = false]) DialogBox
+  * close () JavaScript
+  * displayFormURL () DialogBox
+  * getAjaxRender () string
+  * getDialogBoxLevel () integer
+  * getHeight () integer
+  * getWidth () integer
+  * modal () DialogBox
+  * render ([boolean $ajax_render = false]) string
+  * setAlign (string $align) DialogBox
+  * setContent (string|object|Url $content_or_url) DialogBox
+  * setDialogBoxLevel (mixed $level) DialogBox
+  * setHeight (integer $height) DialogBox
+  * setPosition (mixed $position) DialogBox
+  * setPositionX (mixed $position_x) DialogBox
+  * setPositionY (mixed $position_y) DialogBox
+  * setWidth (integer $width) DialogBox
