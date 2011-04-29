@@ -1,0 +1,16 @@
+#labels Class,WebSite-PHP,ListItem
+= Class ListItem =
+File located in : /display/ListItem.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=ListItem
+
+WebSitePhpObject
+   |
+   --WebSitePhpEventObject
+      |
+      --ListItem
+
+= Method Summary =
+  * __construct ([string $align = "left"]) ListItem
+  * addItem (mixed $str_item) ListItem
+  * render ([boolean $ajax_render = false]) string
