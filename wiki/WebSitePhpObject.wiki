@@ -1,0 +1,24 @@
+#labels Class,WebSite-PHP,WebSitePhpObject
+= Class WebSitePhpObject =
+File located in : /WebSitePhpObject.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=default&cls=WebSitePhpObject
+
+= Method Summary =
+  * static getRegisterObjects () mixed
+  * __construct () WebSitePhpObject
+  * addCss (mixed $css_url, [string $conditional_comment = ''], [boolean $conbine = false]) void
+  * addJavaScript (mixed $js_url, [string $conditional_comment = ''], [boolean $conbine = false]) void
+  * displayJavascriptTag () WebSitePhpObject
+  * getAjaxRender () string
+  * getCssArray () mixed
+  * getJavaScriptArray () mixed
+  * getJavascriptTagClose () mixed
+  * getJavascriptTagOpen () mixed
+  * getName () mixed
+  * getTag () mixed
+  * isEventObject () boolean
+  * isJavascriptObject () mixed
+  * isObjectChange () mixed
+  * render ([boolean $ajax_render = false]) string
+  * setTag (mixed $value) WebSitePhpObject
