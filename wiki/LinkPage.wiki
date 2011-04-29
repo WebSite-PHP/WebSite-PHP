@@ -1,0 +1,20 @@
+#labels Class,WebSite-PHP,LinkPage
+= Class LinkPage =
+File located in : /display/LinkPage.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=LinkPage
+
+WebSitePhpObject
+   |
+   --WebSitePhpEventObject
+      |
+      --LinkPage
+
+= Method Summary =
+  * __construct (mixed $page, mixed $title_object, [string $picture_16 = '']) LinkPage
+  * getUserHaveRights () mixed
+  * render ([boolean $ajax_render = false]) mixed
+  * setGetParameters (mixed $get) LinkPage
+  * setTitleTagH (mixed $value, [boolean $bold = false]) LinkPage
+  * setTitleTagH1 ([boolean $bold = true]) LinkPage
+  * setTitleTagH2 ([boolean $bold = false]) LinkPage
