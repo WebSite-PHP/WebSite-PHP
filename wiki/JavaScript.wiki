@@ -6,9 +6,7 @@ See complete documentation on : http://www.website-php.com/documentation/?packag
 
 WebSitePhpObject
    |
-   --WebSitePhpEventObject
-      |
-      --JavaScript
+   --JavaScript
 
 = Method Summary =
   * __construct (mixed $code_javascript, [boolean $force_object_change = false]) JavaScript
