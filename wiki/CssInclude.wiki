@@ -1,0 +1,13 @@
+#labels Class,WebSite-PHP,CssInclude
+= Class CssInclude =
+File located in : /display/CssInclude.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=default&cls=CssInclude
+
+= Method Summary =
+  * static getInstance () mixed
+  * __construct () CssInclude
+  * add (mixed $css_url, [string $conditional_comment = ''], [boolean $conbine = false]) void
+  * get ([boolean $sort_by_name = false]) mixed
+  * getCombine (mixed $indice) mixed
+  * getConditionalComment (mixed $indice) mixed
