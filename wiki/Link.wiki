@@ -1,0 +1,24 @@
+#labels Class,WebSite-PHP,Link
+= Class Link =
+File located in : /display/Link.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=Link
+
+WebSitePhpObject
+   |
+   --WebSitePhpEventObject
+      |
+      --Link
+
+= Method Summary =
+  * __construct (mixed $link, [string $target = ''], [object $content = null]) Link
+  * addLightbox ([string $lightbox_name = '']) Link
+  * getLink () mixed
+  * getTarget () mixed
+  * getUserHaveRights () boolean
+  * render ([boolean $ajax_render = false]) string
+  * setContent (object $content) Link
+  * setNofollowLink () Link
+  * setTitleTagH (mixed $value, [boolean $bold = false]) Link
+  * setTitleTagH1 ([boolean $bold = true]) Link
+  * setTitleTagH2 ([boolean $bold = false]) Link
