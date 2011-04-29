@@ -1,0 +1,33 @@
+#labels Class,WebSite-PHP,ComboBox
+= Class ComboBox =
+File located in : /display/ComboBox.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=ComboBox
+
+WebSitePhpObject
+   |
+   --WebSitePhpEventObject
+      |
+      --ComboBox
+
+= Method Summary =
+  * __construct (Page|Form $page_or_form_object, [string $name = ''], [string $width = '']) ComboBox
+  * addItem (string $value, string $text, [boolean $selected = false], [string $img = ''], [string $group_name = '']) ComboBox
+  * getAjaxRender () string
+  * getDefaultValue () string
+  * getId () string
+  * getSelectedIndex () string
+  * getText () string
+  * getValue () string
+  * isChanged () boolean
+  * onChange (string $str_function, [mixed $arg1 = null], [mixed $arg2 = null], [mixed $arg3 = null], [mixed $arg4 = null], [mixed $arg5 = null]) ComboBox
+  * onChangeJs (string|JavaScript $js_function) ComboBox
+  * removeItems () ComboBox
+  * render ([boolean $ajax_render = false]) string
+  * setDefaultValue (string $value) ComboBox
+  * setListItemsChange () ComboBox
+  * setName (string $name) ComboBox
+  * setOption (string $option) ComboBox
+  * setSelectedIndex (integer $index) ComboBox
+  * setValue (string $value) ComboBox
+  * setWidth (integer $width) ComboBox
