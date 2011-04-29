@@ -1,0 +1,18 @@
+#labels Class,WebSite-PHP,Tabs
+= Class Tabs =
+File located in : /display/Tabs.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=Tabs
+
+WebSitePhpObject
+   |
+   --Tabs
+
+= Method Summary =
+  * __construct ([string $id = '']) Tabs
+  * activateCache () Tabs
+  * addTab (mixed $tab_name, object $content_or_url_object, [string $on_select_js = ""]) Tabs
+  * getId () mixed
+  * render ([boolean $ajax_render = false]) string
+  * setHeight (integer $height) Tabs
+  * setMinHeight (mixed $min_height) Tabs
