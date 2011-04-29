@@ -1,0 +1,45 @@
+#labels Class,WebSite-PHP,Object
+= Class Object =
+File located in : /display/Object.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=Object
+
+WebSitePhpObject
+   |
+   --WebSitePhpEventObject
+      |
+      --Object
+
+= Method Summary =
+  * add (string|Object|Url $str_or_object, [string|Object $str_or_object2 = null], [string|Object $str_or_object3 = null], [string|Object $str_or_object4 = null], [string|Object $str_or_object5 = null]) Object
+  * emptyObject () Object
+  * __construct ([string|Object|Url $str_or_object = null], [string|Object $str_or_object2 = null], [string|Object $str_or_object3 = null], [string|Object $str_or_object4 = null], [string|Object $str_or_object5 = null]) Object
+  * forceDivTag () Object
+  * forceSpanTag () Object
+  * getAjaxRender () string
+  * getId () mixed
+  * getIsDraggable () mixed
+  * getIsDroppable () mixed
+  * getIsSortable () mixed
+  * getOnClickJs () mixed
+  * hide () Object
+  * isClicked () mixed
+  * onClick (mixed $page_or_form_object, mixed $str_function, [mixed $arg1 = null], [mixed $arg2 = null], [mixed $arg3 = null], [mixed $arg4 = null], [mixed $arg5 = null]) Object
+  * onClickJs (string|JavaScript $js_function) Object
+  * onMouseOutJs (string|JavaScript $js_function) Object
+  * onMouseOverJs (string|JavaScript $js_function) Object
+  * render ([boolean $ajax_render = false]) string
+  * setAlign (string $align) Object
+  * setBorder ([double $border = 1], [string $border_color = "black"], [string $border_style = "solid"]) Object
+  * setClass (mixed $class) Object
+  * setClick () Object
+  * setDraggable ([string $bool = true], [string $revert = false], [mixed $draggable_event = null], [boolean $sortable_zone = false], [string $draggable_params = ""]) Object
+  * setDroppable ([string $bool = true], [mixed $droppable_event = null], [string $droppable_params = ""], [string $droppable_style = "droppablehover"]) Object
+  * setFont (mixed $font_size, mixed $font_family, mixed $font_weight) Object
+  * setHeight (integer $height) Object
+  * setId (mixed $id) Object
+  * setMinHeight (mixed $min_height) Object
+  * setSortable ([string $bool = true], [mixed $sortable_event = null], [string $sortable_params = ""]) Object
+  * setStyle (mixed $style) Object
+  * setWidth (integer $width) Object
+  * show () Object
