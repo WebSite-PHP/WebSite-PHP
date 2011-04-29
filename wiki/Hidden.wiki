@@ -1,0 +1,24 @@
+#labels Class,WebSite-PHP,Hidden
+= Class Hidden =
+File located in : /display/Hidden.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=Hidden
+
+WebSitePhpObject
+   |
+   --WebSitePhpEventObject
+      |
+      --Hidden
+
+= Method Summary =
+  * __construct (mixed $page_or_form_object, [string $name = ''], [string $id = ''], [string $value = '']) Hidden
+  * getAjaxRender () string
+  * getDefaultValue () mixed
+  * getEventObjectName () mixed
+  * getFormObject () mixed
+  * getId () mixed
+  * getName () mixed
+  * getValue () mixed
+  * render ([boolean $ajax_render = false]) string
+  * setDefaultValue (mixed $value) Hidden
+  * setValue (mixed $value) Hidden
