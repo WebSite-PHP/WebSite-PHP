@@ -1,0 +1,27 @@
+#labels Class,WebSite-PHP,Table
+= Class Table =
+File located in : /display/Table.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=Table
+
+WebSitePhpObject
+   |
+   --Table
+
+= Method Summary =
+  * __construct ([double $cellpadding = 0], [double $cellspacing = 0], [string $width = ''], [string $default_align = ''], [string $default_valign = '']) Table
+  * addRow ([mixed $row = null], [string $align = ''], [string $valign = '']) mixed
+  * addRowColumns ([mixed $object = null], [mixed $object2 = null], [mixed $object3 = null], [mixed $object4 = null], [mixed $object5 = null]) mixed
+  * getId () mixed
+  * render ([boolean $ajax_render = false]) string
+  * setBorder ([double $border = 1], [string $border_color = "grey"], [string $border_style = "solid"]) Table
+  * setCellpadding (mixed $cellpadding) Table
+  * setCellspacing (mixed $cellspacing) Table
+  * setClass (mixed $class) Table
+  * setDefaultAlign (mixed $default_align) Table
+  * setDefaultValign (mixed $default_valign) Table
+  * setFont (mixed $font_size, mixed $font_family, mixed $font_weight) Table
+  * setHeight (integer $height) Table
+  * setId (mixed $id) Table
+  * setStyle (mixed $style) Table
+  * setWidth (integer $width) Table
