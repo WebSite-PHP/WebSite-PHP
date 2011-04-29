@@ -1,0 +1,22 @@
+#labels Class,WebSite-PHP,WebSitePhpEventObject
+= Class WebSitePhpEventObject =
+File located in : /WebSitePhpEventObject.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=default&cls=WebSitePhpEventObject
+
+= Method Summary =
+  * __construct () WebSitePhpEventObject
+  * automaticAjaxEvent () void
+  * disableAjaxWaitMessage () WebSitePhpEventObject
+  * getAjaxEventFunctionRender () mixed
+  * getEventObjectName () mixed
+  * getFormObject () mixed
+  * getId () mixed
+  * getName () mixed
+  * getObjectEventValidationRender (mixed $on_event, mixed $callback, [string $params = '']) mixed
+  * initSubmitValue () boolean
+  * isAjaxEvent () mixed
+  * isEventObject () boolean
+  * loadCallbackMethod (mixed $str_function, [mixed $array_args = array()]) mixed
+  * setAjaxEvent () WebSitePhpEventObject
+  * setAjaxWaitMessage (mixed $message_or_object) WebSitePhpEventObject
