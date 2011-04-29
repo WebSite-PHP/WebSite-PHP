@@ -1,14 +1,16 @@
 #labels Class,WebSite-PHP,TextBox
 = Class TextBox =
-Located in /display/TextBox.class.php
+File located in : /display/TextBox.class.php
 
-http://www.website-php.com/documentation/?package=display&cls=TextBox
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=TextBox
+
 
 WebSitePhpObject
    |
    --WebSitePhpEventObject
       |
       --TextBox
+
 
 = Method Summary =
   * __construct (mixed $page_or_form_object, [string $name = ''], [string $id = ''], [string $value = ''], [string $width = ''], [double $length = 0]) TextBox
