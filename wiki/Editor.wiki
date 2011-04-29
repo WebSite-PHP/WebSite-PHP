@@ -1,0 +1,40 @@
+#labels Class,WebSite-PHP,Editor
+= Class Editor =
+File located in : /display/Editor.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=Editor
+
+WebSitePhpObject
+   |
+   --WebSitePhpEventObject
+      |
+      --Editor
+
+= Method Summary =
+  * __construct (mixed $page_or_form_object, [string $name = ''], [string $width = ''], [string $height = '']) Editor
+  * collapseToolbar () Editor
+  * getAjaxRender () string
+  * getContent () mixed
+  * getDefaultContent () mixed
+  * getDefaultValue () mixed
+  * getEncryptObject () mixed
+  * getEventObjectName () mixed
+  * getFormObject () mixed
+  * getHiddenId () mixed
+  * getId () mixed
+  * getName () mixed
+  * getValue () mixed
+  * isEncrypted () mixed
+  * render ([boolean $ajax_render = false]) string
+  * resizable (mixed $bool) Editor
+  * setColor (mixed $color) Editor
+  * setContent (object $content) Editor
+  * setDefaultContent (object $content) Editor
+  * setDefaultValue (mixed $value) Editor
+  * setEncryptObject (mixed $encrypt_object) Editor
+  * setHeight (integer $height) Editor
+  * setLiveValidation (mixed $live_validation_object) Editor
+  * setName (mixed $name) Editor
+  * setToolbar (mixed $toolbar) Editor
+  * setValue (mixed $value) mixed
+  * setWidth (integer $width) Editor
