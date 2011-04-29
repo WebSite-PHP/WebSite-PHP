@@ -6,9 +6,7 @@ See complete documentation on : http://www.website-php.com/documentation/?packag
 
 WebSitePhpObject
    |
-   --WebSitePhpEventObject
-      |
-      --Font
+   --Font
 
 = Method Summary =
   * __construct (object $content_object, [string $font_size = ''], [string $font_family = ''], [string $font_weight = '']) Font
