@@ -1,0 +1,36 @@
+#labels Class,TextBox
+= Class TextBox =
+Located in /display/TextBox.class.php
+http://www.website-php.com/documentation/?package=display&cls=TextBox
+
+WebSitePhpObject
+   |
+   --WebSitePhpEventObject
+      |
+      --TextBox
+
+= Method Summary =
+  * __construct (mixed $page_or_form_object, [string $name = ''], [string $id = ''], [string $value = ''], [string $width = ''], [double $length = 0]) TextBox
+  * disable () TextBox
+  * enable () TextBox
+  * getAjaxRender () string
+  * getClass () mixed
+  * getDefaultValue () mixed
+  * getEncryptObject () mixed
+  * getValue () mixed
+  * isChanged () mixed
+  * isEncrypted () mixed
+  * onChange (mixed $str_function, [mixed $arg1 = null], [mixed $arg2 = null], [mixed $arg3 = null], [mixed $arg4 = null], [mixed $arg5 = null]) TextBox
+  * onChangeJs (string|JavaScript $js_function) TextBox
+  * render ([boolean $ajax_render = false]) string
+  * setAutoComplete (mixed $autocomplete_object) TextBox
+  * setClass (mixed $class) TextBox
+  * setDefaultValue (mixed $value) TextBox
+  * setEncryptObject (mixed $encrypt_object) TextBox
+  * setFocus () TextBox
+  * setLength (mixed $length) TextBox
+  * setLiveValidation (mixed $live_validation_object) TextBox
+  * setName (mixed $name) TextBox
+  * setStyle (mixed $style) TextBox
+  * setValue (mixed $value) TextBox
+  * setWidth (integer $width) TextBox
