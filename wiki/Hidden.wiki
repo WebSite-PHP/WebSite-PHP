@@ -6,9 +6,7 @@ See complete documentation on : http://www.website-php.com/documentation/?packag
 
 WebSitePhpObject
    |
-   --WebSitePhpEventObject
-      |
-      --Hidden
+   --Hidden
 
 = Method Summary =
   * __construct (mixed $page_or_form_object, [string $name = ''], [string $id = ''], [string $value = '']) Hidden
