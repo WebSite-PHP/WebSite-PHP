@@ -1,0 +1,30 @@
+#labels Class,WebSite-PHP,Form
+= Class Form =
+File located in : /display/Form.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=Form
+
+WebSitePhpObject
+   |
+   --WebSitePhpEventObject
+      |
+      --Form
+
+= Method Summary =
+  * getAction () mixed
+  * getEncryptObject () mixed
+  * getFormObjects () mixed
+  * getId () mixed
+  * getMethod () mixed
+  * getName () mixed
+  * getPageObject () mixed
+  * isEncrypted () mixed
+  * __construct (mixed $page_object, [string $name = ''], [string $id = ''], [string $method = "POST"]) Form
+  * onSubmitJs (string|JavaScript $js_function) Form
+  * registerObjectToForm (mixed $object) Form
+  * render ([boolean $ajax_render = false]) string
+  * setAction (mixed $action_file_name) Form
+  * setContent (object $content) Form
+  * setEncryptObject ([mixed $encrypt_object = null]) Form
+  * setMethod (mixed $method) Form
+  * setName (mixed $name) Form
