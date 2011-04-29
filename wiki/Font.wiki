@@ -1,0 +1,22 @@
+#labels Class,WebSite-PHP,Font
+= Class Font =
+File located in : /display/Font.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=Font
+
+WebSitePhpObject
+   |
+   --WebSitePhpEventObject
+      |
+      --Font
+
+= Method Summary =
+  * __construct (object $content_object, [string $font_size = ''], [string $font_family = ''], [string $font_weight = '']) Font
+  * getAjaxRender () string
+  * getId () mixed
+  * render ([boolean $ajax_render = false]) string
+  * setFontColor (mixed $font_color) Font
+  * setFontFamily (mixed $font_family) Font
+  * setFontSize (mixed $font_size) Font
+  * setFontWeight (mixed $font_weight) Font
+  * setId (mixed $id) void
