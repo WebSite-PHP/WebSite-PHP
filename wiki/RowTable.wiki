@@ -1,0 +1,34 @@
+#labels Class,WebSite-PHP,RowTable
+= Class RowTable =
+File located in : /display/RowTable.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=RowTable
+
+WebSitePhpObject
+   |
+   --RowTable
+
+= Method Summary =
+  * add ([object $content_object = null], [string $align = ''], [string $width = ''], [string $class = ''], [string $valign = ''], [string $style = ''], [string $colspan = ''], [string $rowspan = '']) RowTable
+  * __construct ([string $align = 'center'], [string $width = ''], [string $class = ''], [string $valign = '']) RowTable
+  * getClass () mixed
+  * render ([boolean $ajax_render = false]) string
+  * setAlign (string $align) RowTable
+  * setClass (mixed $class) RowTable
+  * setColspan (mixed $colspan) RowTable
+  * setColumnAlign (mixed $column_ind, string $align) RowTable
+  * setColumnClass (mixed $column_ind, mixed $class) RowTable
+  * setColumnColspan (mixed $column_ind, mixed $colspan) RowTable
+  * setColumnContent (mixed $column_ind, object $content_object) RowTable
+  * setColumnHeight (mixed $column_ind, integer $height) RowTable
+  * setColumnRowspan (mixed $column_ind, mixed $rowspan) RowTable
+  * setColumnStyle (mixed $column_ind, mixed $style) RowTable
+  * setColumnValign (integer $column_ind, string $valign) RowTable
+  * setColumnWidth (mixed $column_ind, integer $width) RowTable
+  * setHeaderClass ([string $class = "1"]) RowTable
+  * setHeight (integer $height) RowTable
+  * setNowrap () RowTable
+  * setRowspan (mixed $rowspan) RowTable
+  * setStyle (mixed $style) RowTable
+  * setValign (string $valign) RowTable
+  * setWidth (integer $width) RowTable
