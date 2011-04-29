@@ -1,6 +1,7 @@
-#labels Class,TextBox
+#labels Class,WebSite-PHP,TextBox
 = Class TextBox =
 Located in /display/TextBox.class.php
+
 http://www.website-php.com/documentation/?package=display&cls=TextBox
 
 WebSitePhpObject
