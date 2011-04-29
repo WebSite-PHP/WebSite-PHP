@@ -1,0 +1,29 @@
+#labels Class,WebSite-PHP,Button
+= Class Button =
+File located in : /display/Button.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=Button
+
+WebSitePhpObject
+   |
+   --WebSitePhpEventObject
+      |
+      --Button
+
+= Method Summary =
+  * __construct (mixed $page_or_form_object, [string $name = ''], [string $id = ''], [string $value = ''], [double $width = 0], [boolean $is_link = false], [string $class = '']) Button
+  * assignEnterKey () Button
+  * getAjaxRender () string
+  * getDefaultValue () mixed
+  * getOnClickJs () mixed
+  * getValue () mixed
+  * isClicked () mixed
+  * onClick (mixed $str_function, [mixed $arg1 = null], [mixed $arg2 = null], [mixed $arg3 = null], [mixed $arg4 = null], [mixed $arg5 = null]) Button
+  * onClickJs (string|JavaScript $js_function) Button
+  * render ([boolean $ajax_render = false]) string
+  * setClass (mixed $class) Button
+  * setDefaultValue (mixed $value) Button
+  * setIsLink ([boolean $is_link = true]) Button
+  * setName (mixed $name) Button
+  * setValue (mixed $value) Button
+  * setWidth (integer $width) Button
