@@ -1,0 +1,17 @@
+#labels Class,WebSite-PHP,JavaScript
+= Class JavaScript =
+File located in : /display/JavaScript.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=JavaScript
+
+WebSitePhpObject
+   |
+   --WebSitePhpEventObject
+      |
+      --JavaScript
+
+= Method Summary =
+  * __construct (mixed $code_javascript, [boolean $force_object_change = false]) JavaScript
+  * displayFormURL () JavaScript
+  * getAjaxRender () string
+  * render ([boolean $ajax_render = false]) mixed
