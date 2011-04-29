@@ -1,0 +1,22 @@
+#labels Class,WebSite-PHP,Label
+= Class Label =
+File located in : /display/Label.class.php
+
+See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=Label
+
+WebSitePhpObject
+   |
+   --WebSitePhpEventObject
+      |
+      --Label
+
+= Method Summary =
+  * __construct ([string $label = ''], [boolean $bold = false], [boolean $italic = false], [boolean $underline = false]) Label
+  * getId () mixed
+  * render ([boolean $ajax_render = false]) string
+  * setBold () Label
+  * setFont (mixed $font_size, mixed $font_family) Label
+  * setId (mixed $id) Label
+  * setItalic () Label
+  * setLabel (mixed $label) Label
+  * setUnderline () Label
