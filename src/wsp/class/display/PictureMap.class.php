@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 04/01/2011
- * @version     1.0.68
+ * @version     1.0.77
  * @access      public
  * @since       1.0.17
  */
@@ -28,22 +28,22 @@ class PictureMap extends WebSitePhpObject {
 	* @access private
 	*/
 	private $id = "";
-	private $tooltip=false;
-	private $tooltip_params="";
+	private $default_tooltip_obj=null;
 	
 	private $array_rect = array();
 	private $array_polygon = array();
 	private $array_circle = array();
 	private $default_link = "";
+	private $default_link_title = "";
+	private $default_link_tooltip = null;
 	/**#@-*/
 	
 	/**
 	 * Constructor PictureMap
 	 * @param mixed $id 
-	 * @param boolean $tooltip [default value: false]
-	 * @param string $tooltip_params 
+	 * @param ToolTip $default_tooltip_obj [default value: null]
 	 */
-	function __construct($id, $tooltip=false, $tooltip_params="") {
+	function __construct($id, $default_tooltip_obj=null) {
 		parent::__construct();
 		
 		if (!isset($id)) {
@@ -51,11 +51,11 @@ class PictureMap extends WebSitePhpObject {
 		}
 		
 		$this->id = $id;
-		$this->tooltip = $tooltip;
-		$this->tooltip_params = $tooltip_params;
-		
-		if ($this->tooltip) {
-			$this->addJavaScript(BASE_URL."wsp/js/jquery.qtip-1.0.0-rc3.min.js", "", true);
+		if ($default_tooltip_obj != null) {
+			if (get_class($default_tooltip_obj) != "ToolTip") {
+				throw new NewException("Error ".get_class($this)."::__construct(): \$default_tooltip_obj is not a ToolTip object", 0, 8, __FILE__, __LINE__);
+			}
+			$this->default_tooltip_obj = $default_tooltip_obj;
 		}
 	}
 	
@@ -64,15 +64,15 @@ class PictureMap extends WebSitePhpObject {
 	 * @access public
 	 * @param mixed $link 
 	 * @param mixed $title 
-	 * @param mixed $tooltip_params 
 	 * @param mixed $x1 
 	 * @param mixed $y1 
 	 * @param mixed $x2 
 	 * @param mixed $y2 
+	 * @param mixed $tooltip_obj [default value: null]
 	 * @return PictureMap
 	 * @since 1.0.35
 	 */
-	public function addRect($link, $title, $tooltip_params, $x1, $y1, $x2, $y2) {
+	public function addRect($link, $title, $x1, $y1, $x2, $y2, $tooltip_obj=null) {
 		if (gettype($link) != "object" || get_class($link) != "Link") {
 			throw new NewException(get_class($this)."->addRect() error: \$link must be a Link object", 0, 8, __FILE__, __LINE__);
 		}
@@ -81,7 +81,7 @@ class PictureMap extends WebSitePhpObject {
 		$this->array_rect[$ind] = array();
 		$this->array_rect[$ind]['link'] = $link;
 		$this->array_rect[$ind]['title'] = $title;
-		$this->array_rect[$ind]['tooltip_params'] = $tooltip_params;
+		$this->array_rect[$ind]['tooltip'] = $tooltip_obj;
 		
 		if (!is_integer($x1) || !is_integer($y1) || !is_integer($x2) || !is_integer($y2)) {
 			throw new NewException(get_class($this)."->addRect() error: \$x1, \$y1, \$x2, \$y2 must be integer values", 0, 8, __FILE__, __LINE__);
@@ -100,17 +100,17 @@ class PictureMap extends WebSitePhpObject {
 	 * @access public
 	 * @param mixed $link 
 	 * @param mixed $title 
-	 * @param mixed $tooltip_params 
 	 * @param mixed $x1 
 	 * @param mixed $y1 
 	 * @param mixed $x2 
 	 * @param mixed $y2 
 	 * @param mixed $x3 
 	 * @param mixed $y3 
+	 * @param mixed $tooltip_obj [default value: null]
 	 * @return PictureMap
 	 * @since 1.0.35
 	 */
-	public function addPolygon($link, $title, $tooltip_params, $x1, $y1, $x2, $y2, $x3, $y3) {
+	public function addPolygon($link, $title, $x1, $y1, $x2, $y2, $x3, $y3, $tooltip_obj=null) {
 		if (gettype($link) != "object" || get_class($link) != "Link") {
 			throw new NewException(get_class($this)."->addPolygon() error: \$link must be a Link object", 0, 8, __FILE__, __LINE__);
 		}
@@ -119,7 +119,7 @@ class PictureMap extends WebSitePhpObject {
 		$this->array_polygon[$ind] = array();
 		$this->array_polygon[$ind]['link'] = $link;
 		$this->array_polygon[$ind]['title'] = $title;
-		$this->array_polygon[$ind]['tooltip_params'] = $tooltip_params;
+		$this->array_polygon[$ind]['tooltip'] = $tooltip_obj;
 		$args = func_get_args();
 		for ($i=3; $i < sizeof($args); $i++) {
 			if (!is_integer($args[$i])) {
@@ -136,14 +136,14 @@ class PictureMap extends WebSitePhpObject {
 	 * @access public
 	 * @param mixed $link 
 	 * @param mixed $title 
-	 * @param mixed $tooltip_params 
 	 * @param mixed $x 
 	 * @param mixed $y 
 	 * @param mixed $r 
+	 * @param mixed $tooltip_obj [default value: null]
 	 * @return PictureMap
 	 * @since 1.0.35
 	 */
-	public function addCircle($link, $title, $tooltip_params, $x, $y, $r) {
+	public function addCircle($link, $title, $x, $y, $r, $tooltip_obj=null) {
 		if (gettype($link) != "object" || get_class($link) != "Link") {
 			throw new NewException(get_class($this)."->addCircle() error: \$link must be a Link object", 0, 8, __FILE__, __LINE__);
 		}
@@ -152,7 +152,7 @@ class PictureMap extends WebSitePhpObject {
 		$this->array_circle[$ind] = array();
 		$this->array_circle[$ind]['link'] = $link;
 		$this->array_circle[$ind]['title'] = $title;
-		$this->array_circle[$ind]['tooltip_params'] = $tooltip_params;
+		$this->array_circle[$ind]['tooltip'] = $tooltip_obj;
 		
 		if (!is_integer($x) || !is_integer($y) || !is_integer($r)) {
 			throw new NewException(get_class($this)."->addCircle() error: \$x, \$y, \$r must be integer values", 0, 8, __FILE__, __LINE__);
@@ -170,18 +170,18 @@ class PictureMap extends WebSitePhpObject {
 	 * @access public
 	 * @param mixed $link 
 	 * @param string $title 
-	 * @param string $tooltip_params 
+	 * @param mixed $tooltip_obj [default value: null]
 	 * @return PictureMap
 	 * @since 1.0.35
 	 */
-	public function setDefault($link, $title='', $tooltip_params='') {
+	public function setDefault($link, $title='', $tooltip_obj=null) {
 		if (gettype($link) != "object" || get_class($link) != "Link") {
 			throw new NewException(get_class($this)."->setDefault() error: \$link must be a Link object", 0, 8, __FILE__, __LINE__);
 		}
 		
 		$this->default_link = $link;
 		$this->default_link_title = $title;
-		$this->default_link_tooltip_params = $tooltip_params;
+		$this->default_link_tooltip = $tooltip_obj;
 		return $this;
 	}
 	
@@ -219,7 +219,7 @@ class PictureMap extends WebSitePhpObject {
 				$html .= $coords."\" ";
 				$html .= "href=\"".createHrefLink($this->array_polygon[$i]['link']->getLink(), $this->array_polygon[$i]['link']->getTarget())."\" ";
 				$html .= "alt=\"".str_replace("\"", " ", $this->array_polygon[$i]['title'])."\" title=\"".str_replace("\"", " ", $this->array_polygon[$i]['title'])."\">\n";
-				$tooltip_params .= $this->createToolTips($this->array_polygon[$i], $ind);
+				$tooltip_params .= $this->createToolTips($this->array_polygon[$i]['tooltip'], $ind);
 				$ind++;
 			}
 		}
@@ -230,7 +230,7 @@ class PictureMap extends WebSitePhpObject {
 				$html .= $this->array_rect[$i]['x1'].",".$this->array_rect[$i]['y1'].",".$this->array_rect[$i]['x2'].",".$this->array_rect[$i]['y2']."\" ";
 				$html .= "href=\"".createHrefLink($this->array_rect[$i]['link']->getLink(), $this->array_rect[$i]['link']->getTarget())."\" ";
 				$html .= "alt=\"".str_replace("\"", " ", $this->array_rect[$i]['title'])."\" title=\"".str_replace("\"", " ", $this->array_rect[$i]['title'])."\">\n";
-				$tooltip_params .= $this->createToolTips($this->array_rect[$i], $ind);
+				$tooltip_params .= $this->createToolTips($this->array_rect[$i]['tooltip'], $ind);
 				$ind++;
 			}
 		}
@@ -241,7 +241,7 @@ class PictureMap extends WebSitePhpObject {
 				$html .= $this->array_circle[$i]['x'].",".$this->array_circle[$i]['y'].",".$this->array_circle[$i]['r']."\" ";
 				$html .= "href=\"".createHrefLink($this->array_circle[$i]['link']->getLink(), $this->array_circle[$i]['link']->getTarget())."\" ";
 				$html .= "alt=\"".str_replace("\"", " ", $this->array_circle[$i]['title'])."\" title=\"".str_replace("\"", " ", $this->array_circle[$i]['title'])."\">\n";
-				$tooltip_params .= $this->createToolTips($this->array_circle[$i], $ind);
+				$tooltip_params .= $this->createToolTips($this->array_circle[$i]['tooltip'], $ind);
 				$ind++;
 			}
 		}
@@ -249,7 +249,7 @@ class PictureMap extends WebSitePhpObject {
 		if ($this->default_link != "") {
 			if ($this->default_link->getUserHaveRights()) {
 				$html .= "	<area id=\"".$this->getId()."_".$ind."\" shape=\"default\" href=\"".createHrefLink($this->default_link->getLink(), $this->default_link->getTarget())."\">\n";
-				$tooltip_params .= $this->createToolTips($this->default_link, $ind);
+				$tooltip_params .= $this->createToolTips($this->default_link_tooltip, $ind);
 				$ind++;
 			}
 		}
@@ -270,22 +270,20 @@ class PictureMap extends WebSitePhpObject {
 	/**
 	 * Method createToolTips
 	 * @access private
-	 * @param mixed $map_area_info 
+	 * @param mixed $tootip 
 	 * @param mixed $ind 
 	 * @return mixed
 	 * @since 1.0.35
 	 */
-	private function createToolTips($map_area_info, $ind) {
-		$html = "	$('#".$this->getId()."_".$ind."').qtip({ content: $('#".$this->getId()."_".$ind."').title";
-		if ($this->tooltip_params != "" || $map_area_info['tooltip_params'] != "") {
-			if ($this->tooltip_params != "") {
-				$html .= ", ".$this->tooltip_params;
-			}
-			if ($map_area_info['tooltip_params'] != "") {
-				$html .= ", ".$map_area_info['tooltip_params'];
-			}
+	private function createToolTips($tootip, $ind) {
+		$html = "";
+		if ($tootip != null) {
+			$tootip->setId($this->getId."_".$ind);
+			$html .= $tootip->render();
+		} else if ($this->default_tooltip_obj != null) {
+			$this->tooltip_params->setId($this->getId."_".$ind);
+			$html .= $this->tooltip_params->render();
 		}
-		$html .= " });\n";
 		return $html;
 	}
 }

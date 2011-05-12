@@ -60,7 +60,7 @@ class AdminTemplateForm extends DefinedZone {
 		// check WSP version
 		$alert_version_obj = getAlertVersiobObject($page_object);
 		if ($alert_version_obj != null) {
-			$table->addRowColumns()->setColspan(2);
+			$table->addRowColumns($alert_version_obj)->setColspan(2);
 		}
 		
 		// Main

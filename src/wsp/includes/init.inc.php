@@ -15,19 +15,21 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.68
+ * @version     1.0.77
  * @access      public
  * @since       1.0.0
  */
 
 	if (version_compare(PHP_VERSION, '5.2.0', '<') ) { 
 		// Use of DateTime classes
-		exit("Sorry, the FrameWork WebSite-PHP will only run on PHP version 5.2 or greater!\n");
+		echo "Sorry, the FrameWork <a href='http://www.website-php.com' target='_blank'>WebSite-PHP</a> will only run on PHP version 5.2 or greater!<br/>Update your PHP version <a href='http://php.net/downloads.php' target='_blank'>http://php.net/downloads.php</a>\n";
+		exit;
 	}
 	
 	if (strtolower(substr($_SERVER['SERVER_SOFTWARE'], 0, 6)) == "apache") {
 		if(!in_array("mod_rewrite", apache_get_modules())) {
-			exit("You must activate the apache mod_rewrite module!\n");
+			echo "Please change your Apache configuration to be compatible with <a href='http://www.website-php.com' target='_blank'>WebSite-PHP</a>:<br/>- You must activate the apache module mod_rewrite!<br/><a href='http://httpd.apache.org/docs/current/en/mod/mod_rewrite.html' target='_blank'>http://httpd.apache.org/docs/current/en/mod/mod_rewrite.html</a>\n";
+			exit;
 		}
 	}
 	

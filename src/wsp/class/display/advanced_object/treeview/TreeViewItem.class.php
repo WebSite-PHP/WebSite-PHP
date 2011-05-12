@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.68
+ * @version     1.0.77
  * @access      public
  * @since       1.0.17
  */
@@ -35,6 +35,7 @@ class TreeViewItem extends WebSitePhpObject {
 	private $path = "";
 	private $is_file = true;
 	private $is_close = false;
+	private $tooltip_obj = null;
 	
 	private $parent_treeview_item = null;
 	private $treeview_items = null;
@@ -306,6 +307,23 @@ class TreeViewItem extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method tooltip
+	 * @access public
+	 * @param mixed $tooltip_obj 
+	 * @return TreeViewItem
+	 * @since 1.0.77
+	 */
+	public function tooltip($tooltip_obj) {
+		if (get_class($tooltip_obj) != "ToolTip") {
+			throw new NewException("Error TreeViewItem->tooltip(): \$tooltip_obj is not a ToolTip object", 0, 8, __FILE__, __LINE__);
+		}
+		$this->tooltip_obj = $tooltip_obj;
+		
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -334,6 +352,13 @@ class TreeViewItem extends WebSitePhpObject {
 				$html .= $this->value."</a>";
 				
 				$html .= "</span>";
+				
+				if ($this->tooltip_obj != null) {
+					$this->tooltip_obj->setId($this->getId()."_id");
+					$html .= $this->getJavascriptTagOpen();
+					$html .= $this->tooltip_obj->render();
+					$html .= $this->getJavascriptTagClose();
+				}
 			}
 			
 			if ($this->treeview_items != null && sizeof($this->treeview_items) > 0) {

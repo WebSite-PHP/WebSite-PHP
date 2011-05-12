@@ -5,8 +5,8 @@ Options +FollowSymLinks
 <IfModule mod_rewrite.c>
 	# Redirecting www
 	# Configure if you want redirect url http://example.com to http://www.example.com
-	RewriteCond %{HTTP_HOST} ^website-php\.com$ [NC]
-	RewriteRule ^(.*)$ http://www.website-php.com/$1 [R=301,L] 
+	RewriteCond %{HTTP_HOST} ^mydomain\.com$ [NC]
+	RewriteRule ^(.*)$ http://www.mydomain.com/$1 [R=301,L] 
 	
 	
 	# Zone to define your URL rewriting
@@ -121,7 +121,7 @@ Options +FollowSymLinks
 	RewriteRule ^(.+)\.html$ index.php?p=$1&%{QUERY_STRING}
 	
 	# Error 404
-	ErrorDocument 404 /index.php?p=error-page&folder_level=2
+	ErrorDocument 404 /404.php
 </IfModule>
 
 

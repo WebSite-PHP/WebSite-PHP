@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.68
+ * @version     1.0.77
  * @access      public
  * @since       1.0.0
  */
@@ -43,7 +43,10 @@
 	}
 	if (!isset($_SESSION['lang'])) {
 		$default_language_exist = false;
-		$detected_language = explode(',',$_SERVER['HTTP_ACCEPT_LANGUAGE']);
+		$detected_language = array();
+		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+			$detected_language = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+		}
 		if ($detected_language[0] != "") {
 			$detected_language = strtolower(substr(chop($detected_language[0]),0,2));
 			$array_lang_dir = scandir("lang");
@@ -89,7 +92,8 @@
 	    	$test_url = @file_get_contents(BASE_URL.$_SESSION['lang']."/".PARAMS_URL);
 	    	if ($test_url == "") {
 	    		rename('.htaccess', 'install.htaccess');
-	    		exit("The webserver needs to support either mod_rewrite or \"AllowOverride All\" for your website directory!\n");
+	    		echo "Please change your configuration to be compatible with <a href='http://www.website-php.com' target='_blank'>WebSite-PHP</a>:<br/>- Webserver needs to support \"AllowOverride All\" for your website directory!<br/>&lt;Directory /your_directory&gt;<br/>&nbsp;&nbsp;&nbsp;AllowOverride all<br/>&lt;/Directory&gt;<br/><a href='http://httpd.apache.org/docs/current/mod/core.html#allowoverride' target='_blank'>http://httpd.apache.org/docs/current/mod/core.html#allowoverride</a>\n";
+	    		exit;
 	    	}
 		}
 		

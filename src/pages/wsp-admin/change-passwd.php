@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.68
+ * @version     1.0.77
  * @access      public
  * @since       1.0.25
  */
@@ -41,6 +41,9 @@ class ChangePasswd extends Page {
 		parent::$PAGE_TITLE = __(CHANGE_PASSWD);
 		
 		$form = new Form($this, "Form_change_passwd");
+		if (extension_loaded('openssl')) {
+			$form->setEncryptObject(new EncryptDataWspObject("change wsp password", 2048));
+		}
 		$table = new Table();
 		
 		$table->addRow();

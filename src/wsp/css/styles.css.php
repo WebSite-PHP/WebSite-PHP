@@ -1,4 +1,10 @@
 <?php 
+	include_once("../includes/utils_session.inc.php");
+	session_name(formalize_to_variable(SITE_NAME));
+	session_start();
+	
+	include_once("../config/config_css.inc.php"); 
+	
 	header("Content-type: text/css");
 	header("Cache-control: public");
   
@@ -9,8 +15,6 @@
 	header("Pragma: public");
 	header("Cache-Control: maxage=".$expires);
 	header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
-  
-	include_once("../config/config_css.inc.php");
 
 	if (!defined('DEFINE_STYLE_COLOR_2_HEADER_LINK')) {
 		define("DEFINE_STYLE_COLOR_2_HEADER_LINK", "");

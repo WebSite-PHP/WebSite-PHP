@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.68
+ * @version     1.0.77
  * @access      public
  * @since       1.0.16
  */
@@ -99,7 +99,7 @@ class GeoLocalisation {
 					return false;
 				}
 			}
-			$this->errors[] = '"' . $host . '" is not a valid IP address or hostname.';
+			//$this->errors[] = '"' . $host . '" is not a valid IP address or hostname.';
 			
 			$this->_geolocation = $result;
 			if ($this->_ip==$_SERVER["REMOTE_ADDR"]) {

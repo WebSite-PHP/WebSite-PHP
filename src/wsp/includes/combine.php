@@ -15,12 +15,15 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.68
+ * @version     1.0.77
  * @access      public
  * @since       1.0.19
  */
 
 include("../config/config.inc.php");
+include_once("utils_session.inc.php");
+session_name(formalize_to_variable(SITE_NAME));
+session_start();
 
 $_GET['files'] = str_replace("|", "/", $_GET['files']);
 if ($_GET['type'] == "js") {

@@ -17,12 +17,34 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 24/03/2011
- * @version     1.0.68
+ * @version     1.0.77
  * @access      public
  * @since       1.0.64
  */
 
-class CacheFile{
+class CacheFile {
+	/**#@+
+	* cache time
+	* @access public
+	* @var integer
+	*/
+	const CACHE_TIME_1MIN = 60;
+	const CACHE_TIME_2MIN = 120;
+	const CACHE_TIME_10MIN = 600;
+	const CACHE_TIME_1HOUR = 3600;
+	const CACHE_TIME_2HOURS = 7200;
+	const CACHE_TIME_4HOURS = 14400;
+	const CACHE_TIME_6HOURS = 21600;
+	const CACHE_TIME_12HOURS = 43200;
+	const CACHE_TIME_1DAY = 86400;
+	const CACHE_TIME_2DAYS = 172800;
+	const CACHE_TIME_7DAYS = 604800;
+	const CACHE_TIME_14DAYS = 1209600;
+	const CACHE_TIME_1MONTH = 2678400;
+	const CACHE_TIME_2MONTHS = 5270400;
+	const CACHE_TIME_6MONTHS = 15724800;
+	const CACHE_TIME_1YEAR = 31536000;
+	
 	var $file;
 	var $binary;
 	var $name;

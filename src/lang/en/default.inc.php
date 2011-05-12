@@ -26,10 +26,12 @@
 	define("CONTACT_SUBJECT", "Subject");
 	define("CONTACT_MESSAGE", "Message");
 	define("CONTACT_SEND", "Send");
+	define("SEND_WAIT_MAIL_MESSAGE", "Dear %s,<br/><br/>Your message has been sent to %s.<br/>We will process your request as soon as possible.<br/><br/>Best regards,<br/>%s<br/>");
 	
 	define("BOX_LANGUAGE_TITLE", "Languages");
 	define("CAPTCHA_CODE", "Enter Code Below");
-	define("SUBMIT_ERROR", "{#SIMPLE_QUOTE#} + transport.statusText + {#SIMPLE_QUOTE#}:<br/> {#SIMPLE_QUOTE#} + transport.responseText + {#SIMPLE_QUOTE#}");
+	define("DECRYPT_ERROR", "Decrypt message error, please retry");
+	define("SUBMIT_ERROR", "{#SIMPLE_QUOTE#} + transport.statusText + (transport.responseText!={#SIMPLE_QUOTE#}{#SIMPLE_QUOTE#}?{#SIMPLE_QUOTE#}:<br/> {#SIMPLE_QUOTE#} + transport.responseText:{#SIMPLE_QUOTE#}{#SIMPLE_QUOTE#}) + {#SIMPLE_QUOTE#}");
 	define("SUBMIT_LOADING", "Please wait during form validation ...");
 	define("SUBMIT_LOADING_2", "Please wait ...");
 	define("DOWNLOAD_FLASH_PLAYER", "<a href=\"http://www.macromedia.com/go/getflashplayer\" rel=\"nofollow\">Download Flash Player</a> to see it.");

@@ -1,4 +1,11 @@
 <?php 
+	include_once("../includes/utils_session.inc.php");
+	session_name(formalize_to_variable(SITE_NAME));
+	session_start();
+	
+	include_once("../config/config_css.inc.php"); 
+	include_once("../config/config.inc.php"); 
+	
 	header("Content-type: text/css");
   
 	$zlib_OC_is_set = preg_match('/On|(^[0-9]+$)/i', ini_get('zlib.output_compression'));
@@ -8,9 +15,6 @@
 	header("Pragma: public");
 	header("Cache-Control: maxage=".$expires);
 	header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
-  
-	include_once("../config/config_css.inc.php"); 
-	include_once("../config/config.inc.php"); 
 	
 	$is_css_round_box = false;
 	$is_pic_round_box = false;

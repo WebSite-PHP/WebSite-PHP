@@ -27,23 +27,23 @@
 	}
 	
 	function isNewBrowscapVersion() {
-		if (extension_loaded('soap')) {
-			if (!isset($_SESSION['user_browscap_version'])) {
-				$_SESSION['user_browscap_version'] = getCurrentBrowscapVersion();
-			}
-			if (!isset($_SESSION['server_browscap_version'])) {
-				$_SESSION['server_browscap_version'] = file_get_contents("https://browsers.garykeith.com/versions/version-number.asp");
-			}
-			if (trim($_SESSION['user_browscap_version']) != trim($_SESSION['server_browscap_version'])) {
-				return trim($_SESSION['server_browscap_version']);
-			}
+		if (!isset($_SESSION['user_browscap_version'])) {
+			$_SESSION['user_browscap_version'] = getCurrentBrowscapVersion();
+		}
+		if (!isset($_SESSION['server_browscap_version'])) {
+			$_SESSION['server_browscap_version'] = file_get_contents("https://browsers.garykeith.com/versions/version-number.asp");
+		}
+		if (trim($_SESSION['user_browscap_version']) != trim($_SESSION['server_browscap_version'])) {
+			return trim($_SESSION['server_browscap_version']);
 		}
 		return false;
 	}
 	
 	function getAlertVersiobObject($page) {
 		$alert_version_obj = null;
-		if (($wsp_version = isNewWspVersion()) != false || ($browscap_version = isNewBrowscapVersion())) {
+		$wsp_version = isNewWspVersion();
+		$browscap_version = isNewBrowscapVersion();
+		if ($wsp_version != false || $browscap_version != false) {
 			$alert_version_obj = new Object();
 			$alert_version_obj->setClass("warning");
 			if ($wsp_version != false) {
@@ -54,6 +54,13 @@
 				$dialog_update->displayFormURL()->modal();
 				$alert_version_obj->add(__(NEW_BROWSCAP_VERSION, $dialog_update->render(), $browscap_version));
 			}
+		}
+		if (!extension_loaded('soap')) {
+			if ($alert_version_obj == null) {
+				$alert_version_obj = new Object();
+			}
+			$soap_alert = new Label(__(INSTALL_PHP_SOAP));
+			$alert_version_obj->add($soap_alert);
 		}
 		return $alert_version_obj;
 	}

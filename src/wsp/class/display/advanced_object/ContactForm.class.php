@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.68
+ * @version     1.0.77
  * @access      public
  * @since       1.0.17
  */
@@ -32,6 +32,11 @@ class ContactForm extends WebSitePhpObject {
 	private $captcha = null;
 	private $send_button = null;
 	private $render = null;
+	
+	private $mail_to = "";
+	private $mail_to_name = "";
+	private $send_wait_mail = false;
+	private $send_wait_mail_message = "";
 	/**#@-*/
 	
 	/**
@@ -53,6 +58,8 @@ class ContactForm extends WebSitePhpObject {
 		}
 		
 		$this->page_object = $page_object;
+		$this->mail_to = SMTP_MAIL;
+		$this->mail_to_name = SMTP_NAME;
 		
 		$table_main = new Table();
 		$table_main->setClass($table_style);
@@ -138,6 +145,35 @@ class ContactForm extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method setMailTo
+	 * @access public
+	 * @param mixed $mail_to 
+	 * @param string $mail_to_name 
+	 * @return ContactForm
+	 * @since 1.0.71
+	 */
+	public function setMailTo($mail_to, $mail_to_name='') {
+		$this->mail_to = $mail_to;
+		if ($mail_to_name != '') {
+			$this->mail_to_name = $mail_to_name;
+		}
+		return $this;
+	}
+	
+	/**
+	 * Method activateSendWaitMail
+	 * @access public
+	 * @param string $message 
+	 * @return ContactForm
+	 * @since 1.0.71
+	 */
+	public function activateSendWaitMail($message='') {
+		$this->send_wait_mail = true;
+		$this->send_wait_mail_message = $message;
+		return $this;
+	}
+	
+	/**
 	 * Method sendMail
 	 * @access public
 	 * @since 1.0.59
@@ -148,12 +184,19 @@ class ContactForm extends WebSitePhpObject {
 			$dialog = new DialogBox(__(ERROR), __(ERROR_CAPTCHA));
 			$this->page_object->addObject($dialog->activateCloseButton());
 		} else {
-			$message = "Email: ".$this->getContactEmail()."<br/><br/>".$this->getContactMessage();
-			$mail = new SmtpMail(SMTP_MAIL, SMTP_NAME, SITE_NAME." : ".$this->getContactSubject(), $message, $this->getContactEmail(), $this->getContactName());
+			$message = __(CONTACT_NAME).": ".$this->getContactName()."<br/>".__(CONTACT_EMAIL).": ".$this->getContactEmail()."<br/>".__(CONTACT_SUBJECT).": ".$this->getContactSubject()."<br/><br/>".__(CONTACT_MESSAGE).": <br/>".$this->getContactMessage();
+			$mail = new SmtpMail($this->mail_to, $this->mail_to_name, SITE_NAME." : ".$this->getContactSubject(), $message, $this->getContactEmail(), $this->getContactName());
 			if(!$mail->Send()) {
 				$dialog = new DialogBox(__(MAIL)." ".__(ERROR), $mail->getErrorInfo());
 				$this->page_object->addObject($dialog->activateCloseButton());
 			} else {
+				if ($this->send_wait_mail) {
+					if ($this->send_wait_mail_message == "") {
+						$this->send_wait_mail_message = __(SEND_WAIT_MAIL_MESSAGE, $this->getContactName(), SITE_NAME, $this->mail_to_name);
+					}
+					$wait_mail = new SmtpMail($this->getContactEmail(), $this->getContactName(), SITE_NAME, $this->send_wait_mail_message, $this->mail_to, $this->mail_to_name);
+					$wait_mail->Send();
+				}
 				$dialog = new DialogBox(__(MAIL), __(MAIL_SENT));
 				$this->page_object->addObject($dialog->activateCloseButton());
 				$this->page_object->forceObjectsDefaultValues();

@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.68
+ * @version     1.0.77
  * @access      public
  * @since       1.0.17
  */
@@ -258,6 +258,19 @@ class Box extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method setTitle
+	 * @access public
+	 * @param mixed $title 
+	 * @return Box
+	 * @since 1.0.75
+	 */
+	public function setTitle($title) {
+		$this->title = $title;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
 	 * Method setTitleTagH1
 	 * @access public
 	 * @return Box
@@ -438,7 +451,7 @@ class Box extends WebSitePhpObject {
 				$html .= " style=\"padding: ".($this->browser_ie_version!=false?($this->browser_ie_version!=false&&$this->browser_ie_version<=7?4:0):2)."px 0px 4px 5px;";
 			}
 			$html .= "\">";
-			if ($this->icon_48_pixels != ""){
+			if ($this->icon_48_pixels != "") {
 				$html .= "<img src=\"".$this->icon_48_pixels."\" height=\"48\" width=\"48\" style=\"position:absolute;";
 				if ($this->css3 || ($this->browser_ie_version != false && $this->browser_ie_version <= 7)) {
 					if ($this->browser_name == "firefox" || ($this->browser_ie_version != false && $this->browser_ie_version <= 7)) {
@@ -498,7 +511,7 @@ class Box extends WebSitePhpObject {
 				} else {
 					$html_content = $this->content;
 				}
-				$html .= "						".str_replace("<a href=", "<a class=\"box_style_".$this->style_content."\" href=", $html_content)."\n";
+				$html .= "						".str_replace("<a href=\"", "<a class=\"box_style_".$this->style_content."\" href=\"", str_replace("<a href='", "<a class='box_style_".$this->style_content."' href='", $html_content))."\n";
 			}
 			$html .= "						</div>\n";
 			$html .= "					</td>\n";
@@ -599,7 +612,7 @@ class Box extends WebSitePhpObject {
 				} else {
 					$html_content = $this->content;
 				}
-				$html .= "						".str_replace("<a href=", "<a class=\"box_style_".$this->style_content."\" href=", $html_content)."\n";
+				$html .= "						".str_replace("<a href=\"", "<a class=\"box_style_".$this->style_content."\" href=\"", str_replace("<a href='", "<a class='box_style_".$this->style_content."' href='", $html_content))."\n";
 			}
 			$html .= "				</div>\n";
 		

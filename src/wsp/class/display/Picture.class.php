@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.68
+ * @version     1.0.77
  * @access      public
  * @since       1.0.17
  */
@@ -50,9 +50,7 @@ class Picture extends WebSitePhpObject {
 	private $hspace = 0;
 	private $vspace = 0;
 	private $id = "";
-	private $tooltip = false;
-	private $tooltip_content = "";
-	private $tooltip_params = "";
+	private $tooltip_obj = null;
 	private $picture_map = "";
 	
 	private $is_lightbox = false;
@@ -227,20 +225,15 @@ class Picture extends WebSitePhpObject {
 	/**
 	 * Method tooltip
 	 * @access public
-	 * @param string $params 
-	 * @param string $content 
+	 * @param ToolTip $tooltip_obj 
 	 * @return Picture
 	 * @since 1.0.35
 	 */
-	public function tooltip($params='', $content='') {
-		if ($this->id == "") {
-			throw new NewException(get_class($this)."->tooltip() error: Please set an id", 0, 8, __FILE__, __LINE__);
+	public function tooltip($tooltip_obj) {
+		if (get_class($tooltip_obj) != "ToolTip") {
+			throw new NewException("Error Picture->tooltip(): \$tooltip_obj is not a ToolTip object", 0, 8, __FILE__, __LINE__);
 		}
-		
-		$this->tooltip = true;
-		$this->tooltip_params = $params;
-		$this->tooltip_content = $content;
-		$this->addJavaScript(BASE_URL."wsp/js/jquery.qtip-1.0.0-rc3.min.js", "", true);
+		$this->tooltip_obj = $tooltip_obj;
 		
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
@@ -332,7 +325,7 @@ class Picture extends WebSitePhpObject {
 			}
 			$html .= "'";
 			if ($this->title != "") {
-				$html .= " title='".addslashes(str_replace("\"", "&quot;", strip_tags($this->title)))."'";
+				$html .= " title='".str_replace("'", "&#39;", str_replace("\"", "&quot;", $this->title))."'";
 			}
 			$html .= ">";
 		}
@@ -361,16 +354,16 @@ class Picture extends WebSitePhpObject {
 			$this->title = $this->title->render();
 		}
 		if ($this->title != "") {
-			$html .= " title='".addslashes(str_replace("\"", "&quot;", strip_tags($this->title)))."'";
+			$html .= " title='".str_replace("'", "&#39;", str_replace("\"", "&quot;", strip_tags($this->title)))."'";
 			if ($this->alt == "") {
-				$html .= " alt='".addslashes(str_replace("\"", "&quot;", strip_tags($this->title)))."'";
+				$html .= " alt='".str_replace("'", "&#39;", str_replace("\"", "&quot;", strip_tags($this->title)))."'";
 			}
 		}
 		if (gettype($this->alt) == "object" && method_exists($this->alt, "render")) {
 			$this->alt = $this->alt->render();
 		}
 		if ($this->alt != "") {
-			$html .= " alt='".addslashes(str_replace("\"", "&quot;", strip_tags($this->alt)))."'";
+			$html .= " alt='".str_replace("'", "&#39;", str_replace("\"", "&quot;", strip_tags($this->alt)))."'";
 		}
 		if ($this->hspace > 0) {
 			$html .= " hspace='".$this->hspace."'";
@@ -405,15 +398,10 @@ class Picture extends WebSitePhpObject {
 				self::$array_lightbox[$this->lightbox_name] = true;
 			}
 		}
-		if ($this->tooltip) {
+		if ($this->tooltip_obj != null) {
+			$this->tooltip_obj->setId($this->getId());
 			$html .= $this->getJavascriptTagOpen();
-			$html .= "$(document).ready(function() {\n";
-			$html .= "	$('#".$this->getId()."').qtip({ content: ".(($this->tooltip_content=="")?"$('#".$this->getId()."').title":"'".addslashes($this->tooltip_content)."'");
-			if ($this->tooltip_params != "") {
-				$html .= ", ".$this->tooltip_params;
-			}
-			$html .= " });\n";
-			$html .= "});\n";
+			$html .= $this->tooltip_obj->render();
 			$html .= $this->getJavascriptTagClose();
 		}
 		$this->object_change = false;

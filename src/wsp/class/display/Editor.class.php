@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.68
+ * @version     1.0.77
  * @access      public
  * @since       1.0.17
  */
@@ -432,7 +432,6 @@ class Editor extends WebSitePhpObject {
 		$html .= "	setEditorContent_".$this->name." = function(content) {
 						if (CKEDITOR.instances['".$this->name."']) {
 							CKEDITOR.document.getById('".$this->name."').setHtml(content);
-							copyEditorContent_".$this->name."ToHidden();
 						}
 					};";
 		$html .= "	getEditorContent_".$this->name." = function() {

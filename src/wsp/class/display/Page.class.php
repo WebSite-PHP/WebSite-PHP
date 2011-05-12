@@ -17,14 +17,38 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.69
+ * @version     1.0.77
  * @access      public
  * @since       1.0.0
  */
 
 class Page {
+	/**#@+
+	* cache time
+	* @access public
+	* @var integer
+	*/
+	const CACHE_TIME_1MIN = 60;
+	const CACHE_TIME_2MIN = 120;
+	const CACHE_TIME_10MIN = 600;
+	const CACHE_TIME_1HOUR = 3600;
+	const CACHE_TIME_2HOURS = 7200;
+	const CACHE_TIME_4HOURS = 14400;
+	const CACHE_TIME_6HOURS = 21600;
+	const CACHE_TIME_12HOURS = 43200;
+	const CACHE_TIME_1DAY = 86400;
+	const CACHE_TIME_2DAYS = 172800;
+	const CACHE_TIME_7DAYS = 604800;
+	const CACHE_TIME_14DAYS = 1209600;
+	const CACHE_TIME_1MONTH = 2678400;
+	const CACHE_TIME_2MONTHS = 5270400;
+	const CACHE_TIME_6MONTHS = 15724800;
+	const CACHE_TIME_1YEAR = 31536000;
+	
+	/**#@+
+	* @access protected
+	*/
 	protected $render = null;
-	private $add_to_render = array();
 	
 	protected static $PAGE_TITLE = "";
 	protected static $PAGE_KEYWORDS = "";
@@ -37,6 +61,10 @@ class Page {
 	protected $USER_NO_RIGHTS_REDIRECT = "";
 	protected $PAGE_CACHING = false;
 	
+	/**#@+
+	* @access private
+	*/
+	private $add_to_render = array();
 	private $page_is_display = false;
 	
 	private $page_is_caching = false;
@@ -195,6 +223,9 @@ class Page {
 		}
 		if ($this->isCss3Browser()){
 			$this->cache_file_name = str_replace(".cache", "_css3.cache", $this->cache_file_name);
+			if (strtolower($this->getBrowserName()) == "firefox") {
+				$this->cache_file_name = str_replace(".cache", "_FF.cache", $this->cache_file_name);
+			}
 		}
 		if ($this->isAjaxPage()){
 			$this->cache_file_name = str_replace(".cache", "_ajax.cache", $this->cache_file_name);
@@ -202,6 +233,17 @@ class Page {
 			$this->cache_file_name = str_replace(".cache", "_load.cache", $this->cache_file_name);
 		}
 		$this->cache_file_name = $cache_directory."/".str_replace("%2F", "/", urlencode($this->cache_file_name));
+	}
+	
+	/**
+	 * Method getCacheFileName
+	 * @access protected
+	 * @param mixed $file_name 
+	 * @return mixed
+	 * @since 1.0.73
+	 */
+	protected function getCacheFileName($file_name) {
+		return $this->cache_file_name;
 	}
 	
 	/**

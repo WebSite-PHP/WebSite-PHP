@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 01/04/2011
- * @version     1.0.68
+ * @version     1.0.77
  * @access      public
  * @since       1.0.67
  */
@@ -57,16 +57,20 @@
 				
 				return $keys;
 			} else {
-				if ($GLOBALS['__AJAX_PAGE__'] == true && $GLOBALS['__AJAX_LOAD_PAGE__'] == false) {
-			    	header('HTTP/1.1 500 Error: generation private key');
-			    	exit;
-			    } else {
-			    	$error = "Error generation private key : ";
+				$error = "";
+				if (DEBUG) {
 					while ($msg = openssl_error_string()) {
-				    	$error .= $msg."<br />\n";
-				    }
-				    throw new NewException($error, 0, 8, __FILE__, __LINE__);
-			    }
+						$error .= $msg."<br />\n";
+					}
+				}
+		    if ($GLOBALS['__AJAX_PAGE__'] == true && $GLOBALS['__AJAX_LOAD_PAGE__'] == false) {
+		    	header('HTTP/1.1 500 Error: generation private key');
+		    	echo $error;
+		    	exit;
+		    } else {
+		    	$error = "Error generation private key".($error!=""?" : ".$error:"");
+		    	throw new NewException($error, 0, 8, __FILE__, __LINE__);
+		    }
 			}
 		}
 		return null;
@@ -80,28 +84,36 @@
 			if (openssl_private_decrypt($crypttext, $text, $res)) {
 				return $text;
 			} else {
-				if ($GLOBALS['__AJAX_PAGE__'] == true && $GLOBALS['__AJAX_LOAD_PAGE__'] == false) {
-			    	header('HTTP/1.1 500 Error: decrypt message');
-			    	exit;
-			    } else {
-			    	$error = "Error decrypt message : ";
+				$error = "";
+				if (DEBUG) {
 					while ($msg = openssl_error_string()) {
-				    	$error .= $msg."<br />\n";
-				    }
-				    throw new NewException($error, 0, 8, __FILE__, __LINE__);
-			    }
-			}
-		} else {
-			if ($GLOBALS['__AJAX_PAGE__'] == true && $GLOBALS['__AJAX_LOAD_PAGE__'] == false) {
-		    	header('HTTP/1.1 500 Error: parsing private key');
+						$error .= $msg."<br />\n";
+					}
+			  }
+		    if ($GLOBALS['__AJAX_PAGE__'] == true && $GLOBALS['__AJAX_LOAD_PAGE__'] == false) {
+		    	header('HTTP/1.1 500 '.__(DECRYPT_ERROR));
+		    	echo $error;
 		    	exit;
 		    } else {
-		    	$error = "Error parsing private key : ";
-				while ($msg = openssl_error_string()) {
-			    	$error .= $msg."<br />\n";
-			    }
-			    throw new NewException($error, 0, 8, __FILE__, __LINE__);
+		    	$error = __(DECRYPT_ERROR).($error!=""?" : ".$error:"");
+		    	throw new NewException($error, 0, 8, __FILE__, __LINE__);
 		    }
+			}
+		} else {
+			$error = "";
+			if (DEBUG) {
+				while ($msg = openssl_error_string()) {
+					$error .= $msg."<br />\n";
+				}
+		  }
+		  if ($GLOBALS['__AJAX_PAGE__'] == true && $GLOBALS['__AJAX_LOAD_PAGE__'] == false) {
+	    	header('HTTP/1.1 500 Error: parsing private key');
+	    	echo $error;
+	    	exit;
+	    } else {
+	    	$error = "Error parsing private key".($error!=""?" : ".$error:"");
+		    throw new NewException($error, 0, 8, __FILE__, __LINE__);
+	    }
 		}
 		return "";
 	}
@@ -124,7 +136,7 @@
 					parse_str($object->getEncryptObject()->decrypt($_GET[$name]), $_GET);
 				}
 			}
-		} else if (method_exists($object, "isEncrypted") && $object->isEncrypted()) { // Encrypt object
+		} else if (method_exists($object, "isEncrypted") && $object->isEncrypted()) { // Encrypted object
 			if ($submit_method == "POST") {
 				return $object->getEncryptObject()->decrypt($_POST[$name]);
 			} else {

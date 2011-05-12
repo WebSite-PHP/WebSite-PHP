@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.68
+ * @version     1.0.77
  * @access      public
  * @since       1.0.19
  */
@@ -70,22 +70,29 @@
 	// Determine last modification date of the files
 	$lastmodified = 0;
 	foreach ($elements as $element) {
+		$element = str_replace("|", "/", $element);
 		$path = realpath($base . '/' . str_replace(".php.css", ".css.php", $element));
-		if (($type == 'javascript' && substr($path, -3) != '.js') || 
-			($type == 'css' && substr($path, -4) != '.css' && substr($path, -8) != '.css.php')) {
-			header ("HTTP/1.0 403 Forbidden");
-			exit;	
+		if (!file_exists($path)) {
+			$path = realpath($base . '/../' . str_replace(".php.css", ".css.php", $element));
 		}
-	
-		if (substr($path, 0, strlen($base)) != $base || !file_exists($path)) {
-			header ("HTTP/1.0 404 Not Found");
-			exit;
-		}
+		if (file_exists($path)) {
+			if (($type == 'javascript' && substr($path, -3) != '.js') || 
+				($type == 'css' && substr($path, -4) != '.css' && substr($path, -8) != '.css.php')) {
+				header ("HTTP/1.0 403 Forbidden");
+				exit;	
+			}
 		
-		if ($type == 'css' && substr($path, -8) == '.css.php') {
-			$lastmodified = max($lastmodified, filemtime("../config/config_css.inc.php"));
-		} else {
-			$lastmodified = max($lastmodified, filemtime($path));
+			if (substr($path, 0, strlen($base)) != $base || !file_exists($path)) {
+				header ("HTTP/1.0 404 Not Found");
+				exit;
+			}
+			
+			if ($type == 'css' && substr($path, -8) == '.css.php') {
+				$_GET['l'] == $_SESSION['lang'];
+				$lastmodified = max($lastmodified, filemtime("../config/config_css.inc.php"));
+			} else {
+				$lastmodified = max($lastmodified, filemtime($path));
+			}
 		}
 	}
 	
@@ -167,15 +174,21 @@
 		$contents = '';
 		reset($elements);
 		while (list(,$element) = each($elements)) {
+			$element = str_replace("|", "/", $element);
 			$path = realpath($base . '/' . str_replace(".php.css", ".css.php", $element));
-			if ($type == 'css' && substr($path, -8) == '.css.php') {
-				ob_start();
-				include($path);
-				$out_css = ob_get_contents();
-				ob_end_clean();
-				$contents .= "\n\n" . $out_css;
-			} else {
-				$contents .= "\n\n" . file_get_contents($path);
+			if (!file_exists($path)) {
+				$path = realpath($base . '/../' . str_replace(".php.css", ".css.php", $element));
+			}
+			if (file_exists($path)) {
+				if ($type == 'css' && substr($path, -8) == '.css.php') {
+					ob_start();
+					include($path);
+					$out_css = ob_get_contents();
+					ob_end_clean();
+					$contents .= "\n\n" . $out_css;
+				} else {
+					$contents .= "\n\n" . file_get_contents($path);
+				}
 			}
 		}
 		
