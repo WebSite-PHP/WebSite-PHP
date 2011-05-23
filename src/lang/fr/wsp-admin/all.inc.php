@@ -27,4 +27,6 @@
 	define("UPDATE_FRAMEWORK_WAITING", "Veuillez patienter ...");
 	define("UPDATE_FRAMEWORK_COMPLETE", "Mise à jour terminée");
 	define("UPDATE_FRAMEWORK_COMPLETE_OK", "Félicitation, %s a bien été mis à jour");
+	
+	define("PAGE_IN_CONSTRUCTION", "Page en construction, <a href=\"http://www.website-php.com/contact.html\">contactez nous</a> si vous avez des suggestions ou vu des erreurs.");
 ?>

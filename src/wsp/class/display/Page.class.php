@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.77
+ * @version     1.0.80
  * @access      public
  * @since       1.0.0
  */
@@ -1090,7 +1090,28 @@ class Page {
 		if ($this->browser == null) {
 			$this->browser = get_browser_info(null, true);
 		}
-		return ($this->browser['ismobiledevice'])?true:false;
+		if (is_bool($this->browser['ismobiledevice'])) {
+			return $this->browser['ismobiledevice'];
+		} else {
+			return (trim($this->browser['ismobiledevice'])=="true")?true:false;
+		}
+	}
+	
+	/**
+	 * Method isCrawlerBot
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.80
+	 */
+	public function isCrawlerBot() {
+		if ($this->browser == null) {
+			$this->browser = get_browser_info(null, true);
+		}
+		if (is_bool($this->browser['crawler'])) {
+			return $this->browser['crawler'];
+		} else {
+			return (trim($this->browser['crawler'])=="true")?true:false;
+		}
 	}
 	
 	/**

@@ -17,7 +17,6 @@ Disallow: /fr/ajax/
 #Disallow: /it/ajax/
 
 Disallow: /wsp/cache/
-Disallow: *.call
-Disallow: *.do
+Allow: /wsp/cache/adsense/
 
 #Sitemap: http://your_website/en/xml/sitemap.xml

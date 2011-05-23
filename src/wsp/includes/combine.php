@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.77
+ * @version     1.0.80
  * @access      public
  * @since       1.0.19
  */
@@ -35,11 +35,17 @@ if ($_GET['type'] == "js") {
 	$array_files = explode(',', $_GET['files']);
 	for ($i=0; $i < sizeof($array_files); $i++) {
 		$file = "../js/".$array_files[$i];
+		$file2 = "../../".$array_files[$i];
 		if (file_exists($file) && is_file($file)) {
 			$c->add($file);
 			$nb_file++;
+		} else if (file_exists($file2) && is_file($file2)) {
+			$c->add($file2);
+			$nb_file++;
 		} else if (is_file($file)) {
 			echo "alert('Unable to load js file: ".$file."');\n";
+		} else if (is_file($file2)) {
+			echo "alert('Unable to load js file: ".$file2."');\n";
 		}
 	}
 	

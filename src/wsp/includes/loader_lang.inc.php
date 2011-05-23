@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.77
+ * @version     1.0.79
  * @access      public
  * @since       1.0.0
  */
@@ -47,7 +47,7 @@
 		if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
 			$detected_language = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
 		}
-		if ($detected_language[0] != "") {
+		if (isset($detected_language[0]) && $detected_language[0] != "") {
 			$detected_language = strtolower(substr(chop($detected_language[0]),0,2));
 			$array_lang_dir = scandir("lang");
 			for ($i=0; $i < sizeof($array_lang_dir); $i++) {

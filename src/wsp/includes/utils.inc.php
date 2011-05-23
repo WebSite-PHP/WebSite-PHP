@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.77
+ * @version     1.0.79
  * @access      public
  * @since       1.0.19
  */
@@ -65,6 +65,8 @@
 			if (get_class($date) == "DateTime") {
 				$date = $date->format("Y-m-d H:i:s");
 			}
+		} else if (is_int($date)) {
+			$date = date("Y-m-d H:i:s", $date);
 		}
 		list($date, $heure) = explode(" ", $date);
 		list($year, $month, $day) = explode("-", $date);
@@ -75,6 +77,8 @@
 			if (get_class($date) == "DateTime") {
 				$date = $date->format("Y-m-d H:i:s");
 			}
+		} else if (is_int($date)) {
+			$date = date("Y-m-d H:i:s", $date);
 		}
 		list($date, $heure) = explode(" ", $date);
 		return formatDate($date)." ".$heure;
@@ -84,6 +88,8 @@
 			if (get_class($date) == "DateTime") {
 				$date = $date->format("Y-m-d H:i:s");
 			}
+		} else if (is_int($date)) {
+			$date = date("Y-m-d H:i:s", $date);
 		}
 		list($date, $heure) = explode(" ", $date);
 		return formatDate($date)." ".substr($heure, 0, 5);

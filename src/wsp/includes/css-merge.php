@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.77
+ * @version     1.0.79
  * @access      public
  * @since       1.0.19
  */
@@ -88,7 +88,9 @@
 			}
 			
 			if ($type == 'css' && substr($path, -8) == '.css.php') {
-				$_GET['l'] == $_SESSION['lang'];
+				if (isset($_SESSION['lang'])) {
+					$_GET['l'] = $_SESSION['lang'];
+				}
 				$lastmodified = max($lastmodified, filemtime("../config/config_css.inc.php"));
 			} else {
 				$lastmodified = max($lastmodified, filemtime($path));
@@ -111,7 +113,7 @@
 	$hash = $lastmodified . '-' . md5($_GET['files']);
 	header ("Etag: \"" . $hash . "\"");
 	
-	$expires = 60*60*24; // 24 hours
+	$expires = 604800; // 7 days
 	header("Pragma: public");
 	header("Cache-Control: maxage=".$expires);
 	header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');

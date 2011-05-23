@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.77
+ * @version     1.0.80
  * @access      public
  * @since       1.0.25
  */
@@ -67,6 +67,9 @@ class ConfigureCss extends Page {
 		//Admin
 		$table = new Table();
 		$table->setDefaultValign(RowTable::VALIGN_TOP);
+		
+		$construction_page = new Object(__(PAGE_IN_CONSTRUCTION));
+		$table->addRow($construction_page->setClass("error"))->setColspan(3);
 		
 		$form = new Form($this);
 		

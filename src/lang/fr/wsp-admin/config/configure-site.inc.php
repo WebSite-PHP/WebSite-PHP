@@ -19,6 +19,7 @@
 	define("CMB_DEBUG", "Debug");
 	define("EDT_FORCE_SERVER_NAME", "Forcer le nom du serveur");
 	define("PROBLEM_WITH_REDIRECT", "A utiliser lorsque vous avez des problèmes de redirections"); 
+	define("EDT_DEFAULT_TIMEZONE", "Timezone par défaut");
 	define("BTN_VALIDATE", "Valider");
 	
 	define("CONFIG_FILE", "Configuration");

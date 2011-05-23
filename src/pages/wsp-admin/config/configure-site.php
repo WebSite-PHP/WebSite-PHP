@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.77
+ * @version     1.0.79
  * @access      public
  * @since       1.0.25
  */
@@ -44,6 +44,7 @@ class ConfigureSite extends Page {
 	private $cmbJsCompression = null;
 	private $cmbDebug = null;
 	private $edtForceServerName = null;
+	private $edtDefaultTimezone = null;
 	//private $ = null;
 	
 	function __construct() {
@@ -176,6 +177,13 @@ class ConfigureSite extends Page {
 		$table_form->addRowColumns("&nbsp;", __(PROBLEM_WITH_REDIRECT));
 		
 		$table_form->addRow();
+
+		$this->edtDefaultTimezone = new TextBox($form);
+		$this->edtDefaultTimezone->setValue(DEFAULT_TIMEZONE);
+		$edtValidation = new LiveValidation();
+		$table_form->addRowColumns(__(EDT_DEFAULT_TIMEZONE).":&nbsp;", $this->edtDefaultTimezone->setLiveValidation($edtValidation->addValidatePresence()->setFieldName(__(EDT_DEFAULT_TIMEZONE))));
+		
+		$table_form->addRow();
 		
 		$btnValidate = new Button($form);
 		$btnValidate->setValue(__(BTN_VALIDATE))->onClick("configureSite")->setAjaxEvent();
@@ -223,6 +231,8 @@ class ConfigureSite extends Page {
 			$data_config_file .= $this->edtForceServerName->getValue();
 		}
 		$data_config_file .= "\"); // Force site base url (problem with redirect), whithout http:// (ex: www.website-php.com)\n";
+		$data_config_file .= "\n";
+		$data_config_file .= "define(\"DEFAULT_TIMEZONE\", \"".$this->edtDefaultTimezone->getValue()."\");\n";
 		$data_config_file .= "?>";
 		
 		if ($config_file->write($data_config_file)){

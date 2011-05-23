@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.77
+ * @version     1.0.79
  * @access      public
  * @since       1.0.0
  */
@@ -150,7 +150,7 @@
 				$idLoadPage = rand(0,999999);
 				$__AJAX_LOAD_PAGE_ID__ = $idLoadPage;
 ?>
-				<div align="center" id="idLoadPageLoadingPicture<?php echo $idLoadPage; ?>" style="width:100%;height:100%;#position:absolute;#top:50%;display:table-cell;vertical-align:middle;"><img src="<?php echo BASE_URL; ?>wsp/img/loading.gif"/></div>
+				<div align="center" id="idLoadPageLoadingPicture<?php echo $idLoadPage; ?>" style="width:100%;height:100%;#position:absolute;#top:50%;display:table-cell;vertical-align:middle;"><img src="<?php echo BASE_URL; ?>wsp/img/loading.gif" width="32" height="32"/></div>
 				<script language="JavaScript">$('#idLoadPageLoadingPicture<?php echo $idLoadPage; ?>').height($('#idLoadPageLoadingPicture<?php echo $idLoadPage; ?>').parent().height());</script>
 				<div id="idLoadPageContent<?php echo $idLoadPage; ?>" style="display:none;">
 <?php 

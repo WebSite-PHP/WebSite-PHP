@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.77
+ * @version     1.0.80
  * @access      public
  * @since       1.0.0
  */
@@ -33,7 +33,10 @@
 		}
 	}
 	
-	date_default_timezone_set('Europe/Paris');
+	if (!defined("DEFAULT_TIMEZONE") || DEFAULT_TIMEZONE == "") {
+		define("DEFAULT_TIMEZONE", "Europe/Paris");
+	}
+	date_default_timezone_set(DEFAULT_TIMEZONE);
 	$split_request_uri = explode("\?", $_SERVER['REQUEST_URI']);
 	if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
 		$port = "";
@@ -110,49 +113,32 @@
 	define("PARAMS_URL", $params_url);
 	define("SITE_DIRECTORY", dirname($_SERVER['SCRIPT_FILENAME']));
 	
-	include("wsp/config/config_db.inc.php"); 
-	include("wsp/config/config_css.inc.php"); 
-	include("wsp/config/config_smtp.inc.php"); 
-	include("wsp/includes/utils.inc.php");
+	include_once("wsp/config/config_db.inc.php"); 
+	include_once("wsp/config/config_css.inc.php"); 
+	include_once("wsp/config/config_smtp.inc.php"); 
+	include_once("wsp/includes/utils.inc.php");
 
 	// Redirect wrong URL
 	if (strtoupper($_GET['p']) != "HOME") {
 		if (find($_SERVER['REQUEST_URI'], ".html", 1, 0) == 0 && !isset($_GET['mime'])) {
 			header('HTTP/1.1 301 Moved Temporarily');  
 			header('Status: 301 Moved Temporarily');  
-			header("Location:".BASE_URL.$_SESSION['lang']."/".PARAMS_URL);
+			if (isset($_SESSION['lang']) || isset($_GET['l'])) {
+				if (isset($_SESSION['lang'])) {
+					header("Location:".BASE_URL.$_SESSION['lang']."/".PARAMS_URL);
+				} else {
+					header("Location:".BASE_URL.$_GET['l']."/".PARAMS_URL);
+				}
+			} else {
+				header("Location:".BASE_URL.PARAMS_URL);
+			}
 			exit;
 		}
-	} else if (isset($_GET['m'])) {
-		// because of change $_GET['m'] to $_GET['p']
-		if (isset($_GET['m'])) {
-			$params_url = $_GET['m'].".".$_GET['mime']; // mime type
-		} else {
-			$params_url = $_GET['m'].".html";
-		}
-		foreach ($_GET as $key => $value) {
-			if ($key != "l") {
-				if ($key != "p" && $key != "m" && $key != "mime" && $key != "folder_level") {
-					if ($ind == 0) {
-						$params_url .= "?";
-					} else {
-						$params_url .= "&";
-					}
-					$params_url .= $key."=".urlencode($value);
-					$ind++;
-				}
-			}
-		}
-		
-		header('HTTP/1.1 301 Moved Temporarily');  
-		header('Status: 301 Moved Temporarily');
-		header("Location:".BASE_URL.$_SESSION['lang']."/".$params_url);
-		exit;
 	}
 	
-	include("wsp/includes/utils_image.inc.php"); 
-	include("wsp/includes/utils_openssl.inc.php");
-	include("wsp/includes/loader_lang.inc.php");
+	include_once("wsp/includes/utils_image.inc.php"); 
+	include_once("wsp/includes/utils_openssl.inc.php");
+	include_once("wsp/includes/loader_lang.inc.php");
 
 	global $months;
 	$months = array(translate(__JANUARY__), translate(__FEBRUARY__), translate(__MARCH__), 
@@ -170,8 +156,8 @@
 	require_once(dirname(__FILE__)."/../class/NewException.class.php");
 	set_exception_handler(array("NewException", "printStaticException"));
 									
-	include("wsp/includes/loader_class.inc.php");
+	include_once("wsp/includes/loader_class.inc.php");
 	 
-	include("wsp/includes/html2text.inc.php"); 
-	include("wsp/includes/securimage/securimage.php");
+	include_once("wsp/includes/html2text.inc.php"); 
+	include_once("wsp/includes/securimage/securimage.php");
 ?>

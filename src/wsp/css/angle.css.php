@@ -1,7 +1,9 @@
 <?php 
-	include_once("../includes/utils_session.inc.php");
-	session_name(formalize_to_variable(SITE_NAME));
-	session_start();
+	if(!isset($_SESSION)) {
+		include_once("../includes/utils_session.inc.php");
+		session_name(formalize_to_variable(SITE_NAME));
+		session_start();
+	}
 	
 	include_once("../config/config_css.inc.php"); 
 	include_once("../config/config.inc.php"); 

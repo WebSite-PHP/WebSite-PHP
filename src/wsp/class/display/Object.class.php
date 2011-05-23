@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.77
+ * @version     1.0.79
  * @access      public
  * @since       1.0.17
  */
@@ -781,7 +781,7 @@ class Object extends WebSitePhpEventObject {
 				}
 			}
 			if (!$this->disable_ajax_wait_message) {
-				$html .= "#position:absolute;#top:50%;display:table-cell;vertical-align:middle;\"><img src=\"".BASE_URL."wsp/img/loading.gif\"/>";
+				$html .= "#position:absolute;#top:50%;display:table-cell;vertical-align:middle;\"><img src=\"".BASE_URL."wsp/img/loading.gif\" width=\"32\" height=\"32\"/>";
 			} else {
 				$html .= "\">";
 			}

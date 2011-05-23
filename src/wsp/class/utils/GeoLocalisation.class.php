@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.77
+ * @version     1.0.79
  * @access      public
  * @since       1.0.16
  */
@@ -75,6 +75,52 @@ class GeoLocalisation {
 	public function getError(){
 		return implode("\n", $this->errors);
 	}
+	
+	/**
+	 * Method getPageFromUrlWithCurl
+	 * @access private
+	 * @param mixed $url 
+	 * @param double $timeout [default value: 3]
+	 * @return mixed
+	 * @since 1.0.79
+	 */
+	private function getPageFromUrlWithCurl($url, $timeout=3) {
+	    $curl = curl_init();
+	
+	    // HEADERS FROM FIREFOX - APPEARS TO BE A BROWSER REFERRED BY GOOGLE
+	    $header[] = "Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
+	    $header[] = "Cache-Control: max-age=0";
+	    $header[] = "Connection: keep-alive";
+	    $header[] = "Keep-Alive: 300";
+	    $header[] = "Accept-Charset: ISO-8859-1,utf-8;q=0.7,*;q=0.7";
+	    $header[] = "Accept-Language: en-us,en;q=0.5";
+	    $header[] = "Pragma: "; // browsers keep this blank.
+	
+	    // SET THE CURL OPTIONS - SEE http://php.net/manual/en/function.curl-setopt.php
+	    curl_setopt($curl, CURLOPT_URL,            $url);
+	    curl_setopt($curl, CURLOPT_USERAGENT,      'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.1.6) Gecko/20091201 Firefox/3.5.6');
+	    curl_setopt($curl, CURLOPT_HTTPHEADER,     $header);
+	    curl_setopt($curl, CURLOPT_REFERER,        'http://www.google.com');
+	    curl_setopt($curl, CURLOPT_ENCODING,       'gzip,deflate');
+	    curl_setopt($curl, CURLOPT_AUTOREFERER,    TRUE);
+	    curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+	    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
+	    curl_setopt($curl, CURLOPT_TIMEOUT,        $timeout);
+	
+	    // RUN THE CURL REQUEST AND GET THE RESULTS
+	    $htm = curl_exec($curl);
+	    $err = curl_errno($curl);
+	    $inf = curl_getinfo($curl);
+	    curl_close($curl);
+	
+	    // ON FAILURE
+	    if (!$htm) {
+	        return false;
+	    }
+	
+	    // ON SUCCESS
+	    return $htm;
+	}
 
 	/**
 	 * Method getGeoLocation
@@ -86,7 +132,14 @@ class GeoLocalisation {
 		if (!isset($_SESSION['ipinfodb_geolocalisation']) && (!isset($_SESSION['google_geolocalisation']) && $this->_ip==$_SERVER["REMOTE_ADDR"]) || $this->_ip!=$_SERVER["REMOTE_ADDR"]) {
   		if(preg_match('/^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:[.](?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$/', $this->_ip)){
   			$service_url = 'http://' . $this->service . '/' . $this->version . '/' . 'ip_query.php?key=' . $this->apiKey . '&ip=' . $this->_ip;
-  			$xml = @file_get_contents($service_url);
+  			if (extension_loaded('curl')) {
+  				$xml = $this->getPageFromUrlWithCurl($service_url);
+  				if ($xml == false) {
+  					$xml = "";
+  				}
+  			} else {
+  				$xml = @file_get_contents($service_url);
+  			}
 	
 				try{
 					$response = @new SimpleXMLElement($xml);
@@ -181,7 +234,11 @@ class GeoLocalisation {
 	  		$geolocation = $_SESSION['google_geolocalisation'];
 	  	}
 	  	//print_r($geolocation);
-	  	return utf8_decode($geolocation[$column_name]);
+	  	if (isset($geolocation[$column_name])) {
+	  		return utf8_decode($geolocation[$column_name]);
+	  	} else {
+	  		return "";
+	  	}
   	} else {
   		return "";
   	}

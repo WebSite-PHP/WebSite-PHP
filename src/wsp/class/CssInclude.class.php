@@ -15,15 +15,15 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.77
+ * @version     1.0.80
  * @access      public
  * @since       1.0.23
  */
 
 function CssIncludeComparator($a, $b) {
-	$array_put_css_to_begin = array();
-	$array_put_css_to_end = array("wsp/css/angle.css.php");
-		
+	$array_put_css_to_begin = CssInclude::getInstance()->getArrayCssToBegin();
+	$array_put_css_to_end = CssInclude::getInstance()->getArrayCssToEnd();
+	
 	// put to begin array_css_to_begin css
 	if (sizeof($array_put_css_to_begin) > 0) {
 		if (in_array(str_replace(BASE_URL, "", $a), $array_put_css_to_begin)) { return -1; }
@@ -50,6 +50,9 @@ class CssInclude {
 	private $css_scripts = array();
 	private $conditional_comment = array();
 	private $combine = array();
+	
+	private $array_put_css_to_begin = array();
+	private $array_put_css_to_end = array("wsp/css/angle.css.php");
 	/**#@-*/
 
 	/**
@@ -85,6 +88,52 @@ class CssInclude {
 			$this->conditional_comment[] = $conditional_comment;
 			$this->combine[] = $conbine;
 		}
+	}
+	
+	/**
+	 * Method addToBegin
+	 * @access public
+	 * @param mixed $css_url 
+	 * @param string $conditional_comment 
+	 * @param boolean $conbine [default value: false]
+	 * @since 1.0.80
+	 */
+	public function addToBegin($css_url, $conditional_comment='', $conbine=false) {
+		$this->array_put_css_to_begin[] = $css_url;
+		$this->add($css_url, $conditional_comment, $conbine);
+	}
+	
+	/**
+	 * Method addToEnd
+	 * @access public
+	 * @param mixed $css_url 
+	 * @param string $conditional_comment 
+	 * @param boolean $conbine [default value: false]
+	 * @since 1.0.80
+	 */
+	public function addToEnd($css_url, $conditional_comment='', $conbine=false) {
+		$this->array_put_css_to_end[] = $css_url;
+		$this->add($css_url, $conditional_comment, $conbine);
+	}
+	
+	/**
+	 * Method getArrayCssToBegin
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.80
+	 */
+	public function getArrayCssToBegin() {
+		return $this->array_put_css_to_begin;
+	}
+	
+	/**
+	 * Method getArrayCssToEnd
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.80
+	 */
+	public function getArrayCssToEnd() {
+		return $this->array_put_css_to_end;
 	}
 	
 	/**

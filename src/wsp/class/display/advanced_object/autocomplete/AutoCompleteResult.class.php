@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 05/01/2011
- * @version     1.0.77
+ * @version     1.0.79
  * @access      public
  * @since       1.0.17
  */
@@ -70,6 +70,7 @@ class AutoCompleteResult extends WebSitePhpObject {
 			if ($i > 0) { $html .= ", "; }
 			$html .= '{ "id": "'.$this->array_result_id[$i].'", "label": "'.$this->array_result_label[$i].'", "value": "'.$this->array_result_value[$i].'" }';
 		}
+		if ($i == 0) { $html .= "{}"; }
 		$html .= "]";
 		
 		$this->object_change = false;

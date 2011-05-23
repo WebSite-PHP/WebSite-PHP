@@ -21,4 +21,6 @@ define("JS_COMPRESSION_TYPE", "NONE"); // type of Javascript compression (GOOGLE
 
 define("DEBUG", false); // autorize use of method addLogDebug
 define("FORCE_SERVER_NAME", ""); // Force site base url (problem with redirect), whithout http:// (ex: www.website-php.com)
+
+define("DEFAULT_TIMEZONE", "Europe/Paris");
 ?>

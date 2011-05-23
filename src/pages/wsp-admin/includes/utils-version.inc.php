@@ -31,7 +31,7 @@
 			$_SESSION['user_browscap_version'] = getCurrentBrowscapVersion();
 		}
 		if (!isset($_SESSION['server_browscap_version'])) {
-			$_SESSION['server_browscap_version'] = file_get_contents("https://browsers.garykeith.com/versions/version-number.asp");
+			$_SESSION['server_browscap_version'] = file_get_contents("http://browsers.garykeith.com/versions/version-number.asp");
 		}
 		if (trim($_SESSION['user_browscap_version']) != trim($_SESSION['server_browscap_version'])) {
 			return trim($_SESSION['server_browscap_version']);
