@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @version     1.0.81
  * @access      public
  * @since       1.0.17
  */
@@ -41,12 +41,12 @@ class ContactForm extends WebSitePhpObject {
 	
 	/**
 	 * Constructor ContactForm
-	 * @param mixed $page_object 
-	 * @param mixed $send_method 
-	 * @param mixed $table_style 
-	 * @param mixed $button_class 
+	 * @param Page $page_object 
+	 * @param string $send_method 
+	 * @param string $table_style 
+	 * @param string $button_class 
 	 */
-	function __construct($page_object, $send_method, $table_style, $button_class) {
+	function __construct($page_object, $send_method, $table_style='', $button_class='') {
 		parent::__construct();
 		
 		if (!isset($page_object) || !isset($send_method) || !isset($table_style)) {
@@ -107,7 +107,7 @@ class ContactForm extends WebSitePhpObject {
 	/**
 	 * Method getContactName
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getContactName() {
@@ -117,7 +117,7 @@ class ContactForm extends WebSitePhpObject {
 	/**
 	 * Method getContactEmail
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getContactEmail() {
@@ -127,7 +127,7 @@ class ContactForm extends WebSitePhpObject {
 	/**
 	 * Method getContactSubject
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getContactSubject() {
@@ -137,7 +137,7 @@ class ContactForm extends WebSitePhpObject {
 	/**
 	 * Method getContactMessage
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getContactMessage() {
@@ -147,7 +147,7 @@ class ContactForm extends WebSitePhpObject {
 	/**
 	 * Method setMailTo
 	 * @access public
-	 * @param mixed $mail_to 
+	 * @param string $mail_to 
 	 * @param string $mail_to_name 
 	 * @return ContactForm
 	 * @since 1.0.71
@@ -208,7 +208,7 @@ class ContactForm extends WebSitePhpObject {
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
-	 * @return mixed
+	 * @return string html code of object ContactForm
 	 * @since 1.0.35
 	 */
 	public function render($ajax_render=false) {

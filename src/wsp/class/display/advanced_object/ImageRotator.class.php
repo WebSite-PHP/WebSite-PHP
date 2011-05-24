@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @version     1.0.81
  * @access      public
  * @since       1.0.17
  */
@@ -54,11 +54,11 @@ class ImageRotator extends WebSitePhpObject {
 	
 	/**
 	 * Constructor ImageRotator
-	 * @param mixed $id 
+	 * @param string $id 
 	 * @param integer $width 
 	 * @param integer $height 
 	 * @param string $transition [default value: blocks]
-	 * @param string $rotate_time 
+	 * @param integer $rotate_time 
 	 */
 	function __construct($id, $width, $height, $transition='blocks', $rotate_time='') {
 		parent::__construct();
@@ -79,7 +79,7 @@ class ImageRotator extends WebSitePhpObject {
 	/**
 	 * Method addImage
 	 * @access public
-	 * @param mixed $src 
+	 * @param string $src 
 	 * @param string $title 
 	 * @param string $link 
 	 * @return ImageRotator
@@ -112,7 +112,7 @@ class ImageRotator extends WebSitePhpObject {
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
-	 * @return mixed
+	 * @return string html code of object ImageRotator
 	 * @since 1.0.35
 	 */
 	public function render($ajax_render=false) {

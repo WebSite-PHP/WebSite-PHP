@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @version     1.0.81
  * @access      public
  * @since       1.0.17
  */
@@ -37,7 +37,7 @@ class DraggableEvent extends WebSitePhpObject {
 	
 	/**
 	 * Constructor DraggableEvent
-	 * @param mixed $page_object 
+	 * @param Page $page_object 
 	 */
 	function __construct($page_object) {
 		parent::__construct();
@@ -54,7 +54,7 @@ class DraggableEvent extends WebSitePhpObject {
 	/**
 	 * Method getOnDragStartJs
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getOnDragStartJs() {
@@ -82,7 +82,7 @@ class DraggableEvent extends WebSitePhpObject {
 	/**
 	 * Method getOnDragEndJs
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getOnDragEndJs() {
@@ -111,17 +111,19 @@ class DraggableEvent extends WebSitePhpObject {
 	/**
 	 * Method setDraggableId
 	 * @access public
-	 * @param mixed $id 
+	 * @param string $id 
+	 * @return DraggableEvent
 	 * @since 1.0.59
 	 */
 	public function setDraggableId($id) {
 		$this->draggable_id = $id;
+		return $this;
 	}
 	
 	/**
 	 * Method getDraggableId
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getDraggableId() {
@@ -132,7 +134,7 @@ class DraggableEvent extends WebSitePhpObject {
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
-	 * @return mixed
+	 * @return string html code of object DraggableEvent
 	 * @since 1.0.35
 	 */
 	public function render($ajax_render=false) {

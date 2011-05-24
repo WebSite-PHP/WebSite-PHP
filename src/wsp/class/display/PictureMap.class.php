@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 04/01/2011
- * @version     1.0.79
+ * @version     1.0.81
  * @access      public
  * @since       1.0.17
  */
@@ -29,6 +29,7 @@ class PictureMap extends WebSitePhpObject {
 	*/
 	private $id = "";
 	private $default_tooltip_obj=null;
+	private $tooltip = false;
 	
 	private $array_rect = array();
 	private $array_polygon = array();
@@ -40,7 +41,7 @@ class PictureMap extends WebSitePhpObject {
 	
 	/**
 	 * Constructor PictureMap
-	 * @param mixed $id 
+	 * @param string $id 
 	 * @param ToolTip $default_tooltip_obj [default value: null]
 	 */
 	function __construct($id, $default_tooltip_obj=null) {
@@ -61,14 +62,15 @@ class PictureMap extends WebSitePhpObject {
 	
 	/**
 	 * Method addRect
+	 * Define a rectangle link area on a picture
 	 * @access public
-	 * @param mixed $link 
-	 * @param mixed $title 
-	 * @param mixed $x1 
-	 * @param mixed $y1 
-	 * @param mixed $x2 
-	 * @param mixed $y2 
-	 * @param mixed $tooltip_obj [default value: null]
+	 * @param string $link link when click on the picture
+	 * @param string $title title of the link area
+	 * @param integer $x1 coordonate x1 of the rectangle
+	 * @param integer $y1 coordonate y1 of the rectangle
+	 * @param integer $x2 coordonate x2 of the rectangle
+	 * @param integer $y2 coordonate y2 of the rectangle
+	 * @param ToolTip $tooltip_obj tootip on mouse over the area [default value: null]
 	 * @return PictureMap
 	 * @since 1.0.35
 	 */
@@ -97,20 +99,22 @@ class PictureMap extends WebSitePhpObject {
 	
 	/**
 	 * Method addPolygon
+	 * Define a polygon link area on a picture
+	 * The polygon is define by coordonate x1-y1, x2-y2, x3-y3, and more if necessary
 	 * @access public
-	 * @param mixed $link 
-	 * @param mixed $title 
-	 * @param mixed $x1 
-	 * @param mixed $y1 
-	 * @param mixed $x2 
-	 * @param mixed $y2 
-	 * @param mixed $x3 
-	 * @param mixed $y3 
-	 * @param mixed $tooltip_obj [default value: null]
+	 * @param string $link link when click on the picture
+	 * @param string $title title of the link area
+	 * @param ToolTip $tooltip_obj tootip on mouse over the area [default value: null]
+	 * @param integer $x1 coordonate x1 of the polygon [default value: null]
+	 * @param integer $y1 coordonate y1 of the polygon [default value: null]
+	 * @param integer $x2 coordonate x2 of the polygon [default value: null]
+	 * @param integer $y2 coordonate y2 of the polygon [default value: null]
+	 * @param integer $x3 coordonate x3 of the polygon [default value: null]
+	 * @param integer $y3 coordonate y3 of the polygon [default value: null]
 	 * @return PictureMap
 	 * @since 1.0.35
 	 */
-	public function addPolygon($link, $title, $x1, $y1, $x2, $y2, $x3, $y3, $tooltip_obj=null) {
+	public function addPolygon($link, $title, $tooltip_obj=null, $x1=null, $y1=null, $x2=null, $y2=null, $x3=null, $y3=null) {
 		if (gettype($link) != "object" || get_class($link) != "Link") {
 			throw new NewException(get_class($this)."->addPolygon() error: \$link must be a Link object", 0, 8, __FILE__, __LINE__);
 		}
@@ -133,13 +137,14 @@ class PictureMap extends WebSitePhpObject {
 	
 	/**
 	 * Method addCircle
+	 * Define a circle link area on a picture
 	 * @access public
-	 * @param mixed $link 
-	 * @param mixed $title 
-	 * @param mixed $x 
-	 * @param mixed $y 
-	 * @param mixed $r 
-	 * @param mixed $tooltip_obj [default value: null]
+	 * @param string $link link when click on the picture
+	 * @param string $title title of the link area
+	 * @param integer $x coordonate x of the circle
+	 * @param integer $y coordonate y of the circle
+	 * @param integer $r rayon of the circle
+	 * @param ToolTip $tooltip_obj tootip on mouse over the area [default value: null]
 	 * @return PictureMap
 	 * @since 1.0.35
 	 */
@@ -167,10 +172,11 @@ class PictureMap extends WebSitePhpObject {
 	
 	/**
 	 * Method setDefault
+	 * Define the default link on the picture
 	 * @access public
-	 * @param mixed $link 
-	 * @param string $title 
-	 * @param mixed $tooltip_obj [default value: null]
+	 * @param string $link link when click on the picture
+	 * @param string $title title of the link area
+	 * @param ToolTip $tooltip_obj tootip on mouse over the area [default value: null]
 	 * @return PictureMap
 	 * @since 1.0.35
 	 */
@@ -188,7 +194,7 @@ class PictureMap extends WebSitePhpObject {
 	/**
 	 * Method getId
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getId() {
@@ -257,9 +263,7 @@ class PictureMap extends WebSitePhpObject {
 		
 		if ($this->tooltip) {
 			$html .= $this->getJavascriptTagOpen();
-			$html .= "$(document).ready(function() {\n";
 			$html .= $tooltip_params;
-			$html .= "});\n";
 			$html .= $this->getJavascriptTagClose();
 		}
 		
@@ -270,19 +274,21 @@ class PictureMap extends WebSitePhpObject {
 	/**
 	 * Method createToolTips
 	 * @access private
-	 * @param mixed $tootip 
-	 * @param mixed $ind 
-	 * @return mixed
+	 * @param ToolTip $tootip 
+	 * @param integer $ind 
+	 * @return string
 	 * @since 1.0.35
 	 */
 	private function createToolTips($tootip, $ind) {
 		$html = "";
 		if ($tootip != null) {
-			$tootip->setId($this->getId."_".$ind);
+			$tootip->setId($this->getId()."_".$ind);
 			$html .= $tootip->render();
+			$this->tooltip = true;
 		} else if ($this->default_tooltip_obj != null) {
-			$this->tooltip_params->setId($this->getId."_".$ind);
-			$html .= $this->tooltip_params->render();
+			$this->default_tooltip_obj->setId($this->getId()."_".$ind);
+			$html .= $this->default_tooltip_obj->render();
+			$this->tooltip = true;
 		}
 		return $html;
 	}

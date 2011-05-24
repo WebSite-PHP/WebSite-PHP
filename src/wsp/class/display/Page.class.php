@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.80
+ * @version     1.0.81
  * @access      public
  * @since       1.0.0
  */
@@ -96,6 +96,20 @@ class Page {
 	function __construct() {
 		$this->is_browser_ie_6 = is_browser_ie_6();
 		$this->is_browser_ie = is_browser_ie();
+		
+		// add stretch fixe background
+		if (!$this->isAjaxLoadPage() && !$this->isAjaxPage() && 
+			defined('DEFINE_STYLE_BCK_BODY_PIC_POSITION') && DEFINE_STYLE_BCK_BODY_PIC_POSITION == "STRETCH" &&
+			defined('DEFINE_STYLE_BCK_BODY_PIC') && DEFINE_STYLE_BCK_BODY_PIC_POSITION != "") {
+				JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery.backstretch.min.js");
+				$background_body_pic = "";
+				if (find(DEFINE_STYLE_BCK_BODY_PIC, "http://") == 0) {
+					$background_body_pic = $this->getBaseURL().DEFINE_STYLE_BCK_BODY_PIC;
+				} else {
+					$background_body_pic = DEFINE_STYLE_BCK_BODY_PIC;
+				}
+				$this->addObject(new JavaScript("$.backstretch(\"".$background_body_pic."\");"));
+		}
 	}
 	
 	/**
@@ -430,7 +444,7 @@ class Page {
 	 * Create an automatique and unique name for an event object
 	 * @access public
 	 * @param WebSitePhpObject $object event object (ex: TextBox, Editor, Button, ...)
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.18
 	 */
 	public function createObjectName($object) {
@@ -1100,7 +1114,7 @@ class Page {
 	/**
 	 * Method isCrawlerBot
 	 * @access public
-	 * @return mixed
+	 * @return boolean
 	 * @since 1.0.80
 	 */
 	public function isCrawlerBot() {
@@ -1146,7 +1160,7 @@ class Page {
 	/**
 	 * Method includeJsAndCssFromObjectToPage
 	 * @access public
-	 * @param mixed $str_object 
+	 * @param string $str_object 
 	 * @since 1.0.33
 	 */
 	public function includeJsAndCssFromObjectToPage($str_object) {

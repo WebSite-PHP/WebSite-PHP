@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @version     1.0.81
  * @access      public
  * @since       1.0.17
  */
@@ -112,11 +112,11 @@ class Object extends WebSitePhpEventObject {
 	
 	/**
 	 * Constructor Object
-	 * @param string|Object|Url $str_or_object [default value: null]
-	 * @param string|Object $str_or_object2 [default value: null]
-	 * @param string|Object $str_or_object3 [default value: null]
-	 * @param string|Object $str_or_object4 [default value: null]
-	 * @param string|Object $str_or_object5 [default value: null]
+	 * @param string|WspObject|Url $str_or_object [default value: null]
+	 * @param string|WspObject $str_or_object2 [default value: null]
+	 * @param string|WspObject $str_or_object3 [default value: null]
+	 * @param string|WspObject $str_or_object4 [default value: null]
+	 * @param string|WspObject $str_or_object5 [default value: null]
 	 */
 	function __construct($str_or_object=null, $str_or_object2=null, $str_or_object3=null, $str_or_object4=null, $str_or_object5=null) {
 		parent::__construct();
@@ -132,11 +132,11 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method add
 	 * @access public
-	 * @param string|Object|Url $str_or_object 
-	 * @param string|Object $str_or_object2 [default value: null]
-	 * @param string|Object $str_or_object3 [default value: null]
-	 * @param string|Object $str_or_object4 [default value: null]
-	 * @param string|Object $str_or_object5 [default value: null]
+	 * @param string|WspObject|Url $str_or_object 
+	 * @param string|WspObject $str_or_object2 [default value: null]
+	 * @param string|WspObject $str_or_object3 [default value: null]
+	 * @param string|WspObject $str_or_object4 [default value: null]
+	 * @param string|WspObject $str_or_object5 [default value: null]
 	 * @return Object
 	 * @since 1.0.36
 	 */
@@ -156,7 +156,7 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method addObject
 	 * @access private
-	 * @param mixed $object 
+	 * @param WspObject|DateTime|string $object 
 	 * @since 1.0.59
 	 */
 	private function addObject($object) {
@@ -214,7 +214,7 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method setMinHeight
 	 * @access public
-	 * @param mixed $min_height 
+	 * @param integer $min_height 
 	 * @return Object
 	 * @since 1.0.36
 	 */
@@ -231,7 +231,7 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method setBorder
 	 * @access public
-	 * @param double $border [default value: 1]
+	 * @param integer $border [default value: 1]
 	 * @param string $border_color [default value: black]
 	 * @param string $border_style [default value: solid]
 	 * @return Object
@@ -248,9 +248,9 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method setFont
 	 * @access public
-	 * @param mixed $font_size 
-	 * @param mixed $font_family 
-	 * @param mixed $font_weight 
+	 * @param integer $font_size 
+	 * @param string $font_family 
+	 * @param string $font_weight 
 	 * @return Object
 	 * @since 1.0.36
 	 */
@@ -265,7 +265,7 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method setStyle
 	 * @access public
-	 * @param mixed $style 
+	 * @param string $style 
 	 * @return Object
 	 * @since 1.0.36
 	 */
@@ -278,7 +278,7 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method setClass
 	 * @access public
-	 * @param mixed $class 
+	 * @param string $class 
 	 * @return Object
 	 * @since 1.0.36
 	 */
@@ -291,7 +291,7 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method setId
 	 * @access public
-	 * @param mixed $id 
+	 * @param string $id 
 	 * @return Object
 	 * @since 1.0.36
 	 */
@@ -315,7 +315,7 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method getId
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.36
 	 */
 	public function getId() {
@@ -357,7 +357,7 @@ class Object extends WebSitePhpEventObject {
 	 * @access public
 	 * @param string $bool if object can be move [default value: true]
 	 * @param string $revert if object revert first place when dropped [default value: false]
-	 * @param mixed $draggable_event [default value: null]
+	 * @param DraggableEvent $draggable_event [default value: null]
 	 * @param boolean $sortable_zone [default value: false]
 	 * @param string $draggable_params 
 	 * @return Object
@@ -388,7 +388,7 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method getIsDraggable
 	 * @access public
-	 * @return mixed
+	 * @return boolean
 	 * @since 1.0.36
 	 */
 	public function getIsDraggable() {
@@ -399,7 +399,7 @@ class Object extends WebSitePhpEventObject {
 	 * Method setDroppable
 	 * @access public
 	 * @param string $bool if object can be dropped [default value: true]
-	 * @param mixed $droppable_event [default value: null]
+	 * @param DroppableEvent $droppable_event [default value: null]
 	 * @param string $droppable_params 
 	 * @param string $droppable_style [default value: droppablehover]
 	 * @return Object
@@ -429,7 +429,7 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method getIsDroppable
 	 * @access public
-	 * @return mixed
+	 * @return boolean
 	 * @since 1.0.36
 	 */
 	public function getIsDroppable() {
@@ -440,7 +440,7 @@ class Object extends WebSitePhpEventObject {
 	 * Method setSortable
 	 * @access public
 	 * @param string $bool if object can be sort [default value: true]
-	 * @param mixed $sortable_event [default value: null]
+	 * @param SortableEvent $sortable_event [default value: null]
 	 * @param string $sortable_params 
 	 * @return Object
 	 * @since 1.0.36
@@ -468,7 +468,7 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method getIsSortable
 	 * @access public
-	 * @return mixed
+	 * @return boolean
 	 * @since 1.0.36
 	 */
 	public function getIsSortable() {

@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @version     1.0.81
  * @access      public
  * @since       1.0.17
  */
@@ -52,7 +52,7 @@ class LiveValidation extends WebSitePhpObject {
 	/**
 	 * Method setObject
 	 * @access public
-	 * @param mixed $object 
+	 * @param WebSitePhpObject $object 
 	 * @return LiveValidation
 	 * @since 1.0.35
 	 */
@@ -72,7 +72,7 @@ class LiveValidation extends WebSitePhpObject {
 	/**
 	 * Method setFieldName
 	 * @access public
-	 * @param mixed $name 
+	 * @param string $name 
 	 * @return LiveValidation
 	 * @since 1.0.35
 	 */
@@ -84,7 +84,7 @@ class LiveValidation extends WebSitePhpObject {
 	/**
 	 * Method setAlertMessage
 	 * @access public
-	 * @param mixed $message 
+	 * @param string $message 
 	 * @return LiveValidation
 	 * @since 1.0.35
 	 */
@@ -108,7 +108,7 @@ class LiveValidation extends WebSitePhpObject {
 	/**
 	 * Method addValidateFormat
 	 * @access public
-	 * @param mixed $pattern 
+	 * @param string $pattern 
 	 * @return LiveValidation
 	 * @since 1.0.35
 	 */
@@ -155,7 +155,7 @@ class LiveValidation extends WebSitePhpObject {
 	/**
 	 * Method addValidateLength
 	 * @access public
-	 * @param mixed $length 
+	 * @param integer $length 
 	 * @return LiveValidation
 	 * @since 1.0.35
 	 */
@@ -201,7 +201,7 @@ class LiveValidation extends WebSitePhpObject {
 	/**
 	 * Method addValidateConfirmation
 	 * @access public
-	 * @param mixed $confirm_from_id 
+	 * @param string $confirm_from_id 
 	 * @return LiveValidation
 	 * @since 1.0.35
 	 */

@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @version     1.0.81
  * @access      public
  * @since       1.0.17
  */
@@ -50,8 +50,8 @@ class Video extends WebSitePhpObject {
 	
 	/**
 	 * Constructor Video
-	 * @param mixed $id 
-	 * @param mixed $video 
+	 * @param string $id 
+	 * @param string $video 
 	 * @param integer $width 
 	 * @param integer $height 
 	 * @param string $snapshot 
@@ -75,7 +75,7 @@ class Video extends WebSitePhpObject {
 	/**
 	 * Method setSnapshot
 	 * @access public
-	 * @param mixed $snapshot 
+	 * @param string $snapshot 
 	 * @return Video
 	 * @since 1.0.35
 	 */
@@ -88,7 +88,7 @@ class Video extends WebSitePhpObject {
 	/**
 	 * Method setScreencolor
 	 * @access public
-	 * @param mixed $screencolor 
+	 * @param string $screencolor 
 	 * @return Video
 	 * @since 1.0.35
 	 */
@@ -101,7 +101,7 @@ class Video extends WebSitePhpObject {
 	/**
 	 * Method setControlbar
 	 * @access public
-	 * @param mixed $controlbar 
+	 * @param string $controlbar 
 	 * @return Video
 	 * @since 1.0.35
 	 */
@@ -114,7 +114,7 @@ class Video extends WebSitePhpObject {
 	/**
 	 * Method setRepeat
 	 * @access public
-	 * @param mixed $repeat 
+	 * @param string $repeat 
 	 * @return Video
 	 * @since 1.0.35
 	 */
@@ -140,7 +140,7 @@ class Video extends WebSitePhpObject {
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
-	 * @return mixed
+	 * @return string html code of object Video
 	 * @since 1.0.35
 	 */
 	public function render($ajax_render=false) {

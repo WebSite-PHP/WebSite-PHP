@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @version     1.0.81
  * @access      public
  * @since       1.0.17
  */
@@ -90,6 +90,22 @@ class Map extends WebSitePhpObject {
 		} else {
 			$this->location_icon_id[] = -1;
 		}
+		return $this;
+	}
+	
+	/**
+	 * Method addLatitudeLongitudeMarker
+	 * @access public
+	 * @param mixed $latitude 
+	 * @param mixed $longitude 
+	 * @param string $text 
+	 * @param string $icon_url_32 
+	 * @param boolean $define_as_center [default value: true]
+	 * @return Map
+	 * @since 1.0.81
+	 */
+	public function addLatitudeLongitudeMarker($latitude, $longitude, $text='', $icon_url_32='', $define_as_center=true) {
+		$this->addMarker($latitude." ".$longitude, $text, $icon_url_32, $define_as_center);
 		return $this;
 	}
 	
@@ -210,12 +226,18 @@ class Map extends WebSitePhpObject {
 			
 		$html .= "	loadAllMarkers_".$this->id." = function() {
 				clearAllTimeout_".$this->id."();\n";
+			$is_already_center = false;
 			for ($i=0; $i < sizeof($this->location); $i++) {
 				$icon = "";
 				if ($this->location_icon_id[$i] != -1) {
 					$icon = "icon_".$this->id."_".$this->location_icon_id[$i];
 				}
-				$html .= "		showMarker_".$this->id."(".$i.", '".addslashes($this->location[$i])."', '".addslashes($this->location_text[$i])."', '".$icon."', ".(($this->location_is_center[$i])?"true":"false").");\n";
+				$is_center = "false";
+				if (!$is_already_center && $this->location_is_center[$i]) {
+					$is_center = "true";
+					$is_already_center = true;
+				}
+				$html .= "		showMarker_".$this->id."(".$i.", '".addslashes($this->location[$i])."', '".addslashes($this->location_text[$i])."', '".$icon."', ".$is_center.");\n";
 			}
 		$html .= "	};\n";
 		$html .= "showMarker_".$this->id." = function(ind, address, text, icon, is_center) {

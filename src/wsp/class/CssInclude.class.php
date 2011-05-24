@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.80
+ * @version     1.0.81
  * @access      public
  * @since       1.0.23
  */
@@ -119,7 +119,7 @@ class CssInclude {
 	/**
 	 * Method getArrayCssToBegin
 	 * @access public
-	 * @return mixed
+	 * @return array
 	 * @since 1.0.80
 	 */
 	public function getArrayCssToBegin() {
@@ -129,7 +129,7 @@ class CssInclude {
 	/**
 	 * Method getArrayCssToEnd
 	 * @access public
-	 * @return mixed
+	 * @return array
 	 * @since 1.0.80
 	 */
 	public function getArrayCssToEnd() {
@@ -139,12 +139,12 @@ class CssInclude {
 	/**
 	 * Method get
 	 * @access public
-	 * @param boolean $sort_by_name [default value: false]
-	 * @return mixed
+	 * @param boolean $sort [default value: false]
+	 * @return array
 	 * @since 1.0.35
 	 */
-	public function get($sort_by_name=false) {
-		if ($sort_by_name) {
+	public function get($sort=false) {
+		if ($sort) {
 			uasort($this->css_scripts, "CssIncludeComparator");
 		}
 		return $this->css_scripts;
@@ -154,7 +154,7 @@ class CssInclude {
 	 * Method getConditionalComment
 	 * @access public
 	 * @param mixed $indice 
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getConditionalComment($indice) {
@@ -165,7 +165,7 @@ class CssInclude {
 	 * Method getCombine
 	 * @access public
 	 * @param mixed $indice 
-	 * @return mixed
+	 * @return boolean
 	 * @since 1.0.35
 	 */
 	public function getCombine($indice) {

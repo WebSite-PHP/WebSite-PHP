@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @version     1.0.81
  * @access      public
  * @since       1.0.17
  */
@@ -97,7 +97,7 @@ class Box extends WebSitePhpObject {
 	 * @param string $link heander title link
 	 * @param string $id unique id of the box [default value: main_box]
 	 * @param string $width width of the box [default value: 100%]
-	 * @param string $height height of the bo
+	 * @param string $height height of the box
 	 * @param string $move if box can be move [default value: false]
 	 */
 	function __construct($title, $shadow=false, $style_header='1', $style_content='1', $link='', $id='main_box', $width='100%', $height="", $move=false) {
@@ -165,7 +165,7 @@ class Box extends WebSitePhpObject {
 	/**
 	 * Method setBigIcon
 	 * @access public
-	 * @param mixed $icon_48_pixels 
+	 * @param string $icon_48_pixels 
 	 * @param string $text 
 	 * @return Box
 	 * @since 1.0.35
@@ -180,8 +180,8 @@ class Box extends WebSitePhpObject {
 	/**
 	 * Method setDraggable
 	 * @access public
-	 * @param string $bool if box can be move [default value: true]
-	 * @param string $revert if box revert first place when dropped [default value: false]
+	 * @param boolean $bool if box can be move [default value: true]
+	 * @param boolean $revert if box revert first place when dropped [default value: false]
 	 * @return Box
 	 * @since 1.0.35
 	 */
@@ -247,7 +247,7 @@ class Box extends WebSitePhpObject {
 	/**
 	 * Method setShadow
 	 * @access public
-	 * @param mixed $shadow 
+	 * @param boolean $shadow 
 	 * @return Box
 	 * @since 1.0.35
 	 */
@@ -260,7 +260,7 @@ class Box extends WebSitePhpObject {
 	/**
 	 * Method setTitle
 	 * @access public
-	 * @param mixed $title 
+	 * @param string $title 
 	 * @return Box
 	 * @since 1.0.75
 	 */
@@ -337,7 +337,7 @@ class Box extends WebSitePhpObject {
 	/**
 	 * Method forceBoxWithPicture
 	 * @access public
-	 * @param mixed $bool 
+	 * @param boolean $bool 
 	 * @param string $border_color 
 	 * @return Box
 	 * @since 1.0.35

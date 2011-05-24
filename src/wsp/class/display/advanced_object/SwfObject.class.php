@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @version     1.0.81
  * @access      public
  * @since       1.0.17
  */
@@ -40,8 +40,8 @@ class SwfObject extends WebSitePhpObject {
 	
 	/**
 	 * Constructor SwfObject
-	 * @param mixed $id 
-	 * @param mixed $swf_file 
+	 * @param string $id 
+	 * @param string $swf_file 
 	 * @param integer $width 
 	 * @param integer $height 
 	 * @param string $optional_text 
@@ -65,8 +65,8 @@ class SwfObject extends WebSitePhpObject {
 	/**
 	 * Method addParam
 	 * @access public
-	 * @param mixed $name 
-	 * @param mixed $value 
+	 * @param string $name 
+	 * @param string $value 
 	 * @since 1.0.59
 	 */
 	public function addParam($name, $value) {
@@ -76,8 +76,8 @@ class SwfObject extends WebSitePhpObject {
 	/**
 	 * Method addVariable
 	 * @access public
-	 * @param mixed $name 
-	 * @param mixed $value 
+	 * @param string $name 
+	 * @param string $value 
 	 * @since 1.0.59
 	 */
 	public function addVariable($name, $value) {
@@ -87,7 +87,7 @@ class SwfObject extends WebSitePhpObject {
 	/**
 	 * Method setOptionalText
 	 * @access public
-	 * @param mixed $text 
+	 * @param string $text 
 	 * @return SwfObject
 	 * @since 1.0.35
 	 */

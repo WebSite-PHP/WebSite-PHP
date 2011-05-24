@@ -49,12 +49,25 @@
 	if ($style_font_serif_value == "") {
 		$style_font_serif_value = "sans serif";
 	}
+	
+	$background_body = DEFINE_STYLE_BCK_BODY;
+	if (defined('DEFINE_STYLE_BCK_BODY_PIC') && DEFINE_STYLE_BCK_BODY_PIC != "") {
+		$background_body .= " url('".DEFINE_STYLE_BCK_BODY_PIC."')";
+		if (defined('DEFINE_STYLE_BCK_BODY_PIC_POSITION') && DEFINE_STYLE_BCK_BODY_PIC_POSITION != "STRETCH") {
+			if (defined('DEFINE_STYLE_BCK_BODY_PIC_REPEAT') && DEFINE_STYLE_BCK_BODY_PIC_REPEAT != "") {
+				$background_body .= " ".DEFINE_STYLE_BCK_BODY_PIC_REPEAT;
+			}
+			if (defined('DEFINE_STYLE_BCK_BODY_PIC_POSITION') && DEFINE_STYLE_BCK_BODY_PIC_POSITION != "") {
+				$background_body .= " ".DEFINE_STYLE_BCK_BODY_PIC_POSITION;
+			}
+		}
+	}
 ?>
 /*** Global ***/
 body {
 	font-size: <?php echo $style_font_size_value; ?>;
 	font-family: <?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
-	background:<?php echo DEFINE_STYLE_BCK_BODY; ?>;
+	background:<?php echo $background_body; ?>;
 	color: <?php echo DEFINE_STYLE_COLOR_BODY; ?>;
 	margin:0px;
 	padding:3px;

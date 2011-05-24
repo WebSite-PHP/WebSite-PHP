@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @version     1.0.81
  * @access      public
  * @since       1.0.17
  */
@@ -193,7 +193,7 @@ class RoundBox extends WebSitePhpObject {
 	/**
 	 * Method setShadow
 	 * @access public
-	 * @param mixed $shadow 
+	 * @param boolean $shadow 
 	 * @return RoundBox
 	 * @since 1.0.35
 	 */
@@ -222,7 +222,7 @@ class RoundBox extends WebSitePhpObject {
 	/**
 	 * Method forceBoxWithPicture
 	 * @access public
-	 * @param mixed $bool 
+	 * @param boolean $bool 
 	 * @param string $border_color 
 	 * @return RoundBox
 	 * @since 1.0.35

@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @version     1.0.81
  * @access      public
  * @since       1.0.17
  */
@@ -43,7 +43,7 @@ class ColorPicker extends TextBox {
 	
 	/**
 	 * Constructor ColorPicker
-	 * @param mixed $page_or_form_object 
+	 * @param Page|Form $page_or_form_object 
 	 * @param string $name 
 	 * @param string $id 
 	 * @param string $value 
@@ -60,7 +60,7 @@ class ColorPicker extends TextBox {
 	/**
 	 * Method isButton
 	 * @access public
-	 * @param mixed $bool 
+	 * @param boolean $bool 
 	 * @return ColorPicker
 	 * @since 1.0.35
 	 */
@@ -77,7 +77,7 @@ class ColorPicker extends TextBox {
 	/**
 	 * Method required
 	 * @access public
-	 * @param mixed $bool 
+	 * @param boolean $bool 
 	 * @return ColorPicker
 	 * @since 1.0.35
 	 */
@@ -90,7 +90,7 @@ class ColorPicker extends TextBox {
 	/**
 	 * Method adjust
 	 * @access public
-	 * @param mixed $bool 
+	 * @param boolean $bool 
 	 * @return ColorPicker
 	 * @since 1.0.35
 	 */
@@ -103,7 +103,7 @@ class ColorPicker extends TextBox {
 	/**
 	 * Method hash
 	 * @access public
-	 * @param mixed $bool 
+	 * @param boolean $bool 
 	 * @return ColorPicker
 	 * @since 1.0.35
 	 */
@@ -116,7 +116,7 @@ class ColorPicker extends TextBox {
 	/**
 	 * Method caps
 	 * @access public
-	 * @param mixed $bool 
+	 * @param boolean $bool 
 	 * @return ColorPicker
 	 * @since 1.0.35
 	 */
@@ -155,7 +155,7 @@ class ColorPicker extends TextBox {
 	/**
 	 * Method pickerBorder
 	 * @access public
-	 * @param mixed $int_value 
+	 * @param integer $int_value 
 	 * @return ColorPicker
 	 * @since 1.0.35
 	 */
@@ -168,7 +168,7 @@ class ColorPicker extends TextBox {
 	/**
 	 * Method pickerInset
 	 * @access public
-	 * @param mixed $int_value 
+	 * @param integer $int_value 
 	 * @return ColorPicker
 	 * @since 1.0.35
 	 */
@@ -181,7 +181,7 @@ class ColorPicker extends TextBox {
 	/**
 	 * Method pickerFace
 	 * @access public
-	 * @param mixed $int_value 
+	 * @param integer $int_value 
 	 * @return ColorPicker
 	 * @since 1.0.35
 	 */
@@ -194,7 +194,7 @@ class ColorPicker extends TextBox {
 	/**
 	 * Method pickerBorderColor
 	 * @access public
-	 * @param mixed $str_color 
+	 * @param string $str_color 
 	 * @return ColorPicker
 	 * @since 1.0.35
 	 */
@@ -207,7 +207,7 @@ class ColorPicker extends TextBox {
 	/**
 	 * Method pickerInsetColor
 	 * @access public
-	 * @param mixed $str_color 
+	 * @param string $str_color 
 	 * @return ColorPicker
 	 * @since 1.0.35
 	 */
@@ -220,7 +220,7 @@ class ColorPicker extends TextBox {
 	/**
 	 * Method pickerFaceColor
 	 * @access public
-	 * @param mixed $str_color 
+	 * @param string $str_color 
 	 * @return ColorPicker
 	 * @since 1.0.35
 	 */
@@ -233,7 +233,7 @@ class ColorPicker extends TextBox {
 	/**
 	 * Method valueElement
 	 * @access public
-	 * @param mixed $textbox_id 
+	 * @param string $textbox_id 
 	 * @return ColorPicker
 	 * @since 1.0.35
 	 */
@@ -246,7 +246,7 @@ class ColorPicker extends TextBox {
 	/**
 	 * Method styleElement
 	 * @access public
-	 * @param mixed $textbox_id 
+	 * @param string $textbox_id 
 	 * @return ColorPicker
 	 * @since 1.0.35
 	 */
@@ -271,8 +271,8 @@ class ColorPicker extends TextBox {
 	/**
 	 * Method setProperty
 	 * @access private
-	 * @param mixed $name 
-	 * @param mixed $value 
+	 * @param string $name 
+	 * @param string $value 
 	 * @since 1.0.59
 	 */
 	private function setProperty($name, $value) {

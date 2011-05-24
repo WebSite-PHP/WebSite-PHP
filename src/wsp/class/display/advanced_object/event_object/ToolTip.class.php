@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 29/04/2011
- * @version     1.0.79
+ * @version     1.0.81
  * @access      public
  * @since       1.0.77
  */
@@ -48,7 +48,7 @@ class ToolTip extends WebSitePhpObject {
 	/**
 	 * Method setId
 	 * @access public
-	 * @param mixed $id 
+	 * @param string $id 
 	 * @return ToolTip
 	 * @since 1.0.77
 	 */
@@ -60,7 +60,7 @@ class ToolTip extends WebSitePhpObject {
 	/**
 	 * Method setParams
 	 * @access public
-	 * @param mixed $params 
+	 * @param string $params 
 	 * @return ToolTip
 	 * @since 1.0.77
 	 */
@@ -72,7 +72,7 @@ class ToolTip extends WebSitePhpObject {
 	/**
 	 * Method setContent
 	 * @access public
-	 * @param object $content 
+	 * @param string|WebSitePhpObject $content 
 	 * @return ToolTip
 	 * @since 1.0.77
 	 */
@@ -91,6 +91,10 @@ class ToolTip extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		if (!isset($this->id) || $this->id == "") {
 			throw new NewException("Error ".get_class($this).": Please set an id", 0, 8, __FILE__, __LINE__);
+		}
+		
+		if (gettype($this->content) == "object") {
+			$this->content = $this->content->render();
 		}
 		
 		$html = "";

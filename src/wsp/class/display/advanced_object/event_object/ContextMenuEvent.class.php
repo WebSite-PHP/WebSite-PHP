@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @version     1.0.81
  * @access      public
  * @since       1.0.17
  */
@@ -36,7 +36,7 @@ class ContextMenuEvent extends WebSitePhpEventObject {
 	
 	/**
 	 * Constructor ContextMenuEvent
-	 * @param mixed $page_or_form_object 
+	 * @param Page|Form $page_or_form_object 
 	 * @param string $name 
 	 */
 	function __construct($page_or_form_object, $name='') {
@@ -84,7 +84,7 @@ class ContextMenuEvent extends WebSitePhpEventObject {
 	/**
 	 * Method getOnClickJs
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getOnClickJs() {
@@ -94,12 +94,12 @@ class ContextMenuEvent extends WebSitePhpEventObject {
 	/**
 	 * Method onClick
 	 * @access public
-	 * @param mixed $str_function 
-	 * @param mixed $arg1 [default value: null]
-	 * @param mixed $arg2 [default value: null]
-	 * @param mixed $arg3 [default value: null]
-	 * @param mixed $arg4 [default value: null]
-	 * @param mixed $arg5 [default value: null]
+	 * @param string $str_function 
+	 * @param string $arg1 [default value: null]
+	 * @param string $arg2 [default value: null]
+	 * @param string $arg3 [default value: null]
+	 * @param string $arg4 [default value: null]
+	 * @param string $arg5 [default value: null]
 	 * @return ContextMenuEvent
 	 * @since 1.0.35
 	 */
@@ -131,7 +131,7 @@ class ContextMenuEvent extends WebSitePhpEventObject {
 	/**
 	 * Method isClicked
 	 * @access public
-	 * @return mixed
+	 * @return boolean
 	 * @since 1.0.35
 	 */
 	public function isClicked() {

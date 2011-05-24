@@ -1,5 +1,8 @@
 <?php
 define("DEFINE_STYLE_BCK_BODY", "white");
+define("DEFINE_STYLE_BCK_BODY_PIC", "");
+define("DEFINE_STYLE_BCK_BODY_PIC_REPEAT", "");
+define("DEFINE_STYLE_BCK_BODY_PIC_POSITION", "");
 define("DEFINE_STYLE_COLOR_BODY", "#AAA");
 
 define("DEFINE_STYLE_LINK_COLOR", "#003399");

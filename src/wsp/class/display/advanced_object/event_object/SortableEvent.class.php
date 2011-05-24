@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 05/11/2010
- * @version     1.0.79
+ * @version     1.0.81
  * @access      public
  * @since       1.0.17
  */
@@ -46,7 +46,7 @@ class SortableEvent extends WebSitePhpEventObject {
 	
 	/**
 	 * Constructor SortableEvent
-	 * @param mixed $page_or_form_object 
+	 * @param Page|Form $page_or_form_object 
 	 * @param string $name 
 	 * @param string $over_style [default value: droppablehover]
 	 */
@@ -100,7 +100,7 @@ class SortableEvent extends WebSitePhpEventObject {
 	/**
 	 * Method getOnSortJs
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getOnSortJs() {
@@ -110,12 +110,12 @@ class SortableEvent extends WebSitePhpEventObject {
 	/**
 	 * Method onSort
 	 * @access public
-	 * @param mixed $str_function 
-	 * @param mixed $arg1 [default value: null]
-	 * @param mixed $arg2 [default value: null]
-	 * @param mixed $arg3 [default value: null]
-	 * @param mixed $arg4 [default value: null]
-	 * @param mixed $arg5 [default value: null]
+	 * @param string $str_function 
+	 * @param string $arg1 [default value: null]
+	 * @param string $arg2 [default value: null]
+	 * @param string $arg3 [default value: null]
+	 * @param string $arg4 [default value: null]
+	 * @param string $arg5 [default value: null]
 	 * @return SortableEvent
 	 * @since 1.0.35
 	 */
@@ -273,7 +273,7 @@ class SortableEvent extends WebSitePhpEventObject {
 	/**
 	 * Method isSorted
 	 * @access public
-	 * @return mixed
+	 * @return boolean
 	 * @since 1.0.35
 	 */
 	public function isSorted() {
@@ -287,17 +287,19 @@ class SortableEvent extends WebSitePhpEventObject {
 	/**
 	 * Method setSortableId
 	 * @access public
-	 * @param mixed $id 
+	 * @param string $id 
+	 * @return SortableEvent
 	 * @since 1.0.59
 	 */
 	public function setSortableId($id) {
 		$this->sortable_id = $id;
+		return $this;
 	}
 	
 	/**
 	 * Method getSortableId
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getSortableId() {
@@ -307,7 +309,7 @@ class SortableEvent extends WebSitePhpEventObject {
 	/**
 	 * Method getName
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getName() {
