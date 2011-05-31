@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.83
  * @access      public
  * @since       1.0.0
  */
@@ -174,34 +174,40 @@
 				};
 <?php
 				$combine_css = "";
-				$array_css = CssInclude::getInstance()->get();
-				for ($i=0; $i < sizeof($array_css); $i++) {
+				$array_css = CssInclude::getInstance()->get(true);
+				foreach ($array_css as $i => $css) {
 					if (CssInclude::getInstance()->getCombine($i)) {
 						if ($combine_css != "") { $combine_css .= ","; }
-						$combine_css .= str_replace(BASE_URL."wsp/css/", "", str_replace(BASE_URL."css/", "", $array_css[$i]));
+						$combine_css .= str_replace(".css.php", ".php.css", str_replace(BASE_URL."wsp/css/", "", str_replace(BASE_URL."css/", "", $css)));
 					} else {
 						echo "			";
 						$conditional_comment = CssInclude::getInstance()->getConditionalComment($i);
 						if ($conditional_comment != "") { echo "<!--[if ".$conditional_comment."]>\n				"; }
-						echo "loadDynamicCSS('".$array_css[$i]."');\n";
+						if (find($css, ".css.php") > 0 && CssInclude::getInstance()->getCssConfigFile() != "") {
+							$css .= "?conf_file=".CssInclude::getInstance()->getCssConfigFile();
+						}
+						echo "loadDynamicCSS('".$css."');\n";
 						if ($conditional_comment != "") { echo "			<![endif]-->\n"; }
 					}
 				}
 				if ($combine_css != "") {
+					if (find($combine_css, ".php.css") > 0 && CssInclude::getInstance()->getCssConfigFile() != "") {
+						$combine_css .= "?conf_file=".CssInclude::getInstance()->getCssConfigFile();
+					}
 					echo "			loadDynamicCSS('".BASE_URL."combine-css/".str_replace("/", "|", $combine_css)."');\n";
 				}
 				
 				$combine_js = "";
-				$array_js = JavaScriptInclude::getInstance()->get();
-				for ($i=0; $i < sizeof($array_js); $i++) {
+				$array_js = JavaScriptInclude::getInstance()->get(true);
+				foreach ($array_js as $i => $script) {
 					if (JavaScriptInclude::getInstance()->getCombine($i)) {
 						if ($combine_js != "") { $combine_js .= ","; }
-						$combine_js .= str_replace(BASE_URL."wsp/js/", "", str_replace(BASE_URL."js/", "", $array_js[$i]));
+						$combine_js .= str_replace(BASE_URL."wsp/js/", "", str_replace(BASE_URL."js/", "", $script));
 					} else {
 						echo "			";
 						$conditional_comment = JavaScriptInclude::getInstance()->getConditionalComment($i);
 						if ($conditional_comment != "") { echo "<!--[if ".$conditional_comment."]>\n				"; }
-							echo "loadDynamicJS('".$array_js[$i]."', ".$ind_load_js.");\n";
+							echo "loadDynamicJS('".$script."', ".$ind_load_js.");\n";
 						if ($conditional_comment != "") {
 							echo "			<![endif]-->\n"; 
 						}

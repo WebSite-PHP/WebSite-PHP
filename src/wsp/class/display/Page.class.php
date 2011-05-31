@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.81
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.83
  * @access      public
  * @since       1.0.0
  */
@@ -96,20 +96,6 @@ class Page {
 	function __construct() {
 		$this->is_browser_ie_6 = is_browser_ie_6();
 		$this->is_browser_ie = is_browser_ie();
-		
-		// add stretch fixe background
-		if (!$this->isAjaxLoadPage() && !$this->isAjaxPage() && 
-			defined('DEFINE_STYLE_BCK_BODY_PIC_POSITION') && DEFINE_STYLE_BCK_BODY_PIC_POSITION == "STRETCH" &&
-			defined('DEFINE_STYLE_BCK_BODY_PIC') && DEFINE_STYLE_BCK_BODY_PIC_POSITION != "") {
-				JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery.backstretch.min.js");
-				$background_body_pic = "";
-				if (find(DEFINE_STYLE_BCK_BODY_PIC, "http://") == 0) {
-					$background_body_pic = $this->getBaseURL().DEFINE_STYLE_BCK_BODY_PIC;
-				} else {
-					$background_body_pic = DEFINE_STYLE_BCK_BODY_PIC;
-				}
-				$this->addObject(new JavaScript("$.backstretch(\"".$background_body_pic."\");"));
-		}
 	}
 	
 	/**
@@ -279,6 +265,28 @@ class Page {
 	 */
 	protected function disableCache() {
 		$this->PAGE_CACHING = false;
+	}
+	
+	/**
+	 * Method loadStretchBackground
+	 * @access private
+	 * @since 1.0.83
+	 */
+	private function loadStretchBackground() {
+		// add stretch fixe background
+		CssInclude::getInstance()->loadCssConfigFileInMemory(false);
+		if (!$this->isAjaxLoadPage() && !$this->isAjaxPage() && 
+			defined('DEFINE_STYLE_BCK_BODY_PIC_POSITION') && DEFINE_STYLE_BCK_BODY_PIC_POSITION == "STRETCH" &&
+			defined('DEFINE_STYLE_BCK_BODY_PIC') && DEFINE_STYLE_BCK_BODY_PIC_POSITION != "") {
+				JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery.backstretch.min.js");
+				$background_body_pic = "";
+				if (find(DEFINE_STYLE_BCK_BODY_PIC, "http://") == 0) {
+					$background_body_pic = $this->getBaseURL().DEFINE_STYLE_BCK_BODY_PIC;
+				} else {
+					$background_body_pic = DEFINE_STYLE_BCK_BODY_PIC;
+				}
+				$this->addObject(new JavaScript("$.backstretch(\"".$background_body_pic."\");"));
+		}
 	}
 		
 	/**
@@ -603,6 +611,7 @@ class Page {
 			}
 		}
 		$GLOBALS['__LOAD_VARIABLES__'] = false;
+		$this->loadStretchBackground();
 	}
 	
 	/**

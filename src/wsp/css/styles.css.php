@@ -5,7 +5,11 @@
 		session_start();
 	}
 	
-	include_once("../config/config_css.inc.php"); 
+	if (isset($_GET['conf_file']) && file_exists("../config/".$_GET['conf_file'])) {
+		include_once("../config/".$_GET['conf_file']);
+	} else {
+		include_once("../config/config_css.inc.php");
+	}
 	
 	header("Content-type: text/css");
 	header("Cache-control: public");
@@ -13,7 +17,7 @@
 	$zlib_OC_is_set = preg_match('/On|(^[0-9]+$)/i', ini_get('zlib.output_compression'));
 	if ($zlib_OC_is_set) { header("Content-Encoding: gzip"); }
 	
-	$expires = 60*60*24; // 24 hours
+	$expires = 60*60*24*7; // 7 days
 	header("Pragma: public");
 	header("Cache-Control: maxage=".$expires);
 	header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
@@ -51,9 +55,9 @@
 	}
 	
 	$background_body = DEFINE_STYLE_BCK_BODY;
-	if (defined('DEFINE_STYLE_BCK_BODY_PIC') && DEFINE_STYLE_BCK_BODY_PIC != "") {
-		$background_body .= " url('".DEFINE_STYLE_BCK_BODY_PIC."')";
-		if (defined('DEFINE_STYLE_BCK_BODY_PIC_POSITION') && DEFINE_STYLE_BCK_BODY_PIC_POSITION != "STRETCH") {
+	if (defined('DEFINE_STYLE_BCK_BODY_PIC_POSITION') && DEFINE_STYLE_BCK_BODY_PIC_POSITION != "STRETCH") {
+		if (defined('DEFINE_STYLE_BCK_BODY_PIC') && DEFINE_STYLE_BCK_BODY_PIC != "") {
+			$background_body .= " url('".DEFINE_STYLE_BCK_BODY_PIC."')";
 			if (defined('DEFINE_STYLE_BCK_BODY_PIC_REPEAT') && DEFINE_STYLE_BCK_BODY_PIC_REPEAT != "") {
 				$background_body .= " ".DEFINE_STYLE_BCK_BODY_PIC_REPEAT;
 			}

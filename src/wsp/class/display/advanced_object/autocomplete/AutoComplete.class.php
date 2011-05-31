@@ -18,8 +18,8 @@
  * @subpackage advanced_object.autocomplete
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2011
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.82
  * @access      public
  * @since       1.0.17
  */
@@ -79,6 +79,7 @@ class AutoComplete extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$html = "";
 		$html .= $this->getJavascriptTagOpen();
+		$html .= "$(document).ready( function() {\n";
 		$html .= "\$('#".$this->link_object_id."').autocomplete({ source: '".$this->autocomplete_url->render()."', minLength: ".$this->autocomplete_min_length.", ";
 		if ($this->indicator_id != "") {
 			$html .= "search: function( event, ui ) { $('#".$this->indicator_id."').css('display', 'block');$('#".$this->indicator_id."').css('visibility', 'visible'); }, ";
@@ -89,6 +90,7 @@ class AutoComplete extends WebSitePhpObject {
 			$html .= $this->autocomplete_event->render();
 		}
 		$html .= " } });\n";
+		$html .= "});\n";
 		$html .= $this->getJavascriptTagClose();
 		$this->object_change = false;
 		return $html;

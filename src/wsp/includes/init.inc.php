@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.80
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.83
  * @access      public
  * @since       1.0.0
  */
@@ -114,7 +114,6 @@
 	define("SITE_DIRECTORY", dirname($_SERVER['SCRIPT_FILENAME']));
 	
 	include_once("wsp/config/config_db.inc.php"); 
-	include_once("wsp/config/config_css.inc.php"); 
 	include_once("wsp/config/config_smtp.inc.php"); 
 	include_once("wsp/includes/utils.inc.php");
 

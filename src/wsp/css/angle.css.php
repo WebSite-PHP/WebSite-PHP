@@ -5,7 +5,11 @@
 		session_start();
 	}
 	
-	include_once("../config/config_css.inc.php"); 
+	if (isset($_GET['conf_file']) && file_exists("../config/".$_GET['conf_file'])) {
+		include_once("../config/".$_GET['conf_file']);
+	} else {
+		include_once("../config/config_css.inc.php");
+	}
 	include_once("../config/config.inc.php"); 
 	
 	header("Content-type: text/css");
@@ -13,7 +17,7 @@
 	$zlib_OC_is_set = preg_match('/On|(^[0-9]+$)/i', ini_get('zlib.output_compression'));
 	if ($zlib_OC_is_set) { header("Content-Encoding: gzip"); }
 	
-	$expires = 60*60*24; // 24 hours
+	$expires = 60*60*24*7; // 7 days
 	header("Pragma: public");
 	header("Cache-Control: maxage=".$expires);
 	header('Expires: ' . gmdate('D, d M Y H:i:s', time()+$expires) . ' GMT');
@@ -108,10 +112,18 @@
 .Css3GradientBoxTitle<?php echo $i; ?> {
 <?php 
 	$css = "";
+	$css .= "background-image: url(../wsp/css/gradient.svg.php?start=".urlencode(constant("DEFINE_STYLE_BCK_".$i."_HEADER"))."&stop=".urlencode(constant("DEFINE_STYLE_BORDER_TABLE_".$i))."&i=".$i.");";
+    $css .= "background-size: 100% 100%;";
+    $css .= "background-repeat: repeat-x;";
+    $css .= "background-position: 0 0;";
+    $css .= "background-color: ".constant("DEFINE_STYLE_BCK_".$i."_HEADER")."; /* old browsers */";
 	$css .= "background:-moz-linear-gradient(90deg, ".constant("DEFINE_STYLE_BCK_".$i."_HEADER")." 70%, ".constant("DEFINE_STYLE_BORDER_TABLE_".$i)." 100%);";
 	$css .= "background:-webkit-gradient(linear, left top, left bottom, from(".constant("DEFINE_STYLE_BCK_".$i."_HEADER")."), to(".constant("DEFINE_STYLE_BORDER_TABLE_".$i)."));";
 	$css .= "background-image:-webkit-gradient(linear, left bottom, left top, color-stop(0.7,".constant("DEFINE_STYLE_BCK_".$i."_HEADER")."), color-stop(1,".constant("DEFINE_STYLE_BORDER_TABLE_".$i)."));";
-	$css .= "filter: progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr=".constant("DEFINE_STYLE_BCK_".$i."_HEADER").",endColorstr=".constant("DEFINE_STYLE_BORDER_TABLE_".$i).",GradientType=0); zoom: 1;";
+	$css .= "background-image:-ms-linear-gradient(top, ".constant("DEFINE_STYLE_BCK_".$i."_HEADER").", ".constant("DEFINE_STYLE_BORDER_TABLE_".$i)."); /* IE10 */";
+	$css .= "background-image:-o-linear-gradient(top, ".constant("DEFINE_STYLE_BORDER_TABLE_".$i).", ".constant("DEFINE_STYLE_BCK_".$i."_HEADER")."); /* Opera 11.10+ */";
+	$css .= "background-image:linear-gradient(top, ".constant("DEFINE_STYLE_BCK_".$i."_HEADER").", ".constant("DEFINE_STYLE_BORDER_TABLE_".$i).");";
+	$css .= "filter: progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr=".constant("DEFINE_STYLE_BORDER_TABLE_".$i).",endColorstr=".constant("DEFINE_STYLE_BCK_".$i."_HEADER").",GradientType=0); zoom: 1;";
 	echo $css;
 ?>
 }

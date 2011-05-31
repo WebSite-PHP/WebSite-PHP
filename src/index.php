@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.81
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.83
  * @access      public
  * @since       1.0.0
  */
@@ -196,14 +196,32 @@
 				echo "		";
 				$conditional_comment = CssInclude::getInstance()->getConditionalComment($i);
 				if ($conditional_comment != "") { echo "<!--[if ".$conditional_comment."]>\n			"; }
+				if (find($css, ".css.php") > 0 && CssInclude::getInstance()->getCssConfigFile() != "") {
+					$css .= "?conf_file=".CssInclude::getInstance()->getCssConfigFile();
+				}
 				echo "<link type=\"text/css\" rel=\"StyleSheet\" href=\"".$css."\" media=\"screen\" />\n";
 				if ($conditional_comment != "") { echo "		<![endif]-->\n"; }
 			}
 		}
 		if ($combine_css != "") {
+			if (find($combine_css, ".php.css") > 0 && CssInclude::getInstance()->getCssConfigFile() != "") {
+				$combine_css .= "?conf_file=".CssInclude::getInstance()->getCssConfigFile();
+			}
 			echo "		<link type=\"text/css\" rel=\"StyleSheet\" href=\"".BASE_URL."combine-css/".str_replace("/", "|", $combine_css)."\" media=\"screen\" />\n";
 		}
-		
+		?>		
+		<!--[if ie 9]>
+		<style type="text/css" media="screen">
+<?php
+		for ($i=1; $i <= NB_DEFINE_STYLE_BCK; $i++) { 
+		?>
+		    .Css3GradientBoxTitle<?php echo $i; ?> {  filter: none; }
+<?php
+		}
+		?>
+		</style>
+		<![endif]-->
+<?php		
 		if (!defined('DEFINE_STYLE_JQUERY')) {
 			define("DEFINE_STYLE_JQUERY", "");
 		}

@@ -39,8 +39,8 @@ Options +FollowSymLinks
 	RewriteRule ^([a-z]{2})/wsp/includes/combine.php(.*)$ wsp/includes/combine.php$2 [L] 
 	RewriteRule ^combine-js/(.*\.js) wsp/includes/combine.php?type=js&files=$1 [L] 
 	RewriteRule ^wsp/includes/css-merge.php(.*)$ wsp/includes/css-merge.php$1 [L] 
-	RewriteRule ^combine-css/(.*\.css) wsp/includes/combine.php?type=css&files=$1 [L] 
-	RewriteRule ^combine-css/wsp/(.*) wsp/$1 [L] 
+	RewriteRule ^combine-css/(.*\.css) wsp/includes/combine.php?type=css&files=$1&%{QUERY_STRING} [L] 
+	RewriteRule ^combine-css/wsp/(.*) wsp/$1&%{QUERY_STRING} [L] 
 	
 	# FrameWork Folders
 	RewriteRule ^js/(.*)$ js/$1 [L] 
@@ -132,10 +132,12 @@ Options +FollowSymLinks
 #                                                                   #
 #####################################################################
 
-# Remote ETag from headers - http://www.askapache.com/htaccess/apache-speed-etags.html
-Header unset ETag
-# Disable ETag for files
-FileETag None
+<IfModule mod_headers.c>
+	# Remote ETag from headers - http://www.askapache.com/htaccess/apache-speed-etags.html
+	Header unset ETag
+	# Disable ETag for files
+	FileETag None
+</IfModule>
 
 <IfModule mod_expires.c>
 	# Set up caching on media files for 1 month

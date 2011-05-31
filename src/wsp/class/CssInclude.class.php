@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.81
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.83
  * @access      public
  * @since       1.0.23
  */
@@ -50,6 +50,8 @@ class CssInclude {
 	private $css_scripts = array();
 	private $conditional_comment = array();
 	private $combine = array();
+	private $config_file = "";
+	private $config_file_loaded = false;
 	
 	private $array_put_css_to_begin = array();
 	private $array_put_css_to_end = array("wsp/css/angle.css.php");
@@ -170,6 +172,59 @@ class CssInclude {
 	 */
 	public function getCombine($indice) {
 		return $this->combine[$indice];
+	}
+	
+	/**
+	 * Method setCssConfigFile
+	 * @access public
+	 * @param string $file [default value: config_css.inc.php]
+	 * @return CssInclude
+	 * @since 1.0.83
+	 */
+	public function setCssConfigFile($file='config_css.inc.php') {
+		if (!file_exists(dirname(__FILE__)."/../config/".$file)) {
+			throw new NewException("Error ".get_class($this)."->setCssConfigFile(): Config file ".$file." doesn't exists.", 0, 8, __FILE__, __LINE__);
+		}
+		if ($this->config_file_loaded) {
+			throw new NewException("Error ".get_class($this)."->setCssConfigFile(): Config file is already loaded, set this configuration in the begining of your code.", 0, 8, __FILE__, __LINE__);
+		}
+		$this->config_file = $file;
+		$this->loadCssConfigFileInMemory();
+		return $this;
+	}
+	
+	/**
+	 * Method getCssConfigFile
+	 * @access public
+	 * @return string
+	 * @since 1.0.83
+	 */
+	public function getCssConfigFile() {
+		return ($this->config_file=="config_css.inc.php"?"":$this->config_file);
+	}
+	
+	/**
+	 * Method loadCssConfigFileInMemory
+	 * @access public
+	 * @return CssInclude
+	 * @since 1.0.83
+	 */
+	public function loadCssConfigFileInMemory() {
+		if (!$this->config_file_loaded) {
+			include(dirname(__FILE__)."/../config/".$this->config_file);
+			$this->config_file_loaded = true;
+		}
+		return $this;
+	}
+	
+	/**
+	 * Method isCssConfigFileLoaded
+	 * @access public
+	 * @return boolean
+	 * @since 1.0.83
+	 */
+	public function isCssConfigFileLoaded() {
+		return $this->config_file_loaded;
 	}
 }
 ?>

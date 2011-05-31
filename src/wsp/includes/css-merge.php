@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.83
  * @access      public
  * @since       1.0.19
  */
@@ -91,7 +91,11 @@
 				if (isset($_SESSION['lang'])) {
 					$_GET['l'] = $_SESSION['lang'];
 				}
-				$lastmodified = max($lastmodified, filemtime("../config/config_css.inc.php"));
+				if (isset($_GET['conf_file']) && file_exists("../config/".$_GET['conf_file'])) {
+					$lastmodified = max($lastmodified, filemtime("../config/".$_GET['conf_file']));
+				} else {
+					$lastmodified = max($lastmodified, filemtime("../config/config_css.inc.php"));
+				}
 			} else {
 				$lastmodified = max($lastmodified, filemtime($path));
 			}
@@ -111,6 +115,9 @@
 	
 	// Send Etag hash
 	$hash = $lastmodified . '-' . md5($_GET['files']);
+	if (isset($_GET['conf_file']) && file_exists("../config/".$_GET['conf_file'])) {
+		$hash .= '-' . md5($_GET['conf_file']);
+	}
 	header ("Etag: \"" . $hash . "\"");
 	
 	$expires = 604800; // 7 days
@@ -203,6 +210,7 @@
 		}
 		if ($my_site_base_url != "") {
 			$contents = str_replace("../wsp/img/", $my_site_base_url."wsp/img/", $contents);
+			$contents = str_replace("../wsp/css/", $my_site_base_url."wsp/css/", $contents);
 			$contents = str_replace("../img/", $my_site_base_url."img/", $contents);
 		}
 		
