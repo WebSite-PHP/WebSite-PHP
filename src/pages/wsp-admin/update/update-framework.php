@@ -10,6 +10,10 @@ class UpdateFramework extends Page {
 	}
 	
 	public function Load() {
+		if (isset($_GET['parent_dialog_level'])) {
+			$this->addObject(DialogBox::closeLevel($_GET['parent_dialog_level']));
+		}
+		
 		$this->render = new Object(new Picture("img/wsp-admin/update_64.png", 64, 64), "<br/>", __(UPDATE_FRAMEWORK_WAITING));
 		$this->render->setAlign(Object::ALIGN_CENTER);
 		

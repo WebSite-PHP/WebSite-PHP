@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.84
  * @access      public
  * @since       1.0.17
  */
@@ -42,6 +42,7 @@ class Label extends WebSitePhpObject {
 	
 	private $font_size = "";
 	private $font_family = "";
+	private $color = "";
 	
 	private $id = "";
 	/**#@-*/
@@ -138,6 +139,19 @@ class Label extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method setColor
+	 * @access public
+	 * @param mixed $color 
+	 * @return Label
+	 * @since 1.0.84
+	 */
+	public function setColor($color) {
+		$this->color = $color;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
 	 * Method getId
 	 * @access public
 	 * @return mixed
@@ -157,9 +171,9 @@ class Label extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$html = "";
 		
-		if ($this->id != "" || $this->font_size != "" || $this->font_family != "") {
+		if ($this->id != "" || $this->font_size != "" || $this->font_family != "" || $this->color != "") {
 			$html .= "<label id=\"".$this->id."\"";
-			if ($this->font_size != "" || $this->font_family != "") {
+			if ($this->font_size != "" || $this->font_family != "" || $this->color != "") {
 				$html .= " style=\"";
 				if ($this->font_size != "") {
 					if (is_integer($this->font_size)) {
@@ -170,6 +184,9 @@ class Label extends WebSitePhpObject {
 				}
 				if ($this->font_family != "") {
 					$html .= "font-family:".$this->font_family.";";
+				}
+				if ($this->color != "") {
+					$html .= "color:".$this->color.";";
 				}
 				$html .= "\"";
 			}

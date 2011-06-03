@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.84
  * @access      public
  * @since       0
  */
@@ -25,10 +25,10 @@
 			$array_components_dir = scandir($folder);
 			for ($i=0; $i < sizeof($array_components_dir); $i++) {
 				if (is_file($folder."/".$array_components_dir[$i]) && 
-						strtolower(substr($array_components_dir[$i], strlen($array_components_dir[$i])-10, 10)) == ".class.php") {
+					strtolower(substr($array_components_dir[$i], strlen($array_components_dir[$i])-10, 10)) == ".class.php") {
 					require_once($folder."/".$array_components_dir[$i]);
 				} else if ($sub_folder==true && is_dir($folder."/".$array_components_dir[$i]) && 
-						$array_components_dir[$i] != "." && $array_components_dir[$i] != "..") {
+					$array_components_dir[$i] != "." && $array_components_dir[$i] != "..") {
 					loadWspClass($folder."/".$array_components_dir[$i], $sub_folder);
 				}
 			}
@@ -52,6 +52,17 @@
 	
 	// Load database_model classes
 	loadWspClass("wsp/class/database_model");
+	
+	// Load modules classes
+	if (file_exists(dirname(__FILE__)."/../config/modules.cnf")) {
+		$list_modules = file_get_contents(dirname(__FILE__)."/../config/modules.cnf");
+		$array_modules = explode("\n", $list_modules);
+		for ($i=0; $i < sizeof($array_modules); $i++) {
+			if (trim($array_modules[$i]) != "") {
+				loadWspClass("wsp/class/modules/".trim($array_modules[$i]), true);
+			}
+		}
+	}
 	
 	// Load utils classes
 	loadWspClass("wsp/class/utils");

@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.83
+ * @version     1.0.84
  * @access      public
  * @since       1.0.23
  */
@@ -211,6 +211,9 @@ class CssInclude {
 	 */
 	public function loadCssConfigFileInMemory() {
 		if (!$this->config_file_loaded) {
+			if ($this->config_file == "") {
+				$this->config_file = "config_css.inc.php";
+			}
 			include(dirname(__FILE__)."/../config/".$this->config_file);
 			$this->config_file_loaded = true;
 		}

@@ -10,16 +10,24 @@ class UpdateBrowscap extends Page {
 	}
 	
 	public function Load() {
-		$this->updateFileFromUrl(dirname(__FILE__)."/../../../wsp/includes/browscap/lite_php_browscap.ini", 
-									"http://browsers.garykeith.com/stream.asp?Lite_PHP_BrowsCapINI");
-		
-		$this->updateFileFromUrl(dirname(__FILE__)."/../../../wsp/includes/browscap/php_browscap.ini", 
-									"http://browsers.garykeith.com/stream.asp?PHP_BrowsCapINI");
-		
 		unset($_SESSION['user_browscap_version']);
 		
-		$congratulation_pic = new Picture("img/wsp-admin/button_ok_64.png", 64, 64);
-		$this->render = new Object($congratulation_pic, "<br/>", __(UPDATE_FRAMEWORK_COMPLETE_OK, "Browscap.ini"));
+		if ($this->updateFileFromUrl(dirname(__FILE__)."/../../../wsp/includes/browscap/lite_php_browscap.ini", 
+									"http://browsers.garykeith.com/stream.asp?Lite_PHP_BrowsCapINI") && 
+			$this->updateFileFromUrl(dirname(__FILE__)."/../../../wsp/includes/browscap/php_browscap.ini", 
+									"http://browsers.garykeith.com/stream.asp?PHP_BrowsCapINI")) {
+			$congratulation_pic = new Picture("img/wsp-admin/button_ok_64.png", 64, 64);
+			$this->render = new Object($congratulation_pic, "<br/>", __(UPDATE_FRAMEWORK_COMPLETE_OK, "Browscap.ini"));
+		} else {
+			$error_pic = new Picture("img/wsp-admin/button_not_ok_64.png", 64, 64);
+			$this->render = new Object($error_pic, "<br/>", __(UPDATE_FRAMEWORK_COMPLETE_NOT_OK, "Browscap.ini"));
+		}
+		
+		$button_ok = new Button($this);
+		$button_ok->setValue("OK");
+		$button_ok->onClickJs(DialogBox::closeAll()."location.href=location.href;");
+		
+		$this->render->add("<br/><br/>", $button_ok);
 		$this->render->setAlign(Object::ALIGN_CENTER);
 		
 		// refresh the page
@@ -48,6 +56,11 @@ class UpdateBrowscap extends Page {
 			$browscap_file->write($data);
 		}
 		$browscap_file->close();
+		
+		if ($data != "") {
+			return true;
+		}
+		return false;
 	}
 }
 ?>

@@ -15,21 +15,17 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.84
  * @access      public
  * @since       1.0.25
  */
 
-require_once(dirname(__FILE__)."/includes/utils.inc.php");
-require_once(dirname(__FILE__)."/../../wsp/config/config_admin.inc.php");
 define(GOOGLE_CODE_TRACKER_NOT_ACTIF, true);
 
 class Connect extends Page {
-	private $edtLogin = null;
-	private $edtPassword = null;
+	private $auth_obj = null;
 	private $error_obj = null;
-	private $btn_validate = null;
 	
 	private $obj_br_before = null;
 	private $mod_obj = null;
@@ -57,33 +53,8 @@ class Connect extends Page {
 		$connect_table->setWidth("100%")->setDefaultAlign(RowTable::ALIGN_LEFT);
 		$admin_pic = new Picture("img/wsp-admin/admin_128.png", 128, 128);
 		
-		$form = new Form($this);
-		if (extension_loaded('openssl')) {
-			$form->setEncryptObject(new EncryptDataWspObject("wsp-admin connection"));
-		}
-		$con_table = new Table();
-		
-		$this->error_obj = new Object();
-		$this->error_obj->setId("idErrorMsg");
-		$con_table->addRow($this->error_obj)->setColspan(2)->setAlign(RowTable::ALIGN_CENTER);
-		
-		$this->edtLogin = new TextBox($form);
-		$loginValid = new LiveValidation();
-		$con_table->addRowColumns(__(LOGIN)." :&nbsp;", $this->edtLogin->setFocus()->setLiveValidation($loginValid->addValidatePresence()))->setNowrap();
-		
-		$this->edtPassword = new Password($form);
-		$passValid = new LiveValidation();
-		$con_table->addRowColumns(__(PASSWORD)." :&nbsp;", $this->edtPassword->setLiveValidation($passValid->addValidatePresence()))->setNowrap();
-		
-		$con_table->addRow();
-		
-		$this->btn_validate = new Button($form);
-		$this->btn_validate->assignEnterKey()->setValue(__(BTN_VALIDATE))->onClick("connect")->setAjaxEvent();
-		$con_table->addRowColumns($this->btn_validate)->setColspan(2)->setAlign(RowTable::ALIGN_CENTER);
-		
-		$form->setContent($con_table);
-		
-		$connect_table->addRowColumns($admin_pic, $form);
+		$this->auth_obj = new Authentication($this, "connect");
+		$connect_table->addRowColumns($admin_pic, $this->auth_obj);
 		$connect_box->setContent($connect_table);
 		
 		$this->render->addRow("<br/><br/><br/><br/><br/>");
@@ -148,17 +119,7 @@ class Connect extends Page {
 	}
 	
 	public function connect() {
-		list($strAdminLogin, $strAdminPasswd, $strAdminRights) = getWspUserRightsInfo($this->edtLogin->getValue());
-		
-		if ($strAdminLogin != "" && $strAdminLogin == $this->edtLogin->getValue() && $strAdminPasswd == sha1($this->edtPassword->getValue())) {
-			$this->setUserRights($strAdminRights);
-			$str_error = new Font(__(LOGIN_OK_REDIRECT));
-			$this->error_obj->add($str_error->setFontColor("green"));
-			$this->redirect($this->getBaseLanguageURL().WSP_ADMIN_URL."/admin.html");
-		} else {
-			$str_error = new Font(__(ERROR_LOGIN_PASS));
-			$this->error_obj->add($str_error->setFontColor("red"));
-		}
+		$this->auth_obj->wspAdminConnect();
 	}
 }
 ?>

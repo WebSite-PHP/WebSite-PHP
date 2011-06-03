@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.84
  * @access      public
  * @since       1.0.17
  */
@@ -46,6 +46,10 @@ class TextBox extends WebSitePhpEventObject {
 	private $is_changed = false;
 	private $onchange = "";
 	private $callback_onchange = "";
+	
+	private $is_clicked = false;
+	private $onclick = "";
+	private $callback_onclick = "";
 	
 	private $encrypt_object = null;
 	
@@ -380,6 +384,43 @@ class TextBox extends WebSitePhpEventObject {
 		$this->onchange = trim($js_function);
 		return $this;
 	}
+
+	/**
+	 * Method onClick
+	 * @access public
+	 * @param mixed $str_function 
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return TextBox
+	 * @since 1.0.84
+	 */
+	public function onClick($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
+		$args = func_get_args();
+		$str_function = array_shift($args);
+		$this->callback_onclick = $this->loadCallbackMethod($str_function, $args);
+		return $this;
+	}
+	
+	/**
+	 * Method onClickJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return TextBox
+	 * @since 1.0.84
+	 */
+	public function onClickJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onclick = trim($js_function);
+		return $this;
+	}
 	
 	/**
 	 * Method isChanged
@@ -406,7 +447,7 @@ class TextBox extends WebSitePhpEventObject {
 		
 		$html = "";
 		if ($this->class_name != "") {
-			if ($this->callback_onchange != "") {
+			if ($this->callback_onchange != "" || $this->callback_onclick != "") {
 				$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
 			}
 			if ($this->is_ajax_event) {
@@ -450,6 +491,9 @@ class TextBox extends WebSitePhpEventObject {
 			}
 			if ($this->onchange != "" || $this->callback_onchange != "") {
 				$html .= " onChange=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onchange, $this->callback_onchange))."\"";
+			}
+			if ($this->onclick != "" || $this->callback_onclick != "") {
+				$html .= " onClick=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick))."\"";
 			}
 			$html .= "/>\n";
 			
@@ -505,6 +549,7 @@ class TextBox extends WebSitePhpEventObject {
 				$html .= "$('#".$this->id."').attr('maxLength', ".$this->length.");\n";
 			}
 			$html .= "$('#".$this->id."').attr('onChange', '".addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onchange, $this->callback_onchange)))."');\n";
+			$html .= "$('#".$this->id."').attr('onClick', '".addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick)))."');\n";
 			if ($this->has_focus) {
 				$html .= "\$('#".$this->getId()."').focus();\n";
 			}

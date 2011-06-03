@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.84
  * @access      public
  * @since       1.0.0
  */
@@ -104,7 +104,19 @@
 		exit;
 	}
 	
+	// load page translations
 	if (file_exists("lang/".$_SESSION['lang']."/".$_GET['p'].".inc.php")) {
 		require("lang/".$_SESSION['lang']."/".$_GET['p'].".inc.php");
+	}
+	
+	// load modules translations
+	if (is_dir("lang/".$_SESSION['lang']."/modules") && file_exists(dirname(__FILE__)."/../config/modules.cnf")) {
+		$list_modules = file_get_contents(dirname(__FILE__)."/../config/modules.cnf");
+		$array_modules = explode("\n", $list_modules);
+		for ($i=0; $i < sizeof($array_modules); $i++) {
+			if (file_exists("lang/".$_SESSION['lang']."/modules/".trim($array_modules[$i]).".inc.php")) {
+				require("lang/".$_SESSION['lang']."/modules/".trim($array_modules[$i]).".inc.php");
+			}
+		}
 	}
 ?>

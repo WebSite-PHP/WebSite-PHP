@@ -1,5 +1,30 @@
 <?php 
 /**
+ * PHP file wsp\class\modules\ContactForm\ContactForm.class.php
+ * @package modules
+ * @subpackage ContactForm
+ */
+/**
+ * Class ContactForm
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2011 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @package modules
+ * @subpackage ContactForm
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.84
+ * @access      public
+ * @since       1.0.84
+ */
+
+/**
  * PHP file wsp\class\display\advanced_object\ContactForm.class.php
  * @package display
  * @subpackage advanced_object
@@ -43,14 +68,14 @@ class ContactForm extends WebSitePhpObject {
 	 * Constructor ContactForm
 	 * @param Page $page_object 
 	 * @param string $send_method 
-	 * @param string $table_style 
 	 * @param string $button_class 
+	 * @param string $table_style 
 	 */
-	function __construct($page_object, $send_method, $table_style='', $button_class='') {
+	function __construct($page_object, $send_method, $button_class='', $table_style='') {
 		parent::__construct();
 		
-		if (!isset($page_object) || !isset($send_method) || !isset($table_style)) {
-			throw new NewException("3 arguments for ".get_class($this)."::__construct() are mandatory", 0, 8, __FILE__, __LINE__);
+		if (!isset($page_object) || !isset($send_method)) {
+			throw new NewException("2 arguments for ".get_class($this)."::__construct() are mandatory", 0, 8, __FILE__, __LINE__);
 		}
 		
 		if (gettype($page_object) != "object" || !is_subclass_of($page_object, "Page")) {
@@ -68,31 +93,31 @@ class ContactForm extends WebSitePhpObject {
 		
 		$name = new TextBox($form, "contact_name");
 		$name_validation = new LiveValidation();
-		$name->setLiveValidation($name_validation->addValidatePresence()->setFieldName(__(CONTACT_NAME)));
-		$table_main->addRowColumns(__(CONTACT_NAME).":&nbsp;", $name->setFocus())->setColumnWidth(2, "100%");
+		$name->setLiveValidation($name_validation->addValidatePresence()->setFieldName(__(CONTACTFORM_NAME)));
+		$table_main->addRowColumns(__(CONTACTFORM_NAME).":&nbsp;", $name->setFocus())->setColumnWidth(2, "100%");
 		
 		$email = new TextBox($form, "contact_email");
 		$email_validation = new LiveValidation();
-		$email->setLiveValidation($email_validation->addValidateEmail()->addValidatePresence()->setFieldName(__(CONTACT_EMAIL)));
-		$table_main->addRowColumns(__(CONTACT_EMAIL).":&nbsp;", $email);
+		$email->setLiveValidation($email_validation->addValidateEmail()->addValidatePresence()->setFieldName(__(CONTACTFORM_EMAIL)));
+		$table_main->addRowColumns(__(CONTACTFORM_EMAIL).":&nbsp;", $email);
 		
 		$subject = new TextBox($form, "contact_subject");
 		$subject_validation = new LiveValidation();
-		$subject->setLiveValidation($subject_validation->addValidatePresence()->setFieldName(__(CONTACT_SUBJECT)));
-		$table_main->addRowColumns(__(CONTACT_SUBJECT).":&nbsp;", $subject);
+		$subject->setLiveValidation($subject_validation->addValidatePresence()->setFieldName(__(CONTACTFORM_SUBJECT)));
+		$table_main->addRowColumns(__(CONTACTFORM_SUBJECT).":&nbsp;", $subject);
 		
 		$table_main->addRow();
 		$editor = new Editor($form, "contact_message");
 		$editor_validation = new LiveValidation();
-		$editor->setLiveValidation($editor_validation->addValidatePresence()->setFieldName(__(CONTACT_MESSAGE)));
+		$editor->setLiveValidation($editor_validation->addValidatePresence()->setFieldName(__(CONTACTFORM_MESSAGE)));
 		$editor->setToolbar(Editor::TOOLBAR_SIMPLE);
-		$table_main->addRow(new Object(__(CONTACT_MESSAGE).": ", "<br/>", $editor))->setColspan(3)->setAlign(RowTable::ALIGN_LEFT);
+		$table_main->addRow(new Object(__(CONTACTFORM_MESSAGE).": ", "<br/>", $editor))->setColspan(3)->setAlign(RowTable::ALIGN_LEFT);
 		$table_main->addRow();
 		$this->captcha = new Captcha($form, "contact_captcha");
 		$table_main->addRow($this->captcha)->setColspan(3);
 		$table_main->addRow();
 		
-		$this->send_button = new Button($form, "contact_send", "", __(CONTACT_SEND));
+		$this->send_button = new Button($form, "contact_send", "", __(CONTACTFORM_SEND));
 		if ($button_class != '') {
 			$this->send_button->setClass($button_class);
 		}
@@ -184,20 +209,20 @@ class ContactForm extends WebSitePhpObject {
 			$dialog = new DialogBox(__(ERROR), __(ERROR_CAPTCHA));
 			$this->page_object->addObject($dialog->activateCloseButton());
 		} else {
-			$message = __(CONTACT_NAME).": ".$this->getContactName()."<br/>".__(CONTACT_EMAIL).": ".$this->getContactEmail()."<br/>".__(CONTACT_SUBJECT).": ".$this->getContactSubject()."<br/><br/>".__(CONTACT_MESSAGE).": <br/>".$this->getContactMessage();
+			$message = __(CONTACTFORM_NAME).": ".$this->getContactName()."<br/>".__(CONTACT_EMAIL).": ".$this->getContactEmail()."<br/>".__(CONTACT_SUBJECT).": ".$this->getContactSubject()."<br/><br/>".__(CONTACT_MESSAGE).": <br/>".$this->getContactMessage();
 			$mail = new SmtpMail($this->mail_to, $this->mail_to_name, SITE_NAME." : ".$this->getContactSubject(), $message, $this->getContactEmail(), $this->getContactName());
 			if(!$mail->Send()) {
-				$dialog = new DialogBox(__(MAIL)." ".__(ERROR), $mail->getErrorInfo());
+				$dialog = new DialogBox(__(CONTACTFORM_MAIL)." ".__(ERROR), $mail->getErrorInfo());
 				$this->page_object->addObject($dialog->activateCloseButton());
 			} else {
 				if ($this->send_wait_mail) {
 					if ($this->send_wait_mail_message == "") {
-						$this->send_wait_mail_message = __(SEND_WAIT_MAIL_MESSAGE, $this->getContactName(), SITE_NAME, $this->mail_to_name);
+						$this->send_wait_mail_message = __(CONTACTFORM_SEND_WAIT_MAIL_MESSAGE, $this->getContactName(), SITE_NAME, $this->mail_to_name);
 					}
 					$wait_mail = new SmtpMail($this->getContactEmail(), $this->getContactName(), SITE_NAME, $this->send_wait_mail_message, $this->mail_to, $this->mail_to_name);
 					$wait_mail->Send();
 				}
-				$dialog = new DialogBox(__(MAIL), __(MAIL_SENT));
+				$dialog = new DialogBox(__(CONTACTFORM_MAIL), __(CONTACTFORM_MAIL_SENT));
 				$this->page_object->addObject($dialog->activateCloseButton());
 				$this->page_object->forceObjectsDefaultValues();
 			}

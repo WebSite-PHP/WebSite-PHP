@@ -18,8 +18,8 @@
  * @subpackage advanced_object.social_network
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 16/05/2011
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 01/06/2011
+ * @version     1.0.84
  * @access      public
  * @since       1.0.79
  */

@@ -16,8 +16,8 @@
  * @package utils
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.84
  * @access      public
  * @since       1.0.13
  */
@@ -44,7 +44,8 @@ class File{
 		
 		if (file_exists($filename)) {
 			$this->exists = true;
-		} else {
+		} else if (find($filename, "http://") == 0 && find($filename, "ftp://") == 0) {
+			// we doesn't create a directory if it's a web file
 			$array_dir = explode("/", str_replace($project_folder, "", $filename));
 			if (!is_dir(substr(0, strrpos($filename, "/"), $filename))) {
 				$create_folder = "";

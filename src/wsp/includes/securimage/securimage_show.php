@@ -45,11 +45,11 @@ $img = new securimage();
 
 // Change some settings
 
-if (isset($_GET[width]) && $_GET[width] > 0) {
-	$img->image_width = $_GET[width];
+if (isset($_GET['width']) && $_GET['width'] > 0) {
+	$img->image_width = $_GET['width'];
 }
-if (isset($_GET[height]) && $_GET[height] > 0) {
-	$img->image_height = $_GET[height];
+if (isset($_GET['height']) && $_GET['height'] > 0) {
+	$img->image_height = $_GET['height'];
 }
 
 //$img->perturbation = 0.9; // 1.0 = high distortion, higher numbers = more distortion

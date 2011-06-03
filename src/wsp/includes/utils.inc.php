@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.84
  * @access      public
  * @since       1.0.19
  */
@@ -421,6 +421,21 @@
 		}
 		return $browser;
 	}
+	
+	// simple way to recursively delete a directory that is not empty
+	function rrmdir($dir) {
+		if (is_dir($dir)) {
+			$objects = scandir($dir);
+			foreach ($objects as $object) {
+				if ($object != "." && $object != "..") {
+					if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object);
+				}
+			}
+			reset($objects);
+			return rmdir($dir);
+		}
+		return false;
+	} 
 	
 	include("utils2.inc.php");
 ?>

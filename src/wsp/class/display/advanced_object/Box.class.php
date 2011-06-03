@@ -18,8 +18,8 @@
  * @subpackage advanced_object
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.81
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.84
  * @access      public
  * @since       1.0.17
  */
@@ -129,6 +129,7 @@ class Box extends WebSitePhpObject {
 		$this->css3 = (($browser['cssversion'] >= 3)?true:false) && (($this->browser_ie_version != false && $this->browser_ie_version <= 8)?false:true);
 		$this->browser_name = strtolower($browser['browser']);
 		
+		CssInclude::getInstance()->loadCssConfigFileInMemory(false);
 		if (constant("DEFINE_STYLE_BCK_PICTURE_".strtoupper($this->style_header)) == "") {
 			$this->force_box_with_picture = false;
 		}
