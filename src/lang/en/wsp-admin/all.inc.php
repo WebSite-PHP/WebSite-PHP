@@ -8,6 +8,8 @@
 	define("CONFIGURE_DATABASE", "Configure database");
 	define("CONFIGURE_CSS", "Configure styles CSS");
 	define("CONFIGURE_SMTP", "Configure send mail");
+	define("CONFIGURE_USERS", "Configure users");
+	define("CONFIGURE_MODULES", "Configure modules");
 	
 	define("LANGUAGE", "Languages");
 	define("ENGLISH", "English");

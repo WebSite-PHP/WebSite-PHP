@@ -18,8 +18,8 @@
  * @subpackage advanced_object.event_object
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 05/11/2010
- * @version     1.0.81
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.85
  * @access      public
  * @since       1.0.17
  */
@@ -71,14 +71,13 @@ class SortableEvent extends WebSitePhpEventObject {
 			$this->name = $this->page_object->createObjectName($this);
 		} else {
 			$this->name = $name;
+			$this->page_object->addEventObject($this, $this->form_object);
 		}
 		$this->id = $name;
 		
 		$this->sortable_id = "";
 		$this->over_style = $over_style;
 		$this->ajax_wait_message = __(SUBMIT_LOADING_2);
-		
-		$this->page_object->addEventObject($this, $this->form_object);
 		
 		$this->addJavaScript(BASE_URL."wsp/js/sortable.js", "", true);
 	}
@@ -277,9 +276,6 @@ class SortableEvent extends WebSitePhpEventObject {
 	 * @since 1.0.35
 	 */
 	public function isSorted() {
-		if (!$this->is_sorted) {
-			$this->page_object->getUserEventObject();
-		}
 		return $this->is_sorted;
 	}
 	

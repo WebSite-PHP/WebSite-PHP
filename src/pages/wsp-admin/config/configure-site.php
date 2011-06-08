@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.85
  * @access      public
  * @since       1.0.25
  */
@@ -196,8 +196,6 @@ class ConfigureSite extends Page {
 	}
 	
 	public function configureSite() {
-		$config_file = new File(dirname(__FILE__)."/../../../wsp/config/config.inc.php", false, true);
-		
 		$data_config_file = "<?php\n";
 		$data_config_file .= "define(\"SITE_NAME\", \"".utf8_decode($this->edtName->getValue())."\");\n";
 		$data_config_file .= "define(\"SITE_DESC\", \"".utf8_decode($this->edtDesc->getValue())."\");\n";
@@ -235,6 +233,7 @@ class ConfigureSite extends Page {
 		$data_config_file .= "define(\"DEFAULT_TIMEZONE\", \"".$this->edtDefaultTimezone->getValue()."\");\n";
 		$data_config_file .= "?>";
 		
+		$config_file = new File(dirname(__FILE__)."/../../../wsp/config/config.inc.php", false, true);
 		if ($config_file->write($data_config_file)){
 			$config_ok = true;
 		}

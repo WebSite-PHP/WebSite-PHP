@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.84
+ * @version     1.0.85
  * @access      public
  * @since       1.0.18
  */
@@ -286,6 +286,11 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 					throw new NewException("The callback method ".$str_function_tmp." must begin by 'public_' to be access from other page.", 0, 8, __FILE__, __LINE__);
 				}
 			}
+			
+			// call callback method if not done during init
+			if ($GLOBALS['__PAGE_IS_INIT__']) { 
+				$this->page_object->executeCallback();
+			}
 		} else if ($str_function != "") {
 			throw new NewException("Undefined method ".$str_function_tmp." in class ".get_class($page_object), 0, 8, __FILE__, __LINE__);
 		} else {
@@ -334,7 +339,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		
 		// encrypt formular if encrypt is active
 		if ($this->form_object != null) {
-			$html .= "		".$this->encryptObjectData($this->form_object, "isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;".$loading_modalbox->close()->render());
+			$html .= "		".$this->encryptObjectData($this->form_object, "isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;".($loading_modalbox==null?"":$loading_modalbox->close()->render()));
 		}
 		$html .= "		$.ajax({ type: '";
 		if ($this->form_object != null) {
@@ -565,6 +570,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 				}
 			}
 		}
+		if ($params_url == "") { $params_url = "?"; }
 		return $base_url.$params_url."&Callback_".$this->getEventObjectName()."='+ $('#Callback_".$this->getEventObjectName()."').val() + '";
 	}
 	

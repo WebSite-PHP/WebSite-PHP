@@ -1,5 +1,6 @@
 <?php 
 	if(!isset($_SESSION)) {
+		include_once("../config/config.inc.php"); 
 		include_once("../includes/utils_session.inc.php");
 		session_name(formalize_to_variable(SITE_NAME));
 		session_start();
@@ -156,6 +157,7 @@ for ($i=1; $i <= NB_DEFINE_STYLE_BCK; $i++) {
 	font-weight: bold;
 	height: 21px;
 	padding-left: 5px;
+	padding-right: 5px;
 	vertical-align: middle;
 	text-align: left;
 }

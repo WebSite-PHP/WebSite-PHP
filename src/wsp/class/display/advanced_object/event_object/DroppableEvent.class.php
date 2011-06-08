@@ -18,8 +18,8 @@
  * @subpackage advanced_object.event_object
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.81
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.85
  * @access      public
  * @since       1.0.17
  */
@@ -61,13 +61,12 @@ class DroppableEvent extends WebSitePhpEventObject {
 			$this->name = $this->page_object->createObjectName($this);
 		} else {
 			$this->name = $name;
+			$this->page_object->addEventObject($this, $this->form_object);
 		}
 		$this->id = $name;
 		
 		$this->droppable_id = "";
 		$this->ajax_wait_message = __(SUBMIT_LOADING_2);
-		
-		$this->page_object->addEventObject($this, $this->form_object);
 	}
 	
 	/* Intern management of DroppableEvent */
@@ -138,9 +137,6 @@ class DroppableEvent extends WebSitePhpEventObject {
 	 * @since 1.0.35
 	 */
 	public function isDroped() {
-		if (!$this->is_droped) {
-			$this->page_object->getUserEventObject();
-		}
 		return $this->is_droped;
 	}
 	

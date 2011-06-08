@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.85
  * @access      public
  * @since       1.0.17
  */
@@ -74,6 +74,7 @@ class ComboBox extends WebSitePhpEventObject {
 			if ($exist_object != false) {
 				throw new NewException("Tag name \"".$name."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, 8, __FILE__, __LINE__);
 			}
+			$this->page_object->addEventObject($this, $this->form_object);
 		}
 		
 		$this->name = $name;
@@ -81,8 +82,6 @@ class ComboBox extends WebSitePhpEventObject {
 		
 		$this->addCss(BASE_URL."wsp/css/dd.css", "", true);
 		$this->addJavaScript(BASE_URL."wsp/js/jquery.dd.js", "", true);
-		
-		$this->page_object->addEventObject($this, $this->form_object);
 	}
 	
 	/**
@@ -364,9 +363,6 @@ class ComboBox extends WebSitePhpEventObject {
 	 * @since 1.0.36
 	 */
 	public function isChanged() {
-		if (!$this->is_changed) {
-			$this->page_object->getUserEventObject();
-		}
 		return $this->is_changed;
 	}
 	

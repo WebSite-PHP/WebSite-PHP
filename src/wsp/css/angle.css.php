@@ -1,4 +1,5 @@
 <?php 
+	include_once("../config/config.inc.php"); 
 	if(!isset($_SESSION)) {
 		include_once("../includes/utils_session.inc.php");
 		session_name(formalize_to_variable(SITE_NAME));
@@ -10,7 +11,6 @@
 	} else {
 		include_once("../config/config_css.inc.php");
 	}
-	include_once("../config/config.inc.php"); 
 	
 	header("Content-type: text/css");
   

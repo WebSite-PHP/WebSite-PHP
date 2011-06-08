@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.85
  * @access      public
  * @since       1.0.17
  */
@@ -243,7 +243,7 @@ class WebSitePhpObject {
 	 */
 	public function getAjaxRender() {
 		if ($this->object_change && !$this->is_new_object_after_init) {
-			$alert_box = new DialogBox("Ajax Error", "Warning: No Ajax render for object ".get_class($this), '', true);
+			$alert_box = new DialogBox("Ajax Error", "Warning: No Ajax render for object ".get_class($this), '');
 			return $alert_box->render(true);
 		}
 	}

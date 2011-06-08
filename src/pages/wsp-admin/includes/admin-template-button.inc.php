@@ -3,6 +3,7 @@ require_once(dirname(__FILE__)."/../../../wsp/config/config_admin.inc.php");
 require_once(dirname(__FILE__)."/../../../lang/".$_SESSION['lang']."/wsp-admin/all.inc.php");
 require_once(dirname(__FILE__)."/admin-menu.inc.php");
 require_once(dirname(__FILE__)."/utils.inc.php");
+require_once(dirname(__FILE__)."/utils-users.inc.php");
 require_once(dirname(__FILE__)."/utils-version.inc.php");
 
 class AdminTemplateButton extends DefinedZone {

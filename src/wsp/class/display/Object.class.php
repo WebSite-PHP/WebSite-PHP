@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.81
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.85
  * @access      public
  * @since       1.0.17
  */
@@ -602,9 +602,6 @@ class Object extends WebSitePhpEventObject {
 	 * @since 1.0.36
 	 */
 	public function isClicked() {
-		if (!$this->is_clicked) {
-			$this->page_object->getUserEventObject();
-		}
 		return $this->is_clicked;
 	}
 	
@@ -907,7 +904,7 @@ class Object extends WebSitePhpEventObject {
 				new JavaScript($array_ajax_render[$i], true);
 			}
 			
-			$html .= "$('#".$this->getId()."').html(\"".str_replace('"', '\"', str_replace("\n", "", str_replace("\r", "", $array_ajax_render[0])))."\");\n";
+			$html .= "$('#".$this->getId()."').html(\"".str_replace("\n", "", str_replace("\r", "", addslashes($array_ajax_render[0])))."\");\n";
 			$html .= "$('#".$this->getId()."').attr('style', \"";
 			if ($this->width != "") {
 				if (is_integer($this->width)) {
@@ -962,6 +959,9 @@ class Object extends WebSitePhpEventObject {
 				$html .= $this->style;
 			}
 			$html .= "\");\n";
+			if ($this->class != "") {
+				$html .= "$('#".$this->getId()."').attr('class', $('#".$this->getId()."').attr('class') + \" ".$this->class."\");\n";
+			}
 		}
 		return $html;
 	}

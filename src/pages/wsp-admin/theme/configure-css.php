@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.80
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.85
  * @access      public
  * @since       1.0.25
  */
@@ -63,6 +63,7 @@ class ConfigureCss extends Page {
 		parent::$PAGE_TITLE = __(CONFIGURE_CSS);
 		
 		JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/wsp-admin.js");
+		CssInclude::getInstance()->loadCssConfigFileInMemory();
 		
 		//Admin
 		$table = new Table();

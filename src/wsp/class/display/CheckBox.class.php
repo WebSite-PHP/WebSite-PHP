@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.85
  * @access      public
  * @since       1.0.17
  */
@@ -66,6 +66,7 @@ class CheckBox extends WebSitePhpObject {
 			if ($exist_object != false) {
 				throw new NewException("Tag name \"".$name."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, 8, __FILE__, __LINE__);
 			}
+			$this->page_object->addEventObject($this, $this->form_object);
 		}
 		
 		$this->name = $name;
@@ -76,8 +77,6 @@ class CheckBox extends WebSitePhpObject {
 			$this->setValue("");
 		}
 		$this->default_value = $checked;
-		
-		$this->page_object->addEventObject($this, $this->form_object);
 	}
 	
 	/**

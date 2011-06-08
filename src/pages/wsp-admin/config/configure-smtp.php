@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.85
  * @access      public
  * @since       1.0.25
  */
@@ -74,14 +74,16 @@ class ConfigureSmtp extends Page {
 		$table_form->addRowColumns(__(CMB_AUTH).":&nbsp;", $this->cmbAuth, "&nbsp;(".__(ACTIVATE).")");
 		
 		$this->edtUser = new TextBox($form);
+		$this->edtUser->setValue(SMTP_USER);
 		if (SMTP_AUTH == false) {
-			$this->edtUser->setValue(SMTP_USER)->disable();
+			$this->edtUser->disable();
 		}
 		$table_form->addRowColumns(__(EDT_USER).":&nbsp;", $this->edtUser, "&nbsp;(robert.francis@gmail.com)");
 		
 		$this->edtPassword = new Password($form);
+		$this->edtPassword->setValue(SMTP_PASS);
 		if (SMTP_AUTH == false) {
-			$this->edtPassword->setValue(SMTP_PASS)->disable();
+			$this->edtPassword->disable();
 		}
 		$table_form->addRowColumns(__(EDT_PASS).":&nbsp;", $this->edtPassword, "&nbsp;(*********)");
 		
@@ -98,7 +100,6 @@ class ConfigureSmtp extends Page {
 	}
 	
 	public function configureSmtp() {
-		$config_file = new File(dirname(__FILE__)."/../../../wsp/config/config_smtp.inc.php", false, true);
 		$data_config_file = "<?php\n";
 		$data_config_file .= "define(\"SMTP_HOST\", \"".$this->edtHost->getValue()."\"); 	// gmail : ssl://smtp.gmail.com\n";
 		$data_config_file .= "define(\"SMTP_PORT\", ".$this->edtPort->getValue()."); 						// default : 25, gmail : 465\n\n";
@@ -108,6 +109,8 @@ class ConfigureSmtp extends Page {
 		$data_config_file .= "define(\"SMTP_USER\", \"".$this->edtUser->getValue()."\"); // gmail : yourmail@gmail.com\n";
 		$data_config_file .= "define(\"SMTP_PASS\", \"".$this->edtPassword->getValue()."\"); // gmail : yourpassword\n";
 		$data_config_file .= "?>";
+		
+		$config_file = new File(dirname(__FILE__)."/../../../wsp/config/config_smtp.inc.php", false, true);
 		if ($config_file->write($data_config_file)){
 			$config_ok = true;
 		}
@@ -120,7 +123,7 @@ class ConfigureSmtp extends Page {
 		}
 	}
 	
-	public function changeCmbAuth() {
+	public function changeCmbAuth($sender) {
 		if ($this->cmbAuth->getValue() == "true") {
 			$this->edtUser->enable();
 			$this->edtPassword->enable();

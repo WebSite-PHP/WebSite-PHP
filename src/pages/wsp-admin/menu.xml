@@ -14,6 +14,12 @@
 			<MenuItem>
 				<Menu name="__(CONFIGURE_SMTP)" url="$wsp_admin_url/config/configure-smtp.html" icon_16="img/wsp-admin/mail_16.png" icon_64="img/wsp-admin/mail_64.png" />
 			</MenuItem>
+			<MenuItem>
+				<Menu name="__(CONFIGURE_USERS)" url="$wsp_admin_url/config/configure-users.html" icon_16="img/wsp-admin/users_16.png" icon_64="img/wsp-admin/users_64.png" />
+			</MenuItem>
+			<MenuItem>
+				<Menu name="__(CONFIGURE_MODULES)" url="$wsp_admin_url/config/configure-modules.html" icon_16="img/wsp-admin/modules_16.png" icon_64="img/wsp-admin/modules_64.png" />
+			</MenuItem>
 		</MenuItems>
 	</MenuItem>
 	<MenuItem>

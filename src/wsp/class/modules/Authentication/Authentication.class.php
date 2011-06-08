@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 31/05/2011
- * @version     1.0.84
+ * @version     1.0.85
  * @access      public
  * @since       1.0.84
  */
@@ -185,12 +185,13 @@ class Authentication extends WebSitePhpObject {
 	 */
 	public function wspAdminConnect($redirect=true, $redirect_url='') {
 		require_once(dirname(__FILE__)."/../../../config/config_admin.inc.php");
-		require_once(dirname(__FILE__)."/../../../../pages/".WSP_ADMIN_URL."/includes/utils.inc.php");
+		require_once(dirname(__FILE__)."/../../../../pages/".WSP_ADMIN_URL."/includes/utils-users.inc.php");
 		
 		list($strAdminLogin, $strAdminPasswd, $strAdminRights) = getWspUserRightsInfo($this->login->getValue());
 		
 		if ($strAdminLogin != "" && $strAdminLogin == $this->login->getValue() && $strAdminPasswd == sha1($this->password->getValue())) {
 			$this->page_object->setUserRights($strAdminRights);
+			$_SESSION['wsp-login'] = $this->login->getValue();
 			if ($redirect) {
 				if ($this->authentication_msg) {
 					$str_msg = new Font(__(AUTHENTICATION_LOGIN_OK_REDIRECT));

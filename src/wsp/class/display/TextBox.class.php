@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.84
+ * @version     1.0.85
  * @access      public
  * @since       1.0.17
  */
@@ -40,6 +40,7 @@ class TextBox extends WebSitePhpEventObject {
 	private $length = 0;
 	private $disable = false;
 	private $has_focus = false;
+	private $force_empty = false;
 	
 	private $live_validation = null;
 	
@@ -89,6 +90,7 @@ class TextBox extends WebSitePhpEventObject {
 			if ($exist_object != false) {
 				throw new NewException("Tag name \"".$name."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, 8, __FILE__, __LINE__);
 			}
+			$this->page_object->addEventObject($this, $this->form_object);
 		}
 		
 		$this->name = $name;
@@ -101,8 +103,6 @@ class TextBox extends WebSitePhpEventObject {
 		$this->default_value = $value;
 		$this->width = $width;
 		$this->length = $length;
-		
-		$this->page_object->addEventObject($this, $this->form_object);
 	}
 	
 	/**
@@ -117,7 +117,11 @@ class TextBox extends WebSitePhpEventObject {
 		if (!$GLOBALS['__LOAD_VARIABLES__']) { 
 			if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		} else {
-			$this->is_changed = true; 
+			if ($this->default_value != $value) {
+				$this->is_changed = true; 
+			} else {
+				$this->is_clicked = true;
+			}
 		}
 		return $this;
 	}
@@ -364,6 +368,7 @@ class TextBox extends WebSitePhpEventObject {
 		$args = func_get_args();
 		$str_function = array_shift($args);
 		$this->callback_onchange = $this->loadCallbackMethod($str_function, $args);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
@@ -382,7 +387,18 @@ class TextBox extends WebSitePhpEventObject {
 			$js_function = $js_function->render();
 		}
 		$this->onchange = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
+	}
+	
+	/**
+	 * Method isChanged
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.36
+	 */
+	public function isChanged() {
+		return $this->is_changed;
 	}
 
 	/**
@@ -401,6 +417,7 @@ class TextBox extends WebSitePhpEventObject {
 		$args = func_get_args();
 		$str_function = array_shift($args);
 		$this->callback_onclick = $this->loadCallbackMethod($str_function, $args);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
@@ -419,20 +436,31 @@ class TextBox extends WebSitePhpEventObject {
 			$js_function = $js_function->render();
 		}
 		$this->onclick = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
 	/**
-	 * Method isChanged
+	 * Method isClicked
 	 * @access public
 	 * @return mixed
-	 * @since 1.0.36
+	 * @since 1.0.85
 	 */
-	public function isChanged() {
-		if (!$this->is_changed) {
-			$this->page_object->getUserEventObject();
-		}
-		return $this->is_changed;
+	public function isClicked() {
+		return $this->is_clicked;
+	}
+	
+	/**
+	 * Method forceEmpty
+	 * @access public
+	 * @return TextBox
+	 * @since 1.0.85
+	 */
+	public function forceEmpty() {
+		$this->force_empty = true;
+		$this->setValue("");
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
 	}
 	
 	/**
@@ -533,7 +561,7 @@ class TextBox extends WebSitePhpEventObject {
 		
 		$html = "";
 		if ($this->object_change && !$this->is_new_object_after_init) {
-			if ($this->isChanged()) {
+			if ($this->isChanged() || $this->value != $this->default_value || ($this->force_empty && $this->value == "")) {
 				$html .= "$('#".$this->id."').val(\"".str_replace('"', '\\"', $this->value)."\");\n";
 			}
 			$html .= "$('#".$this->id."').css('width', \"";

@@ -16,13 +16,13 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.85
  * @access      public
  * @since       1.0.17
  */
 
-class Picture extends WebSitePhpObject {
+class Picture extends WebSitePhpEventObject {
 	/**#@+
 	* Align
 	* @access public
@@ -49,13 +49,17 @@ class Picture extends WebSitePhpObject {
 	private $alt = "";
 	private $hspace = 0;
 	private $vspace = 0;
-	private $id = "";
 	private $tooltip_obj = null;
 	private $picture_map = "";
+	private $style = "";
 	
 	private $is_lightbox = false;
 	private $lightbox_name = "";
 	private $pic_link = "";
+	
+	private $onclick = "";
+	private $callback_onclick = "";
+	private $is_clicked = false;
 	/**#@-*/
 	
 	/**
@@ -298,6 +302,101 @@ class Picture extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method onClick
+	 * @access public
+	 * @param mixed $page_object 
+	 * @param mixed $str_function 
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return Picture
+	 * @since 1.0.85
+	 */
+	public function onClick($page_object, $str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
+		if (!isset($page_object) || gettype($page_object) != "object" || !is_subclass_of($page_object, "Page")) {
+			throw new NewException("Argument page_object for ".get_class($this)."->onClick() error", 0, 8, __FILE__, __LINE__);
+		}
+		$this->class_name = get_class($page_object);
+		$this->page_object = $page_object;
+		$this->form_object = null;
+		
+		if ($this->id == "") {
+			$this->id = $this->page_object->createObjectName($this);
+		} else {
+			$exist_object = $this->page_object->existsObjectName($this->id);
+			if ($exist_object != false) {
+				throw new NewException("Tag id \"".$this->id."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, 8, __FILE__, __LINE__);
+			}
+			$this->page_object->addEventObject($this, $this->form_object);
+		}
+		$this->name = $this->id;
+		
+		$args = func_get_args();
+		$page_object = array_shift($args);
+		$str_function = array_shift($args);
+		$this->callback_onclick = $this->loadCallbackMethod($str_function, $args);
+		return $this;
+	}
+	
+	/**
+	 * Method onClickJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return Picture
+	 * @since 1.0.85
+	 */
+	public function onClickJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onclick = trim($js_function);
+		return $this;
+	}
+	
+	/* Intern management of Object */
+	/**
+	 * Method setClick
+	 * @access public
+	 * @return Picture
+	 * @since 1.0.85
+	 */
+	public function setClick() {
+		if ($GLOBALS['__LOAD_VARIABLES__']) { 
+			$this->is_clicked = true; 
+		}
+		return $this;
+	}
+	
+	/**
+	 * Method isClicked
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.85
+	 */
+	public function isClicked() {
+		return $this->is_clicked;
+	}
+	
+	/**
+	 * Method setStyle
+	 * @access public
+	 * @param mixed $style 
+	 * @return Picture
+	 * @since 1.0.85
+	 */
+	public function setStyle($style) {
+		$this->style = $style;
+		
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -305,7 +404,18 @@ class Picture extends WebSitePhpObject {
 	 * @since 1.0.35
 	 */
 	public function render($ajax_render=false) {
+		$this->automaticAjaxEvent();
+		
 		$html = "";
+		if ($this->callback_onclick != "") {
+			$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
+			if ($this->is_ajax_event && !$ajax_render) {
+				$html .= $this->getJavascriptTagOpen();
+				$html .= $this->getAjaxEventFunctionRender();
+				$html .= $this->getJavascriptTagClose();
+			}
+		}
+		
 		$align_center = false;
 		if ($this->align == Picture::ALIGN_CENTER) {
 			$html .= "<div align='center'>\n\t";
@@ -343,12 +453,25 @@ class Picture extends WebSitePhpObject {
 			$html .= " width='".$this->width."'";
 		}
 		$html .= " border='".$this->border."'";
-		if ($this->align != "") {
+		if ($this->align != "" || $this->onclick != "" || $this->callback_onclick != "" || $this->style != "") {
+			$style_pic = false;
 			if ($this->align == Picture::ALIGN_ABSMIDDLE) {
-				$html .= " style='vertical-align:middle;'";
+				$html .= " style='vertical-align:middle;";
+				$style_pic = true;
 			} else {
 				$html .= " align='".$this->align."'";
 			}
+			if ($this->onclick != "" || $this->callback_onclick != "") {
+				if (!$style_pic) { $html .= " style='"; }
+				$html .= "cursor:pointer;";
+				$style_pic = true;
+			}
+			if ($this->style != "") {
+				if (!$style_pic) { $html .= " style='"; }
+				$html .= $this->style;
+				$style_pic = true;
+			}
+			if ($style_pic) { $html .= "'"; }
 		}
 		if (gettype($this->title) == "object" && method_exists($this->title, "render")) {
 			$this->title = $this->title->render();
@@ -373,6 +496,13 @@ class Picture extends WebSitePhpObject {
 		}
 		if ($this->picture_map != "") {
 			$html .= " usemap='#".$this->picture_map->getId()."'";
+		}
+		if ($this->onclick != "" || $this->callback_onclick != "") {
+			$html .= " onClick=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick));
+			if ($this->is_ajax_event) {
+				$html .= "return false;";
+			}
+			$html .= "\"";
 		}
 		$html .= "/>\n";
 		

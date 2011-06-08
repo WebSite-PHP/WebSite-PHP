@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.85
  * @access      public
  * @since       1.0.17
  */
@@ -66,6 +66,8 @@ class RowTable extends WebSitePhpObject {
 	private $colspan = "";
 	private $rowspan = "";
 	private $is_nowrap = false;
+	private $hide = false;
+	private $id = "";
 	/**#@-*/
 	
 	/**
@@ -133,6 +135,8 @@ class RowTable extends WebSitePhpObject {
 	 * @since 1.0.36
 	 */
 	public function setHeaderClass($class="1") {
+		CssInclude::getInstance()->loadCssConfigFileInMemory();
+		
 		if ($class == Table::STYLE_MAIN || $class == Table::STYLE_SECOND) {
 			$this->is_header_row = true;
 		}
@@ -403,6 +407,42 @@ class RowTable extends WebSitePhpObject {
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
+
+	/**
+	 * Method hide
+	 * @access public
+	 * @return RowTable
+	 * @since 1.0.85
+	 */
+	public function hide() {
+		$this->hide = true;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method show
+	 * @access public
+	 * @return RowTable
+	 * @since 1.0.85
+	 */
+	public function show() {
+		$this->hide = false;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method setId
+	 * @access public
+	 * @param mixed $id 
+	 * @return RowTable
+	 * @since 1.0.85
+	 */
+	public function setId($id) {
+		$this->id = $id;
+		return $this;
+	}
 	
 	/**
 	 * Method render
@@ -413,6 +453,16 @@ class RowTable extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		$html = "";
+		if (!$ajax_render && $this->id != "") {
+			$html .= "<tbody id=\"wsp_rowtable_".$this->id."\">";
+		}
+		if ($this->hide) { 
+			if (!$ajax_render && $this->id != "") {
+				$html .= "</tbody>";
+			}
+			return $html; 
+		}
+		
 		if (sizeof($this->col_object) == 0) {
 			$this->add();
 		}
@@ -438,22 +488,35 @@ class RowTable extends WebSitePhpObject {
 			$html .= " <td";
 			if ($this->class != "" || $this->col_object[$i]['class'] != "") {
 				$html .= " class=\"";
-				if ($this->is_header_row) {
-					$html .= "header_";
-				}
 				if ($this->col_object[$i]['class'] != "") {
-					if (is_integer($this->col_object[$i]['class'])) {
-						$html .= "bckg_".$this->col_object[$i]['class'];
-					} else if (is_integer(substr($this->col_object[$i]['class'], 0, 1)) && find($this->col_object[$i]['class'], "_round") > 0) {
-						$html .= "table_".substr($this->col_object[$i]['class'], 0, 1)."_round bckg_".substr($this->col_object[$i]['class'], 0, 1);
+					if (is_numeric($this->col_object[$i]['class'])) {
+						if ($this->is_header_row) {
+							$html .= "header_".$this->col_object[$i]['class']."_bckg";
+						} else {
+							$html .= "bckg_".$this->col_object[$i]['class'];
+						}
+					} else if (is_numeric(substr($this->col_object[$i]['class'], 0, 1)) && find($this->col_object[$i]['class'], "_round") > 0) {
+						if ($this->is_header_row) {
+							$html .= "header_".$this->col_object[$i]['class']."_bckg";
+						} else {
+							$html .= "table_".substr($this->col_object[$i]['class'], 0, 1)."_round bckg_".substr($this->col_object[$i]['class'], 0, 1);
+						}
 					} else {
 						$html .= $this->col_object[$i]['class'];
 					}
 				} else {
-					if (is_integer($this->class)) {
-						$html .= "bckg_".$this->class;
-					} else if (is_integer(substr($this->class, 0, 1)) && find($this->class, "_round") > 0) {
-						$html .= "table_".substr($this->class, 0, 1)."_round bckg_".substr($this->class, 0, 1);
+					if (is_numeric($this->class)) {
+						if ($this->is_header_row) {
+							$html .= "header_".$this->class."_bckg";
+						} else {
+							$html .= "bckg_".$this->class;
+						}
+					} else if (is_numeric(substr($this->class, 0, 1)) && find($this->class, "_round") > 0) {
+						if ($this->is_header_row) {
+							$html .= "header_".$this->class."_bckg";
+						} else {
+							$html .= "table_".substr($this->class, 0, 1)."_round bckg_".substr($this->class, 0, 1);
+						}
 					} else {
 						$html .= $this->class;
 					}
@@ -543,7 +606,29 @@ class RowTable extends WebSitePhpObject {
 			$html .= "</td>\n";
 		}
 		$html .= "</tr>\n";
+		if (!$ajax_render && $this->id != "") {
+			$html .= "</tbody>";
+		}
+		
 		$this->object_change = false;
+		return $html;
+	}
+	
+	/**
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object RowTable (call with AJAX)
+	 * @since 1.0.85
+	 */
+	public function getAjaxRender() {
+		$html = "";
+		if ($this->object_change && !$this->is_new_object_after_init) {
+			if ($this->id == "") {
+				throw new NewException(get_class($this)."->getAjaxRender() error: To update this object with Ajax event you must define an id (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+			}
+			
+			$html .= "$('#wsp_rowtable_".$this->id."').html(\"".str_replace("\n", "", str_replace("\r", "", addslashes($this->render(true))))."\");\n";
+		}
 		return $html;
 	}
 	

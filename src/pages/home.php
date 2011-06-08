@@ -15,13 +15,14 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 21/07/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.85
  * @access      public
  * @since       1.0.51
  */
 
-require_once("wsp-admin/includes/utils.inc.php");
+include(dirname(__FILE__)."/../wsp/config/config_admin.inc.php");
+require_once(WSP_ADMIN_URL."/includes/utils-users.inc.php");
 
 class Home extends Page {
 	function __construct() {

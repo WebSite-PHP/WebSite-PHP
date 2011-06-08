@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.85
  * @access      public
  * @since       1.0.25
  */
@@ -118,13 +118,17 @@ class ConfigureDatabase extends Page {
 		$this->objCreateDbClass->add($table_gen);
 		
 		// database list
-		if ($this->testConnexion(null)) {
+		if ($this->testDbConnexion(null)) {
 			$this->loadAllDatabases();
 			$this->configureGenDbObject(null);
 		}
 	}
 	
 	public function testConnexion($sender) {
+		$this->testDbConnexion($sender);
+	}
+	
+	public function testDbConnexion($sender) {
 		$this->dbInstance = new DataBase($this->edtHost->getValue(), $this->edtRoot->getValue(), $this->edtPassword->getValue(), $this->edtDatabase->getValue(), $this->edtPort->getValue());
 		if ($this->dbInstance->connect()) {
 			$this->displayCreateDbObjectZone(true);
@@ -163,7 +167,6 @@ class ConfigureDatabase extends Page {
 			if ($this->edtDatabase->getValue() == "" || $con->select_db($this->edtDatabase->getValue())) {
 				$con->close();
 				
-				$config_file = new File(dirname(__FILE__)."/../../../wsp/config/config_db.inc.php", false, true);
 				$data_config_file = "<?php\n";
 				$data_config_file .= "define(\"DB_ACTIVE\", true);\n";
 				$data_config_file .= "define(\"DB_HOST\", \"".$this->edtHost->getValue()."\");\n";
@@ -172,6 +175,8 @@ class ConfigureDatabase extends Page {
 				$data_config_file .= "define(\"DB_PASSWORD\", \"".$this->edtPassword->getValue()."\");\n";
 				$data_config_file .= "define(\"DB_DATABASE\", \"".$this->edtDatabase->getValue()."\");\n";
 				$data_config_file .= "?>";
+				
+				$config_file = new File(dirname(__FILE__)."/../../../wsp/config/config_db.inc.php", false, true);
 				if ($config_file->write($data_config_file)) {
 					$config_ok = true;
 				}
@@ -337,7 +342,6 @@ class ConfigureDatabase extends Page {
 			return false;
 		}
 		
-		$file = new File(dirname(__FILE__)."/../../../wsp/class/database_object/".$class_name."DbTable.class.php", false, true);
 		$data = "<?php
 class ".$class_name."DbTable extends DbTableObject {
 	/**#@-*/
@@ -358,6 +362,7 @@ class ".$class_name."DbTable extends DbTableObject {
 	}
 }
 ?>";
+		$file = new File(dirname(__FILE__)."/../../../wsp/class/database_object/".$class_name."DbTable.class.php", false, true);
 		$file->write($data);
 		$file->close();
 		
@@ -366,7 +371,6 @@ class ".$class_name."DbTable extends DbTableObject {
 	
 	private function generateWspTableObject($database, $table) {
 		$class_name = $this->getFormatValue($table);
-		$file = new File(dirname(__FILE__)."/../../../wsp/class/database_model/wsp/".$class_name."WspObject.class.php", false, true);
 		
 		$array_var = array();
 		$array_var_key = array();
@@ -632,6 +636,7 @@ $data .= "	public function isSynchronizeWithDb() {
 		
 		$data .= "}\n?>";
 		
+		$file = new File(dirname(__FILE__)."/../../../wsp/class/database_model/wsp/".$class_name."WspObject.class.php", false, true);
 		$file->write($data);
 		$file->close();
 	}
@@ -639,8 +644,6 @@ $data .= "	public function isSynchronizeWithDb() {
 	private function generateTableObject($database, $table) {
 		$class_name = $this->getFormatValue($table);
 		if (!file_exists(dirname(__FILE__)."/../../../wsp/class/database_model/".$class_name."Obj.class.php")) {
-			$file = new File(dirname(__FILE__)."/../../../wsp/class/database_model/".$class_name."Obj.class.php", false, true);
-			
 			$construct_param = "";
 			$construct_key_param = "";
 			$params = "";
@@ -676,6 +679,7 @@ $data .= "	public function isSynchronizeWithDb() {
 		}
 	}
 ?>";
+			$file = new File(dirname(__FILE__)."/../../../wsp/class/database_model/".$class_name."Obj.class.php", false, true);
 			$file->write($data);
 			$file->close();
 		}

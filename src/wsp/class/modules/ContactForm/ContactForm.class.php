@@ -19,34 +19,9 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.84
+ * @version     1.0.85
  * @access      public
  * @since       1.0.84
- */
-
-/**
- * PHP file wsp\class\display\advanced_object\ContactForm.class.php
- * @package display
- * @subpackage advanced_object
- */
-/**
- * Class ContactForm
- *
- * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
- * PHP versions >= 5.2
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- * 
- * @package display
- * @subpackage advanced_object
- * @author      Emilien MOREL <admin@website-php.com>
- * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.81
- * @access      public
- * @since       1.0.17
  */
 
 class ContactForm extends WebSitePhpObject {
@@ -209,7 +184,7 @@ class ContactForm extends WebSitePhpObject {
 			$dialog = new DialogBox(__(ERROR), __(ERROR_CAPTCHA));
 			$this->page_object->addObject($dialog->activateCloseButton());
 		} else {
-			$message = __(CONTACTFORM_NAME).": ".$this->getContactName()."<br/>".__(CONTACT_EMAIL).": ".$this->getContactEmail()."<br/>".__(CONTACT_SUBJECT).": ".$this->getContactSubject()."<br/><br/>".__(CONTACT_MESSAGE).": <br/>".$this->getContactMessage();
+			$message = __(CONTACTFORM_NAME).": ".$this->getContactName()."<br/>".__(CONTACTFORM_EMAIL).": ".$this->getContactEmail()."<br/>".__(CONTACTFORM_SUBJECT).": ".$this->getContactSubject()."<br/><br/>".__(CONTACTFORM_MESSAGE).": <br/>".$this->getContactMessage();
 			$mail = new SmtpMail($this->mail_to, $this->mail_to_name, SITE_NAME." : ".$this->getContactSubject(), $message, $this->getContactEmail(), $this->getContactName());
 			if(!$mail->Send()) {
 				$dialog = new DialogBox(__(CONTACTFORM_MAIL)." ".__(ERROR), $mail->getErrorInfo());

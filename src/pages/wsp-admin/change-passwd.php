@@ -15,13 +15,13 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.85
  * @access      public
  * @since       1.0.25
  */
 
-require_once(dirname(__FILE__)."/includes/utils.inc.php");
+require_once(dirname(__FILE__)."/includes/utils-users.inc.php");
 require_once(dirname(__FILE__)."/../../lang/".$_SESSION['lang']."/wsp-admin/all.inc.php");
 
 class ChangePasswd extends Page {
@@ -49,6 +49,7 @@ class ChangePasswd extends Page {
 		$table->addRow();
 		
 		$this->edt_old_passwd = new Password($form, "wsp_old_password");
+		$this->edt_old_passwd->setFocus();
 		$live_validation = new LiveValidation();
 		$live_validation->addValidatePresence()->setFieldName(__(OLD_PASSWD));
 		$table->addRowColumns(__(OLD_PASSWD)." :&nbsp;", $this->edt_old_passwd->setLiveValidation($live_validation))->setStyle("color:black;");
@@ -83,7 +84,7 @@ class ChangePasswd extends Page {
 	
 	public function onChangePasswd() {
 		if ($this->edt_new_passwd->getValue() != "" && $this->edt_new_passwd->getValue() != "admin" && $this->edt_new_passwd->getValue() == $this->edt_confirm_passwd->getValue()) {
-			if (changeWspUserPassword("admin", $this->edt_old_passwd->getValue(), $this->edt_new_passwd->getValue(), "administrator")) {
+			if (changeWspUser("admin", $this->edt_old_passwd->getValue(), $this->edt_new_passwd->getValue(), "administrator")) {
 				$this->addObject(DialogBox::closeAll());
 				$result_dialogbox = new DialogBox(__(CHANGE_PASSWD), __(CHANGE_PASSWD_CONGRATULATION));
 			} else {

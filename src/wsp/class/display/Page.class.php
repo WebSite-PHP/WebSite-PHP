@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.83
+ * @version     1.0.85
  * @access      public
  * @since       1.0.0
  */
@@ -84,9 +84,10 @@ class Page {
 	
 	private $callback_method = "";
 	private $callback_object = null;
+	private $callback_method_called = false;
 	private $callback_method_params = array();
 	private $array_callback_object = array("Button", "ComboBox", "TextBox", "Password", "ColorPicker", 
-											"ContextMenuEvent", "DroppableEvent", "SortableEvent", "Object");
+											"ContextMenuEvent", "DroppableEvent", "SortableEvent", "Object", "Picture");
 	
 	private $create_object_to_get_css_js = false;
 	
@@ -459,8 +460,8 @@ class Page {
 		$class_name = get_class($object);
 		$form_object = null;
 		if ($class_name != "Form") {
-			if (method_exists($object, "getForm")) {
-				$form_object = $object->getForm();
+			if (method_exists($object, "getFormObject")) {
+				$form_object = $object->getFormObject();
 				if ($form_object != null) {
 					$class_name .= "_".$form_object->getName();
 				}
@@ -678,13 +679,14 @@ class Page {
 						}
 						
 						if ($callback_method != "") {
-							//$this->addLogDebug("Page->executeCallback: ".$name." - ".$_REQUEST[$name]." - ".$callback_method);
+							//$this->addLogDebug("Page->getUserEventObject: ".$name." - ".$_REQUEST[$name]." - ".$callback_method);
 							
 							// ack to set button, textbox, combobox, context menu event (is_clicked, is_changed)
 							$save_load_variables = $GLOBALS['__LOAD_VARIABLES__'];
 							$GLOBALS['__LOAD_VARIABLES__'] = true;
-							if (get_class($object) == "Object" || get_class($object) == "ContextMenuEvent") {
-								$object->setClick();
+							if (get_class($object) == "Object" || get_class($object) == "ContextMenuEvent" || 
+								get_class($object) == "Picture") {
+									$object->setClick();
 							} else if (get_class($object) == "DroppableEvent") {
 								$object->setDrop();
 							} else if (get_class($object) == "SortableEvent") {
@@ -731,7 +733,8 @@ class Page {
 	 */
 	public function executeCallback() {
 		$this->getUserEventObject();
-		if ($this->callback_method != "") {
+		if ($this->callback_method != "" && !$this->callback_method_called) {
+			$this->callback_method_called = true;
 			for ($i=0; $i < sizeof($this->callback_method_params); $i++) {
 				if ($this->callback_method_params[$i] != "" && gettype($this->callback_method_params[$i]) == "string") {
 					// remove quote

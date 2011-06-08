@@ -37,6 +37,10 @@ class UpdateWsp extends Page {
 		$file->close();
 		
 		if (file_exists(dirname(__FILE__)."/tmp/website-php-update.zip") && extension_loaded('zip')) {
+			// save current languages used
+			$array_lang_used = scandir(dirname(__FILE__)."/../../../lang");
+			
+			// unzip
 			$zip = new ZipArchive;
 			$res = $zip->open(dirname(__FILE__)."/tmp/website-php-update.zip");
 			if ($res === TRUE) {
@@ -44,6 +48,7 @@ class UpdateWsp extends Page {
 				$zip->close();
 				
 				if ($bool) {
+					// launch update script
 					$is_call_from_wsp_admin_update = true;
 					include("wsp-update-script.inc.php");
 				}

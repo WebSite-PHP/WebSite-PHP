@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.85
  * @access      public
  * @since       1.0.17
  */
@@ -32,6 +32,7 @@ class Button extends WebSitePhpEventObject {
 	private $class = "";
 	private $is_link = false;
 	private $assign_enter_key = false;
+	private $hide = false;
 	
 	private $onclick = "";
 	private $callback_onclick = "";
@@ -72,6 +73,7 @@ class Button extends WebSitePhpEventObject {
 			if ($exist_object != false) {
 				throw new NewException("Tag name \"".$name."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, 8, __FILE__, __LINE__);
 			}
+			$this->page_object->addEventObject($this, $this->form_object);
 		}
 		
 		$this->name = $name;
@@ -86,8 +88,6 @@ class Button extends WebSitePhpEventObject {
 		$this->is_link = $is_link;
 		$this->class = $class;
 		$this->ajax_wait_message = __(SUBMIT_LOADING);
-		
-		$this->page_object->addEventObject($this, $this->form_object);
 	}
 	
 	/**
@@ -235,6 +235,7 @@ class Button extends WebSitePhpEventObject {
 		$args = func_get_args();
 		$str_function = array_shift($args);
 		$this->callback_onclick = $this->loadCallbackMethod($str_function, $args);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
@@ -253,6 +254,7 @@ class Button extends WebSitePhpEventObject {
 			$js_function = $js_function->render();
 		}
 		$this->onclick = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
@@ -263,10 +265,31 @@ class Button extends WebSitePhpEventObject {
 	 * @since 1.0.36
 	 */
 	public function isClicked() {
-		if (!$this->is_clicked) {
-			$this->page_object->getUserEventObject();
-		}
 		return $this->is_clicked;
+	}
+
+	/**
+	 * Method hide
+	 * @access public
+	 * @return Button
+	 * @since 1.0.85
+	 */
+	public function hide() {
+		$this->hide = true;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method show
+	 * @access public
+	 * @return Button
+	 * @since 1.0.85
+	 */
+	public function show() {
+		$this->hide = false;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
 	}
 	
 	/**
@@ -293,15 +316,16 @@ class Button extends WebSitePhpEventObject {
 					$html .= "style=\"width:".$this->width."px;height:24px;\"";
 				}
 				$html .= ">\n";
-			}
+				if ($this->hide) {
+					$html .= "</div>";
+					return $html;
+				}
+			} else if ($this->hide) { return ""; }
+			
 			if ($this->callback_onclick != "") {
 				$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
 			}
 			if ($this->is_ajax_event && !$ajax_render) {
-				if ($this->form_object == null) {
-					throw new NewException("Unable to activate action to this ".get_class($this)." : Attribut page_or_form_object must be a Form object", 0, 8, __FILE__, __LINE__);
-				}
-				
 				$html .= $this->getJavascriptTagOpen();
 				$html .= $this->getAjaxEventFunctionRender();
 				$html .= $this->getJavascriptTagClose();
@@ -386,7 +410,12 @@ class Button extends WebSitePhpEventObject {
 			if ($this->is_ajax_event) {
 				new JavaScript($this->getAjaxEventFunctionRender(), true);
 			}
-			$html .= "$('#wsp_button_".$this->id."').html(\"".str_replace('"', '\"', str_replace("\n", "", str_replace("\r", "", $this->render(true))))."\");\n";
+			// Extract JavaScript from HTML
+			$array_ajax_render = extract_javascript($this->render(true));
+			for ($i=1; $i < sizeof($array_ajax_render); $i++) {
+				new JavaScript($array_ajax_render[$i], true);
+			}
+			$html .= "$('#wsp_button_".$this->id."').html(\"".str_replace("\n", "", str_replace("\r", "", addslashes($array_ajax_render[0])))."\");\n";
 		}
 		return $html;
 	}
