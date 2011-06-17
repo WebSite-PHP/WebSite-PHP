@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 06/06/2011
- * @version     1.0.85
+ * @version     1.0.86
  * @access      public
  * @since       1.0.85
  */
@@ -34,10 +34,15 @@ class ConfigureModules extends Page {
 	public function Load() {
 		parent::$PAGE_TITLE = __(CONFIGURE_USERS);
 		
+		$config_modules_obj = new Object();
+		
 		$construction_page = new Object(__(PAGE_IN_CONSTRUCTION));
 		$construction_page->setClass("error");
+		$config_modules_obj->add($construction_page);
 		
-		$this->render = new AdminTemplateForm($this, $construction_page);
+		$config_modules_obj->add("<br/>", __(PRESENTATION), "<br/><br/>");
+		
+		$this->render = new AdminTemplateForm($this, $config_modules_obj);
 	}
 }
 ?>

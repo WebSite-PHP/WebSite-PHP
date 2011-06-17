@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.83
+ * @version     1.0.86
  * @access      public
  * @since       1.0.0
  */
@@ -236,16 +236,16 @@
 		}
 		
 		if (JQUERY_LOAD_LOCAL == true) {
-			JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery-1.4.4.min.js");
-			JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery-ui-1.8.6.custom.min.js", "", true);
+			JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery-1.5.2.min.js");
+			JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery-ui-1.8.12.custom.min.js", "", true);
 		} else {
 		?>
 
 		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 		<script type="text/javascript">
 			// Load lib by google
-			google.load("jquery", "1.4.4");
-			google.load("jqueryui", "1.8.6");
+			google.load("jquery", "1.5.2");
+			google.load("jqueryui", "1.8.12");
 		</script>
 <?php
 		}
