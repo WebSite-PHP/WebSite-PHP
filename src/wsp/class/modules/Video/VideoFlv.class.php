@@ -1,11 +1,36 @@
 <?php
 /**
- * PHP file wsp\class\display\advanced_object\Video.class.php
+ * PHP file wsp\class\modules\Video\VideoFlv.class.php
+ * @package modules
+ * @subpackage Video
+ */
+/**
+ * Class VideoFlv
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2011 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @package modules
+ * @subpackage Video
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 20/06/2011
+ * @version     1.0.87
+ * @access      public
+ * @since       1.0.87
+ */
+
+/**
+ * PHP file wsp\class\display\advanced_object\VideoFlv.class.php
  * @package display
  * @subpackage advanced_object
  */
 /**
- * Class Video
+ * Class VideoFlv
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
  * Copyright (c) 2009-2011 WebSite-PHP.com
@@ -24,7 +49,7 @@
  * @since       1.0.17
  */
 
-class Video extends WebSitePhpObject {
+class VideoFlv extends WebSitePhpObject {
 	const CONTROLBAR_NONE = "none";
 	const CONTROLBAR_BOTTOM = "bottom";
 	const CONTROLBAR_TOP = "top";
@@ -49,7 +74,7 @@ class Video extends WebSitePhpObject {
 	/**#@-*/
 	
 	/**
-	 * Constructor Video
+	 * Constructor VideoFlv
 	 * @param string $id 
 	 * @param string $video 
 	 * @param integer $width 

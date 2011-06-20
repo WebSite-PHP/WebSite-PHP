@@ -1,0 +1,184 @@
+# Rule file .htaccess
+RewriteEngine on
+Options +FollowSymLinks
+
+<IfModule mod_rewrite.c>
+	# Redirecting www
+	# Configure if you want redirect url http://example.com to http://www.example.com
+	RewriteCond %{HTTP_HOST} ^mydomain\.com$ [NC]
+	RewriteRule ^(.*)$ http://www.mydomain.com/$1 [R=301,L] 
+	
+	
+	# Zone to define your URL rewriting
+	# Exemple 1: 
+	# RewriteRule ^myfolder/(.+)\.html$ index.php?p=$1&l=$1&folder_level=1&%{QUERY_STRING} [L] 
+	# RewriteRule ^([a-z]{2})/myfolder/(.+)\.html$ index.php?p=$2&l=$1&folder_level=1&%{QUERY_STRING} [L] 
+	# Exemple 2: 
+	# RewriteRule ^myfolder/myfolder2/(.+)\.html$ index.php?p=$1&l=$1&folder_level=2&%{QUERY_STRING} [L] 
+	# RewriteRule ^([a-z]{2})/myfolder/myfolder2/(.+)\.html$ index.php?p=$2&l=$1&folder_level=2&%{QUERY_STRING} [L] 
+	
+	# End zone for your URL rewriting (don't write anything after this line and don't remove it)
+	
+	
+	# Google / Yahoo / Bing site verification
+	RewriteRule ^google(.*).html$ google$1.html [L] 
+	RewriteRule ^([a-z]{2})/google(.*).html$ google$2.html [L] 
+	RewriteRule ^y_key_(.*).html$ y_key_$1.html [L] 
+	RewriteRule ^([a-z]{2})/y_key_(.*).html$ y_key_$2.html [L] 
+	RewriteRule ^LiveSearchSiteAuth.xml$ LiveSearchSiteAuth.xml [L] 
+	RewriteRule ^([a-z]{2})/LiveSearchSiteAuth.xml$ LiveSearchSiteAuth.xml [L] 
+	
+	# FrameWork Files
+	RewriteRule ^robots.txt$ robots.txt [L] 
+	RewriteRule ^([a-z]{2})/robots.txt$ robots.txt [L] 
+	RewriteRule ^favicon.ico$ favicon.ico [L] 
+	RewriteRule ^([a-z]{2})/favicon.ico$ favicon.ico [L] 
+	
+	# JS /CSS combine
+	RewriteRule ^wsp/includes/combine.php(.*)$ wsp/includes/combine.php$1 [L] 
+	RewriteRule ^([a-z]{2})/wsp/includes/combine.php(.*)$ wsp/includes/combine.php$2 [L] 
+	RewriteRule ^combine-js/(.*\.js) wsp/includes/combine.php?type=js&files=$1 [L] 
+	RewriteRule ^wsp/includes/css-merge.php(.*)$ wsp/includes/css-merge.php$1 [L] 
+	RewriteRule ^combine-css/(.*\.css) wsp/includes/combine.php?type=css&files=$1&%{QUERY_STRING} [L] 
+	RewriteRule ^combine-css/wsp/(.*) wsp/$1&%{QUERY_STRING} [L] 
+	
+	# FrameWork Folders
+	RewriteRule ^js/(.*)$ js/$1 [L] 
+	RewriteRule ^wsp/js/(.*)$ wsp/js/$1 [L]
+	RewriteRule ^css/(.*)$ css/$1 [L] 
+	RewriteRule ^wsp/css/(.*)$ wsp/css/$1 [L] 
+	RewriteRule ^wsp/includes/(.*)$ wsp/includes/$1 [L] 
+	RewriteRule ^wsp/img/(.*)$ wsp/img/$1 [L] 
+	RewriteRule ^([a-z]{2})/img/(.*)$ img/$2 [L] 
+	RewriteRule ^img/(.*)$ img/$1 [L] 
+	RewriteRule ^wsp/flash/(.*)$ wsp/flash/$1 [L] 
+	RewriteRule ^([a-z]{2})/flash/(.*)$ flash/$2 [L] 
+	RewriteRule ^flash/(.*)$ flash/$1 [L] 
+	RewriteRule ^wsp/cache/(.*)$ wsp/cache/$1 [L] 
+	RewriteRule ^([a-z]{2})/cache/(.*)$ cache/$2 [L] 
+	RewriteRule ^cache/(.*)$ wsp/cache/$1 [L] 
+	
+	# Banned folders of the FrameWork
+	RewriteRule ^wsp/class/(.*)\.php$ index.php?p=error-page&error-redirect=404&folder_level=2 [L] 
+	RewriteRule ^wsp/config/(.*)\.php$ index.php?p=error-page&error-redirect=404&folder_level=2 [L] 
+	
+	# Rewrite Ajax URL
+	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4/$5/$6/$7&l=$1&folder_level=6&%{QUERY_STRING} [L] 
+	RewriteRule ^ajax/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2/$3/$5/$6/$7&folder_level=6&%{QUERY_STRING} [L] 
+	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4/$5/$6&l=$1&folder_level=5&%{QUERY_STRING} [L] 
+	RewriteRule ^ajax/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2/$3/$5/$6&folder_level=5&%{QUERY_STRING} [L] 
+	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4/$5&l=$1&folder_level=4&%{QUERY_STRING} [L] 
+	RewriteRule ^ajax/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2/$3/$5&folder_level=4&%{QUERY_STRING} [L] 
+	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4&l=$1&folder_level=3&%{QUERY_STRING} [L] 
+	RewriteRule ^ajax/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2/$3&folder_level=3&%{QUERY_STRING} [L] 
+	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3&l=$1&folder_level=2&%{QUERY_STRING} [L] 
+	RewriteRule ^ajax/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2&folder_level=2&%{QUERY_STRING} [L] 
+	RewriteRule ^([a-z]{2})/ajax/(.+)\.html$ index-ajax.php?p=$2&l=$1&folder_level=1&%{QUERY_STRING} [L] 
+	RewriteRule ^ajax/(.+)\.html$ index-ajax.php?p=$1&folder_level=1&%{QUERY_STRING} [L] 
+	RewriteRule ^([a-z]{2})/ajax/$ index-ajax.php?p=home&l=$1&folder_level=1&%{QUERY_STRING} [L] 
+	RewriteRule ^ajax/$ index-ajax.php?p=home&folder_level=1&%{QUERY_STRING} [L] 
+
+	# Rewrite URL subfolder (ex: wsp-admin, ...)
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$2/$3/$4/$5/$6/$7&l=$1&folder_level=5&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$1$2/$3/$4/$5/$6/$7&folder_level=5&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)/$ index.php?p=$2/$3/$4/$5/$6/home&l=$1&folder_level=5&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$2/$3/$4/$5/$6&l=$1&folder_level=4&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$1$2/$3/$4/$5/$6&folder_level=4&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/$ index.php?p=$2/$3/$4/$5/home&l=$1&folder_level=4&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$2/$3/$4/$5&l=$1&folder_level=3&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$1$2/$3/$4/$5&folder_level=3&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/$ index.php?p=$2/$3/$4/home&l=$1&folder_level=3&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)\.html$ index.php?p=$2/$3/$4&l=$1&folder_level=2&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)\.html$ index.php?p=$1$2/$3/$4&folder_level=2&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/$ index.php?p=$2/$3/home&l=$1&folder_level=2&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)\.html$ index.php?p=$2/$3&l=$1&folder_level=1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)\.html$ index.php?p=$1$2/$3&folder_level=1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/$ index.php?p=$2/home&l=$1&folder_level=1&%{QUERY_STRING} [L]
+
+	# Rewrite Special URL subfolder (ex: xml, rss, sitemap, ...)
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4/$5/$6/$7&mime=$6&l=$1&folder_level=5&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4/$5/$6/$7&mime=$6&folder_level=5&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4/$5/$6&mime=$6&l=$1&folder_level=4&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4/$5/$6&mime=$6&folder_level=4&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4/$5&mime=$6&l=$1&folder_level=3&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4/$5&mime=$6&folder_level=3&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4&mime=$5&l=$1&folder_level=2&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4&mime=$5&folder_level=2&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3&mime=$4&l=$1&folder_level=1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3&mime=$4&folder_level=1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)\.([^php]+)$ load-page.php?p=$2&l=$1&mime=$3&%{QUERY_STRING} [L]
+	
+	# Rewrite URL home.html, index.html and index.php
+	RewriteRule ^([a-z]{2})/home.html$ /$1/ [R=301,L] 
+	RewriteRule ^([a-z]{2})/home.html\?(.*)$ /$1/?$2 [R=301,L] 
+	RewriteRule ^([a-z]{2})/index.html$ /$1/ [R=301,L] 
+	RewriteRule ^([a-z]{2})/index.html\?(.*)$ /$1/?$2 [R=301,L] 
+	RewriteRule ^([a-z]{2})/index.php$ /$1/ [R=301,L] 
+	RewriteRule ^([a-z]{2})/index.php\?(.*)$ /$1/?$2 [R=301,L] 
+	
+	# Language rule
+	RewriteRule ^([a-z]{2})$ index.php?l=$1&%{QUERY_STRING}
+	RewriteRule ^([a-z]{2})/$ index.php?l=$1&%{QUERY_STRING}
+	RewriteRule ^([a-z]{2})/(.+)\.html$ index.php?p=$2&l=$1&%{QUERY_STRING}
+	RewriteRule ^(.+)\.html$ index.php?p=$1&%{QUERY_STRING}
+	
+	# Security
+	RewriteRule ^pages/(.*)$ / [R=301,L] 
+	
+	# Error 404
+	ErrorDocument 404 /404.php
+</IfModule>
+
+
+#####              Files Caching / Compression                  #####
+#                                                                   #
+# We recommand to activate Apache mod : mod_expires and mod_headers #
+# Configure php.ini zlib.output_compression = On                    #
+#                                                                   #
+#####################################################################
+
+<IfModule mod_headers.c>
+	# Remote ETag from headers - http://www.askapache.com/htaccess/apache-speed-etags.html
+	Header unset ETag
+	# Disable ETag for files
+	FileETag None
+</IfModule>
+
+<IfModule mod_expires.c>
+	# Set up caching on media files for 1 month
+	<FilesMatch "\.(ico|gif|jpg|jpeg|png|flv|pdf|swf|mov|mp3|wmv|ppt)$">
+		ExpiresActive On
+	  ExpiresDefault A2419200
+	</FilesMatch>
+	<FilesMatch "favicon\.ico$">
+	  ExpiresActive On
+	  ExpiresDefault A2419200
+	</FilesMatch>
+	
+	# Set up 7 days caching on commonly updated files
+	<FilesMatch "\.(xml|txt|js|css)$">
+		ExpiresActive On
+	  ExpiresDefault A604800
+	</FilesMatch>
+</IfModule>
+
+<IfModule mod_headers.c>
+	# Set up caching on media files for 1 month
+	<FilesMatch "\.(ico|gif|jpg|jpeg|png|flv|pdf|swf|mov|mp3|wmv|ppt)$">
+	  Header set Cache-Control "max-age=2419200, public"
+	</FilesMatch>
+	<FilesMatch "favicon\.ico$">
+	  Header set Cache-Control "max-age=2419200, public"
+	</FilesMatch>
+	
+	# Set up 7 days caching on commonly updated files
+	<FilesMatch "\.(xml|txt|js|css)$">
+	  Header set Cache-Control "max-age=604800, public, must-revalidate"
+	</FilesMatch>
+</IfModule>
+
+<ifModule mod_deflate.c>
+	<FilesMatch "\.(js|css|txt|xml|gif|jpg|jpeg|png)$">
+		SetOutputFilter DEFLATE
+	</FilesMatch>
+</ifModule>

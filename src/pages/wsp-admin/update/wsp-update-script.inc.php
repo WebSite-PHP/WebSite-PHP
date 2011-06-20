@@ -32,6 +32,11 @@ if (isset($is_call_from_wsp_admin_update) && $is_call_from_wsp_admin_update == t
 	unlink($base_dir."/wsp/js/jquery-1.4.4.min.js");
 	unlink($base_dir."/wsp/js/jquery-ui-1.8.6.custom.min.js");
 	
+	// Update: version 1.0.87
+	unlink($base_dir."/wsp/class/display/advanced_object/DownloadButton.class.php");
+	unlink($base_dir."/wsp/class/display/advanced_object/ImageRotator.class.php");
+	unlink($base_dir."/wsp/class/display/advanced_object/Video.class.php");
+	
 	
 	// Move wsp-admin folder to the define folder on the file wsp/config/config_admin.inc.php
 	include_once($base_dir."/wsp/config/config_admin.inc.php");
