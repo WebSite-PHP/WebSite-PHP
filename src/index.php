@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.0.88
  * @access      public
  * @since       1.0.0
  */
@@ -236,7 +236,7 @@
 		}
 		
 		if (JQUERY_LOAD_LOCAL == true) {
-			JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery-1.5.2.min.js");
+			JavaScriptInclude::getInstance()->addToBegin(BASE_URL."wsp/js/jquery-1.5.2.min.js", "", true);
 			JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery-ui-1.8.12.custom.min.js", "", true);
 		} else {
 		?>
@@ -255,23 +255,27 @@
 		JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/pngfix.js", "", true);
 		
 		$combine_js = "";
+		$not_combine_js = "";
 		$array_js = JavaScriptInclude::getInstance()->get(true);
 		foreach ($array_js as $i => $script) {
 			if (JavaScriptInclude::getInstance()->getCombine($i)) {
 				if ($combine_js != "") { $combine_js .= ","; }
 				$combine_js .= str_replace(BASE_URL."wsp/js/", "", str_replace(BASE_URL."js/", "", $script));
 			} else {
-				echo "		";
+				$not_combine_js .= "		";
 				$conditional_comment = JavaScriptInclude::getInstance()->getConditionalComment($i);
-				if ($conditional_comment != "") { echo "<!--[if ".$conditional_comment."]>\n			"; }
-					echo "<script type=\"text/javascript\" src=\"".$script."\"></script>\n";
+				if ($conditional_comment != "") { $not_combine_js .= "<!--[if ".$conditional_comment."]>\n			"; }
+					$not_combine_js .= "<script type=\"text/javascript\" src=\"".$script."\">".JavaScriptInclude::getInstance()->getJsIncludeScript($i)."</script>\n";
 				if ($conditional_comment != "") {
-					echo "<![endif]-->\n		"; 
+					$not_combine_js .= "<![endif]-->\n		"; 
 				}
 			}
 		}
 		if ($combine_js != "") {
 			echo "		<script type=\"text/javascript\" src=\"".BASE_URL."combine-js/".str_replace("/", "|", $combine_js)."\"></script>\n";
+		}
+		if ($not_combine_js != "") {
+			echo $not_combine_js;
 		}
 		if (DEBUG) {
 			echo "<script type=\"text/javascript\" src=\"wsp/js/debug.js\"></script>";

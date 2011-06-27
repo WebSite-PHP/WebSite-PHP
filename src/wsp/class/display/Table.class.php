@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.88
  * @access      public
  * @since       1.0.17
  */
@@ -90,8 +90,8 @@ class Table extends WebSitePhpObject {
 	
 	/**
 	 * Constructor Table
-	 * @param double $cellpadding [default value: 0]
-	 * @param double $cellspacing [default value: 0]
+	 * @param integer $cellpadding [default value: 0]
+	 * @param integer $cellspacing [default value: 0]
 	 * @param string $width 
 	 * @param string $default_align 
 	 * @param string $default_valign 
@@ -109,7 +109,7 @@ class Table extends WebSitePhpObject {
 	/**
 	 * Method setCellpadding
 	 * @access public
-	 * @param mixed $cellpadding 
+	 * @param integer $cellpadding 
 	 * @return Table
 	 * @since 1.0.36
 	 */
@@ -122,7 +122,7 @@ class Table extends WebSitePhpObject {
 	/**
 	 * Method setCellspacing
 	 * @access public
-	 * @param mixed $cellspacing 
+	 * @param integer $cellspacing 
 	 * @return Table
 	 * @since 1.0.36
 	 */
@@ -161,7 +161,7 @@ class Table extends WebSitePhpObject {
 	/**
 	 * Method setClass
 	 * @access public
-	 * @param mixed $class 
+	 * @param string $class 
 	 * @return Table
 	 * @since 1.0.36
 	 */
@@ -174,7 +174,7 @@ class Table extends WebSitePhpObject {
 	/**
 	 * Method setDefaultAlign
 	 * @access public
-	 * @param mixed $default_align 
+	 * @param string $default_align 
 	 * @return Table
 	 * @since 1.0.36
 	 */
@@ -187,7 +187,7 @@ class Table extends WebSitePhpObject {
 	/**
 	 * Method setDefaultValign
 	 * @access public
-	 * @param mixed $default_valign 
+	 * @param string $default_valign 
 	 * @return Table
 	 * @since 1.0.36
 	 */
@@ -200,7 +200,7 @@ class Table extends WebSitePhpObject {
 	/**
 	 * Method setBorder
 	 * @access public
-	 * @param double $border [default value: 1]
+	 * @param integer $border [default value: 1]
 	 * @param string $border_color [default value: grey]
 	 * @param string $border_style [default value: solid]
 	 * @return Table
@@ -217,9 +217,9 @@ class Table extends WebSitePhpObject {
 	/**
 	 * Method setFont
 	 * @access public
-	 * @param mixed $font_size 
-	 * @param mixed $font_family 
-	 * @param mixed $font_weight 
+	 * @param integer $font_size 
+	 * @param string $font_family 
+	 * @param string $font_weight 
 	 * @return Table
 	 * @since 1.0.36
 	 */
@@ -259,7 +259,7 @@ class Table extends WebSitePhpObject {
 	/**
 	 * Method getId
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.36
 	 */
 	public function getId() {
@@ -272,7 +272,7 @@ class Table extends WebSitePhpObject {
 	 * @param mixed $row [default value: null]
 	 * @param string $align 
 	 * @param string $valign 
-	 * @return mixed
+	 * @return RowTable
 	 * @since 1.0.36
 	 */
 	public function addRow($row=null, $align='', $valign='') {
@@ -315,7 +315,7 @@ class Table extends WebSitePhpObject {
 	 * @param mixed $object3 [default value: null]
 	 * @param mixed $object4 [default value: null]
 	 * @param mixed $object5 [default value: null]
-	 * @return mixed
+	 * @return RowTable
 	 * @since 1.0.36
 	 */
 	public function addRowColumns($object=null, $object2=null, $object3=null, $object4=null, $object5=null) {

@@ -37,6 +37,9 @@ if (isset($is_call_from_wsp_admin_update) && $is_call_from_wsp_admin_update == t
 	unlink($base_dir."/wsp/class/display/advanced_object/ImageRotator.class.php");
 	unlink($base_dir."/wsp/class/display/advanced_object/Video.class.php");
 	
+	// Update: version 1.0.88
+	rrmdir($base_dir."/wsp/class/display/advanced_object/social_network/");
+	
 	
 	// Move wsp-admin folder to the define folder on the file wsp/config/config_admin.inc.php
 	include_once($base_dir."/wsp/config/config_admin.inc.php");

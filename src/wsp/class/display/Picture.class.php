@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.0.88
  * @access      public
  * @since       1.0.17
  */
@@ -84,6 +84,23 @@ class Picture extends WebSitePhpEventObject {
 		$this->border = $border;
 		$this->align = $align;
 		$this->title = $title;
+	}
+	
+	/**
+	 * Method setSrc
+	 * @access public
+	 * @param mixed $src 
+	 * @return Picture
+	 * @since 1.0.88
+	 */
+	public function setSrc($src) {
+		if (!isset($this->id) || $this->id == "") {
+			throw new NewException(get_class($this)."->setSrc() error: You must define an id to the Picture to change the source.", 0, 8, __FILE__, __LINE__);
+		}
+		
+		$this->src = $src;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
 	}
 	
 	/**
@@ -535,6 +552,52 @@ class Picture extends WebSitePhpEventObject {
 			$html .= $this->getJavascriptTagClose();
 		}
 		$this->object_change = false;
+		return $html;
+	}
+	
+	/**
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object Picture (call with AJAX)
+	 * @since 1.0.88
+	 */
+	public function getAjaxRender() {
+		$html = "";
+		if ($this->object_change && !$this->is_new_object_after_init) {
+			$html .= "$('#".$this->getId()."').attr('src', '".$this->src."');";
+			if ($this->height != 0) {
+				$html .= "$('#".$this->getId()."').attr('height', '".$this->height."');";
+			}
+			if ($this->width != 0) {
+				$html .= "$('#".$this->getId()."').attr('width', '".$this->width."');";
+			}
+			$html .= "$('#".$this->getId()."').attr('border', '".$this->border."');";
+			if ($this->style != "") {
+				$html .= "$('#".$this->getId()."').attr('style', '".$this->style."');";
+			}
+			
+			if (gettype($this->title) == "object" && method_exists($this->title, "render")) {
+				$this->title = $this->title->render();
+			}
+			if ($this->title != "") {
+				$html .= "$('#".$this->getId()."').attr('title', '".str_replace("'", "&#39;", str_replace("\"", "&quot;", strip_tags($this->title)))."');";
+				if ($this->alt == "") {
+					$html .= "$('#".$this->getId()."').attr('alt', '".str_replace("'", "&#39;", str_replace("\"", "&quot;", strip_tags($this->title)))."');";
+				}
+			}
+			if (gettype($this->alt) == "object" && method_exists($this->alt, "render")) {
+				$this->alt = $this->alt->render();
+			}
+			if ($this->alt != "") {
+				$html .= "$('#".$this->getId()."').attr('alt', '".str_replace("'", "&#39;", str_replace("\"", "&quot;", strip_tags($this->alt)))."';";
+			}
+			if ($this->hspace > 0) {
+				$html .= "$('#".$this->getId()."').attr('hspace', '".$this->hspace."');";
+			}
+			if ($this->vspace > 0) {
+				$html .= "$('#".$this->getId()."').attr('vspace', '".$this->vspace."');";
+			}
+		}
 		return $html;
 	}
 }

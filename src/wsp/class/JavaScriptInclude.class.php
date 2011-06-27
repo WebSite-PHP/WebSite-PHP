@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.81
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.88
  * @access      public
  * @since       1.0.23
  */
@@ -50,6 +50,7 @@ class JavaScriptInclude {
 	private $js_scripts = array();
 	private $conditional_comment = array();
 	private $combine = array();
+	private $script = array();
 	
 	private $array_put_js_to_begin = array();
 	private $array_put_js_to_end = array("wsp/js/jquery.dd.js", "wsp/js/jquery.jqDock.min.js");
@@ -63,7 +64,7 @@ class JavaScriptInclude {
 	/**
 	 * Method getInstance
 	 * @access static
-	 * @return mixed
+	 * @return JavaScriptInclude
 	 * @since 1.0.35
 	 */
 	final public static function getInstance() {
@@ -77,43 +78,62 @@ class JavaScriptInclude {
 	/**
 	 * Method add
 	 * @access public
-	 * @param mixed $js_url 
+	 * @param string $js_url 
 	 * @param string $conditional_comment 
-	 * @param boolean $conbine [default value: false]
+	 * @param boolean $combine [default value: false]
+	 * @param string $js_script 
 	 * @since 1.0.59
 	 */
-	public function add($js_url, $conditional_comment='', $conbine=false) {
+	public function add($js_url, $conditional_comment='', $combine=false, $js_script='') {
 		if (!in_array($js_url, $this->js_scripts)) {
 			$this->js_scripts[] = $js_url;
 			$this->conditional_comment[] = $conditional_comment;
-			$this->combine[] = $conbine;
+			$this->combine[] = $combine;
+			if ($combine && $js_script != "") {
+				throw new NewException(get_class($this)."->add() error: you can't add script with combine mode", 0, 8, __FILE__, __LINE__);
+			}
+			$this->script[] = $js_script;
 		}
 	}
 	
 	/**
 	 * Method addToBegin
 	 * @access public
-	 * @param mixed $js_url 
+	 * @param string $js_url 
 	 * @param string $conditional_comment 
-	 * @param boolean $conbine [default value: false]
+	 * @param boolean $combine [default value: false]
 	 * @since 1.0.80
 	 */
-	public function addToBegin($js_url, $conditional_comment='', $conbine=false) {
+	public function addToBegin($js_url, $conditional_comment='', $combine=false) {
 		$this->array_put_js_to_begin[] = $js_url;
-		$this->add($js_url, $conditional_comment, $conbine);
+		$this->add($js_url, $conditional_comment, $combine);
 	}
 	
 	/**
 	 * Method addToEnd
 	 * @access public
-	 * @param mixed $js_url 
+	 * @param string $js_url 
 	 * @param string $conditional_comment 
-	 * @param boolean $conbine [default value: false]
+	 * @param boolean $combine [default value: false]
 	 * @since 1.0.80
 	 */
-	public function addToEnd($js_url, $conditional_comment='', $conbine=false) {
+	public function addToEnd($js_url, $conditional_comment='', $combine=false) {
 		$this->array_put_js_to_end[] = $js_url;
-		$this->add($js_url, $conditional_comment, $conbine);
+		$this->add($js_url, $conditional_comment, $combine);
+	}
+	
+	/**
+	 * Method addUrlWithScript
+	 * With this method you can include javascript file with script like <script src=...>$js_script</script>
+	 * Warning this script can be only load in standard page (.html)
+	 * @access public
+	 * @param string $js_url 
+	 * @param string $js_script 
+	 * @param string $conditional_comment 
+	 * @since 1.0.88
+	 */
+	public function addUrlWithScript($js_url, $js_script, $conditional_comment='') {
+		$this->add($js_url, $conditional_comment, false, $js_script);
 	}
 	
 	/**
@@ -170,6 +190,17 @@ class JavaScriptInclude {
 	 */
 	public function getCombine($indice) {
 		return $this->combine[$indice];
+	}
+	
+	/**
+	 * Method getJsIncludeScript
+	 * @access public
+	 * @param mixed $indice 
+	 * @return mixed
+	 * @since 1.0.88
+	 */
+	public function getJsIncludeScript($indice) {
+		return $this->script[$indice];
 	}
 }
 ?>

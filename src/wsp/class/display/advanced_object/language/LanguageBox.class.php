@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.84
+ * @version     1.0.88
  * @access      public
  * @since       1.0.17
  */
@@ -144,6 +144,9 @@ class LanguageBox extends WebSitePhpObject {
 			$lang_obj->add(new Language($this->languages[$i]));
 		}
 		$lang_obj->add("<br/>");
+		if ($this->icon_48_pixels != "") {
+			$lang_obj->add("<br/>");
+		}
 		$lang_box->setContent($lang_obj);
 		$this->object_change = false;
 		return $lang_box->render();

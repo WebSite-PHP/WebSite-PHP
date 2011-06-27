@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.84
+ * @version     1.0.88
  * @access      public
  * @since       1.0.23
  */
@@ -65,7 +65,7 @@ class CssInclude {
 	/**
 	 * Method getInstance
 	 * @access static
-	 * @return mixed
+	 * @return CssInclude
 	 * @since 1.0.35
 	 */
 	final public static function getInstance() {
@@ -79,7 +79,7 @@ class CssInclude {
 	/**
 	 * Method add
 	 * @access public
-	 * @param mixed $css_url 
+	 * @param string $css_url 
 	 * @param string $conditional_comment 
 	 * @param boolean $conbine [default value: false]
 	 * @since 1.0.59
@@ -95,7 +95,7 @@ class CssInclude {
 	/**
 	 * Method addToBegin
 	 * @access public
-	 * @param mixed $css_url 
+	 * @param string $css_url 
 	 * @param string $conditional_comment 
 	 * @param boolean $conbine [default value: false]
 	 * @since 1.0.80
@@ -108,7 +108,7 @@ class CssInclude {
 	/**
 	 * Method addToEnd
 	 * @access public
-	 * @param mixed $css_url 
+	 * @param string $css_url 
 	 * @param string $conditional_comment 
 	 * @param boolean $conbine [default value: false]
 	 * @since 1.0.80
