@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.89
  * @access      public
  * @since       1.0.17
  */
@@ -31,6 +31,7 @@ class DialogBox extends WebSitePhpObject {
 	const ALIGN_LEFT = "left";
 	const ALIGN_CENTER = "center";
 	const ALIGN_RIGHT = "right";
+	/**#@-*/
 	
 	private static $array_dialog_indices = array();
 	
@@ -501,12 +502,10 @@ class DialogBox extends WebSitePhpObject {
 	 */
 	public function getAjaxRender() {
 		$html = "";
-		if ($this->object_change) {
-			$save_display_javascript_tag = $this->display_javascript_tag;
-			$this->display_javascript_tag = false;
-			$html = $this->render(true);
-			$this->display_javascript_tag = $save_display_javascript_tag;
-		}
+		$save_display_javascript_tag = $this->display_javascript_tag;
+		$this->display_javascript_tag = false;
+		$html = $this->render(true);
+		$this->display_javascript_tag = $save_display_javascript_tag;
 		return $html;
 	}
 }

@@ -17,36 +17,36 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.0.89
  * @access      public
  * @since       1.0.17
  */
 
 class RowTable extends WebSitePhpObject {
 	/**#@+
-		* RowTable style class
-		* @access public
-		* @var string
-		*/
+	* RowTable style class
+	* @access public
+	* @var string
+	*/
 	const STYLE_MAIN = "1";
 	const STYLE_SECOND = "2";
 	/**#@-*/
 	
 	/**#@+
-		* RowTable alignment
-		* @access public
-		* @var string
-		*/
+	* RowTable alignment
+	* @access public
+	* @var string
+	*/
 	const ALIGN_LEFT = "left";
 	const ALIGN_CENTER = "center";
 	const ALIGN_RIGHT = "right";
 	/**#@-*/
 	
 	/**#@+
-		* RowTable vertical alignment
-		* @access public
-		* @var string
-		*/
+	* RowTable vertical alignment
+	* @access public
+	* @var string
+	*/
 	const VALIGN_TOP = "top";
 	const VALIGN_CENTER = "center";
 	const VALIGN_BOTTOM = "bottom";
@@ -131,16 +131,36 @@ class RowTable extends WebSitePhpObject {
 	 * Method setHeaderClass
 	 * @access public
 	 * @param string $class [default value: 1]
+	 * @param boolean $default_border_style [default value: true]
 	 * @return RowTable
 	 * @since 1.0.36
 	 */
-	public function setHeaderClass($class="1") {
+	public function setHeaderClass($class="1", $default_border_style=true) {
 		CssInclude::getInstance()->loadCssConfigFileInMemory();
 		
-		if ($class == Table::STYLE_MAIN || $class == Table::STYLE_SECOND) {
+		if (is_numeric($class)) {
 			$this->is_header_row = true;
+			if ($default_border_style) {
+				$this->setBorderPredefinedStyle($class);
+			}
 		}
 		$this->setClass($class);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method setBorderPredefinedStyle
+	 * @access public
+	 * @param string $style [default value: 1]
+	 * @return RowTable
+	 * @since 1.0.89
+	 */
+	public function setBorderPredefinedStyle($style="1") {
+		$this->setStyle("border: 1px solid ".constant('DEFINE_STYLE_BORDER_TABLE_'.$style).";");
+		if (!$this->is_header_row) {
+			$this->setStyle("background:".constant('DEFINE_STYLE_BCK_'.$style).";color:".constant('DEFINE_STYLE_COLOR_'.$style).";");
+		}
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -153,7 +173,7 @@ class RowTable extends WebSitePhpObject {
 	 * @since 1.0.36
 	 */
 	public function setStyle($style) {
-		$this->style = $style;
+		$this->style = $this->style.$style;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}

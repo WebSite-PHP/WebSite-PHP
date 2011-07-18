@@ -16,16 +16,23 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.89
  * @access      public
  * @since       1.0.17
  */
 
 class Link extends WebSitePhpObject {
+	
+	/**#@+
+	* Target
+	* @access public
+	* @var string
+	*/
 	const TARGET_BLANK = "_blank";
 	const TARGET_SELF = "_self";
 	const TARGET_NONE = "";
+	/**#@-*/
 	
 	private static $array_lightbox = array();
 	

@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 31/05/2011
- * @version     1.0.87
+ * @version     1.0.89
  * @access      public
  * @since       1.0.84
  */
@@ -47,7 +47,7 @@ class Authentication extends WebSitePhpObject {
 	private $render = null;
 	
 	private $authentication_msg = true;
-	private $color_ok = "green";
+	private $color_ok = "#00FF33";
 	private $color_error = "red";
 	/**#@-*/
 	
@@ -194,8 +194,9 @@ class Authentication extends WebSitePhpObject {
 			$_SESSION['wsp-login'] = $this->login->getValue();
 			if ($redirect) {
 				if ($this->authentication_msg) {
-					$str_msg = new Font(__(AUTHENTICATION_LOGIN_OK_REDIRECT));
-					$this->error_obj->add($str_msg->setFontColor($this->color_ok));
+					$str_msg = new Label(__(AUTHENTICATION_LOGIN_OK_REDIRECT));
+					$str_msg->setStyle("text-shadow:#888888 1px 1px 1px;");
+					$this->error_obj->add($str_msg->setColor($this->color_ok));
 				}
 				if ($redirect_url == "") {
 					$this->page_object->redirect($this->page_object->getBaseLanguageURL().WSP_ADMIN_URL."/admin.html");
@@ -203,12 +204,14 @@ class Authentication extends WebSitePhpObject {
 					$this->page_object->redirect($redirect_url);
 				}
 			} else if ($this->authentication_msg) {
-				$str_msg = new Font(__(AUTHENTICATION_LOGIN_OK));
-				$this->error_obj->add($str_msg->setFontColor($this->color_ok));
+				$str_msg = new Label(__(AUTHENTICATION_LOGIN_OK));
+				$str_msg->setStyle("text-shadow:#888888 1px 1px 1px;");
+				$this->error_obj->add($str_msg->setColor($this->color_ok));
 			}
 		} else if ($this->authentication_msg) {
-			$str_msg = new Font(__(AUTHENTICATION_ERROR_LOGIN_PASS));
-			$this->error_obj->add($str_msg->setFontColor($this->color_error));
+			$str_msg = new Label(__(AUTHENTICATION_ERROR_LOGIN_PASS));
+			$str_msg->setStyle("text-shadow:#888888 1px 1px 1px;");
+			$this->error_obj->add($str_msg->setColor($this->color_error));
 		}
 	}
 	

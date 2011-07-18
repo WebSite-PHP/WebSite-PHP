@@ -17,7 +17,7 @@ define("CACHING_ALL_PAGES", false); // If use user rights, warning, you may have
 define("CACHE_TIME", 0); // 12 heures = 60*60*12
 
 define("JQUERY_LOAD_LOCAL", true); // if false load jquery from google else load from local 
-define("JS_COMPRESSION_TYPE", "NONE"); // type of Javascript compression (GOOGLE_WS, LOCAL, NONE) 
+define("JS_COMPRESSION_TYPE", "NONE"); // Javascript compression (GOOGLE_WS, LOCAL, NONE (recommand))
 
 define("DEBUG", false); // autorize use of method addLogDebug
 define("FORCE_SERVER_NAME", ""); // Force site base url (problem with redirect), whithout http:// (ex: www.website-php.com)

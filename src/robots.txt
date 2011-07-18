@@ -16,6 +16,10 @@ Disallow: /fr/ajax/
 #Disallow: /it/flash/
 #Disallow: /it/ajax/
 
+Disallow: *.call
+Disallow: *.do
+Disallow: *.wsp
+
 Disallow: /wsp/cache/
 Allow: /wsp/cache/adsense/
 

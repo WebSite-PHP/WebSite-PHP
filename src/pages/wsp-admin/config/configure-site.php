@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.0.89
  * @access      public
  * @since       1.0.25
  */
@@ -113,7 +113,7 @@ class ConfigureSite extends Page {
 		$table_form->addRowColumns(__(CMB_META_ROBOTS).":&nbsp;", $this->cmbMetaRobots);
 		
 		$this->cmbMetaGooglebot = new ComboBox($form);
-		$this->cmbMetaGooglebot->addItem("", "", (SITE_META_GOOGLEBOTS=="")?true:false);
+		$this->cmbMetaGooglebot->addItem("", "&nbsp;", (SITE_META_GOOGLEBOTS=="")?true:false);
 		$this->cmbMetaGooglebot->addItem("archive", "archive", (SITE_META_ROBOTS=="archive")?true:false);
 		$this->cmbMetaGooglebot->addItem("noarchive", "noarchive", (SITE_META_ROBOTS=="noarchive")?true:false);
 		$this->cmbMetaGooglebot->setWidth(143);
@@ -150,12 +150,12 @@ class ConfigureSite extends Page {
 		$this->cmbJqueryLocal->setWidth(143);
 		$table_form->addRowColumns(__(CMB_JQUERY_LOAD_LOCAL).":&nbsp;", $this->cmbJqueryLocal);
 		
-		$this->cmbJsCompression = new ComboBox($form);
+		/*$this->cmbJsCompression = new ComboBox($form);
 		$this->cmbJsCompression->addItem("NONE", "NONE", (JS_COMPRESSION_TYPE=="NONE")?true:false);
 		$this->cmbJsCompression->addItem("GOOGLE_WS", "GOOGLE_WS", (JS_COMPRESSION_TYPE=="GOOGLE_WS")?true:false);
 		$this->cmbJsCompression->addItem("LOCAL", "LOCAL", (JS_COMPRESSION_TYPE=="LOCAL")?true:false);
 		$this->cmbJsCompression->setWidth(143);
-		$table_form->addRowColumns(__(CMB_JS_COMPRESSION_TYPE).":&nbsp;", $this->cmbJsCompression);
+		$table_form->addRowColumns(__(CMB_JS_COMPRESSION_TYPE).":&nbsp;", $this->cmbJsCompression);*/
 		
 		$table_form->addRow();
 		
@@ -221,7 +221,8 @@ class ConfigureSite extends Page {
 		$data_config_file .= "); // 12 heures = 60*60*12\n";
 		$data_config_file .= "\n";
 		$data_config_file .= "define(\"JQUERY_LOAD_LOCAL\", ".$this->cmbJqueryLocal->getValue()."); // if false load jquery from google else load from local\n";
-		$data_config_file .= "define(\"JS_COMPRESSION_TYPE\", \"".$this->cmbJsCompression->getValue()."\"); // type of Javascript compression (GOOGLE_WS, LOCAL, NONE)\n";
+		//$data_config_file .= "define(\"JS_COMPRESSION_TYPE\", \"".$this->cmbJsCompression->getValue()."\"); // type of Javascript compression (GOOGLE_WS, LOCAL, NONE)\n";
+		$data_config_file .= "define(\"JS_COMPRESSION_TYPE\", \"NONE\"); // Javascript compression (GOOGLE_WS, LOCAL, NONE (recommand))\n";
 		$data_config_file .= "\n";
 		$data_config_file .= "define(\"DEBUG\", ".$this->cmbDebug->getValue()."); // autorize use of method addLogDebug\n";
 		$data_config_file .= "define(\"FORCE_SERVER_NAME\", \"";

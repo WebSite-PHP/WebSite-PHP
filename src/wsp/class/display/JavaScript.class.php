@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.89
  * @access      public
  * @since       1.0.17
  */
@@ -32,10 +32,10 @@ class JavaScript extends WebSitePhpObject {
 
 	/**
 	 * Constructor JavaScript
-	 * @param mixed $code_javascript 
-	 * @param boolean $force_object_change [default value: false]
+	 * @param string $code_javascript 
+	 * @param boolean $add_js_to_page [default value: false]
 	 */
-	function __construct($code_javascript, $force_object_change=false) {
+	function __construct($code_javascript, $add_js_to_page=false) {
 		parent::__construct();
 		
 		if (!isset($code_javascript)) {
@@ -45,10 +45,9 @@ class JavaScript extends WebSitePhpObject {
 		$this->code_javascript = $code_javascript;
 		$this->is_javascript_object = true;
 		
-		if ($force_object_change) {
-			$this->object_change =true;
-		} else {
-			if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		if ($add_js_to_page) {
+			$page_object = Page::getInstance($_GET['p']);;
+			$page_object->addObject($this);
 		}
 	}
 	
@@ -71,7 +70,6 @@ class JavaScript extends WebSitePhpObject {
 	 * @since 1.0.35
 	 */
 	public function render($ajax_render=false) {
-		$this->object_change = false;
 		$js = "";
 		if ($this->display_from_url) {
 			$js .= "javascript:";
@@ -91,11 +89,7 @@ class JavaScript extends WebSitePhpObject {
 	 * @since 1.0.35
 	 */
 	public function getAjaxRender() {
-		if ($this->object_change) {
-			return str_replace("//<![CDATA[", "", str_replace("//]]>", "", str_replace("\n", "", str_replace("\r", "", $this->render(true)))));
-		} else {
-			return "";
-		}
+		return str_replace("//<![CDATA[", "", str_replace("//]]>", "", str_replace("\n", "", str_replace("\r", "", $this->render(true)))));
 	}
 }
 ?>

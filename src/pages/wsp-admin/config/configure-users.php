@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 06/06/2011
- * @version     1.0.87
+ * @version     1.0.89
  * @access      public
  * @since       1.0.85
  */
@@ -103,7 +103,6 @@ class ConfigureUsers extends Page {
 	
 	public function Loaded() {
 		$users_table = new Table();
-		$users_table->setBorder();
 		$users_table->addRowColumns(__(LOGIN), __(RIGHTS), __(MODIFY), __(DELETE))->setHeaderClass(RowTable::STYLE_SECOND)->setStyle("padding:3px;");
 		
 		$this->old_passwd_row->hide();
@@ -140,7 +139,7 @@ class ConfigureUsers extends Page {
 					continue;
 				}
 			}
-			$users_table->addRowColumns($array_users[$i]['login'], $array_users[$i]['rights'], $edit_user, $del_user)->setColumnAlign(3, RowTable::ALIGN_CENTER)->setColumnAlign(4, RowTable::ALIGN_CENTER)->setStyle("padding:3px;");
+			$users_table->addRowColumns($array_users[$i]['login'], $array_users[$i]['rights'], $edit_user, $del_user)->setColumnAlign(3, RowTable::ALIGN_CENTER)->setColumnAlign(4, RowTable::ALIGN_CENTER)->setBorderPredefinedStyle(RowTable::STYLE_SECOND)->setStyle("padding:3px;");
 		}
 		$this->users_table_obj->add($users_table);
 	}

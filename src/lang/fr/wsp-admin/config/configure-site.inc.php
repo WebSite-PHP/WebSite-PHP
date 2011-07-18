@@ -14,7 +14,7 @@
 	define("CMB_CACHING_ALL_PAGES", "Cacher toutes les pages");
 	define("EDT_CACHE_TIME", "Temps de cache");
 	define("SECONDS", "secondes");
-	define("CMB_JQUERY_LOAD_LOCAL", "Mode de chargement Jquery");
+	define("CMB_JQUERY_LOAD_LOCAL", "Jquery local");
 	define("CMB_JS_COMPRESSION_TYPE", "Type de compression");
 	define("CMB_DEBUG", "Debug");
 	define("EDT_FORCE_SERVER_NAME", "Forcer le nom du serveur");

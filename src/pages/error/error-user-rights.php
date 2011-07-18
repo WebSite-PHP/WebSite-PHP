@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.89
  * @access      public
  * @since       1.0.18
  */
@@ -33,7 +33,7 @@ class ErrorUserRights extends Page {
 		$obj_error_msg = new Object(new Picture("wsp/img/warning.png", 48, 48, 0, "absmidlle"), "<br/>", new Label(__(ERROR_USER_RIGHTS_MSG)));
 		$obj_error_msg->add("<br/><br/>", __(MAIN_PAGE_GO_BACK), new Link(BASE_URL, Link::TARGET_NONE, SITE_NAME));
 		
-		$this->render = new ErrorTemplate($this, $obj_error_msg, __(ERROR_USER_RIGHTS));
+		$this->render = new ErrorTemplate($obj_error_msg, __(ERROR_USER_RIGHTS));
 	}
 }
 ?>

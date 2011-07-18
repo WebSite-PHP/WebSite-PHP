@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.89
  * @access      public
  * @since       1.0.30
  */
@@ -29,8 +29,8 @@ require_once(dirname(__FILE__)."/../../wsp/class/display/Picture.class.php");
 require_once(dirname(__FILE__)."/../../wsp/class/display/RowTable.class.php");
 require_once(dirname(__FILE__)."/../../wsp/class/display/Table.class.php");
 
-class ErrorTemplate extends Page {
-	function __construct($page_object, $content, $title) {
+class ErrorTemplate extends DefinedZone {
+	function __construct($content, $title) {
 		parent::__construct();
 		
 		$this->render = new Table();
@@ -39,7 +39,7 @@ class ErrorTemplate extends Page {
 		// Header
 		$logo = new Picture("img/logo_128x400_".$_SESSION['lang'].".png", 128, 400);
 		$logo->setTitle(SITE_NAME);
-		$logo_link = new Link($page_object->getBaseLanguageURL(), Link::TARGET_NONE, $logo);
+		$logo_link = new Link($this->getPage()->getBaseLanguageURL(), Link::TARGET_NONE, $logo);
 		$img_obj = new Object($logo_link);
 		$img_obj->add("<br/><br/>");
 		$this->render->addRow($img_obj);

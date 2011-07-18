@@ -1,6 +1,10 @@
 <?php
 	define("NO_PICTURE", "No picture");
+	define("CURRENT_PICTURE", "Current picture");
 	define("EDT_BACKGROUND_BODY", "Background Body color");
+	define("EDT_BCK_BODY_PIC", "Background Body picture");
+	define("EDT_BCK_BODY_PIC_REPEAT", "Background Body picture repeat");
+	define("EDT_BCK_BODY_PIC_POSITION", "Background Body picture position");
 	define("EDT_COLOR_BODY", "Text body color");
 	define("EDT_LINK_COLOR", "Link color");
 	define("EDT_LINK_HOVER_COLOR", "Hover link color");
@@ -15,6 +19,17 @@
 	define("EDT_COLOR_1_LINK_HOVER", "Hover link color %s");
 	define("EDT_BCK_BORDER_TABLE_1", "Border color %s");
 	define("EDT_COLOR_SHADOW", "Box shadow color %s");
+	define("EDT_STYLE_GRADIENT", "Activate Box gradient %s");
 	define("EDT_STYLE_FONT", "Font style");
 	define("EDT_FONT_SIZE", "Font size");
+	define("EDT_STYLE_FONT_SERIF", "Serif");
+	define("EDT_STYLE_JQUERY", "jQuery style");
+	define("CMB_NB_PREDEFINE_STYLE", "Nb predefined style");
+	define("CMB_CURRENT_PREDEFINE_STYLE", "Current predefined style");
+	define("VIEW_DIALOGBOX", "Click here to view a DialogBox");
+	define("DIALOGBOX_TITLE", "DialogBox title");
+	define("DIALOGBOX_CONTENT", "DialogBox content");
+	define("TEXT_ON_BODY", "Sample text on the page");
+	define("LINK_ON_BODY", "Sample link on the page");
+	define("BODY_TEXT_LINK_NOTE", "See bottom of page");
 ?>

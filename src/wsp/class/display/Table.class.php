@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.88
+ * @version     1.0.89
  * @access      public
  * @since       1.0.17
  */
@@ -32,6 +32,7 @@ class Table extends WebSitePhpObject {
 	const STYLE_SECOND = "2";
 	const STYLE_MAIN_ROUNDBOX = "1 table_1_round";
 	const STYLE_SECOND_ROUNDBOX = "2 table_2_round";
+	/**#@-*/
 	
 	/**#@+
 	* border style properties
@@ -46,6 +47,7 @@ class Table extends WebSitePhpObject {
 	const BORDER_STYLE_RIDGE = "ridge";
 	const BORDER_STYLE_INSET = "inset";
 	const BORDER_STYLE_OUTSET = "outset";
+	/**#@-*/
 	
 	/**#@+
 	* Font family

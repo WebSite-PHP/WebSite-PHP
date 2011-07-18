@@ -2,7 +2,9 @@
 // Warning, this script is use to update the framework WebSite-PHP
 // This script will delete some files to clean the wsp files and folders
 
-if (isset($is_call_from_wsp_admin_update) && $is_call_from_wsp_admin_update == true) {
+if (isset($is_call_from_wsp_admin_update) && $is_call_from_wsp_admin_update == true && 
+	isset($_SESSION['USER_RIGHTS']) && $_SESSION['USER_RIGHTS'] == "administrator") {
+	
 	$base_dir = dirname(__FILE__)."/../../../";
 	
 	// Update: delete non used lanaguages

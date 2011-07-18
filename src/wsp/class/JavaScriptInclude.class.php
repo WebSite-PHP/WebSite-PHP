@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.88
+ * @version     1.0.89
  * @access      public
  * @since       1.0.23
  */
@@ -105,7 +105,7 @@ class JavaScriptInclude {
 	 * @since 1.0.80
 	 */
 	public function addToBegin($js_url, $conditional_comment='', $combine=false) {
-		$this->array_put_js_to_begin[] = $js_url;
+		$this->array_put_js_to_begin[] = str_replace(BASE_URL, "", $js_url);
 		$this->add($js_url, $conditional_comment, $combine);
 	}
 	
@@ -118,7 +118,7 @@ class JavaScriptInclude {
 	 * @since 1.0.80
 	 */
 	public function addToEnd($js_url, $conditional_comment='', $combine=false) {
-		$this->array_put_js_to_end[] = $js_url;
+		$this->array_put_js_to_end[] = str_replace(BASE_URL, "", $js_url);
 		$this->add($js_url, $conditional_comment, $combine);
 	}
 	

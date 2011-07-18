@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.88
+ * @version     1.0.89
  * @access      public
  * @since       1.0.23
  */
@@ -101,7 +101,7 @@ class CssInclude {
 	 * @since 1.0.80
 	 */
 	public function addToBegin($css_url, $conditional_comment='', $conbine=false) {
-		$this->array_put_css_to_begin[] = $css_url;
+		$this->array_put_css_to_begin[] = str_replace(BASE_URL, "", $css_url);
 		$this->add($css_url, $conditional_comment, $conbine);
 	}
 	
@@ -114,7 +114,7 @@ class CssInclude {
 	 * @since 1.0.80
 	 */
 	public function addToEnd($css_url, $conditional_comment='', $conbine=false) {
-		$this->array_put_css_to_end[] = $css_url;
+		$this->array_put_css_to_end[] = str_replace(BASE_URL, "", $css_url);
 		$this->add($css_url, $conditional_comment, $conbine);
 	}
 	

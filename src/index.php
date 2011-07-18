@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.88
+ * @version     1.0.89
  * @access      public
  * @since       1.0.0
  */
@@ -186,6 +186,20 @@
 <?php 	} 
 		CssInclude::getInstance()->add(BASE_URL."wsp/css/styles.css.php", "", true);
 		
+		// jQuery
+		if (!defined('DEFINE_STYLE_JQUERY')) {
+			define("DEFINE_STYLE_JQUERY", "");
+		}
+		if (!defined('JQUERY_LOAD_LOCAL')) {
+			define("JQUERY_LOAD_LOCAL", true);
+		}
+		
+		if (DEFINE_STYLE_JQUERY == "") {
+			CssInclude::getInstance()->addToEnd(BASE_URL."wsp/css/jquery1.8.6/smoothness/jquery-ui-1.8.6.custom.css", "", true);
+		} else {
+			CssInclude::getInstance()->addToEnd(BASE_URL."wsp/css/jquery1.8.6/".DEFINE_STYLE_JQUERY."/jquery-ui-1.8.6.custom.css", "", true);
+		}
+		
 		$combine_css = "";
 		$array_css = CssInclude::getInstance()->get(true);
 		foreach ($array_css as $i => $css) {
@@ -222,19 +236,7 @@
 		</style>
 		<![endif]-->
 <?php		
-		if (!defined('DEFINE_STYLE_JQUERY')) {
-			define("DEFINE_STYLE_JQUERY", "");
-		}
-		if (!defined('JQUERY_LOAD_LOCAL')) {
-			define("JQUERY_LOAD_LOCAL", true);
-		}
-		
-		if (DEFINE_STYLE_JQUERY == "") {
-			echo "		<link type=\"text/css\" rel=\"StyleSheet\" href=\"".BASE_URL."wsp/css/jquery1.8.6/smoothness/jquery-ui-1.8.6.custom.css\" media=\"screen\" />\n";
-		} else {
-			echo "		<link type=\"text/css\" rel=\"StyleSheet\" href=\"".BASE_URL."wsp/css/jquery1.8.6/".DEFINE_STYLE_JQUERY."/jquery-ui-1.8.6.custom.css\" media=\"screen\" />\n";
-		}
-		
+		// jQuery
 		if (JQUERY_LOAD_LOCAL == true) {
 			JavaScriptInclude::getInstance()->addToBegin(BASE_URL."wsp/js/jquery-1.5.2.min.js", "", true);
 			JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery-ui-1.8.12.custom.min.js", "", true);

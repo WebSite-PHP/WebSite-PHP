@@ -1,4 +1,25 @@
 <?php
+/**
+ * PHP file pages\wsp-admin\includes\admin-template-form.inc.php
+ */
+/**
+ * Template for admin-template-form.inc
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2011 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.89
+ * @access      public
+ * @since       1.0.89
+ */
+
 require_once(dirname(__FILE__)."/../../../lang/".$_SESSION['lang']."/wsp-admin/all.inc.php");
 require_once(dirname(__FILE__)."/admin-menu.inc.php");
 require_once(dirname(__FILE__)."/utils.inc.php");
@@ -6,7 +27,7 @@ require_once(dirname(__FILE__)."/utils-users.inc.php");
 require_once(dirname(__FILE__)."/utils-version.inc.php");
 
 class AdminTemplateForm extends DefinedZone {
-	function __construct($page_object, $content) {
+	function __construct($page_object, $content, $right_side_content=null) {
 		parent::__construct();
 		
 		$page_object->includeJsAndCssFromObjectToPage("LiveValidation");
@@ -69,10 +90,18 @@ class AdminTemplateForm extends DefinedZone {
 		$title_header = new Object($small_img);
 		$title_header->add(new Object(new Link("wsp-admin/admin.html", Link::TARGET_NONE, __(ADMIN)), " > ", $pathway));
 		
-		$configure_box = new Box($title_header, true, Box::STYLE_SECOND, Box::STYLE_SECOND, "", "configure_database_box", 800);
+		$box_width = 800;
+		if ($right_side_content != null) {
+			$box_width = 700;
+		}
+		$configure_box = new Box($title_header, true, Box::STYLE_SECOND, Box::STYLE_SECOND, "", "configure_database_box", $box_width);
 		$configure_box->setContent($content);
 		
-		$table->addRow($configure_box)->setColspan(2);
+		if ($right_side_content != null) {
+			$table->addRowColumns($configure_box, "&nbsp;", $right_side_content)->setColumnColspan(1, 2)->setColumnWidth(1, $box_width)->setColumnWidth(2, 10);
+		} else {
+			$table->addRow($configure_box)->setColspan(2);
+		}
 		
 		$this->render->addRow($table);
 		$this->render->addRow(__(CURRENT_WSP_VERSION, getCurrentWspVersion()));

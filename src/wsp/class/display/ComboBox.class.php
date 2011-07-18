@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.0.89
  * @access      public
  * @since       1.0.17
  */
@@ -35,6 +35,7 @@ class ComboBox extends WebSitePhpEventObject {
 	private $item_selected = -1;
 	private $item_default_selected = -1;
 	private $option = "";
+	private $disable = false;
 	
 	private $list_items_change = false;
 	private $is_changed = false;
@@ -104,12 +105,10 @@ class ComboBox extends WebSitePhpEventObject {
 		if ($find_item) {
 			if (!$GLOBALS['__LOAD_VARIABLES__']) { 
 				if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
-			} else {
-				$this->is_changed = true; 
 			}
-		} else {
-			$this->is_changed = true; 
 		}
+		$this->is_changed = true; 
+		
 		return $this;
 	}
 
@@ -270,7 +269,9 @@ class ComboBox extends WebSitePhpEventObject {
 				}
 			}
 			if ($value != "") {
+				$save_is_changed = $this->is_changed;
 				$this->setValue($value);
+				$this->is_changed = $save_is_changed;
 				return $value;
 			} 
 		} 
@@ -363,7 +364,15 @@ class ComboBox extends WebSitePhpEventObject {
 	 * @since 1.0.36
 	 */
 	public function isChanged() {
-		return $this->is_changed;
+		if ($this->callback_onchange == "") {
+			if ($this->getValue() != $this->getDefaultValue()) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return $this->is_changed;
+		}
 	}
 	
 	/**
@@ -379,12 +388,67 @@ class ComboBox extends WebSitePhpEventObject {
 		$this->object_change =true;
 		return $this;
 	}
+
+	/**
+	 * Method length
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.89
+	 */
+	public function length() {
+		return sizeof($this->item_value);
+	}
+
+	/**
+	 * Method getItemTextAt
+	 * @access public
+	 * @param mixed $i 
+	 * @return mixed
+	 * @since 1.0.89
+	 */
+	public function getItemTextAt($i) {
+		return $this->item_text[$i];
+	}
+	
+	/**
+	 * Method getItemValueAt
+	 * @access public
+	 * @param mixed $i 
+	 * @return mixed
+	 * @since 1.0.89
+	 */
+	public function getItemValueAt($i) {
+		return $this->item_value[$i];
+	}
+	
+	/**
+	 * Method enable
+	 * @access public
+	 * @return ComboBox
+	 * @since 1.0.89
+	 */
+	public function enable() {
+		$this->disable = false;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method disable
+	 * @access public
+	 * @return ComboBox
+	 * @since 1.0.89
+	 */
+	public function disable() {
+		$this->disable = true;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
 	
 	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
-	 * @return string html code of object ComboBox
 	 * @since 1.0.36
 	 */
 	public function render($ajax_render=false) {
@@ -434,7 +498,11 @@ class ComboBox extends WebSitePhpEventObject {
 		}
 		
 		$html .= "	$(document).ready(function(){ $(\"#".$this->getEventObjectName()."\").msDropDown({";
-		$html .= $this->option."}) });\n";
+		$html .= $this->option."}); ";
+		if ($this->disable) {
+			$html .= "$(\"#".$this->getEventObjectName()."\").msDropDown().data('dd').disabled(true);";
+		}
+		$html .= "});\n";
 		$html .= $this->htmlOnChangeFct();
 		$html .= $this->getJavascriptTagClose();
 		$this->object_change = false;
@@ -531,6 +599,7 @@ class ComboBox extends WebSitePhpEventObject {
 			} else if ($this->is_changed) {
 				$html .= "document.getElementById('".$this->getEventObjectName()."').options[".$this->item_selected."].selected = true;\n";
 			}
+			$html .= "$(\"#".$this->getEventObjectName()."\").msDropDown().data('dd').disabled(".($this->disable?"true":"false").");";
 		}
 		return $html;
 	}

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.0.89
  * @access      public
  * @since       1.0.0
  */
@@ -44,6 +44,18 @@ class Page {
 	const CACHE_TIME_2MONTHS = 5270400;
 	const CACHE_TIME_6MONTHS = 15724800;
 	const CACHE_TIME_1YEAR = 31536000;
+	/**#@-*/
+	
+	/**#@+
+	* meta robots
+	* @access public
+	* @var integer
+	*/
+	const META_ROBOTS_INDEX_FOLLOW = "index, follow";
+	const META_ROBOTS_NOINDEX_NOFOLLOW = "noindex, nofollow";
+	const META_ROBOTS_INDEX_NOFOLLOW = "index, nofollow";
+	const META_ROBOTS_NOINDEX_FOLLOW = "noindex, follow";
+	/**#@-*/
 	
 	/**#@+
 	* @access protected
@@ -60,6 +72,7 @@ class Page {
 	protected $USER_RIGHTS = "";
 	protected $USER_NO_RIGHTS_REDIRECT = "";
 	protected $PAGE_CACHING = false;
+	/**#@-*/
 	
 	/**#@+
 	* @access private
@@ -86,10 +99,11 @@ class Page {
 	private $callback_object = null;
 	private $callback_method_called = false;
 	private $callback_method_params = array();
-	private $array_callback_object = array("Button", "ComboBox", "TextBox", "Password", "ColorPicker", 
+	private $array_callback_object = array("Button", "ComboBox", "TextBox", "Password", "ColorPicker", "CheckBox", 
 											"ContextMenuEvent", "DroppableEvent", "SortableEvent", "Object", "Picture");
 	
 	private $create_object_to_get_css_js = false;
+	/**#@-*/
 	
 	/**
 	 * Constructor Page
@@ -134,9 +148,9 @@ class Page {
 		static $aoInstance = array();
 		if (!isset($aoInstance[$page_class_name])) {
 			if (strtoupper(substr($page, 0, 6)) == "ERROR-") {
-				require_once("pages/error/".$page.".php");
+				require_once(dirname(__FILE__)."/../../../pages/error/".$page.".php");
 			} else {
-				require_once("pages/".$page.".php");
+				require_once(dirname(__FILE__)."/../../../pages/".$page.".php");
 			}
 			$aoInstance[$page_class_name] = new $page_class_name();
 			
@@ -183,10 +197,11 @@ class Page {
 			
 			// read the cache and display it in the render
 			if ($render_current_cache) { 
-				$this->render = file_get_contents($cache_file);
-				if ($this->render == null) {
+				$tmp_render = file_get_contents($cache_file);
+				if ($tmp_render == null) {
 					return false;
 				}
+				$this->render = $tmp_render;
 				$this->page_is_caching = true;
 				return true;
 			}
@@ -279,7 +294,7 @@ class Page {
 		if (!$this->isAjaxLoadPage() && !$this->isAjaxPage() && 
 			defined('DEFINE_STYLE_BCK_BODY_PIC_POSITION') && DEFINE_STYLE_BCK_BODY_PIC_POSITION == "STRETCH" &&
 			defined('DEFINE_STYLE_BCK_BODY_PIC') && DEFINE_STYLE_BCK_BODY_PIC_POSITION != "") {
-				JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery.backstretch.min.js");
+				JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery.backstretch.min.js", "", true);
 				$background_body_pic = "";
 				if (find(DEFINE_STYLE_BCK_BODY_PIC, "http://") == 0) {
 					$background_body_pic = $this->getBaseURL().DEFINE_STYLE_BCK_BODY_PIC;
@@ -297,7 +312,7 @@ class Page {
 	 * @since 1.0.0
 	 */
 	public function getPageTitle() {
-		return self::$PAGE_TITLE;
+		return strip_tags(self::$PAGE_TITLE);
 	}
 	
 	/**
@@ -307,7 +322,7 @@ class Page {
 	 * @since 1.0.0
 	 */
 	public function getPageKeywords() {
-		return self::$PAGE_KEYWORDS;
+		return strip_tags(self::$PAGE_KEYWORDS);
 	}
 	
 	/**
@@ -317,7 +332,7 @@ class Page {
 	 * @since 1.0.0
 	 */
 	public function getPageDescription() {
-		return self::$PAGE_DESCRIPTION;
+		return strip_tags(self::$PAGE_DESCRIPTION);
 	}
 	
 	/**
@@ -607,6 +622,9 @@ class Page {
 							}
 						}
 					}
+					if (is_subclass_of($object, "WebSitePhpEventObject")) {
+						$object->setSubmitValueIsInit();
+					}
 					//$this->addLogDebug("Page->loadAllVariables: ".$name." - ".$_REQUEST[$name]);
 				}
 			}
@@ -693,7 +711,7 @@ class Page {
 								$object->setSort();
 							} else {
 								$object->setValue($object->getValue());
-							} 
+							}
 							$GLOBALS['__LOAD_VARIABLES__'] = $save_load_variables;
 							
 							$callback_params[0] = $object;
@@ -783,7 +801,7 @@ class Page {
 	/**
 	 * Method addObject
 	 * @access public
-	 * @param WebSitePhpObject $object add script after the render of the page (ex: DialogBox, ...)
+	 * @param WebSitePhpObject $object add script after the render of the page (ex: DialogBox, JavaScript, ...)
 	 * @since 1.0.18
 	 */
 	public function addObject($object) {
@@ -1024,6 +1042,16 @@ class Page {
 	public function getRefererURL() {
 		return $_SERVER['HTTP_REFERER'];
 	}
+
+	/**
+	 * Method getRemoteIP
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.89
+	 */
+	public function getRemoteIP() {
+		return $_SERVER["REMOTE_ADDR"];
+	}
 	
 	/**
 	 * Method getDocumentHeight
@@ -1166,11 +1194,9 @@ class Page {
 		return $this->browser[version];
 	}
 	
-	/*
-	 * Use to add JS and CSS to the page when when Object never load on init, but load dynamically (on DialogBox, Map, ...)
-	 */
 	/**
 	 * Method includeJsAndCssFromObjectToPage
+	 * Use to add JS and CSS to the page when Object never load on init, but load dynamically (on DialogBox, Map, ...)
 	 * @access public
 	 * @param string $str_object 
 	 * @since 1.0.33

@@ -17,22 +17,27 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.0.89
  * @access      public
  * @since       1.0.17
  */
 
-class CheckBox extends WebSitePhpObject {
+class CheckBox extends WebSitePhpEventObject {
 	/**#@+
 	* @access private
 	*/
 	protected $class_name = "";
 	protected $page_object = null;
 	protected $form_object = null;
-	private $name = "";
+	protected $name = "";
 	private $text = "";
 	private $checked = "";
 	private $default_value = "";
+	private $on_off_style = false;
+	
+	private $is_changed = false;
+	private $onchange = "";
+	private $callback_onchange = "";
 	/**#@-*/
 	
 	/**
@@ -77,6 +82,21 @@ class CheckBox extends WebSitePhpObject {
 			$this->setValue("");
 		}
 		$this->default_value = $checked;
+	}
+	
+	/**
+	 * Method activateOnOffStyle
+	 * @access public
+	 * @return CheckBox
+	 * @since 1.0.89
+	 */
+	public function activateOnOffStyle() {
+		$this->on_off_style = true;
+		
+		JavaScriptInclude::getInstance()->addToEnd(BASE_URL."wsp/js/iphone-style-checkboxes.js", "", true);
+		CssInclude::getInstance()->add(BASE_URL."wsp/css/iphone-style-checkboxes.css", "", true);
+		
+		return $this;
 	}
 	
 	/**
@@ -215,6 +235,63 @@ class CheckBox extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method onChange
+	 * @access public
+	 * @param mixed $str_function 
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return CheckBox
+	 * @since 1.0.89
+	 */
+	public function onChange($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
+		$args = func_get_args();
+		$str_function = array_shift($args);
+		$this->callback_onchange = $this->loadCallbackMethod($str_function, $args);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method onChangeJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return CheckBox
+	 * @since 1.0.89
+	 */
+	public function onChangeJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onchange = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method isChanged
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.89
+	 */
+	public function isChanged() {
+		if ($this->callback_onchange == "") {
+			if ($this->getValue() != $this->getDefaultValue()) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return $this->is_changed;
+		}
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -222,11 +299,34 @@ class CheckBox extends WebSitePhpObject {
 	 * @since 1.0.36
 	 */
 	public function render($ajax_render=false) {
-		$html = "<label for=\"".$this->getEventObjectName()."\"><input type=\"checkbox\" id=\"".$this->getEventObjectName()."\" name=\"".$this->getEventObjectName()."\"";
+		$this->automaticAjaxEvent();
+		
+		$html = "";
+		if ($this->callback_onchange != "") {
+			$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
+		}
+		if ($this->is_ajax_event) {
+			if ($this->form_object == null) {
+				throw new NewException("Unable to activate action to this ".get_class($this)." : Attribut page_or_form_object must be a Form object", 0, 8, __FILE__, __LINE__);
+			}
+			$html .= $this->getJavascriptTagOpen();
+			$html .= $this->getAjaxEventFunctionRender();
+			$html .= $this->getJavascriptTagClose();
+		}
+		
+		$html .= "<label for=\"".$this->getEventObjectName()."\"><input type=\"checkbox\" id=\"".$this->getEventObjectName()."\" name=\"".$this->getEventObjectName()."\"";
 		if ($this->checked == "on") {
 			$html .= " CHECKED";
 		}
+		if ($this->onchange != "" || $this->callback_onchange != "") {
+			$html .= " onChange=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onchange, $this->callback_onchange))."\"";
+		}
 		$html .= "/> ".$this->text."</label>\n";
+		if ($this->on_off_style) {
+			$html .= $this->getJavascriptTagOpen();
+			$html .= "$(document).ready(function() { $('#".$this->getEventObjectName()."').iphoneStyle(); });\n";
+			$html .= $this->getJavascriptTagClose();
+		}
 		$this->object_change = false;
 		return $html;
 	}
@@ -247,6 +347,7 @@ class CheckBox extends WebSitePhpObject {
 				$html .= "false";
 			}
 			$html .= ");\n";
+			$html .= "$('#".$this->getEventObjectName()."').attr('onChange', '".addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onchange, $this->callback_onchange)))."');\n";
 		}
 		return $html;
 	}

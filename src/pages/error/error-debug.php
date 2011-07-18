@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.89
  * @access      public
  * @since       1.0.18
  */
@@ -43,7 +43,7 @@ class ErrorDebug extends Page {
 		
 		$obj_error_msg->add("<br/><br/>", "Go back to the main page", new Link(BASE_URL, Link::TARGET_NONE, SITE_NAME));
 		
-		$this->render = new ErrorTemplate($this, $obj_error_msg, "Debug error");
+		$this->render = new ErrorTemplate($obj_error_msg, "Debug error");
 	}
 }
 ?>

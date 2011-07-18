@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.89
  * @access      public
  * @since       1.0.15
  */
@@ -25,39 +25,41 @@ function getDebugBacktrace($remove_nb_level=0) {
     $backtrace = debug_backtrace();
 	$ind = 0;
     foreach ($backtrace as $bt) {
-    	if ($ind >= $remove_nb_level) {
+		if ($ind >= $remove_nb_level) {
 	        $args = '';
-	        foreach ($bt['args'] as $a) {
-	            if (!empty($args)) {
-	                $args .= ', ';
-	            }
-	            switch (gettype($a)) {
-	            case 'integer':
-	            case 'double':
-	                $args .= $a;
-	                break;
-	            case 'string':
-	                $a = htmlspecialchars(substr($a, 0, 64)).((strlen($a) > 64) ? '...' : '');
-	                $args .= "\"$a\"";
-	                break;
-	            case 'array':
-	                $args .= 'Array('.count($a).')';
-	                break;
-	            case 'object':
-	                $args .= 'Object('.get_class($a).')';
-	                break;
-	            case 'resource':
-	                $args .= 'Resource('.strstr($a, '#').')';
-	                break;
-	            case 'boolean':
-	                $args .= $a ? 'True' : 'False';
-	                break;
-	            case 'NULL':
-	                $args .= 'Null';
-	                break;
-	            default:
-	                $args .= 'Unknown';
-	            }
+	        if (isset($bt['args'])) {
+		        foreach ($bt['args'] as $a) {
+		            if (!empty($args)) {
+		                $args .= ', ';
+		            }
+		            switch (gettype($a)) {
+		            case 'integer':
+		            case 'double':
+		                $args .= $a;
+		                break;
+		            case 'string':
+		                $a = htmlspecialchars(substr($a, 0, 64)).((strlen($a) > 64) ? '...' : '');
+		                $args .= "\"$a\"";
+		                break;
+		            case 'array':
+		                $args .= 'Array('.count($a).')';
+		                break;
+		            case 'object':
+		                $args .= 'Object('.get_class($a).')';
+		                break;
+		            case 'resource':
+		                $args .= 'Resource('.strstr($a, '#').')';
+		                break;
+		            case 'boolean':
+		                $args .= $a ? 'True' : 'False';
+		                break;
+		            case 'NULL':
+		                $args .= 'Null';
+		                break;
+		            default:
+		                $args .= 'Unknown';
+		            }
+		        }
 	        }
 	        $output .= "\n";
 	        if (isset($bt['file'])) { $output .= "file: {$bt['line']} - {$bt['file']}\n"; }

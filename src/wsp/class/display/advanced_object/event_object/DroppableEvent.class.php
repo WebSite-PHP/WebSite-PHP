@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.0.89
  * @access      public
  * @since       1.0.17
  */
@@ -137,6 +137,9 @@ class DroppableEvent extends WebSitePhpEventObject {
 	 * @since 1.0.35
 	 */
 	public function isDroped() {
+		if ($this->callback_ondrop == "") {
+			throw new NewException(get_class($this)."->isDroped(): this method can be used only if an onDrop event is defined on this ".get_class($this).".", 0, 8, __FILE__, __LINE__);
+		}
 		return $this->is_droped;
 	}
 	

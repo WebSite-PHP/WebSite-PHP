@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.0.89
  * @access      public
  * @since       1.0.18
  */
@@ -57,6 +57,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	
 	/**
 	 * Method initSubmitValue
+	 * Internal method used by an object like ComboBox or TextBox to init it with submitted value (if not already done).
 	 * @access protected
 	 * @return boolean
 	 * @since 1.0.59
@@ -131,11 +132,23 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		}
 		return false;
 	}
+	
+	/**
+	 * Method setSubmitValueIsInit
+	 * Internal method to set when an object have already the submitted value
+	 * @access public
+	 * @return WebSitePhpEventObject
+	 * @since 1.0.90
+	 */
+	public function setSubmitValueIsInit() {
+		$this->is_init_submit_value = true;
+		return $this;
+	}
 		
 	/**
 	 * Method getName
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getName() {
@@ -145,7 +158,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	/**
 	 * Method getId
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getId() {
@@ -155,7 +168,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	/**
 	 * Method getEventObjectName
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	public function getEventObjectName() {
@@ -165,7 +178,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	/**
 	 * Method getFormObject
 	 * @access public
-	 * @return mixed
+	 * @return Form
 	 * @since 1.0.35
 	 */
 	public function getFormObject() {
@@ -185,7 +198,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	/**
 	 * Method isAjaxEvent
 	 * @access public
-	 * @return mixed
+	 * @return boolean
 	 * @since 1.0.35
 	 */
 	public function isAjaxEvent() {
@@ -206,7 +219,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	/**
 	 * Method setAjaxWaitMessage
 	 * @access public
-	 * @param mixed $message_or_object 
+	 * @param string|Object $message_or_object 
 	 * @return WebSitePhpEventObject
 	 * @since 1.0.35
 	 */
@@ -235,8 +248,8 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	/**
 	 * Method loadCallbackMethod
 	 * @access protected
-	 * @param mixed $str_function 
-	 * @param mixed $array_args [default value: array(]
+	 * @param string $str_function 
+	 * @param array $array_args [default value: array(]
 	 * @return mixed
 	 * @since 1.0.35
 	 */
@@ -265,7 +278,8 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 				if ($this->callback_args != "") { $this->callback_args .= ","; }
 				if (gettype($array_args[$i]) == "object") {
 					if (get_class($array_args[$i]) == "TextBox" || get_class($array_args[$i]) == "ColorPicker" || 
-						get_class($array_args[$i]) == "Button" || get_class($array_args[$i]) == "ComboBox") {
+						get_class($array_args[$i]) == "Button" || get_class($array_args[$i]) == "ComboBox" || 
+						get_class($array_args[$i]) == "CheckBox") {
 						$this->callback_args .= "\''+$('#".trim($array_args[$i]->getId())."').val()+'\'";
 					} else if (get_class($array_args[$i]) == "Editor") {
 						$this->callback_args .= "\''+getEditorContent_".trim($array_args[$i]->getName())."()+'\'";
@@ -304,7 +318,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	/**
 	 * Method getAjaxEventFunctionRender
 	 * @access protected
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	protected function getAjaxEventFunctionRender() {
@@ -434,7 +448,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	/**
 	 * Method encryptObjectData
 	 * @access private
-	 * @param mixed $object 
+	 * @param WebSitePhpObject $object 
 	 * @param string $js_on_error 
 	 * @return mixed
 	 * @since 1.0.67
@@ -464,10 +478,10 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	/**
 	 * Method getObjectEventValidationRender
 	 * @access protected
-	 * @param mixed $on_event 
-	 * @param mixed $callback 
+	 * @param string $on_event 
+	 * @param string $callback 
 	 * @param string $params 
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	protected function getObjectEventValidationRender($on_event, $callback, $params='') {
@@ -549,7 +563,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	/**
 	 * Method generateCurrentUrlWithCallback
 	 * @access private
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.35
 	 */
 	private function generateCurrentUrlWithCallback() {

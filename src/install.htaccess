@@ -27,6 +27,8 @@ Options +FollowSymLinks
 	RewriteRule ^([a-z]{2})/y_key_(.*).html$ y_key_$2.html [L] 
 	RewriteRule ^LiveSearchSiteAuth.xml$ LiveSearchSiteAuth.xml [L] 
 	RewriteRule ^([a-z]{2})/LiveSearchSiteAuth.xml$ LiveSearchSiteAuth.xml [L] 
+	RewriteRule ^BingSiteAuth.xml$ BingSiteAuth.xml [L] 
+	RewriteRule ^([a-z]{2})/BingSiteAuth.xml$ BingSiteAuth.xml [L] 
 	
 	# FrameWork Files
 	RewriteRule ^robots.txt$ robots.txt [L] 
@@ -123,7 +125,9 @@ Options +FollowSymLinks
 	RewriteRule ^(.+)\.html$ index.php?p=$1&%{QUERY_STRING}
 	
 	# Security
+	RewriteRule ^lang/(.*)$ / [R=301,L] 
 	RewriteRule ^pages/(.*)$ / [R=301,L] 
+	RewriteRule ^wsp/(.*)$ / [R=301,L] 
 	
 	# Error 404
 	ErrorDocument 404 /404.php
