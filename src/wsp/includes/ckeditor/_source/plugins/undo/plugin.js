@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
@@ -90,7 +90,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 			// Make the undo manager available only in wysiwyg mode.
 			editor.on( 'mode', function()
 				{
-					undoManager.enabled = editor.mode == 'wysiwyg';
+					undoManager.enabled = editor.readOnly ? false : editor.mode == 'wysiwyg';
 					undoManager.onChange();
 				});
 
@@ -148,14 +148,19 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 	var Image = CKEDITOR.plugins.undo.Image = function( editor )
 	{
 		this.editor = editor;
+
+		editor.fire( 'beforeUndoImage' );
+
 		var contents = editor.getSnapshot(),
 			selection	= contents && editor.getSelection();
 
 		// In IE, we need to remove the expando attributes.
-		CKEDITOR.env.ie && contents && ( contents = contents.replace( /\s+_cke_expando=".*?"/g, '' ) );
+		CKEDITOR.env.ie && contents && ( contents = contents.replace( /\s+data-cke-expando=".*?"/g, '' ) );
 
 		this.contents	= contents;
 		this.bookmarks	= selection && selection.createBookmarks2( true );
+
+		editor.fire( 'afterUndoImage' );
 	};
 
 	// Attributes that browser may changing them when setting via innerHTML.
@@ -267,7 +272,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
 						// In IE, we need to remove the expando attributes.
 						if ( CKEDITOR.env.ie )
-							currentSnapshot = currentSnapshot.replace( /\s+_cke_expando=".*?"/g, '' );
+							currentSnapshot = currentSnapshot.replace( /\s+data-cke-expando=".*?"/g, '' );
 
 						if ( beforeTypeImage.contents != currentSnapshot )
 						{
@@ -540,6 +545,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 /**
  * The number of undo steps to be saved. The higher this setting value the more
  * memory is used for it.
+ * @name CKEDITOR.config.undoStackSize
  * @type Number
  * @default 20
  * @example
@@ -550,5 +556,25 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
  * Fired when the editor is about to save an undo snapshot. This event can be
  * fired by plugins and customizations to make the editor saving undo snapshots.
  * @name CKEDITOR.editor#saveSnapshot
+ * @event
+ */
+
+/**
+ * Fired before an undo image is to be taken. An undo image represents the
+ * editor state at some point. It's saved into an undo store, so the editor is
+ * able to recover the editor state on undo and redo operations.
+ * @name CKEDITOR.editor#beforeUndoImage
+ * @since 3.5.3
+ * @see CKEDITOR.editor#afterUndoImage
+ * @event
+ */
+
+/**
+ * Fired after an undo image is taken. An undo image represents the
+ * editor state at some point. It's saved into an undo store, so the editor is
+ * able to recover the editor state on undo and redo operations.
+ * @name CKEDITOR.editor#afterUndoImage
+ * @since 3.5.3
+ * @see CKEDITOR.editor#beforeUndoImage
  * @event
  */

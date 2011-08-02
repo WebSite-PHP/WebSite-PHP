@@ -152,11 +152,11 @@ Options +FollowSymLinks
 	# Set up caching on media files for 1 month
 	<FilesMatch "\.(ico|gif|jpg|jpeg|png|flv|pdf|swf|mov|mp3|wmv|ppt)$">
 		ExpiresActive On
-	  ExpiresDefault A2419200
+	  ExpiresDefault A2678400
 	</FilesMatch>
 	<FilesMatch "favicon\.ico$">
 	  ExpiresActive On
-	  ExpiresDefault A2419200
+	  ExpiresDefault A2678400
 	</FilesMatch>
 	
 	# Set up 7 days caching on commonly updated files
@@ -169,10 +169,10 @@ Options +FollowSymLinks
 <IfModule mod_headers.c>
 	# Set up caching on media files for 1 month
 	<FilesMatch "\.(ico|gif|jpg|jpeg|png|flv|pdf|swf|mov|mp3|wmv|ppt)$">
-	  Header set Cache-Control "max-age=2419200, public"
+	  Header set Cache-Control "max-age=2678400, public"
 	</FilesMatch>
 	<FilesMatch "favicon\.ico$">
-	  Header set Cache-Control "max-age=2419200, public"
+	  Header set Cache-Control "max-age=2678400, public"
 	</FilesMatch>
 	
 	# Set up 7 days caching on commonly updated files

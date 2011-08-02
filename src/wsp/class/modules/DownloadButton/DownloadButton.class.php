@@ -19,32 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 20/06/2011
- * @version     1.0.87
- * @access      public
- * @since       1.0.87
- */
-
-/**
- * PHP file wsp\class\display\advanced_object\DownloadButton.class.php
- * @package display
- * @subpackage advanced_object
- */
-/**
- * Class DownloadButton
- *
- * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
- * PHP versions >= 5.2
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- * 
- * @package display
- * @subpackage advanced_object
- * @author      Emilien MOREL <admin@website-php.com>
- * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @version     1.0.90
  * @access      public
  * @since       1.0.17
  */

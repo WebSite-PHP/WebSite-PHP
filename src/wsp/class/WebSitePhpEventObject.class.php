@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.90
  * @access      public
  * @since       1.0.18
  */
@@ -36,6 +36,8 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	protected $is_ajax_event = false;
 	protected $ajax_wait_message = "";
 	protected $disable_ajax_wait_message = false;
+	protected $on_form_is_changed_js = "";
+	protected $on_form_is_changed_revert = false;
 	/**#@-*/
 	
 	/**#@+
@@ -242,6 +244,30 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	 */
 	public function disableAjaxWaitMessage() {
 		$this->disable_ajax_wait_message = true;
+		return $this;
+	}
+	
+	/**
+	 * Method onFormIsChangedJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @param boolean $revert_this_object_to_old_value [default value: false]
+	 * @return WebSitePhpEventObject
+	 * @since 1.0.90
+	 */
+	public function onFormIsChangedJs($js_function, $revert_this_object_to_old_value=false) {
+		if ($this->form_object == null || get_class($this->form_object) != "Form") {
+			throw new NewException("Error ".get_class($this)."->setFormChangeMessage(): ".get_class($message_or_object)." must be associate to a Form object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onFormChangeJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->form_object->onChangeJs(" ");
+		$this->on_form_is_changed_js = $js_function;
+		$this->on_form_is_changed_revert = $revert_this_object_to_old_value;
 		return $this;
 	}
 	
@@ -491,6 +517,13 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		}
 		
 		$html = "";
+		if ($this->on_form_is_changed_js != "" && $this->form_object != null && get_class($this->form_object) == "Form") {
+			$html .= "if ($('#".$this->form_object->getId()."_WspFormChange').val() != ';".$this->getId().";') { ";
+			if ($this->on_form_is_changed_revert) {
+				$html .= "revertLastFormChangeObjectToDefaultValue('".get_class($this)."', '".$this->getId()."', '".$this->form_object->getId()."');";
+			}
+			$html .= $this->on_form_is_changed_js." }\n";
+		}
 		if ($on_event != "" || $callback != "") {
 			// force Editor copy to Hidden
 			$js_force_editor_copy = "";

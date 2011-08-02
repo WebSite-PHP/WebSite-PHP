@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.90
  * @access      public
  * @since       1.0.0
  */
@@ -193,11 +193,28 @@
 		if (!defined('JQUERY_LOAD_LOCAL')) {
 			define("JQUERY_LOAD_LOCAL", true);
 		}
-		
-		if (DEFINE_STYLE_JQUERY == "") {
-			CssInclude::getInstance()->addToEnd(BASE_URL."wsp/css/jquery1.8.6/smoothness/jquery-ui-1.8.6.custom.css", "", true);
+		if (!defined('JQUERY_VERSION')) {
+			define("JQUERY_VERSION", "1.6.2");
+		}
+		if (!defined('JQUERY_UI_VERSION')) {
+			define("JQUERY_UI_VERSION", "1.8.14");
+		}
+		if (JQUERY_LOAD_LOCAL == true) {
+			$jquery_ui_ver = JQUERY_UI_VERSION;
+			if (!is_dir("wsp/css/jquery".JQUERY_UI_VERSION."/")) {
+				$jquery_ui_ver = "1.8.14";
+			}
+			if (DEFINE_STYLE_JQUERY == "") {
+				CssInclude::getInstance()->addToEnd(BASE_URL."wsp/css/jquery".$jquery_ui_ver."/smoothness/jquery-ui-".$jquery_ui_ver.".custom.css", "", true);
+			} else {
+				CssInclude::getInstance()->addToEnd(BASE_URL."wsp/css/jquery".$jquery_ui_ver."/".DEFINE_STYLE_JQUERY."/jquery-ui-".$jquery_ui_ver.".custom.css", "", true);
+			}
 		} else {
-			CssInclude::getInstance()->addToEnd(BASE_URL."wsp/css/jquery1.8.6/".DEFINE_STYLE_JQUERY."/jquery-ui-1.8.6.custom.css", "", true);
+			if (DEFINE_STYLE_JQUERY == "") {
+				CssInclude::getInstance()->addToEnd("http://ajax.googleapis.com/ajax/libs/jqueryui/".JQUERY_UI_VERSION."/themes/smoothness/jquery-ui.css");
+			} else {
+				CssInclude::getInstance()->addToEnd("http://ajax.googleapis.com/ajax/libs/jqueryui/".JQUERY_UI_VERSION."/themes/".DEFINE_STYLE_JQUERY."/jquery-ui.css");
+			}
 		}
 		
 		$combine_css = "";
@@ -238,16 +255,24 @@
 <?php		
 		// jQuery
 		if (JQUERY_LOAD_LOCAL == true) {
-			JavaScriptInclude::getInstance()->addToBegin(BASE_URL."wsp/js/jquery-1.5.2.min.js", "", true);
-			JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery-ui-1.8.12.custom.min.js", "", true);
+			$jquery_ver = JQUERY_VERSION;
+			if (!is_file("wsp/js/jquery/jquery-".$jquery_ver.".min.js")) {
+				$jquery_ver = "1.6.2";
+			}
+			$jquery_ui_ver = JQUERY_UI_VERSION;
+			if (!is_file("wsp/js/jquery/jquery-ui-".$jquery_ui_ver.".custom.min.js")) {
+				$jquery_ui_ver = "1.8.14";
+			}
+			JavaScriptInclude::getInstance()->addToBegin(BASE_URL."wsp/js/jquery/jquery-".$jquery_ver.".min.js", "", true);
+			JavaScriptInclude::getInstance()->addToBegin(BASE_URL."wsp/js/jquery/jquery-ui-".$jquery_ui_ver.".custom.min.js", "", true);
 		} else {
 		?>
 
 		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 		<script type="text/javascript">
 			// Load lib by google
-			google.load("jquery", "1.5.2");
-			google.load("jqueryui", "1.8.12");
+			google.load("jquery", "<?php echo JQUERY_VERSION; ?>");
+			google.load("jqueryui", "<?php echo JQUERY_UI_VERSION; ?>");
 		</script>
 <?php
 		}

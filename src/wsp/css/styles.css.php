@@ -134,24 +134,32 @@ a:hover,.link:hover {
 }
 
 <?php
-for ($i=1; $i <= NB_DEFINE_STYLE_BCK; $i++) {
-	if (!defined('DEFINE_STYLE_COLOR_'.$i.'_HEADER_LINK')) {
-		define("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK", "");
+$nb_def_style = NB_DEFINE_STYLE_BCK;
+if ($is_config_theme_page && isset($_GET['wspadmin_nb_define_style'])) { // Wsp-Admin real-time configuration
+	$nb_def_style = $_GET['wspadmin_nb_define_style'];
+}
+for ($i=1; $i <= $nb_def_style; $i++) {
+	$ind = $i;
+	if ($ind > NB_DEFINE_STYLE_BCK) {
+		$ind = 1;
 	}
-	if (!defined('DEFINE_STYLE_COLOR_'.$i.'_HEADER_LINK_HOVER')) {
-		define("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK_HOVER", "");
+	if (!defined('DEFINE_STYLE_COLOR_'.$ind.'_HEADER_LINK')) {
+		define("DEFINE_STYLE_COLOR_".$ind."_HEADER_LINK", "");
 	}
-	if (!defined('DEFINE_STYLE_COLOR_'.$i.'_LINK')) {
-		define("DEFINE_STYLE_COLOR_".$i."_LINK", "");
+	if (!defined('DEFINE_STYLE_COLOR_'.$ind.'_HEADER_LINK_HOVER')) {
+		define("DEFINE_STYLE_COLOR_".$ind."_HEADER_LINK_HOVER", "");
 	}
-	if (!defined('DEFINE_STYLE_COLOR_'.$i.'_LINK_HOVER')) {
-		define("DEFINE_STYLE_COLOR_".$i."_LINK_HOVER", "");
+	if (!defined('DEFINE_STYLE_COLOR_'.$ind.'_LINK')) {
+		define("DEFINE_STYLE_COLOR_".$ind."_LINK", "");
+	}
+	if (!defined('DEFINE_STYLE_COLOR_'.$ind.'_LINK_HOVER')) {
+		define("DEFINE_STYLE_COLOR_".$ind."_LINK_HOVER", "");
 	}
 ?>
 /*** Tableau <?php echo $i; ?> Header ***/
 .header_<?php echo $i; ?>_bckg {
-	background: <?php echo constant("DEFINE_STYLE_BCK_".$i."_HEADER"); ?>;
-	color: <?php echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER"); ?>;
+	background: <?php echo constant("DEFINE_STYLE_BCK_".$ind."_HEADER"); ?>;
+	color: <?php echo constant("DEFINE_STYLE_COLOR_".$ind."_HEADER"); ?>;
 	font-size: <?php echo $style_font_size_value; ?>;
 	font-family: <?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
 	font-weight: bold;
@@ -162,37 +170,37 @@ for ($i=1; $i <= NB_DEFINE_STYLE_BCK; $i++) {
 	text-align: left;
 }
 .header_<?php echo $i; ?>_bckg a {
-	color:<?php if (constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK") == "") { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER"); } else { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK"); } ?>;
+	color:<?php if (constant("DEFINE_STYLE_COLOR_".$ind."_HEADER_LINK") == "") { echo constant("DEFINE_STYLE_COLOR_".$ind."_HEADER"); } else { echo constant("DEFINE_STYLE_COLOR_".$ind."_HEADER_LINK"); } ?>;
 	text-decoration: none;
 	font-size:<?php echo $style_font_size_value; ?>;
 	font-family:<?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
 }
 .header_<?php echo $i; ?>_bckg a:hover {
-	color: <?php if (constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK_HOVER") == "") { if (constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK") == "") { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER"); } else { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK"); } } else { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK_HOVER"); } ?>;
+	color: <?php if (constant("DEFINE_STYLE_COLOR_".$ind."_HEADER_LINK_HOVER") == "") { if (constant("DEFINE_STYLE_COLOR_".$ind."_HEADER_LINK") == "") { echo constant("DEFINE_STYLE_COLOR_".$ind."_HEADER"); } else { echo constant("DEFINE_STYLE_COLOR_".$ind."_HEADER_LINK"); } } else { echo constant("DEFINE_STYLE_COLOR_".$ind."_HEADER_LINK_HOVER"); } ?>;
 	font-size:<?php echo $style_font_size_value; ?>;
 	font-family:<?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
 }
 
 /*** Tableau <?php echo $i; ?> ***/
 .table_<?php echo $i; ?>_angle {
-	border-left: 1px solid <?php echo constant("DEFINE_STYLE_BORDER_TABLE_".$i); ?>;
-	border-right: 1px solid <?php echo constant("DEFINE_STYLE_BORDER_TABLE_".$i); ?>;
-	border-bottom: 1px solid <?php echo constant("DEFINE_STYLE_BORDER_TABLE_".$i); ?>;
-	background: <?php echo constant("DEFINE_STYLE_BCK_".$i."_HEADER"); ?>;
-	color: <?php echo constant("DEFINE_STYLE_COLOR_".$i); ?>;
+	border-left: 1px solid <?php echo constant("DEFINE_STYLE_BORDER_TABLE_".$ind); ?>;
+	border-right: 1px solid <?php echo constant("DEFINE_STYLE_BORDER_TABLE_".$ind); ?>;
+	border-bottom: 1px solid <?php echo constant("DEFINE_STYLE_BORDER_TABLE_".$ind); ?>;
+	background: <?php echo constant("DEFINE_STYLE_BCK_".$ind."_HEADER"); ?>;
+	color: <?php echo constant("DEFINE_STYLE_COLOR_".$ind); ?>;
 	padding-right:-10px;
 }
 .table_<?php echo $i; ?> {
-	background: <?php echo constant("DEFINE_STYLE_BCK_".$i); ?>;
-	color: <?php echo constant("DEFINE_STYLE_COLOR_".$i); ?>;
+	background: <?php echo constant("DEFINE_STYLE_BCK_".$ind); ?>;
+	color: <?php echo constant("DEFINE_STYLE_COLOR_".$ind); ?>;
 	font-size: <?php echo $style_font_size_value; ?>;
 	font-family: <?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
 	text-align: left;
 }
 .table_<?php echo $i; ?>_bckg {
 	border: 0px;
-	background: <?php echo constant("DEFINE_STYLE_BCK_".$i); ?>;
-	color: <?php echo constant("DEFINE_STYLE_COLOR_".$i); ?>;
+	background: <?php echo constant("DEFINE_STYLE_BCK_".$ind); ?>;
+	color: <?php echo constant("DEFINE_STYLE_COLOR_".$ind); ?>;
 	padding-left: 5px;
 	padding-right: 5px;
 	text-align: left;
@@ -200,43 +208,47 @@ for ($i=1; $i <= NB_DEFINE_STYLE_BCK; $i++) {
 	font-family: <?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
 }
 .table_<?php echo $i; ?>_bckg a,a.box_style_<?php echo $i; ?>:link {
-	color: <?php if (constant("DEFINE_STYLE_COLOR_".$i."_LINK") != "") { echo constant("DEFINE_STYLE_COLOR_".$i."_LINK"); } else { echo DEFINE_STYLE_LINK_COLOR; } ?>;
+	color: <?php if (constant("DEFINE_STYLE_COLOR_".$ind."_LINK") != "") { echo constant("DEFINE_STYLE_COLOR_".$ind."_LINK"); } else { echo DEFINE_STYLE_LINK_COLOR; } ?>;
 	text-decoration: none;
 	font-size:<?php echo $style_font_size_value; ?>;
 	font-family:<?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
 }
 
 .table_<?php echo $i; ?>_bckg a:hover,a.box_style_<?php echo $i; ?>:hover {
-	color: <?php if (constant("DEFINE_STYLE_COLOR_".$i."_LINK_HOVER") != "") { echo constant("DEFINE_STYLE_COLOR_".$i."_LINK_HOVER"); } else { echo DEFINE_STYLE_LINK_HOVER_COLOR; } ?>;
+	color: <?php if (constant("DEFINE_STYLE_COLOR_".$ind."_LINK_HOVER") != "") { echo constant("DEFINE_STYLE_COLOR_".$ind."_LINK_HOVER"); } else { echo DEFINE_STYLE_LINK_HOVER_COLOR; } ?>;
 	font-size:<?php echo $style_font_size_value; ?>;
 	font-family:<?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
 }
 
 .bckg_<?php echo $i; ?> {
-	background: <?php echo constant("DEFINE_STYLE_BCK_".$i); ?>;
-	color: <?php echo constant("DEFINE_STYLE_COLOR_".$i); ?>;
+	background: <?php echo constant("DEFINE_STYLE_BCK_".$ind); ?>;
+	color: <?php echo constant("DEFINE_STYLE_COLOR_".$ind); ?>;
 	font-size: <?php echo $style_font_size_value; ?>;
 	font-family: <?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
 	text-align: left;
 }
 
 .table_<?php echo $i; ?>_round {
-	background: <?php echo constant("DEFINE_STYLE_BCK_".$i."_HEADER"); ?>;
+	background: <?php echo constant("DEFINE_STYLE_BCK_".$ind."_HEADER"); ?>;
 }
 <?php
 }
 
-for ($i=1; $i <= NB_DEFINE_STYLE_BCK; $i++) {
+for ($i=1; $i <= $nb_def_style; $i++) {
+	$ind = $i;
+	if ($ind > NB_DEFINE_STYLE_BCK) {
+		$ind = 1;
+	}
 ?>
 /*** Box Header <?php echo $i; ?> ***/
 .header_<?php echo $i; ?>_bckg_a a {
-	color:<?php if (constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK") == "") { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER"); } else { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK"); } ?>;
+	color:<?php if (constant("DEFINE_STYLE_COLOR_".$ind."_HEADER_LINK") == "") { echo constant("DEFINE_STYLE_COLOR_".$ind."_HEADER"); } else { echo constant("DEFINE_STYLE_COLOR_".$ind."_HEADER_LINK"); } ?>;
 	text-decoration: none;
 	font-size:<?php echo $style_font_size_value; ?>;
 	font-family:<?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
 }
 .header_<?php echo $i; ?>_bckg_a a:hover {
-	color: <?php if (constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK_HOVER") == "") { if (constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK") == "") { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER"); } else { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK"); } } else { echo constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK_HOVER"); } ?>;
+	color: <?php if (constant("DEFINE_STYLE_COLOR_".$ind."_HEADER_LINK_HOVER") == "") { if (constant("DEFINE_STYLE_COLOR_".$ind."_HEADER_LINK") == "") { echo constant("DEFINE_STYLE_COLOR_".$ind."_HEADER"); } else { echo constant("DEFINE_STYLE_COLOR_".$ind."_HEADER_LINK"); } } else { echo constant("DEFINE_STYLE_COLOR_".$ind."_HEADER_LINK_HOVER"); } ?>;
 	font-size:<?php echo $style_font_size_value; ?>;
 	font-family:<?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
 }
@@ -252,7 +264,6 @@ td {
 
 .draggable {
   cursor: move;
-  position: absolute;
   z-index:2;
 }
 .droppablehover {

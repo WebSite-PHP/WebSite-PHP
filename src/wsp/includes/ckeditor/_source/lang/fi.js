@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
@@ -34,8 +34,8 @@ CKEDITOR.lang['fi'] =
 	editorTitle : 'Rikastekstieditori, %1, paina ALT 0 nähdäksesi ohjeen.',
 
 	// ARIA descriptions.
-	toolbar	: 'Työkalupalkki',
-	editor	: 'Rikastekstieditori',
+	toolbars	: 'Editor toolbars', // MISSING
+	editor		: 'Rikastekstieditori',
 
 	// Toolbar buttons without dialogs.
 	source			: 'Koodi',
@@ -55,7 +55,8 @@ CKEDITOR.lang['fi'] =
 	subscript		: 'Alaindeksi',
 	superscript		: 'Yläindeksi',
 	horizontalrule	: 'Lisää murtoviiva',
-	pagebreak		: 'Lisää sivun vaihto',
+	pagebreak		: 'Lisää sivunvaihto',
+	pagebreakAlt		: 'Sivunvaihto',
 	unlink			: 'Poista linkki',
 	undo			: 'Kumoa',
 	redo			: 'Toista',
@@ -109,6 +110,19 @@ CKEDITOR.lang['fi'] =
 		langDirRTL		: 'Oikealta vasemmalle (RTL)',
 		styles			: 'Tyyli',
 		cssClasses		: 'Tyylitiedoston luokat',
+		width			: 'Leveys',
+		height			: 'Korkeus',
+		align			: 'Kohdistus',
+		alignLeft		: 'Vasemmalle',
+		alignRight		: 'Oikealle',
+		alignCenter		: 'Keskelle',
+		alignTop		: 'Ylös',
+		alignMiddle		: 'Keskelle',
+		alignBottom		: 'Alas',
+		invalidHeight	: 'Korkeuden täytyy olla numero.',
+		invalidWidth	: 'Leveyden täytyy olla numero.',
+		invalidCssLength	: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidHtmlLength	: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable		: '%1<span class="cke_accessibility">, ei saatavissa</span>'
@@ -155,9 +169,7 @@ CKEDITOR.lang['fi'] =
 		popupFullScreen	: 'Täysi ikkuna (IE)',
 		popupScrollBars	: 'Vierityspalkit',
 		popupDependent	: 'Riippuva (Netscape)',
-		popupWidth		: 'Leveys',
 		popupLeft		: 'Vasemmalta (px)',
-		popupHeight		: 'Korkeus',
 		popupTop		: 'Ylhäältä (px)',
 		id				: 'Tunniste',
 		langDir			: 'Kielen suunta',
@@ -165,18 +177,19 @@ CKEDITOR.lang['fi'] =
 		langDirRTL		: 'Oikealta vasemmalle (RTL)',
 		acccessKey		: 'Pikanäppäin',
 		name			: 'Nimi',
-		langCode		: 'Kielen suunta',
-		tabIndex		: 'Tabulaattori indeksi',
-		advisoryTitle	: 'Avustava otsikko',
+		langCode			: 'Kielen suunta',
+		tabIndex			: 'Tabulaattori indeksi',
+		advisoryTitle		: 'Avustava otsikko',
 		advisoryContentType	: 'Avustava sisällön tyyppi',
 		cssClasses		: 'Tyyliluokat',
 		charset			: 'Linkitetty kirjaimisto',
 		styles			: 'Tyyli',
-		selectAnchor	: 'Valitse ankkuri',
+		rel			: 'Suhde',
+		selectAnchor		: 'Valitse ankkuri',
 		anchorName		: 'Ankkurin nimen mukaan',
-		anchorId		: 'Ankkurin ID:n mukaan',
-		emailAddress	: 'Sähköpostiosoite',
-		emailSubject	: 'Aihe',
+		anchorId			: 'Ankkurin ID:n mukaan',
+		emailAddress		: 'Sähköpostiosoite',
+		emailSubject		: 'Aihe',
 		emailBody		: 'Viesti',
 		noAnchors		: '(Ei ankkureita tässä dokumentissa)',
 		noUrl			: 'Linkille on kirjoitettava URL',
@@ -190,7 +203,8 @@ CKEDITOR.lang['fi'] =
 		menu		: 'Ankkurin ominaisuudet',
 		title		: 'Ankkurin ominaisuudet',
 		name		: 'Nimi',
-		errorName	: 'Ankkurille on kirjoitettava nimi'
+		errorName	: 'Ankkurille on kirjoitettava nimi',
+		remove		: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog
@@ -243,15 +257,9 @@ CKEDITOR.lang['fi'] =
 		rows		: 'Rivit',
 		columns		: 'Sarakkeet',
 		border		: 'Rajan paksuus',
-		align		: 'Kohdistus',
-		alignLeft	: 'Vasemmalle',
-		alignCenter	: 'Keskelle',
-		alignRight	: 'Oikealle',
-		width		: 'Leveys',
 		widthPx		: 'pikseliä',
 		widthPc		: 'prosenttia',
 		widthUnit	: 'leveysyksikkö',
-		height		: 'Korkeus',
 		cellSpace	: 'Solujen väli',
 		cellPad		: 'Solujen sisennys',
 		caption		: 'Otsikko',
@@ -287,9 +295,6 @@ CKEDITOR.lang['fi'] =
 			wordWrap		: 'Rivitys',
 			hAlign			: 'Horisontaali kohdistus',
 			vAlign			: 'Vertikaali kohdistus',
-			alignTop		: 'Ylös',
-			alignMiddle		: 'Keskelle',
-			alignBottom		: 'Alas',
 			alignBaseline	: 'Alas (teksti)',
 			bgColor			: 'Taustan väri',
 			borderColor		: 'Reunan väri',
@@ -410,24 +415,16 @@ CKEDITOR.lang['fi'] =
 		btnUpload	: 'Lähetä palvelimelle',
 		upload		: 'Lisää kuva',
 		alt			: 'Vaihtoehtoinen teksti',
-		width		: 'Leveys',
-		height		: 'Korkeus',
 		lockRatio	: 'Lukitse suhteet',
-		unlockRatio	: 'Vapauta suhteet',
 		resetSize	: 'Alkuperäinen koko',
 		border		: 'Kehys',
 		hSpace		: 'Vaakatila',
 		vSpace		: 'Pystytila',
-		align		: 'Kohdistus',
-		alignLeft	: 'Vasemmalle',
-		alignRight	: 'Oikealle',
 		alertUrl	: 'Kirjoita kuvan osoite (URL)',
 		linkTab		: 'Linkki',
 		button2Img	: 'Haluatko muuntaa valitun kuvanäppäimen kuvaksi?',
 		img2Button	: 'Haluatko muuntaa valitun kuvan kuvanäppäimeksi?',
 		urlMissing	: 'Kuvan lähdeosoite puuttuu.',
-		validateWidth	: 'Leveyden täytyy olla kokonaisluku.',
-		validateHeight	: 'Korkeuden täytyy olla kokonaisluku.',
 		validateBorder	: 'Kehyksen täytyy olla kokonaisluku.',
 		validateHSpace	: 'HSpace-määrityksen täytyy olla kokonaisluku.',
 		validateVSpace	: 'VSpace-määrityksen täytyy olla kokonaisluku.'
@@ -451,16 +448,10 @@ CKEDITOR.lang['fi'] =
 		accessAlways	: 'Aina',
 		accessSameDomain: 'Sama verkkotunnus',
 		accessNever		: 'Ei koskaan',
-		align			: 'Kohdistus',
-		alignLeft		: 'Vasemmalle',
 		alignAbsBottom	: 'Aivan alas',
 		alignAbsMiddle	: 'Aivan keskelle',
 		alignBaseline	: 'Alas (teksti)',
-		alignBottom		: 'Alas',
-		alignMiddle		: 'Keskelle',
-		alignRight		: 'Oikealle',
 		alignTextTop	: 'Ylös (teksti)',
-		alignTop		: 'Ylös',
 		quality			: 'Laatu',
 		qualityBest		: 'Paras',
 		qualityHigh		: 'Korkea',
@@ -474,13 +465,9 @@ CKEDITOR.lang['fi'] =
 		windowMode		: 'Ikkuna tila',
 		flashvars		: 'Muuttujat Flash:lle',
 		bgcolor			: 'Taustaväri',
-		width			: 'Leveys',
-		height			: 'Korkeus',
 		hSpace			: 'Vaakatila',
 		vSpace			: 'Pystytila',
 		validateSrc		: 'Linkille on kirjoitettava URL',
-		validateWidth	: 'Leveyden täytyy olla numero.',
-		validateHeight	: 'Korkeuden täytyy olla numero.',
 		validateHSpace	: 'Vaakatilan täytyy olla numero.',
 		validateVSpace	: 'Pystytilan täytyy olla numero.'
 	},
@@ -615,6 +602,15 @@ CKEDITOR.lang['fi'] =
 		remove				: 'Poista Div'
   	},
 
+	iframe :
+	{
+		title		: 'IFrame-kehyksen ominaisuudet',
+		toolbar		: 'IFrame-kehys',
+		noUrl		: 'Anna IFrame-kehykselle lähdeosoite (src)',
+		scrolling	: 'Näytä vierityspalkit',
+		border		: 'Näytä kehyksen reunat'
+	},
+
 	font :
 	{
 		label		: 'Kirjaisinlaji',
@@ -721,6 +717,8 @@ CKEDITOR.lang['fi'] =
 	{
 		title		: 'Tietoa CKEditorista',
 		dlgTitle	: 'Tietoa CKEditorista',
+		help	: 'Check $1 for help.', // MISSING
+		userGuide : 'CKEditor User\'s Guide', // MISSING
 		moreInfo	: 'Lisenssitiedot löytyvät kotisivuiltamme:',
 		copy		: 'Copyright &copy; $1. Kaikki oikeuden pidätetään.'
 	},
@@ -730,10 +728,11 @@ CKEDITOR.lang['fi'] =
 
 	fakeobjects :
 	{
-		anchor	: 'Ankkuri',
-		flash	: 'Flash animaatio',
-		div		: 'Sivun vaihto',
-		unknown	: 'Tuntematon objekti'
+		anchor		: 'Ankkuri',
+		flash		: 'Flash animaatio',
+		iframe		: 'IFrame-kehys',
+		hiddenfield	: 'Piilokenttä',
+		unknown		: 'Tuntematon objekti'
 	},
 
 	resize : 'Raahaa muuttaaksesi kokoa',
@@ -750,9 +749,64 @@ CKEDITOR.lang['fi'] =
 	toolbarCollapse	: 'Kutista työkalupalkki',
 	toolbarExpand	: 'Laajenna työkalupalkki',
 
+	toolbarGroups :
+	{
+		document : 'Document', // MISSING
+		clipboard : 'Clipboard/Undo', // MISSING
+		editing : 'Editing', // MISSING
+		forms : 'Forms', // MISSING
+		basicstyles : 'Basic Styles', // MISSING
+		paragraph : 'Paragraph', // MISSING
+		links : 'Links', // MISSING
+		insert : 'Insert', // MISSING
+		styles : 'Styles', // MISSING
+		colors : 'Colors', // MISSING
+		tools : 'Tools' // MISSING
+	},
+
 	bidi :
 	{
 		ltr : 'Tekstin suunta vasemmalta oikealle',
 		rtl : 'Tekstin suunta oikealta vasemmalle'
+	},
+
+	docprops :
+	{
+		label : 'Dokumentin ominaisuudet',
+		title : 'Dokumentin ominaisuudet',
+		design : 'Design', // MISSING
+		meta : 'Meta-tieto',
+		chooseColor : 'Valitse',
+		other : '<muu>',
+		docTitle :	'Sivun nimi',
+		charset : 	'Merkistökoodaus',
+		charsetOther : 'Muu merkistökoodaus',
+		charsetASCII : 'ASCII', // MISSING
+		charsetCE : 'Keskieurooppalainen',
+		charsetCT : 'Kiina, perinteinen (Big5)',
+		charsetCR : 'Kyrillinen',
+		charsetGR : 'Kreikka',
+		charsetJP : 'Japani',
+		charsetKR : 'Korealainen',
+		charsetTR : 'Turkkilainen',
+		charsetUN : 'Unicode (UTF-8)', // MISSING
+		charsetWE : 'Länsieurooppalainen',
+		docType : 'Dokumentin tyyppi',
+		docTypeOther : 'Muu dokumentin tyyppi',
+		xhtmlDec : 'Lisää XHTML julistukset',
+		bgColor : 'Taustaväri',
+		bgImage : 'Taustakuva',
+		bgFixed : 'Paikallaanpysyvä tausta',
+		txtColor : 'Tekstiväri',
+		margin : 'Sivun marginaalit',
+		marginTop : 'Ylä',
+		marginLeft : 'Vasen',
+		marginRight : 'Oikea',
+		marginBottom : 'Ala',
+		metaKeywords : 'Hakusanat (pilkulla erotettuna)',
+		metaDescription : 'Kuvaus',
+		metaAuthor : 'Tekijä',
+		metaCopyright : 'Tekijänoikeudet',
+		previewHtml : '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

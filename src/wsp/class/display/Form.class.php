@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.90
  * @access      public
  * @since       1.0.17
  */
@@ -42,6 +42,7 @@ class Form extends WebSitePhpObject {
 	private $action = "";
 	private $content = null;
 	private $onsubmitjs = "";
+	private $onchangejs = "";
 	
 	private $encrypt_object = null;
 	private $register_object = array();
@@ -79,6 +80,7 @@ class Form extends WebSitePhpObject {
 			$this->id = $id;
 		}
 		$this->method = $method;
+		JavaScriptInclude::getInstance()->add("form.js", "", true);
 	}
 	
 	/**
@@ -281,6 +283,37 @@ class Form extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method onChangeJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return Form
+	 * @since 1.0.90
+	 */
+	public function onChangeJs($js_function){
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		if (trim($this->onchangejs) == "" && $js_function != "") {
+			$this->onchangejs = $js_function;
+		}
+		return $this;
+	}
+	
+	/**
+	 * Method resetFormChangeHiddenField
+	 * @access public
+	 * @return Form
+	 * @since 1.0.90
+	 */
+	public function resetFormChangeHiddenField() {
+		$_GET[$this->id."_WspFormChange"] = "";
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -317,7 +350,24 @@ class Form extends WebSitePhpObject {
 					$html .= $this->content;
 				}
 			}
+			
+			$hidden_form_change_value = "";
+			if ($this->getMethod() == "POST" && isset($_POST[$this->id."_WspFormChange"])) {
+				$hidden_form_change_value = $_POST[$this->id."_WspFormChange"];
+			} else if (isset($_GET[$this->id."_WspFormChange"])) {
+				$hidden_form_change_value = $_GET[$this->id."_WspFormChange"];
+			}
+			$html .= "<input type=\"hidden\" id=\"".$this->id."_WspFormChange\" name=\"".$this->id."_WspFormChange\" value=\"".$hidden_form_change_value."\"/>\n";
+			$html .= "<input type=\"hidden\" id=\"".$this->id."_LastChangeObjectValue\" value=\"\"/>\n";
 			$html .= "</form>\n";
+			if ($this->onchangejs != "") {
+				$html .= $this->getJavascriptTagOpen();
+				$html .= "createOnChangeFormEvent('".$this->id."');\n";
+				if (trim($this->onchangejs) != "") {
+					$html .= $this->onchangejs."\n";
+				}
+				$html .= $this->getJavascriptTagClose();
+			}
 		}
 		$this->object_change = false;
 		return $html;

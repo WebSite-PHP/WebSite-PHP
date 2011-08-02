@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.90
  * @access      public
  * @since       1.0.25
  */
@@ -30,7 +30,10 @@ class ConfigureCss extends Page {
 	private $array_font = array('body', 'form', 'blockquote', 'p', 'h1', 'h2,h3,h4,h5,h6', 'a,.link', 'a:hover,.link:hover', 'td');
 	private $array_round_box_1 = array();
 	private $nb_define_style_val = 1;
-	private $jquery_version = "1.8.6";
+	private $jquery_version = JQUERY_UI_VERSION;
+	
+	private $file_angle_css = "angle.php.css";
+	private $file_style_css = "styles.php.css";
 	
 	function __construct() {
 		parent::__construct();
@@ -38,6 +41,9 @@ class ConfigureCss extends Page {
 	
 	public function Load() {
 		parent::$PAGE_TITLE = __(CONFIGURE_CSS);
+		if ($this->jquery_version == "JQUERY_UI_VERSION") {
+			$this->jquery_version = "1.8.14";
+		}
 		
 		JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/wsp-admin.js", "", true);
 		JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery.backstretch.min.js", "", true);
@@ -48,7 +54,7 @@ class ConfigureCss extends Page {
 		$table->setDefaultValign(RowTable::VALIGN_TOP);
 		
 		$construction_page = new Object(__(PAGE_IN_CONSTRUCTION));
-		$table->addRow($construction_page->setClass("error"))->setColspan(3);
+		$table->addRow($construction_page->setClass("warning"))->setColspan(2);
 		
 		$form = new Form($this);
 		
@@ -100,7 +106,7 @@ class ConfigureCss extends Page {
 		$body_pic_pos = "";
 		$body_pic_pos_more = "";
 		if (strtolower(DEFINE_STYLE_BCK_BODY_PIC_POSITION) == "stretch") {
-			$body_pic_pos = DEFINE_STYLE_BCK_BODY_PIC_POSITION;
+			$body_pic_pos = strtolower(DEFINE_STYLE_BCK_BODY_PIC_POSITION);
 		} else if (DEFINE_STYLE_BCK_BODY_PIC_POSITION != "") {
 			$tmp_array = split(' ', DEFINE_STYLE_BCK_BODY_PIC_POSITION);
 			for ($i=0; $i < sizeof($tmp_array); $i++) {
@@ -110,7 +116,7 @@ class ConfigureCss extends Page {
 					$body_pic_pos .= $tmp_array[$i]." ";
 				}
 			}
-			$body_pic_pos = trim($body_pic_pos);
+			$body_pic_pos = strtolower(trim($body_pic_pos));
 			$body_pic_pos_more = trim($body_pic_pos_more);
 		}
 		
@@ -214,11 +220,13 @@ class ConfigureCss extends Page {
 			$this->nb_define_style_bck->addItem($i, $i, ($i==NB_DEFINE_STYLE_BCK?true:false));
 		}
 		$this->nb_define_style_bck->onChange("changeNbDefineStyleBck")->disableAjaxWaitMessage()->setAjaxEvent();
+		$this->nb_define_style_bck->onFormIsChangedJs("alert('".__(WARNING_CHANGE_PLEASE_SAVE)."');return false;", true);
 		$table_form->addRowColumns(__(CMB_NB_PREDEFINE_STYLE).":&nbsp;", $this->nb_define_style_bck->setWidth(50));
 		
 		$table_form->addRow();
 		
 		$this->current_style_display = new ComboBox($form);
+		$this->current_style_display->onFormIsChangedJs("alert('".__(WARNING_CHANGE_PLEASE_SAVE)."');return false;", true);
 		for ($i=1; $i <= $this->nb_define_style_bck->getValue(); $i++) {
 			$this->current_style_display->addItem($i, $i);
 		}
@@ -229,6 +237,10 @@ class ConfigureCss extends Page {
 		$table_form->addRowColumns(__(CMB_CURRENT_PREDEFINE_STYLE).":&nbsp;", $this->current_style_display->setWidth(50));
 		
 		$this->current_style_val = $this->current_style_display->getValue();
+		if ($this->nb_define_style_bck->getValue() > NB_DEFINE_STYLE_BCK) {
+			$this->file_style_css = "styles.php.css?wspadmin_nb_define_style=".$this->nb_define_style_bck->getValue();
+			$this->file_angle_css = "angle.php.css?wspadmin_nb_define_style=".$this->nb_define_style_bck->getValue();
+		}
 		
 		for ($i=1; $i <= $this->nb_define_style_bck->getValue(); $i++) {
 			$this->array_round_box_1[] = '.AngleRond'.$i;
@@ -321,6 +333,9 @@ class ConfigureCss extends Page {
 		$table_form->addRowColumns(__(EDT_COLOR_1_LINK_HOVER, $this->current_style_val).":&nbsp;", $this->style1_color_link_hover);
 		
 		$this->style_gradient = new CheckBox($form);
+		if (constant("DEFINE_STYLE_GRADIENT_".$this->current_style_val) == true) {
+			$this->style_gradient->setChecked();
+		}
 		$this->style_gradient->activateOnOffStyle();
 		$this->style_gradient->disableAjaxWaitMessage()->onChange("changeGradient")->setAjaxEvent();
 		$table_form->addRowColumns(__(EDT_STYLE_GRADIENT, $this->current_style_val).":&nbsp;", $this->style_gradient);
@@ -430,7 +445,6 @@ class ConfigureCss extends Page {
 		} else {
 			$style1_box_text->forceBoxWithPicture(false);
 		}
-		$style1_box_text->setDraggable(true);
 		$table_box->addRow($style1_box_text->setContent("Box Object [<a href=\"javascript:void(0);\">style ".$this->current_style_val."</a>]"));
 		
 		$style1_box = new Box("link", false, $this->current_style_val, $this->current_style_val, "javascript:void(0);", "box_".$this->current_style_val, 245);
@@ -439,11 +453,11 @@ class ConfigureCss extends Page {
 		} else {
 			$style1_box->forceBoxWithPicture(false);
 		}
-		$style1_box->setDraggable(true)->setShadow(true);
+		$style1_box->setShadow(true);
 		$table_box->addRow($style1_box->setContent("Box Object [<a href=\"javascript:void(0);\">style ".$this->current_style_val."</a>]"));
 		
 		$style1_box = new RoundBox($this->current_style_val, "round_box_".$this->current_style_val, 245);
-		$style1_box->setDraggable(true)->setShadow(true);
+		$style1_box->setShadow(true);
 		if ($this->background_picture_1->getValue() != "") {
 			$style1_box->forceBoxWithPicture(true, $this->border_table_1->getValue());
 		} else {
@@ -490,6 +504,11 @@ class ConfigureCss extends Page {
 				$this->bck_body_pic_position_more->setValue("");
 				$background = $this->background_body->getValue();
 				$this->addObject(new JavaScript("$.backstretch(\"".$body_pic."\");"));
+				
+				$this->bck_body_pic_repeat->setValue("");
+				$this->bck_body_pic_repeat->disable();
+				$this->bck_body_pic_position_more->setValue("");
+				$this->bck_body_pic_position_more->disable();
 			} else {
 				$background .= $this->background_body->getValue()." ";
 				$background .= "url(".$body_pic.") ";
@@ -520,19 +539,19 @@ class ConfigureCss extends Page {
 				$background = trim($background);
 			}
 		}
-		$this->addObject(new JavaScript("changeStyleSheetProperty('styles.php.css', 'body', 'background', '".addslashes($background)."');"));
+		$this->addObject(new JavaScript("changeStyleSheetProperty('".$this->file_style_css."', 'body', 'background', '".addslashes($background)."');"));
 		//$this->addObject(new JavaScript("$('#wsp_object_id_body_obj').css('background', '".$this->background_body->getValue()."');"));
 	}
 	
 	public function changeColorBody($sender) {
-		$this->addObject(new JavaScript("changeStyleSheetProperty('styles.php.css', 'body', 'color', '".addslashes($this->color_body->getValue())."');"));
+		$this->addObject(new JavaScript("changeStyleSheetProperty('".$this->file_style_css."', 'body', 'color', '".addslashes($this->color_body->getValue())."');"));
 		$this->addObject(new JavaScript("$('#wsp_object_id_body_text').css('color', '".$this->color_body->getValue()."');"));
 		$this->addObject(new JavaScript("$('#wsp_object_id_body_note').css('color', '".$this->color_body->getValue()."');"));
 	}
 	
 	public function changeLinkColor($sender) {
 		$array_link_color = array('a,.link', 'a:hover,.link:hover');
-		$this->changeStyleSheetProperty("styles.php.css", $array_link_color, "color", $this->link_color->getValue());
+		$this->changeStyleSheetProperty($this->file_style_css, $array_link_color, "color", $this->link_color->getValue());
 		$this->addObject(new JavaScript("$('#wsp_object_id_body_link').find('a').css('color', '".$this->link_color->getValue()."');"));
 		$this->addObject(new JavaScript("$('#wsp_object_id_body_link').find('a').mouseout(function() { $('#wsp_object_id_body_link').find('a').css('color', '".$this->link_color->getValue()."'); } );"));
 		
@@ -540,7 +559,7 @@ class ConfigureCss extends Page {
 	}
 	
 	public function changeLinkHoverColor($sender) {
-		$this->addObject(new JavaScript("changeStyleSheetProperty('styles.php.css', 'a:hover,.link:hover', 'color', '".addslashes($this->link_hover_color->getValue())."');"));
+		$this->addObject(new JavaScript("changeStyleSheetProperty('".$this->file_style_css."', 'a:hover,.link:hover', 'color', '".addslashes($this->link_hover_color->getValue())."');"));
 		$this->addObject(new JavaScript("$('#wsp_object_id_body_link').find('a').mouseover(function() { $('#wsp_object_id_body_link').find('a').css('color', '".$this->link_hover_color->getValue()."'); } );"));
 		
 		$this->change1HeaderLink($sender);
@@ -564,14 +583,14 @@ class ConfigureCss extends Page {
 	}
 	
 	public function changeBackground1Header($sender) {
-		$this->changeStyleSheetProperty("angle.php.css", $this->array_round_box_1, "background", $this->background_1_header->getValue());
-		$this->changeStyleSheetProperty("styles.php.css", array(".bckg_".$this->current_style_val, ".header_".$this->current_style_val."_bckg", ".table_".$this->current_style_val."_round"), "background", $this->background_1_header->getValue());
+		$this->changeStyleSheetProperty($this->file_angle_css, $this->array_round_box_1, "background", $this->background_1_header->getValue());
+		$this->changeStyleSheetProperty($this->file_style_css, array(".bckg_".$this->current_style_val, ".header_".$this->current_style_val."_bckg", ".table_".$this->current_style_val."_round"), "background", $this->background_1_header->getValue());
 		
-		$this->changeStyleSheetProperty("angle.php.css", array('#top'.$this->current_style_val), "background", $this->background_1_header->getValue()." url(".BASE_URL.$this->background_picture_1->getValue().") no-repeat top right");
-		$this->changeStyleSheetProperty("angle.php.css", array('#top'.$this->current_style_val.' div'), "background", $this->background_1_header->getValue()." url(".BASE_URL.$this->background_picture_1->getValue().") no-repeat top left");
-		$this->changeStyleSheetProperty("angle.php.css", array('#left'.$this->current_style_val), "background", $this->background_1_header->getValue()." url(".BASE_URL.$this->background_picture_1->getValue().") no-repeat bottom left");
-		$this->changeStyleSheetProperty("angle.php.css", array('#right'.$this->current_style_val), "background", $this->background_1_header->getValue()." url(".BASE_URL.$this->background_picture_1->getValue().") no-repeat bottom right");
-		$this->changeStyleSheetProperty("angle.php.css", array('.Css3RadiusBoxTitle'.$this->current_style_val), "background", $this->background_1_header->getValue());
+		$this->changeStyleSheetProperty($this->file_angle_css, array('#top'.$this->current_style_val), "background", $this->background_1_header->getValue()." url(".BASE_URL.$this->background_picture_1->getValue().") no-repeat top right");
+		$this->changeStyleSheetProperty($this->file_angle_css, array('#top'.$this->current_style_val.' div'), "background", $this->background_1_header->getValue()." url(".BASE_URL.$this->background_picture_1->getValue().") no-repeat top left");
+		$this->changeStyleSheetProperty($this->file_angle_css, array('#left'.$this->current_style_val), "background", $this->background_1_header->getValue()." url(".BASE_URL.$this->background_picture_1->getValue().") no-repeat bottom left");
+		$this->changeStyleSheetProperty($this->file_angle_css, array('#right'.$this->current_style_val), "background", $this->background_1_header->getValue()." url(".BASE_URL.$this->background_picture_1->getValue().") no-repeat bottom right");
+		$this->changeStyleSheetProperty($this->file_angle_css, array('.Css3RadiusBoxTitle'.$this->current_style_val), "background", $this->background_1_header->getValue());
 		$this->changeBoxBackgroundGradient();
 	}
 	
@@ -579,11 +598,11 @@ class ConfigureCss extends Page {
 	private function changeBoxBackgroundGradient() {
 		if ($this->isCss3Browser()) {
 			if ($this->getBrowserName() == "Firefox") {
-				$this->changeStyleSheetProperty("angle.php.css", array('.Css3GradientBoxTitle'.$this->current_style_val), "background", "-moz-linear-gradient(90deg, ".$this->background_1_header->getValue()." 70%, ".$this->border_table_1->getValue()." 100%);");
+				$this->changeStyleSheetProperty($this->file_angle_css, array('.Css3GradientBoxTitle'.$this->current_style_val), "background", "-moz-linear-gradient(90deg, ".$this->background_1_header->getValue()." 70%, ".$this->border_table_1->getValue()." 100%);");
 			} else {
-				$this->changeStyleSheetProperty("angle.php.css", array('.Css3GradientBoxTitle'.$this->current_style_val), "background", "-webkit-gradient(linear, left top, left bottom, from(".$this->background_1_header->getValue()."), to(".$this->border_table_1->getValue()."));");
-				$this->changeStyleSheetProperty("angle.php.css", array('.Css3GradientBoxTitle'.$this->current_style_val), "background-image", "-webkit-gradient(linear, left bottom, left top, color-stop(0.7,".$this->background_1_header->getValue()."), color-stop(1,".$this->border_table_1->getValue()."));");
-				$this->changeStyleSheetProperty("angle.php.css", array('.Css3GradientBoxTitle'.$this->current_style_val), "filter", "progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr=".$this->background_1_header->getValue().",endColorstr=".$this->border_table_1->getValue().",GradientType=0); zoom: 1;", false);
+				$this->changeStyleSheetProperty($this->file_angle_css, array('.Css3GradientBoxTitle'.$this->current_style_val), "background", "-webkit-gradient(linear, left top, left bottom, from(".$this->background_1_header->getValue()."), to(".$this->border_table_1->getValue()."));");
+				$this->changeStyleSheetProperty($this->file_angle_css, array('.Css3GradientBoxTitle'.$this->current_style_val), "background-image", "-webkit-gradient(linear, left bottom, left top, color-stop(0.7,".$this->background_1_header->getValue()."), color-stop(1,".$this->border_table_1->getValue()."));");
+				$this->changeStyleSheetProperty($this->file_angle_css, array('.Css3GradientBoxTitle'.$this->current_style_val), "filter", "progid:DXImageTransform.Microsoft.gradient(enabled='true',startColorstr=".$this->background_1_header->getValue().",endColorstr=".$this->border_table_1->getValue().",GradientType=0); zoom: 1;", false);
 			}
 		}
 	}
@@ -593,8 +612,8 @@ class ConfigureCss extends Page {
 			$this->addObject(new DialogBox(__(ERROR), "Color header can't be empty"));
 		} else {
 			$array_color_1_header = array('.header_'.$this->current_style_val.'_bckg', '.header_'.$this->current_style_val.'_bckg_a a', '.header_'.$this->current_style_val.'_bckg_a a:hover');
-			$this->changeStyleSheetProperty("styles.php.css", $array_color_1_header, "color", $this->color_1_header->getValue());
-			$this->changeStyleSheetProperty("angle.php.css", array('#left'.$this->current_style_val), "color", $this->color_1_header->getValue());
+			$this->changeStyleSheetProperty($this->file_style_css, $array_color_1_header, "color", $this->color_1_header->getValue());
+			$this->changeStyleSheetProperty($this->file_angle_css, array('#left'.$this->current_style_val), "color", $this->color_1_header->getValue());
 			$this->change1HeaderLink($sender);
 		}
 	}
@@ -612,16 +631,16 @@ class ConfigureCss extends Page {
 			$array_color_1_header_link = array('.header_'.$this->current_style_val.'_bckg_a a', '.table_'.$this->current_style_val.'_bckg a, a.box_style_'.$this->current_style_val.':link');
 		}
 		if ($this->style1_header_link->getValue() == "") {
-			$this->changeStyleSheetProperty("styles.php.css", $array_color_1_header_link, "color", $this->color_1_header->getValue());
+			$this->changeStyleSheetProperty($this->file_style_css, $array_color_1_header_link, "color", $this->color_1_header->getValue());
 		} else {
-			$this->changeStyleSheetProperty("styles.php.css", $array_color_1_header_link, "color", $this->style1_header_link->getValue());
+			$this->changeStyleSheetProperty($this->file_style_css, $array_color_1_header_link, "color", $this->style1_header_link->getValue());
 		}
 		$this->change1HeaderLinkHover($sender);
 	}
 	
 	public function change1HeaderLinkHover($sender) {
 		if ($this->style1_header_link_hover->getValue() != "") {
-			$this->changeStyleSheetProperty("styles.php.css", array('.header_'.$this->current_style_val.'_bckg_a a:hover'), "color", $this->style1_header_link_hover->getValue());
+			$this->changeStyleSheetProperty($this->file_style_css, array('.header_'.$this->current_style_val.'_bckg_a a:hover'), "color", $this->style1_header_link_hover->getValue());
 		}
 	}
 	
@@ -630,7 +649,7 @@ class ConfigureCss extends Page {
 			$this->addObject(new DialogBox(__(ERROR), "Background can't be empty"));
 		} else {
 			$array_background_color_1 = array('.table_'.$this->current_style_val.'_angle', '.table_'.$this->current_style_val, '.table_'.$this->current_style_val.'_bckg', '.bckg_'.$this->current_style_val);
-			$this->changeStyleSheetProperty("styles.php.css", $array_background_color_1, "background", $this->background_1->getValue());
+			$this->changeStyleSheetProperty($this->file_style_css, $array_background_color_1, "background", $this->background_1->getValue());
 			$this->addObject(new JavaScript("$('#wsp_rowtable_table_tr_sample').find('td').css('background', '".$this->background_1->getValue()."');\n"));
 		}
 	}
@@ -640,7 +659,7 @@ class ConfigureCss extends Page {
 			$this->addObject(new DialogBox(__(ERROR), "Color can't be empty"));
 		} else {
 			$array_color_1 = array('.table_'.$this->current_style_val.'_angle', '.table_'.$this->current_style_val, '.table_'.$this->current_style_val.'_bckg', '.bckg_'.$this->current_style_val);
-			$this->changeStyleSheetProperty("styles.php.css", $array_color_1, "color", $this->color_1->getValue());
+			$this->changeStyleSheetProperty($this->file_style_css, $array_color_1, "color", $this->color_1->getValue());
 			$this->addObject(new JavaScript("$('#wsp_rowtable_table_tr_sample').find('td').css('color', '".$this->color_1->getValue()."');\n"));
 			$this->change1ColorLink($sender);
 		}
@@ -659,26 +678,26 @@ class ConfigureCss extends Page {
 			$array_color_1_link = array('.table_'.$this->current_style_val.'_bckg a,a.box_style_'.$this->current_style_val.':link');
 		}
 		if ($this->style1_color_link->getValue() == "") {
-			$this->changeStyleSheetProperty("styles.php.css", $array_color_1_link, "color", $this->link_color->getValue());
+			$this->changeStyleSheetProperty($this->file_style_css, $array_color_1_link, "color", $this->link_color->getValue());
 		} else {
-			$this->changeStyleSheetProperty("styles.php.css", $array_color_1_link, "color", $this->style1_color_link->getValue());
+			$this->changeStyleSheetProperty($this->file_style_css, $array_color_1_link, "color", $this->style1_color_link->getValue());
 		}
 		$this->change1ColorLinkHover($sender);
 	}
 	
 	public function change1ColorLinkHover($sender) {
 		if ($this->style1_color_link_hover->getValue() != "") {
-			$this->changeStyleSheetProperty("styles.php.css", array('.table_'.$this->current_style_val.'_bckg a:hover,a.box_style_'.$this->current_style_val.':hover'), "color", $this->style1_color_link_hover->getValue());
+			$this->changeStyleSheetProperty($this->file_style_css, array('.table_'.$this->current_style_val.'_bckg a:hover,a.box_style_'.$this->current_style_val.':hover'), "color", $this->style1_color_link_hover->getValue());
 		}
 	}
 	
 	public function changeBorderTable1($sender) {
 		$array_round_box_border_1 = array('.pix1'.$this->current_style_val, '.pix1'.$this->current_style_val.'Ombre');
-		$this->changeStyleSheetProperty("angle.php.css", $this->array_round_box_1, "border-left", "1px solid ".$this->border_table_1->getValue());
-		$this->changeStyleSheetProperty("angle.php.css", $this->array_round_box_1, "border-right", "1px solid ".$this->border_table_1->getValue());
-		$this->changeStyleSheetProperty("angle.php.css", $array_round_box_border_1, "background", $this->border_table_1->getValue());
-		$this->changeStyleSheetProperty("angle.php.css", array('.Css3RadiusBox'.$this->current_style_val, '.Css3RadiusRoundBox'.$this->current_style_val), "border-top", "1px solid ".$this->border_table_1->getValue());
-		$this->changeStyleSheetProperty("angle.php.css", array('.Css3RadiusRoundBox'.$this->current_style_val), "border-bottom", "1px solid ".$this->border_table_1->getValue());
+		$this->changeStyleSheetProperty($this->file_angle_css, $this->array_round_box_1, "border-left", "1px solid ".$this->border_table_1->getValue());
+		$this->changeStyleSheetProperty($this->file_angle_css, $this->array_round_box_1, "border-right", "1px solid ".$this->border_table_1->getValue());
+		$this->changeStyleSheetProperty($this->file_angle_css, $array_round_box_border_1, "background", $this->border_table_1->getValue());
+		$this->changeStyleSheetProperty($this->file_angle_css, array('.Css3RadiusBox'.$this->current_style_val, '.Css3RadiusRoundBox'.$this->current_style_val), "border-top", "1px solid ".$this->border_table_1->getValue());
+		$this->changeStyleSheetProperty($this->file_angle_css, array('.Css3RadiusRoundBox'.$this->current_style_val), "border-bottom", "1px solid ".$this->border_table_1->getValue());
 		$this->changeBoxBackgroundGradient();
 		
 		if ($this->background_picture_1->getValue() != "") {
@@ -687,9 +706,9 @@ class ConfigureCss extends Page {
 		}
 		
 		$array_box_border_1 = array('.table_'.$this->current_style_val.'_angle');
-		$this->changeStyleSheetProperty("styles.php.css", $array_box_border_1, "border-left", "1px solid ".$this->border_table_1->getValue());
-		$this->changeStyleSheetProperty("styles.php.css", $array_box_border_1, "border-right", "1px solid ".$this->border_table_1->getValue());
-		$this->changeStyleSheetProperty("styles.php.css", $array_box_border_1, "border-bottom", "1px solid ".$this->border_table_1->getValue());
+		$this->changeStyleSheetProperty($this->file_style_css, $array_box_border_1, "border-left", "1px solid ".$this->border_table_1->getValue());
+		$this->changeStyleSheetProperty($this->file_style_css, $array_box_border_1, "border-right", "1px solid ".$this->border_table_1->getValue());
+		$this->changeStyleSheetProperty($this->file_style_css, $array_box_border_1, "border-bottom", "1px solid ".$this->border_table_1->getValue());
 		
 		$this->addObject(new JavaScript("$('#box_".$this->current_style_val."').find('td').css('border-top', '1px solid ".$this->border_table_1->getValue()."');\n"));
 		$this->addObject(new JavaScript("$('#box_text_".$this->current_style_val."').find('td').css('border-top', '1px solid ".$this->border_table_1->getValue()."');\n"));
@@ -699,9 +718,9 @@ class ConfigureCss extends Page {
 	
 	public function changeColorShadow($sender) {
 		if ($this->isCss3Browser()) {
-			$this->addObject(new JavaScript("changeStyleSheetProperty('angle.php.css', '.Css3ShadowBox".$this->current_style_val."', 'box-shadow', '5px 5px 5px ".addslashes($this->color_shadow->getValue())."');"));
+			$this->addObject(new JavaScript("changeStyleSheetProperty('".$this->file_angle_css."', '.Css3ShadowBox".$this->current_style_val."', 'box-shadow', '5px 5px 5px ".addslashes($this->color_shadow->getValue())."');"));
 		} else {
-			$this->addObject(new JavaScript("changeStyleSheetProperty('angle.php.css', '.ombre".$this->current_style_val."', 'background-color', '".addslashes($this->color_shadow->getValue())."');"));
+			$this->addObject(new JavaScript("changeStyleSheetProperty('".$this->file_angle_css."', '.ombre".$this->current_style_val."', 'background-color', '".addslashes($this->color_shadow->getValue())."');"));
 		}
 	}
 	
@@ -712,7 +731,7 @@ class ConfigureCss extends Page {
 			$new_font .= ", Arial";
 		}
 		$new_font .= ", ".$this->style_font_serif->getValue();
-		$this->changeStyleSheetProperty("styles.php.css", $this->array_font, "font-family", $new_font);
+		$this->changeStyleSheetProperty($this->file_style_css, $this->array_font, "font-family", $new_font);
 		$this->refreshDialogBoxPosition();
 	}
 	
@@ -720,7 +739,7 @@ class ConfigureCss extends Page {
 		if ($this->style_font_size->getValue() == "") {
 			$this->style_font_size->setValue(10);
 		}
-		$this->changeStyleSheetProperty("styles.php.css", $this->array_font, "font-size", $this->style_font_size->getValue()."pt");
+		$this->changeStyleSheetProperty($this->file_style_css, $this->array_font, "font-size", $this->style_font_size->getValue()."pt");
 		$this->refreshDialogBoxPosition();
 	}
 	
@@ -730,28 +749,46 @@ class ConfigureCss extends Page {
 	
 	public function changeNbDefineStyleBck($sender) {
 		$this->current_style_display->setListItemsChange();
+		
+		if ($this->nb_define_style_bck->getValue() > NB_DEFINE_STYLE_BCK) {
+			$this->addObject(new JavaScript("loadDynamicCSS('".BASE_URL."combine-css/styles.php.css?wspadmin_nb_define_style=".$this->nb_define_style_bck->getValue()."');"));
+			$this->addObject(new JavaScript("loadDynamicCSS('".BASE_URL."combine-css/angle.php.css?wspadmin_nb_define_style=".$this->nb_define_style_bck->getValue()."');"));
+		}
 	}
 	
 	public function changeCurrentStyleBck($sender) {
 		$this->css_config_obj->add(); // tips to refresh all object
 		
-		$this->background_picture_1->setValue(str_replace("../img/", "img/", str_replace("../wsp/img/", "wsp/img/", constant("DEFINE_STYLE_BCK_PICTURE_".$this->current_style_val))));
-		$this->background_1_header->setValue(constant("DEFINE_STYLE_BCK_".$this->current_style_val."_HEADER"));
-		$this->border_table_1->setValue(constant("DEFINE_STYLE_BORDER_TABLE_".$this->current_style_val));
-		$this->color_1_header->setValue(constant("DEFINE_STYLE_COLOR_".$this->current_style_val."_HEADER"));
-		$this->style1_header_link->setValue(constant("DEFINE_STYLE_COLOR_".$this->current_style_val."_HEADER_LINK"));
-		$this->style1_header_link_hover->setValue(constant("DEFINE_STYLE_COLOR_".$this->current_style_val."_HEADER_LINK_HOVER"));
-		$this->background_1->setValue(constant("DEFINE_STYLE_BCK_".$this->current_style_val));
-		$this->color_1->setValue(constant("DEFINE_STYLE_COLOR_".$this->current_style_val));
-		$this->style1_color_link->setValue(constant("DEFINE_STYLE_COLOR_".$this->current_style_val."_LINK"));
-		$this->style1_color_link_hover->setValue(constant("DEFINE_STYLE_COLOR_".$this->current_style_val."_LINK_HOVER"));
-		$this->color_shadow->setValue(constant("DEFINE_STYLE_OMBRE_COLOR_".$this->current_style_val));
+		if ($this->current_style_display->getValue() > NB_DEFINE_STYLE_BCK) {
+			$style_val_init = 1;
+			
+			if (!defined('DEFINE_STYLE_BCK_'.$this->current_style_display->getValue())) {
+				define('DEFINE_STYLE_BCK_'.$this->current_style_display->getValue(), constant('DEFINE_STYLE_BCK_'.$style_val_init));
+			}
+			if (!defined('DEFINE_STYLE_COLOR_'.$this->current_style_display->getValue())) {
+				define('DEFINE_STYLE_COLOR_'.$this->current_style_display->getValue(), constant('DEFINE_STYLE_COLOR_'.$style_val_init));
+			}
+		} else {
+			$style_val_init = $this->current_style_val;
+		}
+		
+		$this->background_picture_1->setValue(str_replace("../img/", "img/", str_replace("../wsp/img/", "wsp/img/", constant("DEFINE_STYLE_BCK_PICTURE_".$style_val_init))));
+		$this->background_1_header->setValue(constant("DEFINE_STYLE_BCK_".$style_val_init."_HEADER"));
+		$this->border_table_1->setValue(constant("DEFINE_STYLE_BORDER_TABLE_".$style_val_init));
+		$this->color_1_header->setValue(constant("DEFINE_STYLE_COLOR_".$style_val_init."_HEADER"));
+		$this->style1_header_link->setValue(constant("DEFINE_STYLE_COLOR_".$style_val_init."_HEADER_LINK"));
+		$this->style1_header_link_hover->setValue(constant("DEFINE_STYLE_COLOR_".$style_val_init."_HEADER_LINK_HOVER"));
+		$this->background_1->setValue(constant("DEFINE_STYLE_BCK_".$style_val_init));
+		$this->color_1->setValue(constant("DEFINE_STYLE_COLOR_".$style_val_init));
+		$this->style1_color_link->setValue(constant("DEFINE_STYLE_COLOR_".$style_val_init."_LINK"));
+		$this->style1_color_link_hover->setValue(constant("DEFINE_STYLE_COLOR_".$style_val_init."_LINK_HOVER"));
+		$this->color_shadow->setValue(constant("DEFINE_STYLE_OMBRE_COLOR_".$style_val_init));
 		
 		$this->changeBackgroundPicture1();
 	}
 	
 	public function changeGradient($sender) {
-		if ($this->style_gradient->getValue() == "on") {
+		if ($this->style_gradient->isChecked()) {
 			
 		}
 	}

@@ -42,6 +42,17 @@ if (isset($is_call_from_wsp_admin_update) && $is_call_from_wsp_admin_update == t
 	// Update: version 1.0.88
 	rrmdir($base_dir."/wsp/class/display/advanced_object/social_network/");
 	
+	// Update: version 1.0.90
+	rrmdir($base_dir."/wsp/css/jquery1.8.6/");
+	unlink($base_dir."/wsp/js/jquery-1.5.2.min.js");
+	unlink($base_dir."/wsp/js/jquery-ui-1.8.12.custom.min.js");
+	unlink($base_dir."/wsp/js/jquery.qtip-1.0.0-rc3.min.js");
+	
+	
+	// reset current CSS and JS cache
+	rrmdir($base_dir."/wsp/cache/css/");
+	rrmdir($base_dir."/wsp/cache/js/");
+	rrmdir($base_dir."/wsp/cache/adsense/");
 	
 	// Move wsp-admin folder to the define folder on the file wsp/config/config_admin.inc.php
 	include_once($base_dir."/wsp/config/config_admin.inc.php");

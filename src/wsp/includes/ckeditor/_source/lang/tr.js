@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+Copyright (c) 2003-2011, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
@@ -33,8 +33,8 @@ CKEDITOR.lang['tr'] =
 	editorTitle : 'Zengin metin editörü, %1, yardım için ALT 0 tuşuna basın.',
 
 	// ARIA descriptions.
-	toolbar	: 'Toolbar',
-	editor	: 'Zengin Metin Editörü',
+	toolbars	: 'Editor toolbars', // MISSING
+	editor		: 'Zengin Metin Editörü',
 
 	// Toolbar buttons without dialogs.
 	source			: 'Kaynak',
@@ -55,6 +55,7 @@ CKEDITOR.lang['tr'] =
 	superscript		: 'Üst Simge',
 	horizontalrule	: 'Yatay Satır Ekle',
 	pagebreak		: 'Sayfa Sonu Ekle',
+	pagebreakAlt		: 'Page Break', // MISSING
 	unlink			: 'Köprü Kaldır',
 	undo			: 'Geri Al',
 	redo			: 'Tekrarla',
@@ -108,6 +109,19 @@ CKEDITOR.lang['tr'] =
 		langDirRTL		: 'Right to Left (RTL)', // MISSING
 		styles			: 'Style', // MISSING
 		cssClasses		: 'Stylesheet Classes', // MISSING
+		width			: 'Genişlik',
+		height			: 'Yükseklik',
+		align			: 'Hizalama',
+		alignLeft		: 'Sol',
+		alignRight		: 'Sağ',
+		alignCenter		: 'Merkez',
+		alignTop		: 'Tepe',
+		alignMiddle		: 'Orta',
+		alignBottom		: 'Alt',
+		invalidHeight	: 'Yükseklik sayı olmalıdır.',
+		invalidWidth	: 'Genişlik bir sayı olmalıdır.',
+		invalidCssLength	: 'Value specified for the "%1" field must be a positive number with or without a valid CSS measurement unit (px, %, in, cm, mm, em, ex, pt, or pc).', // MISSING
+		invalidHtmlLength	: 'Value specified for the "%1" field must be a positive number with or without a valid HTML measurement unit (px or %).', // MISSING
 
 		// Put the voice-only part of the label in the span.
 		unavailable		: '%1<span class="cke_accessibility">, hazır değildir</span>'
@@ -154,9 +168,7 @@ CKEDITOR.lang['tr'] =
 		popupFullScreen	: 'Tam Ekran (IE)',
 		popupScrollBars	: 'Kaydırma Çubukları',
 		popupDependent	: 'Bağımlı (Netscape)',
-		popupWidth		: 'Genişlik',
 		popupLeft		: 'Sola Göre Konum',
-		popupHeight		: 'Yükseklik',
 		popupTop		: 'Yukarıya Göre Konum',
 		id				: 'Id',
 		langDir			: 'Dil Yönü',
@@ -164,18 +176,19 @@ CKEDITOR.lang['tr'] =
 		langDirRTL		: 'Sağdan Sola (RTL)',
 		acccessKey		: 'Erişim Tuşu',
 		name			: 'Ad',
-		langCode		: 'Dil Yönü',
-		tabIndex		: 'Sekme İndeksi',
-		advisoryTitle	: 'Danışma Başlığı',
+		langCode			: 'Dil Yönü',
+		tabIndex			: 'Sekme İndeksi',
+		advisoryTitle		: 'Danışma Başlığı',
 		advisoryContentType	: 'Danışma İçerik Türü',
 		cssClasses		: 'Biçem Sayfası Sınıfları',
 		charset			: 'Bağlı Kaynak Karakter Gurubu',
 		styles			: 'Biçem',
-		selectAnchor	: 'Bağlantı Seç',
+		rel			: 'Relationship', // MISSING
+		selectAnchor		: 'Bağlantı Seç',
 		anchorName		: 'Bağlantı Adı ile',
-		anchorId		: 'Eleman Kimlik Numarası ile',
-		emailAddress	: 'E-Posta Adresi',
-		emailSubject	: 'İleti Konusu',
+		anchorId			: 'Eleman Kimlik Numarası ile',
+		emailAddress		: 'E-Posta Adresi',
+		emailSubject		: 'İleti Konusu',
 		emailBody		: 'İleti Gövdesi',
 		noAnchors		: '(Bu belgede hiç çapa yok)',
 		noUrl			: 'Lütfen Link URL\'sini yazın',
@@ -189,7 +202,8 @@ CKEDITOR.lang['tr'] =
 		menu		: 'Bağlantı Özellikleri',
 		title		: 'Bağlantı Özellikleri',
 		name		: 'Bağlantı Adı',
-		errorName	: 'Lütfen bağlantı için ad giriniz'
+		errorName	: 'Lütfen bağlantı için ad giriniz',
+		remove		: 'Remove Anchor' // MISSING
 	},
 
 	// List style dialog
@@ -242,15 +256,9 @@ CKEDITOR.lang['tr'] =
 		rows		: 'Satırlar',
 		columns		: 'Sütunlar',
 		border		: 'Kenar Kalınlığı',
-		align		: 'Hizalama',
-		alignLeft	: 'Sol',
-		alignCenter	: 'Merkez',
-		alignRight	: 'Sağ',
-		width		: 'Genişlik',
 		widthPx		: 'piksel',
 		widthPc		: 'yüzde',
 		widthUnit	: 'genişlik birimi',
-		height		: 'Yükseklik',
 		cellSpace	: 'Izgara kalınlığı',
 		cellPad		: 'Izgara yazı arası',
 		caption		: 'Başlık',
@@ -286,9 +294,6 @@ CKEDITOR.lang['tr'] =
 			wordWrap		: 'Kelime Kaydırma',
 			hAlign			: 'Düşey Hizalama',
 			vAlign			: 'Yataş Hizalama',
-			alignTop		: 'Üst',
-			alignMiddle		: 'Orta',
-			alignBottom		: 'Alt',
 			alignBaseline	: 'Tabana',
 			bgColor			: 'Arkaplan Rengi',
 			borderColor		: 'Çerçeve Rengi',
@@ -409,24 +414,16 @@ CKEDITOR.lang['tr'] =
 		btnUpload	: 'Sunucuya Yolla',
 		upload		: 'Karşıya Yükle',
 		alt			: 'Alternatif Yazı',
-		width		: 'Genişlik',
-		height		: 'Yükseklik',
 		lockRatio	: 'Oranı Kilitle',
-		unlockRatio	: 'Kilitli Oran',
 		resetSize	: 'Boyutu Başa Döndür',
 		border		: 'Kenar',
 		hSpace		: 'Yatay Boşluk',
 		vSpace		: 'Dikey Boşluk',
-		align		: 'Hizalama',
-		alignLeft	: 'Sol',
-		alignRight	: 'Sağ',
 		alertUrl	: 'Lütfen resmin URL\'sini yazınız',
 		linkTab		: 'Köprü',
 		button2Img	: 'Seçili resim butonunu basit resime çevirmek istermisiniz?',
 		img2Button	: 'Seçili olan resimi, resimli butona çevirmek istermisiniz?',
 		urlMissing	: 'Resmin URL kaynağı eksiktir.',
-		validateWidth	: 'Genişlik tam sayı olmalıdır.',
-		validateHeight	: 'Yükseklik tam sayı olmalıdır.',
 		validateBorder	: 'Çerçeve tam sayı olmalıdır.',
 		validateHSpace	: 'HSpace tam sayı olmalıdır.',
 		validateVSpace	: 'VSpace tam sayı olmalıdır.'
@@ -450,16 +447,10 @@ CKEDITOR.lang['tr'] =
 		accessAlways	: 'Herzaman',
 		accessSameDomain: 'Aynı domain',
 		accessNever		: 'Asla',
-		align			: 'Hizalama',
-		alignLeft		: 'Sol',
 		alignAbsBottom	: 'Tam Altı',
 		alignAbsMiddle	: 'Tam Ortası',
 		alignBaseline	: 'Taban Çizgisi',
-		alignBottom		: 'Alt',
-		alignMiddle		: 'Orta',
-		alignRight		: 'Sağ',
 		alignTextTop	: 'Yazı Tepeye',
-		alignTop		: 'Tepe',
 		quality			: 'Kalite',
 		qualityBest		: 'En iyi',
 		qualityHigh		: 'Yüksek',
@@ -473,13 +464,9 @@ CKEDITOR.lang['tr'] =
 		windowMode		: 'Pencere modu',
 		flashvars		: 'Flash Değerleri',
 		bgcolor			: 'Arka Renk',
-		width			: 'Genişlik',
-		height			: 'Yükseklik',
 		hSpace			: 'Yatay Boşluk',
 		vSpace			: 'Dikey Boşluk',
 		validateSrc		: 'Lütfen köprü URL\'sini yazın',
-		validateWidth	: 'Genişlik bir sayı olmalıdır.',
-		validateHeight	: 'Yükseklik sayı olmalıdır.',
 		validateHSpace	: 'HSpace sayı olmalıdır.',
 		validateVSpace	: 'VSpace sayı olmalıdır.'
 	},
@@ -614,6 +601,15 @@ CKEDITOR.lang['tr'] =
 		remove				: 'Div Kaldır'
   	},
 
+	iframe :
+	{
+		title		: 'IFrame Properties', // MISSING
+		toolbar		: 'IFrame', // MISSING
+		noUrl		: 'Please type the iframe URL', // MISSING
+		scrolling	: 'Enable scrollbars', // MISSING
+		border		: 'Show frame border' // MISSING
+	},
+
 	font :
 	{
 		label		: 'Yazı Türü',
@@ -720,6 +716,8 @@ CKEDITOR.lang['tr'] =
 	{
 		title		: 'CKEditor Hakkında',
 		dlgTitle	: 'CKEditor Hakkında',
+		help	: 'Check $1 for help.', // MISSING
+		userGuide : 'CKEditor User\'s Guide', // MISSING
 		moreInfo	: 'Lisanslama hakkında daha fazla bilgi almak için lütfen sitemizi ziyaret edin:',
 		copy		: 'Copyright &copy; $1. Tüm hakları saklıdır.'
 	},
@@ -729,10 +727,11 @@ CKEDITOR.lang['tr'] =
 
 	fakeobjects :
 	{
-		anchor	: 'Bağlantı',
-		flash	: 'Flash Animasyonu',
-		div		: 'Sayfa Kesimi',
-		unknown	: 'Bilinmeyen Nesne'
+		anchor		: 'Bağlantı',
+		flash		: 'Flash Animasyonu',
+		iframe		: 'IFrame', // MISSING
+		hiddenfield	: 'Hidden Field', // MISSING
+		unknown		: 'Bilinmeyen Nesne'
 	},
 
 	resize : 'Boyutlandırmak için sürükle',
@@ -749,9 +748,64 @@ CKEDITOR.lang['tr'] =
 	toolbarCollapse	: 'Toolbar\'ı topla',
 	toolbarExpand	: 'Toolbar\'ı aç',
 
+	toolbarGroups :
+	{
+		document : 'Document', // MISSING
+		clipboard : 'Clipboard/Undo', // MISSING
+		editing : 'Editing', // MISSING
+		forms : 'Forms', // MISSING
+		basicstyles : 'Basic Styles', // MISSING
+		paragraph : 'Paragraph', // MISSING
+		links : 'Links', // MISSING
+		insert : 'Insert', // MISSING
+		styles : 'Styles', // MISSING
+		colors : 'Colors', // MISSING
+		tools : 'Tools' // MISSING
+	},
+
 	bidi :
 	{
 		ltr : 'Text direction from left to right', // MISSING
 		rtl : 'Text direction from right to left' // MISSING
+	},
+
+	docprops :
+	{
+		label : 'Belge Özellikleri',
+		title : 'Belge Özellikleri',
+		design : 'Design', // MISSING
+		meta : 'Tanım Bilgisi (Meta)',
+		chooseColor : 'Seçiniz',
+		other : '<diğer>',
+		docTitle :	'Sayfa Başlığı',
+		charset : 	'Karakter Kümesi Kodlaması',
+		charsetOther : 'Diğer Karakter Kümesi Kodlaması',
+		charsetASCII : 'ASCII', // MISSING
+		charsetCE : 'Orta Avrupa',
+		charsetCT : 'Geleneksel Çince (Big5)',
+		charsetCR : 'Kiril',
+		charsetGR : 'Yunanca',
+		charsetJP : 'Japonca',
+		charsetKR : 'Korece',
+		charsetTR : 'Türkçe',
+		charsetUN : 'Unicode (UTF-8)', // MISSING
+		charsetWE : 'Batı Avrupa',
+		docType : 'Belge Türü Başlığı',
+		docTypeOther : 'Diğer Belge Türü Başlığı',
+		xhtmlDec : 'XHTML Bildirimlerini Dahil Et',
+		bgColor : 'Arka Plan Rengi',
+		bgImage : 'Arka Plan Resim URLsi',
+		bgFixed : 'Sabit Arka Plan',
+		txtColor : 'Yazı Rengi',
+		margin : 'Kenar Boşlukları',
+		marginTop : 'Tepe',
+		marginLeft : 'Sol',
+		marginRight : 'Sağ',
+		marginBottom : 'Alt',
+		metaKeywords : 'Belge Dizinleme Anahtar Kelimeleri (virgülle ayrılmış)',
+		metaDescription : 'Belge Tanımı',
+		metaAuthor : 'Yazar',
+		metaCopyright : 'Telif',
+		previewHtml : '<p>This is some <strong>sample text</strong>. You are using <a href="javascript:void(0)">CKEditor</a>.</p>' // MISSING
 	}
 };

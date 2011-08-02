@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.0.90
  * @access      public
  * @since       1.0.17
  */
@@ -426,8 +426,12 @@ class Editor extends WebSitePhpObject {
 			}
 		}
 		$html .= "				 });
-						CKEDITOR.instances['".$this->name."'].on('blur', copyEditorContent_".$this->name."ToHidden);
-					};";
+						CKEDITOR.instances['".$this->name."'].on('blur', function() { copyEditorContent_".$this->name."ToHidden();";
+		if ($this->form_object != null) {
+			$html .= "setFormObjectChangeEvent('".$this->form_object->getId()."', document.getElementById('hidden_".$this->name."'));";
+		}
+		$html .= " });\n";
+		$html .= "				};";
 		$html .= "	copyEditorContent_".$this->name."ToHidden = function() { var content_editor=getEditorContent_".$this->name."();$('#hidden_".$this->name."').val(content_editor);$('#".$this->getId()."').val(''); };\n";
 		$html .= "	setEditorContent_".$this->name." = function(content) {
 						if (CKEDITOR.instances['".$this->name."']) {

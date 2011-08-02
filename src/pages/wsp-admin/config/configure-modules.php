@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 06/06/2011
- * @version     1.0.89
+ * @version     1.0.90
  * @access      public
  * @since       1.0.85
  */
@@ -37,7 +37,7 @@ class ConfigureModules extends Page {
 		$config_modules_obj = new Object();
 		
 		$construction_page = new Object(__(PAGE_IN_CONSTRUCTION));
-		$construction_page->setClass("error");
+		$construction_page->setClass("warning");
 		$config_modules_obj->add($construction_page);
 		
 		$config_modules_obj->add("<br/>", __(PRESENTATION), "<br/><br/>");

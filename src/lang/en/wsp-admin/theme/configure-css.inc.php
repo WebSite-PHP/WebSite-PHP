@@ -32,4 +32,5 @@
 	define("TEXT_ON_BODY", "Sample text on the page");
 	define("LINK_ON_BODY", "Sample link on the page");
 	define("BODY_TEXT_LINK_NOTE", "See bottom of page");
+	define("WARNING_CHANGE_PLEASE_SAVE", "Warning, please save the form before change this field.");
 ?>

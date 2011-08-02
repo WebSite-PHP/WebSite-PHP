@@ -18,8 +18,8 @@
  * @subpackage advanced_object.event_object
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 29/04/2011
- * @version     1.0.81
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.90
  * @access      public
  * @since       1.0.77
  */
@@ -29,20 +29,21 @@ class ToolTip extends WebSitePhpObject {
 	* @access private
 	*/
 	private $id = "";
-	private $params = "";
 	private $content = "";
+	private $params = "";
 	/**#@-*/
 	
 	/**
 	 * Constructor ToolTip
-	 * @param string $params 
 	 * @param string $content 
+	 * @param string $params 
 	 */
-	function __construct($params='', $content='') {
-		$this->params = $params;
+	function __construct($content='', $params='') {
 		$this->content = $content;
+		$this->params = $params;
 		
-		$this->addJavaScript(BASE_URL."wsp/js/jquery.qtip-1.0.0-rc3.min.js", "", true);
+		$this->addJavaScript(BASE_URL."wsp/js/jquery.qtip.min.js", "", true);
+		$this->addCss(BASE_URL."wsp/css/jquery.qtip.css", "", true);
 	}
 	
 	/**
@@ -100,6 +101,7 @@ class ToolTip extends WebSitePhpObject {
 		$html = "";
 		$html .= "$(document).ready(function() {\n";
 		$html .= "	$('#".$this->id."').qtip({ content: ".(($this->content=="")?"$('#".$this->id."').title":"'".str_replace("'", "&#39;", $this->content)."'");
+		$html .= ", style: { widget: true }";
 		if ($this->params != "") {
 			$html .= ", ".$this->params;
 		}

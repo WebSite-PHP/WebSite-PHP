@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.90
  * @access      public
  * @since       1.0.25
  */
@@ -197,11 +197,11 @@ class ConfigureSite extends Page {
 	
 	public function configureSite() {
 		$data_config_file = "<?php\n";
-		$data_config_file .= "define(\"SITE_NAME\", \"".utf8_decode($this->edtName->getValue())."\");\n";
-		$data_config_file .= "define(\"SITE_DESC\", \"".utf8_decode($this->edtDesc->getValue())."\");\n";
-		$data_config_file .= "define(\"SITE_KEYS\", \"".utf8_decode($this->edtKey->getValue())."\");\n";
+		$data_config_file .= "define(\"SITE_NAME\", \"".str_replace("\"", "\\\"", utf8_decode($this->edtName->getValue()))."\");\n";
+		$data_config_file .= "define(\"SITE_DESC\", \"".str_replace("\"", "\\\"", html_entity_decode(utf8_decode($this->edtDesc->getValue())))."\");\n";
+		$data_config_file .= "define(\"SITE_KEYS\", \"".str_replace("\"", "\\\"", utf8_decode($this->edtKey->getValue()))."\");\n";
 		$data_config_file .= "define(\"SITE_RATING\", \"".$this->cmbRating->getValue()."\"); // general, mature, restricted, 14years\n";
-		$data_config_file .= "define(\"SITE_AUTHOR\", \"".$this->edtAuthor->getValue()."\");\n";
+		$data_config_file .= "define(\"SITE_AUTHOR\", \"".str_replace("\"", "\\\"", $this->edtAuthor->getValue())."\");\n";
 		$data_config_file .= "define(\"SITE_DEFAULT_LANG\", \"".$this->cmbLanguage->getValue()."\"); // en, fr, ...\n";
 		$data_config_file .= "\n";
 		$data_config_file .= "define(\"GOOGLE_CODE_TRACKER\", \"".$this->edtGoogleTracker->getValue()."\");\n";
@@ -221,6 +221,8 @@ class ConfigureSite extends Page {
 		$data_config_file .= "); // 12 heures = 60*60*12\n";
 		$data_config_file .= "\n";
 		$data_config_file .= "define(\"JQUERY_LOAD_LOCAL\", ".$this->cmbJqueryLocal->getValue()."); // if false load jquery from google else load from local\n";
+		$data_config_file .= "define(\"JQUERY_VERSION\", \"1.6.2\");\n";
+		$data_config_file .= "define(\"JQUERY_UI_VERSION\", \"1.8.14\");\n";
 		//$data_config_file .= "define(\"JS_COMPRESSION_TYPE\", \"".$this->cmbJsCompression->getValue()."\"); // type of Javascript compression (GOOGLE_WS, LOCAL, NONE)\n";
 		$data_config_file .= "define(\"JS_COMPRESSION_TYPE\", \"NONE\"); // Javascript compression (GOOGLE_WS, LOCAL, NONE (recommand))\n";
 		$data_config_file .= "\n";

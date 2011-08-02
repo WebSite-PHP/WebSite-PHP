@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.90
  * @access      public
  * @since       1.0.23
  */
@@ -26,14 +26,26 @@ function CssIncludeComparator($a, $b) {
 	
 	// put to begin array_css_to_begin css
 	if (sizeof($array_put_css_to_begin) > 0) {
-		if (in_array(str_replace(BASE_URL, "", $a), $array_put_css_to_begin)) { return -1; }
-		if (in_array(str_replace(BASE_URL, "", $b), $array_put_css_to_begin)) { return 1; }
+		$a_array_index = array_search(str_replace(BASE_URL, "", $a), $array_put_css_to_begin);
+		$b_array_index = array_search(str_replace(BASE_URL, "", $b), $array_put_css_to_begin);
+		if ($a_array_index !== false && $b_array_index !== false) { 
+			if ($a_array_index < $b_array_index) { return -1; }
+			else { return 1; }
+		}
+		if ($a_array_index !== false) { return -1; }
+		if ($b_array_index !== false) { return 1; }
 	}
 	
 	// put to end array_css_to_end css
 	if (sizeof($array_put_css_to_end) > 0) {
-		if (in_array(str_replace(BASE_URL, "", $a), $array_put_css_to_end)) { return 1; }
-		if (in_array(str_replace(BASE_URL, "", $b), $array_put_css_to_end)) { return -1; }
+		$a_array_index = array_search(str_replace(BASE_URL, "", $a), $array_put_css_to_end);
+		$b_array_index = array_search(str_replace(BASE_URL, "", $b), $array_put_css_to_end);
+		if ($a_array_index !== false && $b_array_index !== false) { 
+			if ($a_array_index < $b_array_index) { return -1; }
+			else { return 1; }
+		}
+		if ($a_array_index !== false) { return 1; }
+		if ($b_array_index !== false) { return -1; }
 	}
 	
 	// normal use of comparator

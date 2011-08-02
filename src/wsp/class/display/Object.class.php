@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.90
  * @access      public
  * @since       1.0.17
  */
@@ -842,7 +842,8 @@ class Object extends WebSitePhpEventObject {
 		
 		if ($this->sortable) {
 			$html .= "\n".$this->getJavascriptTagOpen();
-			$html .= "$('#".$this->getId()."').mousedown(function(e) { e.stopPropagation(); return false; });\n"; // ack for IE
+			// remove since include jquery 1.6.2 (wsp 1.0.90)
+			//$html .= "$('#".$this->getId()."').mousedown(function(e) { e.stopPropagation(); return false; });\n"; // ack for IE
 			$html .= "$('#".$this->getId()."').sortable({connectWith: '.sortable'";
 			if ($this->sortable_params != "") {
 				$html .= ", ".$this->sortable_params;
