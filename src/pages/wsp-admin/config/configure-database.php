@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.0.91
  * @access      public
  * @since       1.0.25
  */
@@ -338,7 +338,9 @@ class ConfigureDatabase extends Page {
 		}
 		
 		if (!$is_primary) {
-			$this->addObject(new DialogBox(__(PRIMARY_KEY), __(NO_PRIMARY_KEY, $database, $table)));
+			$dialog = new DialogBox(__(PRIMARY_KEY), __(NO_PRIMARY_KEY, $database, $table));
+			$dialog->activateCloseButton();
+			$this->addObject($dialog);
 			return false;
 		}
 		

@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.0.91
  * @access      public
  * @since       1.0.25
  */
@@ -117,10 +117,12 @@ class ConfigureSmtp extends Page {
 		$config_file->close();
 		
 		if ($config_ok) {
-			$this->addObject(new DialogBox(__(CONFIG_FILE), __(CONFIG_FILE_OK)));
+			$result_dialogbox = new DialogBox(__(CONFIG_FILE), __(CONFIG_FILE_OK));
 		} else {
-			$this->addObject(new DialogBox(__(CONFIG_FILE), __(CONFIG_FILE_NOT_OK)));
+			$result_dialogbox = new DialogBox(__(CONFIG_FILE), __(CONFIG_FILE_NOT_OK));
 		}
+		$result_dialogbox->activateCloseButton();
+		$this->addObject($result_dialogbox);
 	}
 	
 	public function changeCmbAuth($sender) {

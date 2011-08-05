@@ -14,7 +14,8 @@ if (isset($is_call_from_wsp_admin_update) && $is_call_from_wsp_admin_update == t
 	$array_lang_dir = scandir($base_dir."/lang");
 	for ($i=0; $i < sizeof($array_lang_dir); $i++) {
 		if (is_dir($base_dir."/lang/".$array_lang_dir[$i]) && $array_lang_dir[$i] != "" && 
-			$array_lang_dir[$i] != "." && $array_lang_dir[$i] != ".." && strlen($array_lang_dir[$i]) == 2) {
+			$array_lang_dir[$i] != "." && $array_lang_dir[$i] != ".." && $array_lang_dir[$i] != ".svn" && 
+			strlen($array_lang_dir[$i]) == 2) {
 				if (!in_array($array_lang_dir[$i], $array_lang_used)) {
 					rrmdir($base_dir."/lang/".$array_lang_dir[$i]."/");
 				}
@@ -47,6 +48,12 @@ if (isset($is_call_from_wsp_admin_update) && $is_call_from_wsp_admin_update == t
 	unlink($base_dir."/wsp/js/jquery-1.5.2.min.js");
 	unlink($base_dir."/wsp/js/jquery-ui-1.8.12.custom.min.js");
 	unlink($base_dir."/wsp/js/jquery.qtip-1.0.0-rc3.min.js");
+	
+	// Update: version 1.0.91
+	rrmdir($base_dir."/wsp/includes/GraphicLib");
+	rrmdir($base_dir."/wsp/includes/fpdf");
+	rrmdir($base_dir."/wsp/includes/RSS-Generator");
+	rrmdir($base_dir."/wsp/includes/RSS-Reader");
 	
 	
 	// reset current CSS and JS cache
@@ -103,5 +110,7 @@ Options +FollowSymLinks
 		
 		unlink($base_dir."/update.htaccess");
 	}
+} else {
+	$bool = false;
 }
 ?>

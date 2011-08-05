@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 06/06/2011
- * @version     1.0.90
+ * @version     1.0.91
  * @access      public
  * @since       1.0.85
  */
@@ -84,7 +84,7 @@ class ConfigureModules extends Page {
 		$array_module_dir = scandir($folder);
 		for ($i=0; $i < sizeof($array_module_dir); $i++) {
 			if (is_dir($folder."/".$array_module_dir[$i]) && !in_array($array_module_dir[$i], $array_active_modules) &&
-				$array_module_dir[$i] != "." && $array_module_dir[$i] != "..") {
+				$array_module_dir[$i] != "." && $array_module_dir[$i] != ".." && $array_module_dir[$i] != ".svn") {
 					$module_obj = new Object($array_module_dir[$i]);
 					$module_obj->setId("module_".$array_module_dir[$i])->forceDivTag();
 					$module_obj->setDraggable(true, false, null, true)->setStyle($module_style);

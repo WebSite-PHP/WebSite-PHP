@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.84
+ * @version     1.0.91
  * @access      public
  * @since       0
  */
@@ -72,18 +72,6 @@
 		loadWspClass("wsp/class/webservice/wsp");
 	}
 
-	// PHP Mailer
-	require("wsp/includes/PHP-Mailer/class.phpmailer.php"); 
-	
-	// RSS Feed parser (magpierss)
-	require("wsp/includes/RSS-Reader/feedparser.php");
-	
-	// RSS Feed generator
-	require("wsp/includes/RSS-Generator/RSSFeed.class.php");
-	
-	// PDF generator
-	require("wsp/includes/fpdf/fpdf.php");
-	
 	// Load Defined Zone
 	$array_defined_zone_dir = scandir("pages/defined_zone");
 	for ($i=0; $i < sizeof($array_defined_zone_dir); $i++) {

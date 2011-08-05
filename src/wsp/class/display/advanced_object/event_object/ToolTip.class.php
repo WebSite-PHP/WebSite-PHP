@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.90
+ * @version     1.0.91
  * @access      public
  * @since       1.0.77
  */
@@ -43,7 +43,7 @@ class ToolTip extends WebSitePhpObject {
 		$this->params = $params;
 		
 		$this->addJavaScript(BASE_URL."wsp/js/jquery.qtip.min.js", "", true);
-		$this->addCss(BASE_URL."wsp/css/jquery.qtip.css", "", true);
+		$this->addCss(BASE_URL."wsp/css/jquery.qtip.css");
 	}
 	
 	/**
@@ -80,6 +80,16 @@ class ToolTip extends WebSitePhpObject {
 	public function setContent($content) {
 		$this->content = $content;
 		return $this;
+	}
+	
+	/**
+	 * Method getParams
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.91
+	 */
+	public function getParams() {
+		return $this->params;
 	}
 	
 	/**

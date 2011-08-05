@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.84
+ * @version     1.0.91
  * @access      public
  * @since       1.0.19
  */
@@ -427,7 +427,7 @@
 		if (is_dir($dir)) {
 			$objects = scandir($dir);
 			foreach ($objects as $object) {
-				if ($object != "." && $object != "..") {
+				if ($object != "." && $object != ".." && $object != ".svn") {
 					if (filetype($dir."/".$object) == "dir") rrmdir($dir."/".$object); else unlink($dir."/".$object);
 				}
 			}

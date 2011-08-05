@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.90
+ * @version     1.0.91
  * @access      public
  * @since       1.0.19
  */
@@ -179,12 +179,12 @@
 			}
 		}
 	
-		$my_site_base_url = "";
+		$my_site_base_url_merge_css = "";
 		if (strrpos($_SERVER['REQUEST_URI'], "wsp/includes/css-merge.php") > 0) {
-			$my_site_base_url = substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], "wsp/includes/css-merge.php"));
+			$my_site_base_url_merge_css = substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], "wsp/includes/css-merge.php"));
 		}
 		if (strrpos($_SERVER['REQUEST_URI'], "combine-css/") > 0) {
-			$my_site_base_url = substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], "combine-css/"));
+			$my_site_base_url_merge_css = substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], "combine-css/"));
 		}
 	
 		// Get contents of the files
@@ -207,17 +207,17 @@
 				} else {
 					$tmp_content = file_get_contents($path);
 					if (sizeof($tmp_path_array) == 3 && substr($tmp_path_array[0], 0, 6) == "jquery") {
-						$tmp_content = str_replace("url(images/", "url(".$my_site_base_url."wsp/css/".$tmp_path_array[0]."/".$tmp_path_array[1]."/images/", $tmp_content);
+						$tmp_content = str_replace("url(images/", "url(".$my_site_base_url_merge_css."wsp/css/".$tmp_path_array[0]."/".$tmp_path_array[1]."/images/", $tmp_content);
 					}
 					$contents .= "\n\n".$tmp_content;
 				}
 			}
 		}
 		
-		if ($my_site_base_url != "") {
-			$contents = str_replace("../wsp/img/", $my_site_base_url."wsp/img/", $contents);
-			$contents = str_replace("../wsp/css/", $my_site_base_url."wsp/css/", $contents);
-			$contents = str_replace("../img/", $my_site_base_url."img/", $contents);
+		if ($my_site_base_url_merge_css != "") {
+			$contents = str_replace("../wsp/img/", $my_site_base_url_merge_css."wsp/img/", $contents);
+			$contents = str_replace("../wsp/css/", $my_site_base_url_merge_css."wsp/css/", $contents);
+			$contents = str_replace("../img/", $my_site_base_url_merge_css."img/", $contents);
 		}
 		
 		if ($type == 'css') {

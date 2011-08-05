@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.0.91
  * @access      public
  * @since       1.0.84
  */
@@ -43,10 +43,9 @@ class ContactForm extends WebSitePhpObject {
 	 * Constructor ContactForm
 	 * @param Page $page_object 
 	 * @param string $send_method 
-	 * @param string $button_class 
 	 * @param string $table_style 
 	 */
-	function __construct($page_object, $send_method, $button_class='', $table_style='') {
+	function __construct($page_object, $send_method, $table_style='') {
 		parent::__construct();
 		
 		if (!isset($page_object) || !isset($send_method)) {
@@ -93,9 +92,6 @@ class ContactForm extends WebSitePhpObject {
 		$table_main->addRow();
 		
 		$this->send_button = new Button($form, "contact_send", "", __(CONTACTFORM_SEND));
-		if ($button_class != '') {
-			$this->send_button->setClass($button_class);
-		}
 		$this->send_button->assignEnterKey()->onClick($send_method)->setAjaxEvent();
 		$table_main->addRow($this->send_button)->setColspan(3);
 		$table_main->addRow();

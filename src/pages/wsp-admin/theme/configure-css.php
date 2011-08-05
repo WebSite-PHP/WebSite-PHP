@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.90
+ * @version     1.0.91
  * @access      public
  * @since       1.0.25
  */
@@ -159,7 +159,7 @@ class ConfigureCss extends Page {
 		$files = scandir($dirname); 
 		for($i=0; $i < sizeof($files); $i++) {
 			$file = $files[$i];
-			if($file != '.' && $file != '..' && is_dir($dirname.$file)) {
+			if($file != '.' && $file != '..' && $file != '.svn' && is_dir($dirname.$file)) {
 				$this->style_jquery->addItem($file, $file, ($define_style_jquery==$file?true:false));
 			}
 		}
