@@ -150,10 +150,12 @@ class TreeView extends WebSitePhpObject {
 	private function createFolderNode($path, $treeview_folder, $link_file_template) {
 		$treeview_items = null;
 		$nb_file = 0;
-		if ($handle = opendir($path)) {
+		if (is_dir($path)) {
 			$treeview_items = new TreeViewItems();
-		    while (false !== ($file = readdir($handle))) {
-		    	if ($file == "." || $file == "..") {
+		    $files = scandir($path); 
+			for($i=0; $i < sizeof($files); $i++) {
+				$file = $files[$i];
+		    	if ($file == "." || $file == ".." || $file == ".svn") {
 		    		continue;
 		    	}
 		    	if (is_dir($path.$file)) {
@@ -166,7 +168,6 @@ class TreeView extends WebSitePhpObject {
 		    	}
 		    	$nb_file++;
 		    }
-		    closedir($handle);
 		}
 		if ($treeview_items != null && $nb_file > 0) {
 			$treeview_folder->setTreeViewItems($treeview_items);

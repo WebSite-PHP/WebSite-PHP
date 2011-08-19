@@ -32,6 +32,11 @@ class AutoComplete extends WebSitePhpObject {
 	private $autocomplete_min_length = 4;
 	private $autocomplete_event = null;
 	private $indicator_id = "";
+	
+	private $track_categ = "";
+	private $track_action = "";
+	private $track_label = "";
+	private $track_pageview = false;
 	/**#@-*/
 	
 	/**
@@ -69,6 +74,24 @@ class AutoComplete extends WebSitePhpObject {
 		$this->link_object_id = $id;
 	}
 	
+	public function setTrackEvent($category, $action, $label='') {
+		if (GOOGLE_CODE_TRACKER == "") {
+			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, 8, __FILE__, __LINE__);
+		}
+		$this->track_categ = $category;
+		$this->track_action = $action;
+		$this->track_label = $label;
+		return $this;
+	}
+	
+	public function setTrackPageView() {
+		if (GOOGLE_CODE_TRACKER == "") {
+			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, 8, __FILE__, __LINE__);
+		}
+		$this->track_pageview = true;
+		return $this;
+	}
+	
 	/**
 	 * Method render
 	 * @access public
@@ -83,7 +106,19 @@ class AutoComplete extends WebSitePhpObject {
 		$html .= "\$('#".$this->link_object_id."').autocomplete({ source: '".$this->autocomplete_url->render()."', minLength: ".$this->autocomplete_min_length.", ";
 		if ($this->indicator_id != "") {
 			$html .= "search: function( event, ui ) { $('#".$this->indicator_id."').css('display', 'block');$('#".$this->indicator_id."').css('visibility', 'visible'); }, ";
-			$html .= "open: function( event, ui ) { $('#".$this->indicator_id."').css('visibility', 'hidden'); }, ";
+		}
+		if ($this->indicator_id != "" || $this->track_categ != "" || $this->track_pageview) {
+			$html .= "open: function( event, ui ) { ";
+			if ($this->indicator_id != "") {
+				$html .= "$('#".$this->indicator_id."').css('visibility', 'hidden');";
+			}
+			if ($this->track_categ != "") {
+				$html .= "_gaq.push(['_trackEvent', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."']);";
+			}
+			if ($this->track_pageview) {
+				$html .= "_gaq.push(['_trackPageview', '/".str_replace($this->getPage()->getBaseURL(), "", $this->autocomplete_url->render())."?term='+urlencode(trim(\$('#".$this->link_object_id."').val()))]);";
+			}
+			$html .= " }, ";
 		}
 		$html .= "select: function( event, ui ) { ";
 		if ($this->autocomplete_event != null) {

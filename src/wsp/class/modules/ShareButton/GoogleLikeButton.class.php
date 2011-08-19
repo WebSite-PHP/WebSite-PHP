@@ -59,12 +59,6 @@ class GoogleLikeButton extends WebSitePhpObject {
 		$this->count = $count;
 		$this->url = $url;
 		$this->callback = $callback;
-		
-		if ($_SESSION['lang'] == "en") {
-			JavaScriptInclude::getInstance()->addUrlWithScript("https://apis.google.com/js/plusone.js", "");
-		} else {
-			JavaScriptInclude::getInstance()->addUrlWithScript("https://apis.google.com/js/plusone.js", "{lang: '".$_SESSION['lang']."'}");
-		}
 	}
 	
 	/**
@@ -90,7 +84,18 @@ class GoogleLikeButton extends WebSitePhpObject {
 		if ($this->url != "") {
 			$html .= " href=\"".$this->url."\"";
 		}
-		$html .= "></g:plusone>";
+		$html .= "></g:plusone>\n";
+		
+		$html .= "<script type=\"text/javascript\">\n";
+		if ($_SESSION['lang'] != "en") {
+			$html .= "window.___gcfg = {lang: '".$_SESSION['lang']."'};\n";
+		}
+		$html .= "(function() {\n";
+		$html .= "  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;\n";
+		$html .= "  po.src = 'https://apis.google.com/js/plusone.js';\n";
+		$html .= "  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);\n";
+		$html .= "})();\n";
+		$html .= "</script>\n";
 		
 		return $html;
 	}

@@ -32,6 +32,10 @@ class LinkPage extends WebSitePhpObject {
 	private $get = "";
 	private $tagH = "";
 	private $tagH_bold = false;
+	
+	private $track_categ = "";
+	private $track_action = "";
+	private $track_label = "";
 	/**#@-*/
 	
 	/**
@@ -109,6 +113,16 @@ class LinkPage extends WebSitePhpObject {
 		return $this;
 	}
 	
+	public function setTrackEvent($category, $action, $label='') {
+		if (GOOGLE_CODE_TRACKER == "") {
+			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, 8, __FILE__, __LINE__);
+		}
+		$this->track_categ = $category;
+		$this->track_action = $action;
+		$this->track_label = $label;
+		return $this;
+	}
+	
 	/**
 	 * Method getUserHaveRights
 	 * @access public
@@ -147,6 +161,9 @@ class LinkPage extends WebSitePhpObject {
 			} 
 		}
 		$html = new Link($link_url, Link::TARGET_NONE, $link_obj);
+		if ($this->track_categ != "") {
+			$html->setTrackEvent($this->track_categ, $this->track_action, $this->track_label);
+		}
 		if ($this->tagH != "") {
 			$html->setTitleTagH($this->tagH, $this->tagH_bold);
 		}

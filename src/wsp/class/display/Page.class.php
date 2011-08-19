@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.91
+ * @version     1.0.92
  * @access      public
  * @since       1.0.0
  */
@@ -78,6 +78,7 @@ class Page {
 	* @access private
 	*/
 	private $add_to_render = array();
+	private $add_to_render_begining = array();
 	private $page_is_display = false;
 	
 	private $page_is_caching = false;
@@ -301,7 +302,7 @@ class Page {
 				} else {
 					$background_body_pic = DEFINE_STYLE_BCK_BODY_PIC;
 				}
-				$this->addObject(new JavaScript("$.backstretch(\"".$background_body_pic."\");"));
+				$this->addObject(new JavaScript("$.backstretch(\"".$background_body_pic."\");"), true);
 		}
 	}
 		
@@ -802,13 +803,18 @@ class Page {
 	 * Method addObject
 	 * @access public
 	 * @param WebSitePhpObject $object add script after the render of the page (ex: DialogBox, JavaScript, ...)
+	 * @param boolean $page_begining [default value: false]
 	 * @since 1.0.18
 	 */
-	public function addObject($object) {
+	public function addObject($object, $page_begining=false) {
 		if (!is_subclass_of($object, "WebSitePhpObject")) {
 			throw new NewException("You can't add this object ".get_class($this)." to the page, you must add WebSitePhpObject", 0, 8, __FILE__, __LINE__);
 		}
-		$this->add_to_render[] = $object;
+		if ($page_begining) {
+			$this->add_to_render_begining[] = $object;
+		} else {
+			$this->add_to_render[] = $object;
+		}
 	}
 	
 	/**
@@ -818,7 +824,7 @@ class Page {
 	 * @since 1.0.18
 	 */
 	public function getAddedObjects() {
-		return $this->add_to_render;
+		return array_merge($this->add_to_render_begining, $this->add_to_render);
 	}
 	
 	/**
@@ -853,6 +859,20 @@ class Page {
 			throw new NewException("Render object not set for the page ".$this->page." (Please set the variable \$this->render in class ".$this->class_name.")", 0, 8, __FILE__, __LINE__);
 		} else {
 			$html = "";
+			for ($i=0; $i < sizeof($this->add_to_render_begining); $i++) {
+				if ($this->add_to_render_begining[$i]->isJavascriptObject()) {
+					$html .= $this->add_to_render_begining[$i]->getJavascriptTagOpen();
+				}
+				if (gettype($this->add_to_render_begining[$i]) == "object" && method_exists($this->add_to_render_begining[$i], "render")) {
+					$html .= $this->add_to_render_begining[$i]->render();
+				} else {
+					$html .= $this->add_to_render_begining[$i];
+				}
+				$html .= "\n";
+				if ($this->add_to_render_begining[$i]->isJavascriptObject()) {
+					$html .= $this->add_to_render_begining[$i]->getJavascriptTagClose();
+				}
+			}
 			if (gettype($this->render) == "object" && method_exists($this->render, "render")) {
 				$html .= $this->render->render();
 			} else {
@@ -1217,6 +1237,17 @@ class Page {
 			CssInclude::getInstance()->add($css_array[$i]);
 		}
 		$this->create_object_to_get_css_js = false;
+	}
+	
+	/**
+	 * Method displayExecutionTime
+	 * @access public
+	 * @param string $info 
+	 * @since 1.0.92
+	 */
+	public function displayExecutionTime($info='') {
+		$wspPageTotalTime = elog_time($_SESSION['wspPageStartTime']);
+     	print "<b>Execution Time".($info!=""?" ".$info:"").":</b> ".round($wspPageTotalTime,3)." Seconds<br/>";
 	}
 }
 ?>

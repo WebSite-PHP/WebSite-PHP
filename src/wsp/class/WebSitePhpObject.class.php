@@ -225,6 +225,16 @@ class WebSitePhpObject {
 	}
 	
 	/**
+	 * Method getPage
+	 * @access public
+	 * @return Page
+	 * @since 1.0.92
+	 */
+	public function getPage() {
+		return Page::getInstance($_GET['p']);
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]

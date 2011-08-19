@@ -62,7 +62,13 @@ class Chart extends WebSitePhpObject {
 	* @var string
 	*/
 	const DATA_TYPE_NUMERIC = "";
-	const DATA_TYPE_TIME = "time";
+	const DATA_TYPE_DATE = "time_date";
+	const DATA_TYPE_TIME = "time_time";
+	const DATA_TYPE_DATETIME = "time_datetime";
+	const DATA_TYPE_DAY = "time_day";
+	const DATA_TYPE_MONTH = "time_month";
+	const DATA_TYPE_DAYMONTH = "time_daymonth";
+	const DATA_TYPE_YEAR = "time_year";
 	/**#@-*/
 	
 	/**#@+
@@ -77,7 +83,9 @@ class Chart extends WebSitePhpObject {
 	private $tracking_mode = "";
 	private $tracking_text = false;
 	private $x_data_type = "";
+	private $x_data_type_detail = "";
 	private $y_data_type = "";
+	private $y_data_type_detail = "";
 	private $x_min = "";
 	private $x_max = "";
 	private $y_min = "";
@@ -216,7 +224,9 @@ class Chart extends WebSitePhpObject {
 	 * @since 1.0.91
 	 */
 	public function setXAxisDataType($x_data_type="") {
-		$this->x_data_type = $x_data_type;
+		$array_data_type = explode("_", $x_data_type);
+		$this->x_data_type = $array_data_type[0];
+		$this->x_data_type_detail = $array_data_type[1];
 		return $this;
 	}
 	
@@ -228,7 +238,9 @@ class Chart extends WebSitePhpObject {
 	 * @since 1.0.91
 	 */
 	public function setYAxisDataType($y_data_type="") {
-		$this->y_data_type = $y_data_type;
+		$array_data_type = explode("_", $y_data_type);
+		$this->y_data_type = $array_data_type[0];
+		$this->y_data_type_detail = $array_data_type[1];
 		return $this;
 	}
 	
@@ -302,7 +314,13 @@ class Chart extends WebSitePhpObject {
 				}
 				if ($j > 0) { $html .= ", "; }
 				$x = $this->array_data[$i][$j][0];
+				if ($this->x_data_type == "time" && strlen($x) < 13) {
+					for ($k=strlen($x); $k < 13; $k++) { $x .= "0"; }
+				}
 				$y = $this->array_data[$i][$j][1];
+				if ($this->y_data_type == "time" && strlen($y) < 13) {
+					for ($k=strlen($y); $k < 13; $k++) { $y .= "0"; }
+				}
 				$html .= "[".(is_string($x)?"'".$x."'":$x).", ".(is_string($y)?"'".$y."'":$y)."]";
 			}
 			$html .= "];\n";
@@ -317,9 +335,13 @@ class Chart extends WebSitePhpObject {
 				if ($this->tracking_text) {
 					$html .= " = 0";
 					if ($this->tracking_mode == "y") {
-						$html .= $this->x_data_type;
+						if ($this->x_data_type != "time") {
+							$html .= $this->x_data_type;
+						}
 					} else {
-						$html .= $this->y_data_type;
+						if ($this->y_data_type != "time") {
+							$html .= $this->y_data_type;
+						}
 					}
 				}
 				$html .= "\",\n";
@@ -374,11 +396,7 @@ class Chart extends WebSitePhpObject {
 			if ($chart_param) { $html .= ", "; }
         	$html .= "xaxes: [ { ";
         	if ($this->x_data_type != Chart::DATA_TYPE_NUMERIC) {
-	        	if ($this->x_data_type != Chart::DATA_TYPE_TIME) {
-	        		$html .= "tickFormatter: xAxisFormatter";
-	        	} else {
-	        		$html .= "mode: '".$this->x_data_type."'";
-	        	}
+	        	$html .= "tickFormatter: xAxisFormatter";
 	        	$chart_param2 = true;
         	}
         	if ($this->x_min != "") {
@@ -399,11 +417,7 @@ class Chart extends WebSitePhpObject {
 			if ($chart_param) { $html .= ", "; }
         	$html .= "yaxes: [ { ";
         	if ($this->y_data_type != Chart::DATA_TYPE_NUMERIC) {
-        		if ($this->y_data_type != Chart::DATA_TYPE_TIME) {
-	        		$html .= "tickFormatter: yAxisFormatter";
-	        	} else {
-	        		$html .= "mode: '".$this->y_data_type."'";
-	        	}
+        		$html .= "tickFormatter: yAxisFormatter";
 	        	$chart_param2 = true;
         	}
         	if ($this->y_min != "") {
@@ -421,15 +435,55 @@ class Chart extends WebSitePhpObject {
 		}
 		$html .= "});\n";
 	
-		if ($this->x_data_type != Chart::DATA_TYPE_NUMERIC && $this->x_data_type != Chart::DATA_TYPE_TIME) {
-			$html .= "function xAxisFormatter(v, axis) {
-		        return v.toFixed(axis.tickDecimals) +\"".$this->x_data_type."\";
-		    }\n";
+		if ($this->x_data_type != Chart::DATA_TYPE_NUMERIC) {
+			if ($this->x_data_type == "time") {
+				$html .= "function xAxisFormatter(v, axis) { var d = new Date(v); return ";
+      	if ($this->x_data_type_detail == "time") {
+      		$html .= "(d.getHours()<10?'0'+d.getHours():d.getHours()) + ':' + (d.getMinutes()<10?'0'+d.getMinutes():d.getMinutes())";
+      	} else if ($this->x_data_type_detail == "date") {
+      		$html .= "$.datepicker.formatDate('yy-mm-dd', d)";
+      	} else if ($this->x_data_type_detail == "day") {
+      		$html .= "$.datepicker.formatDate('D', d)";
+      	} else if ($this->x_data_type_detail == "month") {
+      		$html .= "$.datepicker.formatDate('M', d)";
+      	} else if ($this->x_data_type_detail == "daymonth") {
+      		$html .= "$.datepicker.formatDate('d M', d)";
+      	} else if ($this->x_data_type_detail == "year") {
+      		$html .= "$.datepicker.formatDate('yy', d)";
+      	} else {
+      		$html .= "$.datepicker.formatDate('yy-mm-dd', d) + ' ' + (d.getHours()<10?'0'+d.getHours():d.getHours()) + ':' + (d.getMinutes()<10?'0'+d.getMinutes():d.getMinutes())";
+      	}
+      	$html .= "; }\n";
+			} else if (find($this->x_data_type, "%s") > 0) {
+				$html .= "function xAxisFormatter(v, axis) { return myReplace('".addslashes($this->x_data_type)."', '%s', v.toFixed(axis.tickDecimals)); }\n";
+			} else {
+				$html .= "function xAxisFormatter(v, axis) { return v.toFixed(axis.tickDecimals) + '".addslashes($this->x_data_type)."'; }\n";
+			}
 		}
-		if ($this->y_data_type != Chart::DATA_TYPE_NUMERIC && $this->y_data_type != Chart::DATA_TYPE_TIME) {
-			$html .= "function yAxisFormatter(v, axis) {
-		        return v.toFixed(axis.tickDecimals) +\"".$this->y_data_type."\";
-		    }\n";
+		if ($this->y_data_type != Chart::DATA_TYPE_NUMERIC) {
+			if ($this->y_data_type == "time") {
+				$html .= "function yAxisFormatter(v, axis) { var d = new Date(v); return ";
+      	if ($this->y_data_type_detail == "time") {
+      		$html .= "(d.getHours()<10?'0'+d.getHours():d.getHours()) + ':' + (d.getMinutes()<10?'0'+d.getMinutes():d.getMinutes())";
+      	} else if ($this->y_data_type_detail == "date") {
+      		$html .= "$.datepicker.formatDate('yy-mm-dd', d)";
+      	} else if ($this->y_data_type_detail == "day") {
+      		$html .= "$.datepicker.formatDate('D', d)";
+      	} else if ($this->y_data_type_detail == "month") {
+      		$html .= "$.datepicker.formatDate('M', d)";
+      	} else if ($this->y_data_type_detail == "daymonth") {
+      		$html .= "$.datepicker.formatDate('d M', d)";
+      	} else if ($this->y_data_type_detail == "year") {
+      		$html .= "$.datepicker.formatDate('yy', d)";
+      	} else {
+      		$html .= "$.datepicker.formatDate('yy-mm-dd', d) + ' ' + (d.getHours()<10?'0'+d.getHours():d.getHours()) + ':' + (d.getMinutes()<10?'0'+d.getMinutes():d.getMinutes())";
+      	}
+      	$html .= "; }\n";
+			} else if (find($this->y_data_type, "%s") > 0) {
+				$html .= "function yAxisFormatter(v, axis) { return myReplace('".addslashes($this->y_data_type)."', '%s', v.toFixed(axis.tickDecimals)); }\n";
+			} else {
+				$html .= "function yAxisFormatter(v, axis) { return v.toFixed(axis.tickDecimals) + '".addslashes($this->y_data_type)."'; }\n";
+			}
 		}
 		
 		if ($this->tracking_mode != "" && $this->tracking_text) {
@@ -465,33 +519,65 @@ class Chart extends WebSitePhpObject {
 					if ($this->tracking_mode == "y") {
 			            $html .= "var y, p1 = series.data[j - 1], p2 = series.data[j];
 			            if (p1 == null)
-			                y = p2[1];
+			                y = parseFloat(p2[1]);
 			            else if (p2 == null)
-			                y = p1[1];
+			                y = parseFloat(p1[1]);
 			            else
-			                y = p1[1] + (p2[1] - p1[1]) * (pos.y - p1[0]) / (p2[0] - p1[0]);
-			 
-			            try {
-			            	y = parseFloat(y);
-			            	legends.eq(i).text(series.label.replace(/=.*/, \"= \" + y.toFixed(2) + \"".$this->x_data_type."\"));
-			            } catch(err) {
-			           		legends.eq(i).text(series.label.replace(/=.*/, \"= \" + html_entity_decode(y) + \"".$this->x_data_type."\"));
-						}\n";
+			                y = parseFloat(p1[1]) + (parseFloat(p2[1]) - parseFloat(p1[1])) * (parseFloat(pos.y) - parseFloat(p1[0])) / (parseFloat(p2[0]) - parseFloat(p1[0]));
+			 \n";
+			            if ($this->x_data_type == "time") {
+			            	$html .= "var d = new Date(y);\n";
+			            	$html .= "legends.eq(i).text(series.label.replace(/=.*/, \"= \" + ";
+			            	if ($this->x_data_type_detail == "time") {
+			            		$html .= "(d.getHours()<10?'0'+d.getHours():d.getHours()) + ':' + (d.getMinutes()<10?'0'+d.getMinutes():d.getMinutes()) + ':' + (d.getSeconds()<10?'0'+d.getSeconds():d.getSeconds())";
+			            	} else if ($this->x_data_type_detail == "date") {
+			            		$html .= "$.datepicker.formatDate('yy-mm-dd', d)";
+						      	} else if ($this->x_data_type_detail == "day") {
+						      		$html .= "$.datepicker.formatDate('D', d)";
+						      	} else if ($this->x_data_type_detail == "month") {
+						      		$html .= "$.datepicker.formatDate('M', d)";
+						      	} else if ($this->x_data_type_detail == "daymonth") {
+						      		$html .= "$.datepicker.formatDate('d M', d)";
+						      	} else if ($this->x_data_type_detail == "year") {
+						      		$html .= "$.datepicker.formatDate('yy', d)";
+			            	} else {
+			            		$html .= "$.datepicker.formatDate('yy-mm-dd', d) + ' ' + (d.getHours()<10?'0'+d.getHours():d.getHours()) + ':' + (d.getMinutes()<10?'0'+d.getMinutes():d.getMinutes()) + ':' + (d.getSeconds()<10?'0'+d.getSeconds():d.getSeconds())";
+			            	}
+			            	$html .= "));\n";
+			            } else {
+			            	$html .= "legends.eq(i).text(series.label.replace(/=.*/, \"= \" + y.toFixed(2) + \"".$this->x_data_type."\"));\n";
+			            }
 					} else {
 			            $html .= "var x, p2 = series.data[j - 1], p1 = series.data[j];
-			            if (p2 == null)
-			                x = p1[1];
-			            else if (p1 == null)
-			                x = p2[1];
+			            if (p1 == null)
+			                x = parseFloat(p2[1]);
+			            else if (p2 == null)
+			                x = parseFloat(p1[1]);
 			            else
-			                x = p2[1] + (p1[1] - p2[1]) * (pos.y - p2[0]) / (p1[0] - p2[0]);
-			 
-			            try {
-			            	x = parseFloat(x);
-			            	legends.eq(i).text(series.label.replace(/=.*/, \"= \" + x.toFixed(2) + \"".$this->y_data_type."\"));
-			            } catch(err) {
-			           		legends.eq(i).text(series.label.replace(/=.*/, \"= \" + html_entity_decode(x) + \"".$this->y_data_type."\"));
-						}\n";
+			                x = parseFloat(p1[1]) + (parseFloat(p2[1]) - parseFloat(p1[1])) * (parseFloat(pos.x) - parseFloat(p1[0])) / (parseFloat(p2[0]) - parseFloat(p1[0]));
+			 \n";
+			            if ($this->y_data_type == "time") {
+			            	$html .= "var d = new Date(x);\n";
+			            	$html .= "legends.eq(i).text(series.label.replace(/=.*/, \"= \" + ";
+			            	if ($this->y_data_type_detail == "time") {
+			            		$html .= "(d.getHours()<10?'0'+d.getHours():d.getHours()) + ':' + (d.getMinutes()<10?'0'+d.getMinutes():d.getMinutes()) + ':' + (d.getSeconds()<10?'0'+d.getSeconds():d.getSeconds())";
+			            	} else if ($this->y_data_type_detail == "date") {
+			            		$html .= "$.datepicker.formatDate('yy-mm-dd', d)";
+						      	} else if ($this->y_data_type_detail == "day") {
+						      		$html .= "$.datepicker.formatDate('D', d)";
+						      	} else if ($this->y_data_type_detail == "month") {
+						      		$html .= "$.datepicker.formatDate('M', d)";
+						      	} else if ($this->y_data_type_detail == "daymonth") {
+						      		$html .= "$.datepicker.formatDate('d M', d)";
+						      	} else if ($this->y_data_type_detail == "year") {
+						      		$html .= "$.datepicker.formatDate('yy', d)";
+			            	} else {
+			            		$html .= "$.datepicker.formatDate('yy-mm-dd', d) + ' ' + (d.getHours()<10?'0'+d.getHours():d.getHours()) + ':' + (d.getMinutes()<10?'0'+d.getMinutes():d.getMinutes()) + ':' + (d.getSeconds()<10?'0'+d.getSeconds():d.getSeconds())";
+			            	}
+			            	$html .= "));\n";
+			            } else {
+				            $html .= "legends.eq(i).text(series.label.replace(/=.*/, \"= \" + x.toFixed(2) + \"".$this->y_data_type."\"));\n";
+			            }
 				   }
 				$html .= "}
 		    }

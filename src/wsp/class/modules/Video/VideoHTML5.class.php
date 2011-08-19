@@ -42,6 +42,13 @@ class VideoHTML5 extends WebSitePhpObject {
 	private $autoplay = false;
 	private $autobuffering = true;
 	private $style = "";
+	
+	private $onplay = "";
+	private $onpause = "";
+	private $onended = "";
+	private $track_categ = "";
+	private $track_action = "";
+	private $track_label = "";
 	/**#@-*/
 	
 	/**
@@ -135,6 +142,61 @@ class VideoHTML5 extends WebSitePhpObject {
 		return $this;
 	}
 	
+	public function setTrackEvent($category, $action, $label='') {
+		if (GOOGLE_CODE_TRACKER == "") {
+			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, 8, __FILE__, __LINE__);
+		}
+		$this->track_categ = $category;
+		$this->track_action = $action;
+		$this->track_label = $label;
+		return $this;
+	}
+	
+	public function onPlayJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onPlayJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onplay = trim($js_function);
+		return $this;
+	}
+	
+	public function getOnPlayJs() {
+		return $this->onplay;
+	}
+	
+	public function onPauseJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onPauseJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onpause = trim($js_function);
+		return $this;
+	}
+	
+	public function getOnPauseJs() {
+		return $this->onpause;
+	}
+	
+	public function onEndedJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onEndedJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onended = trim($js_function);
+		return $this;
+	}
+	
+	public function getOnEndedJs() {
+		return $this->onended;
+	}
+	
 	/**
 	 * Method render
 	 * @access public
@@ -159,8 +221,8 @@ class VideoHTML5 extends WebSitePhpObject {
 		if ($this->style != "") {
 			$html .= " ".$this->style."-css";
 		}
-		$html .= "\" width=\"".$this->width."\">\n";
-		$html .= "  <video class=\"video-js\" width=\"".$this->width."\" height=\"".$this->height."\" controls preload poster=\"".$this->snapshot."\">\n";
+		$html .= "\" id=\"div-video-".md5($this->video_mp4)."\" width=\"".$this->width."\" style=\"text-align:center;\">\n";
+		$html .= "  <video id=\"video-".md5($this->video_mp4)."\" class=\"video-js\" width=\"".$this->width."\" height=\"".$this->height."\" controls preload poster=\"".$this->snapshot."\">\n";
 		if ($this->video_mp4 != "") {
 			$html .= "    <source src=\"".$this->video_mp4."\" type='video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\"' />\n";
 		}
@@ -176,7 +238,7 @@ class VideoHTML5 extends WebSitePhpObject {
 			$html .= "      <param name=\"movie\" value=\"".BASE_URL."wsp/flash/flowplayer.swf\" />\n";
 			$html .= "      <param name=\"allowfullscreen\" value=\"true\" />\n";
 			$html .= "      <param name=\"flashvars\" value='config={\"playlist\":[\"".$this->snapshot."\", {\"url\": \"".$this->video_mp4."\",\"autoPlay\":".($this->autoplay?"true":"false").",\"autoBuffering\":".($this->autobuffering?"true":"false")."}]}' />\n";
-			$html .= "      <img src=\"".$this->snapshot."\" width=\"".$this->width."\" height=\"".$this->height."\" alt=\"Poster Image\"\n";
+			$html .= "      <img src=\"".$this->snapshot."\" width=\"".$this->width."\" height=\"".$this->height."\" alt=\"".__(MOD_VID_NO_VIDEO)."\"\n";
 			$html .= "        title=\"".__(MOD_VID_NO_VIDEO)."\" />\n";
 			$html .= "    </object>\n";
 		}
@@ -195,7 +257,27 @@ class VideoHTML5 extends WebSitePhpObject {
 		$html .= "</div>\n";
 		
 		$html .= $this->getJavascriptTagOpen();
-		$html .= "	VideoJS.setupAllWhenReady();\n";
+		$html .= "	VideoJS.setup(\"div-video-".md5($this->video_mp4)."\");\n";
+		if ($this->track_categ != "" || $this->onplay != "") {
+			$html .= "	$('#video-".md5($this->video_mp4)."').bind(\"play\", function(){\n";
+			if ($this->track_categ != "") {
+				$html .= "_gaq.push(['_trackEvent', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."']);";
+			}
+			if ($this->onplay != "") {
+				$html .= $this->onplay;
+			}
+			$html .= "  });\n";
+		}
+		if ($this->onpause != "") {
+			$html .= "	$('#video-".md5($this->video_mp4)."').bind(\"pause\", function(){\n";
+			$html .= $this->onpause;
+			$html .= "  });\n";
+		}
+		if ($this->onended != "") {
+			$html .= "	$('#video-".md5($this->video_mp4)."').bind(\"ended\", function(){\n";
+			$html .= $this->onended;
+			$html .= "  });\n";
+		}
 		$html .= $this->getJavascriptTagClose();
 		
 		

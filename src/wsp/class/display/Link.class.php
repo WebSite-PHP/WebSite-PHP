@@ -48,6 +48,11 @@ class Link extends WebSitePhpObject {
 	
 	private $is_lightbox = false;
 	private $lightbox_name = "";
+	
+	private $onclick = "";
+	private $track_categ = "";
+	private $track_action = "";
+	private $track_label = "";
 	/**#@-*/
 	
 	/**
@@ -178,6 +183,31 @@ class Link extends WebSitePhpObject {
 		return $this->target;
 	}
 	
+	public function setTrackEvent($category, $action, $label='') {
+		if (GOOGLE_CODE_TRACKER == "") {
+			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, 8, __FILE__, __LINE__);
+		}
+		$this->track_categ = $category;
+		$this->track_action = $action;
+		$this->track_label = $label;
+		return $this;
+	}
+	
+	public function onClickJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onclick = trim($js_function);
+		return $this;
+	}
+	
+	public function getOnClickJs() {
+		return $this->onclick;
+	}
+	
 	/**
 	 * Method getUserHaveRights
 	 * @access public
@@ -267,7 +297,11 @@ class Link extends WebSitePhpObject {
 			$html .= "<".$this->tagH.">";
 		}
 		
-		$html .= "<a href=\"".createHrefLink($this->link, $this->target)."\"";
+		if ($this->track_categ != "") {
+			$this->onclick = "_gaq.push(['_trackEvent', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."']);".$this->onclick;
+		}
+		
+		$html .= "<a href=\"".createHrefLink($this->link, $this->target, $this->onclick)."\"";
 		if ($this->is_lightbox) {
 			$html .= " rel=\"lightbox";
 			if ($this->lightbox_name != "") {
@@ -284,6 +318,10 @@ class Link extends WebSitePhpObject {
 		}
 		if ($this->nofollow && !$this->is_lightbox) {
 			$html .= " rel=\"nofollow\"";
+		}
+		
+		if ($this->onclick != "" && find($html, "onClick", 1) == 0) {
+			$html .= " onClick=\"".$this->onclick."\"";
 		}
 		$html .= ">";
 		if (gettype($this->content) == "object" && method_exists($this->content, "render")) {

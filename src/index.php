@@ -33,6 +33,11 @@
 	session_name(formalize_to_variable(SITE_NAME));
 	session_start();
 	
+	if (DEBUG) {
+		include_once("wsp/includes/execution_time.php");
+		$_SESSION['wspPageStartTime'] = slog_time();
+	}
+	
 	if (!isset($_GET['p'])) {
 		$_GET['p'] = "home"; 
 	}
@@ -340,7 +345,8 @@
 			}
 			?>
 		  _gaq.push(['_setAllowLinker', true]);
-		  _gaq.push(['_trackPageview']);
+		  _gaq.push(['_trackPageview', '<?php echo "/".str_replace($page_object->getBaseURL(), "", $page_object->getCurrentURL()); ?>']);
+		  _gaq.push(['_trackPageLoadTime']);
 		
 		  (function() {
 		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
@@ -404,4 +410,8 @@
 		DataBase::getInstance()->disconnect();
 	}
 	unset($_SESSION['websitephp_register_object']);
+	
+	if (DEBUG) {
+		$page_object->displayExecutionTime();
+	}
 ?>

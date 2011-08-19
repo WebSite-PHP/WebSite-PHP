@@ -341,7 +341,7 @@
 		return array($html, $javascript);
 	}
 	
-	function createHrefLink($str_or_object_link, $target='') {
+	function createHrefLink($str_or_object_link, $target='', $onclick='') {
 		$html = "";
 		if ($str_or_object_link != "") {
 			if (gettype($str_or_object_link) != "object" && strtoupper(substr($str_or_object_link, 0, 11)) != "JAVASCRIPT:") {
@@ -354,7 +354,7 @@
 					$html .= "\" target=\"".$tmp_link->getTarget()."";
 				}
 			} else if (gettype($str_or_object_link) != "object" && strtoupper(substr($str_or_object_link, 0, 11)) == "JAVASCRIPT:") {
-				$html .= "javascript:void(0);\" onClick=\"".$str_or_object_link;
+				$html .= "javascript:void(0);\" onClick=\"".$str_or_object_link.$onclick;
 			} else {
 				if (get_class($str_or_object_link) == "Link") {
 					if (!$str_or_object_link->getUserHaveRights()) {
@@ -370,7 +370,7 @@
 					}
 					$tmp_link = $str_or_object_link->render();
 					if (strtoupper(substr($tmp_link, 0, 11)) == "JAVASCRIPT:") {
-						$html .= "javascript:void(0);\" onClick=\"".$tmp_link;
+						$html .= "javascript:void(0);\" onClick=\"".$tmp_link.$onclick;
 					} else {
 						$html .= $tmp_link;
 					}

@@ -40,7 +40,7 @@ function JavaScriptIncludeComparator($a, $b) {
 	if (sizeof($array_put_js_to_end) > 0) {
 		$a_array_index = array_search(str_replace(BASE_URL, "", $a), $array_put_js_to_end);
 		$b_array_index = array_search(str_replace(BASE_URL, "", $b), $array_put_js_to_end);
-		if ($a_array_index !== false && $b_array_index !== false) { 
+		if ($a_array_index !== false && $b_array_index !== false) {
 			if ($a_array_index < $b_array_index) { return -1; }
 			else { return 1; }
 		}
@@ -65,7 +65,7 @@ class JavaScriptInclude {
 	private $script = array();
 	
 	private $array_put_js_to_begin = array();
-	private $array_put_js_to_end = array("wsp/js/jquery.dd.js", "wsp/js/jquery.jqDock.min.js");
+	private $array_put_js_to_end = array("wsp/js/jquery.jqDock.min.js", "wsp/js/jquery.dd.js");
 	/**#@-*/
 
 	/**

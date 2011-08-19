@@ -52,6 +52,10 @@ class DownloadButton extends WebSitePhpObject {
 	private $download_image_height = 60;
 	private $top_position_text = 2;
 	private $left_position_text = 62;
+	
+	private $track_categ = "";
+	private $track_action = "";
+	private $track_label = "";
 	/**#@-*/
 	
 	/**
@@ -139,6 +143,16 @@ class DownloadButton extends WebSitePhpObject {
 		return $this;
 	}
 	
+	public function setTrackEvent($category, $action, $label='') {
+		if (GOOGLE_CODE_TRACKER == "") {
+			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, 8, __FILE__, __LINE__);
+		}
+		$this->track_categ = $category;
+		$this->track_action = $action;
+		$this->track_label = $label;
+		return $this;
+	}
+	
 	/**
 	 * Method render
 	 * @access public
@@ -149,7 +163,11 @@ class DownloadButton extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$html = "";
 		
-		$html .= "<a href=\"".$this->link."\">\n";
+		$html .= "<a href=\"".$this->link."\"";
+		if ($this->track_categ != "") {
+			$html .= " onclick=\"_gaq.push(['_trackEvent', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."']);\"";
+		}
+		$html .= ">\n";
 		$html .= "	<div style=\"width:".$this->download_image_width."px;height:".$this->download_image_height."px;background:url('".BASE_URL.$this->download_image."') no-repeat;position:relative;\">\n";
 		$html .= "		<div style=\"position:absolute;top:".$this->top_position_text."px;left:".$this->left_position_text."px;text-align:left;width:".($this->download_image_width - $this->left_position_text)."px;\">\n";
 		$html .= "			<div style=\"font-weight:bold;font-size:14pt;\">".$this->download_text."</div>\n";

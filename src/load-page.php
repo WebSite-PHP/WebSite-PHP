@@ -37,6 +37,11 @@
 		session_start();
 	}
 	
+	if (DEBUG) {
+		include_once("wsp/includes/execution_time.php");
+		$_SESSION['wspPageStartTime'] = slog_time();
+	}
+	
 	if (!isset($_GET['p'])) {
 		$_GET['p'] = "home"; 
 	}
@@ -236,4 +241,8 @@
 		DataBase::getInstance()->disconnect();
 	}
 	unset($_SESSION['websitephp_register_object']);
+	
+	if (DEBUG) {
+		$page_object->displayExecutionTime();
+	}
 ?>
