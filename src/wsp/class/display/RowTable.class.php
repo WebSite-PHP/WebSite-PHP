@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.93
  * @access      public
  * @since       1.0.17
  */
@@ -68,6 +68,9 @@ class RowTable extends WebSitePhpObject {
 	private $is_nowrap = false;
 	private $hide = false;
 	private $id = "";
+	
+	private $is_new = false;
+	private $is_deleted = false;
 	/**#@-*/
 	
 	/**
@@ -253,6 +256,16 @@ class RowTable extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method getNbColumns
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.93
+	 */
+	public function getNbColumns() {
+		return sizeof($this->col_object);
+	}
+	
+	/**
 	 * Method add
 	 * @access public
 	 * @param object $content_object [default value: null]
@@ -280,8 +293,62 @@ class RowTable extends WebSitePhpObject {
 		$this->col_object[$ind]['style'] = $style;
 		$this->col_object[$ind]['colspan'] = $colspan;
 		$this->col_object[$ind]['rowspan'] = $rowspan;
+		
+		if ($GLOBALS['__PAGE_IS_INIT__']) {
+			$this->object_change =true;
+			$this->is_new = true;
+			$this->is_deleted = false;
+		}
+		return $this;
+	}
+	
+	/**
+	 * Method delete
+	 * @access public
+	 * @return RowTable
+	 * @since 1.0.93
+	 */
+	public function delete() {
+		if ($this->id == "") {
+			throw new NewException(get_class($this)."->remove() error: To remove this ".get_class($this)." you must define an id (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+		}
+		
+		$this->is_deleted = true;
+		$this->hide = true;
+		$this->is_new = false;
+		
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
+	}
+
+	/**
+	 * Method isDeleted
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.93
+	 */
+	public function isDeleted() {
+		return $this->is_deleted;
+	}
+
+	/**
+	 * Method isNew
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.93
+	 */
+	public function isNew() {
+		return $this->is_new;
+	}
+	
+	/**
+	 * Method getId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.93
+	 */
+	public function getId() {
+		return $this->id;
 	}
 	
 	/**
@@ -480,6 +547,7 @@ class RowTable extends WebSitePhpObject {
 			if (!$ajax_render && $this->id != "") {
 				$html .= "</tbody>";
 			}
+			$this->object_change = false;
 			return $html; 
 		}
 		

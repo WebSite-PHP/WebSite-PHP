@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.90
+ * @version     1.0.93
  * @access      public
  * @since       1.0.18
  */
@@ -565,7 +565,9 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 				}
 				$html .= ")');\n";
 			}
-			$html .= "if ($('#Callback_".$this->getEventObjectName()."').val() == '') { return false; }\n";
+			if ($this->is_ajax_event || $this->form_object != null || $callback != "") {
+				$html .= "if ($('#Callback_".$this->getEventObjectName()."').val() == '') { return false; }\n";
+			}
 			if ($on_event != "" || $this->is_ajax_event) {
 				if ($on_event != "") {
 					$html .= str_replace("\"", "\\\"", $on_event);

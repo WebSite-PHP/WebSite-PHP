@@ -95,11 +95,13 @@ Options +FollowSymLinks
 	
 	# Zone to define your URL rewriting
 	# Exemple 1: 
-	# RewriteRule ^myfolder/(.+)\.html$ index.php?p=$1&l=$1&folder_level=1&%{QUERY_STRING} [L] 
+	# RewriteRule ^myfolder/(.+)\.html$ index.php?p=$1&l=&folder_level=1&%{QUERY_STRING} [L] 
 	# RewriteRule ^([a-z]{2})/myfolder/(.+)\.html$ index.php?p=$2&l=$1&folder_level=1&%{QUERY_STRING} [L] 
 	# Exemple 2: 
-	# RewriteRule ^myfolder/myfolder2/(.+)\.html$ index.php?p=$1&l=$1&folder_level=2&%{QUERY_STRING} [L] 
+	# RewriteRule ^myfolder/myfolder2/(.+)\.html$ index.php?p=$1&l=&folder_level=2&%{QUERY_STRING} [L] 
 	# RewriteRule ^([a-z]{2})/myfolder/myfolder2/(.+)\.html$ index.php?p=$2&l=$1&folder_level=2&%{QUERY_STRING} [L] 
+	# Exemple 3: 
+	# RewriteRule ^([a-z]{2})/([^ajax|^wsp\-admin].+)/(.+)\.html$ index.php?p=my_page&l=$1&param1=$2&param2=$3&folder_level=1&%{QUERY_STRING} [L] 
 	\n";
 		}
 		$htaccess_data = $htaccess_data.file_get_contents($base_dir."/update.htaccess");

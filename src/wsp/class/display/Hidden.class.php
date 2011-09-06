@@ -17,20 +17,18 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.0.93
  * @access      public
  * @since       1.0.17
  */
 
-class Hidden extends WebSitePhpObject {
+class Hidden extends WebSitePhpEventObject {
 	/**#@+
 	* @access private
 	*/
 	protected $class_name = "";
 	protected $page_object = null;
 	protected $form_object = null;
-	private $name = "";
-	private $id = "";
 	private $value = "";
 	private $default_value = "";
 	/**#@-*/
@@ -142,6 +140,7 @@ class Hidden extends WebSitePhpObject {
 	 * @since 1.0.35
 	 */
 	public function getValue() {
+		$this->initSubmitValue(); // init value with submit value if not already do
 		return $this->value;
 	}
 

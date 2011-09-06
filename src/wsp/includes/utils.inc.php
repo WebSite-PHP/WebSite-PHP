@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.91
+ * @version     1.0.93
  * @access      public
  * @since       1.0.19
  */
@@ -97,10 +97,15 @@
 	
 	function random($car) { 
 		$string = ""; 
-		$chaine = "abcdefghijklmnpqrstuvwxy"; 
+		$chaine = "abcdefghijklmnpqrstuvwxy0123456789"; 
 		srand((double)microtime()*1000000); 
 		for($i=0; $i<$car; $i++) { 
-			$string .= $chaine[rand()%strlen($chaine)]; 
+			$upper = rand(0, 1);
+			if ($upper == 1) {
+				$string .= strtoupper($chaine[rand()%strlen($chaine)]);
+			} else {
+				$string .= $chaine[rand()%strlen($chaine)];
+			} 
 		} 
 		return $string; 
 	} 

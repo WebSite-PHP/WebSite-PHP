@@ -5,8 +5,9 @@
 	
 	function isNewWspVersion() {
 		if (extension_loaded('soap')) {
-			$user_wsp_version = getCurrentWspVersion();
-			if (!isset($_SESSION['server_wsp_version'])) {
+			$user_wsp_version = getCurrentWspVersion();$timeout_ctx = stream_context_create(array('http' => array('timeout' => 2))); 
+			$wsdl = file_get_contents("http://www.website-php.com/en/webservices/wsp-information-server.wsdl?wsdl", 0, $timeout_ctx);
+			if (!isset($_SESSION['server_wsp_version']) && $wsdl != "") {
 				$client = new WebSitePhpSoapClient("http://www.website-php.com/en/webservices/wsp-information-server.wsdl?wsdl");
 				$_SESSION['server_wsp_version'] = $client->getLastVersionNumber();
 			}

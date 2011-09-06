@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.93
  * @access      public
  * @since       1.0.17
  */
@@ -497,7 +497,11 @@ class TextBox extends WebSitePhpEventObject {
 			
 			$html .= "<input ";
 			if ($this->type != "") {
-				$html .= "type='".$this->type."' ";
+				if ($this->type == "text" || $this->type == "calendar") {
+					$html .= "type='text' ";
+				} else {
+					$html .= "type='".$this->type."' ";
+				}
 			}
 			$html .= "name='".$this->getEventObjectName()."' id='".$this->id."' value='".$this->value."'";
 			if ($this->width != "" || $this->style != "") {

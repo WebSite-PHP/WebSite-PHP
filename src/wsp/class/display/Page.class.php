@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.92
+ * @version     1.0.93
  * @access      public
  * @since       1.0.0
  */
@@ -946,6 +946,16 @@ class Page {
 	}
 	
 	/**
+	 * Method getUserRights
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.93
+	 */
+	public function getUserRights() {
+		return $_SESSION['USER_RIGHTS'];
+	}
+	
+	/**
 	 * Method getUserNoRightsRedirect
 	 * @access public
 	 * @return mixed
@@ -1247,7 +1257,18 @@ class Page {
 	 */
 	public function displayExecutionTime($info='') {
 		$wspPageTotalTime = elog_time($_SESSION['wspPageStartTime']);
-     	print "<b>Execution Time".($info!=""?" ".$info:"").":</b> ".round($wspPageTotalTime,3)." Seconds<br/>";
+     	echo "<b>Execution Time".($info!=""?" ".$info:"").":</b> ".round($wspPageTotalTime,3)." Seconds<br/>";
+	}
+	
+	/**
+	 * Method addLogDebugExecutionTime
+	 * @access public
+	 * @param string $info 
+	 * @since 1.0.93
+	 */
+	public function addLogDebugExecutionTime($info='') {
+		$wspPageTotalTime = elog_time($_SESSION['wspPageStartTime']);
+     	$this->addLogDebug("<b>Execution Time".($info!=""?" ".$info:"").":</b> ".round($wspPageTotalTime,3)." Seconds");
 	}
 }
 ?>

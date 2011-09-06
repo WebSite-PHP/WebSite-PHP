@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.83
+ * @version     1.0.93
  * @access      public
  * @since       1.0.0
  */
@@ -37,10 +37,8 @@
 		session_start();
 	}
 	
-	if (DEBUG) {
-		include_once("wsp/includes/execution_time.php");
-		$_SESSION['wspPageStartTime'] = slog_time();
-	}
+	include_once("wsp/includes/execution_time.php");
+	$_SESSION['wspPageStartTime'] = slog_time();
 	
 	if (!isset($_GET['p'])) {
 		$_GET['p'] = "home"; 

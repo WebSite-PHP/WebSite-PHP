@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.88
+ * @version     1.0.93
  * @access      public
  * @since       1.0.17
  */
@@ -53,7 +53,7 @@ class Language extends WebSitePhpObject {
 	 * @since 1.0.35
 	 */
 	public function render($ajax_render=false) {
-		$lang_link = BASE_URL.$this->language."/".PARAMS_URL;
+		$lang_link = BASE_URL.$this->language."/".str_replace($this->getPage()->getBaseLanguageURL(), "", $this->getPage()->getCurrentURL());
 		$lang_link_obj = new Link($lang_link, Link::TARGET_NONE, new Picture("wsp/img/lang/".$this->language.".png", 24, 24, 0, Picture::ALIGN_ABSMIDDLE));
 		$this->object_change = false;
 		return $lang_link_obj->render();

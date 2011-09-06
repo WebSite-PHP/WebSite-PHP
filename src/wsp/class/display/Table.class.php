@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.93
  * @access      public
  * @since       1.0.17
  */
@@ -88,6 +88,7 @@ class Table extends WebSitePhpObject {
 	private $font_family = "";
 	private $font_weight = "";
 	private $style = "";
+	private $max_nb_cols = 0;
 	/**#@-*/
 	
 	/**
@@ -305,6 +306,11 @@ class Table extends WebSitePhpObject {
 			$row->setClass($this->class);
 		}
 		$this->rows[sizeof($this->rows)] = $row;
+		
+		if ($row->getNbColumns() > $this->max_nb_cols) {
+    		$this->max_nb_cols = $row->getNbColumns();
+    	}
+		
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $row;
 	}
@@ -335,8 +341,56 @@ class Table extends WebSitePhpObject {
 			$row->setClass($this->class);
 		}
     	$this->rows[sizeof($this->rows)] = $row;
+    	
+    	if ($row->getNbColumns() > $this->max_nb_cols) {
+    		$this->max_nb_cols = $row->getNbColumns();
+    	}
+    	
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
     	return $row;
+	}
+	
+	/**
+	 * Method deleteRow
+	 * @access public
+	 * @param mixed $row_table_id 
+	 * @param boolean $catch_exception [default value: true]
+	 * @return boolean
+	 * @since 1.0.93
+	 */
+	public function deleteRow($row_table_id, $catch_exception=true) {
+		for ($i=0; $i < sizeof($this->rows); $i++) {
+			if ($this->rows[$i]->getId() == $row_table_id) {
+				$this->rows[$i]->delete();
+				if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+				return true;
+			}
+		}
+		if ($catch_exception) {
+			throw new NewException(get_class($this)."->deleteRow() error: Unable to delete id ".$row_table_id." (not found)", 0, 8, __FILE__, __LINE__);
+		} else {
+			return false;
+		}
+	}
+	
+	/**
+	 * Method getNbRows
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.93
+	 */
+	public function getNbRows() {
+		return sizeof($this->rows);
+	}
+	
+	/**
+	 * Method getMaxNbColumns
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.93
+	 */
+	public function getMaxNbColumns() {
+		return $this->max_nb_cols;
 	}
 	
 	/**
@@ -410,10 +464,39 @@ class Table extends WebSitePhpObject {
 		}
 		$html .= ">\n";
 		for ($i=0; $i < sizeof($this->rows); $i++) {
-			$html .= "	".$this->rows[$i]->render();
+			if (!$this->rows[$i]->isDeleted()) {
+				$html .= "	".$this->rows[$i]->render();
+			}
 		}
 		$html .= "</table>\n";
 		$this->object_change = false;
+		return $html;
+	}
+	
+	/**
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object Table (call with AJAX)
+	 * @since 1.0.93
+	 */
+	public function getAjaxRender() {
+		if ($this->id == "") {
+			throw new NewException(get_class($this)."->getAjaxRender() error: To update this object with Ajax event you must define an id (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+		}
+		
+		$html = "";
+		for ($i=0; $i < sizeof($this->rows); $i++) {
+			if ($this->rows[$i]->isNew()) {
+				$array_ajax_render = extract_javascript($this->rows[$i]->render(false));
+				for ($j=1; $j < sizeof($array_ajax_render); $j++) {
+					new JavaScript($array_ajax_render[$j], true);
+				}
+				
+				$html .= "$('#".$this->id."').append('".str_replace("\n", "", str_replace("\r", "", addslashes($array_ajax_render[0])))."');";
+			} else if ($this->rows[$i]->isDeleted()) {
+				$html .= "$('#wsp_rowtable_".$this->rows[$i]->getId()."').remove();";
+			}
+		}
 		return $html;
 	}
 	
