@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.93
+ * @version     1.0.94
  * @access      public
  * @since       1.0.0
  */
@@ -49,12 +49,58 @@ class Page {
 	/**#@+
 	* meta robots
 	* @access public
-	* @var integer
+	* @var string
 	*/
 	const META_ROBOTS_INDEX_FOLLOW = "index, follow";
 	const META_ROBOTS_NOINDEX_NOFOLLOW = "noindex, nofollow";
 	const META_ROBOTS_INDEX_NOFOLLOW = "index, nofollow";
 	const META_ROBOTS_NOINDEX_FOLLOW = "noindex, follow";
+	/**#@-*/
+	
+	/**#@+
+	* Open Graph Theme (http://ogp.me/#types)
+	* @access public
+	* @var string
+	*/
+	const OPENGRAPH_TYPE_ACTIVITY = "activity";
+	const OPENGRAPH_TYPE_SPORT = "sport";
+	const OPENGRAPH_TYPE_BAR = "bar";
+	const OPENGRAPH_TYPE_COMPANY = "company";
+	const OPENGRAPH_TYPE_CAFE = "cafe";
+	const OPENGRAPH_TYPE_HOTEL = "hotel";
+	const OPENGRAPH_TYPE_RESTAURANT = "restaurant";
+	const OPENGRAPH_TYPE_CAUSE = "cause";
+	const OPENGRAPH_TYPE_SPORTS_LEAGUE = "sports_league";
+	const OPENGRAPH_TYPE_SPORTS_TEAM = "sports_team";
+	const OPENGRAPH_TYPE_BAND = "band";
+	const OPENGRAPH_TYPE_GOVERNMENT = "government";
+	const OPENGRAPH_TYPE_NON_PROFIT = "non_profit";
+	const OPENGRAPH_TYPE_SCHOOL = "school";
+	const OPENGRAPH_TYPE_UNIVERSITY = "university";
+	const OPENGRAPH_TYPE_ACTOR = "actor";
+	const OPENGRAPH_TYPE_ATHLETE = "athlete";
+	const OPENGRAPH_TYPE_AUTHOR = "author";
+	const OPENGRAPH_TYPE_DIRECTOR = "director";
+	const OPENGRAPH_TYPE_MUSICIAN = "musician";
+	const OPENGRAPH_TYPE_POLITICIAN = "politician";
+	const OPENGRAPH_TYPE_PROFILE = "profile";
+	const OPENGRAPH_TYPE_PUBLIC_FIGURE = "public_figure";
+	const OPENGRAPH_TYPE_CITY = "city";
+	const OPENGRAPH_TYPE_COUNTRY = "country";
+	const OPENGRAPH_TYPE_LANDMARK = "landmark";
+	const OPENGRAPH_TYPE_STATE_PROVINCE = "state_province";
+	const OPENGRAPH_TYPE_ALBUM = "album";
+	const OPENGRAPH_TYPE_BOOK = "book";
+	const OPENGRAPH_TYPE_DRINK = "drink";
+	const OPENGRAPH_TYPE_FOOD = "food";
+	const OPENGRAPH_TYPE_GAME = "game";
+	const OPENGRAPH_TYPE_MOVIE = "movie";
+	const OPENGRAPH_TYPE_PRODUCT = "product";
+	const OPENGRAPH_TYPE_SONG = "song";
+	const OPENGRAPH_TYPE_TV_SHOW = "tv_show";
+	const OPENGRAPH_TYPE_ARTICLE = "article";
+	const OPENGRAPH_TYPE_BLOG = "blog";
+	const OPENGRAPH_TYPE_WEBSITE = "website";
 	/**#@-*/
 	
 	/**#@+
@@ -68,6 +114,9 @@ class Page {
 	protected static $PAGE_META_ROBOTS = "";
 	protected static $PAGE_META_GOOGLEBOTS = "";
 	protected static $PAGE_META_REVISIT_AFTER = "";
+	
+	protected static $PAGE_META_OPENGRAPH_TYPE = "";
+	protected static $PAGE_META_OPENGRAPH_IMAGE = "";
 	
 	protected $USER_RIGHTS = "";
 	protected $USER_NO_RIGHTS_REDIRECT = "";
@@ -101,7 +150,8 @@ class Page {
 	private $callback_method_called = false;
 	private $callback_method_params = array();
 	private $array_callback_object = array("Button", "ComboBox", "TextBox", "Password", "ColorPicker", "CheckBox", 
-											"ContextMenuEvent", "DroppableEvent", "SortableEvent", "Object", "Picture");
+											"ContextMenuEvent", "DroppableEvent", "SortableEvent", "Object", "Picture", 
+											"Calendar");
 	
 	private $create_object_to_get_css_js = false;
 	/**#@-*/
@@ -364,6 +414,26 @@ class Page {
 	 */
 	public function getPageMetaRevisitAfter() {
 		return self::$PAGE_META_REVISIT_AFTER;
+	}
+	
+	/**
+	 * Method getPageMetaOpenGraphType
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.94
+	 */
+	public function getPageMetaOpenGraphType() {
+		return strip_tags(self::$PAGE_META_OPENGRAPH_TYPE);
+	}
+	
+	/**
+	 * Method getPageMetaOpenGraphImage
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.94
+	 */
+	public function getPageMetaOpenGraphImage() {
+		return strip_tags(self::$PAGE_META_OPENGRAPH_IMAGE);
 	}
 	
 	/**

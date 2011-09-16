@@ -6,6 +6,9 @@ define("SITE_RATING", "general"); // general, mature, restricted, 14years
 define("SITE_AUTHOR", "Your name");
 define("SITE_DEFAULT_LANG", "en"); // en, fr, ...
 
+define("SITE_META_OPENGRAPH_TYPE", "");
+define("SITE_META_OPENGRAPH_IMAGE", "");
+
 define("GOOGLE_CODE_TRACKER", "");
 define("GOOGLE_MAP_KEY", "");
 

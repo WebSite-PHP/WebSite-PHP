@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.84
+ * @version     1.0.94
  * @access      public
  * @since       1.0.17
  */
@@ -427,7 +427,7 @@ class Box extends WebSitePhpObject {
 				}
 				$html .= " >\n";
 			}
-			$html .= "			<table class=\"table_".$this->style_header."_angle";
+			$html .= "			<table class=\"table_".$this->style_header."_angle BoxOverFlowHidden";
 			if ($this->css3) {
 				$html .= " Css3RadiusBox".$this->style_header;
 				if ($this->shadow) {
@@ -438,7 +438,7 @@ class Box extends WebSitePhpObject {
 			if ($this->height != "") {
 				$html .= " height=\"".$this->height."\"";
 			}
-			$html .= " style=\"table-layout:fixed;overflow:hidden;".(($this->browser_ie_version != false && $this->browser_ie_version <= 7) ? "border-top:1px solid ".$this->box_border_color.";":"")."\">\n";
+			$html .= " style=\"table-layout:fixed;".(($this->browser_ie_version != false && $this->browser_ie_version <= 7) ? "border-top:1px solid ".$this->box_border_color.";":"")."\">\n";
 			$html .= "				<tr>\n";
 			$html .= "					<td class=\"header_".$this->style_header."_bckg header_".$this->style_header."_bckg_a";
 			if ($this->css3) {
@@ -595,7 +595,7 @@ class Box extends WebSitePhpObject {
 			$html .= "\">\n";
 			
 			if ($this->height != "" && is_integer($this->height) && $this->valign == RoundBox::VALIGN_CENTER) {
-				$html .= "<div style=\"display:table;height:100%;#position:relative;overflow:hidden;width:100%;\">\n";
+				$html .= "<div style=\"display:table;height:100%;#position:relative;width:100%;\" class=\"BoxOverFlowHidden\">\n";
 				$html .= "	<div style=\"#position:absolute;#top:50%;display:table-cell;vertical-align:middle;width:100%;\">\n";
 				$html .= "		<div style=\"#position:relative;#top:-50%;\">\n";
 			}

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.94
  * @access      public
  * @since       1.0.17
  */
@@ -70,15 +70,15 @@ class ComboBox extends WebSitePhpEventObject {
 		
 		if ($name == "") {
 			$name = $this->page_object->createObjectName($this);
+			$this->name = $name;
 		} else {
 			$exist_object = $this->page_object->existsObjectName($name);
+			$this->name = $name;
 			if ($exist_object != false) {
 				throw new NewException("Tag name \"".$name."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, 8, __FILE__, __LINE__);
 			}
 			$this->page_object->addEventObject($this, $this->form_object);
 		}
-		
-		$this->name = $name;
 		$this->width = $width;
 		
 		$this->addCss(BASE_URL."wsp/css/dd.css", "", true);

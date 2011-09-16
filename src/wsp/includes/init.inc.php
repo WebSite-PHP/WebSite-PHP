@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.84
+ * @version     1.0.94
  * @access      public
  * @since       1.0.0
  */
@@ -72,6 +72,9 @@
 	if ($my_site_base_url[strlen($my_site_base_url) - 4] == "/") {
 		$my_language_url = substr($my_site_base_url, strlen($my_site_base_url) - 3, 2);
 		$my_site_base_url = substr($my_site_base_url, 0, strlen($my_site_base_url) - 3);
+	}
+	if ($my_language_url == "" && isset($_GET['l']) && $_GET['l'] != "") {
+		$my_language_url = $_GET['l'];
 	}
 	define("BASE_URL", $my_site_base_url);
 	define("LANGUAGE_URL", $my_language_url);

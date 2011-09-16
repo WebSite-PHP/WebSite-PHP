@@ -18,8 +18,8 @@
  * @subpackage advanced_object.event_object
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.81
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.94
  * @access      public
  * @since       1.0.17
  */
@@ -139,11 +139,14 @@ class DraggableEvent extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		if (DialogBox::getCurrentDialogBoxLevel() > -1) {
-			$this->ondragstart  = "wspDialogBox".DialogBox::getCurrentDialogBoxLevel().".dialog('widget').css('overflow', 'visible'); wspDialogBox".DialogBox::getCurrentDialogBoxLevel().".dialog('widget').find('.ui-dialog-content').css('overflow', 'visible');".$this->ondragstart;
-			$this->ondragend  = "wspDialogBox".DialogBox::getCurrentDialogBoxLevel().".dialog('widget').css('overflow', 'hidden'); wspDialogBox".DialogBox::getCurrentDialogBoxLevel().".dialog('widget').find('.ui-dialog-content').css('overflow', 'hidden');".$this->ondragend;
+			$this->ondragstart = "wspDialogBox".DialogBox::getCurrentDialogBoxLevel().".dialog('widget').css('overflow', 'visible'); wspDialogBox".DialogBox::getCurrentDialogBoxLevel().".dialog('widget').find('.ui-dialog-content').css('overflow', 'visible');".$this->ondragstart;
+			$this->ondragend = "wspDialogBox".DialogBox::getCurrentDialogBoxLevel().".dialog('widget').css('overflow', 'hidden'); wspDialogBox".DialogBox::getCurrentDialogBoxLevel().".dialog('widget').find('.ui-dialog-content').css('overflow', 'hidden');".$this->ondragend;
 		} else if (isset($_GET['tabs_object_id'])) {
-			$this->ondragstart  = "$('#".$_GET['tabs_object_id']."').tabs().css('overflow', 'visible');$('#".$_GET['tabs_object_id']."').tabs().find('.ui-widget-content').css('overflow', 'visible');".$this->ondragstart;
-			$this->ondragend  = "$('#".$_GET['tabs_object_id']."').tabs().css('overflow', 'hidden');$('#".$_GET['tabs_object_id']."').tabs().find('.ui-widget-content').css('overflow', 'hidden');".$this->ondragend;
+			$this->ondragstart = "$('#".$_GET['tabs_object_id']."').tabs().css('overflow', 'visible');$('#".$_GET['tabs_object_id']."').tabs().find('.ui-widget-content').css('overflow', 'visible');".$this->ondragstart;
+			$this->ondragend = "$('#".$_GET['tabs_object_id']."').tabs().css('overflow', 'hidden');$('#".$_GET['tabs_object_id']."').tabs().find('.ui-widget-content').css('overflow', 'hidden');".$this->ondragend;
+		} else {
+			$this->ondragstart = "$('.BoxOverFlowHidden').css('overflow', 'auto');".$this->ondragstart;
+			$this->ondragend = "$('.BoxOverFlowHidden').css('overflow', 'hidden');".$this->ondragend;
 		}
 		
 		if ($this->ondragstart != "") {

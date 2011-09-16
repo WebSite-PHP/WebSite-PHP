@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.91
+ * @version     1.0.94
  * @access      public
  * @since       1.0.25
  */
@@ -254,6 +254,7 @@ class ConfigureDatabase extends Page {
 					if ($this->generateTableClass($database, $table)) {
 						$this->generateWspTableObject($database, $table);
 						$this->generateTableObject($database, $table);
+						$this->generateTableObjectList($database, $table);
 						$dialog = new DialogBox(__(GENERATE_DATABASE_OBJECTS), __(GENERATE_DATABASE_OBJECTS_OK, $database));
 					} else {
 						$dialog = new DialogBox(__(GENERATE_DATABASE_OBJECTS), __(GENERATE_DATABASE_OBJECTS_ERROR, $database));
@@ -447,6 +448,11 @@ class ".$class_name."WspObject {
 $data .= "		}
 	}
 	
+	/**
+	 * Method load
+	 * @access public
+	 * @return ".$class_name."Obj
+	 */
 	public function load(".$key_param."=false) {
 		\$sql = new SqlDataView(new ".$class_name."DbTable());
 		\$sql->setClause(".$load_clause.");
@@ -475,6 +481,11 @@ $data .= "		}
 		return \$this;
 	}
 	
+	/**
+	 * Method loadClause
+	 * @access public
+	 * @return ".$class_name."Obj
+	 */
 	public function loadClause(\$clause, \$activate_htmlentities=false) {
 		\$sql = new SqlDataView(new ".$class_name."DbTable());
 		\$sql->setClause(\$clause);
@@ -500,6 +511,11 @@ $data .= "		}
 		return \$this;
 	}
 	
+	/**
+	 * Method save
+	 * @access public
+	 * @return ".$class_name."Obj
+	 */
 	public function save() {
 		\$transaction_begin_now = DataBase::getInstance()->beginTransaction();
 		\$sql = new SqlDataView(new ".$class_name."DbTable());
@@ -540,6 +556,10 @@ $data .= "		}
 		}
 	}
 	
+	/**
+	 * Method delete
+	 * @access public
+	 */
 	public function delete() {
 		\$transaction_begin_now = DataBase::getInstance()->beginTransaction();
 		\$sql = new SqlDataView(new ".$class_name."DbTable());
@@ -563,32 +583,56 @@ $data .= "		}
 	}
 ";
 		for ($i=0; $i < sizeof($array_var); $i++) {
-			$data .= "\n	public function get".$this->getFormatValue($array_var[$i])."() {
+			$data .= "\n	/**
+	 * Method get".$this->getFormatValue($array_var[$i])."
+	 * @access public
+	 */
+	public function get".$this->getFormatValue($array_var[$i])."() {
 		return \$this->".$array_var[$i].";
 	}
 
 	";
+	$data .= "/**
+	 * Method set".$this->getFormatValue($array_var[$i])."
+	 * @access public
+	 * @return ".$class_name."Obj
+	 */
+	public function set".$this->getFormatValue($array_var[$i])."(\$".$array_var[$i].") {\n";
 	if (in_array($array_var[$i], $array_var_key)) {
-		$data .= "protected ";
-	} else {
-		$data .= "public ";
+		$data .= "		if (\$this->".$array_var[$i]." != \"\") {
+			throw new NewException(\"".$class_name."WspObject->set".$this->getFormatValue($array_var[$i])."(): you can change the value of the key ".$array_var[$i].".\", 0, 8, __FILE__, __LINE__);
+		}\n";
 	}
-	$data .= "function set".$this->getFormatValue($array_var[$i])."(\$".$array_var[$i].") {
-		\$this->".$array_var[$i]." = \$".$array_var[$i].";
+	$data .= "		\$this->".$array_var[$i]." = \$".$array_var[$i].";
 		\$this->is_synchronize_with_db = false;
 		return \$this;
 	}
 ";
 		}
 
-$data .= "	public function isSynchronizeWithDb() {
+$data .= "	/**
+	 * Method isSynchronizeWithDb
+	 * @access public
+	 * @return boolean
+	 */
+	public function isSynchronizeWithDb() {
 		return \$this->is_synchronize_with_db;
 	}
 
+	/**
+	 * Method isDbObject
+	 * @access public
+	 * @return boolean
+	 */
 	public function isDbObject() {
 		return \$this->is_db_object;
 	}
 	
+	/**
+	 * Method __toString
+	 * @access public
+	 * @return string
+	 */
 	public function __toString() {
 		return serialize(\$this);
 	}
@@ -604,17 +648,40 @@ $data .= "	public function isSynchronizeWithDb() {
 		$row = DataBase::getInstance()->stmtBindAssoc($stmt, $row);
 			while ($stmt->fetch()) {
 			if ($row['table_name'] == $table) {
-				$data .= "\n	public function get".$this->getFormatValue($row['referenced_table_name'])."Object(\$activate_htmlentities=false) {
+				$data .= "\n	/**
+	 * Method get".$this->getFormatValue($row['referenced_table_name'])."Object
+	 * @access public
+	 * @param boolean \$activate_htmlentities [default value: false]
+	 * @return ".$this->getFormatValue($row['referenced_table_name'])."Obj
+	 */
+	public function get".$this->getFormatValue($row['referenced_table_name'])."Object(\$activate_htmlentities=false) {
 		\$obj_".str_replace("-", "_", strtolower($row['referenced_table_name']))." = new ".$this->getFormatValue($row['referenced_table_name'])."Obj();
 		return \$obj_".str_replace("-", "_", strtolower($row['referenced_table_name']))."->loadClause(\"".$row['referenced_column_name']." = '\".\$this->get".$this->getFormatValue($row['column_name'])."().\"'\", \$activate_htmlentities);
 	}
 ";
 			} else {
-				$data .= "\n	public function get".$this->getFormatValue($row['table_name'])."ObjectArray(\$activate_htmlentities=false) {
+				$data .= "\n	/**
+	 * Method get".$this->getFormatValue($row['table_name'])."ObjectArray
+	 * @access public
+	 * @param string \$clause [default value: ]
+	 * @param string \$sort_attribut [default value: ]
+	 * @param string \$sort_order [default value: ASC]
+	 * @param integer \$limit_offset [default value: 0]
+	 * @param integer \$limit_row_count [default value: 0]
+	 * @param boolean \$activate_htmlentities [default value: false]
+	 * @return ".$this->getFormatValue($row['table_name'])."Obj[]
+	 */
+	public function get".$this->getFormatValue($row['table_name'])."ObjectArray(\$clause='', \$sort_attribut='', \$sort_order='ASC', \$limit_offset=0, \$limit_row_count=0, \$activate_htmlentities=false) {
 		\$array_".str_replace("-", "_", strtolower($row['table_name']))." = array();
 		
 		\$sql = new SqlDataView(new ".$this->getFormatValue($row['table_name'])."DbTable());
-		\$sql->setClause(\"".$row['column_name']." = '\".\$this->get".$this->getFormatValue($row['referenced_column_name'])."().\"'\");
+		\$sql->setClause(\"".$row['column_name']." = '\".\$this->get".$this->getFormatValue($row['referenced_column_name'])."().\"'\".(\$clause!=''?\" AND \".\$clause:\"\"));
+		if (\$sort_attribut != '') {
+			\$sql->addOrder(\$sort_attribut, \$sort_order);
+		}
+		if (\$limit_row_count > 0) {
+			\$sql->setLimit(\$limit_offset, \$limit_row_count);
+		}
 		if (\$activate_htmlentities) {
 			\$sql->enableHtmlentitiesMode();
 		}
@@ -685,6 +752,60 @@ $data .= "	public function isSynchronizeWithDb() {
 			$file->write($data);
 			$file->close();
 		}
+	}
+	
+	private function generateTableObjectList($database, $table) {
+		$class_name = $this->getFormatValue($table);
+		$data = "<?php
+	class ".$class_name."ObjList {
+		
+		function __construct() {
+		}
+		
+		/**
+		 * Method get".$class_name."ObjectArray
+		 * @access public
+		 * @param string \$clause
+		 * @param string \$sort_attribut [default value: ]
+		 * @param string \$sort_order [default value: ASC]
+		 * @param integer \$limit_offset [default value: 0]
+		 * @param integer \$limit_row_count [default value: 0]
+		 * @param boolean \$activate_htmlentities [default value: false]
+		 * @return ".$class_name."Obj[]
+		 */
+		public function get".$class_name."ObjectArray(\$clause, \$sort_attribut='', \$sort_order='ASC', \$limit_offset=0, \$limit_row_count=0, \$activate_htmlentities=false) {
+			\$array_".str_replace("-", "_", strtolower($class_name))." = array();
+			
+			\$sql = new SqlDataView(new ".$class_name."DbTable());
+			\$sql->setClause(\$clause);
+			if (\$sort_attribut != '') {
+				\$sql->addOrder(\$sort_attribut, \$sort_order);
+			}
+			if (\$limit_row_count > 0) {
+				\$sql->setLimit(\$limit_offset, \$limit_row_count);
+			}
+			if (\$activate_htmlentities) {
+				\$sql->enableHtmlentitiesMode();
+			}
+			\$it = \$sql->retrieve();
+			while (\$it->hasNext()) {
+				\$row = \$it->next();
+				\$obj_".str_replace("-", "_", strtolower($class_name))." = new ".$this->getFormatValue($class_name)."Obj();\n";
+			$query2 = "SHOW COLUMNS FROM ".$database.".".$table;
+			$result2 = $this->dbInstance->prepareStatement($query2);
+			while ($row2 = $result2->fetch_array()) {
+				$data .= "			\$obj_".str_replace("-", "_", strtolower($class_name))."->set".$this->getFormatValue(strtolower($row2['Field']))."(\$row->getValue(".$this->getFormatValue($row['table_name'])."DbTable::FIELD_".str_replace("-", "_", strtoupper(strtolower($row2['Field'])))."));\n";
+			}
+			$data .= "			\$array_".str_replace("-", "_", strtolower($class_name))."[] = \$obj_".str_replace("-", "_", strtolower($class_name)).";
+			}
+			
+			return \$array_".str_replace("-", "_", strtolower($class_name)).";
+		}
+	}
+?>";
+		$file = new File(dirname(__FILE__)."/../../../wsp/class/database_model/wsp/".$class_name."ObjList.class.php", false, true);
+		$file->write($data);
+		$file->close();
 	}
 }
 ?>

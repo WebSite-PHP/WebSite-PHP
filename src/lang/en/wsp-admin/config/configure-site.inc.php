@@ -5,6 +5,8 @@
 	define("CMB_RATING", "Rating");
 	define("EDT_AUTHOR", "Author");
 	define("CMB_LANGUAGE", "Language");
+	define("CMB_SITE_TYPE", "Type site");
+	define("EDT_SITE_IMAGE", "Image site");
 	define("EDT_GOOGLE_CODE_TRACKER", "Google Analytics code");
 	define("EDT_GOOGLE_MAP_KEY", "Google maps key");
 	define("CMB_META_ROBOTS", "Robots");

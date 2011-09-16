@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.93
+ * @version     1.0.94
  * @access      public
  * @since       1.0.0
  */
@@ -154,6 +154,28 @@
 				$current_page_meta_revisit_after = 1;
 			}
 		}
+		
+		// init page open graph type
+		if ($page_object->getPageMetaOpenGraphType() != "") {
+			$current_page_meta_opengraph_type = $page_object->getPageMetaOpenGraphType();
+		} else {
+			if (defined('SITE_META_OPENGRAPH_TYPE')) {
+				$current_page_meta_opengraph_type = SITE_META_OPENGRAPH_TYPE;
+			} else {
+				$current_page_meta_opengraph_type = "";
+			}
+		}
+		
+		// init page open graph image
+		if ($page_object->getPageMetaOpenGraphImage() != "") {
+			$current_page_meta_opengraph_image = $page_object->getPageMetaOpenGraphImage();
+		} else {
+			if (defined('SITE_META_OPENGRAPH_IMAGE')) {
+				$current_page_meta_opengraph_image = SITE_META_OPENGRAPH_IMAGE;
+			} else {
+				$current_page_meta_opengraph_image = "";
+			}
+		}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="<?php echo $_SESSION['lang']; ?>">
@@ -183,6 +205,19 @@
 		<link rel="icon" type="image/ico" href="<?php echo BASE_URL; ?>favicon.ico" />
 		
 		<base href="<?php echo BASE_URL; ?>" />
+
+<?php 	if ($current_page_meta_opengraph_type != "" || $current_page_meta_opengraph_image != "") { ?>
+		<meta property="og:title" content="<?php echo html_entity_decode($current_page_title); ?>"/>
+		<meta property="og:site_name" content="<?php echo SITE_NAME; ?>"/>
+		<meta property="og:description" content="<?php echo html_entity_decode($current_page_description); ?>"/>
+		<meta property="og:url" content="<?php echo $page_object->getCurrentURL(); ?>"/>
+<?php 		if ($current_page_meta_opengraph_type != "") { ?>
+		<meta property="og:type" content="<?php echo $current_page_meta_opengraph_type; ?>"/>
+<?php 		} ?>
+<?php 		if ($current_page_meta_opengraph_image != "") { ?>
+		<meta property="og:image" content="<?php echo $current_page_meta_opengraph_image; ?>"/>
+<?php 		} ?>
+<?php 	} ?>
 		
 <?php 	if (defined('DEFINE_STYLE_FONT') && DEFINE_STYLE_FONT != "") { ?>
 		<link href='http://fonts.googleapis.com/css?family=<?php echo str_replace(" ", "+", DEFINE_STYLE_FONT); ?>' rel='stylesheet' type='text/css'>

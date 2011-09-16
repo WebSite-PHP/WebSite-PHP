@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 05/08/2011
- * @version     1.0.91
+ * @version     1.0.94
  * @access      public
  * @since       1.0.91
  */
@@ -119,6 +119,9 @@ class Chart extends WebSitePhpObject {
 		$this->grid = $grid;
 		$this->bar_width = $bar_width;
 		
+		if ($this->getPage()->getBrowserName() == "IE" && $this->getPage()->getBrowserVersion() <= 8) {
+			JavaScriptInclude::getInstance()->addToEnd(BASE_URL."wsp/js/jquery/flot/excanvas.min.js", "", true);
+		}
 		JavaScriptInclude::getInstance()->addToEnd(BASE_URL."wsp/js/jquery/flot/jquery.flot.js", "", true);
 	}
 	

@@ -11,13 +11,21 @@ Options +FollowSymLinks
 	
 	# Zone to define your URL rewriting
 	# Exemple 1: 
-	# RewriteRule ^myfolder/(.+)\.html$ index.php?p=$1&l=&folder_level=1&%{QUERY_STRING} [L] 
+	# Create an URL with 1 virtual folder (myfolder)
+	# RewriteRule ^myfolder/(.+)\.html$ index.php?p=$1&l=en&folder_level=1&%{QUERY_STRING} [L] 
 	# RewriteRule ^([a-z]{2})/myfolder/(.+)\.html$ index.php?p=$2&l=$1&folder_level=1&%{QUERY_STRING} [L] 
+	# 
 	# Exemple 2: 
-	# RewriteRule ^myfolder/myfolder2/(.+)\.html$ index.php?p=$1&l=&folder_level=2&%{QUERY_STRING} [L] 
+	# Create an URL with 2 virtuals folders (myfolder and myfolder2)
+	# RewriteRule ^myfolder/myfolder2/(.+)\.html$ index.php?p=$1&l=en&folder_level=2&%{QUERY_STRING} [L] 
 	# RewriteRule ^([a-z]{2})/myfolder/myfolder2/(.+)\.html$ index.php?p=$2&l=$1&folder_level=2&%{QUERY_STRING} [L] 
+	# 
 	# Exemple 3: 
-	# RewriteRule ^([a-z]{2})/([^ajax|^wsp\-admin].+)/(.+)\.html$ index.php?p=my_page&l=$1&param1=$2&param2=$3&folder_level=1&%{QUERY_STRING} [L] 
+	# Create an URL with 1 variable virtual folder (warning param2)
+	# RewriteRule ^([a-z]{2})/((?!(ajax|wsp\-admin)).+)/(.+)\.html$ index.php?p=my_page&l=$1&param1=$2&param2=$4&folder_level=1&%{QUERY_STRING} [L]
+	# 
+	# Warning: Create your rules only if the framework can't support your special URL => virtual folder
+	#
 	
 	# End zone for your URL rewriting (don't write anything after this line and don't remove it)
 	

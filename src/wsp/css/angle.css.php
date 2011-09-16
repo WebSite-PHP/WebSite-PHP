@@ -207,3 +207,7 @@
 		} 
 	} 
 ?>
+
+.BoxOverFlowHidden {
+	overflow: hidden;
+}

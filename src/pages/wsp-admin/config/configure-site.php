@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.91
+ * @version     1.0.94
  * @access      public
  * @since       1.0.25
  */
@@ -33,6 +33,8 @@ class ConfigureSite extends Page {
 	private $cmbRating = null;
 	private $edtAuthor = null;
 	private $cmbLanguage = null;
+	private $cmbSiteType = null;
+	private $edtSiteImage = null;
 	private $edtGoogleTracker = null;
 	private $edtGoogleMapKey = null;
 	private $cmbMetaRobots = null;
@@ -91,6 +93,56 @@ class ConfigureSite extends Page {
 		$this->cmbLanguage = new ComboBox($form);
 		$this->cmbLanguage->addItem("en", __(ENGLISH), (SITE_DEFAULT_LANG=="en")?true:false, "wsp/img/lang/en.png")->addItem("fr", __(FRENCH), (SITE_DEFAULT_LANG=="fr")?true:false, "wsp/img/lang/fr.png")->addItem("de", __(GERMAN), (SITE_DEFAULT_LANG=="de")?true:false, "wsp/img/lang/de.png")->addItem("es", __(SPANISH), (SITE_DEFAULT_LANG=="es")?true:false, "wsp/img/lang/es.png")->setWidth(143);
 		$table_form->addRowColumns(__(CMB_LANGUAGE).":&nbsp;", $this->cmbLanguage);
+		
+		$table_form->addRow();
+		
+		$this->cmbSiteType = new ComboBox($form);
+		$this->cmbSiteType->addItem("activity", "activity", (SITE_META_OPENGRAPH_TYPE=="activity")?true:false);
+		$this->cmbSiteType->addItem("sport", "sport", (SITE_META_OPENGRAPH_TYPE=="sport")?true:false);
+		$this->cmbSiteType->addItem("bar", "bar", (SITE_META_OPENGRAPH_TYPE=="bar")?true:false);
+		$this->cmbSiteType->addItem("company", "company", (SITE_META_OPENGRAPH_TYPE=="company")?true:false);
+		$this->cmbSiteType->addItem("cafe", "cafe", (SITE_META_OPENGRAPH_TYPE=="cafe")?true:false);
+		$this->cmbSiteType->addItem("hotel", "hotel", (SITE_META_OPENGRAPH_TYPE=="hotel")?true:false);
+		$this->cmbSiteType->addItem("restaurant", "restaurant", (SITE_META_OPENGRAPH_TYPE=="restaurant")?true:false);
+		$this->cmbSiteType->addItem("cause", "cause", (SITE_META_OPENGRAPH_TYPE=="cause")?true:false);
+		$this->cmbSiteType->addItem("sports_league", "sports league", (SITE_META_OPENGRAPH_TYPE=="sports_league")?true:false);
+		$this->cmbSiteType->addItem("sports_team", "sports team", (SITE_META_OPENGRAPH_TYPE=="sports_team")?true:false);
+		$this->cmbSiteType->addItem("band", "band", (SITE_META_OPENGRAPH_TYPE=="band")?true:false);
+		$this->cmbSiteType->addItem("government", "government", (SITE_META_OPENGRAPH_TYPE=="government")?true:false);
+		$this->cmbSiteType->addItem("non_profit", "non profit", (SITE_META_OPENGRAPH_TYPE=="non_profit")?true:false);
+		$this->cmbSiteType->addItem("school", "school", (SITE_META_OPENGRAPH_TYPE=="school")?true:false);
+		$this->cmbSiteType->addItem("university", "university", (SITE_META_OPENGRAPH_TYPE=="university")?true:false);
+		$this->cmbSiteType->addItem("actor", "actor", (SITE_META_OPENGRAPH_TYPE=="actor")?true:false);
+		$this->cmbSiteType->addItem("athlete", "athlete", (SITE_META_OPENGRAPH_TYPE=="athlete")?true:false);
+		$this->cmbSiteType->addItem("author", "author", (SITE_META_OPENGRAPH_TYPE=="author")?true:false);
+		$this->cmbSiteType->addItem("director", "director", (SITE_META_OPENGRAPH_TYPE=="director")?true:false);
+		$this->cmbSiteType->addItem("musician", "musician", (SITE_META_OPENGRAPH_TYPE=="musician")?true:false);
+		$this->cmbSiteType->addItem("politician", "politician", (SITE_META_OPENGRAPH_TYPE=="politician")?true:false);
+		$this->cmbSiteType->addItem("profile", "profile", (SITE_META_OPENGRAPH_TYPE=="profile")?true:false);
+		$this->cmbSiteType->addItem("public_figure", "public figure", (SITE_META_OPENGRAPH_TYPE=="public_figure")?true:false);
+		$this->cmbSiteType->addItem("city", "city", (SITE_META_OPENGRAPH_TYPE=="city")?true:false);
+		$this->cmbSiteType->addItem("country", "country", (SITE_META_OPENGRAPH_TYPE=="country")?true:false);
+		$this->cmbSiteType->addItem("landmark", "landmark", (SITE_META_OPENGRAPH_TYPE=="landmark")?true:false);
+		$this->cmbSiteType->addItem("state_province", "state province", (SITE_META_OPENGRAPH_TYPE=="state_province")?true:false);
+		$this->cmbSiteType->addItem("album", "album", (SITE_META_OPENGRAPH_TYPE=="album")?true:false);
+		$this->cmbSiteType->addItem("book", "book", (SITE_META_OPENGRAPH_TYPE=="book")?true:false);
+		$this->cmbSiteType->addItem("drink", "drink", (SITE_META_OPENGRAPH_TYPE=="drink")?true:false);
+		$this->cmbSiteType->addItem("food", "food", (SITE_META_OPENGRAPH_TYPE=="food")?true:false);
+		$this->cmbSiteType->addItem("game", "game", (SITE_META_OPENGRAPH_TYPE=="game")?true:false);
+		$this->cmbSiteType->addItem("movie", "movie", (SITE_META_OPENGRAPH_TYPE=="movie")?true:false);
+		$this->cmbSiteType->addItem("product", "product", (SITE_META_OPENGRAPH_TYPE=="product")?true:false);
+		$this->cmbSiteType->addItem("song", "song", (SITE_META_OPENGRAPH_TYPE=="song")?true:false);
+		$this->cmbSiteType->addItem("tv_show", "tv show", (SITE_META_OPENGRAPH_TYPE=="tv_show")?true:false);
+		$this->cmbSiteType->addItem("article", "article", (SITE_META_OPENGRAPH_TYPE=="article")?true:false);
+		$this->cmbSiteType->addItem("blog", "blog", (SITE_META_OPENGRAPH_TYPE=="blog")?true:false);
+		$this->cmbSiteType->addItem("website", "website", (SITE_META_OPENGRAPH_TYPE=="website")?true:false);
+		$this->cmbSiteType->setWidth(143);
+		$table_form->addRowColumns(__(CMB_SITE_TYPE).":&nbsp;", $this->cmbSiteType);
+		
+		$this->edtSiteImage = new TextBox($form);
+		$this->edtSiteImage->setValue(SITE_META_OPENGRAPH_IMAGE);
+		$edtValidation = new LiveValidation();
+		$table_form->addRowColumns(__(EDT_SITE_IMAGE).":&nbsp;", $this->edtSiteImage);
 		
 		$table_form->addRow();
 		
@@ -203,6 +255,9 @@ class ConfigureSite extends Page {
 		$data_config_file .= "define(\"SITE_RATING\", \"".$this->cmbRating->getValue()."\"); // general, mature, restricted, 14years\n";
 		$data_config_file .= "define(\"SITE_AUTHOR\", \"".str_replace("\"", "\\\"", $this->edtAuthor->getValue())."\");\n";
 		$data_config_file .= "define(\"SITE_DEFAULT_LANG\", \"".$this->cmbLanguage->getValue()."\"); // en, fr, ...\n";
+		$data_config_file .= "\n";
+		$data_config_file .= "define(\"SITE_META_OPENGRAPH_TYPE\", \"".$this->cmbSiteType->getValue()."\");\n";
+		$data_config_file .= "define(\"SITE_META_OPENGRAPH_IMAGE\", \"".$this->edtSiteImage->getValue()."\");\n";
 		$data_config_file .= "\n";
 		$data_config_file .= "define(\"GOOGLE_CODE_TRACKER\", \"".$this->edtGoogleTracker->getValue()."\");\n";
 		$data_config_file .= "define(\"GOOGLE_MAP_KEY\", \"".$this->edtGoogleMapKey->getValue()."\");\n";

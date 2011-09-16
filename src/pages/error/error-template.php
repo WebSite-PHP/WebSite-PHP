@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.94
  * @access      public
  * @since       1.0.30
  */
@@ -37,7 +37,11 @@ class ErrorTemplate extends DefinedZone {
 		$this->render->setWidth("100%");
 		
 		// Header
-		$logo = new Picture("img/logo_128x400_".$_SESSION['lang'].".png", 128, 400);
+		if (defined('SITE_META_OPENGRAPH_IMAGE') && SITE_META_OPENGRAPH_IMAGE != "") {
+			$logo = new Picture(SITE_META_OPENGRAPH_IMAGE);
+		} else {
+			$logo = new Picture("img/logo_128x400_".$_SESSION['lang'].".png", 128, 400);
+		}
 		$logo->setTitle(SITE_NAME);
 		$logo_link = new Link($this->getPage()->getBaseLanguageURL(), Link::TARGET_NONE, $logo);
 		$img_obj = new Object($logo_link);
@@ -46,7 +50,7 @@ class ErrorTemplate extends DefinedZone {
 		$this->render->addRow();
 		
 		// Error message
-		$small_img = new Picture("img/logo_16x16.png", 16, 16, 0, "absmiddle");
+		$small_img = new Picture("wsp/img/warning_16.png", 16, 16, 0, "absmiddle");
 		$title_header = new Object($small_img, $title);
 		
 		$error_box = new Box($title_header, true, Box::STYLE_MAIN, Box::STYLE_MAIN, '', 'error_box', 700);

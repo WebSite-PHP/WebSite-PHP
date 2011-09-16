@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.93
+ * @version     1.0.94
  * @access      public
  * @since       1.0.18
  */
@@ -305,8 +305,9 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 				if (gettype($array_args[$i]) == "object") {
 					if (get_class($array_args[$i]) == "TextBox" || get_class($array_args[$i]) == "ColorPicker" || 
 						get_class($array_args[$i]) == "Button" || get_class($array_args[$i]) == "ComboBox" || 
-						get_class($array_args[$i]) == "CheckBox") {
-						$this->callback_args .= "\''+$('#".trim($array_args[$i]->getId())."').val()+'\'";
+						get_class($array_args[$i]) == "CheckBox" || get_class($array_args[$i]) == "Hidden" || 
+						get_class($array_args[$i]) == "Calendar") {
+							$this->callback_args .= "\''+$('#".trim($array_args[$i]->getId())."').val()+'\'";
 					} else if (get_class($array_args[$i]) == "Editor") {
 						$this->callback_args .= "\''+getEditorContent_".trim($array_args[$i]->getName())."()+'\'";
 					} else {
@@ -389,14 +390,14 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		}
 		$html .= "', url: '".BASE_URL.LANGUAGE_URL."/ajax/";
 		if ($this->form_object == null) {
-			$port = "";
-			if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
-				$port = ":".$_SERVER['SERVER_PORT'];
+			$html .= $this->getPage()->getPage().".html";
+			if (PARAMS_URL != "") {
+				$pos = find(PARAMS_URL, "?", 0, $pos);
+				if ($pos > 0) {
+					$pos2 = strlen(PARAMS_URL);
+					$html .= "?".substr(PARAMS_URL, $pos, $pos2-$pos);
+				}
 			}
-			$tmp_url = str_replace(BASE_URL.LANGUAGE_URL."/ajax/", "", "http://".$_SERVER['SERVER_NAME'].$port.$_SERVER['REQUEST_URI']);
-			$tmp_url = str_replace(BASE_URL.LANGUAGE_URL."/", "", $tmp_url);
-			$tmp_url = str_replace(".php?", ".html?", str_replace(".call?", ".html?", str_replace(".do?", ".html?", str_replace(".xhtml?", ".html?", $tmp_url))));
-			$html .= $tmp_url;
 		} else {
 			if ($this->form_object->getAction() == "") {
 				$html .= $this->form_object->getPageObject()->getPage().".html";
@@ -615,12 +616,12 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 			if ($array_params[$i] != "") {
 				$array_param = explode("=", $array_params[$i]);
 				if (find($array_param[0], "Callback_") == 0) {
-					$params_url .= $array_params[$i];
+					$params_url .= $array_params[$i]."&";
 				}
 			}
 		}
 		if ($params_url == "") { $params_url = "?"; }
-		return $base_url.$params_url."&Callback_".$this->getEventObjectName()."='+ $('#Callback_".$this->getEventObjectName()."').val() + '";
+		return $base_url.$params_url."Callback_".$this->getEventObjectName()."='+ $('#Callback_".$this->getEventObjectName()."').val() + '";
 	}
 	
 	/**

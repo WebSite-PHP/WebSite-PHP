@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.90
+ * @version     1.0.94
  * @access      public
  * @since       1.0.17
  */
@@ -299,6 +299,11 @@ class Object extends WebSitePhpEventObject {
 	 */
 	public function setId($id) {
 		$this->id = $id;
+		
+		$register_objects = WebSitePhpObject::getRegisterObjects();
+		$register_objects[] = $this;
+		$_SESSION['websitephp_register_object'] = $register_objects;
+		
 		return $this;
 	}
 		
