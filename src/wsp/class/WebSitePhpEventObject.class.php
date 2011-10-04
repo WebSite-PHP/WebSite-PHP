@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.94
+ * @version     1.0.95
  * @access      public
  * @since       1.0.18
  */
@@ -310,6 +310,8 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 							$this->callback_args .= "\''+$('#".trim($array_args[$i]->getId())."').val()+'\'";
 					} else if (get_class($array_args[$i]) == "Editor") {
 						$this->callback_args .= "\''+getEditorContent_".trim($array_args[$i]->getName())."()+'\'";
+					} else if (get_class($array_args[$i]) == "JavaScript") {
+						$this->callback_args .= trim($array_args[$i]->render());
 					} else {
 						throw new NewException(get_class($array_args[$i])." is not a valid argument for the method ".$str_function_tmp.".", 0, 8, __FILE__, __LINE__);
 					}

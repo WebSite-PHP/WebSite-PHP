@@ -20,7 +20,8 @@
 	define("CHANGE_PASSWD_CONGRATULATION", "Congratulation, your password has been changed.");
 	define("CHANGE_PASSWD_ERROR", "Error, please check your new password not empty or your old password is correct.");
 	
-	define("NEW_WSP_VERSION", "You can <a href=\"javascript:void(0);\" onClick=\"%s\">update Website-PHP to the last version</a> (version %s).<br/>");
+	define("NEW_WSP_VERSION", "You can <a href=\"javascript:void(0);\" onClick=\"%s\">update Website-PHP to the last version</a> (version %s).");
+	define("NEW_WSP_VERSION_INSTALL_PHP_ZIP", "(Please install <a href=\"http://www.php.net/manual/en/zip.installation.php\" target=\"_blank\">PHP-Zip</a> to update automaticaly the framework)");
 	define("NEW_BROWSCAP_VERSION", "Browscap.ini is not to date, <a href=\"javascript:void(0);\" onClick=\"%s\">click here to update</a> (version %s).<br/>");
 	define("CURRENT_WSP_VERSION", "Current version of Website-PHP: %s");
 	define("INSTALL_PHP_SOAP", "Install PHP lib SOAP to be alerted of new version of <a href=\"http://www.website-php.com\" target=\"_blank\">WebSite-PHP</a><br/>");

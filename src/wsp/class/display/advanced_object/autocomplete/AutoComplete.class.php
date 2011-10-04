@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.82
+ * @version     1.0.95
  * @access      public
  * @since       1.0.17
  */
@@ -74,6 +74,15 @@ class AutoComplete extends WebSitePhpObject {
 		$this->link_object_id = $id;
 	}
 	
+	/**
+	 * Method setTrackEvent
+	 * @access public
+	 * @param mixed $category 
+	 * @param mixed $action 
+	 * @param string $label 
+	 * @return AutoComplete
+	 * @since 1.0.95
+	 */
 	public function setTrackEvent($category, $action, $label='') {
 		if (GOOGLE_CODE_TRACKER == "") {
 			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, 8, __FILE__, __LINE__);
@@ -84,6 +93,12 @@ class AutoComplete extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setTrackPageView
+	 * @access public
+	 * @return AutoComplete
+	 * @since 1.0.95
+	 */
 	public function setTrackPageView() {
 		if (GOOGLE_CODE_TRACKER == "") {
 			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, 8, __FILE__, __LINE__);
@@ -107,8 +122,9 @@ class AutoComplete extends WebSitePhpObject {
 		if ($this->indicator_id != "") {
 			$html .= "search: function( event, ui ) { $('#".$this->indicator_id."').css('display', 'block');$('#".$this->indicator_id."').css('visibility', 'visible'); }, ";
 		}
+		$html .= "open: function( event, ui ) { ";
+		$html .= "	$('.ui-resizable').removeClass('ui-resizable');";
 		if ($this->indicator_id != "" || $this->track_categ != "" || $this->track_pageview) {
-			$html .= "open: function( event, ui ) { ";
 			if ($this->indicator_id != "") {
 				$html .= "$('#".$this->indicator_id."').css('visibility', 'hidden');";
 			}
@@ -118,13 +134,21 @@ class AutoComplete extends WebSitePhpObject {
 			if ($this->track_pageview) {
 				$html .= "_gaq.push(['_trackPageview', '/".str_replace($this->getPage()->getBaseURL(), "", $this->autocomplete_url->render())."?term='+urlencode(trim(\$('#".$this->link_object_id."').val()))]);";
 			}
-			$html .= " }, ";
 		}
+		$html .= " }, ";
 		$html .= "select: function( event, ui ) { ";
 		if ($this->autocomplete_event != null) {
 			$html .= $this->autocomplete_event->render();
 		}
-		$html .= " } });\n";
+		$html .= " } })\n";
+		$html .= ".data(\"autocomplete\")._renderItem = function(ul, item) {
+			if (item.icon == '') {
+				return $(\"<li></li>\").data(\"item.autocomplete\", item).append(\"<a>\" + item.label + \"</a>\" ).appendTo(ul);
+			} else {
+				return $(\"<li></li>\").data(\"item.autocomplete\", item).append(\"<a><img src='\" + item.icon + \"' border='0' height='20' align='absmiddle'/> \" + item.label + \"</a>\" ).appendTo(ul);
+			}
+		}";
+		$html .= ";\n";
 		$html .= "});\n";
 		$html .= $this->getJavascriptTagClose();
 		$this->object_change = false;

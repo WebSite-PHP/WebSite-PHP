@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.95
  * @access      public
  * @since       1.0.0
  */
@@ -97,6 +97,17 @@
 	$save_scroll_position = "var wsp_save_hscroll = f_scrollLeft();";
 	$save_scroll_position .= "var wsp_save_vscroll = f_scrollTop();";
 	$array_ajax_object_render[0] = $save_scroll_position;
+	
+	$add_to_render = $page_object->getBeginAddedObjects();
+	for ($i=0; $i < sizeof($add_to_render); $i++) {
+		if (gettype($add_to_render[$i]) == "object") {
+			$ajax_render = str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $add_to_render[$i]->getAjaxRender()));
+			if ($ajax_render != "") {
+				$array_ajax_object_render[] = $ajax_render;
+			}
+		}
+	}
+	
 	$register_objects = WebSitePhpObject::getRegisterObjects();
 	for ($i=0; $i < sizeof($register_objects); $i++) {
 		$object = $register_objects[$i];
@@ -109,7 +120,7 @@
 		$register_objects = WebSitePhpObject::getRegisterObjects();
 	}
 	
-	$add_to_render = $page_object->getAddedObjects();
+	$add_to_render = $page_object->getEndAddedObjects();
 	for ($i=0; $i < sizeof($add_to_render); $i++) {
 		if (gettype($add_to_render[$i]) == "object") {
 			$ajax_render = str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $add_to_render[$i]->getAjaxRender()));

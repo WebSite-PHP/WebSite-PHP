@@ -20,7 +20,8 @@
 	define("CHANGE_PASSWD_CONGRATULATION", "Félicitations, votre mot de passe a été changé.");
 	define("CHANGE_PASSWD_ERROR", "Erreur, vérifiez que votre nouveau mot de passe n'est pas vide ou que votre ancien mot de passe est correct.");
 	
-	define("NEW_WSP_VERSION", "Vous pouvez <a href=\"javascript:void(0);\" onClick=\"%s\">mettre à jour Website-PHP à la dernière version</a> (version %s).<br/>");
+	define("NEW_WSP_VERSION", "Vous pouvez <a href=\"javascript:void(0);\" onClick=\"%s\">mettre à jour Website-PHP à la dernière version</a> (version %s).");
+	define("NEW_WSP_VERSION_INSTALL_PHP_ZIP", "(Veuillez installer <a href=\"http://www.php.net/manual/fr/zip.installation.php\" target=\"_blank\">PHP-Zip</a> pour mettre à jour automatiquement le framework)");
 	define("NEW_BROWSCAP_VERSION", "Browscap.ini n'est pas à jour, <a href=\"javascript:void(0);\" onClick=\"%s\">cliquez ici pour le mettre à jour</a> (version %s).<br/>");
 	define("CURRENT_WSP_VERSION", "Version actuelle de Website-PHP: %s");
 	define("INSTALL_PHP_SOAP", "Installez la librairie PHP SOAP pour être alerté des nouvelles version de <a href=\"http://www.website-php.com\" target=\"_blank\">WebSite-PHP</a><br/>");

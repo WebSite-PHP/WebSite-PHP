@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.94
+ * @version     1.0.95
  * @access      public
  * @since       1.0.25
  */
@@ -794,9 +794,9 @@ $data .= "	/**
 			$query2 = "SHOW COLUMNS FROM ".$database.".".$table;
 			$result2 = $this->dbInstance->prepareStatement($query2);
 			while ($row2 = $result2->fetch_array()) {
-				$data .= "			\$obj_".str_replace("-", "_", strtolower($class_name))."->set".$this->getFormatValue(strtolower($row2['Field']))."(\$row->getValue(".$this->getFormatValue($row['table_name'])."DbTable::FIELD_".str_replace("-", "_", strtoupper(strtolower($row2['Field'])))."));\n";
+				$data .= "				\$obj_".str_replace("-", "_", strtolower($class_name))."->set".$this->getFormatValue(strtolower($row2['Field']))."(\$row->getValue(".$this->getFormatValue($class_name)."DbTable::FIELD_".str_replace("-", "_", strtoupper(strtolower($row2['Field'])))."));\n";
 			}
-			$data .= "			\$array_".str_replace("-", "_", strtolower($class_name))."[] = \$obj_".str_replace("-", "_", strtolower($class_name)).";
+			$data .= "				\$array_".str_replace("-", "_", strtolower($class_name))."[] = \$obj_".str_replace("-", "_", strtolower($class_name)).";
 			}
 			
 			return \$array_".str_replace("-", "_", strtolower($class_name)).";

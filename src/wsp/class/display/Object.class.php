@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.94
+ * @version     1.0.95
  * @access      public
  * @since       1.0.17
  */
@@ -362,8 +362,8 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method setDraggable
 	 * @access public
-	 * @param string $bool if object can be move [default value: true]
-	 * @param string $revert if object revert first place when dropped [default value: false]
+	 * @param boolean $bool if object can be move [default value: true]
+	 * @param boolean $revert if object revert first place when dropped [default value: false]
 	 * @param DraggableEvent $draggable_event [default value: null]
 	 * @param boolean $sortable_zone [default value: false]
 	 * @param string $draggable_params 
@@ -405,7 +405,7 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method setDroppable
 	 * @access public
-	 * @param string $bool if object can be dropped [default value: true]
+	 * @param boolean $bool if object can be dropped [default value: true]
 	 * @param DroppableEvent $droppable_event [default value: null]
 	 * @param string $droppable_params 
 	 * @param string $droppable_style [default value: droppablehover]
@@ -446,7 +446,7 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method setSortable
 	 * @access public
-	 * @param string $bool if object can be sort [default value: true]
+	 * @param boolean $bool if object can be sort [default value: true]
 	 * @param SortableEvent $sortable_event [default value: null]
 	 * @param string $sortable_params 
 	 * @return Object
@@ -509,8 +509,8 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method onClick
 	 * @access public
-	 * @param mixed $page_or_form_object 
-	 * @param mixed $str_function 
+	 * @param Page|Form $page_or_form_object 
+	 * @param string $str_function 
 	 * @param mixed $arg1 [default value: null]
 	 * @param mixed $arg2 [default value: null]
 	 * @param mixed $arg3 [default value: null]
@@ -605,7 +605,7 @@ class Object extends WebSitePhpEventObject {
 	/**
 	 * Method isClicked
 	 * @access public
-	 * @return mixed
+	 * @return boolean
 	 * @since 1.0.36
 	 */
 	public function isClicked() {

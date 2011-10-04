@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.93
+ * @version     1.0.95
  * @access      public
  * @since       1.0.17
  */
@@ -89,6 +89,8 @@ class Table extends WebSitePhpObject {
 	private $font_weight = "";
 	private $style = "";
 	private $max_nb_cols = 0;
+	
+	private $ajax_refresh_all_table = false;
 	/**#@-*/
 	
 	/**
@@ -394,6 +396,22 @@ class Table extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method setAjaxRefreshAllTable
+	 * @access public
+	 * @return Table
+	 * @since 1.0.95
+	 */
+	public function setAjaxRefreshAllTable() {
+		if ($this->id == "") {
+			throw new NewException(get_class($this)."->setAjaxRefreshAllTable() error: you must define an id to the Table (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+		}
+		
+		$this->ajax_refresh_all_table = true;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -485,16 +503,29 @@ class Table extends WebSitePhpObject {
 		}
 		
 		$html = "";
-		for ($i=0; $i < sizeof($this->rows); $i++) {
-			if ($this->rows[$i]->isNew()) {
+		if ($this->ajax_refresh_all_table) { // refresh all table
+			$html .= "$('#".$this->id."').empty();";
+			for ($i=0; $i < sizeof($this->rows); $i++) {
 				$array_ajax_render = extract_javascript($this->rows[$i]->render(false));
 				for ($j=1; $j < sizeof($array_ajax_render); $j++) {
 					new JavaScript($array_ajax_render[$j], true);
 				}
-				
-				$html .= "$('#".$this->id."').append('".str_replace("\n", "", str_replace("\r", "", addslashes($array_ajax_render[0])))."');";
-			} else if ($this->rows[$i]->isDeleted()) {
-				$html .= "$('#wsp_rowtable_".$this->rows[$i]->getId()."').remove();";
+				if (trim($array_ajax_render[0]) != "") {
+					$html .= "$('#".$this->id."').append('".str_replace("\n", "", str_replace("\r", "", addslashes($array_ajax_render[0])))."');";
+				}
+			}
+		} else {
+			for ($i=0; $i < sizeof($this->rows); $i++) {
+				if ($this->rows[$i]->isNew()) {
+					$array_ajax_render = extract_javascript($this->rows[$i]->render(false));
+					for ($j=1; $j < sizeof($array_ajax_render); $j++) {
+						new JavaScript($array_ajax_render[$j], true);
+					}
+					
+					$html .= "$('#".$this->id."').append('".str_replace("\n", "", str_replace("\r", "", addslashes($array_ajax_render[0])))."');";
+				} else if ($this->rows[$i]->isDeleted()) {
+					$html .= "$('#wsp_rowtable_".$this->rows[$i]->getId()."').remove();";
+				}
 			}
 		}
 		return $html;

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.94
+ * @version     1.0.95
  * @access      public
  * @since       1.0.0
  */
@@ -151,7 +151,7 @@ class Page {
 	private $callback_method_params = array();
 	private $array_callback_object = array("Button", "ComboBox", "TextBox", "Password", "ColorPicker", "CheckBox", 
 											"ContextMenuEvent", "DroppableEvent", "SortableEvent", "Object", "Picture", 
-											"Calendar");
+											"Calendar", "AutoCompleteEvent");
 	
 	private $create_object_to_get_css_js = false;
 	/**#@-*/
@@ -774,7 +774,7 @@ class Page {
 							$save_load_variables = $GLOBALS['__LOAD_VARIABLES__'];
 							$GLOBALS['__LOAD_VARIABLES__'] = true;
 							if (get_class($object) == "Object" || get_class($object) == "ContextMenuEvent" || 
-								get_class($object) == "Picture") {
+								get_class($object) == "Picture" || get_class($object) == "AutoCompleteEvent") {
 									$object->setClick();
 							} else if (get_class($object) == "DroppableEvent") {
 								$object->setDrop();
@@ -895,6 +895,26 @@ class Page {
 	 */
 	public function getAddedObjects() {
 		return array_merge($this->add_to_render_begining, $this->add_to_render);
+	}
+		
+	/**
+	 * Method getBeginAddedObjects
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.95
+	 */
+	public function getBeginAddedObjects() {
+		return array_merge($this->add_to_render_begining);
+	}
+		
+	/**
+	 * Method getEndAddedObjects
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.95
+	 */
+	public function getEndAddedObjects() {
+		return array_merge($this->add_to_render);
 	}
 	
 	/**

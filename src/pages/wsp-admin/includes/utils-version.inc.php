@@ -53,9 +53,10 @@
 				if (extension_loaded('zip')) {
 					$dialog_update_wsp = new DialogBox(__(UPDATE_FRAMEWORK), new Url("wsp-admin/update/update-confirm.call?update=update-wsp&text=WebSite-PHP"));
 					$dialog_update_wsp->displayFormURL();
-					$alert_version_obj->add(__(NEW_WSP_VERSION, $dialog_update_wsp->render(), $wsp_version));
+					$alert_version_obj->add(__(NEW_WSP_VERSION, $dialog_update_wsp->render(), $wsp_version), "<br/>");
 				} else {
 					$alert_version_obj->add(__(NEW_WSP_VERSION, "location.href='http://www.website-php.com/download/website-php-update.zip';", $wsp_version));
+					$alert_version_obj->add(" ", __(NEW_WSP_VERSION_INSTALL_PHP_ZIP), "<br/>");
 				}
 			}
 			if ($browscap_version != false) {

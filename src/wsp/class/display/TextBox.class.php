@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.94
+ * @version     1.0.95
  * @access      public
  * @since       1.0.17
  */
@@ -51,6 +51,10 @@ class TextBox extends WebSitePhpEventObject {
 	private $is_clicked = false;
 	private $onclick = "";
 	private $callback_onclick = "";
+	
+	private $onmouseover = "";
+	private $onmouseout = "";
+	private $onblur = "";
 	
 	private $encrypt_object = null;
 	
@@ -460,6 +464,63 @@ class TextBox extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method onMouseOverJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return TextBox
+	 * @since 1.0.95
+	 */
+	public function onMouseOverJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onmouseover = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method onMouseOutJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return TextBox
+	 * @since 1.0.95
+	 */
+	public function onMouseOutJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onmouseout = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method onBlurJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return TextBox
+	 * @since 1.0.95
+	 */
+	public function onBlurJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onblur = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
 	 * Method forceEmpty
 	 * @access public
 	 * @return TextBox
@@ -535,6 +596,15 @@ class TextBox extends WebSitePhpEventObject {
 			}
 			if ($this->onclick != "" || $this->callback_onclick != "") {
 				$html .= " onClick=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick))."\"";
+			}
+			if ($this->onmouseover != "") {
+				$html .= " onMouseOver=\"".str_replace("\n", "", str_replace("\"", "\\\"", $this->onmouseover))."\"";
+			}
+			if ($this->onmouseout != "") {
+				$html .= " onMouseOut=\"".str_replace("\n", "", str_replace("\"", "\\\"", $this->onmouseout))."\"";
+			}
+			if ($this->onblur != "") {
+				$html .= " onBlur=\"".str_replace("\n", "", str_replace("\"", "\\\"", $this->onblur))."\"";
 			}
 			$html .= "/>\n";
 			

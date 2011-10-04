@@ -18,8 +18,8 @@
  * @subpackage advanced_object.autocomplete
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 05/01/2011
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.95
  * @access      public
  * @since       1.0.17
  */
@@ -31,6 +31,7 @@ class AutoCompleteResult extends WebSitePhpObject {
 	private $array_result_id = array();
 	private $array_result_label = array();
 	private $array_result_value = array();
+	private $array_result_icon = array();
 	/**#@-*/
 	
 	/**
@@ -47,13 +48,15 @@ class AutoCompleteResult extends WebSitePhpObject {
 	 * @param mixed $id 
 	 * @param mixed $label 
 	 * @param mixed $value 
+	 * @param string $icon 
 	 * @return AutoCompleteResult
 	 * @since 1.0.35
 	 */
-	public function add($id, $label, $value) {
+	public function add($id, $label, $value, $icon='') {
 		$this->array_result_id[] = $id;
 		$this->array_result_label[] = $label;
 		$this->array_result_value[] = $value;
+		$this->array_result_icon[] = $icon;
 		return $this;
 	}
 	
@@ -68,7 +71,7 @@ class AutoCompleteResult extends WebSitePhpObject {
 		$html = "[";
 		for ($i=0; $i < sizeof($this->array_result_id); $i++) {
 			if ($i > 0) { $html .= ", "; }
-			$html .= '{ "id": "'.$this->array_result_id[$i].'", "label": "'.$this->array_result_label[$i].'", "value": "'.$this->array_result_value[$i].'" }';
+			$html .= '{ "id": "'.$this->array_result_id[$i].'", "label": "'.$this->array_result_label[$i].'", "value": "'.$this->array_result_value[$i].'", "icon": "'.$this->array_result_icon[$i].'" }';
 		}
 		if ($i == 0) { $html .= "{}"; }
 		$html .= "]";

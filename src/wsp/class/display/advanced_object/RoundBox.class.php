@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.94
+ * @version     1.0.95
  * @access      public
  * @since       1.0.17
  */
@@ -374,11 +374,11 @@ class RoundBox extends WebSitePhpObject {
 			$html .= "\">";
 			$html .= "						<div ";
 			if ($this->align == Box::ALIGN_JUSTIFY) {
-				$html .= "style=\"text-align:justify;";
+				$html .= "style=\"text-align:justify;\"";
 			} else {
 				$html .= "align=\"".$this->align."\"";
 			}
-			$html .= "\">\n";
+			$html .= ">\n";
 			if ($this->content != null) {
 				if (gettype($this->content) == "object" && method_exists($this->content, "render")) {
 					$html .= "					".$this->content->render($ajax_render)."\n";

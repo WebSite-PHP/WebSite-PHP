@@ -18,24 +18,98 @@
  * @subpackage advanced_object.autocomplete
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2011
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.95
  * @access      public
  * @since       1.0.17
  */
 
-class AutoCompleteEvent extends WebSitePhpObject {
+class AutoCompleteEvent extends WebSitePhpEventObject {
 	/**#@+
 	* @access private
 	*/
 	private $onselect = "";
+	private $callback_onselect = "";
+	private $is_selected = false;
 	/**#@-*/
 	
 	/**
 	 * Constructor AutoCompleteEvent
+	 * @param mixed $page_or_form_object [default value: null]
+	 * @param string $name 
 	 */
-	function __construct() {
+	function __construct($page_or_form_object=null, $name='') {
 		parent::__construct();
+		
+		if ($page_or_form_object == null) {
+			$page_or_form_object = $this->getPage();
+		}
+		if (!isset($page_or_form_object) || gettype($page_or_form_object) != "object" || (!is_subclass_of($page_or_form_object, "Page") && get_class($page_or_form_object) != "Form")) {
+			throw new NewException("Argument page_object for ".get_class($this)."::__construct() error", 0, 8, __FILE__, __LINE__);
+		}
+		
+		if (is_subclass_of($page_or_form_object, "Page")) {
+			$this->class_name = get_class($page_or_form_object);
+			$this->page_object = $page_or_form_object;
+			$this->form_object = null;
+		} else {
+			$this->page_object = $page_or_form_object->getPageObject();
+			$this->class_name = get_class($this->page_object)."_".$page_or_form_object->getName();
+			$this->form_object = $page_or_form_object;
+		}
+		
+		if ($name == "") {
+			$this->name = $this->page_object->createObjectName($this);
+		} else {
+			$this->name = $name;
+			$this->page_object->addEventObject($this, $this->form_object);
+		}
+		$this->id = $name;
+		
+		$this->ajax_wait_message = __(SUBMIT_LOADING_2);
+	}
+
+	/* Intern management of AutoCompleteEvent */
+	/**
+	 * Method setClick
+	 * @access public
+	 * @return AutoCompleteEvent
+	 * @since 1.0.95
+	 */
+	public function setClick() {
+		if ($GLOBALS['__LOAD_VARIABLES__']) { 
+			$this->is_selected = true; 
+		}
+		return $this;
+	}
+	
+	/**
+	 * Method getOnSelectJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.95
+	 */
+	public function getOnSelectJs() {
+		return $this->onselect;
+	}
+	
+	/**
+	 * Method onSelect
+	 * @access public
+	 * @param mixed $str_function 
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return AutoCompleteEvent
+	 * @since 1.0.95
+	 */
+	public function onSelect($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
+		$args = func_get_args();
+		$args[0] = new JavaScript("\'' + ui.item.id + '\'");
+		$this->callback_onselect = $this->loadCallbackMethod($str_function, $args);
+		return $this;
 	}
 	
 	/**
@@ -57,6 +131,19 @@ class AutoCompleteEvent extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method isSelected
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.95
+	 */
+	public function isSelected() {
+		if ($this->callback_onselect == "") {
+			throw new NewException(get_class($this)."->isSelected(): this method can be used only if an onSelect event is defined on this ".get_class($this).".", 0, 8, __FILE__, __LINE__);
+		}
+		return $this->is_selected;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -65,7 +152,17 @@ class AutoCompleteEvent extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		$html = "";
-		$html = $this->onselect;
+		if ($this->callback_onselect != "") {
+			$html .= "if ($('#Callback_".$this->getEventObjectName()."').type != 'hidden') { var \$new_hidden = $('<input type=\'hidden\' id=\'Callback_".$this->getEventObjectName()."\' name=\'Callback_".$this->getEventObjectName()."\' value=\'\'/>'); $('body').append(\$new_hidden); }\n";
+		}
+		
+		if ($this->is_ajax_event) {
+			$html .= $this->getAjaxEventFunctionRender();
+		}
+		
+		if ($this->onselect != "" || $this->callback_onselect != "") {
+			$html .= $this->getObjectEventValidationRender($this->onselect, $this->callback_onselect);
+		}
 		
 		$this->object_change = false;
 		return $html;
