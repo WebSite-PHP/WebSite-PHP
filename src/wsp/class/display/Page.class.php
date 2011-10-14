@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.95
+ * @version     1.0.96
  * @access      public
  * @since       1.0.0
  */
@@ -347,7 +347,7 @@ class Page {
 			defined('DEFINE_STYLE_BCK_BODY_PIC') && DEFINE_STYLE_BCK_BODY_PIC_POSITION != "") {
 				JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery.backstretch.min.js", "", true);
 				$background_body_pic = "";
-				if (find(DEFINE_STYLE_BCK_BODY_PIC, "http://") == 0) {
+				if (find(DEFINE_STYLE_BCK_BODY_PIC, "http://") == 0 && find(DEFINE_STYLE_BCK_BODY_PIC, "https://") == 0) {
 					$background_body_pic = $this->getBaseURL().DEFINE_STYLE_BCK_BODY_PIC;
 				} else {
 					$background_body_pic = DEFINE_STYLE_BCK_BODY_PIC;
@@ -1101,11 +1101,15 @@ class Page {
 	 */
 	public function getCurrentURL() {
 		if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
-			$port = "";
-			if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
-				$port = ":".$_SERVER['SERVER_PORT'];
+			if ($_SERVER['SERVER_PORT'] == 443) {
+				return "https://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+			} else {
+				$port = "";
+				if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
+					$port = ":".$_SERVER['SERVER_PORT'];
+				}
+				return "http://".$_SERVER['SERVER_NAME'].$port.$_SERVER['REQUEST_URI'];
 			}
-			return "http://".$_SERVER['SERVER_NAME'].$port.$_SERVER['REQUEST_URI'];
 		} else {
 			return "http://".FORCE_SERVER_NAME.$_SERVER['REQUEST_URI'];
 		}

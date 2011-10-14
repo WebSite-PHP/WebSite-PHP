@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.95
+ * @version     1.0.96
  * @access      public
  * @since       1.0.17
  */
@@ -52,9 +52,14 @@ class TextBox extends WebSitePhpEventObject {
 	private $onclick = "";
 	private $callback_onclick = "";
 	
+	private $callback_onblur = "";
+	private $onblur = "";
+	
+	private $callback_onkeypress = "";
+	private $onkeypress = "";
+	
 	private $onmouseover = "";
 	private $onmouseout = "";
-	private $onblur = "";
 	
 	private $encrypt_object = null;
 	
@@ -502,6 +507,26 @@ class TextBox extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method onBlur
+	 * @access public
+	 * @param mixed $str_function 
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return TextBox
+	 * @since 1.0.96
+	 */
+	public function onBlur($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
+		$args = func_get_args();
+		$str_function = array_shift($args);
+		$this->callback_onblur = $this->loadCallbackMethod($str_function, $args);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
 	 * Method onBlurJs
 	 * @access public
 	 * @param mixed $js_function 
@@ -516,6 +541,45 @@ class TextBox extends WebSitePhpEventObject {
 			$js_function = $js_function->render();
 		}
 		$this->onblur = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method onKeyPress
+	 * @access public
+	 * @param mixed $str_function 
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return TextBox
+	 * @since 1.0.96
+	 */
+	public function onKeyPress($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
+		$args = func_get_args();
+		$str_function = array_shift($args);
+		$this->callback_onkeypress = $this->loadCallbackMethod($str_function, $args);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method onKeyPressJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return TextBox
+	 * @since 1.0.96
+	 */
+	public function onKeyPressJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onkeypress = trim($js_function);
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -545,7 +609,7 @@ class TextBox extends WebSitePhpEventObject {
 		
 		$html = "";
 		if ($this->class_name != "") {
-			if ($this->callback_onchange != "" || $this->callback_onclick != "") {
+			if ($this->callback_onchange != "" || $this->callback_onclick != "" || $this->callback_onblur != "" || $this->callback_onkeypress != "") {
 				$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
 			}
 			if ($this->is_ajax_event) {
@@ -603,8 +667,11 @@ class TextBox extends WebSitePhpEventObject {
 			if ($this->onmouseout != "") {
 				$html .= " onMouseOut=\"".str_replace("\n", "", str_replace("\"", "\\\"", $this->onmouseout))."\"";
 			}
-			if ($this->onblur != "") {
-				$html .= " onBlur=\"".str_replace("\n", "", str_replace("\"", "\\\"", $this->onblur))."\"";
+			if ($this->onblur != "" || $this->callback_onblur != "") {
+				$html .= " onBlur=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onblur, $this->callback_onblur))."\"";
+			}
+			if ($this->onkeypress != "" || $this->callback_onkeypress != "") {
+				$html .= " onKeyPress=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeypress, $this->callback_onkeypress, "", true))."\"";
 			}
 			$html .= "/>\n";
 			

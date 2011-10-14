@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.94
+ * @version     1.0.96
  * @access      public
  * @since       1.0.17
  */
@@ -34,6 +34,9 @@ class Button extends WebSitePhpEventObject {
 	private $assign_enter_key = false;
 	private $hide = false;
 	
+	private $primary_icon = "";
+	private $secondary_icon = "";
+	
 	private $onclick = "";
 	private $callback_onclick = "";
 	private $is_clicked = false;
@@ -41,7 +44,7 @@ class Button extends WebSitePhpEventObject {
 	
 	/**
 	 * Constructor Button
-	 * @param mixed $page_or_form_object 
+	 * @param Page|Form $page_or_form_object 
 	 * @param string $name 
 	 * @param string $id 
 	 * @param string $value 
@@ -94,7 +97,7 @@ class Button extends WebSitePhpEventObject {
 	/**
 	 * Method setValue
 	 * @access public
-	 * @param mixed $value 
+	 * @param string $value 
 	 * @return Button
 	 * @since 1.0.36
 	 */
@@ -111,7 +114,7 @@ class Button extends WebSitePhpEventObject {
 	/**
 	 * Method setDefaultValue
 	 * @access public
-	 * @param mixed $value 
+	 * @param string $value 
 	 * @return Button
 	 * @since 1.0.36
 	 */
@@ -150,7 +153,7 @@ class Button extends WebSitePhpEventObject {
 	/**
 	 * Method setClass
 	 * @access public
-	 * @param mixed $class 
+	 * @param string $class 
 	 * @return Button
 	 * @since 1.0.36
 	 */
@@ -163,7 +166,7 @@ class Button extends WebSitePhpEventObject {
 	/**
 	 * Method setName
 	 * @access public
-	 * @param mixed $name 
+	 * @param string $name 
 	 * @return Button
 	 * @since 1.0.36
 	 */
@@ -172,6 +175,36 @@ class Button extends WebSitePhpEventObject {
 		if ($id == "") {
 			$this->id = $name;
 		}
+		return $this;
+	}
+	
+	/**
+	 * Method setPrimaryIcon
+	 * @access public
+	 * @param mixed $icon_16px 
+	 * @return Button
+	 * @since 1.0.96
+	 */
+	public function setPrimaryIcon($icon_16px) {
+		if (strtoupper(substr($icon_16px, 0, 7)) != "HTTP://" || strtoupper(substr($icon_16px, 0, 7)) != "HTTPS://") {
+			$icon_16px = $this->getPage()->getBaseURL().$icon_16px;
+		}
+		$this->primary_icon = $icon_16px;
+		return $this;
+	}
+	
+	/**
+	 * Method setSecondaryIcon
+	 * @access public
+	 * @param mixed $icon_16px 
+	 * @return Button
+	 * @since 1.0.96
+	 */
+	public function setSecondaryIcon($icon_16px) {
+		if (strtoupper(substr($icon_16px, 0, 7)) != "HTTP://" || strtoupper(substr($icon_16px, 0, 7)) != "HTTPS://") {
+			$icon_16px = $this->getPage()->getBaseURL().$icon_16px;
+		}
+		$this->secondary_icon = $icon_16px;
 		return $this;
 	}
 	
@@ -193,7 +226,7 @@ class Button extends WebSitePhpEventObject {
 	/**
 	 * Method getValue
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.36
 	 */
 	public function getValue() {
@@ -203,7 +236,7 @@ class Button extends WebSitePhpEventObject {
 	/**
 	 * Method getDefaultValue
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.36
 	 */
 	public function getDefaultValue() {
@@ -213,7 +246,7 @@ class Button extends WebSitePhpEventObject {
 	/**
 	 * Method getOnClickJs
 	 * @access public
-	 * @return mixed
+	 * @return string
 	 * @since 1.0.36
 	 */
 	public function getOnClickJs() {
@@ -223,7 +256,7 @@ class Button extends WebSitePhpEventObject {
 	/**
 	 * Method onClick
 	 * @access public
-	 * @param mixed $str_function 
+	 * @param string $str_function 
 	 * @param mixed $arg1 [default value: null]
 	 * @param mixed $arg2 [default value: null]
 	 * @param mixed $arg3 [default value: null]
@@ -262,7 +295,7 @@ class Button extends WebSitePhpEventObject {
 	/**
 	 * Method isClicked
 	 * @access public
-	 * @return mixed
+	 * @return boolean
 	 * @since 1.0.36
 	 */
 	public function isClicked() {
@@ -355,7 +388,20 @@ class Button extends WebSitePhpEventObject {
 					if ($this->id == "") {
 						throw new NewException("You must specified an id for a Button", 0, 8, __FILE__, __LINE__);
 					}
-					$html .= "<button ";
+					
+					if ($this->primary_icon != "" || $this->secondary_icon != "") {
+						$html .= "<style type=\"text/css\" media=\"screen\">";
+						if ($this->primary_icon != "") {
+							$html .= " #".$this->id." .ui-button-icon-primary { background-image: url(".$this->primary_icon."); } ";
+						}
+						if ($this->secondary_icon != "") {
+							$html .= " #".$this->id." .ui-button-icon-secondary { background-image: url(".$this->secondary_icon."); } ";
+						}
+						$html .= "</style>\n";
+					}
+					
+					$html .= "<button";
+					$is_jquery_button = true;
 				} else {
 					$html .= "<a ";
 					$html .= "href=\"javascript:void(0);\" onClick=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick));
@@ -376,7 +422,19 @@ class Button extends WebSitePhpEventObject {
 					$html .= "</button>\n";
 					
 					$html .= $this->getJavascriptTagOpen();
-					$html .= "	\$(\"#".$this->getId()."\").button().click(function() { ".str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick));
+					$html .= "	\$(\"#".$this->getId()."\").button({";
+					if ($is_jquery_button && ($this->primary_icon != "" || $this->secondary_icon != "")) {
+						$html .= "icons: {";
+						if ($this->primary_icon != "") {
+				        	$html .= " primary: 'ui-button-icon-primary'";
+				        }
+						if ($this->secondary_icon != "") {
+							if ($this->primary_icon != "") { $html .= ", "; }
+				        	$html .= " secondary: 'ui-button-icon-secondary'";
+				        }
+				        $html .= " }";
+					}
+					$html .= "}).click(function() { ".str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick));
 					if ($this->is_ajax_event) {
 						$html .= " return false;";
 					}

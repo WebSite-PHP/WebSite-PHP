@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.95
+ * @version     1.0.96
  * @access      public
  * @since       1.0.17
  */
@@ -897,7 +897,11 @@ class Object extends WebSitePhpEventObject {
 		$this->automaticAjaxEvent();
 		
 		$html = "";
-		if ($this->object_change && !$this->is_new_object_after_init && $this->id != "") {
+		if ($this->object_change && !$this->is_new_object_after_init) {
+			if ($this->id == "") {
+				throw new NewException("Error Object: You must specified an id (setId())", 0, 8, __FILE__, __LINE__);
+			}
+			
 			$content = "";
 			for ($i=0; $i < sizeof($this->objects); $i++) {
 				if ($i != 0) {
@@ -973,6 +977,8 @@ class Object extends WebSitePhpEventObject {
 			if ($this->class != "") {
 				$html .= "$('#".$this->getId()."').attr('class', '".$this->class."');\n";
 			}
+			
+			$this->object_change = false;
 		}
 		return $html;
 	}

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.95
+ * @version     1.0.96
  * @access      public
  * @since       1.0.17
  */
@@ -321,8 +321,8 @@ class Picture extends WebSitePhpEventObject {
 	/**
 	 * Method onClick
 	 * @access public
-	 * @param mixed $page_object 
-	 * @param mixed $str_function 
+	 * @param Page $page_object 
+	 * @param string $str_function 
 	 * @param mixed $arg1 [default value: null]
 	 * @param mixed $arg2 [default value: null]
 	 * @param mixed $arg3 [default value: null]
@@ -360,7 +360,7 @@ class Picture extends WebSitePhpEventObject {
 	/**
 	 * Method onClickJs
 	 * @access public
-	 * @param mixed $js_function 
+	 * @param string|JavaScript $js_function 
 	 * @return Picture
 	 * @since 1.0.85
 	 */
@@ -371,6 +371,12 @@ class Picture extends WebSitePhpEventObject {
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
 		}
+		
+		if ($this->page_object == null) {
+			$this->class_name = get_class($page_object);
+			$this->page_object = $this->getPage();
+		}
+		
 		$this->onclick = trim($js_function);
 		return $this;
 	}
@@ -459,7 +465,7 @@ class Picture extends WebSitePhpEventObject {
 			}
 			$html .= ">";
 		}
-		if (strtoupper(substr($this->src, 0, 7)) != "HTTP://") {
+		if (strtoupper(substr($this->src, 0, 7)) != "HTTP://" && strtoupper(substr($this->src, 0, 7)) != "HTTPS://") {
 			$this->src = BASE_URL.$this->src;
 		}
 		$html .= "<img src='".$this->src."'";

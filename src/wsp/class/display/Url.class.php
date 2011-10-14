@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 16/11/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.96
  * @access      public
  * @since       1.0.17
  */
@@ -51,7 +51,7 @@ class Url extends WebSitePhpObject {
 	 * @since 1.0.35
 	 */
 	public function render($ajax_render=false) {
-		if (strtoupper(substr($this->url, 0, 7)) != "HTTP://") {
+		if (strtoupper(substr($this->url, 0, 7)) != "HTTP://" && strtoupper(substr($this->url, 0, 7)) != "HTTPS://") {
 			$this->url = BASE_URL.$_SESSION['lang']."/".$this->url;
 		}
 		return $this->url;

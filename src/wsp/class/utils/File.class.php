@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.0.96
  * @access      public
  * @since       1.0.13
  */
@@ -44,7 +44,7 @@ class File{
 		
 		if (file_exists($filename)) {
 			$this->exists = true;
-		} else if (find($filename, "http://") == 0 && find($filename, "ftp://") == 0) {
+		} else if (find($filename, "http://") == 0 && find($filename, "https://") == 0 && find($filename, "ftp://") == 0) {
 			// we doesn't create a directory if it's a web file
 			$array_dir = explode("/", str_replace($project_folder, "", $filename));
 			if (!is_dir(substr(0, strrpos($filename, "/"), $filename))) {

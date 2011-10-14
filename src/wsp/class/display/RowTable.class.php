@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.93
+ * @version     1.0.96
  * @access      public
  * @since       1.0.17
  */
@@ -143,7 +143,7 @@ class RowTable extends WebSitePhpObject {
 		
 		if (is_numeric($class)) {
 			$this->is_header_row = true;
-			if ($default_border_style) {
+			if ($default_border_style && $class > 0) {
 				$this->setBorderPredefinedStyle($class);
 			}
 		}
@@ -266,6 +266,16 @@ class RowTable extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method getRowColumnsArray
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.96
+	 */
+	public function getRowColumnsArray() {
+		return $this->col_object;
+	}
+	
+	/**
 	 * Method add
 	 * @access public
 	 * @param object $content_object [default value: null]
@@ -339,6 +349,16 @@ class RowTable extends WebSitePhpObject {
 	 */
 	public function isNew() {
 		return $this->is_new;
+	}
+	
+	/**
+	 * Method isHeader
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.96
+	 */
+	public function isHeader() {
+		return $this->is_header_row;
 	}
 	
 	/**
@@ -541,11 +561,24 @@ class RowTable extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$html = "";
 		if (!$ajax_render && $this->id != "") {
-			$html .= "<tbody id=\"wsp_rowtable_".$this->id."\">";
+			if ($this->is_header_row) {
+				$html .= "<thead";
+			} else {
+				$html .= "<tbody";
+			}
+			$html .= " id=\"wsp_rowtable_".$this->id."\">";;
+		} else if (!$ajax_render && $this->is_header_row) {
+			$html .= "<thead>";
 		}
 		if ($this->hide) { 
 			if (!$ajax_render && $this->id != "") {
-				$html .= "</tbody>";
+				if ($this->is_header_row) {
+					$html .= "</thead>";
+				} else {
+					$html .= "</tbody>";
+				}
+			} else if (!$ajax_render && $this->is_header_row) {
+				$html .= "</thead>";
 			}
 			$this->object_change = false;
 			return $html; 
@@ -573,7 +606,13 @@ class RowTable extends WebSitePhpObject {
 					$html_content = "&nbsp;";
 				}
 			}
-			$html .= " <td";
+			
+			if ($this->is_header_row) {
+				$html .= " <th";
+			} else {
+				$html .= " <td";
+			}
+			
 			if ($this->class != "" || $this->col_object[$i]['class'] != "") {
 				$html .= " class=\"";
 				if ($this->col_object[$i]['class'] != "") {
@@ -614,26 +653,26 @@ class RowTable extends WebSitePhpObject {
 			
 			$html .= " style=\"";
 			if ($this->col_object[$i]['width'] != "") {
-				if (is_integer($this->col_object[$i]['width'])) {
+				if (is_numeric($this->col_object[$i]['width'])) {
 					$html .= "width:".$this->col_object[$i]['width']."px;";
 				} else {
 					$html .= "width:".$this->col_object[$i]['width'].";";
 				}
 			} else if ($this->width != "") {
-				if (is_integer($this->width)) {
+				if (is_numeric($this->width)) {
 					$html .= "width:".$this->width."px;";
 				} else {
 					$html .= "width:".$this->width.";";
 				}
 			}
 			if ($this->col_object[$i]['height'] != "") {
-				if (is_integer($this->col_object[$i]['height'])) {
+				if (is_numeric($this->col_object[$i]['height'])) {
 					$html .= "height:".$this->col_object[$i]['height']."px;";
 				} else {
 					$html .= "height:".$this->col_object[$i]['height'].";";
 				}
 			} else if ($this->height != "") {
-				if (is_integer($this->height)) {
+				if (is_numeric($this->height)) {
 					$html .= "height:".$this->height."px;";
 				} else {
 					$html .= "height:".$this->height.";";
@@ -691,11 +730,22 @@ class RowTable extends WebSitePhpObject {
 			if ($open_div) {
 				$html .= "	</div>\n";
 			}
-			$html .= "</td>\n";
+			
+			if ($this->is_header_row) {
+				$html .= "</th>\n";
+			} else {
+				$html .= "</td>\n";
+			}
 		}
 		$html .= "</tr>\n";
 		if (!$ajax_render && $this->id != "") {
-			$html .= "</tbody>";
+			if ($this->is_header_row) {
+				$html .= "</thead>";
+			} else {
+				$html .= "</tbody>";
+			}
+		} else if (!$ajax_render && $this->is_header_row) {
+			$html .= "</thead>";
 		}
 		
 		$this->object_change = false;

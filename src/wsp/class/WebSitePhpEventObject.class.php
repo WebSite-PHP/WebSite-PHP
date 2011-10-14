@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.95
+ * @version     1.0.96
  * @access      public
  * @since       1.0.18
  */
@@ -363,28 +363,32 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		
 		$html = "";
 		$html .= "	var isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;\n";
-		$html .= "	callAjax".get_class($this)."_".$this->getEventObjectName()."_event = function(callback_value) {\n";
-		$html .= "		if (isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName().") { return; }\n";
+		$html .= "	var lastAjaxRequest".get_class($this)."_".$this->getEventObjectName()." = Array();\n";
+		$html .= "	var nbAjaxRequest".get_class($this)."_".$this->getEventObjectName()." = 0;\n";
+		$html .= "	callAjax".get_class($this)."_".$this->getEventObjectName()."_event = function(callback_value, abort_last_request) {\n";
+		$html .= "		if (isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." && !abort_last_request) { return; }\n";
 		$html .= "		isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = true;\n";
+		$html .= "		nbAjaxRequest".get_class($this)."_".$this->getEventObjectName()."++;\n";
 		if (!$this->disable_ajax_wait_message) {
 			if (gettype($this->ajax_wait_message) == "object") {
 				$html .= "		$('#".$this->ajax_wait_message->getId()."').css('display', 'block');\n";
 			} else {
 				$html .= "		".$loading_modalbox->render();
 			}
-			$html .= "		setTimeout(\"requestAjaxEvent".get_class($this)."_".$this->getEventObjectName()."(\\\"\" + callback_value + \"\\\");\", 1000);\n";
+			$html .= "		setTimeout(\"requestAjaxEvent".get_class($this)."_".$this->getEventObjectName()."(\\\"\" + callback_value + \"\\\", \" + abort_last_request + \");\", 1000);\n";
 		} else {
-			$html .= "		setTimeout(\"requestAjaxEvent".get_class($this)."_".$this->getEventObjectName()."(\\\"\" + callback_value + \"\\\");\", 1);\n";
+			$html .= "		setTimeout(\"requestAjaxEvent".get_class($this)."_".$this->getEventObjectName()."(\\\"\" + callback_value + \"\\\", \" + abort_last_request + \");\", (abort_last_request?(lastAjaxRequest".get_class($this)."_".$this->getEventObjectName().".length==0?1:200):1));\n";
 		}
 		$html .= "	};\n";
 		
-		$html .= "	requestAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = function(callback_value) {\n";
-		
+		$html .= "	requestAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = function(callback_value, abort_last_request) {\n";
+		$html .= "		nbAjaxRequest".get_class($this)."_".$this->getEventObjectName()."--;\n";
+		$html .= "		if (abort_last_request) { for (var i=0; i < lastAjaxRequest".get_class($this)."_".$this->getEventObjectName().".length; i++) { if (lastAjaxRequest".get_class($this)."_".$this->getEventObjectName()."[i]!=null) { lastAjaxRequest".get_class($this)."_".$this->getEventObjectName()."[i].abort(); lastAjaxRequest".get_class($this)."_".$this->getEventObjectName()."[i]=null; } } if (nbAjaxRequest".get_class($this)."_".$this->getEventObjectName()." > 0) { return; } }\n";
 		// encrypt formular if encrypt is active
 		if ($this->form_object != null) {
 			$html .= "		".$this->encryptObjectData($this->form_object, "isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;".($loading_modalbox==null?"":$loading_modalbox->close()->render()));
 		}
-		$html .= "		$.ajax({ type: '";
+		$html .= "		lastAjaxRequest".get_class($this)."_".$this->getEventObjectName()."[lastAjaxRequest".get_class($this)."_".$this->getEventObjectName().".length] = $.ajax({ type: '";
 		if ($this->form_object != null) {
 			$html .= $this->form_object->getMethod();
 		} else {
@@ -420,7 +424,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 			if ($this->form_object->isEncrypted()) {
 				$html .= "'EncryptData_".$this->form_object->getPageObject()->getClassName()."_".$this->form_object->getName()."=' + urlencode(encrypt_data)";
 			} else {
-        		$html .= "$('#".$this->form_object->getId()."').serialize()";
+        		$html .= "$('#".$this->form_object->getId()."').serialize() + '&Callback_".$this->getEventObjectName()."=' + callback_value";
 			}
 			$html .= ",\n";
 		} else {
@@ -460,12 +464,14 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	    $html .= "			},\n";
 	    $html .= "			error: function(transport) {\n";
 	    $html .= "				isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;\n";
+	    $html .= "				if (!abort_last_request || (abort_last_request && trim(transport.statusText) != 'abort')) {\n";
 	    if (gettype($this->ajax_wait_message) == "object") {
-			$html .= "				$('#".$this->ajax_wait_message->getId()."').css('display', 'none');\n";
+			$html .= "					$('#".$this->ajax_wait_message->getId()."').css('display', 'none');\n";
 		} else {
-	    	$html .= "				".$loading_modalbox->close()->render()."\n";
+	    	$html .= "					".$loading_modalbox->close()->render()."\n";
 		}
-	    $html .= "				".$error_alert->render();
+	    $html .= "					".$error_alert->render();
+		$html .= "				}\n";
 	    $html .= "				$('#Callback_".$this->getEventObjectName()."').val('');\n";
 	    $html .= "			}\n";
 		$html .= "		});\n";
@@ -510,10 +516,11 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	 * @param string $on_event 
 	 * @param string $callback 
 	 * @param string $params 
+	 * @param boolean $abort_last_request [default value: false]
 	 * @return string
 	 * @since 1.0.35
 	 */
-	protected function getObjectEventValidationRender($on_event, $callback, $params='') {
+	protected function getObjectEventValidationRender($on_event, $callback, $params='', $abort_last_request=false) {
 		if ($callback != "" && $this->form_object == null && 
 			(isset($_GET['dialogbox_level']) || isset($_GET['tabs_object_id']))) {
 				throw new NewException("Object ".get_class($this)." must link to a Form Object when he have a callback method in a DialogBox or a Tabs", 0, 8, __FILE__, __LINE__);
@@ -581,7 +588,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 				}
 				if ($this->is_ajax_event) {
 					$html .= $encrypt_html;
-					$html .= "callAjax".get_class($this)."_".$this->getEventObjectName()."_event($('#Callback_".$this->getEventObjectName()."').val());\n";
+					$html .= "callAjax".get_class($this)."_".$this->getEventObjectName()."_event($('#Callback_".$this->getEventObjectName()."').val(), ".($abort_last_request?"true":"false").");\n";
 				} else if ($this->form_object != null) {
 					$html .= $encrypt_html;
 					$html .= "$('#".$this->form_object->getId()."').submit();\n";

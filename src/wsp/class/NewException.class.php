@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.96
  * @access      public
  * @since       1.0.15
  */
@@ -214,11 +214,15 @@ class NewException extends Exception
 				
 				try {
 					if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
-						$port = "";
-						if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
-							$port = ":".$_SERVER['SERVER_PORT'];
+						if ($_SERVER['SERVER_PORT'] == 443) {
+							$from_url = "https://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+						} else {
+							$port = "";
+							if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
+								$port = ":".$_SERVER['SERVER_PORT'];
+							}
+							$from_url = "http://".$_SERVER['SERVER_NAME'].$port.$_SERVER['REQUEST_URI'];
 						}
-						$from_url = "http://".$_SERVER['SERVER_NAME'].$port.$_SERVER['REQUEST_URI'];
 					} else {
 						$from_url = "http://".FORCE_SERVER_NAME.$_SERVER['REQUEST_URI'];
 					}
@@ -230,11 +234,15 @@ class NewException extends Exception
 					
 					$split_request_uri = explode("\?", $_SERVER['REQUEST_URI']);
 					if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
-						$port = "";
-						if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
-							$port = ":".$_SERVER['SERVER_PORT'];
+						if ($_SERVER['SERVER_PORT'] == 443) {
+							$my_site_base_url = "https://".str_replace("//", "/", $_SERVER['SERVER_NAME'].substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
+						} else {
+							$port = "";
+							if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
+								$port = ":".$_SERVER['SERVER_PORT'];
+							}
+							$my_site_base_url = "http://".str_replace("//", "/", $_SERVER['SERVER_NAME'].$port.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
 						}
-						$my_site_base_url = "http://".str_replace("//", "/", $_SERVER['SERVER_NAME'].$port.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
 					} else {
 						$my_site_base_url = "http://".str_replace("//", "/", FORCE_SERVER_NAME.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
 					}

@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.93
+ * @version     1.0.96
  * @access      public
  * @since       1.0.0
  */
@@ -240,7 +240,7 @@
 	}
 	unset($_SESSION['websitephp_register_object']);
 	
-	if (DEBUG) {
+	if (DEBUG && $_GET['mime'] == "text/html") {
 		$page_object->displayExecutionTime();
 	}
 ?>

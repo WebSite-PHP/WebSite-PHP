@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.96
  * @access      public
  * @since       1.0.17
  */
@@ -183,6 +183,15 @@ class Link extends WebSitePhpObject {
 		return $this->target;
 	}
 	
+	/**
+	 * Method setTrackEvent
+	 * @access public
+	 * @param mixed $category 
+	 * @param mixed $action 
+	 * @param string $label 
+	 * @return Link
+	 * @since 1.0.96
+	 */
 	public function setTrackEvent($category, $action, $label='') {
 		if (GOOGLE_CODE_TRACKER == "") {
 			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, 8, __FILE__, __LINE__);
@@ -193,6 +202,13 @@ class Link extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method onClickJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return Link
+	 * @since 1.0.96
+	 */
 	public function onClickJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
 			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
@@ -204,6 +220,12 @@ class Link extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getOnClickJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.96
+	 */
 	public function getOnClickJs() {
 		return $this->onclick;
 	}
@@ -237,7 +259,7 @@ class Link extends WebSitePhpObject {
 			strtoupper(substr($tmp_link, 0, 6)) != "FTP://" &&
 			strtoupper(substr($tmp_link, 0, 1)) != "#") {
 			if (strtoupper(substr($tmp_link, 0, strlen(BASE_URL))) == strtoupper(BASE_URL)
-				|| strtoupper(substr($tmp_link, 0, 7)) != "HTTP://") {
+				|| (strtoupper(substr($tmp_link, 0, 7)) != "HTTP://" && strtoupper(substr($tmp_link, 0, 7)) != "HTTPS://")) {
 				
 				$array_url = explode("\?", $tmp_link);
 				$temp_class_name = str_replace(".html", "", str_replace(BASE_URL, "", str_replace(BASE_URL.$_SESSION['lang']."/", "", $array_url[0])));
@@ -269,7 +291,7 @@ class Link extends WebSitePhpObject {
 					}
 				}
 			}
-			if (strtoupper(substr($tmp_link, 0, 7)) != "HTTP://") {	
+			if (strtoupper(substr($tmp_link, 0, 7)) != "HTTP://" && strtoupper(substr($tmp_link, 0, 7)) != "HTTPS://") {	
 				// it's a local URL
 				if (strtoupper(substr($tmp_link, 0, strlen(BASE_URL))) != strtoupper(BASE_URL)) {
 					$this->link = BASE_URL.$_SESSION['lang']."/".$this->link;

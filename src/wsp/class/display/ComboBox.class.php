@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.94
+ * @version     1.0.96
  * @access      public
  * @since       1.0.17
  */
@@ -187,7 +187,7 @@ class ComboBox extends WebSitePhpEventObject {
 	public function addItem($value, $text, $selected=false, $img='', $group_name='') {
 		$this->item_value[] = html_entity_decode($value);
 		$this->item_text[] = $text;
-		if ($img != "" && strtoupper(substr($img, 0, 7)) != "HTTP://") {
+		if ($img != "" && strtoupper(substr($img, 0, 7)) != "HTTP://" && strtoupper(substr($img, 0, 7)) != "HTTPS://") {
 			$this->item_img[] = BASE_URL.$img;
 		} else {
 			$this->item_img[] = $img;

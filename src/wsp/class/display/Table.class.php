@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.95
+ * @version     1.0.96
  * @access      public
  * @since       1.0.17
  */
@@ -91,6 +91,15 @@ class Table extends WebSitePhpObject {
 	private $max_nb_cols = 0;
 	
 	private $ajax_refresh_all_table = false;
+	
+	private $is_advance_table = false;
+	private $advance_table_info = false;
+	private $is_sortable = false;
+	private $sort_col_number = -1;
+	private $sort_order = "asc";
+	private $pagination = false;
+	private $pagination_row_per_page = -1;
+	private $paginate_full_numbers = false;
 	/**#@-*/
 	
 	/**
@@ -412,6 +421,118 @@ class Table extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method activateAdvanceTable
+	 * @access public
+	 * @return Table
+	 * @since 1.0.96
+	 */
+	public function activateAdvanceTable() {
+		if ($this->id == "") {
+			throw new NewException(get_class($this)."->activateAdvanceTable() error: you must define an id to the Table (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+		}
+		
+		$this->is_advance_table = true;
+		$this->addCss(BASE_URL."wsp/css/jquery.dataTables.css", "", true);
+		$this->addJavaScript(BASE_URL."wsp/js/jquery.dataTables.min.js", "", true);
+		
+		return $this;
+	}
+	
+	/**
+	 * Method activateAdvanceTableInfo
+	 * @access public
+	 * @return Table
+	 * @since 1.0.96
+	 */
+	public function activateAdvanceTableInfo() {
+		if ($this->id == "") {
+			throw new NewException(get_class($this)."->activatePagination() error: you must define an id to the Table (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+		}
+		
+		$this->advance_table_info = true;
+		$this->activateAdvanceTable();
+		
+		return $this;
+	}
+	
+	/**
+	 * Method activateSort
+	 * @access public
+	 * @param mixed $sort_col_number 
+	 * @param string $sort_order [default value: asc]
+	 * @return Table
+	 * @since 1.0.96
+	 */
+	public function activateSort($sort_col_number, $sort_order='asc') {
+		if ($this->id == "") {
+			throw new NewException(get_class($this)."->activateSort() error: you must define an id to the Table (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+		}
+		
+		if (!is_integer($sort_col_number)) {
+			throw new NewException(get_class($this)."->activateSort() error: \$sort_col_number must be an integer", 0, 8, __FILE__, __LINE__);
+		}
+		$this->sort_col_number = $sort_col_number;
+		
+		if ($sort_order != "asc" && $sort_order != "desc") {
+			throw new NewException(get_class($this)."->activateSort() error: authorized values for \$sort_order paramter: asc, desc.", 0, 8, __FILE__, __LINE__);
+		}
+		$this->sort_order = $sort_order;
+		$this->is_sortable = true;
+		$this->activateAdvanceTable();
+		
+		return $this;
+	}
+	
+	/**
+	 * Method activatePagination
+	 * @access public
+	 * @param double $nb_row_per_page [default value: 10]
+	 * @param boolean $style_full_numbers [default value: false]
+	 * @return Table
+	 * @since 1.0.96
+	 */
+	public function activatePagination($nb_row_per_page=10, $style_full_numbers=false) {
+		if ($this->id == "") {
+			throw new NewException(get_class($this)."->activatePagination() error: you must define an id to the Table (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+		}
+		if (!is_integer($nb_row_per_page)) {
+			throw new NewException(get_class($this)."->activatePagination() error: \$nb_row_per_page must be an integer", 0, 8, __FILE__, __LINE__);
+		}
+		
+		$this->pagination = true;
+		if ($nb_row_per_page > 10 && $nb_row_per_page <= 25) {
+			$this->pagination_row_per_page = 25;
+		} else if ($nb_row_per_page > 25 && $nb_row_per_page <= 50) {
+			$this->pagination_row_per_page = 50;
+		} else if ($nb_row_per_page > 50 && $nb_row_per_page <= 100) {
+			$this->pagination_row_per_page = 100;
+		} else {
+			$this->pagination_row_per_page = 10;
+		}
+		$this->paginate_full_numbers = $style_full_numbers;
+		$this->activateAdvanceTable();
+		
+		return $this;
+	}
+	
+	/**
+	 * Method activateSearch
+	 * @access public
+	 * @return Table
+	 * @since 1.0.96
+	 */
+	public function activateSearch() {
+		if ($this->id == "") {
+			throw new NewException(get_class($this)."->activatePagination() error: you must define an id to the Table (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+		}
+		
+		$this->is_filtered = true;
+		$this->activateAdvanceTable();
+		
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -420,6 +541,15 @@ class Table extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		$html = "";
+		if (!$ajax_render && $this->is_advance_table && $this->width != "") {
+			$html .= "<div style=\"";
+			if (is_integer($this->width)) {
+				$html .= "width:".$this->width."px;";
+			} else {
+				$html .= "width:".$this->width.";";
+			}
+			$html .= "\">";
+		}
 		$html .= "<table ";
 		if ($this->border != "" && is_integer($this->border)) {
 			$html .= "border=\"".$this->border."\" ";
@@ -428,12 +558,15 @@ class Table extends WebSitePhpObject {
 		if ($this->id != "") {
 			$html .= " id=\"".$this->id."\"";
 		}
-		if ($this->class != "") {
+		if ($this->class != "" || $this->is_advance_table) {
 			$html .= " class=\"";
 			if (is_integer($this->class) || (is_integer(substr($this->class, 0, 1)) && find($this->class, "_round") > 0)) {
 				$html .= "table_".$this->class;
 			} else {
 				$html .= $this->class;
+			}
+			if ($this->is_advance_table) {
+				$html .= " display";
 			}
 			$html .= "\"";
 		}
@@ -487,7 +620,65 @@ class Table extends WebSitePhpObject {
 			}
 		}
 		$html .= "</table>\n";
+		if (!$ajax_render && $this->is_advance_table && $this->width != "") {
+			$html .= "</div>";
+		}
+		
+		$html .= $this->renderAdvanceTable();
+		
 		$this->object_change = false;
+		return $html;
+	}
+	
+	/**
+	 * Method renderAdvanceTable
+	 * @access private
+	 * @return mixed
+	 * @since 1.0.96
+	 */
+	private function renderAdvanceTable() {
+		$html = "";
+		
+		if ($this->is_advance_table) {
+			if ($this->id == "") {
+				throw new NewException("To use advance table propoerties (filter, sort, pagination) you must define an id (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+			}
+			
+			if (sizeof($this->rows) == 0 || !$this->rows[0]->isHeader()) {
+				throw new NewException("To use advance table you must define the first RowTable with Header type (RowTable->setHeaderClass(0))", 0, 8, __FILE__, __LINE__);
+			}
+			
+			$html .= $this->getJavascriptTagOpen();
+			$html .= "$(\"#".$this->getId()."\").dataTable({'bJQueryUI': true";
+			if ($this->is_sortable) {
+				$html .= ", 'aaSorting': [[".($this->sort_col_number-1).", '".$this->sort_order."']]";
+			} else {
+				$html .= ", 'bSort': false";
+			}
+			if (!$this->pagination) {
+				$html .= ", 'bLengthChange': false";
+				$html .= ", 'bPaginate': false";
+			} else {
+				$html .= ", 'iDisplayLength': ".$this->pagination_row_per_page;
+				if ($this->paginate_full_numbers) {
+					$html .= ", 'sPaginationType': 'full_numbers'";
+				}
+			}
+			if ($this->is_filtered) {
+				$html .= ", 'bFilter': true";
+			} else {
+				$html .= ", 'bFilter': false";
+			}
+			if (!$this->advance_table_info) {
+				$html .= ", 'bInfo': false";
+			}
+			if ($this->width != "") {
+				$html .= ", 'bAutoWidth': false";
+			}
+			$html .= "});\n";
+			$html .= $this->getJavascriptTagClose();
+		}
+		
 		return $html;
 	}
 	
@@ -504,15 +695,19 @@ class Table extends WebSitePhpObject {
 		
 		$html = "";
 		if ($this->ajax_refresh_all_table) { // refresh all table
-			$html .= "$('#".$this->id."').empty();";
-			for ($i=0; $i < sizeof($this->rows); $i++) {
-				$array_ajax_render = extract_javascript($this->rows[$i]->render(false));
-				for ($j=1; $j < sizeof($array_ajax_render); $j++) {
-					new JavaScript($array_ajax_render[$j], true);
-				}
-				if (trim($array_ajax_render[0]) != "") {
-					$html .= "$('#".$this->id."').append('".str_replace("\n", "", str_replace("\r", "", addslashes($array_ajax_render[0])))."');";
-				}
+			if ($this->is_advance_table) {
+				$html .= "var my_parent_node = $('#".$this->id."').parent();";
+			} else {
+				$html .= "var my_parent_node = $('#".$this->id."');";
+			}
+			$html .= "my_parent_node.empty();";
+			
+			$array_ajax_render = extract_javascript($this->render(false));
+			for ($j=1; $j < sizeof($array_ajax_render); $j++) {
+				new JavaScript($array_ajax_render[$j], true);
+			}
+			if (trim($array_ajax_render[0]) != "") {
+				$html .= "my_parent_node.append('".str_replace("\n", "", str_replace("\r", "", addslashes($array_ajax_render[0])))."');";
 			}
 		} else {
 			for ($i=0; $i < sizeof($this->rows); $i++) {

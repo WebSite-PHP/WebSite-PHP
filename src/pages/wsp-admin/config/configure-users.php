@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 06/06/2011
- * @version     1.0.89
+ * @version     1.0.96
  * @access      public
  * @since       1.0.85
  */
@@ -103,7 +103,8 @@ class ConfigureUsers extends Page {
 	
 	public function Loaded() {
 		$users_table = new Table();
-		$users_table->addRowColumns(__(LOGIN), __(RIGHTS), __(MODIFY), __(DELETE))->setHeaderClass(RowTable::STYLE_SECOND)->setStyle("padding:3px;");
+		$users_table->setId("users_table")->activateAdvanceTable()->activateSort(1)->setWidth(400);
+		$users_table->addRowColumns(__(LOGIN), __(RIGHTS), __(MODIFY), __(DELETE))->setHeaderClass(0);
 		
 		$this->old_passwd_row->hide();
 		$this->validate_btn->show();
@@ -139,7 +140,7 @@ class ConfigureUsers extends Page {
 					continue;
 				}
 			}
-			$users_table->addRowColumns($array_users[$i]['login'], $array_users[$i]['rights'], $edit_user, $del_user)->setColumnAlign(3, RowTable::ALIGN_CENTER)->setColumnAlign(4, RowTable::ALIGN_CENTER)->setBorderPredefinedStyle(RowTable::STYLE_SECOND)->setStyle("padding:3px;");
+			$users_table->addRowColumns($array_users[$i]['login'], $array_users[$i]['rights'], $edit_user, $del_user)->setColumnAlign(3, RowTable::ALIGN_CENTER)->setColumnAlign(4, RowTable::ALIGN_CENTER);
 		}
 		$this->users_table_obj->add($users_table);
 	}
