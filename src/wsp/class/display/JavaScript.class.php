@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.97
  * @access      public
  * @since       1.0.17
  */
@@ -46,8 +46,20 @@ class JavaScript extends WebSitePhpObject {
 		$this->is_javascript_object = true;
 		
 		if ($add_js_to_page) {
-			$page_object = Page::getInstance($_GET['p']);;
-			$page_object->addObject($this);
+			$page_object = Page::getInstance($_GET['p']);
+			
+			if (gettype($code_javascript) != "object") {
+				// search in javascript if begin by $(DOCUMENT).READY(
+				// then put javascript to the end (for AJAX because doc is already loaded)
+				$pos_doc_ready = find(trim(str_replace("\t", "", $code_javascript)), "$(DOCUMENT).READY(", 1);
+				if ($pos_doc_ready >= 18 && $pos_doc_ready <= 30) { // 30: beacause of tag //<![CDATA[
+					$page_object->addObject($this, false, true);
+				} else {
+					$page_object->addObject($this);
+				}
+			} else {
+				$page_object->addObject($this);
+			}
 		}
 	}
 	

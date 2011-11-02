@@ -18,8 +18,8 @@
  * @subpackage advanced_object.menu
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.97
  * @access      public
  * @since       1.0.17
  */
@@ -194,7 +194,6 @@ class ContextMenu extends WebSitePhpObject {
 			}
 		}
 		
-		$html .= "$(document).ready( function() {\n";
 		for ($i=0; $i < sizeof($this->attach_object_id); $i++) {
 			$html .= "	";
 			if (find($this->attach_object_id[$i], "$(", 0, 0) > 0) {
@@ -214,7 +213,6 @@ class ContextMenu extends WebSitePhpObject {
 			$html .= "			eval('contextMenuFct_".$this->id."_' + action + '(el, pos)');\n";
 			$html .= "		});\n	}\n";
 		}
-		$html .= "});\n";
 		
 		if (!$ajax_render) {
 			$html .= $this->getJavascriptTagClose();

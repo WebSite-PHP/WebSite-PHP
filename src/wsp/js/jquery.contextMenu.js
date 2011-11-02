@@ -33,6 +33,7 @@ if(jQuery)( function() {
 				// Simulate a true right click
 				$(this).mousedown( function(e) {
 					var evt = e;
+					if (e.button != 2) return; //Added to make this compatible with draggable
 					evt.stopPropagation();
 					$(this).mouseup( function(e) {
 						e.stopPropagation();

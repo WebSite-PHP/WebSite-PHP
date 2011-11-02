@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.97
  * @access      public
  * @since       1.0.17
  */
@@ -30,10 +30,13 @@ class Tabs extends WebSitePhpObject {
 	private $array_tabs_name = array();
 	private $array_tabs_content = array();
 	private $array_tabs_select_js = array();
+	private $array_tabs_disabled = array();
 	
 	private $height = "";
 	private $min_height = "";
 	private $cache = false;
+	private $ajax_loading = true;
+	private $selected_index = -1;
 	/**#@-*/
 	
 	/**
@@ -55,16 +58,18 @@ class Tabs extends WebSitePhpObject {
 	 * @param mixed $tab_name 
 	 * @param object $content_or_url_object 
 	 * @param string $on_select_js 
+	 * @param boolean $disabled [default value: false]
 	 * @return Tabs
 	 * @since 1.0.35
 	 */
-	public function addTab($tab_name, $content_or_url_object, $on_select_js="") {
+	public function addTab($tab_name, $content_or_url_object, $on_select_js="", $disabled=false) {
 		if (gettype($content_or_url_object) == "object" && get_class($content_or_url_object) == "DateTime") {
 			throw new NewException(get_class($this)."->addTab() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, 8, __FILE__, __LINE__);
 		}
 		$this->array_tabs_name[] = $tab_name;
 		$this->array_tabs_content[] = $content_or_url_object;
 		$this->array_tabs_select_js[] = $on_select_js;
+		$this->array_tabs_disabled[] = $disabled;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -104,6 +109,29 @@ class Tabs extends WebSitePhpObject {
 	public function activateCache() {
 		$this->cache = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method disableAjaxLoad
+	 * @access public
+	 * @return Tabs
+	 * @since 1.0.97
+	 */
+	public function disableAjaxLoad() {
+		$this->ajax_loading = false;
+		return $this;
+	}
+	
+	/**
+	 * Method selectedIndex
+	 * @access public
+	 * @param mixed $index 
+	 * @return Tabs
+	 * @since 1.0.97
+	 */
+	public function selectedIndex($index) {
+		$this->selected_index = $index;
 		return $this;
 	}
 
@@ -148,12 +176,16 @@ class Tabs extends WebSitePhpObject {
 			} else {
 				$is_ajax_content = true;
 				$tmp_url = $this->array_tabs_content[$i]->render($ajax_render);
-				$tmp_url = str_replace(".php", ".call", $tmp_url);
-				$html .= $tmp_url;
-				if (find($tmp_url, "?", 0, 0) > 0) {
-					$html .= "&tabs_object_id=".$this->getId();
+				if (!$this->ajax_loading) {
+					$html .= $tmp_url;
 				} else {
-					$html .= "?tabs_object_id=".$this->getId();
+					$tmp_url = str_replace(".php", ".call", $tmp_url);
+					$html .= $tmp_url;
+					if (find($tmp_url, "?", 0, 0) > 0) {
+						$html .= "&tabs_object_id=".$this->getId();
+					} else {
+						$html .= "?tabs_object_id=".$this->getId();
+					}
 				}
 			}
 			$html .= "\"><span>".$this->array_tabs_name[$i]."</span></a></li>\n";
@@ -175,12 +207,9 @@ class Tabs extends WebSitePhpObject {
 		
 		$html .= $this->getJavascriptTagOpen();
 		$html .= "	$('#".$this->getId()."').tabs({";
-		if ($this->cache) {
-			$html .= "		cache: true,\n";
-		}
 		$html .= "		select: function(event, ui) {\n";
 		for ($i=0; $i < sizeof($this->array_tabs_select_js); $i++) {
-			if ($this->array_tabs_select_js[$i] != "" || $this->height != "") {
+			if ($this->array_tabs_select_js[$i] != "" || $this->height != "" || !$this->ajax_loading) {
 				$html .= "			if (ui.index == ".$i.") {\n";
 				if ($this->array_tabs_select_js[$i] != "") {
 					$html .= "				".$this->array_tabs_select_js[$i]."\n";
@@ -188,13 +217,38 @@ class Tabs extends WebSitePhpObject {
 				if ($this->height != "") {
 					$html .= "				$('#' + ui.panel.id).attr('style', 'overflow:auto;height:' + (parseInt($('#".$this->getId()."').css('height').replace('px', ''))-($('#".$this->getId()."').find('.ui-tabs-nav').height()+40)) + 'px;');\n";
 				}
+				if (!$this->ajax_loading) {
+					$html .= "				var url = $.data(ui.tab, 'load.tabs');\n";
+					$html .= "				if (url) {\n";
+					$html .= "					location.href = url;\n";
+					$html .= "					return false;\n";
+					$html .= "				}\n";
+				}
 				$html .= "				return true;\n";
 				$html .= "			}\n";
 			}
 		} 
-		$html .= "		},\n";
+		$html .= "		}\n";
+		if ($this->cache) {
+			$html .= "		, cache: true\n";
+		}
+		if ($this->selected_index > - 1) {
+			$html .= "		, selected: ".$this->selected_index."\n";
+		}
+		$disabled_html = "";
+		$is_disabled = false;
+		for ($i=0; $i < sizeof($this->array_tabs_disabled); $i++) {
+			if ($this->array_tabs_disabled[$i]) {
+				if ($is_disabled) { $disabled_html .= ","; }
+				$disabled_html .= $i;
+				$is_disabled = true;
+			}
+		}
+		if ($is_disabled) {
+			$html .= "		, disabled: [".$disabled_html."]\n";
+		}
 		if ($is_ajax_content) {
-			$html .= "		ajaxOptions: {\n";
+			$html .= "		, ajaxOptions: {\n";
 			if ($this->cache) {
 				$html .= "			cache: true,\n";
 			} 

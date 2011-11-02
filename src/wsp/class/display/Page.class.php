@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.96
+ * @version     1.0.97
  * @access      public
  * @since       1.0.0
  */
@@ -128,6 +128,7 @@ class Page {
 	*/
 	private $add_to_render = array();
 	private $add_to_render_begining = array();
+	private $add_to_render_ending = array();
 	private $page_is_display = false;
 	
 	private $page_is_caching = false;
@@ -474,7 +475,7 @@ class Page {
 	 * @since 1.0.18
 	 */
 	public function addEventObject($object, $form_object=null) {
-		if ($object->isEventObject() && !$this->create_object_to_get_css_js) {
+		if (($object->isEventObject() || get_class($object) == "Form") && !$this->create_object_to_get_css_js) {
 			$class_name = get_class($object);
 			if ($form_object != null) {
 				if (get_class($form_object) != "Form") {
@@ -552,8 +553,6 @@ class Page {
 					$class_name .= "_".$form_object->getName();
 				}
 			}
-		} else {
-			$form_object = $object;
 		}
 		$nb_elem_object = sizeof($this->getEventObjects($class_name));
 		if (isset($_GET['tabs_object_id'])) {
@@ -874,14 +873,17 @@ class Page {
 	 * @access public
 	 * @param WebSitePhpObject $object add script after the render of the page (ex: DialogBox, JavaScript, ...)
 	 * @param boolean $page_begining [default value: false]
+	 * @param boolean $page_ending [default value: false]
 	 * @since 1.0.18
 	 */
-	public function addObject($object, $page_begining=false) {
+	public function addObject($object, $page_begining=false, $page_ending=false) {
 		if (!is_subclass_of($object, "WebSitePhpObject")) {
 			throw new NewException("You can't add this object ".get_class($this)." to the page, you must add WebSitePhpObject", 0, 8, __FILE__, __LINE__);
 		}
 		if ($page_begining) {
 			$this->add_to_render_begining[] = $object;
+		} else if ($page_ending) {
+			$this->add_to_render_ending[] = $object;
 		} else {
 			$this->add_to_render[] = $object;
 		}
@@ -904,7 +906,7 @@ class Page {
 	 * @since 1.0.95
 	 */
 	public function getBeginAddedObjects() {
-		return array_merge($this->add_to_render_begining);
+		return $this->add_to_render_begining;
 	}
 		
 	/**
@@ -914,7 +916,7 @@ class Page {
 	 * @since 1.0.95
 	 */
 	public function getEndAddedObjects() {
-		return array_merge($this->add_to_render);
+		return array_merge($this->add_to_render, $this->add_to_render_ending);
 	}
 	
 	/**
@@ -969,6 +971,8 @@ class Page {
 				$html .= $this->render;
 			}
 			$html .= "\n";
+			$this->add_to_render = $this->getEndAddedObjects();
+			$this->add_to_render_ending = array();
 			for ($i=0; $i < sizeof($this->add_to_render); $i++) {
 				if ($this->add_to_render[$i]->isJavascriptObject()) {
 					$html .= $this->add_to_render[$i]->getJavascriptTagOpen();

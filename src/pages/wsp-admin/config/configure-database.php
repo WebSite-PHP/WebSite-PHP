@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.95
+ * @version     1.0.97
  * @access      public
  * @since       1.0.25
  */
@@ -441,9 +441,16 @@ class ".$class_name."WspObject {
 	function __construct(".$construct_param.") {
 		if (".$isset_key_param.") {
 			\$this->load(".$key_param.");
-		} else {\n";
+		}
+		if (!\$this->is_db_object) {\n";
 			for ($i=0; $i < sizeof($array_var); $i++) {
+				if (in_array($array_var[$i], $array_var_key)) {
+					$data .= "			if (\$this->".$array_var[$i]." == \"\") {\n	";
+				}
 				$data .= "			\$this->set".$this->getFormatValue($array_var[$i])."(\$".$array_var[$i].");\n";
+				if (in_array($array_var[$i], $array_var_key)) {
+					$data .= "			}\n";
+				}
 			}
 $data .= "		}
 	}
@@ -542,7 +549,7 @@ $data .= "		}
 			$data .= "			\$it->save();\n";
 			if ($auto_increment_var != "") {
 				$data .= "			if (\$insert) {
-				\$row->setValue(".$class_name."DbTable::FIELD_".str_replace("-", "_", strtoupper($auto_increment_var)).", DataBase::getInstance()->getLastInsertId());
+				\$this->set".$this->getFormatValue($auto_increment_var)."(DataBase::getInstance()->getLastInsertId());
 			}\n";
 			}
 			$data .= "			if (\$transaction_begin_now) {
@@ -803,7 +810,7 @@ $data .= "	/**
 		}
 	}
 ?>";
-		$file = new File(dirname(__FILE__)."/../../../wsp/class/database_model/wsp/".$class_name."ObjList.class.php", false, true);
+		$file = new File(dirname(__FILE__)."/../../../wsp/class/database_model/".$class_name."ObjList.class.php", false, true);
 		$file->write($data);
 		$file->close();
 	}

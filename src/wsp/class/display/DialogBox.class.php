@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.97
  * @access      public
  * @since       1.0.17
  */
@@ -245,9 +245,16 @@ class DialogBox extends WebSitePhpObject {
 	public static function closeAll() {
 		$js = "";
 		$array_dialogbox = DialogBox::getArrayDialogBoxLevels();
-		for ($i=0; $i < sizeof($array_dialogbox); $i++) {
-			if ($array_dialogbox[$i] != null) {
-				$js .= $array_dialogbox[$i]->close()->render();
+		$nb_dialogbox = sizeof($array_dialogbox);
+		if ($nb_dialogbox == 0) {
+			for ($i=0; $i < 5; $i++) {
+				$js .= DialogBox::closeLevel($i)->render();
+			}
+		} else {
+			for ($i=0; $i < $nb_dialogbox; $i++) {
+				if ($array_dialogbox[$i] != null) {
+					$js .= $array_dialogbox[$i]->close()->render();
+				}
 			}
 		}
 		return new JavaScript($js);

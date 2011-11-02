@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.96
+ * @version     1.0.97
  * @access      public
  * @since       1.0.17
  */
@@ -75,6 +75,7 @@ class Object extends WebSitePhpEventObject {
 	private $width = "";
 	private $height = "";
 	private $min_height = "";
+	private $max_height = "";
 	private $border = 0;
 	private $border_color = "";
 	private $border_style = "";
@@ -103,6 +104,8 @@ class Object extends WebSitePhpEventObject {
 	
 	private $onclick = "";
 	private $callback_onclick = "";
+	private $ondblclick = "";
+	private $callback_ondblclick = "";
 	private $is_clicked = false;
 	private $onmouseover = "";
 	private $onmouseout = "";
@@ -110,6 +113,8 @@ class Object extends WebSitePhpEventObject {
 	private $loaded_from_url = false;
 	private $force_div_tag = false;
 	private $force_span_tag = false;
+	
+	private $context_menu = null;
 	/**#@-*/
 	
 	/**
@@ -225,6 +230,23 @@ class Object extends WebSitePhpEventObject {
 			$this->min_height = $min_height;
 		} else {
 			$this->min_height = str_replace("px", "", $min_height);
+		}
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+
+	/**
+	 * Method setMaxHeight
+	 * @access public
+	 * @param mixed $max_height 
+	 * @return Object
+	 * @since 1.0.97
+	 */
+	public function setMaxHeight($max_height) {
+		if (is_integer($this->max_height)) {
+			$this->max_height = $max_height;
+		} else {
+			$this->max_height = str_replace("px", "", $max_height);
 		}
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
@@ -497,6 +519,22 @@ class Object extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method setContextMenu
+	 * @access public
+	 * @param mixed $context_menu_object 
+	 * @return Object
+	 * @since 1.0.97
+	 */
+	public function setContextMenu($context_menu_object) {
+		if (get_class($context_menu_object) != "ContextMenu") {
+			throw new NewException("Error Object->setContextMenuFile(): $context_menu_object is not a ContextMenu object", 0, 8, __FILE__, __LINE__);
+		}
+		$this->context_menu = $context_menu_object;
+		$this->context_menu->attachContextMenuToObjectId("$(\"#".$this->getId()."\")");
+		return $this;
+	}
+	
+	/**
 	 * Method getOnClickJs
 	 * @access public
 	 * @return mixed
@@ -565,6 +603,66 @@ class Object extends WebSitePhpEventObject {
 		$this->onclick = trim($js_function);
 		return $this;
 	}
+	
+	/**
+	 * Method onDblClick
+	 * @access public
+	 * @param mixed $page_or_form_object 
+	 * @param mixed $str_function 
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return Object
+	 * @since 1.0.97
+	 */
+	public function onDblClick($page_or_form_object, $str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
+		if ($this->id == "") {
+			throw new NewException("Error Object->onDblClick(): You must specified an id (setId())", 0, 8, __FILE__, __LINE__);
+		}
+		if (!isset($page_or_form_object) || gettype($page_or_form_object) != "object" || (!is_subclass_of($page_or_form_object, "Page") && get_class($page_or_form_object) != "Form")) {
+			throw new NewException("Argument page_or_form_object for ".get_class($this)."::onDblClick() error", 0, 8, __FILE__, __LINE__);
+		}
+		
+		if (is_subclass_of($page_or_form_object, "Page")) {
+			$this->class_name = get_class($page_or_form_object);
+			$this->page_object = $page_or_form_object;
+			$this->form_object = null;
+		} else {
+			$this->page_object = $page_or_form_object->getPageObject();
+			$this->class_name = get_class($this->page_object)."_".$page_or_form_object->getName();
+			$this->form_object = $page_or_form_object;
+		}
+		$this->name = $this->getId();
+		$this->page_object->addEventObject($this);
+		
+		$args = func_get_args();
+		$page_object = array_shift($args);
+		$str_function = array_shift($args);
+		
+		$this->callback_ondblclick = $this->loadCallbackMethod($str_function, $args);
+		
+		return $this;
+	}
+	
+	/**
+	 * Method onDblClickJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return Object
+	 * @since 1.0.97
+	 */
+	public function onDblClickJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onDblClickJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->ondblclick = trim($js_function);
+		return $this;
+	}
 
 	/**
 	 * Method onMouseOverJs
@@ -609,8 +707,8 @@ class Object extends WebSitePhpEventObject {
 	 * @since 1.0.36
 	 */
 	public function isClicked() {
-		if ($this->callback_onclick == "") {
-			throw new NewException(get_class($this)."->isClicked(): this method can be used only if an onClick event is defined on this ".get_class($this).".", 0, 8, __FILE__, __LINE__);
+		if ($this->callback_onclick == "" && $this->callback_ondblclick == "") {
+			throw new NewException(get_class($this)."->isClicked(): this method can be used only if an onClick or onDblClick event is defined on this ".get_class($this).".", 0, 8, __FILE__, __LINE__);
 		}
 		return $this->is_clicked;
 	}
@@ -657,9 +755,12 @@ class Object extends WebSitePhpEventObject {
 		$is_span_open = false;
 		if ($this->force_div_tag || $this->force_span_tag || $this->id != "" || $this->align != "" || 
 			$this->border != "" || $this->width != "" || $this->font_size != "" || $this->font_family != "" || 
-			$this->font_weight != "" || $this->style != "" || $this->class != "") {
+			$this->font_weight != "" || $this->style != "" || $this->class != "" || $this->min_height != "" || 
+			$this->max_height != "") {
+				
 			if ($this->force_div_tag || (!$this->force_span_tag &&
-				($this->align != "" || $this->height != "" || $this->width != "" || $this->class != ""))) {
+				($this->align != "" || $this->height != "" || $this->width != "" || $this->class != "" || 
+				$this->min_height != "" || $this->max_height != ""))) {
 					$html .= "<div ";
 					if ($this->align != "") {
 						$html .= "align=\"".$this->align."\" ";
@@ -715,6 +816,9 @@ class Object extends WebSitePhpEventObject {
 			} else if ($this->droppable || $this->sortable) {
 				$html .= "min-height: 24px;height: expression(this.scrollHeight < 22 ? '24px' : 'auto');";
 			}
+			if ($this->max_height != "") {
+				$html .= "max-height: ".$this->max_height."px;overflow:auto;height: expression(this.scrollHeight > ".$this->max_height." ? 'scroll' : 'auto');";
+			}
 			if ($this->droppable || $this->sortable) {
 				$html .= "min-width: 24px;width: expression(this.scrollWidth < 26 ? '26px' : 'auto');";
 			}
@@ -752,6 +856,12 @@ class Object extends WebSitePhpEventObject {
 				$html .= " onClick=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick, $this->getId()))."\"";
 			} else if ($this->onclick != "") {
 				$html .= " onClick=\"".str_replace("\n", "", $this->onclick)."\"";
+			}
+			
+			if ($this->callback_ondblclick != "") {
+				$html .= " onDblClick=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->ondblclick, $this->callback_ondblclick, $this->getId()))."\"";
+			} else if ($this->onclick != "") {
+				$html .= " onDblClick=\"".str_replace("\n", "", $this->ondblclick)."\"";
 			}
 			
 			if ($this->onmouseover != "") {
@@ -796,15 +906,21 @@ class Object extends WebSitePhpEventObject {
 		}
 		if ($is_span_open) {
 			if ($this->force_div_tag || (!$this->force_span_tag &&
-				($this->align != "" || $this->height != "" || $this->width != "" || $this->class != ""))) {
+				($this->align != "" || $this->height != "" || $this->width != "" || $this->class != "" || 
+				$this->min_height != "" || $this->max_height != ""))) {
 					$html .= "</div>";
 			} else {
 					$html .= "</span>";
 			}
 		}
 		
+		if ($this->context_menu != null) {
+			$html .= $this->context_menu->render($ajax_render);
+		}
+		
 		if ($this->draggable && !$this->draggable_sortable) {
 			$html .= "\n".$this->getJavascriptTagOpen();
+			$html .= "$(document).ready( function() {\n";
 			$html .= "$(\"#".$this->getId()."\").draggable({opacity: 0.8, scroll: true";
 			if ($this->draggable_revert) {
 				$html .= ", revert: true";
@@ -816,6 +932,7 @@ class Object extends WebSitePhpEventObject {
 			$html .= "$(\"#".$this->getId()."\").find('.ui-resizable-e').remove();\n";
 			$html .= "$(\"#".$this->getId()."\").find('.ui-resizable-s').remove();\n";
 			$html .= "$(\"#".$this->getId()."\").find('.ui-resizable-se').remove();\n";
+			$html .= "});\n";
 			$html .= $this->getJavascriptTagClose();
 			
 			if ($this->draggable_event != null) {
@@ -823,12 +940,15 @@ class Object extends WebSitePhpEventObject {
 			}
 		} else if ($this->draggable_sortable) {
 			$html .= "\n".$this->getJavascriptTagOpen();
+			$html .= "$(document).ready( function() {\n";
 			$html .= "$(\"#".$this->getId()."\").disableSelection();\n";
+			$html .= "});\n";
 			$html .= $this->getJavascriptTagClose();
 		}
 		
 		if ($this->droppable) {
 			$html .= "\n".$this->getJavascriptTagOpen();
+			$html .= "$(document).ready( function() {\n";
 			$html .= "$(\"#".$this->getId()."\").droppable({ greedy: true";
 			if ($this->droppable_style != "") {
 				$html .= ", hoverClass: '".$this->droppable_style."'";
@@ -838,6 +958,7 @@ class Object extends WebSitePhpEventObject {
 			}
 			$html .= "});\n";
 			$html .= "$(\"#".$this->getId()."\").css('display', 'block');\n";
+			$html .= "});\n";
 			$html .= $this->getJavascriptTagClose();
 			
 			if ($this->droppable_event != null) {
@@ -847,6 +968,7 @@ class Object extends WebSitePhpEventObject {
 		
 		if ($this->sortable) {
 			$html .= "\n".$this->getJavascriptTagOpen();
+			$html .= "$(document).ready( function() {\n";
 			// remove since include jquery 1.6.2 (wsp 1.0.90)
 			//$html .= "$('#".$this->getId()."').mousedown(function(e) { e.stopPropagation(); return false; });\n"; // ack for IE
 			$html .= "$('#".$this->getId()."').sortable({connectWith: '.sortable'";
@@ -857,7 +979,7 @@ class Object extends WebSitePhpEventObject {
 			if (!$this->droppable) {
 				$html .= "$(\"#".$this->getId()."\").css('display', 'block');\n";
 			}
-			
+			$html .= "});\n";
 			$html .= $this->getJavascriptTagClose();
 			
 			if ($this->sortable_event != null) {
@@ -865,7 +987,7 @@ class Object extends WebSitePhpEventObject {
 			}
 		}
 		
-		if ($this->callback_onclick != "") {
+		if ($this->callback_onclick != "" || $this->callback_ondblclick != "") {
 			$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
 			if ($this->is_ajax_event && !$ajax_render) {
 				$html .= $this->getJavascriptTagOpen();

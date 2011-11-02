@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.96
+ * @version     1.0.97
  * @access      public
  * @since       1.0.17
  */
@@ -100,6 +100,7 @@ class Table extends WebSitePhpObject {
 	private $pagination = false;
 	private $pagination_row_per_page = -1;
 	private $paginate_full_numbers = false;
+	private $advance_table_title = "";
 	/**#@-*/
 	
 	/**
@@ -385,6 +386,21 @@ class Table extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method deleteAllRows
+	 * @access public
+	 * @return Table
+	 * @since 1.0.97
+	 */
+	public function deleteAllRows() {
+		for ($i=0; $i < sizeof($this->rows); $i++) {
+			$this->rows[$i]->delete();
+		}
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		
+		return $this;
+	}
+	
+	/**
 	 * Method getNbRows
 	 * @access public
 	 * @return mixed
@@ -533,6 +549,19 @@ class Table extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method setTitle
+	 * @access public
+	 * @param mixed $title 
+	 * @return Table
+	 * @since 1.0.97
+	 */
+	public function setTitle($title) {
+		
+		$this->advance_table_title = $title;
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -570,7 +599,7 @@ class Table extends WebSitePhpObject {
 			}
 			$html .= "\"";
 		}
-		if ($this->border != "" || $this->width != "" || $this->font_size != "" || $this->font_family != "" || $this->font_weight != "" || $this->style != "") {
+		if ($this->border != "" || $this->width != "" || $this->height != "" || $this->font_size != "" || $this->font_family != "" || $this->font_weight != "" || $this->style != "") {
 			$html .= " style=\"";
 			if ($this->width != "") {
 				if (is_integer($this->width)) {
@@ -675,7 +704,25 @@ class Table extends WebSitePhpObject {
 			if ($this->width != "") {
 				$html .= ", 'bAutoWidth': false";
 			}
+			if ($this->advance_table_title != "") {
+				$html .= ", 'sDom': '<\"toolbar\">frtip'";
+			}
 			$html .= "});\n";
+			if ($this->advance_table_title != "") {
+				$html .= "$('#".$this->getId()."_wrapper').find('div.toolbar').html('";
+				if (gettype($this->advance_table_title) == "object" && method_exists($this->advance_table_title, "render")) {
+					$html .= addslashes($this->advance_table_title->render());
+				} else {
+					$html .= addslashes($this->advance_table_title);
+				}
+				$html .= "').attr('align', 'left');\n";
+				if ($this->is_filtered) {
+					$html .= "$('#".$this->getId()."_filter').attr('class', 'fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix');\n";
+				}
+				if ($this->pagination) {
+					$html .= "$('#".$this->getId()."_paginate').attr('class', 'fg-toolbar ui-toolbar ui-widget-header ui-corner-bl ui-corner-br ui-helper-clearfix');\n";
+				}
+			}
 			$html .= $this->getJavascriptTagClose();
 		}
 		

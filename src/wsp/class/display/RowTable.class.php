@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.96
+ * @version     1.0.97
  * @access      public
  * @since       1.0.17
  */
@@ -319,10 +319,6 @@ class RowTable extends WebSitePhpObject {
 	 * @since 1.0.93
 	 */
 	public function delete() {
-		if ($this->id == "") {
-			throw new NewException(get_class($this)."->remove() error: To remove this ".get_class($this)." you must define an id (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
-		}
-		
 		$this->is_deleted = true;
 		$this->hide = true;
 		$this->is_new = false;
