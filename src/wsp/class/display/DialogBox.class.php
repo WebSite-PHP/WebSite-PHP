@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.98
  * @access      public
  * @since       1.0.17
  */
@@ -403,6 +403,13 @@ class DialogBox extends WebSitePhpObject {
 		$html_content = "";
 		if (gettype($this->content) == "object" && method_exists($this->content, "render")) {
 			$html_content = $this->content->render();
+			// Extract JavaScript from HTML
+			include_once(dirname(__FILE__)."/../../includes/utils_ajax.inc.php");
+			$array_extract_js = extract_javascript($html_content);
+			for ($i=1; $i < sizeof($array_extract_js); $i++) {
+				new JavaScript("$(document).ready( function() {".$array_extract_js[$i]." } );", true);
+			}
+			$html_content = $array_extract_js[0];
 		} else {
 			$html_content = $this->content;
 		}

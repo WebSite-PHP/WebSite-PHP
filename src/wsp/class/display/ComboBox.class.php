@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.98
  * @access      public
  * @since       1.0.17
  */
@@ -187,7 +187,7 @@ class ComboBox extends WebSitePhpEventObject {
 	public function addItem($value, $text, $selected=false, $img='', $group_name='') {
 		$this->item_value[] = html_entity_decode($value);
 		$this->item_text[] = $text;
-		if ($img != "" && strtoupper(substr($img, 0, 7)) != "HTTP://" && strtoupper(substr($img, 0, 7)) != "HTTPS://") {
+		if ($img != "" && strtoupper(substr($img, 0, 7)) != "HTTP://" && strtoupper(substr($img, 0, 8)) != "HTTPS://") {
 			$this->item_img[] = BASE_URL.$img;
 		} else {
 			$this->item_img[] = $img;
@@ -200,6 +200,31 @@ class ComboBox extends WebSitePhpEventObject {
 			$this->setSelectedIndex(sizeof($this->item_value)-1);
 		}
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; $this->list_items_change = true; }
+		return $this;
+	}
+	
+	/**
+	 * Method removeItem
+	 * @access public
+	 * @param mixed $value 
+	 * @return ComboBox
+	 * @since 1.0.98
+	 */
+	public function removeItem($value) {
+		if (($pos = array_search($value, $this->item_value)) !== false) {
+			unset($this->item_value[$pos]);
+			unset($this->item_text[$pos]);
+			unset($this->item_img[$pos]);
+			
+			$this->item_value = array_values($this->item_value);
+			$this->item_text = array_values($this->item_text);
+			$this->item_text = array_values($this->item_text);
+			
+			if ($this->item_selected > sizeof($this->item_value)) {
+				$this->setSelectedIndex(sizeof($this->item_value)-1);
+			}
+			if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; $this->list_items_change = true; }
+		}
 		return $this;
 	}
 	

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.98
  * @access      public
  * @since       1.0.17
  */
@@ -331,7 +331,7 @@ class Form extends WebSitePhpObject {
 			if ($this->action == "") {
 				$html .= str_replace("ajax/", "", $this->page_object->getCurrentURL());
 			} else {
-				if (strtoupper(substr($this->action, 0, 7)) != "HTTP://" && strtoupper(substr($this->action, 0, 7)) != "HTTPS://") {
+				if (strtoupper(substr($this->action, 0, 7)) != "HTTP://" && strtoupper(substr($this->action, 0, 8)) != "HTTPS://") {
 					$html .= $this->page_object->getBaseLanguageURL().$this->action;
 				} else {
 					$html .= $this->action;

@@ -15,125 +15,137 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.98
  * @access      public
  * @since       1.0.19
  */
 
 	function gif2jpeg($InFile, $OutFile='', $bgcolor=false) {
-	  list($wd, $ht, $tp, $at)=getimagesize($InFile);
-	  $img_src=imagecreatefromgif($InFile);
-	  $img_dst=imagecreatetruecolor($wd,$ht);
-	  $clr['red']=255;
-	  $clr['green']=255;
-	  $clr['blue']=255;
-	  if (is_array($bgcolor)) $clr=$bgcolor;
-	  $kek=imagecolorallocate($img_dst,$clr['red'],$clr['green'],$clr['blue']);
-	  imagefill($img_dst,0,0,$kek);
-	  imagecopyresampled($img_dst, $img_src, 0, 0, 0, 0, $wd, $ht, $wd, $ht);
-	  imagedestroy($img_src);
-	  
-	  $draw=true;
-	  if (strlen($OutFile)>0) {
-	    if ($hnd=fopen($OutFile,'w')) {
-	      $draw=false;
-	      fclose($hnd);
-	    }
-	  }
-	  if (true==$draw) {
-	    header("Content-type: image/jpeg");
-	    imagejpeg($img_dst);
-	  } else {
-	  	imagejpeg($img_dst, $OutFile);
-	  }
-	  imagedestroy($img_dst);
+		list($wd, $ht, $tp, $at)=getimagesize($InFile);
+		$img_src=imagecreatefromgif($InFile);
+		$img_dst=imagecreatetruecolor($wd,$ht);
+		$rgb = array();
+		$rgb['red']=255;
+		$rgb['green']=255;
+		$rgb['blue']=255;
+		if (is_array($bgcolor)) $rgb=$bgcolor;
+		$kek=imagecolorallocate($img_dst,$rgb['red'],$rgb['green'],$rgb['blue']);
+		imagefill($img_dst,0,0,$kek);
+		imagecopyresampled($img_dst, $img_src, 0, 0, 0, 0, $wd, $ht, $wd, $ht);
+		imagedestroy($img_src);
+		  
+		$draw=true;
+		if (strlen($OutFile)>0) {
+			if ($hnd=fopen($OutFile,'w')) {
+				$draw=false;
+				fclose($hnd);
+			}
+		}
+		if (true==$draw) {
+			header("Content-type: image/jpeg");
+			imagejpeg($img_dst);
+		} else {
+			imagejpeg($img_dst, $OutFile);
+		}
+		imagedestroy($img_dst);
 	}
 	
 	function png2jpeg($InFile, $OutFile='', $bgcolor=false) {
-	  list($wd, $ht, $tp, $at)=getimagesize($InFile);
-	  $img_src=imagecreatefrompng($InFile);
-	  $img_dst=imagecreatetruecolor($wd,$ht);
-	  $clr['red']=255;
-	  $clr['green']=255;
-	  $clr['blue']=255;
-	  if (is_array($bgcolor)) $clr=$bgcolor;
-	  $kek=imagecolorallocate($img_dst,$clr['red'],$clr['green'],$clr['blue']);
-	  imagefill($img_dst,0,0,$kek);
-	  imagecopyresampled($img_dst, $img_src, 0, 0, 0, 0, $wd, $ht, $wd, $ht);
-	  imagedestroy($img_src);
-	  
-	  $draw=true;
-	  if (strlen($OutFile)>0) {
-	    if ($hnd=fopen($OutFile,'w')) {
-	      $draw=false;
-	      fclose($hnd);
-	    }
-	  }
-	  if (true==$draw) {
-	    header("Content-type: image/jpeg");
-	    imagejpeg($img_dst);
-	  } else {
-	  	imagejpeg($img_dst, $OutFile);
-	  }
-	  imagedestroy($img_dst);
+		list($wd, $ht, $tp, $at)=getimagesize($InFile);
+		$img_src=imagecreatefrompng($InFile);
+		$img_dst=imagecreatetruecolor($wd,$ht);
+		$rgb = array();
+		$rgb['red']=255;
+		$rgb['green']=255;
+		$rgb['blue']=255;
+		if (is_array($bgcolor)) $rgb=$bgcolor;
+		$kek=imagecolorallocate($img_dst,$rgb['red'],$rgb['green'],$rgb['blue']);
+		imagefill($img_dst,0,0,$kek);
+		imagecopyresampled($img_dst, $img_src, 0, 0, 0, 0, $wd, $ht, $wd, $ht);
+		imagedestroy($img_src);
+		
+		$draw=true;
+		if (strlen($OutFile)>0) {
+			if ($hnd=fopen($OutFile,'w')) {
+				$draw=false;
+				fclose($hnd);
+			}
+		}
+		if (true==$draw) {
+			header("Content-type: image/jpeg");
+			imagejpeg($img_dst);
+		} else {
+			imagejpeg($img_dst, $OutFile);
+		}
+		imagedestroy($img_dst);
 	}
 	
 	function gif2png($InFile, $OutFile='', $bgcolor=false) {
-	  list($wd, $ht, $tp, $at)=getimagesize($InFile);
-	  $img_src=imagecreatefromgif($InFile);
-	  $img_dst=imagecreatetruecolor($wd,$ht);
-	  $clr['red']=255;
-	  $clr['green']=255;
-	  $clr['blue']=255;
-	  if (is_array($bgcolor)) $clr=$bgcolor;
-	  $kek=imagecolorallocate($img_dst,$clr['red'],$clr['green'],$clr['blue']);
-	  imagefill($img_dst,0,0,$kek);
-	  imagecopyresampled($img_dst, $img_src, 0, 0, 0, 0, $wd, $ht, $wd, $ht);
-	  imagedestroy($img_src);
-	  
-	  $draw=true;
-	  if (strlen($OutFile)>0) {
-	    if ($hnd=fopen($OutFile,'w')) {
-	      $draw=false;
-	      fclose($hnd);
-	    }
-	  }
-	  if (true==$draw) {
-	    header("Content-type: image/png");
-	    imagepng($img_dst);
-	  } else {
-	  	imagepng($img_dst, $OutFile);
-	  }
-	  imagedestroy($img_dst);
+		list($wd, $ht, $tp, $at)=getimagesize($InFile);
+		$img_src=imagecreatefromgif($InFile);
+		$img_dst=imagecreatetruecolor($wd,$ht);
+		if ($bgcolor != false) {
+			$rgb = array();
+			$rgb['red']=255;
+			$rgb['green']=255;
+			$rgb['blue']=255;
+			if (is_array($bgcolor)) $rgb=$bgcolor;
+			$kek=imagecolorallocate($img_dst,$rgb['red'],$rgb['green'],$rgb['blue']);
+			imagefill($img_dst,0,0,$kek);
+		} else {
+			imagecolortransparent($img_dst, imagecolorallocate($img_dst, 0, 0, 0));
+		}
+		imagecopyresampled($img_dst, $img_src, 0, 0, 0, 0, $wd, $ht, $wd, $ht);
+		imagedestroy($img_src);
+		
+		$draw=true;
+		if (strlen($OutFile)>0) {
+			if ($hnd=fopen($OutFile,'w')) {
+				$draw=false;
+				fclose($hnd);
+			}
+		}
+		if (true==$draw) {
+			header("Content-type: image/png");
+			imagepng($img_dst);
+		} else {
+			imagepng($img_dst, $OutFile);
+		}
+		imagedestroy($img_dst);
 	}
 	
 	function jpeg2png($InFile, $OutFile='', $bgcolor=false) {
-	  list($wd, $ht, $tp, $at)=getimagesize($InFile);
-	  $img_src=imagecreatefromjpeg($InFile);
-	  $img_dst=imagecreatetruecolor($wd,$ht);
-	  $clr['red']=255;
-	  $clr['green']=255;
-	  $clr['blue']=255;
-	  if (is_array($bgcolor)) $clr=$bgcolor;
-	  $kek=imagecolorallocate($img_dst,$clr['red'],$clr['green'],$clr['blue']);
-	  imagefill($img_dst,0,0,$kek);
-	  imagecopyresampled($img_dst, $img_src, 0, 0, 0, 0, $wd, $ht, $wd, $ht);
-	  imagedestroy($img_src);
-	  
-	  $draw=true;
-	  if (strlen($OutFile)>0) {
-	    if ($hnd=fopen($OutFile,'w')) {
-	      $draw=false;
-	      fclose($hnd);
-	    }
-	  }
-	  if (true==$draw) {
-	    header("Content-type: image/png");
-	    imagepng($img_dst);
-	  } else {
-	  	imagepng($img_dst, $OutFile);
-	  }
-	  imagedestroy($img_dst);
+		list($wd, $ht, $tp, $at)=getimagesize($InFile);
+		$img_src=imagecreatefromjpeg($InFile);
+		$img_dst=imagecreatetruecolor($wd,$ht);
+		if ($bgcolor != false) {
+			$rgb = array();
+			$rgb['red']=255;
+			$rgb['green']=255;
+			$rgb['blue']=255;
+			if (is_array($bgcolor)) $rgb=$bgcolor;
+			$kek=imagecolorallocate($img_dst,$rgb['red'],$rgb['green'],$rgb['blue']);
+			imagefill($img_dst,0,0,$kek);
+		} else {
+			imagecolortransparent($img_dst, imagecolorallocate($img_dst, 0, 0, 0));
+		}
+		imagecopyresampled($img_dst, $img_src, 0, 0, 0, 0, $wd, $ht, $wd, $ht);
+		imagedestroy($img_src);
+		
+		$draw=true;
+		if (strlen($OutFile)>0) {
+			if ($hnd=fopen($OutFile,'w')) {
+				$draw=false;
+				fclose($hnd);
+			}
+		}
+		if (true==$draw) {
+			header("Content-type: image/png");
+			imagepng($img_dst);
+		} else {
+			imagepng($img_dst, $OutFile);
+		}
+		imagedestroy($img_dst);
 	}
 
 	function jpegReduction($InFile, $OutFile, $Width) {
@@ -180,7 +192,7 @@
 		ImageJpeg($thumb, $OutFile);
 	}
 	
-	function jpegReductionFixe($InFile, $OutFile, $Width, $Height) {
+	function jpegReductionFixe($InFile, $OutFile, $Width, $Height, $bgcolor=false) {
 		$dim=getimagesize($InFile);
 		$image = ImageCreateFromJPEG($InFile);
 		
@@ -202,18 +214,22 @@
 		}
 	
 		$thumb = ImageCreateTrueColor($Width, $Height);
-		//ImageAlphaBlending($thumb, false);
-		$black = imagecolorallocate($thumb,0,0,0);
-		imagefill($thumb,0,0,$black);
-		//imagecolortransparent($thumb,$black);
-	
+		$rgb = array();
+		$rgb['red']=255;
+		$rgb['green']=255;
+		$rgb['blue']=255;
+		if (is_array($bgcolor)) $rgb=$bgcolor;
+		$kek=imagecolorallocate($thumb,$rgb['red'],$rgb['green'],$rgb['blue']);
+		imagefill($thumb,0,0,$kek);
 	  	ImageCopyreSampled($thumb, $image, $diffWidth, $diffHeight, 0, 0, $larg2, $haut2, $larg, $haut);
+		imagedestroy($image);
 	
 		if (file_exists($OutFile)) {
 			unlink($OutFile);
 		}
 		touch($OutFile);
 		ImageJpeg($thumb, $OutFile);
+	  	imagedestroy($thumb);
 	}
 	
 	
@@ -261,7 +277,7 @@
 		imagepng($thumb, $OutFile);
 	}
 	
-	function pngReductionFixe($InFile, $OutFile, $Width, $Height) {
+	function pngReductionFixe($InFile, $OutFile, $Width, $Height, $bgcolor=false) {
 		$dim=getimagesize($InFile);
 		$image = imagecreatefrompng($InFile);
 		
@@ -283,17 +299,192 @@
 		}
 	
 		$thumb = ImageCreateTrueColor($Width, $Height);
-		//ImageAlphaBlending($thumb, false);
-		$black = imagecolorallocate($thumb,0,0,0);
-		imagefill($thumb,0,0,$black);
-		//imagecolortransparent($thumb,$black);
-	
-	  	ImageCopyreSampled($thumb, $image, $diffWidth, $diffHeight, 0, 0, $larg2, $haut2, $larg, $haut);
-	
+		if ($bgcolor != false) {
+			$rgb = array();
+			$rgb['red']=255;
+			$rgb['green']=255;
+			$rgb['blue']=255;
+			if (is_array($bgcolor)) $rgb=$bgcolor;
+			$kek=imagecolorallocate($thumb,$rgb['red'],$rgb['green'],$rgb['blue']);
+			imagefill($thumb,0,0,$kek);
+		} else {
+			imagecolortransparent($thumb, imagecolorallocate($thumb, 0, 0, 0));
+		}
+		ImageCopyreSampled($thumb, $image, $diffWidth, $diffHeight, 0, 0, $larg2, $haut2, $larg, $haut);
+	  	imagedestroy($image);
+		
 		if (file_exists($OutFile)) {
 			unlink($OutFile);
 		}
 		touch($OutFile);
 		imagepng($thumb, $OutFile);
+	  	imagedestroy($thumb);
+	}
+	
+	function makePngColorTransparentBackground($InFile, $OutFile, $bgcolor=array('red'=>255, 'green'=>255, 'blue'=>255)) {
+		$dim=getimagesize($InFile);
+		$haut=$dim[1];
+		$larg=$dim[0];
+		
+		$image_source = imagecreatefrompng($InFile); 
+		
+		$transparencyIndex = imagecolortransparent($image_source); 
+		$bgcolor = array('red' => 255, 'green' => 255, 'blue' => 255); 
+             
+		if ($bgcolor >= 0) { 
+			$bgcolor = imagecolorsforindex($image_source, $transparencyIndex);    
+		}
+            
+		$transparencyIndex = imagecolorallocate($image_source, $bgcolor['red'], $bgcolor['green'], $bgcolor['blue']); 
+		imagefill($image_source, 0, 0, $transparencyIndex); 
+		imagecolortransparent($image_source, $transparencyIndex);
+		
+		if (file_exists($OutFile)) {
+			unlink($OutFile);
+		}
+		touch($OutFile);
+		imagepng($image_source, $OutFile);
+		imagedestroy($image_source);
+	}
+	
+	function makePngIphoneIcon($InFile, $OutFile, $Width=100, $Height=100) {
+		$dim=getimagesize($InFile);
+		$haut=$dim[1];
+		$larg=$dim[0];
+		
+		if ($haut != 100 && $larg != 100) {
+			pngReductionFixe($InFile, $OutFile, 100, 100, true);
+			$InFile = $OutFile;
+		}
+		
+	   // Load the image where the logo will be embeded into
+	   $image = imagecreatefrompng($InFile);
+	
+	   // Load the overlay image
+	   $overlayImage = imagecreatefrompng(dirname(__FILE__)."/../img/mask_icon_iphone.png");
+	   //imagealphablending($overlayImage, true);
+	
+	   // Get dimensions
+	   $imageWidth=imagesx($image);
+	   $imageHeight=imagesy($image);
+	
+	   $overlayImageWidth=imagesx($overlayImage);
+	   $overlayImageHeight=imagesy($overlayImage);	 
+		
+	   imagelayereffect($overlayImage, IMG_EFFECT_OVERLAY);
+	
+	    // Paste the logo
+	    imagecopy(
+	        // destination
+	        $overlayImage,
+	        // source
+	        $image,
+	        // destination x and y, centered
+	         ($overlayImageWidth-$imageWidth)/2, ($overlayImageHeight-$imageHeight)/2,
+	        // source x and y
+	        0, 0,
+	        // width and height of the area of the source to copy
+	        $imageWidth, $imageHeight);
+		
+        if ($Width != 100 && $Height != 100) {
+	        $diffHeight=0;
+			$diffWidth=0;
+			if ($imageWidth > $imageHeight) {
+				$reduire=$Width/$imageWidth;
+				$larg2=$Width;
+				$haut2=round($imageHeight*$reduire);
+				$diffHeight=($Height-$haut2)/2;
+			} else {
+				$reduire=$Height/$imageHeight;
+				$larg2=round($imageWidth*$reduire);
+				$haut2=$Height;
+				$diffWidth=($Width-$larg2)/2;
+			}
+        	ImageCopyreSampled($overlayImage, $overlayImage, $diffWidth, $diffHeight, 0, 0, $larg2, $haut2, $imageWidth, $imageHeight);
+        }
+        
+	   	if (file_exists($OutFile)) {
+			unlink($OutFile);
+		}
+		touch($OutFile);
+		imagepng($overlayImage, $OutFile);
+	
+	   // Release memory
+	   imageDestroy($image);
+	   imageDestroy($overlayImage);
+	   
+	   makePngColorTransparentBackground($OutFile, $OutFile, array('red'=>255, 'green'=>0, 'blue'=>255));
+	}
+	
+	function makeImageTransparent($InFile, $OutFile, $tranparentPercent=50) {
+		$info = GetImageSize($InFile);
+		$width = $info[0];
+		$height = $info[1];
+		
+		$mime = $info['mime'];
+		
+		// What sort of image?
+		
+		$type = substr(strrchr($mime, '/'), 1);
+		
+		switch ($type)
+		{
+		case 'jpeg':
+		    $image_create_func = 'ImageCreateFromJPEG';
+		    $image_save_func = 'ImageJPEG';
+			$new_image_ext = 'jpg';
+		    break;
+		
+		case 'png':
+		    $image_create_func = 'ImageCreateFromPNG';
+		    $image_save_func = 'ImagePNG';
+			$new_image_ext = 'png';
+		    break;
+		
+		case 'bmp':
+		    $image_create_func = 'ImageCreateFromBMP';
+		    $image_save_func = 'ImageBMP';
+			$new_image_ext = 'bmp';
+		    break;
+		
+		case 'gif':
+		    $image_create_func = 'ImageCreateFromGIF';
+		    $image_save_func = 'ImageGIF';
+			$new_image_ext = 'gif';
+		    break;
+		
+		case 'vnd.wap.wbmp':
+		    $image_create_func = 'ImageCreateFromWBMP';
+		    $image_save_func = 'ImageWBMP';
+			$new_image_ext = 'bmp';
+		    break;
+		
+		case 'xbm':
+		    $image_create_func = 'ImageCreateFromXBM';
+		    $image_save_func = 'ImageXBM';
+			$new_image_ext = 'xbm';
+		    break;
+		
+		default:
+			$image_create_func = 'ImageCreateFromJPEG';
+		    $image_save_func = 'ImageJPEG';
+			$new_image_ext = 'jpg';
+		}
+		
+		// Source Image
+		$image = $image_create_func($InFile);
+		
+		$new_image = ImageCreateTruecolor($width, $height);
+		
+		// Set a White & Transparent Background Color
+		$bg = ImageColorAllocateAlpha($new_image, 255, 255, 255, 127); // (PHP 4 >= 4.3.2, PHP 5)
+		ImageFill($new_image, 0, 0 , $bg);
+		
+		// Copy and merge
+		ImageCopyMerge($new_image, $image, 0, 0, 0, 0, $width, $height, $tranparentPercent);
+		
+		// Save image 
+		$image_save_func($new_image, $OutFile) or die("There was a problem in saving the new file.");
+	  	imagedestroy($new_image);
 	}
 ?>

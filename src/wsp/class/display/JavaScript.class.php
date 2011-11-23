@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.98
  * @access      public
  * @since       1.0.17
  */
@@ -49,10 +49,13 @@ class JavaScript extends WebSitePhpObject {
 			$page_object = Page::getInstance($_GET['p']);
 			
 			if (gettype($code_javascript) != "object") {
-				// search in javascript if begin by $(DOCUMENT).READY(
+				// search in javascript if begin by $(document).ready(
 				// then put javascript to the end (for AJAX because doc is already loaded)
-				$pos_doc_ready = find(trim(str_replace("\t", "", $code_javascript)), "$(DOCUMENT).READY(", 1);
-				if ($pos_doc_ready >= 18 && $pos_doc_ready <= 30) { // 30: beacause of tag //<![CDATA[
+				$tmp_code_javascript = trim(str_replace("\t", "", $code_javascript));
+				$pos_doc_ready = find($tmp_code_javascript, "$(document).ready(", 1);
+				$pos_jquery_ready = find($tmp_code_javascript, "jQuery(document).ready(", 1);
+				if (($pos_doc_ready >= 18 && $pos_doc_ready <= 30) || 
+					($pos_jquery_ready >= 23 && $pos_jquery_ready <= 35)) { // 30|35: beacause of tag //<![CDATA[
 					$page_object->addObject($this, false, true);
 				} else {
 					$page_object->addObject($this);

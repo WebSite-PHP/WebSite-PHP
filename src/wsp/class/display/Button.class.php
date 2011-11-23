@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.98
  * @access      public
  * @since       1.0.17
  */
@@ -186,7 +186,7 @@ class Button extends WebSitePhpEventObject {
 	 * @since 1.0.96
 	 */
 	public function setPrimaryIcon($icon_16px) {
-		if (strtoupper(substr($icon_16px, 0, 7)) != "HTTP://" || strtoupper(substr($icon_16px, 0, 7)) != "HTTPS://") {
+		if (strtoupper(substr($icon_16px, 0, 7)) != "HTTP://" || strtoupper(substr($icon_16px, 0, 8)) != "HTTPS://") {
 			$icon_16px = $this->getPage()->getBaseURL().$icon_16px;
 		}
 		$this->primary_icon = $icon_16px;
@@ -201,7 +201,7 @@ class Button extends WebSitePhpEventObject {
 	 * @since 1.0.96
 	 */
 	public function setSecondaryIcon($icon_16px) {
-		if (strtoupper(substr($icon_16px, 0, 7)) != "HTTP://" || strtoupper(substr($icon_16px, 0, 7)) != "HTTPS://") {
+		if (strtoupper(substr($icon_16px, 0, 7)) != "HTTP://" || strtoupper(substr($icon_16px, 0, 8)) != "HTTPS://") {
 			$icon_16px = $this->getPage()->getBaseURL().$icon_16px;
 		}
 		$this->secondary_icon = $icon_16px;
@@ -433,6 +433,9 @@ class Button extends WebSitePhpEventObject {
 				        	$html .= " secondary: 'ui-button-icon-secondary'";
 				        }
 				        $html .= " }";
+				        if ($this->value == "" || $this->value == "&nbsp;") {
+				        	$html .= ", text: false";
+				        }
 					}
 					$html .= "}).click(function() { ".str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick));
 					if ($this->is_ajax_event) {

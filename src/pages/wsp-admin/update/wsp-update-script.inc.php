@@ -55,6 +55,8 @@ if (isset($is_call_from_wsp_admin_update) && $is_call_from_wsp_admin_update == t
 	rrmdir($base_dir."/wsp/includes/RSS-Generator");
 	rrmdir($base_dir."/wsp/includes/RSS-Reader");
 	
+	// Update: version 1.0.98
+	unlink($base_dir."/404.php");
 	
 	// reset current CSS and JS cache
 	rrmdir($base_dir."/wsp/cache/css/");
@@ -85,6 +87,7 @@ if (isset($is_call_from_wsp_admin_update) && $is_call_from_wsp_admin_update == t
 			$htaccess_data = "# Rule file .htaccess
 RewriteEngine on
 Options +FollowSymLinks
+Options -indexes
 
 <IfModule mod_rewrite.c>
 	# Redirecting www
@@ -95,13 +98,21 @@ Options +FollowSymLinks
 	
 	# Zone to define your URL rewriting
 	# Exemple 1: 
-	# RewriteRule ^myfolder/(.+)\.html$ index.php?p=$1&l=&folder_level=1&%{QUERY_STRING} [L] 
+	# Create an URL with 1 virtual folder (myfolder)
+	# RewriteRule ^myfolder/(.+)\.html$ index.php?p=$1&l=en&folder_level=1&%{QUERY_STRING} [L] 
 	# RewriteRule ^([a-z]{2})/myfolder/(.+)\.html$ index.php?p=$2&l=$1&folder_level=1&%{QUERY_STRING} [L] 
+	# 
 	# Exemple 2: 
-	# RewriteRule ^myfolder/myfolder2/(.+)\.html$ index.php?p=$1&l=&folder_level=2&%{QUERY_STRING} [L] 
+	# Create an URL with 2 virtuals folders (myfolder and myfolder2)
+	# RewriteRule ^myfolder/myfolder2/(.+)\.html$ index.php?p=$1&l=en&folder_level=2&%{QUERY_STRING} [L] 
 	# RewriteRule ^([a-z]{2})/myfolder/myfolder2/(.+)\.html$ index.php?p=$2&l=$1&folder_level=2&%{QUERY_STRING} [L] 
+	# 
 	# Exemple 3: 
-	# RewriteRule ^([a-z]{2})/([^ajax|^wsp\-admin].+)/(.+)\.html$ index.php?p=my_page&l=$1&param1=$2&param2=$3&folder_level=1&%{QUERY_STRING} [L] 
+	# Create an URL with 1 variable virtual folder (warning param2)
+	# RewriteRule ^([a-z]{2})/((?!(ajax|wsp\-admin)).+)/(.+)\.html$ index.php?p=my_page&l=$1&param1=$2&param2=$4&folder_level=1&%{QUERY_STRING} [L]
+	# 
+	# Warning: Create your rules only if the framework can't support your special URL => virtual folder
+	#
 	\n";
 		}
 		$htaccess_data = $htaccess_data.file_get_contents($base_dir."/update.htaccess");

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.98
  * @access      public
  * @since       1.0.17
  */
@@ -259,7 +259,7 @@ class Link extends WebSitePhpObject {
 			strtoupper(substr($tmp_link, 0, 6)) != "FTP://" &&
 			strtoupper(substr($tmp_link, 0, 1)) != "#") {
 			if (strtoupper(substr($tmp_link, 0, strlen(BASE_URL))) == strtoupper(BASE_URL)
-				|| (strtoupper(substr($tmp_link, 0, 7)) != "HTTP://" && strtoupper(substr($tmp_link, 0, 7)) != "HTTPS://")) {
+				|| (strtoupper(substr($tmp_link, 0, 7)) != "HTTP://" && strtoupper(substr($tmp_link, 0, 8)) != "HTTPS://")) {
 				
 				$array_url = explode("\?", $tmp_link);
 				$temp_class_name = str_replace(".html", "", str_replace(BASE_URL, "", str_replace(BASE_URL.$_SESSION['lang']."/", "", $array_url[0])));
@@ -291,7 +291,7 @@ class Link extends WebSitePhpObject {
 					}
 				}
 			}
-			if (strtoupper(substr($tmp_link, 0, 7)) != "HTTP://" && strtoupper(substr($tmp_link, 0, 7)) != "HTTPS://") {	
+			if (strtoupper(substr($tmp_link, 0, 7)) != "HTTP://" && strtoupper(substr($tmp_link, 0, 8)) != "HTTPS://") {	
 				// it's a local URL
 				if (strtoupper(substr($tmp_link, 0, strlen(BASE_URL))) != strtoupper(BASE_URL)) {
 					$this->link = BASE_URL.$_SESSION['lang']."/".$this->link;

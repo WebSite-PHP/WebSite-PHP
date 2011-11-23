@@ -21,6 +21,5 @@ Disallow: *.do
 Disallow: *.wsp
 
 Disallow: /wsp/cache/
-Allow: /wsp/cache/adsense/
 
 #Sitemap: http://your_website/en/xml/sitemap.xml

@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.95
+ * @version     1.0.98
  * @access      public
  * @since       1.0.0
  */
@@ -127,6 +127,10 @@
 			if ($ajax_render != "") {
 				$array_ajax_object_render[] = $ajax_render;
 			}
+		}
+		if ($page_object->getNbEndAddedObjects() > $nb_end_added_object) {
+			$add_to_render = $page_object->getEndAddedObjects();
+			$nb_end_added_object = $page_object->getNbEndAddedObjects();
 		}
 	}
 	

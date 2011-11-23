@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.98
  * @access      public
  * @since       1.0.17
  */
@@ -37,6 +37,8 @@ class Tabs extends WebSitePhpObject {
 	private $cache = false;
 	private $ajax_loading = true;
 	private $selected_index = -1;
+	private $onshow = "";
+	private $tagH = "";
 	/**#@-*/
 	
 	/**
@@ -70,6 +72,62 @@ class Tabs extends WebSitePhpObject {
 		$this->array_tabs_content[] = $content_or_url_object;
 		$this->array_tabs_select_js[] = $on_select_js;
 		$this->array_tabs_disabled[] = $disabled;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method onShowJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return Tabs
+	 * @since 1.0.98
+	 */
+	public function onShowJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onShowJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onshow = trim($js_function);
+		return $this;
+	}
+	
+	/**
+	 * Method setTitleTagH1
+	 * @access public
+	 * @return Tabs
+	 * @since 1.0.98
+	 */
+	public function setTitleTagH1() {
+		$this->tagH = "h1";
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	
+	/**
+	 * Method setTitleTagH2
+	 * @access public
+	 * @return Tabs
+	 * @since 1.0.98
+	 */
+	public function setTitleTagH2() {
+		$this->tagH = "h2";
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method setTitleTagH
+	 * @access public
+	 * @param mixed $value 
+	 * @return Tabs
+	 * @since 1.0.98
+	 */
+	public function setTitleTagH($value) {
+		$this->tagH = "h".$value;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -132,6 +190,7 @@ class Tabs extends WebSitePhpObject {
 	 */
 	public function selectedIndex($index) {
 		$this->selected_index = $index;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 
@@ -170,7 +229,11 @@ class Tabs extends WebSitePhpObject {
 		$html .= ">\n";
 		$html .= "	<ul>\n";
 		for ($i=0; $i < sizeof($this->array_tabs_name); $i++) {
-			$html .= "		<li><a href=\"";
+			$html .= "		<li>";
+			if ($this->tagH != "") {
+				$html .= "<".$this->tagH." style=\"font-weight:inherit;\">";
+			}
+			$html .= "<a href=\"";
 			if (get_class($this->array_tabs_content[$i]) != "Url") {
 				$html .= "#".$this->getId()."_".formalize_to_variable($this->array_tabs_name[$i]);
 			} else {
@@ -188,7 +251,11 @@ class Tabs extends WebSitePhpObject {
 					}
 				}
 			}
-			$html .= "\"><span>".$this->array_tabs_name[$i]."</span></a></li>\n";
+			$html .= "\"><span>".$this->array_tabs_name[$i]."</span></a>";
+			if ($this->tagH != "") {
+				$html .= "</".$this->tagH.">";
+			}
+			$html .= "</li>\n";
 		}
 		$html .= "	</ul>\n";
 		for ($i=0; $i < sizeof($this->array_tabs_name); $i++) {
@@ -207,6 +274,9 @@ class Tabs extends WebSitePhpObject {
 		
 		$html .= $this->getJavascriptTagOpen();
 		$html .= "	$('#".$this->getId()."').tabs({";
+		if ($this->onshow != "") {
+			$html .= "		show: function(event, ui) { ".$this->onshow." }, \n";
+		}
 		$html .= "		select: function(event, ui) {\n";
 		for ($i=0; $i < sizeof($this->array_tabs_select_js); $i++) {
 			if ($this->array_tabs_select_js[$i] != "" || $this->height != "" || !$this->ajax_loading) {
@@ -232,7 +302,7 @@ class Tabs extends WebSitePhpObject {
 		if ($this->cache) {
 			$html .= "		, cache: true\n";
 		}
-		if ($this->selected_index > - 1) {
+		if ($this->selected_index > -1) {
 			$html .= "		, selected: ".$this->selected_index."\n";
 		}
 		$disabled_html = "";
@@ -259,6 +329,24 @@ class Tabs extends WebSitePhpObject {
 		$html .= $this->getJavascriptTagClose();
 		
 		$this->object_change = false;
+		return $html;
+	}
+	
+	/**
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object Tabs (call with AJAX)
+	 * @since 1.0.98
+	 */
+	public function getAjaxRender() {
+		$html = "";
+		if ($this->object_change && !$this->is_new_object_after_init) {
+			if ($this->selected_index > -1) {
+				$html .= "$('#".$this->getId()."').tabs('option', 'selected', ".$this->selected_index.");";
+			}
+			
+			$this->object_change = false;
+		}
 		return $html;
 	}
 }

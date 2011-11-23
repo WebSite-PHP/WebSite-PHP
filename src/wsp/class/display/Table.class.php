@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.98
  * @access      public
  * @since       1.0.17
  */
@@ -556,7 +556,6 @@ class Table extends WebSitePhpObject {
 	 * @since 1.0.97
 	 */
 	public function setTitle($title) {
-		
 		$this->advance_table_title = $title;
 		return $this;
 	}
@@ -736,40 +735,44 @@ class Table extends WebSitePhpObject {
 	 * @since 1.0.93
 	 */
 	public function getAjaxRender() {
-		if ($this->id == "") {
-			throw new NewException(get_class($this)."->getAjaxRender() error: To update this object with Ajax event you must define an id (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
-		}
-		
 		$html = "";
-		if ($this->ajax_refresh_all_table) { // refresh all table
-			if ($this->is_advance_table) {
-				$html .= "var my_parent_node = $('#".$this->id."').parent();";
+		
+		if ($this->object_change && !$this->is_new_object_after_init) {
+			if ($this->ajax_refresh_all_table) { // refresh all table
+				if ($this->is_advance_table || (is_browser_ie() && get_browser_ie_version() < 8)) {
+					$html .= "var my_parent_node = $('#".$this->id."').parent();";
+				} else {
+					$html .= "var my_parent_node = $('#".$this->id."');";
+				}
+				$html .= "my_parent_node.empty();";
+				
+				$array_ajax_render = extract_javascript($this->render(false));
+				for ($j=1; $j < sizeof($array_ajax_render); $j++) {
+					new JavaScript($array_ajax_render[$j], true);
+				}
+				if (trim($array_ajax_render[0]) != "") {
+					$html .= "my_parent_node.append('".str_replace("\n", "", str_replace("\r", "", addslashes($array_ajax_render[0])))."');";
+				}
 			} else {
-				$html .= "var my_parent_node = $('#".$this->id."');";
-			}
-			$html .= "my_parent_node.empty();";
-			
-			$array_ajax_render = extract_javascript($this->render(false));
-			for ($j=1; $j < sizeof($array_ajax_render); $j++) {
-				new JavaScript($array_ajax_render[$j], true);
-			}
-			if (trim($array_ajax_render[0]) != "") {
-				$html .= "my_parent_node.append('".str_replace("\n", "", str_replace("\r", "", addslashes($array_ajax_render[0])))."');";
-			}
-		} else {
-			for ($i=0; $i < sizeof($this->rows); $i++) {
-				if ($this->rows[$i]->isNew()) {
-					$array_ajax_render = extract_javascript($this->rows[$i]->render(false));
-					for ($j=1; $j < sizeof($array_ajax_render); $j++) {
-						new JavaScript($array_ajax_render[$j], true);
+				for ($i=0; $i < sizeof($this->rows); $i++) {
+					if ($this->rows[$i]->isNew()) {
+						$array_ajax_render = extract_javascript($this->rows[$i]->render(false));
+						for ($j=1; $j < sizeof($array_ajax_render); $j++) {
+							new JavaScript($array_ajax_render[$j], true);
+						}
+						
+						$html .= "$('#".$this->id."').append('".str_replace("\n", "", str_replace("\r", "", addslashes($array_ajax_render[0])))."');";
+					} else if ($this->rows[$i]->isDeleted()) {
+						$html .= "$('#wsp_rowtable_".$this->rows[$i]->getId()."').remove();";
 					}
-					
-					$html .= "$('#".$this->id."').append('".str_replace("\n", "", str_replace("\r", "", addslashes($array_ajax_render[0])))."');";
-				} else if ($this->rows[$i]->isDeleted()) {
-					$html .= "$('#wsp_rowtable_".$this->rows[$i]->getId()."').remove();";
 				}
 			}
 		}
+		
+		if ($html != "" && $this->id == "") {
+			throw new NewException(get_class($this)."->getAjaxRender() error: To update this object with Ajax event you must define an id (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+		}
+		
 		return $html;
 	}
 	

@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.98
  * @access      public
  * @since       1.0.18
  */
@@ -375,7 +375,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 			} else {
 				$html .= "		".$loading_modalbox->render();
 			}
-			$html .= "		setTimeout(\"requestAjaxEvent".get_class($this)."_".$this->getEventObjectName()."(\\\"\" + callback_value + \"\\\", \" + abort_last_request + \");\", 1000);\n";
+			$html .= "		setTimeout(\"requestAjaxEvent".get_class($this)."_".$this->getEventObjectName()."(\\\"\" + callback_value + \"\\\", \" + abort_last_request + \");\", ".(gettype($this->ajax_wait_message) == "object"?"1":"1000").");\n";
 		} else {
 			$html .= "		setTimeout(\"requestAjaxEvent".get_class($this)."_".$this->getEventObjectName()."(\\\"\" + callback_value + \"\\\", \" + abort_last_request + \");\", (abort_last_request?(lastAjaxRequest".get_class($this)."_".$this->getEventObjectName().".length==0?1:200):1));\n";
 		}

@@ -8,6 +8,9 @@ define("SITE_DEFAULT_LANG", "en"); // en, fr, ...
 
 define("SITE_META_OPENGRAPH_TYPE", "");
 define("SITE_META_OPENGRAPH_IMAGE", "");
+define("SITE_META_IPHONE_IMAGE_57PX", "");
+define("SITE_META_IPHONE_IMAGE_72PX", "");
+define("SITE_META_IPHONE_IMAGE_114PX", "");
 
 define("GOOGLE_CODE_TRACKER", "");
 define("GOOGLE_MAP_KEY", "");

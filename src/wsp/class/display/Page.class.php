@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.98
  * @access      public
  * @since       1.0.0
  */
@@ -117,6 +117,9 @@ class Page {
 	
 	protected static $PAGE_META_OPENGRAPH_TYPE = "";
 	protected static $PAGE_META_OPENGRAPH_IMAGE = "";
+	protected static $PAGE_META_IPHONE_IMAGE_57PX = "";
+	protected static $PAGE_META_IPHONE_IMAGE_72PX = "";
+	protected static $PAGE_META_IPHONE_IMAGE_114PX = "";
 	
 	protected $USER_RIGHTS = "";
 	protected $USER_NO_RIGHTS_REDIRECT = "";
@@ -155,6 +158,7 @@ class Page {
 											"Calendar", "AutoCompleteEvent");
 	
 	private $create_object_to_get_css_js = false;
+	private $ended_added_object_loaded = false;
 	/**#@-*/
 	
 	/**
@@ -435,6 +439,36 @@ class Page {
 	 */
 	public function getPageMetaOpenGraphImage() {
 		return strip_tags(self::$PAGE_META_OPENGRAPH_IMAGE);
+	}
+	
+	/**
+	 * Method getPageMetaIphoneImage57Px
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.98
+	 */
+	public function getPageMetaIphoneImage57Px() {
+		return strip_tags(self::$PAGE_META_IPHONE_IMAGE_57PX);
+	}
+	
+	/**
+	 * Method getPageMetaIphoneImage72Px
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.98
+	 */
+	public function getPageMetaIphoneImage72Px() {
+		return strip_tags(self::$PAGE_META_IPHONE_IMAGE_72PX);
+	}
+	
+	/**
+	 * Method getPageMetaIphoneImage114Px
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.98
+	 */
+	public function getPageMetaIphoneImage114Px() {
+		return strip_tags(self::$PAGE_META_IPHONE_IMAGE_114PX);
 	}
 	
 	/**
@@ -880,10 +914,11 @@ class Page {
 		if (!is_subclass_of($object, "WebSitePhpObject")) {
 			throw new NewException("You can't add this object ".get_class($this)." to the page, you must add WebSitePhpObject", 0, 8, __FILE__, __LINE__);
 		}
-		if ($page_begining) {
+		if ($page_ending || (gettype($object) == "object" && get_class($object) == "DialogBox") || 
+			$this->ended_added_object_loaded) {
+				$this->add_to_render_ending[] = $object;
+		} else if ($page_begining) {
 			$this->add_to_render_begining[] = $object;
-		} else if ($page_ending) {
-			$this->add_to_render_ending[] = $object;
 		} else {
 			$this->add_to_render[] = $object;
 		}
@@ -896,7 +931,7 @@ class Page {
 	 * @since 1.0.18
 	 */
 	public function getAddedObjects() {
-		return array_merge($this->add_to_render_begining, $this->add_to_render);
+		return array_merge($this->getBeginAddedObjects(), $this->getEndAddedObjects());
 	}
 		
 	/**
@@ -916,7 +951,18 @@ class Page {
 	 * @since 1.0.95
 	 */
 	public function getEndAddedObjects() {
+		$this->ended_added_object_loaded = true;
 		return array_merge($this->add_to_render, $this->add_to_render_ending);
+	}
+	
+	/**
+	 * Method getNbEndAddedObjects
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.98
+	 */
+	public function getNbEndAddedObjects() {
+		return sizeof($this->add_to_render) + sizeof($this->add_to_render_ending);
 	}
 	
 	/**
@@ -971,20 +1017,24 @@ class Page {
 				$html .= $this->render;
 			}
 			$html .= "\n";
-			$this->add_to_render = $this->getEndAddedObjects();
-			$this->add_to_render_ending = array();
-			for ($i=0; $i < sizeof($this->add_to_render); $i++) {
-				if ($this->add_to_render[$i]->isJavascriptObject()) {
-					$html .= $this->add_to_render[$i]->getJavascriptTagOpen();
+			$add_to_render = $this->getEndAddedObjects();
+			$nb_end_added_object = sizeof($add_to_render);
+			for ($i=0; $i < sizeof($add_to_render); $i++) {
+				if ($add_to_render[$i]->isJavascriptObject()) {
+					$html .= $add_to_render[$i]->getJavascriptTagOpen();
 				}
-				if (gettype($this->add_to_render[$i]) == "object" && method_exists($this->add_to_render[$i], "render")) {
-					$html .= $this->add_to_render[$i]->render();
+				if (gettype($add_to_render[$i]) == "object" && method_exists($add_to_render[$i], "render")) {
+					$html .= $add_to_render[$i]->render();
 				} else {
-					$html .= $this->add_to_render[$i];
+					$html .= $add_to_render[$i];
 				}
 				$html .= "\n";
-				if ($this->add_to_render[$i]->isJavascriptObject()) {
-					$html .= $this->add_to_render[$i]->getJavascriptTagClose();
+				if ($add_to_render[$i]->isJavascriptObject()) {
+					$html .= $add_to_render[$i]->getJavascriptTagClose();
+				}
+				if ($this->getNbEndAddedObjects() > $nb_end_added_object) {
+					$add_to_render = $this->getEndAddedObjects();
+					$nb_end_added_object = $this->getNbEndAddedObjects();
 				}
 			}
 			if (DEBUG) {

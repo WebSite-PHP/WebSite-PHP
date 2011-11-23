@@ -15,8 +15,14 @@
 	define("ERROR_DATABASE", "Erreur base de données");
 	define("ERROR_DATABASE_MSG", "Erreur: %s");
 	
+	define("ERROR_401", "Erreur 401");
+	define("ERROR_401_MSG", "Erreur 401 : Accès interdit");
+	define("ERROR_403", "Erreur 403");
+	define("ERROR_403_MSG", "Erreur 403 : Répertoire interdit");
 	define("ERROR_404", "Erreur 404");
 	define("ERROR_404_MSG", "Erreur 404 : Page introuvable");
+	define("ERROR_500", "Erreur 500");
+	define("ERROR_500_MSG", "Erreur 500 : Erreur de configuration");
 	
 	define("MAIN_PAGE_GO_BACK", "Retourner à la page principale du site");
 	

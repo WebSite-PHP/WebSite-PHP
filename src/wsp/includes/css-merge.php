@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.91
+ * @version     1.0.98
  * @access      public
  * @since       1.0.19
  */
@@ -67,13 +67,20 @@
 	$type = $_GET['type'];
 	$elements = explode(',', $_GET['files']);
 	
+	$base_root = realpath($base."/../../");
+	
+	// restricted wsp folders
+	$base_pages = realpath($base_root."/pages/");
+	$base_wsp = realpath($base_root."/wsp/");
+	$base_lang = realpath($base_root."/lang/");
+	
 	// Determine last modification date of the files
 	$lastmodified = 0;
 	foreach ($elements as $element) {
 		$element = str_replace("|", "/", $element);
 		$path = realpath($base . '/' . str_replace(".php.css", ".css.php", $element));
 		if (!file_exists($path)) {
-			$path = realpath($base . '/../' . str_replace(".php.css", ".css.php", $element));
+			$path = realpath($base . '/../../' . str_replace(".php.css", ".css.php", $element));
 		}
 		if (file_exists($path)) {
 			if (($type == 'javascript' && substr($path, -3) != '.js') || 
@@ -83,8 +90,16 @@
 			}
 		
 			if (substr($path, 0, strlen($base)) != $base || !file_exists($path)) {
-				header ("HTTP/1.0 404 Not Found");
-				exit;
+				if (!file_exists($path)) {
+					header ("HTTP/1.0 404 Not Found");
+					exit;
+				} else if (substr($path, 0, strlen($base_pages)) == $base_pages ||
+							substr($path, 0, strlen($base_wsp)) == $base_wsp ||
+							substr($path, 0, strlen($base_lang)) == $base_lang) {
+							// forbid access to restricted wsp folders
+					header ("HTTP/1.0 404 Not Found");
+					exit;
+				}
 			}
 			
 			if ($type == 'css' && substr($path, -8) == '.css.php') {
@@ -191,11 +206,11 @@
 		$contents = '';
 		reset($elements);
 		while (list(,$element) = each($elements)) {
-		$element = str_replace("|", "/", $element);
+			$element = str_replace("|", "/", $element);
 			$tmp_path_array = explode('/', $element);
 			$path = realpath($base . '/' . str_replace(".php.css", ".css.php", $element));
 			if (!file_exists($path)) {
-				$path = realpath($base . '/../' . str_replace(".php.css", ".css.php", $element));
+				$path = realpath($base . '/../../' . str_replace(".php.css", ".css.php", $element));
 			}
 			if (file_exists($path)) {
 				if ($type == 'css' && substr($path, -8) == '.css.php') {

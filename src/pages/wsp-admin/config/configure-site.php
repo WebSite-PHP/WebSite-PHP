@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.94
+ * @version     1.0.98
  * @access      public
  * @since       1.0.25
  */
@@ -35,6 +35,9 @@ class ConfigureSite extends Page {
 	private $cmbLanguage = null;
 	private $cmbSiteType = null;
 	private $edtSiteImage = null;
+	private $edtSiteIphoneImage57 = null;
+	private $edtSiteIphoneImage72 = null;
+	private $edtSiteIphoneImage114 = null;
 	private $edtGoogleTracker = null;
 	private $edtGoogleMapKey = null;
 	private $cmbMetaRobots = null;
@@ -140,9 +143,22 @@ class ConfigureSite extends Page {
 		$table_form->addRowColumns(__(CMB_SITE_TYPE).":&nbsp;", $this->cmbSiteType);
 		
 		$this->edtSiteImage = new TextBox($form);
-		$this->edtSiteImage->setValue(SITE_META_OPENGRAPH_IMAGE);
-		$edtValidation = new LiveValidation();
+		$this->edtSiteImage->setValue(SITE_META_OPENGRAPH_IMAGE)->setWidth(300);
 		$table_form->addRowColumns(__(EDT_SITE_IMAGE).":&nbsp;", $this->edtSiteImage);
+		
+		$table_form->addRow();
+		
+		$this->edtSiteIphoneImage57 = new TextBox($form);
+		$this->edtSiteIphoneImage57->setValue(SITE_META_IPHONE_IMAGE_57PX)->setWidth(300);
+		$table_form->addRowColumns(__(EDT_SITE_IPHONE_IMAGE_57PX).":&nbsp;", $this->edtSiteIphoneImage57);
+		
+		$this->edtSiteIphoneImage72 = new TextBox($form);
+		$this->edtSiteIphoneImage72->setValue(SITE_META_IPHONE_IMAGE_72PX)->setWidth(300);
+		$table_form->addRowColumns(__(EDT_SITE_IPHONE_IMAGE_72PX).":&nbsp;", $this->edtSiteIphoneImage72);
+		
+		$this->edtSiteIphoneImage114 = new TextBox($form);
+		$this->edtSiteIphoneImage114->setValue(SITE_META_IPHONE_IMAGE_114PX)->setWidth(300);
+		$table_form->addRowColumns(__(EDT_SITE_IPHONE_IMAGE_114PX).":&nbsp;", $this->edtSiteIphoneImage114);
 		
 		$table_form->addRow();
 		
@@ -258,6 +274,9 @@ class ConfigureSite extends Page {
 		$data_config_file .= "\n";
 		$data_config_file .= "define(\"SITE_META_OPENGRAPH_TYPE\", \"".$this->cmbSiteType->getValue()."\");\n";
 		$data_config_file .= "define(\"SITE_META_OPENGRAPH_IMAGE\", \"".$this->edtSiteImage->getValue()."\");\n";
+		$data_config_file .= "define(\"SITE_META_IPHONE_IMAGE_57PX\", \"".$this->edtSiteIphoneImage57->getValue()."\");\n";
+		$data_config_file .= "define(\"SITE_META_IPHONE_IMAGE_72PX\", \"".$this->edtSiteIphoneImage72->getValue()."\");\n";
+		$data_config_file .= "define(\"SITE_META_IPHONE_IMAGE_114PX\", \"".$this->edtSiteIphoneImage114->getValue()."\");\n";
 		$data_config_file .= "\n";
 		$data_config_file .= "define(\"GOOGLE_CODE_TRACKER\", \"".$this->edtGoogleTracker->getValue()."\");\n";
 		$data_config_file .= "define(\"GOOGLE_MAP_KEY\", \"".$this->edtGoogleMapKey->getValue()."\");\n";

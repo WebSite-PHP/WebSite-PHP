@@ -77,7 +77,6 @@ body {
 	margin:0px;
 	padding:3px;
 	height:100%;
-	overflow-y:auto;
 }
 
 form {

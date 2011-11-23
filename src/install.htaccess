@@ -1,6 +1,7 @@
 # Rule file .htaccess
 RewriteEngine on
 Options +FollowSymLinks
+Options -indexes
 
 <IfModule mod_rewrite.c>
 	# Redirecting www
@@ -139,8 +140,11 @@ Options +FollowSymLinks
 	RewriteRule ^pages/(.*)$ / [R=301,L] 
 	RewriteRule ^wsp/(.*)$ / [R=301,L] 
 	
-	# Error 404
-	ErrorDocument 404 /404.php
+	# ErrorDocument
+	ErrorDocument 401 /error_doc.php?error=401
+	ErrorDocument 403 /error_doc.php?error=403
+	ErrorDocument 404 /error_doc.php?error=404
+	ErrorDocument 500 /error_doc.php?error=500
 </IfModule>
 
 

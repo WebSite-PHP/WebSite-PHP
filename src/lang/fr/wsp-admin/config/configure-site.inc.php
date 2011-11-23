@@ -7,6 +7,9 @@
 	define("CMB_LANGUAGE", "Langue");
 	define("CMB_SITE_TYPE", "Type site");
 	define("EDT_SITE_IMAGE", "Image site");
+	define("EDT_SITE_IPHONE_IMAGE_57PX", "Petite image iphone (57px)");
+	define("EDT_SITE_IPHONE_IMAGE_72PX", "Moyenne image iphone (72px)");
+	define("EDT_SITE_IPHONE_IMAGE_114PX", "Grande image iphone (114px)");
 	define("EDT_GOOGLE_CODE_TRACKER", "Code Google Analytics");
 	define("EDT_GOOGLE_MAP_KEY", "Clé Google maps");
 	define("CMB_META_ROBOTS", "Robots");

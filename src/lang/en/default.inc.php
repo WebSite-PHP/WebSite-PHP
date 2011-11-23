@@ -15,8 +15,14 @@
 	define("ERROR_DATABASE", "Database error");
 	define("ERROR_DATABASE_MSG", "Error: %s");
 	
+	define("ERROR_401", "Error 401");
+	define("ERROR_401_MSG", "Error 401 : Authorization Required");
+	define("ERROR_403", "Error 403");
+	define("ERROR_403_MSG", "Error 403 : Access Denied");
 	define("ERROR_404", "Error 404");
 	define("ERROR_404_MSG", "Error 404 : Page not found");
+	define("ERROR_500", "Error 500");
+	define("ERROR_500_MSG", "Error 500 : Internal Server Error");
 	
 	define("MAIN_PAGE_GO_BACK", "Go back to the main page");
 	

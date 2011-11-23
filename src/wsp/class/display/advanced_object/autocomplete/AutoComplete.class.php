@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.95
+ * @version     1.0.98
  * @access      public
  * @since       1.0.17
  */
@@ -123,7 +123,7 @@ class AutoComplete extends WebSitePhpObject {
 			$html .= "search: function( event, ui ) { $('#".$this->indicator_id."').css('display', 'block');$('#".$this->indicator_id."').css('visibility', 'visible'); }, ";
 		}
 		$html .= "open: function( event, ui ) { ";
-		$html .= "	$('.ui-resizable').removeClass('ui-resizable');";
+		$html .= "	$('.ui-resizable').css('z-index', '0');";
 		if ($this->indicator_id != "" || $this->track_categ != "" || $this->track_pageview) {
 			if ($this->indicator_id != "") {
 				$html .= "$('#".$this->indicator_id."').css('visibility', 'hidden');";

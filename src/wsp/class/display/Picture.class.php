@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.98
  * @access      public
  * @since       1.0.17
  */
@@ -60,6 +60,7 @@ class Picture extends WebSitePhpEventObject {
 	private $onclick = "";
 	private $callback_onclick = "";
 	private $is_clicked = false;
+	private $onload = "";
 	/**#@-*/
 	
 	/**
@@ -409,6 +410,30 @@ class Picture extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method onLoadJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return Picture
+	 * @since 1.0.98
+	 */
+	public function onLoadJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		
+		if ($this->page_object == null) {
+			$this->class_name = get_class($page_object);
+			$this->page_object = $this->getPage();
+		}
+		
+		$this->onload = trim($js_function);
+		return $this;
+	}
+	
+	/**
 	 * Method setStyle
 	 * @access public
 	 * @param mixed $style 
@@ -465,7 +490,7 @@ class Picture extends WebSitePhpEventObject {
 			}
 			$html .= ">";
 		}
-		if (strtoupper(substr($this->src, 0, 7)) != "HTTP://" && strtoupper(substr($this->src, 0, 7)) != "HTTPS://") {
+		if (strtoupper(substr($this->src, 0, 7)) != "HTTP://" && strtoupper(substr($this->src, 0, 8)) != "HTTPS://") {
 			$this->src = BASE_URL.$this->src;
 		}
 		$html .= "<img src='".$this->src."'";
@@ -529,6 +554,9 @@ class Picture extends WebSitePhpEventObject {
 				$html .= "return false;";
 			}
 			$html .= "\"";
+		}
+		if ($this->onload != "") {
+			$html .= " onLoad=\"".str_replace("\n", "", $this->onload)."\"";
 		}
 		$html .= "/>\n";
 		

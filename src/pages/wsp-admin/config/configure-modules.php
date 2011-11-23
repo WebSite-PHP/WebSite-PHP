@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 06/06/2011
- * @version     1.0.91
+ * @version     1.0.98
  * @access      public
  * @since       1.0.85
  */
@@ -59,7 +59,7 @@ class ConfigureModules extends Page {
 				$array_active_modules[] = trim($line);
 				
 				$module_obj = new Object(trim($line));
-				$module_obj->setId("module_".trim($line))->forceDivTag();
+				$module_obj->setId("module_".str_replace("-", "_", trim($line)))->forceDivTag();
 				if (trim($line) != "Authentication") {
 					$module_obj->setStyle($module_style);
 					$module_obj->setDraggable(true, false, null, true);
@@ -86,7 +86,7 @@ class ConfigureModules extends Page {
 			if (is_dir($folder."/".$array_module_dir[$i]) && !in_array($array_module_dir[$i], $array_active_modules) &&
 				$array_module_dir[$i] != "." && $array_module_dir[$i] != ".." && $array_module_dir[$i] != ".svn") {
 					$module_obj = new Object($array_module_dir[$i]);
-					$module_obj->setId("module_".$array_module_dir[$i])->forceDivTag();
+					$module_obj->setId("module_".str_replace("-", "_", $array_module_dir[$i]))->forceDivTag();
 					$module_obj->setDraggable(true, false, null, true)->setStyle($module_style);
 					$this->list_modules_obj->add($module_obj);
 			}
@@ -109,7 +109,7 @@ class ConfigureModules extends Page {
 			$module_file = new File(dirname(__FILE__)."/../../../wsp/config/modules.cnf");
 			if ($this->list_modules_obj->getId() == $to_object->getId()) { // remove
 				while (($line = $module_file->read_line()) != false) {
-					if (trim($line) != "" && trim($line) != str_replace("wsp_object_module_", "", $moved_object->getId())) {
+					if (trim($line) != "" && trim($line) != str_replace("_", "-", str_replace("wsp_object_module_", "", $moved_object->getId()))) {
 						$new_conf_module_data .= trim($line)."\n";
 					}
 				}
@@ -119,7 +119,7 @@ class ConfigureModules extends Page {
 						$new_conf_module_data .= trim($line)."\n";
 					}
 				}
-				$new_conf_module_data .= str_replace("wsp_object_module_", "", $moved_object->getId())."\n";
+				$new_conf_module_data .= str_replace("_", "-", str_replace("wsp_object_module_", "", $moved_object->getId()))."\n";
 			}
 			$module_file->close();
 			

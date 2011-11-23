@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.98
  * @access      public
  * @since       1.0.17
  */
@@ -232,7 +232,7 @@ class Label extends WebSitePhpObject {
 			$html .= "</b>";
 		}
 		
-		if ($this->id != "" || $this->font_size != "" || $this->font_family != "") {
+		if ($this->id != "" || $this->font_size != "" || $this->font_family != "" || $this->color != "") {
 			$html .= "</label>";
 		}
 		

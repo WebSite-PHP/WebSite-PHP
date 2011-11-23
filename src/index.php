@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.94
+ * @version     1.0.98
  * @access      public
  * @since       1.0.0
  */
@@ -176,6 +176,39 @@
 				$current_page_meta_opengraph_image = "";
 			}
 		}
+		
+		// init page iphone 57px image
+		if ($page_object->getPageMetaIphoneImage57Px() != "") {
+			$current_page_meta_iphone_image_57px = $page_object->getPageMetaIphoneImage57Px();
+		} else {
+			if (defined('SITE_META_IPHONE_IMAGE_57PX')) {
+				$current_page_meta_iphone_image_57px = SITE_META_IPHONE_IMAGE_57PX;
+			} else {
+				$current_page_meta_iphone_image_57px = "";
+			}
+		}
+		
+		// init page iphone 72px image
+		if ($page_object->getPageMetaIphoneImage72Px() != "") {
+			$current_page_meta_iphone_image_72px = $page_object->getPageMetaIphoneImage72Px();
+		} else {
+			if (defined('SITE_META_IPHONE_IMAGE_72PX')) {
+				$current_page_meta_iphone_image_72px = SITE_META_IPHONE_IMAGE_72PX;
+			} else {
+				$current_page_meta_iphone_image_72px = "";
+			}
+		}
+		
+		// init page iphone 114px image
+		if ($page_object->getPageMetaIphoneImage114Px() != "") {
+			$current_page_meta_iphone_image_114px = $page_object->getPageMetaIphoneImage114Px();
+		} else {
+			if (defined('SITE_META_IPHONE_IMAGE_114PX')) {
+				$current_page_meta_iphone_image_114px = SITE_META_IPHONE_IMAGE_114PX;
+			} else {
+				$current_page_meta_iphone_image_114px = "";
+			}
+		}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="<?php echo $_SESSION['lang']; ?>">
@@ -203,6 +236,15 @@
 		<meta name="identifier-url" content="<?php echo BASE_URL; ?>" />
 		<meta name="expires" content="never" />
 		<link rel="icon" type="image/ico" href="<?php echo BASE_URL; ?>favicon.ico" />
+<?php 	if ($current_page_meta_iphone_image_57px != "") { ?>
+		<link rel="apple-touch-icon" href="<?php echo $current_page_meta_iphone_image_57px; ?>" />
+<?php 	} ?>
+<?php 	if ($current_page_meta_iphone_image_72px != "") { ?>
+		<link rel="apple-touch-icon" sizes="72x72" href="<?php echo $current_page_meta_iphone_image_72px; ?>" />
+<?php 	} ?>
+<?php 	if ($current_page_meta_iphone_image_114px != "") { ?>
+		<link rel="apple-touch-icon" sizes="114x114" href="<?php echo $current_page_meta_iphone_image_114px; ?>" />
+<?php 	} ?>
 		
 		<base href="<?php echo BASE_URL; ?>" />
 
@@ -370,6 +412,7 @@
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', '<?php echo GOOGLE_CODE_TRACKER; ?>']);
+		  window.google_analytics_uacct = "<?php echo GOOGLE_CODE_TRACKER; ?>";
 		  <?php 
 			if (SUBDOMAIN_URL != "") { 
 				echo "_gaq.push(['_setDomainName', '".str_replace(SUBDOMAIN_URL, "", $_SERVER['SERVER_NAME'])."']);\n";

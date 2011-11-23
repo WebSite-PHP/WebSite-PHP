@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.98
  * @access      public
  * @since       1.0.18
  */
@@ -30,14 +30,23 @@ class ErrorPage extends Page {
 		parent::$PAGE_TITLE = __(ERROR_PAGE)." - ".SITE_NAME;
 		parent::$PAGE_META_ROBOTS = "noindex, nofollow";
 		
-		if ($_GET['error-redirect'] == 404) {
+		$error_msg_title = "";
+		$array_code_error = array(401, 403, 404, 500);
+		if (in_array($_GET['error-redirect'], $array_code_error)) {
 			$_SESSION['calling_page'] = "";
+			$error_msg = constant("ERROR_".$_GET['error-redirect']."_MSG");
+			parent::$PAGE_TITLE = constant("ERROR_".$_GET['error-redirect']."_MSG")." - ".SITE_NAME;
+			$error_msg_title = constant("ERROR_".$_GET['error-redirect']."_MSG");
+		} else {
+			$error_msg = __(ERROR_PAGE_MSG, $_SESSION['calling_page']);
+			$error_msg_title = __(ERROR_PAGE);
 		}
 		
-		$obj_error_msg = new Object(new Picture("wsp/img/warning.png", 48, 48, 0, "absmidlle"), "<br/>", new Label(__(ERROR_PAGE_MSG, $_SESSION['calling_page'])));
+		$error_msg = new Label($error_msg, true);
+		$obj_error_msg = new Object(new Picture("wsp/img/warning.png", 48, 48, 0, "absmidlle"), "<br/>", $error_msg->setColor("red"));
 		$obj_error_msg->add("<br/><br/>", __(MAIN_PAGE_GO_BACK), new Link(BASE_URL, Link::TARGET_NONE, SITE_NAME));
 		
-		$this->render = new ErrorTemplate($obj_error_msg, __(ERROR_PAGE));
+		$this->render = new ErrorTemplate($obj_error_msg, $error_msg_title);
 	}
 }
 ?>
