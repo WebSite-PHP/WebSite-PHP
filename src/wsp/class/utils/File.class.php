@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.99
  * @access      public
  * @since       1.0.13
  */
@@ -378,7 +378,7 @@ class File{
 	 */
 	public function halt($message){
 		if($this->debug){
-			throw new NewException($message, 0, 8, __FILE__, __LINE__);
+			throw new NewException($message, 0, getDebugBacktrace(1));
 		}
 	}
 	

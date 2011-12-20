@@ -16,8 +16,8 @@
  * @package database
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -69,7 +69,7 @@ class SqlDataView {
 	 */
 	function __construct($db_table_object) {
 		if (!isset($db_table_object)) {
-			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, getDebugBacktrace(1));
 		}
 		$this->db_table_object = $db_table_object;
 		$this->last_query = "";
@@ -99,10 +99,10 @@ class SqlDataView {
 	 */
 	public function setLimit($offset, $row_count) {
 		if (!is_integer($offset)) {
-			throw new NewException("Error SqlDataView->setLimit(): offset must be an integer", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error SqlDataView->setLimit(): offset must be an integer", 0, getDebugBacktrace(1));
 		}
 		if (!is_integer($row_count)) {
-			throw new NewException("Error SqlDataView->setLimit(): row_count must be an integer", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error SqlDataView->setLimit(): row_count must be an integer", 0, getDebugBacktrace(1));
 		}
 		$this->offset = $offset;
 		$this->row_count = $row_count;
@@ -119,7 +119,7 @@ class SqlDataView {
 	 */
 	public function addOrder($attribute, $order='ASC') {
 		if (strtoupper($order) != "ASC" && strtoupper($order) != "DESC") {
-			throw new NewException("Error SqlDataView->addOrder(): order must be like ASC or DESC", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error SqlDataView->addOrder(): order must be like ASC or DESC", 0, getDebugBacktrace(1));
 		}
 		$this->attributes[] = $attribute;
 		$this->attributes_order[] = $order;
@@ -137,7 +137,7 @@ class SqlDataView {
 	 */
 	public function addJoinAttribute($db_table_object_join, $join_attribute_1, $join_attribute_2, $join_type='INNER') {
 		if (!isset($db_table_object_join) && !isset($join_attribute_1) && !isset($join_attribute_2)) {
-			throw new NewException("Error SqlDataView->addJoinAttribute(): 3 arguments for method addJoin are mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error SqlDataView->addJoinAttribute(): 3 arguments for method addJoin are mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$this->addJoinTableAttribute($db_table_object_join, null, $join_attribute_1, $join_attribute_2, $join_type);
@@ -155,7 +155,7 @@ class SqlDataView {
 	 */
 	public function addJoinTableAttribute($db_table_object_join_1, $db_table_object_join_2, $join_attribute_1, $join_attribute_2, $join_type='INNER') {
 		if (!isset($db_table_object_join_1) && !isset($db_table_object_join_2) && !isset($join_attribute_1) && !isset($join_attribute_2)) {
-			throw new NewException("Error SqlDataView->addJoinTableAttribute(): 4 arguments for method addJoin are mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error SqlDataView->addJoinTableAttribute(): 4 arguments for method addJoin are mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$join_clause = "";
@@ -187,14 +187,14 @@ class SqlDataView {
 	 */
 	public function addJoinClause($db_table_object_join, $join_clause, $join_type='INNER') {
 		if (!isset($db_table_object_join) && !isset($join_clause)) {
-			throw new NewException("Error SqlDataView->addJoinClause(): 2 arguments for method addJoin are mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error SqlDataView->addJoinClause(): 2 arguments for method addJoin are mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$join_type = trim($join_type);
 		if (strtoupper($join_type) != SqlDataView::JOIN_TYPE_INNER && strtoupper($join_type) != SqlDataView::JOIN_TYPE_LEFT 
 			&& strtoupper($join_type) != SqlDataView::JOIN_TYPE_LEFT_OUTER && strtoupper($join_type) != SqlDataView::JOIN_TYPE_RIGHT 
 			&& strtoupper($join_type) != SqlDataView::JOIN_TYPE_RIGHT_OUTER) {
-			throw new NewException("Error SqlDataView->addJoin(): join type error, ".$join_type." doesn't exist", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error SqlDataView->addJoin(): join type error, ".$join_type." doesn't exist", 0, getDebugBacktrace(1));
 		}
 		$this->joins_object[] = $db_table_object_join;
 		$this->join_clause[] = $join_clause;
@@ -202,12 +202,12 @@ class SqlDataView {
 	}
 	
 	/**
-	 * Method retrieve
-	 * @access public
+	 * Method getListAttribute
+	 * @access private
 	 * @return mixed
-	 * @since 1.0.35
+	 * @since 1.0.99
 	 */
-	public function retrieve() {
+	private function getListAttribute() {
 		$list_attribute = "";
 		$db_table_attributes = $this->db_table_object->getDbTableAttributes();
 		for ($i=0; $i < sizeof($db_table_attributes); $i++) {
@@ -221,33 +221,56 @@ class SqlDataView {
 				$list_attribute .= "`".$this->joins_object[$i]->getDbTableName()."`.`".$db_table_join_attributes[$j]."`";
 			}
 		}
+		return $list_attribute;
+	}
+	
+	/**
+	 * Method createQuery
+	 * @access private
+	 * @param mixed $list_attribute 
+	 * @return mixed
+	 * @since 1.0.99
+	 */
+	private function createQuery($list_attribute) {
+		$query = "SELECT ";
+		if (sizeof($this->joins_object) > 0) {
+			$query .= "DISTINCT ";
+		}
+		$query .= $list_attribute;
+		$query .= " FROM ".$this->db_table_object->getDbTableSchemaName();
+		for ($i=0; $i < sizeof($this->joins_object); $i++) {
+			$query .= " ".$this->joins_type[$i]." JOIN ".$this->joins_object[$i]->getDbTableSchemaName()." ON ".$this->join_clause[$i];
+		}
+		if ($this->clause != "") {
+			if (find($this->clause, "WHERE ", 1, 0) == 0) {
+				$this->clause = " WHERE ".$this->clause;
+			}
+			$query .= $this->clause." ";
+		}
+		if (sizeof($this->attributes) > 0) {
+			$query .= " ORDER BY ";
+			for ($i=0; $i < sizeof($this->attributes); $i++) {
+				if ($i != 0) { $query .= ", "; }
+				$query .= $this->attributes[$i]." ".$this->attributes_order[$i];
+			}
+		}
+		if ($this->row_count != null) {
+			$query .= " LIMIT ".$this->offset.", ".$this->row_count;
+		}
+		return $query;
+	}
+	
+	/**
+	 * Method retrieve
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.35
+	 */
+	public function retrieve() {
+		$list_attribute = $this->getListAttribute();
 		$this->iterator = new DataRowIterator($this->db_table_object);
 		if ($list_attribute != "") {
-			$query = "SELECT ";
-			if (sizeof($this->joins_object) > 0) {
-				$query .= "DISTINCT ";
-			}
-			$query .= $list_attribute;
-			$query .= " FROM ".$this->db_table_object->getDbTableSchemaName();
-			for ($i=0; $i < sizeof($this->joins_object); $i++) {
-				$query .= " ".$this->joins_type[$i]." JOIN ".$this->joins_object[$i]->getDbTableSchemaName()." ON ".$this->join_clause[$i];
-			}
-			if ($this->clause != "") {
-				if (find($this->clause, "WHERE ", 1, 0) == 0) {
-					$this->clause = " WHERE ".$this->clause;
-				}
-				$query .= $this->clause." ";
-			}
-			if (sizeof($this->attributes) > 0) {
-				$query .= " ORDER BY ";
-				for ($i=0; $i < sizeof($this->attributes); $i++) {
-					if ($i != 0) { $query .= ", "; }
-					$query .= $this->attributes[$i]." ".$this->attributes_order[$i];
-				}
-			}
-			if ($this->row_count != null) {
-				$query .= " LIMIT ".$this->offset.", ".$this->row_count;
-			}
+			$query = $this->createQuery($list_attribute);
 			$attributes_type = $this->db_table_object->getDbTableAttributesType();
 			$this->last_query = $query;
 			
@@ -272,6 +295,27 @@ class SqlDataView {
 			$stmt->close();
 		}
 		return $this->iterator;
+	}
+	
+	/**
+	 * Method retrieveCount
+	 * @access public
+	 * @return double
+	 * @since 1.0.99
+	 */
+	public function retrieveCount() {
+		$query = $this->createQuery("COUNT(*)");
+		$this->last_query = $query;
+			
+		$stmt = DataBase::getInstance()->prepareStatement($query, $this->clause_objects);
+		$stmt->bind_result($count);
+		if ($stmt->fetch()) {
+			return $count;
+		}
+		$stmt->free_result();
+		$stmt->close();
+		
+		return 0;
 	}
 	
 	/**

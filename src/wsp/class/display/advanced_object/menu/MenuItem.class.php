@@ -18,8 +18,8 @@
  * @subpackage advanced_object.menu
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -59,7 +59,7 @@ class MenuItem extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (!isset($value)) {
-			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$this->value = $value;
@@ -77,7 +77,7 @@ class MenuItem extends WebSitePhpObject {
 	 */
 	public function setMenuItems($menu_items_object) {
 		if (get_class($menu_items_object) != "MenuItems") {
-			throw new NewException("Error MenuItem->setMenuItems(): $menu_items_object is not a MenuItems object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error MenuItem->setMenuItems(): $menu_items_object is not a MenuItems object", 0, getDebugBacktrace(1));
 		}
 		$this->menu_items = $menu_items_object;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }

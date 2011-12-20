@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 20/06/2011
- * @version     1.0.90
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -60,7 +60,7 @@ class VideoFlv extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (!isset($id) || !isset($video) || !isset($width) || !isset($height)) {
-			throw new NewException("4 arguments for ".get_class($this)."::__construct() are mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("4 arguments for ".get_class($this)."::__construct() are mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$this->id = $id;

@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.93
+ * @version     1.0.99
  * @access      public
  * @since       1.0.19
  */
@@ -93,6 +93,22 @@
 		}
 		list($date, $heure) = explode(" ", $date);
 		return formatDate($date)." ".substr($heure, 0, 5);
+	}
+	
+	function convert12HourTo24Hour($hour) {
+		$array_hour = explode(':', $hour);
+		if (find($array_hour[1], "PM") > 0) {
+			$hour = str_replace(" PM", "", $hour);
+			if (intval($array_hour[0]) != 12) {
+				$hour = (intval($array_hour[0])+12).":".$array_hour[1];
+			}
+		} else if (find($array_hour[1], "AM") > 0) {
+			$hour = str_replace(" AM", "", $hour);
+			if (intval($array_hour[0]) == 12) {
+				$hour = "00:".$array_hour[1];
+			}
+		}
+		return $hour;
 	}
 	
 	function random($car) { 
@@ -200,7 +216,7 @@
 	    if(!$contents) return array();
 	
 	    if(!function_exists('xml_parser_create')) {
-	        throw new NewException("xml_parser_create() function not found!", 0, 8, __FILE__, __LINE__);
+	        throw new NewException("xml_parser_create() function not found!", 0, getDebugBacktrace(1));
 	    }
 	
 	    //Get the XML parser of PHP - PHP must have this module for the parser to work

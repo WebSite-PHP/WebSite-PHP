@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.98
+ * @version     1.0.99
  * @access      public
  * @since       1.0.0
  */
@@ -31,19 +31,27 @@ class Page {
 	const CACHE_TIME_1MIN = 60;
 	const CACHE_TIME_2MIN = 120;
 	const CACHE_TIME_10MIN = 600;
+	const CACHE_TIME_20MIN = 1200;
+	const CACHE_TIME_30MIN = 1800;
 	const CACHE_TIME_1HOUR = 3600;
 	const CACHE_TIME_2HOURS = 7200;
+	const CACHE_TIME_3HOURS = 10800;
 	const CACHE_TIME_4HOURS = 14400;
 	const CACHE_TIME_6HOURS = 21600;
 	const CACHE_TIME_12HOURS = 43200;
 	const CACHE_TIME_1DAY = 86400;
 	const CACHE_TIME_2DAYS = 172800;
+	const CACHE_TIME_3DAYS = 259200;
+	const CACHE_TIME_4DAYS = 345600;
 	const CACHE_TIME_7DAYS = 604800;
 	const CACHE_TIME_14DAYS = 1209600;
 	const CACHE_TIME_1MONTH = 2678400;
 	const CACHE_TIME_2MONTHS = 5270400;
+	const CACHE_TIME_3MONTHS = 8035200;
+	const CACHE_TIME_4MONTHS = 10713600;
 	const CACHE_TIME_6MONTHS = 15724800;
 	const CACHE_TIME_1YEAR = 31536000;
+	const CACHE_TIME_2YEARS = 63072000;
 	/**#@-*/
 	
 	/**#@+
@@ -174,7 +182,7 @@ class Page {
 	 */
 	function __destruct() {
 		if ($this->page_is_display) {
-			if ((CACHING_ALL_PAGES || $this->PAGE_CACHING) && !$this->page_is_caching) {
+			if ((CACHING_ALL_PAGES || $this->PAGE_CACHING) && !$this->page_is_caching && $this->cache_time != -1) {
 				if (strtoupper(substr($this->class_name, 0, 5)) != "ERROR" && $GLOBALS['__ERROR_DEBUG_PAGE__'] != true) {
 					$cache_file = new File($this->cache_file_name, false, true);
 					$cache_file->write(ob_get_contents());
@@ -513,7 +521,7 @@ class Page {
 			$class_name = get_class($object);
 			if ($form_object != null) {
 				if (get_class($form_object) != "Form") {
-					throw new NewException("addEventObject error in the second parameter : must be a Form object", 0, 8, __FILE__, __LINE__);
+					throw new NewException("addEventObject error in the second parameter : must be a Form object", 0, getDebugBacktrace(1));
 				}
 				$class_name .= "_".$form_object->getName();
 				$form_object->registerObjectToForm($object);
@@ -876,7 +884,7 @@ class Page {
 				}
 			}
 			if (call_user_func_array(array($this, $this->callback_method), $this->callback_method_params) === false) {
-				throw new NewException("Unable to call callback method ".$this->callback_method."!", 0, 8, __FILE__, __LINE__);
+				throw new NewException("Unable to call callback method ".$this->callback_method."!", 0, getDebugBacktrace(1));
 			}
 		}
 	}
@@ -912,7 +920,7 @@ class Page {
 	 */
 	public function addObject($object, $page_begining=false, $page_ending=false) {
 		if (!is_subclass_of($object, "WebSitePhpObject")) {
-			throw new NewException("You can't add this object ".get_class($this)." to the page, you must add WebSitePhpObject", 0, 8, __FILE__, __LINE__);
+			throw new NewException("You can't add this object ".get_class($this)." to the page, you must add WebSitePhpObject", 0, getDebugBacktrace(1));
 		}
 		if ($page_ending || (gettype($object) == "object" && get_class($object) == "DialogBox") || 
 			$this->ended_added_object_loaded) {
@@ -994,7 +1002,7 @@ class Page {
 	 */
 	public function render() {
 		if ($this->render == null) {
-			throw new NewException("Render object not set for the page ".$this->page." (Please set the variable \$this->render in class ".$this->class_name.")", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Render object not set for the page ".$this->page." (Please set the variable \$this->render in class ".$this->class_name.")", 0, getDebugBacktrace(1));
 		} else {
 			$html = "";
 			for ($i=0; $i < sizeof($this->add_to_render_begining); $i++) {

@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.98
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -45,7 +45,7 @@ class Adsense extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (!isset($google_ad_client) && !isset($google_ad_slot) && !isset($google_ad_width) && !isset($google_ad_height)) {
-			throw new NewException("4 arguments for ".get_class($this)."::__construct() are mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("4 arguments for ".get_class($this)."::__construct() are mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$this->google_ad_client = $google_ad_client;
@@ -68,7 +68,12 @@ class Adsense extends WebSitePhpObject {
 		$adsense_html .= "	google_ad_width=".$this->google_ad_width.";\n";
 		$adsense_html .= "	google_ad_height=".$this->google_ad_height.";\n";
 		if (GOOGLE_CODE_TRACKER != "" && find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0 && !defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
-			$adsense_html .= "	window.google_analytics_uacct = \"".GOOGLE_CODE_TRACKER."\";\n";
+			$adsense_html .= "	window.google_analytics_uacct=\"".GOOGLE_CODE_TRACKER."\";\n";
+			if (SUBDOMAIN_URL != "") { 
+				$adsense_html .= "	google_analytics_domain_name=\"".str_replace(SUBDOMAIN_URL, "", $_SERVER['SERVER_NAME'])."\";\n";
+			} else {
+				$adsense_html .= "	google_analytics_domain_name=\"none\";\n";
+			}
 		}
 		$adsense_html .= $this->getJavascriptTagClose();
 		$adsense_html .= "<script src=\"http://pagead2.googlesyndication.com/pagead/show_ads.js\"></script>\n";

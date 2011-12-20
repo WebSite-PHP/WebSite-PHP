@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 05/08/2011
- * @version     1.0.94
+ * @version     1.0.99
  * @access      public
  * @since       1.0.91
  */
@@ -139,13 +139,13 @@ class Chart extends WebSitePhpObject {
 	public function addPoints($title, $array_data, $chart_design="lines", $stack="no_stack", $fill=false) {
 		if ($chart_design != Chart::DESIGN_BARS && $chart_design != Chart::DESIGN_LINES && $chart_design != Chart::DESIGN_LINES_WITH_STEPS &&
 			$chart_design != Chart::DESIGN_LINES_POINTS && $chart_design != Chart::DESIGN_POINTS && $chart_design != Chart::DESIGN_LINES_POINTS_WITH_STEPS) {
-			throw new NewException(get_class($this)."->addLine() error: \$chart_design is not recognized.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->addLine() error: \$chart_design is not recognized.", 0, getDebugBacktrace(1));
 		}
 		if ($stack != Chart::STYLE_STACKING && $stack != Chart::STYLE_NO_STACKING) {
-			throw new NewException(get_class($this)."->addLine() error: \$chart_design is not recognized.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->addLine() error: \$chart_design is not recognized.", 0, getDebugBacktrace(1));
 		}
 		if (!is_array($array_data)) {
-			throw new NewException(get_class($this)."->addLine() error: \$array_data must be an array of 2 dimensions.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->addLine() error: \$array_data must be an array of 2 dimensions.", 0, getDebugBacktrace(1));
 		}
 		
 		$ind = sizeof($this->array_data);
@@ -309,11 +309,11 @@ class Chart extends WebSitePhpObject {
 		for ($i=0; $i < sizeof($this->array_data); $i++) {
 			$html .= "var d".($i+1)." = [";
 			if (!is_array($this->array_data[$i])) {
-				throw new NewException(get_class($this)."->addLine() error: \$array_data must be an array of 2 dimensions.", 0, 8, __FILE__, __LINE__);
+				throw new NewException(get_class($this)."->addLine() error: \$array_data must be an array of 2 dimensions.", 0, getDebugBacktrace(1));
 			}
 			for ($j=0; $j < sizeof($this->array_data[$i]); $j++) {
 				if (!is_array($this->array_data[$i][$j]) && sizeof($this->array_data[$i][$j]) != 2) {
-					throw new NewException(get_class($this)."->addLine() error: \$array_data must be an array of 2 dimensions.", 0, 8, __FILE__, __LINE__);
+					throw new NewException(get_class($this)."->addLine() error: \$array_data must be an array of 2 dimensions.", 0, getDebugBacktrace(1));
 				}
 				if ($j > 0) { $html .= ", "; }
 				$x = $this->array_data[$i][$j][0];

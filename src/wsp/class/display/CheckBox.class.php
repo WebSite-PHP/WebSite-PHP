@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.94
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -51,7 +51,7 @@ class CheckBox extends WebSitePhpEventObject {
 		parent::__construct();
 		
 		if (!isset($page_or_form_object) || gettype($page_or_form_object) != "object" || (!is_subclass_of($page_or_form_object, "Page") && get_class($page_or_form_object) != "Form")) {
-			throw new NewException("Argument page_or_form_object for ".get_class($this)."::__construct() error", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Argument page_or_form_object for ".get_class($this)."::__construct() error", 0, getDebugBacktrace(1));
 		}
 		
 		if (is_subclass_of($page_or_form_object, "Page")) {
@@ -71,7 +71,7 @@ class CheckBox extends WebSitePhpEventObject {
 			$exist_object = $this->page_object->existsObjectName($name);
 			$this->name = $name;
 			if ($exist_object != false) {
-				throw new NewException("Tag name \"".$name."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, 8, __FILE__, __LINE__);
+				throw new NewException("Tag name \"".$name."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, getDebugBacktrace(1));
 			}
 			$this->page_object->addEventObject($this, $this->form_object);
 		}
@@ -109,7 +109,7 @@ class CheckBox extends WebSitePhpEventObject {
 	 */
 	public function setValue($value) {
 		if ($value != "on" && $value != "off" && $value != "") {
-			throw new NewException("Object ".get_class($this)." don't accept the check value ".$value." (accepted values: `empty`, on, off)", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Object ".get_class($this)." don't accept the check value ".$value." (accepted values: `empty`, on, off)", 0, getDebugBacktrace(1));
 		}
 		$this->checked = $value;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
@@ -264,7 +264,7 @@ class CheckBox extends WebSitePhpEventObject {
 	 */
 	public function onChangeJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -308,7 +308,7 @@ class CheckBox extends WebSitePhpEventObject {
 		}
 		if ($this->is_ajax_event) {
 			if ($this->form_object == null) {
-				throw new NewException("Unable to activate action to this ".get_class($this)." : Attribut page_or_form_object must be a Form object", 0, 8, __FILE__, __LINE__);
+				throw new NewException("Unable to activate action to this ".get_class($this)." : Attribut page_or_form_object must be a Form object", 0, getDebugBacktrace(1));
 			}
 			$html .= $this->getJavascriptTagOpen();
 			$html .= $this->getAjaxEventFunctionRender();

@@ -11,7 +11,7 @@
 	define("CONFIG_FILE_NOT_OK", "Error during saving, please check your configuration !");
 	
 	define("PRIMARY_KEY", "Primary key");
-	define("NO_PRIMARY_KEY", "You must specify a primary key on the table %s.%s");
+	define("NO_PRIMARY_KEY", "You must specify a primary keyor a unique key on the table %s.%s");
 	define("GENERATE_DATABASE_OBJECTS", "Generate database objects");
 	define("GENERATE_OBJECTS", "Generate objects");
 	define("GENERATE_DATABASE_OBJECTS_OK", "Generate objects from database %s finished");

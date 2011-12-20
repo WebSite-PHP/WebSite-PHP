@@ -18,8 +18,8 @@
  * @subpackage advanced_object.menu
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -93,13 +93,13 @@ class MenuItems extends WebSitePhpObject {
 		$args = func_get_args();
 		$menu_item_object = array_shift($args);
 		if (get_class($menu_item_object) != "MenuItem") {
-			throw new NewException("Error MenuItems->add(): menu_item_object is not a MenuItem object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error MenuItems->add(): menu_item_object is not a MenuItem object", 0, getDebugBacktrace(1));
 		}
 		$this->menu_items[] = $menu_item_object;
     	for ($i=0; $i < sizeof($args); $i++) {
     		if ($args[$i] != null) {
 				if (get_class($args[$i]) != "MenuItem") {
-					throw new NewException("Error MenuItems->add(): menu_item_object is not a MenuItem object", 0, 8, __FILE__, __LINE__);
+					throw new NewException("Error MenuItems->add(): menu_item_object is not a MenuItem object", 0, getDebugBacktrace(1));
 				}
 				$this->menu_items[] = $args[$i];
     		}

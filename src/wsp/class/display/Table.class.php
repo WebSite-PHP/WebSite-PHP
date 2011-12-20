@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.98
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -47,6 +47,35 @@ class Table extends WebSitePhpObject {
 	const BORDER_STYLE_RIDGE = "ridge";
 	const BORDER_STYLE_INSET = "inset";
 	const BORDER_STYLE_OUTSET = "outset";
+	/**#@-*/
+	
+	/**#@+
+	* column type properties
+	* @access public
+	* @var string
+	*/
+	const COL_TYPE_STRING = "string";
+	const COL_TYPE_NUMERIC = "numeric";
+	const COL_TYPE_DATE = "date";
+	const COL_TYPE_HTML = "html";
+	const COL_TYPE_ALT_STRING = "alt-string";
+	const COL_TYPE_ANTI_THE = "anti-the";
+	const COL_TYPE_NUMERIC_COMMA = "numeric-comma";
+	const COL_TYPE_CURRENCY = "currency";
+	const COL_TYPE_DATE_EURO = "date-euro";
+	const COL_TYPE_UK_DATE = "uk_date";
+	const COL_TYPE_FILE_SIZE = "file-size";
+	const COL_TYPE_FORMATTED_NUM = "formatted-num";
+	const COL_TYPE_TITLE_NUMERIC = "title-numeric";
+	const COL_TYPE_VALUE_NUMERIC = "value-numeric";
+	const COL_TYPE_TITLE_STRING = "title-string";
+	const COL_TYPE_VALUE_STRING = "value-string";
+	const COL_TYPE_IP_ADDRESS = "ip-address";
+	const COL_TYPE_MONTHYEAR_SORT = "monthYear-sort";
+	const COL_TYPE_NUM_HTML = "num-html";
+	const COL_TYPE_PERCENT = "percent";
+	const COL_TYPE_PRIORITY = "priority";
+	const COL_TYPE_SIGNED_NUM = "signed-num";
 	/**#@-*/
 	
 	/**#@+
@@ -101,6 +130,8 @@ class Table extends WebSitePhpObject {
 	private $pagination_row_per_page = -1;
 	private $paginate_full_numbers = false;
 	private $advance_table_title = "";
+	private $advance_table_type_define = false;
+	private $col_type = array();
 	/**#@-*/
 	
 	/**
@@ -379,7 +410,7 @@ class Table extends WebSitePhpObject {
 			}
 		}
 		if ($catch_exception) {
-			throw new NewException(get_class($this)."->deleteRow() error: Unable to delete id ".$row_table_id." (not found)", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->deleteRow() error: Unable to delete id ".$row_table_id." (not found)", 0, getDebugBacktrace(1));
 		} else {
 			return false;
 		}
@@ -428,7 +459,7 @@ class Table extends WebSitePhpObject {
 	 */
 	public function setAjaxRefreshAllTable() {
 		if ($this->id == "") {
-			throw new NewException(get_class($this)."->setAjaxRefreshAllTable() error: you must define an id to the Table (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->setAjaxRefreshAllTable() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
 		}
 		
 		$this->ajax_refresh_all_table = true;
@@ -444,7 +475,7 @@ class Table extends WebSitePhpObject {
 	 */
 	public function activateAdvanceTable() {
 		if ($this->id == "") {
-			throw new NewException(get_class($this)."->activateAdvanceTable() error: you must define an id to the Table (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->activateAdvanceTable() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
 		}
 		
 		$this->is_advance_table = true;
@@ -462,7 +493,7 @@ class Table extends WebSitePhpObject {
 	 */
 	public function activateAdvanceTableInfo() {
 		if ($this->id == "") {
-			throw new NewException(get_class($this)."->activatePagination() error: you must define an id to the Table (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->activatePagination() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
 		}
 		
 		$this->advance_table_info = true;
@@ -481,19 +512,45 @@ class Table extends WebSitePhpObject {
 	 */
 	public function activateSort($sort_col_number, $sort_order='asc') {
 		if ($this->id == "") {
-			throw new NewException(get_class($this)."->activateSort() error: you must define an id to the Table (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->activateSort() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
 		}
 		
 		if (!is_integer($sort_col_number)) {
-			throw new NewException(get_class($this)."->activateSort() error: \$sort_col_number must be an integer", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->activateSort() error: \$sort_col_number must be an integer", 0, getDebugBacktrace(1));
 		}
 		$this->sort_col_number = $sort_col_number;
 		
 		if ($sort_order != "asc" && $sort_order != "desc") {
-			throw new NewException(get_class($this)."->activateSort() error: authorized values for \$sort_order paramter: asc, desc.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->activateSort() error: authorized values for \$sort_order paramter: asc, desc.", 0, getDebugBacktrace(1));
 		}
 		$this->sort_order = $sort_order;
 		$this->is_sortable = true;
+		$this->activateAdvanceTable();
+		
+		return $this;
+	}
+	
+	/**
+	 * Method setAdvanceTableColumnType
+	 * @access public
+	 * @param mixed $col_number 
+	 * @param string $type [default value: html]
+	 * @return Table
+	 * @since 1.0.99
+	 */
+	public function setAdvanceTableColumnType($col_number, $type='html') {
+		if ($this->id == "") {
+			throw new NewException(get_class($this)."->setColumnType() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
+		}
+		
+		if (!is_integer($col_number)) {
+			throw new NewException(get_class($this)."->setColumnType() error: \$sort_col_number must be an integer", 0, getDebugBacktrace(1));
+		}
+		
+		$this->col_type[$col_number-1] = $type;
+		$this->advance_table_type_define = true;
+		
+		$this->addJavaScript(BASE_URL."wsp/js/jquery.dataTables.sType.js", "", true);
 		$this->activateAdvanceTable();
 		
 		return $this;
@@ -509,10 +566,10 @@ class Table extends WebSitePhpObject {
 	 */
 	public function activatePagination($nb_row_per_page=10, $style_full_numbers=false) {
 		if ($this->id == "") {
-			throw new NewException(get_class($this)."->activatePagination() error: you must define an id to the Table (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->activatePagination() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
 		}
 		if (!is_integer($nb_row_per_page)) {
-			throw new NewException(get_class($this)."->activatePagination() error: \$nb_row_per_page must be an integer", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->activatePagination() error: \$nb_row_per_page must be an integer", 0, getDebugBacktrace(1));
 		}
 		
 		$this->pagination = true;
@@ -539,7 +596,7 @@ class Table extends WebSitePhpObject {
 	 */
 	public function activateSearch() {
 		if ($this->id == "") {
-			throw new NewException(get_class($this)."->activatePagination() error: you must define an id to the Table (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->activatePagination() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
 		}
 		
 		$this->is_filtered = true;
@@ -669,11 +726,11 @@ class Table extends WebSitePhpObject {
 		
 		if ($this->is_advance_table) {
 			if ($this->id == "") {
-				throw new NewException("To use advance table propoerties (filter, sort, pagination) you must define an id (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+				throw new NewException("To use advance table propoerties (filter, sort, pagination) you must define an id (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
 			}
 			
 			if (sizeof($this->rows) == 0 || !$this->rows[0]->isHeader()) {
-				throw new NewException("To use advance table you must define the first RowTable with Header type (RowTable->setHeaderClass(0))", 0, 8, __FILE__, __LINE__);
+				throw new NewException("To use advance table you must define the first RowTable with Header type (RowTable->setHeaderClass(0))", 0, getDebugBacktrace(1));
 			}
 			
 			$html .= $this->getJavascriptTagOpen();
@@ -706,7 +763,19 @@ class Table extends WebSitePhpObject {
 			if ($this->advance_table_title != "") {
 				$html .= ", 'sDom': '<\"toolbar\">frtip'";
 			}
-			$html .= "});\n";
+			if ($this->advance_table_type_define) {
+				$html .= ", 'aoColumns': [";
+				for ($i=0; $i < $this->max_nb_cols; $i++) {
+					if ($i > 0) { $html .= ", "; }
+					if ($this->col_type[$i] != "") {
+						$html .= "{ 'sType': '".$this->col_type[$i]."' }";
+					} else {
+	            		$html .= "null";
+					}
+				}
+	        	$html .= "]";
+			}
+			$html .= " });\n";
 			if ($this->advance_table_title != "") {
 				$html .= "$('#".$this->getId()."_wrapper').find('div.toolbar').html('";
 				if (gettype($this->advance_table_title) == "object" && method_exists($this->advance_table_title, "render")) {
@@ -770,7 +839,7 @@ class Table extends WebSitePhpObject {
 		}
 		
 		if ($html != "" && $this->id == "") {
-			throw new NewException(get_class($this)."->getAjaxRender() error: To update this object with Ajax event you must define an id (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->getAjaxRender() error: To update this object with Ajax event you must define an id (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
 		}
 		
 		return $html;

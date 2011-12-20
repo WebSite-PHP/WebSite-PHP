@@ -16,8 +16,8 @@
  * @package utils
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.99
  * @access      public
  * @since       1.0.16
  */
@@ -30,7 +30,7 @@ class GeoLocalisation {
 	protected $errors = array();
 	protected $_ip = "";
 	protected $_geolocation = "";
-  protected $_loaded = false;
+	protected $_loaded = false;
 	protected $showTimezone = false;
 	
 	protected $service = 'api.ipinfodb.com';
@@ -130,17 +130,17 @@ class GeoLocalisation {
 	 */
 	public function getGeoLocation(){
 		if (!isset($_SESSION['ipinfodb_geolocalisation']) && (!isset($_SESSION['google_geolocalisation']) && $this->_ip==$_SERVER["REMOTE_ADDR"]) || $this->_ip!=$_SERVER["REMOTE_ADDR"]) {
-  		if(preg_match('/^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:[.](?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$/', $this->_ip)){
-  			$service_url = 'http://' . $this->service . '/' . $this->version . '/' . 'ip_query.php?key=' . $this->apiKey . '&ip=' . $this->_ip;
-  			if (extension_loaded('curl')) {
-  				$xml = $this->getPageFromUrlWithCurl($service_url);
-  				if ($xml == false) {
-  					$xml = "";
-  				}
-  			} else {
-  				$xml = @file_get_contents($service_url);
-  			}
-	
+	  		if(preg_match('/^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:[.](?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$/', $this->_ip)){
+	  			$service_url = 'http://' . $this->service . '/' . $this->version . '/' . 'ip_query.php?key=' . $this->apiKey . '&ip=' . $this->_ip;
+	  			if (extension_loaded('curl')) {
+	  				$xml = $this->getPageFromUrlWithCurl($service_url);
+	  				if ($xml == false) {
+	  					$xml = "";
+	  				}
+	  			} else {
+	  				$xml = @file_get_contents($service_url);
+	  			}
+		
 				try{
 					$response = @new SimpleXMLElement($xml);
 					foreach($response as $field=>$value){

@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.98
+ * @version     1.0.99
  * @access      public
  * @since       1.0.18
  */
@@ -228,7 +228,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	public function setAjaxWaitMessage($message_or_object) {
 		if (gettype($message_or_object) == "object") {
 			if (get_class($message_or_object) != "Object") {
-				throw new NewException("Error ".get_class($this)."->setAjaxWaitMessage(): \$message_or_object must be an Object and not ".get_class($message_or_object).".", 0, 8, __FILE__, __LINE__);
+				throw new NewException("Error ".get_class($this)."->setAjaxWaitMessage(): \$message_or_object must be an Object and not ".get_class($message_or_object).".", 0, getDebugBacktrace(1));
 			}
 			$message_or_object->hide();
 		}
@@ -257,10 +257,10 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	 */
 	public function onFormIsChangedJs($js_function, $revert_this_object_to_old_value=false) {
 		if ($this->form_object == null || get_class($this->form_object) != "Form") {
-			throw new NewException("Error ".get_class($this)."->setFormChangeMessage(): ".get_class($message_or_object)." must be associate to a Form object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error ".get_class($this)."->setFormChangeMessage(): ".get_class($message_or_object)." must be associate to a Form object.", 0, getDebugBacktrace(1));
 		}
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onFormChangeJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onFormChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -313,7 +313,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 					} else if (get_class($array_args[$i]) == "JavaScript") {
 						$this->callback_args .= trim($array_args[$i]->render());
 					} else {
-						throw new NewException(get_class($array_args[$i])." is not a valid argument for the method ".$str_function_tmp.".", 0, 8, __FILE__, __LINE__);
+						throw new NewException(get_class($array_args[$i])." is not a valid argument for the method ".$str_function_tmp.".", 0, getDebugBacktrace(1));
 					}
 				} else {
 					$this->callback_args .= "\'".addslashes($array_args[$i])."\'";
@@ -326,7 +326,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 				if (find($str_function_tmp, "public_", 0, 0) > 0) {
 					$callback = get_class($page_object)."().".$str_function_tmp;
 				} else {
-					throw new NewException("The callback method ".$str_function_tmp." must begin by 'public_' to be access from other page.", 0, 8, __FILE__, __LINE__);
+					throw new NewException("The callback method ".$str_function_tmp." must begin by 'public_' to be access from other page.", 0, getDebugBacktrace(1));
 				}
 			}
 			
@@ -335,7 +335,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 				$this->page_object->executeCallback();
 			}
 		} else if ($str_function != "") {
-			throw new NewException("Undefined method ".$str_function_tmp." in class ".get_class($page_object), 0, 8, __FILE__, __LINE__);
+			throw new NewException("Undefined method ".$str_function_tmp." in class ".get_class($page_object), 0, getDebugBacktrace(1));
 		} else {
 			$this->is_ajax_event = false;
 		}
@@ -358,8 +358,12 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		}
 		
 		$error_alert = new DialogBox(__(ERROR), __(SUBMIT_ERROR));
-		$error_alert->activateCloseButton();
+		$error_alert->activateCloseButton()->setWidth(500);
 		$error_alert->setDialogBoxLevel(rand(90000, 99999));
+		
+		$error_unknow_alert = new DialogBox(__(ERROR), __(SUBMIT_UNKNOW_ERROR));
+		$error_unknow_alert->activateCloseButton()->setWidth(400);
+		$error_unknow_alert->setDialogBoxLevel(rand(90000, 99999));
 		
 		$html = "";
 		$html .= "	var isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;\n";
@@ -458,7 +462,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		} else {
 	    	$html .= "					".$loading_modalbox->close()->render();
 		}
-	    $html .= "					".$error_alert->render()."\n";
+	    $html .= "					".$error_unknow_alert->render()."\n";
 	    $html .= "				}\n";
 	    $html .= "				$('#Callback_".$this->getEventObjectName()."').val('');\n";
 	    $html .= "			},\n";
@@ -470,7 +474,11 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		} else {
 	    	$html .= "					".$loading_modalbox->close()->render()."\n";
 		}
-	    $html .= "					".$error_alert->render();
+		$html .= "					if (trim(transport.responseText) == '') {\n";
+	    $html .= "						".$error_unknow_alert->render();
+	    $html .= "					} else {\n";
+	    $html .= "						".$error_alert->render();
+	    $html .= "					}\n";
 		$html .= "				}\n";
 	    $html .= "				$('#Callback_".$this->getEventObjectName()."').val('');\n";
 	    $html .= "			}\n";
@@ -523,7 +531,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	protected function getObjectEventValidationRender($on_event, $callback, $params='', $abort_last_request=false) {
 		if ($callback != "" && $this->form_object == null && 
 			(isset($_GET['dialogbox_level']) || isset($_GET['tabs_object_id']))) {
-				throw new NewException("Object ".get_class($this)." must link to a Form Object when he have a callback method in a DialogBox or a Tabs", 0, 8, __FILE__, __LINE__);
+				throw new NewException("Object ".get_class($this)." must link to a Form Object when he have a callback method in a DialogBox or a Tabs", 0, getDebugBacktrace(1));
 		}
 		
 		$html = "";

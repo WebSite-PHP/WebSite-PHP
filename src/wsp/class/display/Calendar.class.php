@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.93
+ * @version     1.0.99
  * @access      public
  * @since       1.0.93
  */
@@ -56,6 +56,9 @@ class Calendar extends TextBox {
 	private $firstDay = "";
 	private $numberOfMonths = "";
 	private $showAnim = "show";
+	
+	private $dateFormatConsertPhpFormat = array("dd/mm/yy" => "d/m/Y",
+												"mm-dd-yy" => "m-d-Y");
 	/**#@-*/
 	
 	/**
@@ -72,13 +75,33 @@ class Calendar extends TextBox {
 	}
 	
 	/**
+	 * Method getValue
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.99
+	 */
+	public function getValue() {
+		$this->value = parent::getValue();
+		
+		if ($this->value == null || $this->value == "") {
+			return $this->value;
+		} else if (get_class($this->value) != "DateTime") {
+			if (array_key_exists($this->dateFormat, $this->dateFormatConsertPhpFormat)) {
+				return DateTime::createFromFormat($this->dateFormatConsertPhpFormat[$this->dateFormat], $this->value);
+			}
+		}
+		
+		return $this->value;
+	}
+	
+	/**
 	 * Method setAutoComplete
 	 * @access public
 	 * @param mixed $autocomplete_object 
 	 * @since 1.0.93
 	 */
 	public function setAutoComplete($autocomplete_object) {
-		throw new NewException(get_class($this)."->setAutoComplete(): is not compatible with Calendar", 0, 8, __FILE__, __LINE__);
+		throw new NewException(get_class($this)."->setAutoComplete(): is not compatible with Calendar", 0, getDebugBacktrace(1));
 	}
 	
 	/**
@@ -263,7 +286,19 @@ class Calendar extends TextBox {
 			$html .= "numberOfMonths: ".$this->numberOfMonths.", ";
 		}
 		if ($this->minDate != -999999999) {
-			$html .= "minDate: ".$this->minDate.", ";
+			$html .= "minDate: '";
+			if (get_class($this->minDate) == "DateTime") {
+				if ($this->dateFormat == "") {
+					$html .= $this->minDate->format("m-d-Y");
+				} else if (array_key_exists($this->dateFormat, $this->dateFormatConsertPhpFormat)) {
+					$html .= $this->minDate->format($this->dateFormatConsertPhpFormat[$this->dateFormat]);
+				} else {
+					$html .= $this->minDate->format($this->dateFormat);
+				}
+			} else {
+				$html .= $this->minDate;
+			}
+			$html .= "', ";
 		}
 		$html .= "showAnim: '".$this->showAnim."' ";
 		$html .= "});\n";

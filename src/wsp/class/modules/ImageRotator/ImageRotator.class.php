@@ -1,5 +1,30 @@
 <?php
 /**
+ * PHP file wsp\class\modules\ImageRotator\ImageRotator.class.php
+ * @package modules
+ * @subpackage ImageRotator
+ */
+/**
+ * Class ImageRotator
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2011 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @package modules
+ * @subpackage ImageRotator
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 20/06/2011
+ * @version     1.0.99
+ * @access      public
+ * @since       1.0.99
+ */
+
+/**
  * PHP file wsp\class\display\advanced_object\ImageRotator.class.php
  * @package display
  * @subpackage advanced_object
@@ -64,7 +89,7 @@ class ImageRotator extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (!isset($id) || !isset($width) || !isset($height)) {
-			throw new NewException("3 arguments for ".get_class($this)."::__construct() are mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("3 arguments for ".get_class($this)."::__construct() are mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$this->id = $id;

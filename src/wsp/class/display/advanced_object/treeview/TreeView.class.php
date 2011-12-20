@@ -18,8 +18,8 @@
  * @subpackage advanced_object.treeview
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -50,7 +50,7 @@ class TreeView extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (!isset($id)) {
-			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$this->id = $id;
@@ -68,7 +68,7 @@ class TreeView extends WebSitePhpObject {
 	 */
 	public function setTreeViewItems($treeview_items_object) {
 		if (get_class($treeview_items_object) != "TreeViewItems") {
-			throw new NewException("Error TreeViewItem->setTreeViewItems(): $treeview_items_object is not a TreeViewItems object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error TreeViewItem->setTreeViewItems(): $treeview_items_object is not a TreeViewItems object", 0, getDebugBacktrace(1));
 		}
 		$this->treeview_items = $treeview_items_object;
 		$treeview_items_object->setTreeViewItemParent($this);
@@ -215,7 +215,7 @@ class TreeView extends WebSitePhpObject {
 	 */
 	public function setContextMenuRoot($context_menu_object) {
 		if (get_class($context_menu_object) != "ContextMenu") {
-			throw new NewException("Error TreeView->setContextMenuRoot(): $context_menu_object is not a ContextMenu object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error TreeView->setContextMenuRoot(): $context_menu_object is not a ContextMenu object", 0, getDebugBacktrace(1));
 		}
 		$this->context_menu_root = $context_menu_object;
 		$this->context_menu_root->attachContextMenuToObjectId("$(\"#".$this->id." LI .folder A\")");
@@ -231,7 +231,7 @@ class TreeView extends WebSitePhpObject {
 	 */
 	public function setContextMenuFile($context_menu_object) {
 		if (get_class($context_menu_object) != "ContextMenu") {
-			throw new NewException("Error TreeView->setContextMenuFile(): $context_menu_object is not a ContextMenu object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error TreeView->setContextMenuFile(): $context_menu_object is not a ContextMenu object", 0, getDebugBacktrace(1));
 		}
 		$this->context_menu_file = $context_menu_object;
 		$this->context_menu_file->attachContextMenuToObjectId("$(\"#".$this->id." LI UL LI .file A\")");
@@ -247,7 +247,7 @@ class TreeView extends WebSitePhpObject {
 	 */
 	public function setContextMenuFolder($context_menu_object) {
 		if (get_class($context_menu_object) != "ContextMenu") {
-			throw new NewException("Error TreeView->setContextMenuFolder(): $context_menu_object is not a ContextMenu object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error TreeView->setContextMenuFolder(): $context_menu_object is not a ContextMenu object", 0, getDebugBacktrace(1));
 		}
 		$this->context_menu_folder = $context_menu_object;
 		$this->context_menu_folder->attachContextMenuToObjectId("$(\"#".$this->id." LI UL LI .folder A\")");
@@ -264,14 +264,14 @@ class TreeView extends WebSitePhpObject {
 	 */
 	public function setContextMenuOnTreeViewItem($context_menu_object, $treeview_item_object) {
 		if (get_class($context_menu_object) != "ContextMenu") {
-			throw new NewException("Error TreeView->setContextMenuOnTreeViewItem(): $context_menu_object is not a ContextMenu object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error TreeView->setContextMenuOnTreeViewItem(): $context_menu_object is not a ContextMenu object", 0, getDebugBacktrace(1));
 		}
 		if (get_class($treeview_item_object) != "TreeViewItem" && get_class($treeview_item_object) != "TreeViewFolder" && 
 			get_class($treeview_item_object) != "TreeViewFile"  && get_class($treeview_item_object) != "TreeView") {
-			throw new NewException("Error TreeView->setContextMenuOnTreeViewItem(): $treeview_item_object is not a TreeViewItem object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error TreeView->setContextMenuOnTreeViewItem(): $treeview_item_object is not a TreeViewItem object", 0, getDebugBacktrace(1));
 		}
 		if ($treeview_item_object->getParentTreeViewItem() == null) {
-			throw new NewException("Error TreeView->setContextMenuOnTreeViewItem(): you must associate object ".get_class($treeview_item_object)." to an other TreeViewItem before setting the ContextMenu", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error TreeView->setContextMenuOnTreeViewItem(): you must associate object ".get_class($treeview_item_object)." to an other TreeViewItem before setting the ContextMenu", 0, getDebugBacktrace(1));
 		}
 		$this->generateTreeViewIds();
 		$this->context_menu_item[$treeview_item_object->getId()] = $context_menu_object;

@@ -18,8 +18,8 @@
  * @subpackage advanced_object.menu.dockmenu
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -122,7 +122,7 @@ class DockMenu extends WebSitePhpObject {
 	 */
 	public function addDockMenuItem($dock_menu_item_object) {
 		if (get_class($dock_menu_item_object) != "DockMenuItem") {
-			throw new NewException("Error DockMenu->addDockMenuItem(): dock_menu_item_object is not a DockMenuItem object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error DockMenu->addDockMenuItem(): dock_menu_item_object is not a DockMenuItem object", 0, getDebugBacktrace(1));
 		}
 		$this->dock_menu_items[] = $dock_menu_item_object;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }

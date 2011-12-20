@@ -16,8 +16,8 @@
  * @package utils
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 01/04/2011
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.99
  * @access      public
  * @since       1.0.67
  */
@@ -57,7 +57,7 @@ class EncryptDataWspObject {
 	 */
 	public function setObject($object) {
 		if (!is_subclass_of($object, "WebSitePhpObject") && !is_subclass_of($object, "WebSitePhpEventObject")) {
-			throw new NewException(get_class($this)."->setObject() error: \$object must be a WebSitePhpObject object", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->setObject() error: \$object must be a WebSitePhpObject object", 0, getDebugBacktrace(1));
 		}
 		$this->object = $object;
 		
@@ -77,7 +77,7 @@ class EncryptDataWspObject {
 	 */
 	public function getPublicKey() {
 		if ($this->object == null) {
-			throw new NewException(get_class($this)."->getPublicKey() error: unknow object", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->getPublicKey() error: unknow object", 0, getDebugBacktrace(1));
 		}
 		$public_key = ContextSession::get($this->object->getId()."_publickey".$this->private_key_bits);
 		return ($public_key==""?null:$public_key);
@@ -91,7 +91,7 @@ class EncryptDataWspObject {
 	 */
 	private function getPrivateKey() {
 		if ($this->object == null) {
-			throw new NewException(get_class($this)."->getPrivateKey() error: unknow object", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->getPrivateKey() error: unknow object", 0, getDebugBacktrace(1));
 		}
 		$private_key = ContextSession::get($this->object->getId()."_privatekey".$this->private_key_bits);
 		return ($private_key==""?null:$private_key);
@@ -106,7 +106,7 @@ class EncryptDataWspObject {
 	 */
 	public function decrypt($data) {
 		if ($this->object == null) {
-			throw new NewException(get_class($this)."->decrypt() error: unknow object", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->decrypt() error: unknow object", 0, getDebugBacktrace(1));
 		}
 		return decryptMessage($data, $this->getPrivateKey(), $this->passphrase);
 	}

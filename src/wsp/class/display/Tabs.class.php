@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.98
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -49,7 +49,7 @@ class Tabs extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (!isset($id) || $id == "") {
-			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, getDebugBacktrace(1));
 		}
 		$this->id = $id;
 	}
@@ -66,7 +66,7 @@ class Tabs extends WebSitePhpObject {
 	 */
 	public function addTab($tab_name, $content_or_url_object, $on_select_js="", $disabled=false) {
 		if (gettype($content_or_url_object) == "object" && get_class($content_or_url_object) == "DateTime") {
-			throw new NewException(get_class($this)."->addTab() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->addTab() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, getDebugBacktrace(1));
 		}
 		$this->array_tabs_name[] = $tab_name;
 		$this->array_tabs_content[] = $content_or_url_object;
@@ -85,7 +85,7 @@ class Tabs extends WebSitePhpObject {
 	 */
 	public function onShowJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onShowJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onShowJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();

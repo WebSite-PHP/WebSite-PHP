@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.94
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -49,7 +49,7 @@ class Captcha extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (!isset($page_or_form_object) || gettype($page_or_form_object) != "object" || (!is_subclass_of($page_or_form_object, "Page") && get_class($page_or_form_object) != "Form")) {
-			throw new NewException("Argument page_or_form_object for ".get_class($this)."::__construct() error", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Argument page_or_form_object for ".get_class($this)."::__construct() error", 0, getDebugBacktrace(1));
 		}
 		
 		if (is_subclass_of($page_or_form_object, "Page")) {
@@ -69,7 +69,7 @@ class Captcha extends WebSitePhpObject {
 			$exist_object = $this->page_object->existsObjectName($name);
 			$this->name = $name;
 			if ($exist_object != false) {
-				throw new NewException("Tag name \"".$name."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, 8, __FILE__, __LINE__);
+				throw new NewException("Tag name \"".$name."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, getDebugBacktrace(1));
 			}
 			$this->page_object->addEventObject($this, $this->form_object);
 		}
@@ -113,7 +113,7 @@ class Captcha extends WebSitePhpObject {
 	 */
 	public function setWidth($width) {
 		if (!is_integer($width)) {
-			throw new NewException("width attribut must be an integer in the method setWidth (Captcha object)", 0, 8, __FILE__, __LINE__);
+			throw new NewException("width attribut must be an integer in the method setWidth (Captcha object)", 0, getDebugBacktrace(1));
 		}
 		$this->width = $width;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }

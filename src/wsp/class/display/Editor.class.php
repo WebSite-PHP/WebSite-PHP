@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.94
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -64,7 +64,7 @@ class Editor extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (!isset($page_or_form_object) || gettype($page_or_form_object) != "object" || (!is_subclass_of($page_or_form_object, "Page") && get_class($page_or_form_object) != "Form")) {
-			throw new NewException("Argument page_or_form_object for ".get_class($this)."::__construct() error", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Argument page_or_form_object for ".get_class($this)."::__construct() error", 0, getDebugBacktrace(1));
 		}
 		
 		if (is_subclass_of($page_or_form_object, "Page")) {
@@ -84,7 +84,7 @@ class Editor extends WebSitePhpObject {
 			$exist_object = $this->page_object->existsObjectName($name);
 			$this->name = $name;
 			if ($exist_object != false) {
-				throw new NewException("Tag name \"".$name."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, 8, __FILE__, __LINE__);
+				throw new NewException("Tag name \"".$name."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, getDebugBacktrace(1));
 			}
 			$this->page_object->addEventObject($this, $this->form_object);
 		}
@@ -205,7 +205,7 @@ class Editor extends WebSitePhpObject {
 	 */
 	public function setToolbar($toolbar) {
 		if ($toolbar != Editor::TOOLBAR_DEFAULT && $toolbar != Editor::TOOLBAR_MEDIUM && $toolbar != Editor::TOOLBAR_SIMPLE && $toolbar != Editor::TOOLBAR_NONE) {
-			throw new NewException("Editor->setToolbar() : Undefined toolbar type", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Editor->setToolbar() : Undefined toolbar type", 0, getDebugBacktrace(1));
 		}
 		
 		$this->toolbar = $toolbar;
@@ -222,7 +222,7 @@ class Editor extends WebSitePhpObject {
 	 */
 	public function setLiveValidation($live_validation_object) {
 		if (get_class($live_validation_object) != "LiveValidation") {
-			throw new NewException("setLiveValidation(): \$live_validation_object must be a valid LiveValidation object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("setLiveValidation(): \$live_validation_object must be a valid LiveValidation object", 0, getDebugBacktrace(1));
 		}
 		$live_validation_object->setObject($this);
 		$this->live_validation = $live_validation_object;
@@ -242,7 +242,7 @@ class Editor extends WebSitePhpObject {
 			$encrypt_object = new EncryptDataWspObject();
 		}
 		if (gettype($encrypt_object) != "object" || get_class($encrypt_object) != "EncryptDataWspObject") {
-			throw new NewException(get_class($this)."->setEncryption(): \$encrypt_object must be a EncryptDataWspObject object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->setEncryption(): \$encrypt_object must be a EncryptDataWspObject object.", 0, getDebugBacktrace(1));
 		}
 		
 		$this->addJavaScript(BASE_URL."wsp/js/jsbn.js", "", true);

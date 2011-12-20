@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.98
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -48,7 +48,7 @@ class DialogBox extends WebSitePhpObject {
 	private $close_button = false;
 	private $close_button_js = "";
 	
-	private $position = "";
+	private $position = "center";
 	private $position_x = -1;
 	private $position_y = -1;
 	
@@ -67,7 +67,7 @@ class DialogBox extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (!isset($title) || !isset($content_or_url_object)) {
-			throw new NewException("2 arguments for ".get_class($this)."::__construct() are mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("2 arguments for ".get_class($this)."::__construct() are mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$this->title = $title;
@@ -97,7 +97,7 @@ class DialogBox extends WebSitePhpObject {
 	 */
 	public function setContent($content_or_url) {
 		if (gettype($content_or_url) == "object" && get_class($content_or_url) == "DateTime") {
-			throw new NewException(get_class($this)."->setContent() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->setContent() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, getDebugBacktrace(1));
 		}
 		$this->content = $content_or_url;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }

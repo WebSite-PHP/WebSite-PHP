@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.98
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -76,7 +76,7 @@ class Picture extends WebSitePhpEventObject {
 		parent::__construct();
 		
 		if (!isset($src)) {
-			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$this->src = $src;
@@ -96,7 +96,7 @@ class Picture extends WebSitePhpEventObject {
 	 */
 	public function setSrc($src) {
 		if (!isset($this->id) || $this->id == "") {
-			throw new NewException(get_class($this)."->setSrc() error: You must define an id to the Picture to change the source.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->setSrc() error: You must define an id to the Picture to change the source.", 0, getDebugBacktrace(1));
 		}
 		
 		$this->src = $src;
@@ -221,6 +221,22 @@ class Picture extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method preloadPicture
+	 * @access public
+	 * @return Picture
+	 * @since 1.0.99
+	 */
+	public function preloadPicture() {
+		if (strtoupper(substr($this->src, 0, 7)) != "HTTP://" && strtoupper(substr($this->src, 0, 8)) != "HTTPS://") {
+			$src = BASE_URL.$this->src;
+		} else {
+			$src = $this->src;
+		}
+		new JavaScript("$(document).ready( function() { PreloadPicture('".addslashes($src)."'); } );", 1);
+		return $this;
+	}
+	
+	/**
 	 * Method addLightbox
 	 * @access public
 	 * @param string $lightbox_name 
@@ -253,7 +269,7 @@ class Picture extends WebSitePhpEventObject {
 	 */
 	public function tooltip($tooltip_obj) {
 		if (get_class($tooltip_obj) != "ToolTip") {
-			throw new NewException("Error Picture->tooltip(): \$tooltip_obj is not a ToolTip object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error Picture->tooltip(): \$tooltip_obj is not a ToolTip object", 0, getDebugBacktrace(1));
 		}
 		$this->tooltip_obj = $tooltip_obj;
 		
@@ -270,7 +286,7 @@ class Picture extends WebSitePhpEventObject {
 	 */
 	public function setPictureMap($picture_map) {
 		if (gettype($picture_map) != "object" && get_class($picture_map) != "PictureMap") {
-			throw new NewException(get_class($this)."->setPictureMap() error: \$picture_map must be a PictureMap object", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->setPictureMap() error: \$picture_map must be a PictureMap object", 0, getDebugBacktrace(1));
 		}
 		
 		$this->picture_map = $picture_map;
@@ -334,7 +350,7 @@ class Picture extends WebSitePhpEventObject {
 	 */
 	public function onClick($page_object, $str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		if (!isset($page_object) || gettype($page_object) != "object" || !is_subclass_of($page_object, "Page")) {
-			throw new NewException("Argument page_object for ".get_class($this)."->onClick() error", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Argument page_object for ".get_class($this)."->onClick() error", 0, getDebugBacktrace(1));
 		}
 		$this->class_name = get_class($page_object);
 		$this->page_object = $page_object;
@@ -345,7 +361,7 @@ class Picture extends WebSitePhpEventObject {
 		} else {
 			$exist_object = $this->page_object->existsObjectName($this->id);
 			if ($exist_object != false) {
-				throw new NewException("Tag id \"".$this->id."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, 8, __FILE__, __LINE__);
+				throw new NewException("Tag id \"".$this->id."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, getDebugBacktrace(1));
 			}
 			$this->page_object->addEventObject($this, $this->form_object);
 		}
@@ -367,7 +383,7 @@ class Picture extends WebSitePhpEventObject {
 	 */
 	public function onClickJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -404,7 +420,7 @@ class Picture extends WebSitePhpEventObject {
 	 */
 	public function isClicked() {
 		if ($this->callback_onclick == "") {
-			throw new NewException(get_class($this)."->isClicked(): this method can be used only if an onClick event is defined on this ".get_class($this).".", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->isClicked(): this method can be used only if an onClick event is defined on this ".get_class($this).".", 0, getDebugBacktrace(1));
 		}
 		return $this->is_clicked;
 	}
@@ -418,7 +434,7 @@ class Picture extends WebSitePhpEventObject {
 	 */
 	public function onLoadJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();

@@ -18,8 +18,8 @@
  * @subpackage advanced_object.treeview
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -52,7 +52,7 @@ class TreeViewItem extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (!isset($value)) {
-			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$this->id = "";
@@ -73,7 +73,7 @@ class TreeViewItem extends WebSitePhpObject {
 	public function addItem($treeview_item_object) {
 		if (get_class($treeview_item_object) != "TreeViewItem" && get_class($treeview_item_object) != "TreeViewFolder" && 
 			get_class($treeview_item_object) != "TreeViewFile"  && get_class($treeview_item_object) != "TreeView") {
-			throw new NewException("Error TreeViewItem->addItem(): $treeview_items_object is not a TreeViewItem object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error TreeViewItem->addItem(): $treeview_items_object is not a TreeViewItem object", 0, getDebugBacktrace(1));
 		}
 		if ($this->treeview_items == null) {
 			$this->setTreeViewItems(new TreeViewItems($treeview_item_object));
@@ -92,7 +92,7 @@ class TreeViewItem extends WebSitePhpObject {
 	 */
 	public function setTreeViewItems($treeview_items_object) {
 		if (get_class($treeview_items_object) != "TreeViewItems") {
-			throw new NewException("Error TreeViewItem->setTreeViewItems(): $treeview_items_object is not a TreeViewItems object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error TreeViewItem->setTreeViewItems(): $treeview_items_object is not a TreeViewItems object", 0, getDebugBacktrace(1));
 		}
 		$this->treeview_items = $treeview_items_object;
 		$treeview_items_object->setTreeViewItemParent($this);
@@ -111,7 +111,7 @@ class TreeViewItem extends WebSitePhpObject {
 	public function setTreeViewItemParent($treeview_item_object) {
 		if (get_class($treeview_item_object) != "TreeViewItem" && get_class($treeview_item_object) != "TreeViewFolder" && 
 			get_class($treeview_item_object) != "TreeViewFile"  && get_class($treeview_item_object) != "TreeView") {
-			throw new NewException("Error TreeViewItem->setTreeViewItemParent(): $treeview_items_object is not a TreeViewItem object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error TreeViewItem->setTreeViewItemParent(): $treeview_items_object is not a TreeViewItem object", 0, getDebugBacktrace(1));
 		}
 		$this->parent_treeview_item = $treeview_item_object;
 		$this->id = $this->setPrefixId($treeview_item_object->getId());
@@ -315,7 +315,7 @@ class TreeViewItem extends WebSitePhpObject {
 	 */
 	public function tooltip($tooltip_obj) {
 		if (get_class($tooltip_obj) != "ToolTip") {
-			throw new NewException("Error TreeViewItem->tooltip(): \$tooltip_obj is not a ToolTip object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error TreeViewItem->tooltip(): \$tooltip_obj is not a ToolTip object", 0, getDebugBacktrace(1));
 		}
 		$this->tooltip_obj = $tooltip_obj;
 		

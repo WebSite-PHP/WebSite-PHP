@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -168,10 +168,10 @@ class Object extends WebSitePhpEventObject {
 	 */
 	private function addObject($object) {
 		if (gettype($object) == "object" && get_class($object) == "DateTime") {
-			throw new NewException(get_class($this)."->addObject() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->addObject() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, getDebugBacktrace(1));
 		}
 		if ($this->loaded_from_url || (gettype($object)=="object" && sizeof($this->objects) > 0 && get_class($object)=="Url")) {
-			throw new NewException("Error Object->addObject(): This object already loaded from url", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error Object->addObject(): This object already loaded from url", 0, getDebugBacktrace(1));
 		}
 		if (gettype($object)=="object" && get_class($object)=="Url") {
 			$this->loaded_from_url = true;
@@ -359,7 +359,7 @@ class Object extends WebSitePhpEventObject {
 	 */
 	public function hide() {
 		if ($this->id == "") {
-			throw new NewException("Error Object->hide(): You must specified an id (setId())", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error Object->hide(): You must specified an id (setId())", 0, getDebugBacktrace(1));
 		}
 		$this->hide_object = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
@@ -374,7 +374,7 @@ class Object extends WebSitePhpEventObject {
 	 */
 	public function show() {
 		if ($this->id == "") {
-			throw new NewException("Error Object->show(): You must specified an id (setId())", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error Object->show(): You must specified an id (setId())", 0, getDebugBacktrace(1));
 		}
 		$this->hide_object = false;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
@@ -394,18 +394,18 @@ class Object extends WebSitePhpEventObject {
 	 */
 	public function setDraggable($bool=true, $revert=false, $draggable_event=null, $sortable_zone=false, $draggable_params="") {
 		if ($this->id == "") {
-			throw new NewException("Error Object->setDraggable(): You must specified an id (setId())", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error Object->setDraggable(): You must specified an id (setId())", 0, getDebugBacktrace(1));
 		}
 		$this->draggable = $bool;
 		$this->draggable_revert = $revert;
 		if ($draggable_event != null) {
 			if (get_class($draggable_event) != "DraggableEvent") {
-				throw new NewException("Error Object->setDraggable(): $draggable_event is not a DraggableEvent object", 0, 8, __FILE__, __LINE__);
+				throw new NewException("Error Object->setDraggable(): $draggable_event is not a DraggableEvent object", 0, getDebugBacktrace(1));
 			}
 			$this->draggable_event = $draggable_event;
 			$this->draggable_event->setDraggableId($this->getId());
 			if ($this->id == "") {
-				throw new NewException("Error Object->setDraggable(): You must specified an id for this object", 0, 8, __FILE__, __LINE__);
+				throw new NewException("Error Object->setDraggable(): You must specified an id for this object", 0, getDebugBacktrace(1));
 			}
 		}
 		$this->draggable_sortable = $sortable_zone;
@@ -436,19 +436,19 @@ class Object extends WebSitePhpEventObject {
 	 */
 	public function setDroppable($bool=true, $droppable_event=null, $droppable_params="", $droppable_style="droppablehover") {
 		if ($this->id == "") {
-			throw new NewException("Error Object->setDroppable(): You must specified an id (setId())", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error Object->setDroppable(): You must specified an id (setId())", 0, getDebugBacktrace(1));
 		}
 		$this->droppable = $bool;
 		$this->droppable_style = $droppable_style;
 		$this->droppable_params = $droppable_params;
 		if ($droppable_event != null) {
 			if (get_class($droppable_event) != "DroppableEvent") {
-				throw new NewException("Error Object->setDroppable(): $draggable_event is not a DroppableEvent object", 0, 8, __FILE__, __LINE__);
+				throw new NewException("Error Object->setDroppable(): $draggable_event is not a DroppableEvent object", 0, getDebugBacktrace(1));
 			}
 			$this->droppable_event = $droppable_event;
 			$this->droppable_event->setDroppableId($this->getId());
 			if ($this->id == "") {
-				throw new NewException("Error Object->setDroppable(): You must specified an id for this object", 0, 8, __FILE__, __LINE__);
+				throw new NewException("Error Object->setDroppable(): You must specified an id for this object", 0, getDebugBacktrace(1));
 			}
 		}
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
@@ -476,18 +476,18 @@ class Object extends WebSitePhpEventObject {
 	 */
 	public function setSortable($bool=true, $sortable_event=null, $sortable_params="") {
 		if ($this->id == "") {
-			throw new NewException("Error Object->setSortable(): You must specified an id (setId())", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error Object->setSortable(): You must specified an id (setId())", 0, getDebugBacktrace(1));
 		}
 		$this->sortable = $bool;
 		$this->sortable_params = $sortable_params;
 		if ($sortable_event != null) {
 			if (get_class($sortable_event) != "SortableEvent") {
-				throw new NewException("Error Object->setDraggable(): $sortable_event is not a SortableEvent object", 0, 8, __FILE__, __LINE__);
+				throw new NewException("Error Object->setDraggable(): $sortable_event is not a SortableEvent object", 0, getDebugBacktrace(1));
 			}
 			$this->sortable_event = $sortable_event;
 			$this->sortable_event->setSortableId($this->getId());
 			if ($this->id == "") {
-				throw new NewException("Error Object->setSortable(): You must specified an id for this object", 0, 8, __FILE__, __LINE__);
+				throw new NewException("Error Object->setSortable(): You must specified an id for this object", 0, getDebugBacktrace(1));
 			}
 		}
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
@@ -527,7 +527,7 @@ class Object extends WebSitePhpEventObject {
 	 */
 	public function setContextMenu($context_menu_object) {
 		if (get_class($context_menu_object) != "ContextMenu") {
-			throw new NewException("Error Object->setContextMenuFile(): $context_menu_object is not a ContextMenu object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error Object->setContextMenuFile(): $context_menu_object is not a ContextMenu object", 0, getDebugBacktrace(1));
 		}
 		$this->context_menu = $context_menu_object;
 		$this->context_menu->attachContextMenuToObjectId("$(\"#".$this->getId()."\")");
@@ -559,10 +559,10 @@ class Object extends WebSitePhpEventObject {
 	 */
 	public function onClick($page_or_form_object, $str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		if ($this->id == "") {
-			throw new NewException("Error Object->onClick(): You must specified an id (setId())", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error Object->onClick(): You must specified an id (setId())", 0, getDebugBacktrace(1));
 		}
 		if (!isset($page_or_form_object) || gettype($page_or_form_object) != "object" || (!is_subclass_of($page_or_form_object, "Page") && get_class($page_or_form_object) != "Form")) {
-			throw new NewException("Argument page_or_form_object for ".get_class($this)."::onClick() error", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Argument page_or_form_object for ".get_class($this)."::onClick() error", 0, getDebugBacktrace(1));
 		}
 		
 		if (is_subclass_of($page_or_form_object, "Page")) {
@@ -595,7 +595,7 @@ class Object extends WebSitePhpEventObject {
 	 */
 	public function onClickJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -619,10 +619,10 @@ class Object extends WebSitePhpEventObject {
 	 */
 	public function onDblClick($page_or_form_object, $str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		if ($this->id == "") {
-			throw new NewException("Error Object->onDblClick(): You must specified an id (setId())", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error Object->onDblClick(): You must specified an id (setId())", 0, getDebugBacktrace(1));
 		}
 		if (!isset($page_or_form_object) || gettype($page_or_form_object) != "object" || (!is_subclass_of($page_or_form_object, "Page") && get_class($page_or_form_object) != "Form")) {
-			throw new NewException("Argument page_or_form_object for ".get_class($this)."::onDblClick() error", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Argument page_or_form_object for ".get_class($this)."::onDblClick() error", 0, getDebugBacktrace(1));
 		}
 		
 		if (is_subclass_of($page_or_form_object, "Page")) {
@@ -655,7 +655,7 @@ class Object extends WebSitePhpEventObject {
 	 */
 	public function onDblClickJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onDblClickJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onDblClickJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -673,7 +673,7 @@ class Object extends WebSitePhpEventObject {
 	 */
 	public function onMouseOverJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onMouseOverJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onMouseOverJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -691,7 +691,7 @@ class Object extends WebSitePhpEventObject {
 	 */
 	public function onMouseOutJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onMouseOutJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onMouseOutJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -708,7 +708,7 @@ class Object extends WebSitePhpEventObject {
 	 */
 	public function isClicked() {
 		if ($this->callback_onclick == "" && $this->callback_ondblclick == "") {
-			throw new NewException(get_class($this)."->isClicked(): this method can be used only if an onClick or onDblClick event is defined on this ".get_class($this).".", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->isClicked(): this method can be used only if an onClick or onDblClick event is defined on this ".get_class($this).".", 0, getDebugBacktrace(1));
 		}
 		return $this->is_clicked;
 	}
@@ -998,7 +998,7 @@ class Object extends WebSitePhpEventObject {
 		
 		if ($this->loaded_from_url && sizeof($this->objects)==1 && get_class($this->objects[0])=="Url") {
 			if ($this->id == "") {
-				throw new NewException("Error Object: You must specified an id to load an object from an URL", 0, 8, __FILE__, __LINE__);
+				throw new NewException("Error Object: You must specified an id to load an object from an URL", 0, getDebugBacktrace(1));
 			}
 			$html .= $this->getJavascriptTagOpen();
 			$html .= "$('#".$this->getId()."').load('".$this->objects[0]->render()."');";
@@ -1021,7 +1021,7 @@ class Object extends WebSitePhpEventObject {
 		$html = "";
 		if ($this->object_change && !$this->is_new_object_after_init) {
 			if ($this->id == "") {
-				throw new NewException("Error Object: You must specified an id (setId())", 0, 8, __FILE__, __LINE__);
+				throw new NewException("Error Object: You must specified an id (setId())", 0, getDebugBacktrace(1));
 			}
 			
 			$content = "";

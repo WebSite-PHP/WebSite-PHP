@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -291,7 +291,7 @@ class RowTable extends WebSitePhpObject {
 	 */
 	public function add($content_object=null, $align='', $width='', $class='', $valign='', $style='', $colspan='', $rowspan='') {
 		if (gettype($content_object) == "object" && get_class($content_object) == "DateTime") {
-			throw new NewException(get_class($this)."->add() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->add() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, getDebugBacktrace(1));
 		}
 		$ind = sizeof($this->col_object);
 		$this->col_object[$ind]['content_object'] = $content_object;
@@ -758,7 +758,7 @@ class RowTable extends WebSitePhpObject {
 		$html = "";
 		if ($this->object_change && !$this->is_new_object_after_init) {
 			if ($this->id == "") {
-				throw new NewException(get_class($this)."->getAjaxRender() error: To update this object with Ajax event you must define an id (".get_class($this)."->setId())", 0, 8, __FILE__, __LINE__);
+				throw new NewException(get_class($this)."->getAjaxRender() error: To update this object with Ajax event you must define an id (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
 			}
 			
 			$html .= "$('#wsp_rowtable_".$this->id."').html(\"".str_replace("\n", "", str_replace("\r", "", addslashes($this->render(true))))."\");\n";

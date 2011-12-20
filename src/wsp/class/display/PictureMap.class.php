@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.91
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -46,13 +46,13 @@ class PictureMap extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (!isset($id)) {
-			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$this->id = $id;
 		if ($default_tooltip_obj != null) {
 			if (get_class($default_tooltip_obj) != "ToolTip") {
-				throw new NewException("Error ".get_class($this)."::__construct(): \$default_tooltip_obj is not a ToolTip object", 0, 8, __FILE__, __LINE__);
+				throw new NewException("Error ".get_class($this)."::__construct(): \$default_tooltip_obj is not a ToolTip object", 0, getDebugBacktrace(1));
 			}
 			$this->default_tooltip_obj = $default_tooltip_obj;
 		}
@@ -73,7 +73,7 @@ class PictureMap extends WebSitePhpObject {
 	 */
 	public function addRect($link, $title, $x1, $y1, $x2, $y2) {
 		if (gettype($link) != "object" || get_class($link) != "Link") {
-			throw new NewException(get_class($this)."->addRect() error: \$link must be a Link object", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->addRect() error: \$link must be a Link object", 0, getDebugBacktrace(1));
 		}
 		
 		$ind = sizeof($this->array_rect);
@@ -82,7 +82,7 @@ class PictureMap extends WebSitePhpObject {
 		$this->array_rect[$ind]['title'] = $title;
 		
 		if (!is_integer($x1) || !is_integer($y1) || !is_integer($x2) || !is_integer($y2)) {
-			throw new NewException(get_class($this)."->addRect() error: \$x1, \$y1, \$x2, \$y2 must be integer values", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->addRect() error: \$x1, \$y1, \$x2, \$y2 must be integer values", 0, getDebugBacktrace(1));
 		}
 		
 		$this->array_rect[$ind]['x1'] = $x1;
@@ -111,7 +111,7 @@ class PictureMap extends WebSitePhpObject {
 	 */
 	public function addPolygon($link, $title, $x1=null, $y1=null, $x2=null, $y2=null, $x3=null, $y3=null) {
 		if (gettype($link) != "object" || get_class($link) != "Link") {
-			throw new NewException(get_class($this)."->addPolygon() error: \$link must be a Link object", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->addPolygon() error: \$link must be a Link object", 0, getDebugBacktrace(1));
 		}
 		
 		$ind = sizeof($this->array_polygon);
@@ -121,7 +121,7 @@ class PictureMap extends WebSitePhpObject {
 		$args = func_get_args();
 		for ($i=3; $i < sizeof($args); $i++) {
 			if (!is_integer($args[$i])) {
-				throw new NewException(get_class($this)."->addPolygon() error: \$x1, \$y1, \$x2, \$y2, \$x3, \$y3, ... must be integer values", 0, 8, __FILE__, __LINE__);
+				throw new NewException(get_class($this)."->addPolygon() error: \$x1, \$y1, \$x2, \$y2, \$x3, \$y3, ... must be integer values", 0, getDebugBacktrace(1));
 			}
     		$this->array_polygon[$ind][$i-3] = $args[$i];
     	}
@@ -143,7 +143,7 @@ class PictureMap extends WebSitePhpObject {
 	 */
 	public function addCircle($link, $title, $x, $y, $r) {
 		if (gettype($link) != "object" || get_class($link) != "Link") {
-			throw new NewException(get_class($this)."->addCircle() error: \$link must be a Link object", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->addCircle() error: \$link must be a Link object", 0, getDebugBacktrace(1));
 		}
 		
 		$ind = sizeof($this->array_circle);
@@ -152,7 +152,7 @@ class PictureMap extends WebSitePhpObject {
 		$this->array_circle[$ind]['title'] = $title;
 		
 		if (!is_integer($x) || !is_integer($y) || !is_integer($r)) {
-			throw new NewException(get_class($this)."->addCircle() error: \$x, \$y, \$r must be integer values", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->addCircle() error: \$x, \$y, \$r must be integer values", 0, getDebugBacktrace(1));
 		}
 		
 		$this->array_circle[$ind]['x'] = $x;
@@ -173,7 +173,7 @@ class PictureMap extends WebSitePhpObject {
 	 */
 	public function setDefault($link, $title='') {
 		if (gettype($link) != "object" || get_class($link) != "Link") {
-			throw new NewException(get_class($this)."->setDefault() error: \$link must be a Link object", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->setDefault() error: \$link must be a Link object", 0, getDebugBacktrace(1));
 		}
 		
 		$this->default_link = $link;

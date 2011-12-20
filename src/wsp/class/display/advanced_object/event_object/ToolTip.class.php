@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.91
+ * @version     1.0.99
  * @access      public
  * @since       1.0.77
  */
@@ -101,7 +101,7 @@ class ToolTip extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		if (!isset($this->id) || $this->id == "") {
-			throw new NewException("Error ".get_class($this).": Please set an id", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error ".get_class($this).": Please set an id", 0, getDebugBacktrace(1));
 		}
 		
 		if (gettype($this->content) == "object") {

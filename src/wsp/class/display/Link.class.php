@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.98
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -31,6 +31,8 @@ class Link extends WebSitePhpObject {
 	*/
 	const TARGET_BLANK = "_blank";
 	const TARGET_SELF = "_self";
+	const TARGET_TOP = "_top";
+	const TARGET_PARENT = "_parent";
 	const TARGET_NONE = "";
 	/**#@-*/
 	
@@ -65,7 +67,7 @@ class Link extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (!isset($link)) {
-			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$this->link = $link;
@@ -194,7 +196,7 @@ class Link extends WebSitePhpObject {
 	 */
 	public function setTrackEvent($category, $action, $label='') {
 		if (GOOGLE_CODE_TRACKER == "") {
-			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, getDebugBacktrace(1));
 		}
 		$this->track_categ = $category;
 		$this->track_action = $action;
@@ -211,7 +213,7 @@ class Link extends WebSitePhpObject {
 	 */
 	public function onClickJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();

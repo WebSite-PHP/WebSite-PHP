@@ -18,8 +18,8 @@
  * @subpackage advanced_object.menu
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -78,7 +78,7 @@ class Menu extends WebSitePhpObject {
 	 */
 	public function setMenuItems($menu_items_object) {
 		if (get_class($menu_items_object) != "MenuItems") {
-			throw new NewException("Error Menu->setMenuItems(): menu_items_object is not a MenuItems object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error Menu->setMenuItems(): menu_items_object is not a MenuItems object", 0, getDebugBacktrace(1));
 		}
 		$this->menu_items = $menu_items_object;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
@@ -95,7 +95,7 @@ class Menu extends WebSitePhpObject {
 	public function setPosition($position) {
 		if ($position != Menu::POSITION_VERTICAL && $position != Menu::POSITION_HORIZONTAL
 			&& $position != Menu::POSITION_NAV_BAR) {
-			throw new NewException("Menu position ".$position." doesn't exist", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Menu position ".$position." doesn't exist", 0, getDebugBacktrace(1));
 		}
 		
 		if ($position == Menu::POSITION_VERTICAL) {

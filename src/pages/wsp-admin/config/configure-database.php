@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.99
  * @access      public
  * @since       1.0.25
  */
@@ -251,9 +251,9 @@ class ConfigureDatabase extends Page {
 				$result = $this->dbInstance->prepareStatement($query);
 				while ($row = $result->fetch_array()) {
 					$table = $row['Tables_in_'.$database];
-					if ($this->generateTableClass($database, $table)) {
-						$this->generateWspTableObject($database, $table);
-						$this->generateTableObject($database, $table);
+					if (($db_key_identifier = $this->generateTableClass($database, $table)) != false) {
+						$this->generateWspTableObject($database, $table, $db_key_identifier);
+						$this->generateTableObject($database, $table, $db_key_identifier);
 						$this->generateTableObjectList($database, $table);
 						$dialog = new DialogBox(__(GENERATE_DATABASE_OBJECTS), __(GENERATE_DATABASE_OBJECTS_OK, $database));
 					} else {
@@ -262,9 +262,9 @@ class ConfigureDatabase extends Page {
 				}
 			} else {
 				$table = $this->cmb_tables->getValue();
-				if ($this->generateTableClass($database, $table)) {
-					$this->generateWspTableObject($database, $table);
-					$this->generateTableObject($database, $table);
+				if (($db_key_identifier = $this->generateTableClass($database, $table)) != false) {
+					$this->generateWspTableObject($database, $table, $db_key_identifier);
+					$this->generateTableObject($database, $table, $db_key_identifier);
 					$dialog = new DialogBox(__(GENERATE_DATABASE_OBJECTS), __(GENERATE_DATABASE_OBJECTS_OK, $database.".".$table));
 				} else {
 					$dialog = new DialogBox(__(GENERATE_DATABASE_OBJECTS), __(GENERATE_DATABASE_OBJECTS_ERROR, $database.".".$table));
@@ -316,10 +316,13 @@ class ConfigureDatabase extends Page {
 		$class_name = $this->getFormatValue($table);
 		
 		$is_primary = false;
+		$is_unique_key = false;
 		$const = "";
 		$attr = "";
 		$attr_type = "";
 		$attr_key = "";
+		$attr_unique_key = "";
+		$db_key_identifier = "PRI";
 		
 		$query = "SHOW COLUMNS FROM ".$database.".".$table;
 		$result = $this->dbInstance->prepareStatement($query);
@@ -335,10 +338,18 @@ class ConfigureDatabase extends Page {
 				if ($attr_key != "") { $attr_key .= ", "; }
 				$attr_key .= $class_name."DbTable::".$wsp_field;
 				$is_primary = true;
+			} else if ($row['Key'] == "MUL") {
+				if ($attr_unique_key != "") { $attr_unique_key .= ", "; }
+				$attr_unique_key .= $class_name."DbTable::".$wsp_field;
+				$is_unique_key = true;
 			}
 		}
+		if (!$is_primary && $is_unique_key) {
+			$attr_key = $attr_unique_key;
+			$db_key_identifier = "MUL";
+		}
 		
-		if (!$is_primary) {
+		if (!$is_primary && !$is_unique_key) {
 			$dialog = new DialogBox(__(PRIMARY_KEY), __(NO_PRIMARY_KEY, $database, $table));
 			$dialog->activateCloseButton();
 			$this->addObject($dialog);
@@ -369,10 +380,10 @@ class ".$class_name."DbTable extends DbTableObject {
 		$file->write($data);
 		$file->close();
 		
-		return true;
+		return $db_key_identifier;
 	}
 	
-	private function generateWspTableObject($database, $table) {
+	private function generateWspTableObject($database, $table, $db_key_identifier="PRI") {
 		$class_name = $this->getFormatValue($table);
 		
 		$array_var = array();
@@ -391,13 +402,25 @@ class ".$class_name."DbTable extends DbTableObject {
 		while ($row = $result->fetch_array()) {
 			$var = str_replace("-", "_", strtolower($row['Field']));
 			$array_var[] = $var;
-			$private_var .= "	private \$".$var." = \"\";\n";
+			$var_type = $this->convertFieldTypeToWspType($row['Type']);
+			$array_var_type[] = $var_type;
+			if ($row['Default'] != null) {
+				if ($var_type == "integer" || $var_type == "double" || $var_type == "boolean") {
+					$private_var .= "	private \$".$var." = ".$row['Default'].";\n";
+				} else if ($var_type == "datetime") {
+					$private_var .= "	private \$".$var." = new DateTime('".$row['Default']."');\n";
+				} else {
+					$private_var .= "	private \$".$var." = \"".str_replace("\"", "\\\"", $row['Default'])."\";\n";
+				}
+			} else {
+				$private_var .= "	private \$".$var." = null;\n";
+			}
 			
 			if ($row['Extra'] == "auto_increment") {
 				$auto_increment_var = $var;
 			}
 			
-			if ($row['Key'] == "PRI") {
+			if ($row['Key'] == $db_key_identifier) { // primary key or unique key
 				$array_var_key[] = $var;
 				
 				if ($key_param != "") { $key_param .= ", "; }
@@ -410,10 +433,10 @@ class ".$class_name."DbTable extends DbTableObject {
 				$isset_key_param .= "\$".$var." != \"\"";
 				
 				if ($load_clause != "") { $load_clause .= ".\" AND \"."; }
-				$load_clause .= $class_name."DbTable::FIELD_".str_replace("-", "_", strtoupper($row['Field'])).".\"='\".\$".$var.".\"'\"";
+				$load_clause .= $class_name."DbTable::FIELD_".str_replace("-", "_", strtoupper($row['Field'])).".\"='\".addslashes(\$".$var.").\"'\"";
 				
 				if ($load_clause_obj != "") { $load_clause_obj .= ".\" AND \"."; }
-				$load_clause_obj .= $class_name."DbTable::FIELD_".str_replace("-", "_", strtoupper($row['Field'])).".\"='\".\$this->get".$this->getFormatValue($var)."().\"'\"";
+				$load_clause_obj .= $class_name."DbTable::FIELD_".str_replace("-", "_", strtoupper($row['Field'])).".\"='\".addslashes(\$this->get".$this->getFormatValue($var)."()).\"'\"";
 			} else {
 				if ($construct_param != "") { $construct_param .= ", "; }
 				$construct_param .= "\$".$var."=''";
@@ -468,7 +491,7 @@ $data .= "		}
 		}
 		\$it = \$sql->retrieve();
 		if (\$it->getRowsNum() > 1) {
-			throw new NewException(\"".$class_name."WspObject->load(): too many rows returned\", 0, 8, __FILE__, __LINE__);
+			throw new NewException(\"".$class_name."WspObject->load(): too many rows returned\", 0, getDebugBacktrace(1));
 		} else {
 			if (\$it->hasNext()) {
 				\$row = \$it->next();\n";
@@ -501,7 +524,7 @@ $data .= "		}
 		}
 		\$it = \$sql->retrieve();
 		if (\$it->getRowsNum() > 1) {
-			throw new NewException(\"".$class_name."WspObject->loadClause(): too many rows returned\", 0, 8, __FILE__, __LINE__);
+			throw new NewException(\"".$class_name."WspObject->loadClause(): too many rows returned\", 0, getDebugBacktrace(1));
 		} else {
 			if (\$it->hasNext()) {
 				\$row = \$it->next();\n";
@@ -529,7 +552,7 @@ $data .= "		}
 		\$sql->setClause(".$load_clause_obj.");
 		\$it = \$sql->retrieve();
 		if (\$it->getRowsNum() > 1) {
-			throw new NewException(\"".$class_name."WspObject->save(): too many rows returned\", 0, 8, __FILE__, __LINE__);
+			throw new NewException(\"".$class_name."WspObject->save(): too many rows returned\", 0, getDebugBacktrace(1));
 		} else {
 			\$insert = false;
 			if (\$it->hasNext()) {
@@ -573,7 +596,7 @@ $data .= "		}
 		\$sql->setClause(".$load_clause_obj.");
 		\$it = \$sql->retrieve();
 		if (\$it->getRowsNum() > 1) {
-			throw new NewException(\"".$class_name."WspObject->delete(): too many rows returned\", 0, 8, __FILE__, __LINE__);
+			throw new NewException(\"".$class_name."WspObject->delete(): too many rows returned\", 0, getDebugBacktrace(1));
 		} else {
 			if (\$it->hasNext()) {
 				\$row = \$it->next();
@@ -607,7 +630,14 @@ $data .= "		}
 	public function set".$this->getFormatValue($array_var[$i])."(\$".$array_var[$i].") {\n";
 	if (in_array($array_var[$i], $array_var_key)) {
 		$data .= "		if (\$this->".$array_var[$i]." != \"\") {
-			throw new NewException(\"".$class_name."WspObject->set".$this->getFormatValue($array_var[$i])."(): you can change the value of the key ".$array_var[$i].".\", 0, 8, __FILE__, __LINE__);
+			throw new NewException(\"".$class_name."WspObject->set".$this->getFormatValue($array_var[$i])."(): you can change the value of the key ".$array_var[$i].".\", 0, getDebugBacktrace(1));
+		}\n";
+	}
+	if ($array_var_type[$i] == "datetime") {
+		$data .= "		if (\$".$array_var[$i]." == null || \$".$array_var[$i]." == '') {
+			\$this->".$array_var[$i]." = \$".$array_var[$i].";
+		} else if (gettype(\$".$array_var[$i].") != \"object\" || get_class(\$".$array_var[$i].") != \"DateTime\") {
+			\$".$array_var[$i]." = new DateTime(\$".$array_var[$i].");
 		}\n";
 	}
 	$data .= "		\$this->".$array_var[$i]." = \$".$array_var[$i].";
@@ -633,6 +663,16 @@ $data .= "	/**
 	 */
 	public function isDbObject() {
 		return \$this->is_db_object;
+	}
+	
+	/**
+	 * Method foreignKeyLoadMode
+	 * @access public
+	 * @return ".$class_name."Obj
+	 */
+	public function foreignKeyLoadMode() {
+		\$this->is_db_object = true;
+		\$this->is_synchronize_with_db = true;
 	}
 	
 	/**
@@ -663,7 +703,7 @@ $data .= "	/**
 	 */
 	public function get".$this->getFormatValue($row['referenced_table_name'])."Object(\$activate_htmlentities=false) {
 		\$obj_".str_replace("-", "_", strtolower($row['referenced_table_name']))." = new ".$this->getFormatValue($row['referenced_table_name'])."Obj();
-		return \$obj_".str_replace("-", "_", strtolower($row['referenced_table_name']))."->loadClause(\"".$row['referenced_column_name']." = '\".\$this->get".$this->getFormatValue($row['column_name'])."().\"'\", \$activate_htmlentities);
+		return \$obj_".str_replace("-", "_", strtolower($row['referenced_table_name']))."->loadClause(\"".$row['referenced_column_name']." = '\".addslashes(\$this->get".$this->getFormatValue($row['column_name'])."()).\"'\", \$activate_htmlentities);
 	}
 ";
 			} else {
@@ -682,7 +722,7 @@ $data .= "	/**
 		\$array_".str_replace("-", "_", strtolower($row['table_name']))." = array();
 		
 		\$sql = new SqlDataView(new ".$this->getFormatValue($row['table_name'])."DbTable());
-		\$sql->setClause(\"".$row['column_name']." = '\".\$this->get".$this->getFormatValue($row['referenced_column_name'])."().\"'\".(\$clause!=''?\" AND \".\$clause:\"\"));
+		\$sql->setClause(\"".$row['column_name']." = '\".addslashes(\$this->get".$this->getFormatValue($row['referenced_column_name'])."()).\"'\".(\$clause!=''?\" AND \".\$clause:\"\"));
 		if (\$sort_attribut != '') {
 			\$sql->addOrder(\$sort_attribut, \$sort_order);
 		}
@@ -701,7 +741,8 @@ $data .= "	/**
 		while ($row2 = $result2->fetch_array()) {
 			$data .= "			\$obj_".str_replace("-", "_", strtolower($row['table_name']))."->set".$this->getFormatValue(strtolower($row2['Field']))."(\$row->getValue(".$this->getFormatValue($row['table_name'])."DbTable::FIELD_".str_replace("-", "_", strtoupper(strtolower($row2['Field'])))."));\n";
 		}
-		$data .= "			\$array_".str_replace("-", "_", strtolower($row['table_name']))."[] = \$obj_".str_replace("-", "_", strtolower($row['table_name'])).";
+		$data .= "			\$obj_".str_replace("-", "_", strtolower($row['table_name']))."->foreignKeyLoadMode();
+			\$array_".str_replace("-", "_", strtolower($row['table_name']))."[] = \$obj_".str_replace("-", "_", strtolower($row['table_name'])).";
 		}
 		
 		return \$array_".str_replace("-", "_", strtolower($row['table_name'])).";
@@ -717,7 +758,7 @@ $data .= "	/**
 		$file->close();
 	}
 	
-	private function generateTableObject($database, $table) {
+	private function generateTableObject($database, $table, $db_key_identifier="PRI") {
 		$class_name = $this->getFormatValue($table);
 		if (!file_exists(dirname(__FILE__)."/../../../wsp/class/database_model/".$class_name."Obj.class.php")) {
 			$construct_param = "";
@@ -731,7 +772,7 @@ $data .= "	/**
 				if ($params != "") { $params .= ", "; }
 				$params .= "\$".$var;
 				
-				if ($row['Key'] == "PRI") {
+				if ($row['Key'] == $db_key_identifier) { // primary key or unique key
 					if ($construct_key_param != "") { $construct_key_param .= ", "; }
 					$construct_key_param .= "\$".$var."=''";
 				} else {

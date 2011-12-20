@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.93
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -39,7 +39,7 @@ class Language extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (!isset($language)) {
-			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$this->language = $language;

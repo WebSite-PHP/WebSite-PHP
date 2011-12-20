@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -79,7 +79,7 @@ class DataBase {
 			$this->connection = new mysqli($this->host, $this->root, $this->password, "", $this->port);
 			if (mysqli_connect_errno()) {
 				if ($this->host == DB_HOST && $this->root == DB_ROOT && $this->password == DB_PASSWORD && $this->port == DB_PORT) {
-					throw new NewException("Error DataBase::getInstance()->connect(): unable to connect : ".mysqli_connect_error(), 0, 8, __FILE__, __LINE__);
+					throw new NewException("Error DataBase::getInstance()->connect(): unable to connect : ".mysqli_connect_error(), 0, getDebugBacktrace(1));
 				}
 				return false;
 			} else {
@@ -105,7 +105,7 @@ class DataBase {
 			if ($schema != "") {
 				if (!$this->connection->select_db($schema)) {
 					if ($schema == DB_DATABASE) {
-						throw new NewException("Error DataBase::getInstance()->connect(): unable to connect to the database schema ".$schema.". ".mysql_error(), 0, 8, __FILE__, __LINE__);
+						throw new NewException("Error DataBase::getInstance()->connect(): unable to connect to the database schema ".$schema.". ".mysql_error(), 0, getDebugBacktrace(1));
 					} else {
 						return false;
 					}
@@ -163,18 +163,22 @@ class DataBase {
 				if ($stmt = $this->connection->query($query)) {
 					return $stmt;
 				} else {
-					throw new NewException("Error DataBase::getInstance()->prepareStatement(): ".$this->connection->error." - SHOW Query: ".$query, 0, 8, __FILE__, __LINE__);
+					throw new NewException("Error DataBase::getInstance()->prepareStatement(): ".$this->connection->error." - SHOW Query: ".$query, 0, getDebugBacktrace(1));
 				}
 			} else {
 				if ($stmt = $this->connection->prepare($query)) {
 					$stmt_bind_param = array($list_type);
 					for ($i=0; $i < sizeof($stmt_objects); $i++) {
-						$stmt_objects[$i] = str_replace("\\", "{#WSP_BACKSLASHE_CODE#}", $stmt_objects[$i]);
-						if (get_magic_quotes_gpc()) {
-							$stmt_objects[$i] = stripslashes($stmt_objects[$i]);      
+						if ($stmt_objects[$i] == null) {
+							$stmt_bind_param[] = "NULL";
+						} else {
+							$stmt_objects[$i] = str_replace("\\", "{#WSP_BACKSLASHE_CODE#}", $stmt_objects[$i]);
+							if (get_magic_quotes_gpc()) {
+								$stmt_objects[$i] = stripslashes($stmt_objects[$i]);      
+							}
+							$stmt_objects[$i] = $this->connection->real_escape_string($stmt_objects[$i]);
+							$stmt_bind_param[] = str_replace("{#WSP_BACKSLASHE_CODE#}", "\\", $this->convertInvisibleCar($stmt_objects[$i]));
 						}
-						$stmt_objects[$i] = $this->connection->real_escape_string($stmt_objects[$i]);
-						$stmt_bind_param[] = str_replace("{#WSP_BACKSLASHE_CODE#}", "\\", $this->convertInvisibleCar($stmt_objects[$i]));
 					}
 					if ($list_type=="" || call_user_func_array(array($stmt, "bind_param"), $this->refValues($stmt_bind_param))) {
 						$stmt->execute();
@@ -182,7 +186,7 @@ class DataBase {
 							if ($this->is_begin_transaction) {
 								$this->rollbackTransaction();
 							}
-							throw new NewException("Error DataBase::getInstance()->prepareStatement(): ".$stmt->error." - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, 8, __FILE__, __LINE__);
+							throw new NewException("Error DataBase::getInstance()->prepareStatement(): ".$stmt->error." - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, getDebugBacktrace(1));
 						}
 						
 						$stmt->store_result();
@@ -190,19 +194,19 @@ class DataBase {
 							if ($this->is_begin_transaction) {
 								$this->rollbackTransaction();
 							}
-							throw new NewException("Error DataBase::getInstance()->prepareStatement(): ".$stmt->error." - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, 8, __FILE__, __LINE__);
+							throw new NewException("Error DataBase::getInstance()->prepareStatement(): ".$stmt->error." - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, getDebugBacktrace(1));
 						}
 						
 						return $stmt;
 					} else {
-						throw new NewException("Error DataBase::getInstance()->prepareStatement(): error bind_param - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, 8, __FILE__, __LINE__);
+						throw new NewException("Error DataBase::getInstance()->prepareStatement(): error bind_param - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, getDebugBacktrace(1));
 					}
 				} else {
-					throw new NewException("Error DataBase::getInstance()->prepareStatement(): ".$stmt->error." - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, 8, __FILE__, __LINE__);
+					throw new NewException("Error DataBase::getInstance()->prepareStatement(): ".$stmt->error." - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, getDebugBacktrace(1));
 				}
 			}
 		} else {
-			throw new NewException("Error DataBase::getInstance()->prepareStatement(): Not connect to database", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error DataBase::getInstance()->prepareStatement(): Not connect to database", 0, getDebugBacktrace(1));
 		}
 	}
 	
@@ -293,7 +297,7 @@ class DataBase {
 				return true;
 			}
 		} else {
-			throw new NewException("Error DataBase::getInstance()->prepareStatement(): Not connect to database", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error DataBase::getInstance()->prepareStatement(): Not connect to database", 0, getDebugBacktrace(1));
 		}
 	}
 	
@@ -307,7 +311,7 @@ class DataBase {
 			$this->is_begin_transaction = false;
 			$this->connection->commit();
 		} else {
-			throw new NewException("Error DataBase::getInstance()->prepareStatement(): Not connect to database", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error DataBase::getInstance()->prepareStatement(): Not connect to database", 0, getDebugBacktrace(1));
 		}
 	}
 	
@@ -321,7 +325,7 @@ class DataBase {
 			$this->is_begin_transaction = false;
 			$this->connection->rollback();
 		} else {
-			throw new NewException("Error DataBase::getInstance()->prepareStatement(): Not connect to database", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error DataBase::getInstance()->prepareStatement(): Not connect to database", 0, getDebugBacktrace(1));
 		}
 	}
 	

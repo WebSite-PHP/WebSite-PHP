@@ -14,19 +14,19 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 01/04/2011
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.99
  * @access      public
  * @since       1.0.67
  */
 
 	function createKeys($passphrase='passphrase', $private_key_bits=1024, $private_key_type=OPENSSL_KEYTYPE_RSA, $encrypte_key=true) {
 		if (!extension_loaded('openssl')) {
-			throw new NewException("Please activate openssl php lib, to use encryption.", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Please activate openssl php lib, to use encryption.", 0, getDebugBacktrace(1));
 		} else {
 			$openssl_conf_file = str_replace("\\", "/", dirname(__FILE__)).'/../config/openssl.cnf';
 			if (!file_exists($openssl_conf_file)) {
-				throw new NewException("openssl.cnf doesn't exists (".$openssl_conf_file.").", 0, 8, __FILE__, __LINE__);
+				throw new NewException("openssl.cnf doesn't exists (".$openssl_conf_file.").", 0, getDebugBacktrace(1));
 			}
 			
 			// Create the keypair
@@ -69,7 +69,7 @@
 		    	exit;
 		    } else {
 		    	$error = "Error generation private key".($error!=""?" : ".$error:"");
-		    	throw new NewException($error, 0, 8, __FILE__, __LINE__);
+		    	throw new NewException($error, 0, getDebugBacktrace(1));
 		    }
 			}
 		}
@@ -96,7 +96,7 @@
 		    	exit;
 		    } else {
 		    	$error = __(DECRYPT_ERROR).($error!=""?" : ".$error:"");
-		    	throw new NewException($error, 0, 8, __FILE__, __LINE__);
+		    	throw new NewException($error, 0, getDebugBacktrace(1));
 		    }
 			}
 		} else {
@@ -112,7 +112,7 @@
 	    	exit;
 	    } else {
 	    	$error = "Error parsing private key".($error!=""?" : ".$error:"");
-		    throw new NewException($error, 0, 8, __FILE__, __LINE__);
+		    throw new NewException($error, 0, getDebugBacktrace(1));
 	    }
 		}
 		return "";

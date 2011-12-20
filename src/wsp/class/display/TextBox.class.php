@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -79,7 +79,7 @@ class TextBox extends WebSitePhpEventObject {
 		parent::__construct();
 		
 		if (!isset($page_or_form_object) || gettype($page_or_form_object) != "object" || (!is_subclass_of($page_or_form_object, "Page") && get_class($page_or_form_object) != "Form")) {
-			throw new NewException("Argument page_or_form_object for ".get_class($this)."::__construct() error", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Argument page_or_form_object for ".get_class($this)."::__construct() error", 0, getDebugBacktrace(1));
 		}
 		
 		if (is_subclass_of($page_or_form_object, "Page")) {
@@ -99,7 +99,7 @@ class TextBox extends WebSitePhpEventObject {
 			$exist_object = $this->page_object->existsObjectName($name);
 			$this->name = $name;
 			if ($exist_object != false) {
-				throw new NewException("Tag name \"".$name."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, 8, __FILE__, __LINE__);
+				throw new NewException("Tag name \"".$name."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, getDebugBacktrace(1));
 			}
 			$this->page_object->addEventObject($this, $this->form_object);
 		}
@@ -234,7 +234,7 @@ class TextBox extends WebSitePhpEventObject {
 	 */
 	public function setLiveValidation($live_validation_object) {
 		if (get_class($live_validation_object) != "LiveValidation") {
-			throw new NewException("setLiveValidation(): \$live_validation_object must be a valid LiveValidation object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("setLiveValidation(): \$live_validation_object must be a valid LiveValidation object", 0, getDebugBacktrace(1));
 		}
 		$live_validation_object->setObject($this);
 		$this->live_validation = $live_validation_object;
@@ -251,7 +251,7 @@ class TextBox extends WebSitePhpEventObject {
 	 */
 	public function setAutoComplete($autocomplete_object) {
 		if (gettype($autocomplete_object) != "object" && get_class($autocomplete_object) != "AutoComplete") {
-			throw new NewException(get_class($this)."->setAutoComplete(): \$autocomplete_object must be a AutoComplete object", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->setAutoComplete(): \$autocomplete_object must be a AutoComplete object", 0, getDebugBacktrace(1));
 		}
 		$this->autocomplete_object = $autocomplete_object;
 		
@@ -271,7 +271,7 @@ class TextBox extends WebSitePhpEventObject {
 			$encrypt_object = new EncryptDataWspObject();
 		}
 		if (gettype($encrypt_object) != "object" || get_class($encrypt_object) != "EncryptDataWspObject") {
-			throw new NewException(get_class($this)."->setEncryption(): \$encrypt_object must be a EncryptDataWspObject object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->setEncryption(): \$encrypt_object must be a EncryptDataWspObject object.", 0, getDebugBacktrace(1));
 		}
 		
 		$this->addJavaScript(BASE_URL."wsp/js/jsbn.js", "", true);
@@ -388,7 +388,7 @@ class TextBox extends WebSitePhpEventObject {
 	 */
 	public function onChangeJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -445,7 +445,7 @@ class TextBox extends WebSitePhpEventObject {
 	 */
 	public function onClickJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -463,7 +463,7 @@ class TextBox extends WebSitePhpEventObject {
 	 */
 	public function isClicked() {
 		if ($this->callback_onclick == "") {
-			throw new NewException(get_class($this)."->isClicked(): this method can be used only if an onClick event is defined on this ".get_class($this).".", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->isClicked(): this method can be used only if an onClick event is defined on this ".get_class($this).".", 0, getDebugBacktrace(1));
 		}
 		return $this->is_clicked;
 	}
@@ -477,7 +477,7 @@ class TextBox extends WebSitePhpEventObject {
 	 */
 	public function onMouseOverJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -496,7 +496,7 @@ class TextBox extends WebSitePhpEventObject {
 	 */
 	public function onMouseOutJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -535,7 +535,7 @@ class TextBox extends WebSitePhpEventObject {
 	 */
 	public function onBlurJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -574,7 +574,7 @@ class TextBox extends WebSitePhpEventObject {
 	 */
 	public function onKeyPressJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -614,7 +614,7 @@ class TextBox extends WebSitePhpEventObject {
 			}
 			if ($this->is_ajax_event) {
 				if ($this->form_object == null) {
-					throw new NewException("Unable to activate action to this ".get_class($this)." : Attribut page_or_form_object must be a Form object", 0, 8, __FILE__, __LINE__);
+					throw new NewException("Unable to activate action to this ".get_class($this)." : Attribut page_or_form_object must be a Form object", 0, getDebugBacktrace(1));
 				}
 				$html .= $this->getJavascriptTagOpen();
 				$html .= $this->getAjaxEventFunctionRender();
@@ -629,7 +629,7 @@ class TextBox extends WebSitePhpEventObject {
 					$html .= "type='".$this->type."' ";
 				}
 			}
-			$html .= "name='".$this->getEventObjectName()."' id='".$this->id."' value='".$this->value."'";
+			$html .= "name='".$this->getEventObjectName()."' id='".$this->id."' value=\"".str_replace('"', '\\"', $this->value)."\"";
 			if ($this->width != "" || $this->style != "") {
 				$html .= " style='";
 				if ($this->width != "") {
@@ -656,7 +656,11 @@ class TextBox extends WebSitePhpEventObject {
 				$html .= " disabled";
 			}
 			if ($this->onchange != "" || $this->callback_onchange != "") {
-				$html .= " onChange=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onchange, $this->callback_onchange))."\"";
+				$html .= " onChange=\"";
+				if ($this->live_validation != null && $this->form_object != null && $this->callback_onchange != "") {
+					$html .= "if (LiveValidationForm_".$this->form_object->getName()."_".$this->getId()."() == false) { return false; }";
+				}
+				$html .= str_replace("\n", "", $this->getObjectEventValidationRender($this->onchange, $this->callback_onchange))."\"";
 			}
 			if ($this->onclick != "" || $this->callback_onclick != "") {
 				$html .= " onClick=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick))."\"";
@@ -668,7 +672,11 @@ class TextBox extends WebSitePhpEventObject {
 				$html .= " onMouseOut=\"".str_replace("\n", "", str_replace("\"", "\\\"", $this->onmouseout))."\"";
 			}
 			if ($this->onblur != "" || $this->callback_onblur != "") {
-				$html .= " onBlur=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onblur, $this->callback_onblur))."\"";
+				$html .= " onBlur=\"";
+				if ($this->live_validation != null && $this->form_object != null && $this->callback_onblur != "") {
+					$html .= "if (LiveValidationForm_".$this->form_object->getName()."_".$this->getId()."() == false) { return false; }";
+				}
+				$html .= str_replace("\n", "", $this->getObjectEventValidationRender($this->onblur, $this->callback_onblur))."\"";
 			}
 			if ($this->onkeypress != "" || $this->callback_onkeypress != "") {
 				$html .= " onKeyPress=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeypress, $this->callback_onkeypress, "", true))."\"";
@@ -690,7 +698,7 @@ class TextBox extends WebSitePhpEventObject {
 			}
 			if ($this->autocomplete_object != null) {
 				if ($this->id == "") {
-					throw new NewException("Error : You must specified an id for this object to use autocomplete functionality", 0, 8, __FILE__, __LINE__);
+					throw new NewException("Error : You must specified an id for this object to use autocomplete functionality", 0, getDebugBacktrace(1));
 				}
 				$this->autocomplete_object->setLinkObjectId($this->getId());
 				$html .= $this->autocomplete_object->render();
@@ -726,8 +734,36 @@ class TextBox extends WebSitePhpEventObject {
 			if ($this->length > 0) {
 				$html .= "$('#".$this->id."').attr('maxLength', ".$this->length.");\n";
 			}
-			$html .= "$('#".$this->id."').attr('onChange', '".addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onchange, $this->callback_onchange)))."');\n";
-			$html .= "$('#".$this->id."').attr('onClick', '".addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick)))."');\n";
+			
+			if ($this->onchange != "" || $this->callback_onchange != "") {
+				$html .= "$('#".$this->id."').attr('onChange', '";
+				if ($this->live_validation != null && $this->form_object != null && $this->callback_onchange != "") {
+					$html .= "if (LiveValidationForm_".$this->form_object->getName()."_".$this->getId()."() == false) { return false; }";
+				}
+				$html .= addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onchange, $this->callback_onchange)))."');\n";
+			}
+			
+			if ($this->onclick != "" || $this->callback_onclick != "") {
+				$html .= "$('#".$this->id."').attr('onClick', '".addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick)))."');\n";
+			}
+			
+			if ($this->onmouseover != "") {
+				$html .= "$('#".$this->id."').attr('onMouseOver', '".addslashes(str_replace("\n", "", $this->onmouseover))."');\n";
+			}
+			if ($this->onmouseout != "") {
+				$html .= "$('#".$this->id."').attr('onMouseOut', '".addslashes(str_replace("\n", "", $this->onmouseout))."');\n";
+			}
+			if ($this->onblur != "" || $this->callback_onblur != "") {
+				$html .= "$('#".$this->id."').attr('onBlur', '";
+				if ($this->live_validation != null && $this->form_object != null && $this->callback_onblur != "") {
+					$html .= "if (LiveValidationForm_".$this->form_object->getName()."_".$this->getId()."() == false) { return false; }";
+				}
+				$html .= addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onblur, $this->callback_onblur)))."');\n";
+			}
+			if ($this->onkeypress != "" || $this->callback_onkeypress != "") {
+				$html .= "$('#".$this->id."').attr('onKeyPress', '".addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeypress, $this->callback_onkeypress, "", true)))."');\n";
+			}
+			
 			if ($this->has_focus) {
 				$html .= "\$('#".$this->getId()."').focus();\n";
 			}

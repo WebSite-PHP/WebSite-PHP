@@ -1,4 +1,25 @@
 <?php
+/**
+ * PHP file pages\wsp-admin\includes\admin-template-button.inc.php
+ */
+/**
+ * Template for admin-template-button.inc
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2011 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.99
+ * @access      public
+ * @since       1.0.99
+ */
+
 require_once(dirname(__FILE__)."/../../../wsp/config/config_admin.inc.php");
 require_once(dirname(__FILE__)."/../../../lang/".$_SESSION['lang']."/wsp-admin/all.inc.php");
 require_once(dirname(__FILE__)."/admin-menu.inc.php");
@@ -49,7 +70,7 @@ class AdminTemplateButton extends DefinedZone {
 		}
 		
 		if ($page_title == "" && $icon_16 == "") {
-			throw new NewException("Administration page doesn't exists", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Administration page doesn't exists", 0, getDebugBacktrace(1));
 		}
 		
 		$this->render = new Table();

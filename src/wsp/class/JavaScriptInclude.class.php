@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.90
+ * @version     1.0.99
  * @access      public
  * @since       1.0.23
  */
@@ -102,7 +102,7 @@ class JavaScriptInclude {
 			$this->conditional_comment[] = $conditional_comment;
 			$this->combine[] = $combine;
 			if ($combine && $js_script != "") {
-				throw new NewException(get_class($this)."->add() error: you can't add script with combine mode", 0, 8, __FILE__, __LINE__);
+				throw new NewException(get_class($this)."->add() error: you can't add script with combine mode", 0, getDebugBacktrace(1));
 			}
 			$this->script[] = $js_script;
 		}

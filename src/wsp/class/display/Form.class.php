@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.98
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -46,6 +46,8 @@ class Form extends WebSitePhpObject {
 	
 	private $encrypt_object = null;
 	private $register_object = array();
+	private $submit_dialog_box = null;
+	private $dialog_box_display_delay = 200;
 	/**#@-*/
 	
 	/**
@@ -59,7 +61,7 @@ class Form extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (!isset($page_object) || gettype($page_object) != "object" || !is_subclass_of($page_object, "Page")) {
-			throw new NewException("Argument page_object for ".get_class($this)."::__construct() error", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Argument page_object for ".get_class($this)."::__construct() error", 0, getDebugBacktrace(1));
 		}
 		
 		if ($name == "") {
@@ -67,7 +69,7 @@ class Form extends WebSitePhpObject {
 		} else {
 			$exist_object = $page_object->existsObjectName($name);
 			if ($exist_object != false) {
-				throw new NewException("Tag name \"".$name."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, 8, __FILE__, __LINE__);
+				throw new NewException("Tag name \"".$name."\" for object ".get_class($this)." already use for other object ".get_class($exist_object), 0, getDebugBacktrace(1));
 			}
 			$page_object->addEventObject($this);
 		}
@@ -131,7 +133,7 @@ class Form extends WebSitePhpObject {
 	 */
 	public function setAction($action_file_name) {
 		if (gettype($action_file_name) == "object" && get_class($action_file_name) != "Url") {
-			throw new NewException(get_class($this)."->setAction() error: \$action_file_name must be a string or a Url object", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->setAction() error: \$action_file_name must be a string or a Url object", 0, getDebugBacktrace(1));
 		}
 		if (gettype($action_file_name) == "object" && get_class($action_file_name) == "Url") {
 			$action_file_name = $action_file_name->render();
@@ -157,7 +159,7 @@ class Form extends WebSitePhpObject {
 			$encrypt_object = new EncryptDataWspObject();
 		}
 		if (gettype($encrypt_object) != "object" || get_class($encrypt_object) != "EncryptDataWspObject") {
-			throw new NewException(get_class($this)."->setEncryption(): \$encrypt_object must be a EncryptDataWspObject object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->setEncryption(): \$encrypt_object must be a EncryptDataWspObject object.", 0, getDebugBacktrace(1));
 		}
 		
 		$this->addJavaScript(BASE_URL."wsp/js/jsbn.js", "", true);
@@ -167,6 +169,24 @@ class Form extends WebSitePhpObject {
 		$this->encrypt_object = $encrypt_object;
 		$this->encrypt_object->setObject($this);
 		
+		return $this;
+	}
+	
+	/**
+	 * Method setSubmitDialogBox
+	 * @access public
+	 * @param mixed $dialog_box 
+	 * @param double $display_delay [default value: 200]
+	 * @return Form
+	 * @since 1.0.99
+	 */
+	public function setSubmitDialogBox($dialog_box, $display_delay=200) {
+		if (gettype($dialog_box) != "object" || get_class($dialog_box) != "DialogBox") {
+			throw new NewException(get_class($this)."->setSubmitDialogBox(): \$dialog_box must be a DialogBox object.", 0, getDebugBacktrace(1));
+		}
+		
+		$this->submit_dialog_box = $dialog_box;
+		$this->dialog_box_display_delay = $display_delay;
 		return $this;
 	}
 	
@@ -273,7 +293,7 @@ class Form extends WebSitePhpObject {
 	 */
 	public function onSubmitJs($js_function){
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onSubmitJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onSubmitJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -291,7 +311,7 @@ class Form extends WebSitePhpObject {
 	 */
 	public function onChangeJs($js_function){
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -323,6 +343,29 @@ class Form extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$html = "";
 		if ($this->page_object != null) {
+			if ($this->submit_dialog_box != null) {
+				$html .= $this->getJavascriptTagOpen();
+				$html .= "	isSubmitDialogBox".$this->submit_dialog_box->getDialogBoxLevel()."Display = false;\n";
+				$html .= "	dialogBox".$this->submit_dialog_box->getDialogBoxLevel()."AlreadyDisplay = false;\n";
+				$html .= "	submitForm".$this->getId()."AfterDialogBox".$this->submit_dialog_box->getDialogBoxLevel()." = function(delay) {\n";
+				$html .= "		if (isSubmitDialogBox".$this->submit_dialog_box->getDialogBoxLevel()."Display == false) {\n";
+				$html .= "			if (dialogBox".$this->submit_dialog_box->getDialogBoxLevel()."AlreadyDisplay == false) {\n";
+				$html .= "				dialogBox".$this->submit_dialog_box->getDialogBoxLevel()."AlreadyDisplay = true;\n";
+				$html .= "				".$this->submit_dialog_box->render()."\n";
+				$html .= "				setTimeout(submitForm".$this->getId().", delay);\n";
+				$html .= "			}";
+				$html .= "			return false;\n";
+				$html .= "		} else {\n";
+				$html .= "			return true;\n";
+				$html .= "		}";
+				$html .= "	};\n";
+				$html .= "	submitForm".$this->getId()." = function() {\n";
+				$html .= "		isSubmitDialogBox".$this->submit_dialog_box->getDialogBoxLevel()."Display=true;\n";
+				$html .= "		$('#".$this->getId()."').submit();\n";
+				$html .= "	};\n";
+				$html .= $this->getJavascriptTagClose();
+			}
+			
 			$html .= "<form name=\"".get_class($this->page_object)."_".$this->name."\" ";
 			if ($this->id != "") {
 				$html .= "id=\"".$this->id."\" ";
@@ -339,8 +382,15 @@ class Form extends WebSitePhpObject {
 			}
 			$html .= "\" ";
 			$html .= "method=\"".$this->method."\" ";
-			if ($this->onsubmitjs != "") {
-				$html .= "onSubmit=\"".$this->onsubmitjs."\" ";
+			if ($this->onsubmitjs != "" || $this->submit_dialog_box != null) {
+				$html .= "onSubmit=\"";
+				if ($this->onsubmitjs != "") {
+					$html .= $this->onsubmitjs;
+				}
+				if ($this->submit_dialog_box != null) {
+					$html .= "submitForm".$this->getId()."AfterDialogBox".$this->submit_dialog_box->getDialogBoxLevel()."(".$this->dialog_box_display_delay.");";
+				}
+				$html .= "\" ";
 			}
 			$html .= ">\n";
 			if ($this->content != null) {

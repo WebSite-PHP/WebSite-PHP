@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.91
+ * @version     1.0.99
  * @access      public
  * @since       1.0.16
  */
@@ -49,7 +49,7 @@ class SmtpMail {
 	 */
 	function __construct($to_mail, $to_name, $subject, $message, $from_mail='', $from_name='') {
 		if (!isset($to_mail) || !isset($to_name) || !isset($subject) || !isset($message)) {
-			throw new NewException("4 arguments for ".get_class($this)."::__construct() are mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("4 arguments for ".get_class($this)."::__construct() are mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$this->addAddress($to_mail, $to_name);
@@ -78,7 +78,7 @@ class SmtpMail {
 		if (file_exists($file)) {
 			$this->attachement[] = $file;
 		} else {
-			throw new NewException("SmtpMail Error: File not found ".$file, 0, 8, __FILE__, __LINE__);
+			throw new NewException("SmtpMail Error: File not found ".$file, 0, getDebugBacktrace(1));
 		}
 		return $this;
 	}

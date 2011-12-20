@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.99
  * @access      public
  * @since       1.0.15
  */
@@ -76,13 +76,17 @@ function getDebugBacktrace($remove_nb_level=0) {
 
 class NewException extends Exception
 {
+	private static $trace = "";
+	
 	/**
 	 * Constructor NewException
 	 * @param string $message 
 	 * @param mixed $code [default value: NULL]
+	 * @param string $trace 
 	 */
-    public function __construct($message, $code=NULL) {
+    public function __construct($message, $code=NULL, $trace='') {
         parent::__construct($message, $code);
+        self::$trace = $trace;
     }
    
 	/**
@@ -93,7 +97,7 @@ class NewException extends Exception
 	 */
     public function __toString() {
     	try {
-			return NewException::generateErrorMessage($this->getCode(), $this->getMessage(), $this->getFile(), $this->getLine(), (isset($this->_class)?$this->_class:""), (isset($this->_method)?$this->_method:""), $this->getTraceAsString());
+			return NewException::generateErrorMessage($this->getCode(), $this->getMessage(), $this->getFile(), $this->getLine(), (isset($this->_class)?$this->_class:""), (isset($this->_method)?$this->_method:""), (self::$trace==""?$this->getTraceAsString():self::$trace));
 		} catch (Exception $e) {
 			echo $e->getMessage();
 			exit;
@@ -126,7 +130,11 @@ class NewException extends Exception
         $str .= "<b>Class :</b> ".$class_name."<br/>\n";
 		$str .= "<b>Method :</b> ".$method."<br/><br/>\n";
 		if ($trace == "") {
-			$trace = getDebugBacktrace(2);
+			if (self::$trace != "") {
+				$trace = self::$trace;
+			} else {
+				$trace = getDebugBacktrace(2);
+			}
 		}
 		if ($trace != "") {
         	$str .= "<b>Trace:</b><br/>".str_replace("\n", "<br/>", htmlentities($trace))."<br/>";
@@ -269,6 +277,7 @@ class NewException extends Exception
 					echo "<html><head><title>Debug Error - ".SITE_NAME."</title>\n";
 					echo "<link type=\"text/css\" rel=\"StyleSheet\" href=\"".$my_site_base_url."wsp/css/styles.css.php\" media=\"screen\" />\n";
 					echo "<link type=\"text/css\" rel=\"StyleSheet\" href=\"".$my_site_base_url."wsp/css/angle.css.php\" media=\"screen\" />\n";
+					echo "<meta name=\"Robots\" content=\"noindex, nofollow\" />\n";
 					echo "</head><body>\n";
 					echo $debug_page->render();
 					if ($GLOBALS['__AJAX_LOAD_PAGE__'] == true && $GLOBALS['__AJAX_LOAD_PAGE_ID__'] != "") {

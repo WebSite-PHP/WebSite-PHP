@@ -18,8 +18,8 @@
  * @subpackage advanced_object.treeview
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -70,7 +70,7 @@ class TreeViewItems extends WebSitePhpObject {
 		$args = func_get_args();
 		$treeview_item_object = array_shift($args);
 		if (get_class($treeview_item_object) != "TreeViewItem" && !is_subclass_of($treeview_item_object, "TreeViewItem")) {
-			throw new NewException("Error TreeViewItems->add(): treeview_item_object is not a TreeViewItem object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error TreeViewItems->add(): treeview_item_object is not a TreeViewItem object", 0, getDebugBacktrace(1));
 		}
 		if (!$this->nodeValueAlreadyExists($treeview_item_object)) {
 			if ($this->parent_treeview_item != null) { $treeview_item_object->setTreeViewItemParent($this->parent_treeview_item, sizeof($this->treeview_items)); }
@@ -82,7 +82,7 @@ class TreeViewItems extends WebSitePhpObject {
     	for ($i=0; $i < sizeof($args); $i++) {
     		if ($args[$i] != null) {
 				if (get_class($args[$i]) != "TreeViewItem") {
-					throw new NewException("Error TreeViewItems->add(): treeview_item_object is not a TreeViewItem object", 0, 8, __FILE__, __LINE__);
+					throw new NewException("Error TreeViewItems->add(): treeview_item_object is not a TreeViewItem object", 0, getDebugBacktrace(1));
 				}
 				if (!$this->nodeValueAlreadyExists($args[$i])) {
 					if ($this->parent_treeview_item != null) { $args[$i]->setTreeViewItemParent($this->parent_treeview_item, sizeof($this->treeview_items)); }
@@ -144,7 +144,7 @@ class TreeViewItems extends WebSitePhpObject {
 	public function setTreeViewItemParent($treeview_item_object) {
 		if (get_class($treeview_item_object) != "TreeViewItem" && get_class($treeview_item_object) != "TreeViewFolder" && 
 			get_class($treeview_item_object) != "TreeViewFile" && get_class($treeview_item_object) != "TreeView") {
-			throw new NewException("Error TreeViewItems->setTreeViewItemParent(): $treeview_items_object is not a TreeViewItem object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error TreeViewItems->setTreeViewItemParent(): $treeview_items_object is not a TreeViewItem object", 0, getDebugBacktrace(1));
 		}
 		$this->parent_treeview_item = $treeview_item_object;
 		for ($i=0; $i < sizeof($this->treeview_items); $i++) {

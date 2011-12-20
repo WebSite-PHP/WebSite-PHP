@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 20/06/2011
- * @version     1.0.90
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -69,7 +69,7 @@ class DownloadButton extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (!isset($link) || !isset($download_text)) {
-			throw new NewException("2 arguments for ".get_class($this)."::__construct() are mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("2 arguments for ".get_class($this)."::__construct() are mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$this->link = $link;
@@ -143,9 +143,18 @@ class DownloadButton extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setTrackEvent
+	 * @access public
+	 * @param mixed $category 
+	 * @param mixed $action 
+	 * @param string $label 
+	 * @return DownloadButton
+	 * @since 1.0.99
+	 */
 	public function setTrackEvent($category, $action, $label='') {
 		if (GOOGLE_CODE_TRACKER == "") {
-			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, getDebugBacktrace(1));
 		}
 		$this->track_categ = $category;
 		$this->track_action = $action;

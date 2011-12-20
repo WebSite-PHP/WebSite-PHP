@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.98
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -50,11 +50,11 @@ class AutoComplete extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (gettype($url_object) != "object" && get_class($url_object) != "Url") {
-			throw new NewException("AutoComplete: \$url_object must be a Url object", 0, 8, __FILE__, __LINE__);
+			throw new NewException("AutoComplete: \$url_object must be a Url object", 0, getDebugBacktrace(1));
 		}
 		if ($autocomplete_event != null) {
 			if (gettype($autocomplete_event) != "object" && get_class($autocomplete_event) != "AutoCompleteEvent") {
-				throw new NewException("AutoComplete: \$autocomplete_event must be a AutoCompleteEvent object", 0, 8, __FILE__, __LINE__);
+				throw new NewException("AutoComplete: \$autocomplete_event must be a AutoCompleteEvent object", 0, getDebugBacktrace(1));
 			}
 		}
 		$this->autocomplete_url = $url_object;
@@ -85,7 +85,7 @@ class AutoComplete extends WebSitePhpObject {
 	 */
 	public function setTrackEvent($category, $action, $label='') {
 		if (GOOGLE_CODE_TRACKER == "") {
-			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, getDebugBacktrace(1));
 		}
 		$this->track_categ = $category;
 		$this->track_action = $action;
@@ -101,7 +101,7 @@ class AutoComplete extends WebSitePhpObject {
 	 */
 	public function setTrackPageView() {
 		if (GOOGLE_CODE_TRACKER == "") {
-			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, getDebugBacktrace(1));
 		}
 		$this->track_pageview = true;
 		return $this;
@@ -124,22 +124,23 @@ class AutoComplete extends WebSitePhpObject {
 		}
 		$html .= "open: function( event, ui ) { ";
 		$html .= "	$('.ui-resizable').css('z-index', '0');";
-		if ($this->indicator_id != "" || $this->track_categ != "" || $this->track_pageview) {
-			if ($this->indicator_id != "") {
-				$html .= "$('#".$this->indicator_id."').css('visibility', 'hidden');";
-			}
-			if ($this->track_categ != "") {
-				$html .= "_gaq.push(['_trackEvent', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."']);";
-			}
-			if ($this->track_pageview) {
-				$html .= "_gaq.push(['_trackPageview', '/".str_replace($this->getPage()->getBaseURL(), "", $this->autocomplete_url->render())."?term='+urlencode(trim(\$('#".$this->link_object_id."').val()))]);";
-			}
+		if ($this->indicator_id != "") {
+			$html .= "$('#".$this->indicator_id."').css('visibility', 'hidden');";
+		}
+		if ($this->track_categ != "") {
+			$html .= "_gaq.push(['_trackEvent', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."']);";
+		}
+		if ($this->track_pageview) {
+			$html .= "_gaq.push(['_trackPageview', '/".str_replace($this->getPage()->getBaseURL(), "", $this->autocomplete_url->render())."?term='+urlencode(trim(\$('#".$this->link_object_id."').val()))]);";
 		}
 		$html .= " }, ";
 		$html .= "select: function( event, ui ) { ";
 		if ($this->autocomplete_event != null) {
 			$html .= $this->autocomplete_event->render();
 		}
+		$html .= " }, ";
+		$html .= "close: function( event, ui ) { ";
+		$html .= "	$('.ui-resizable').css('z-index', '2');";
 		$html .= " } })\n";
 		$html .= ".data(\"autocomplete\")._renderItem = function(ul, item) {
 			if (item.icon == '') {

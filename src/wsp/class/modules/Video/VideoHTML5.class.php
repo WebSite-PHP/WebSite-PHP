@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 20/06/2011
- * @version     1.0.87
+ * @version     1.0.99
  * @access      public
  * @since       1.0.87
  */
@@ -60,7 +60,7 @@ class VideoHTML5 extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (!isset($width) || !isset($height)) {
-			throw new NewException("2 arguments for ".get_class($this)."::__construct() are mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("2 arguments for ".get_class($this)."::__construct() are mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$this->width = $width;
@@ -81,7 +81,7 @@ class VideoHTML5 extends WebSitePhpObject {
 	 */
 	public function setVideo($video_mp4, $video_webm='', $video_ogg='') {
 		if ($video_mp4 == "") {
-			throw new NewException("VideoHTML5->setVideo() error: MP4 video is mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("VideoHTML5->setVideo() error: MP4 video is mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		$this->video_mp4 = $video_mp4;
@@ -142,9 +142,18 @@ class VideoHTML5 extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method setTrackEvent
+	 * @access public
+	 * @param mixed $category 
+	 * @param mixed $action 
+	 * @param string $label 
+	 * @return VideoHTML5
+	 * @since 1.0.99
+	 */
 	public function setTrackEvent($category, $action, $label='') {
 		if (GOOGLE_CODE_TRACKER == "") {
-			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, getDebugBacktrace(1));
 		}
 		$this->track_categ = $category;
 		$this->track_action = $action;
@@ -152,9 +161,16 @@ class VideoHTML5 extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method onPlayJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return VideoHTML5
+	 * @since 1.0.99
+	 */
 	public function onPlayJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onPlayJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onPlayJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -163,13 +179,26 @@ class VideoHTML5 extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getOnPlayJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.99
+	 */
 	public function getOnPlayJs() {
 		return $this->onplay;
 	}
 	
+	/**
+	 * Method onPauseJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return VideoHTML5
+	 * @since 1.0.99
+	 */
 	public function onPauseJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onPauseJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onPauseJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -178,13 +207,26 @@ class VideoHTML5 extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getOnPauseJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.99
+	 */
 	public function getOnPauseJs() {
 		return $this->onpause;
 	}
 	
+	/**
+	 * Method onEndedJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return VideoHTML5
+	 * @since 1.0.99
+	 */
 	public function onEndedJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onEndedJs(): \$js_function must be a string or JavaScript object.", 0, 8, __FILE__, __LINE__);
+			throw new NewException(get_class($this)."->onEndedJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -193,6 +235,12 @@ class VideoHTML5 extends WebSitePhpObject {
 		return $this;
 	}
 	
+	/**
+	 * Method getOnEndedJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.99
+	 */
 	public function getOnEndedJs() {
 		return $this->onended;
 	}
@@ -206,10 +254,10 @@ class VideoHTML5 extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		if ($this->video_mp4 == "" && $this->video_webm == "" && $this->video_ogg == "") {
-			throw new NewException("You must specify at least one video (please call method setVideo)", 0, 8, __FILE__, __LINE__);
+			throw new NewException("You must specify at least one video (please call method setVideo)", 0, getDebugBacktrace(1));
 		}
 		if ($this->video_mp4 == "") {
-			throw new NewException("MP4 video is mandatory (please call method setVideo)", 0, 8, __FILE__, __LINE__);
+			throw new NewException("MP4 video is mandatory (please call method setVideo)", 0, getDebugBacktrace(1));
 		}
 		
 		if ($this->style != "") {

@@ -86,7 +86,7 @@ window.onresize = function() {
 //Preload Image
 function PreloadPicture(picture_url) {
 	preload_image_object = new Image();
-	preload_image_object.src = image_url;
+	preload_image_object.src = picture_url;
 }
 
 function SaveDocumentSize() {

@@ -16,8 +16,8 @@
  * @package database
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -70,7 +70,7 @@ class DataRow {
 	 */
 	public function getValue($attribute) {
 		if (!array_key_exists($attribute, $this->row)) {
-			throw new NewException("Error DataRow->getValue(): attribute ".$attribute." unknow in table ".$this->db_table_object->getDbTableName(), 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error DataRow->getValue(): attribute ".$attribute." unknow in table ".$this->db_table_object->getDbTableName(), 0, getDebugBacktrace(1));
 		}
 		if (gettype($this->row[$attribute]) == "string") {
 			$value = $this->row[$attribute];
@@ -103,7 +103,7 @@ class DataRow {
 			$pos_attribute = array_search($attribute, $this->db_table_object->getDbTableAttributes());
 			$primary_keys = $this->db_table_object->getDbTablePrimaryKeys();
 			if (!$this->is_sql_load_mode && !$this->is_inserted && in_array($attribute, $primary_keys)) {
-				throw new NewException("Error DataRow->setValue(): You can not change primary key value for attribute ".$attribute." in table ".$this->db_table_object->getDbTableName().".", 0, 8, __FILE__, __LINE__);
+				throw new NewException("Error DataRow->setValue(): You can not change primary key value for attribute ".$attribute." in table ".$this->db_table_object->getDbTableName().".", 0, getDebugBacktrace(1));
 			}
 			if ($pos_attribute !== false || $this->is_sql_load_mode) {
 				if ($pos_attribute !== false) {
@@ -132,10 +132,10 @@ class DataRow {
 						$this->is_updated = true;
 					}
 				} else {
-					throw new NewException("Error DataRow->setValue(): attribute ".$attribute." in table ".$this->db_table_object->getDbTableName()." must be a ".$type, 0, 8, __FILE__, __LINE__);
+					throw new NewException("Error DataRow->setValue(): attribute ".$attribute." in table ".$this->db_table_object->getDbTableName()." must be a ".$type." [value: ".$value."][type: ".$type_value."]", 0, getDebugBacktrace(1));
 				}
 			} else {
-				throw new NewException("Error DataRow->setValue(): attribute ".$attribute." unknow in table ".$this->db_table_object->getDbTableName(), 0, 8, __FILE__, __LINE__);
+				throw new NewException("Error DataRow->setValue(): attribute ".$attribute." unknow in table ".$this->db_table_object->getDbTableName(), 0, getDebugBacktrace(1));
 			}
 		}
 	}

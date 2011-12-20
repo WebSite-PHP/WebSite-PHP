@@ -11,7 +11,7 @@
 	define("CONFIG_FILE_NOT_OK", "Erreur lors de la sauvegarde, s'il vous plaît vérifier votre configuration!");
 	
 	define("PRIMARY_KEY", "Clé primaire");
-	define("NO_PRIMARY_KEY", "Vous devez spécifier une clé primaire sur la table %s.%s");
+	define("NO_PRIMARY_KEY", "Vous devez spécifier une clé primaire ou une clé unique sur la table %s.%s");
 	define("GENERATE_DATABASE_OBJECTS", "Génération des objets de la base");
 	define("GENERATE_OBJECTS", "Générer les objets");
 	define("GENERATE_DATABASE_OBJECTS_OK", "Génération des objets de la base de données %s terminée");

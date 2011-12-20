@@ -18,8 +18,8 @@
  * @subpackage advanced_object
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.81
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.99
  * @access      public
  * @since       1.0.17
  */
@@ -58,11 +58,11 @@ class LiveValidation extends WebSitePhpObject {
 	 */
 	public function setObject($object) {
 		if (!isset($object)) {
-			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		if (!method_exists($object, "getId")) {
-			throw new NewException("You can not use object ".get_class($object)." in LiveValidation object, because the method getId() doesn't exists.", 0, 8, __FILE__, __LINE__);
+			throw new NewException("You can not use object ".get_class($object)." in LiveValidation object, because the method getId() doesn't exists.", 0, getDebugBacktrace(1));
 		}
 		
 		$this->object = $object;
@@ -243,7 +243,7 @@ class LiveValidation extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		if (!isset($this->object)) {
-			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		if (get_class($this->object) == "Form") {
@@ -324,10 +324,10 @@ class LiveValidation extends WebSitePhpObject {
 				$html .= "		}\n";
 				$html .= "	};\n";
 			} else {
-				throw new NewException("To use LineValidation for object ".get_class($this->object)." you must add him in a form (form object is null).", 0, 8, __FILE__, __LINE__);
+				throw new NewException("To use LineValidation for object ".get_class($this->object)." you must add him in a form (form object is null).", 0, getDebugBacktrace(1));
 			}
 		} else {
-			throw new NewException("LineValidation error: method getFormObject is missing for object ".get_class($this->object).".", 0, 8, __FILE__, __LINE__);
+			throw new NewException("LineValidation error: method getFormObject is missing for object ".get_class($this->object).".", 0, getDebugBacktrace(1));
 		}
 		$html .= $this->getJavascriptTagClose();
 		$this->object_change = false;

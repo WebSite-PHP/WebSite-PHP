@@ -16,8 +16,8 @@
  * @package utils
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 24/03/2011
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.99
  * @access      public
  * @since       1.0.64
  */
@@ -31,19 +31,28 @@ class CacheFile {
 	const CACHE_TIME_1MIN = 60;
 	const CACHE_TIME_2MIN = 120;
 	const CACHE_TIME_10MIN = 600;
+	const CACHE_TIME_20MIN = 1200;
+	const CACHE_TIME_30MIN = 1800;
 	const CACHE_TIME_1HOUR = 3600;
 	const CACHE_TIME_2HOURS = 7200;
+	const CACHE_TIME_3HOURS = 10800;
 	const CACHE_TIME_4HOURS = 14400;
 	const CACHE_TIME_6HOURS = 21600;
 	const CACHE_TIME_12HOURS = 43200;
 	const CACHE_TIME_1DAY = 86400;
 	const CACHE_TIME_2DAYS = 172800;
+	const CACHE_TIME_3DAYS = 259200;
+	const CACHE_TIME_4DAYS = 345600;
 	const CACHE_TIME_7DAYS = 604800;
 	const CACHE_TIME_14DAYS = 1209600;
 	const CACHE_TIME_1MONTH = 2678400;
 	const CACHE_TIME_2MONTHS = 5270400;
+	const CACHE_TIME_3MONTHS = 8035200;
+	const CACHE_TIME_4MONTHS = 10713600;
 	const CACHE_TIME_6MONTHS = 15724800;
 	const CACHE_TIME_1YEAR = 31536000;
+	const CACHE_TIME_2YEARS = 63072000;
+	/**#@-*/
 	
 	var $file;
 	var $binary;

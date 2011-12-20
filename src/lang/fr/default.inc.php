@@ -32,6 +32,7 @@
 	
 	define("DECRYPT_ERROR", "Erreur lors du décodage du message, veuillez réessayer");
 	define("SUBMIT_ERROR", "{#SIMPLE_QUOTE#} + transport.statusText + (transport.responseText!={#SIMPLE_QUOTE#}{#SIMPLE_QUOTE#}?{#SIMPLE_QUOTE#}:<br/> {#SIMPLE_QUOTE#} + transport.responseText:{#SIMPLE_QUOTE#}{#SIMPLE_QUOTE#}) + {#SIMPLE_QUOTE#}");
+	define("SUBMIT_UNKNOW_ERROR", "Erreur inconnue");
 	define("SUBMIT_LOADING", "Veuillez patienter pendant la validation du formulaire ...");
 	define("SUBMIT_LOADING_2", "Veuillez patienter ...");
 	define("DOWNLOAD_FLASH_PLAYER", "<a href=\"http://www.macromedia.com/go/getflashplayer\" rel=\"nofollow\">Télécharger Flash Player</a> pour visualiser.");

@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.91
+ * @version     1.0.99
  * @access      public
  * @since       1.0.84
  */
@@ -49,11 +49,11 @@ class ContactForm extends WebSitePhpObject {
 		parent::__construct();
 		
 		if (!isset($page_object) || !isset($send_method)) {
-			throw new NewException("2 arguments for ".get_class($this)."::__construct() are mandatory", 0, 8, __FILE__, __LINE__);
+			throw new NewException("2 arguments for ".get_class($this)."::__construct() are mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		if (gettype($page_object) != "object" || !is_subclass_of($page_object, "Page")) {
-			throw new NewException("Argument page_object for ".get_class($this)."::__construct() error", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Argument page_object for ".get_class($this)."::__construct() error", 0, getDebugBacktrace(1));
 		}
 		
 		$this->page_object = $page_object;

@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.90
+ * @version     1.0.99
  * @access      public
  * @since       1.0.23
  */
@@ -195,10 +195,10 @@ class CssInclude {
 	 */
 	public function setCssConfigFile($file='config_css.inc.php') {
 		if (!file_exists(dirname(__FILE__)."/../config/".$file)) {
-			throw new NewException("Error ".get_class($this)."->setCssConfigFile(): Config file ".$file." doesn't exists.", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error ".get_class($this)."->setCssConfigFile(): Config file ".$file." doesn't exists.", 0, getDebugBacktrace(1));
 		}
 		if ($this->config_file_loaded) {
-			throw new NewException("Error ".get_class($this)."->setCssConfigFile(): Config file is already loaded, set this configuration in the begining of your code.", 0, 8, __FILE__, __LINE__);
+			throw new NewException("Error ".get_class($this)."->setCssConfigFile(): Config file is already loaded, set this configuration in the begining of your code.", 0, getDebugBacktrace(1));
 		}
 		$this->config_file = $file;
 		$this->loadCssConfigFileInMemory();
