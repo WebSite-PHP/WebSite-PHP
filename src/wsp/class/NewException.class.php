@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.100
  * @access      public
  * @since       1.0.15
  */
@@ -277,6 +277,7 @@ class NewException extends Exception
 					echo "<html><head><title>Debug Error - ".SITE_NAME."</title>\n";
 					echo "<link type=\"text/css\" rel=\"StyleSheet\" href=\"".$my_site_base_url."wsp/css/styles.css.php\" media=\"screen\" />\n";
 					echo "<link type=\"text/css\" rel=\"StyleSheet\" href=\"".$my_site_base_url."wsp/css/angle.css.php\" media=\"screen\" />\n";
+					echo "<script type=\"text/javascript\" src=\"".$my_site_base_url."wsp/js/jquery/jquery-".JQUERY_VERSION.".min.js\"></script>\n";
 					echo "<meta name=\"Robots\" content=\"noindex, nofollow\" />\n";
 					echo "</head><body>\n";
 					echo $debug_page->render();
@@ -294,11 +295,45 @@ class NewException extends Exception
 				} catch (Exception $e) {
 					echo $e->getMessage();
 				}
+				NewException::sendErrorByMail($debug_msg);
 			} else {
 				header('HTTP/1.1 500 Internal Server Error');
 				echo $debug_msg;
+				NewException::sendErrorByMail($debug_msg);
 				exit;
 			}
+		}
+    }
+    
+	/**
+	 * Method sendErrorByMail
+	 * @access static
+	 * @param mixed $debug_msg 
+	 * @since 1.0.100
+	 */
+    private static function sendErrorByMail($debug_msg) {
+    	if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
+			find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0) {
+				$caching_file = new CacheFile(dirname(__FILE__)."/../cache/error_send_by_mail.log", CacheFile::CACHE_TIME_2MIN);
+				if (($caching_file->readCache()) == false) {
+					$debug_mail = $debug_msg;
+					$page_object = Page::getInstance($_GET['p']);
+					$debug_mail .= "<br/><b>General information:</b><br/>";
+					$debug_mail .= "URL : ".$page_object->getCurrentUrl()."<br/>";
+					$debug_mail .= "Referer : ".$page_object->getRefererURL()."<br/>";
+					$debug_mail .= "IP : <a href='http://www.infosniper.net/index.php?ip_address=".$page_object->getRemoteIP()."' target='_blank'>".$page_object->getRemoteIP()."</a><br/>";
+					$debug_mail .= "Browser : ".$page_object->getBrowserName()." (version: ".$page_object->getBrowserVersion().")<br/>";
+					$debug_mail .= "Crawler : ".($page_object->isCrawlerBot()?"true":"false")."<br/>";
+					
+					$caching_file->writeCache($debug_mail);
+					$caching_file->close();
+					
+					try {
+						$mail = new SmtpMail(SEND_ERROR_BY_MAIL_TO, SEND_ERROR_BY_MAIL_TO, "ERROR on ".SITE_NAME." !!!", $debug_mail, SMTP_MAIL, SMTP_NAME);
+						$mail->setPriority(SmtpMail::PRIORITY_HIGH);
+						$mail->send();
+					} catch (Exception $e) {}
+				}
 		}
     }
 } 

@@ -58,6 +58,11 @@ if (isset($is_call_from_wsp_admin_update) && $is_call_from_wsp_admin_update == t
 	// Update: version 1.0.98
 	unlink($base_dir."/404.php");
 	
+	// Update: version 1.0.100
+	unlink($base_dir."/pages/error/error-404.php");
+	unlink($base_dir."/pages/error/error-database.php");
+	
+	
 	// reset current CSS and JS cache
 	rrmdir($base_dir."/wsp/cache/css/");
 	rrmdir($base_dir."/wsp/cache/js/");

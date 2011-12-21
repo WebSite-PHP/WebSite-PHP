@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
+ * @version     1.0.100
  * @access      public
  * @since       1.0.18
  */
@@ -27,10 +27,19 @@ class ErrorDebug extends Page {
 	function __construct() {}
 	
 	public function Load() {
-		parent::$PAGE_TITLE = "Debug error - ".SITE_NAME;
+		if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
+			find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0) {
+				parent::$PAGE_TITLE = __(ERROR)." - ".SITE_NAME;
+				$box_title = __(ERROR);
+				$debug_msg = __(ERROR_DEBUG_MAIL_SENT);
+		} else {
+			parent::$PAGE_TITLE = "Debug error - ".SITE_NAME;
+			$box_title = "Debug error";
+			$debug_msg = $_GET['debug'];
+		}
 		
 		$obj_error_msg = new Object(new Picture("wsp/img/warning.png", 48, 48, 0, "absmidlle"), "<br/>");
-		$debug_obj = new Object($_GET['debug']);
+		$debug_obj = new Object($debug_msg);
 		$debug_obj->setAlign(Object::ALIGN_LEFT);
 		$debug_obj->setWidth("80%");
 		$obj_error_msg->add($debug_obj, "<br/><br/>");
@@ -43,7 +52,7 @@ class ErrorDebug extends Page {
 		
 		$obj_error_msg->add("<br/><br/>", "Go back to the main page", new Link(BASE_URL, Link::TARGET_NONE, SITE_NAME));
 		
-		$this->render = new ErrorTemplate($obj_error_msg, "Debug error");
+		$this->render = new ErrorTemplate($obj_error_msg, $box_title);
 	}
 }
 ?>

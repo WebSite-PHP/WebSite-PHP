@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.100
  * @access      public
  * @since       1.0.17
  */
@@ -78,9 +78,9 @@ class Adsense extends WebSitePhpObject {
 		$adsense_html .= $this->getJavascriptTagClose();
 		$adsense_html .= "<script src=\"http://pagead2.googlesyndication.com/pagead/show_ads.js\"></script>\n";
 		
-		if (is_browser_ie() && get_browser_ie_version() >= 9) {
+		//if (is_browser_ie() && get_browser_ie_version() >= 9) {
 			$html = $adsense_html;
-		} else {
+		/*} else {
 			// loading optimisation for other browser
 			$rand_val = rand(100000000, 9999999999);
 			$html = "<div id=\"adsense_".$rand_val."_".$this->google_ad_client."_".$this->google_ad_slot."_".$this->google_ad_width."x".$this->google_ad_height."\" style=\"width:".$this->google_ad_width."px;height".$this->google_ad_height."px;\"></div>\n";
@@ -96,7 +96,7 @@ class Adsense extends WebSitePhpObject {
 			$ad_html .= $this->getJavascriptTagClose();
 			
 			$this->getPage()->addObject(new Object($ad_html), false, true);
-		}
+		}*/
 		
 		$this->object_change = false;
 		return $html;

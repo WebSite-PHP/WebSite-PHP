@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.100
  * @access      public
  * @since       1.0.64
  */
@@ -59,22 +59,23 @@ class CacheFile {
 	var $name;
 	var $cache_time;
 	var $exists = false;
-	var $cache_reset_on_midnight = false;
 	
 	/**
 	 * Constructor CacheFile
 	 * @param string $filename path to cache file
 	 * @param integer $cache_time cache time in seconds [default value: 0]
 	 * @param boolean $binary [default value: false]
+	 * @param boolean $cache_reset_on_midnight [default value: false]
 	 */
-	function __construct($filename,$cache_time=0,$binary=false){
+	function __construct($filename,$cache_time=0,$binary=false,$cache_reset_on_midnight=false){
 		$filename = str_replace("\\", "/", $filename);
 		$project_folder = str_replace("wsp/class/utils", "", dirname(__FILE__));
 		
 		if (file_exists($filename)) {
 			$this->exists = true;
 		} else {
-			$array_dir = explode("/", str_replace($project_folder, "", $filename));
+			//$array_dir = explode("/", str_replace($project_folder, "", $filename));
+			$array_dir = explode("/", $filename);
 			if (!is_dir(substr(0, strrpos($filename, "/"), $filename))) {
 				$create_folder = "";
 				for ($i=0; $i < sizeof($array_dir)-1; $i++) {
@@ -100,7 +101,7 @@ class CacheFile {
 			$read_current_cache = true;
 			
 			// if cache_reset_on_midnight is true and the caching file has not the same date like today
-			if ($this->cache_reset_on_midnight && date("Ymd", $cache_file_existe) != date("Ymd")) {
+			if ($cache_reset_on_midnight && date("Ymd", $cache_file_existe) != date("Ymd")) {
 				$read_current_cache = false;
 			}
 		}
@@ -120,15 +121,6 @@ class CacheFile {
 				$this->file=@fopen($filename,"r");
 			}
 		}
-	}
-	
-	/**
-	 * Method resetCacheOnMidnight
-	 * @access public
-	 * @since 1.0.64
-	 */
-	public function resetCacheOnMidnight() {
-		$this->cache_reset_on_midnight = true;
 	}
 	
 	/**
@@ -183,6 +175,16 @@ class CacheFile {
 	 */
 	public function close() {
 		@fclose($this->file);
+	}
+	
+	/**
+	 * Method halt
+	 * @access public
+	 * @param mixed $message 
+	 * @since 1.0.100
+	 */
+	public function halt($message){
+		throw new NewException($message, 0, getDebugBacktrace(1));
 	}
 }
 ?>

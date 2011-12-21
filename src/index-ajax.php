@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.98
+ * @version     1.0.100
  * @access      public
  * @since       1.0.0
  */
@@ -46,6 +46,7 @@
 	
 	if (!file_exists("pages/".$_GET['p'].".php")) {
 		header('HTTP/1.1 404 Could not find page '.$_GET['p']);
+		echo 'Could not find page '.$_GET['p'];
 		exit;
 	}
 	
@@ -55,21 +56,20 @@
 	// Create current page object
 	$page_object = Page::getInstance($_GET['p']);
 	if (!$page_object->userHaveRights()) {
-		header('HTTP/1.1 500 Error: You have no rights on the page '.$_GET['p']);
+		header('HTTP/1.1 500 Internal Server Error');
+		echo 'You have no rights on the page '.$_GET['p'];
 		exit;
 	}
 	
 	if (!method_exists($page_object, "Load") && !method_exists($page_object, "InitializeComponent")) {
-		header('HTTP/1.1 500 Error : function Load or InitializeComponent doesn\'t exists for the page '.$_GET['p']);
+		header('HTTP/1.1 500 Internal Server Error');
+		echo 'Function Load or InitializeComponent doesn\'t exists for the page '.$_GET['p'];
 		exit;
 	}
 	
 	// Connect to the DataBase
 	if (DB_ACTIVE) {
-		if (!DataBase::getInstance()->connect()) {
-			header('HTTP/1.1 500 Error : unable to connect to database.');
-			exit;
-		}
+		DataBase::getInstance()->connect();
 	}
 	
 	if (method_exists($page_object, "InitializeComponent")) {

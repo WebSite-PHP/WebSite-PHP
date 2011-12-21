@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.100
  * @access      public
  * @since       1.0.25
  */
@@ -129,7 +129,7 @@ class ConfigureDatabase extends Page {
 	}
 	
 	public function testDbConnexion($sender) {
-		$this->dbInstance = new DataBase($this->edtHost->getValue(), $this->edtRoot->getValue(), $this->edtPassword->getValue(), $this->edtDatabase->getValue(), $this->edtPort->getValue());
+		$this->dbInstance = new DataBase($this->edtHost->getValue()." ", $this->edtRoot->getValue(), $this->edtPassword->getValue(), $this->edtDatabase->getValue(), $this->edtPort->getValue());
 		if ($this->dbInstance->connect()) {
 			$this->displayCreateDbObjectZone(true);
 			return true;

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.100
  * @access      public
  * @since       1.0.0
  */
@@ -1114,6 +1114,14 @@ class Page {
 	 * @since 1.0.67
 	 */
 	public function getUserNoRightsRedirect() {
+		if (find($this->USER_NO_RIGHTS_REDIRECT, "referer=") == 0) {
+			if (find($this->USER_NO_RIGHTS_REDIRECT, "?") > 0) {
+				$this->USER_NO_RIGHTS_REDIRECT .= "&";
+			} else {
+				$this->USER_NO_RIGHTS_REDIRECT .= "?";
+			}
+			$this->USER_NO_RIGHTS_REDIRECT .= "referer=".urlencode($this->getCurrentURL());
+		}
 		return $this->USER_NO_RIGHTS_REDIRECT;
 	}
 

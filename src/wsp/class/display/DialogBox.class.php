@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.100
  * @access      public
  * @since       1.0.17
  */
@@ -458,7 +458,8 @@ class DialogBox extends WebSitePhpObject {
 		
 		if (get_class($this->content) == "Url") {
 			$html .= "wspDialogBox".$this->dialogbox_indice.".load('".$html_content."', {}, ";
-            $html .= "function (responseText, textStatus, XMLHttpRequest) {";
+            $html .= "function (response, status, xhr) {";
+            $html .= "if (status == 'error') { wspDialogBox".$this->dialogbox_indice." = $('<div style=\'display:hidden;z-index:99999".$this->dialogbox_indice.";\'><b>Error:</b> ' + response + '</div>').appendTo('body'); }";
 		}
 		$html .= "wspDialogBox".$this->dialogbox_indice.".dialog({ title: '".addslashes(str_replace("\r", "", str_replace("\n", "", $this->title)))."'";
 		$html .= ", close: function() { wspDialogBox".$this->dialogbox_indice.".dialog('widget').find('.ui-dialog-content').html(''); wspDialogBox".$this->dialogbox_indice.".dialog('widget').remove(); }";

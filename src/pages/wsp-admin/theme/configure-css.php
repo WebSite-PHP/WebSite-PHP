@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.91
+ * @version     1.0.100
  * @access      public
  * @since       1.0.25
  */
@@ -425,7 +425,7 @@ class ConfigureCss extends Page {
 		$table_box->addRow();
 		
 		$dialogbox = new DialogBox(__(DIALOGBOX_TITLE), __(DIALOGBOX_CONTENT));
-		$dialogbox->setWidth(245)->activateOneInstance();
+		$dialogbox->setWidth(245)->activateOneInstance()->setPosition("");
 		$dialogbox_link = new Object(new Link($dialogbox, Link::TARGET_NONE, __(VIEW_DIALOGBOX)));
 		$table_box->addRow($dialogbox_link->setId("id_dialogbox_link"));
 		$dialogbox->setPositionX("$('#".$dialogbox_link->getId()."').position().left-f_scrollLeft()");

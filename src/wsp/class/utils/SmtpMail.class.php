@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.100
  * @access      public
  * @since       1.0.16
  */
@@ -26,6 +26,16 @@
 require("wsp/includes/PHP-Mailer/class.phpmailer.php"); 
 
 class SmtpMail {
+	/**#@+
+	* Priority level
+	* @access public
+	* @var string
+	*/
+	const PRIORITY_LOW = "5";
+	const PRIORITY_NORMAL = "3";
+	const PRIORITY_HIGH = "1";
+	/**#@-*/
+	
 	/**#@+
 	* @access private
 	*/
@@ -36,6 +46,7 @@ class SmtpMail {
 	private $from_name = "";
 	private $attachement = array();
 	private $smtp_object = null;
+	private $priority_level = 3;
 	/**#@-*/
 	
 	/**
@@ -65,6 +76,18 @@ class SmtpMail {
 		} else {
 			$this->from_name = $from_name;
 		}
+	}
+	
+	/**
+	 * Method setPriority
+	 * @access public
+	 * @param mixed $priority_level 
+	 * @return SmtpMail
+	 * @since 1.0.100
+	 */
+	public function setPriority($priority_level) {
+		$this->priority_level = $priority_level;
+		return $this;
 	}
 	
 	/**
@@ -143,7 +166,7 @@ class SmtpMail {
 		for ($i=0; $i < sizeof($attachement); $i++) {
 			$this->smtp_object->AddAttachment($attachement[$i]); // attachment
 		}
-		
+		$this->smtp_object->Priority = $this->priority_level;
 		$this->smtp_object->IsHTML(true); // send as HTML
 		$this->smtp_object->Subject = $this->subject;
 		

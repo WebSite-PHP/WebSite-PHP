@@ -15,6 +15,8 @@
 	define("ERROR_DATABASE", "Database error");
 	define("ERROR_DATABASE_MSG", "Error: %s");
 	
+	define("ERROR_DEBUG_MAIL_SENT", "A technical problem occurred. An administrator has been notified and the problem should be solved quickly.");
+	
 	define("ERROR_401", "Error 401");
 	define("ERROR_401_MSG", "Error 401 : Authorization Required");
 	define("ERROR_403", "Error 403");

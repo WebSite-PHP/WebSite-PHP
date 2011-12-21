@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.100
  * @access      public
  * @since       1.0.0
  */
@@ -55,8 +55,9 @@
 	if (!$page_object->userHaveRights()) {
 		$user_no_rights_redirect = $page_object->getUserNoRightsRedirect();
 		if ($user_no_rights_redirect != "") {
-			if (strtoupper(substr($user_no_rights_redirect, 0, 7)) != "HTTP://") {
-				$user_no_rights_redirect = BASE_URL.$user_no_rights_redirect;
+			if (strtoupper(substr($user_no_rights_redirect, 0, 7)) != "HTTP://" && 
+				strtoupper(substr($user_no_rights_redirect, 0, 8)) != "HTTPS://") {
+					$user_no_rights_redirect = BASE_URL.$user_no_rights_redirect;
 			}
 			header('HTTP/1.1 301 Moved Temporarily');  
 			header('Status: 301 Moved Temporarily');  
@@ -67,14 +68,12 @@
 	}
 	
 	if (!method_exists($page_object, "Load") && !method_exists($page_object, "InitializeComponent")) {
-		throw new NewException('function Load or InitializeComponent doesn\'t exists for the page '.$_GET['p'], 0, getDebugBacktrace(1));
+		throw new NewException('Function Load or InitializeComponent doesn\'t exists for the page '.$_GET['p'], 0, getDebugBacktrace(1));
 	}
 	
 	// Connect to the DataBase
 	if (DB_ACTIVE) {
-		if (!DataBase::getInstance()->connect()) {
-			$_GET['p'] = "error-database";
-		}
+		DataBase::getInstance()->connect();
 	}
 	
 	$call_load_method = false;

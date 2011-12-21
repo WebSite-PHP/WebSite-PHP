@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 31/05/2011
- * @version     1.0.99
+ * @version     1.0.100
  * @access      public
  * @since       1.0.84
  */
@@ -136,7 +136,12 @@ class Authentication extends WebSitePhpObject {
 										$this->connect_button)->setNowrap();
 		}
 		
-		$form->setContent($table_main);
+		$this->hdnReferer = new Hidden($form, "wsp_auth_referer");
+		if (isset($_GET['referer'])) {
+			$this->hdnReferer->setValue(trim($_GET['referer']));
+		}
+		
+		$form->setContent(new Object($table_main, $this->hdnReferer));
 		$this->render = $form;
 	}
 	
@@ -161,6 +166,16 @@ class Authentication extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method getReferer
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.100
+	 */
+	public function getReferer() {
+		return $this->hdnReferer->getValue();
+	}
+	
+	/**
 	 * Method setAuthentificationMessage
 	 * @access public
 	 * @param boolean $display_msg [default value: true]
@@ -180,10 +195,10 @@ class Authentication extends WebSitePhpObject {
 	 * Method wspAdminConnect
 	 * @access public
 	 * @param boolean $redirect [default value: true]
-	 * @param string $redirect_url 
+	 * @param string $redirect_url [default value: REFERER]
 	 * @since 1.0.84
 	 */
-	public function wspAdminConnect($redirect=true, $redirect_url='') {
+	public function wspAdminConnect($redirect=true, $redirect_url='REFERER') {
 		require_once(dirname(__FILE__)."/../../../config/config_admin.inc.php");
 		require_once(dirname(__FILE__)."/../../../../pages/".WSP_ADMIN_URL."/includes/utils-users.inc.php");
 		
@@ -200,6 +215,12 @@ class Authentication extends WebSitePhpObject {
 				}
 				if ($redirect_url == "") {
 					$this->page_object->redirect($this->page_object->getBaseLanguageURL().WSP_ADMIN_URL."/admin.html");
+				} else if (strtoupper($redirect_url) == "REFERER") {
+					if ($this->hdnReferer->getValue() != "") {
+						$this->page_object->redirect($this->hdnReferer->getValue());
+					} else {
+						$this->page_object->redirect($this->page_object->getBaseLanguageURL().WSP_ADMIN_URL."/admin.html");
+					}
 				} else {
 					$this->page_object->redirect($redirect_url);
 				}

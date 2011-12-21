@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.98
+ * @version     1.0.100
  * @access      public
  * @since       1.0.25
  */
@@ -235,6 +235,25 @@ class ConfigureSite extends Page {
 		
 		$table_form->addRow();
 		
+		$this->cmbSendErrorByMail = new ComboBox($form);
+		$this->cmbSendErrorByMail->addItem("true", "true", (SEND_ERROR_BY_MAIL==true)?true:false);
+		$this->cmbSendErrorByMail->addItem("false", "false", (SEND_ERROR_BY_MAIL==false)?true:false);
+		$this->cmbSendErrorByMail->setWidth(143);
+		$this->cmbSendErrorByMail->onChange("changeSendErrorByMail")->setAjaxEvent()->disableAjaxWaitMessage();
+		$table_form->addRowColumns(__(CMB_SEND_ERROR_BY_MAIL).":&nbsp;", $this->cmbSendErrorByMail);
+		
+		$this->edtSendErrorByMailTo = new TextBox($form);
+		$this->edtSendErrorByMailTo->setWidth(143)->setValue(SEND_ERROR_BY_MAIL_TO);
+		if (SEND_ERROR_BY_MAIL == false) {
+			$this->edtSendErrorByMailTo->disable();
+		}
+		$edtValidation = new LiveValidation();
+		$this->edtSendErrorByMailTo->setLiveValidation($edtValidation->addValidateEmail()->setFieldName(__(CMB_SEND_ERROR_BY_MAIL_TO)));
+		$table_form->addRowColumns(__(EDT_SEND_ERROR_BY_MAIL_TO).":&nbsp;", $this->edtSendErrorByMailTo);
+		$table_form->addRowColumns("&nbsp;", __(SEND_ERROR_BY_MAIL_CMT));
+		
+		$table_form->addRow();
+		
 		$this->edtForceServerName = new TextBox($form);
 		if (FORCE_SERVER_NAME == "") {
 			$this->edtForceServerName->setValue("http://");
@@ -301,6 +320,8 @@ class ConfigureSite extends Page {
 		$data_config_file .= "define(\"JS_COMPRESSION_TYPE\", \"NONE\"); // Javascript compression (GOOGLE_WS, LOCAL, NONE (recommand))\n";
 		$data_config_file .= "\n";
 		$data_config_file .= "define(\"DEBUG\", ".$this->cmbDebug->getValue()."); // autorize use of method addLogDebug\n";
+		$data_config_file .= "define(\"SEND_ERROR_BY_MAIL\", ".$this->cmbSendErrorByMail->getValue()."); // send error by mail if not local URL (http://127.0.0.1/)\n";
+		$data_config_file .= "define(\"SEND_ERROR_BY_MAIL_TO\", \"".$this->edtSendErrorByMailTo->getValue()."\"); // send error to this email\n";
 		$data_config_file .= "define(\"FORCE_SERVER_NAME\", \"";
 		if ($this->edtForceServerName->getValue() != "http://") {
 			$data_config_file .= $this->edtForceServerName->getValue();
@@ -332,8 +353,23 @@ class ConfigureSite extends Page {
 				$this->edtCacheTime->setValue(43200);
 			}
 		} else {
-			$this->edtCacheTime->setValue("");
-			$this->edtCacheTime->disable();
+			$this->edtCacheTime->disable()->forceEmpty();
+		}
+	}
+	
+	public function changeSendErrorByMail($sender) {
+		if ($this->cmbSendErrorByMail->getValue() == "true") {
+			if (SMTP_MAIL == "") {
+				$this->addObject(new DialogBox(__(ERROR), __(PLEASE_CONFIGURE_SMTP)));
+				$this->edtSendErrorByMailTo->disable();
+			} else {
+				$this->edtSendErrorByMailTo->enable();
+				if ($this->edtSendErrorByMailTo->getValue() == "") {
+					$this->edtSendErrorByMailTo->setValue("@");
+				}
+			}
+		} else {
+			$this->edtSendErrorByMailTo->disable()->forceEmpty();
 		}
 	}
 }

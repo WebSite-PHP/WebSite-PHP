@@ -22,6 +22,10 @@
 	define("CMB_JQUERY_LOAD_LOCAL", "Jquery local");
 	define("CMB_JS_COMPRESSION_TYPE", "Compression type");
 	define("CMB_DEBUG", "Debug");
+	define("CMB_SEND_ERROR_BY_MAIL", "Send error by email");
+	define("EDT_SEND_ERROR_BY_MAIL_TO", "Email sending error");
+	define("SEND_ERROR_BY_MAIL_CMT", "Not for local URL (http://127.0.0.1/)");
+	define("PLEASE_CONFIGURE_SMTP", "Please configure 'Configure send mail' before");
 	define("EDT_FORCE_SERVER_NAME", "Force server name");
 	define("PROBLEM_WITH_REDIRECT", "Use when you have problem with redirect"); 
 	define("EDT_DEFAULT_TIMEZONE", "Default Timezone");

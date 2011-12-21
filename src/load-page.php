@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.100
  * @access      public
  * @since       1.0.0
  */
@@ -46,6 +46,7 @@
 	$_SESSION['calling_page'] = $_GET['p'];
 	if (!file_exists("pages/".$_GET['p'].".php")) {
 		header('HTTP/1.1 404 Could not find page '.$_GET['p']);
+		echo 'Could not find page '.$_GET['p'];
 		exit;
 	}
 	
@@ -53,10 +54,7 @@
 	
 	// Connect to the DataBase
 	if (DB_ACTIVE) {
-		if (!DataBase::getInstance()->connect()) {
-			header('HTTP/1.1 500 Error : unable to connect to database.');
-			exit;
-		}
+		DataBase::getInstance()->connect();
 	}
 	
 	header("Expires: Sat, 05 Nov 2005 00:00:00 GMT");
@@ -108,13 +106,34 @@
 		// Create current page object
 		$page_object = Page::getInstance($_GET['p']);
 		if (!$page_object->userHaveRights()) {
-			header('HTTP/1.1 500 Error: You have no rights on the page '.$_GET['p']);
-			exit;
+			if ($_GET['mime'] == "text/html") {
+				$user_no_rights_redirect = $page_object->getUserNoRightsRedirect();
+				if ($user_no_rights_redirect != "") {
+					if (strtoupper(substr($user_no_rights_redirect, 0, 7)) != "HTTP://" && 
+						strtoupper(substr($user_no_rights_redirect, 0, 8)) != "HTTPS://") {
+							$user_no_rights_redirect = BASE_URL.$user_no_rights_redirect;
+					}
+					header('HTTP/1.1 301 Moved Temporarily');  
+					header('Status: 301 Moved Temporarily');  
+					header("Location:".$user_no_rights_redirect);
+					exit;
+				}
+				$page_object = Page::getInstance("error-user-rights");
+			} else {
+				header('HTTP/1.1 500 Internal Server Error');
+				echo 'You have no rights on the page '.$_GET['p'];
+				exit;
+			}
 		}
 		
 		if (!method_exists($page_object, "Load") && !method_exists($page_object, "InitializeComponent")) {
-			header('HTTP/1.1 500 Error : function Load or InitializeComponent doesn\'t exists for the page '.$_GET['p']);
-			exit;
+			if ($_GET['mime'] == "text/html") {
+				throw new NewException('Function Load or InitializeComponent doesn\'t exists for the page '.$_GET['p'], 0, getDebugBacktrace(1));
+			} else {
+				header('HTTP/1.1 500 Internal Server Error');
+				echo 'Function Load or InitializeComponent doesn\'t exists for the page '.$_GET['p'];
+				exit;
+			}
 		}
 		
 		$call_load_method = false;

@@ -15,6 +15,8 @@
 	define("ERROR_DATABASE", "Erreur base de données");
 	define("ERROR_DATABASE_MSG", "Erreur: %s");
 	
+	define("ERROR_DEBUG_MAIL_SENT", "Un problème technique s'est produit. Un administrateur a été notifié et le problème devrait être résolu rapidement.");
+	
 	define("ERROR_401", "Erreur 401");
 	define("ERROR_401_MSG", "Erreur 401 : Accès interdit");
 	define("ERROR_403", "Erreur 403");
