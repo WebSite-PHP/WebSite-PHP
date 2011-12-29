@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.101
  * @access      public
  * @since       1.0.17
  */
@@ -322,7 +322,8 @@ class Tabs extends WebSitePhpObject {
 			if ($this->cache) {
 				$html .= "			cache: true,\n";
 			} 
-			$html .= "			success: function() {}\n";
+			$html .= "			success: function() {},\n";
+			$html .= "			error: function (xhr, status, index, anchor) { if (status == 'error') { \$(anchor.hash).html('<table><tr><td><img src=\'".BASE_URL."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + xhr.responseText); } }\n";
 			$html .= "		}\n";
 		}
 		$html .= "});\n";

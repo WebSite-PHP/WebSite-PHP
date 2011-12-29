@@ -1,5 +1,6 @@
 <?php
 	define("ERROR", "Erreur");
+	define("WARNING", "Attention");
 	define("LOADING", "Chargement");
 	define("CLOSE", "Fermer");
 	
@@ -33,8 +34,8 @@
 	define("ERROR_CAPTCHA", "Erreur du code captcha.");
 	
 	define("DECRYPT_ERROR", "Erreur lors du décodage du message, veuillez réessayer");
-	define("SUBMIT_ERROR", "{#SIMPLE_QUOTE#} + transport.statusText + (transport.responseText!={#SIMPLE_QUOTE#}{#SIMPLE_QUOTE#}?{#SIMPLE_QUOTE#}:<br/> {#SIMPLE_QUOTE#} + transport.responseText:{#SIMPLE_QUOTE#}{#SIMPLE_QUOTE#}) + {#SIMPLE_QUOTE#}");
-	define("SUBMIT_UNKNOW_ERROR", "Erreur inconnue");
+	define("SUBMIT_ERROR", "<table><tr><td><img src='{#BASE_URL#}wsp/img/warning.png' height='48' width='48' border='0' align='absmidlle'/></td><td><b>{#SIMPLE_QUOTE#} + transport.statusText + {#SIMPLE_QUOTE#}</b></td></tr></table>{#SIMPLE_QUOTE#} + (transport.responseText!={#SIMPLE_QUOTE#}{#SIMPLE_QUOTE#}?{#SIMPLE_QUOTE#}<br/> {#SIMPLE_QUOTE#} + transport.responseText:{#SIMPLE_QUOTE#}{#SIMPLE_QUOTE#}) + {#SIMPLE_QUOTE#}");
+	define("SUBMIT_UNKNOW_ERROR", "<table><tr><td><img src='{#BASE_URL#}wsp/img/warning.png' height='48' width='48' border='0' align='absmidlle'/></td><td><b>Erreur inconnue</b></td></tr></table>");
 	define("SUBMIT_LOADING", "Veuillez patienter pendant la validation du formulaire ...");
 	define("SUBMIT_LOADING_2", "Veuillez patienter ...");
 	define("DOWNLOAD_FLASH_PLAYER", "<a href=\"http://www.macromedia.com/go/getflashplayer\" rel=\"nofollow\">Télécharger Flash Player</a> pour visualiser.");

@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.100
+ * @version     1.0.101
  * @access      public
  * @since       1.0.0
  */
@@ -29,6 +29,7 @@
 	$__PAGE_IS_INIT__ = false;
 	$__LOAD_VARIABLES__ = false;
 	$__DEBUG_PAGE_IS_PRINTING__ = false;
+	$__GEOLOC_ASK_USER_SHARE_POSITION__ = false;
 	
 	session_name(formalize_to_variable(SITE_NAME));
 	session_start();
@@ -431,7 +432,7 @@
 		</script>
 		<?php 
 		}
-		if (!isset($_SESSION['google_geolocalisation'])) {
+		if (!isset($_SESSION['google_geolocalisation']) || ($__GEOLOC_ASK_USER_SHARE_POSITION__ == true && !isset($_SESSION['geolocalisation_user_share']))) {
 			if (JQUERY_LOAD_LOCAL == true) {
 		?>
 		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
@@ -444,7 +445,29 @@
 					$.ajax({type: 'GET', url: '<?php  echo BASE_URL; ?>wsp/includes/GoogleGeolocalisationSession.php?latitude='+google.loader.ClientLocation.latitude+'&longitude='+google.loader.ClientLocation.longitude+'&city='+google.loader.ClientLocation.address.city+'&country='+google.loader.ClientLocation.address.country+'&country_code='+google.loader.ClientLocation.address.country_code+'&region='+google.loader.ClientLocation.address.region });
 				}
 			}
+		<?php
+		if ($__GEOLOC_ASK_USER_SHARE_POSITION__ == true) {
+		?>
+			function userShareGeoPosition(position) {
+				$.ajax({type: 'GET', url: '<?php  echo BASE_URL; ?>wsp/includes/GoogleGeolocalisationSession.php?user_share=1&latitude='+position.coords.latitude+'&longitude='+position.coords.longitude+'&city=&country=&country_code=&region=', 
+					success: function(data){ 
+					try { 
+						eval(data); 
+					} catch(err) {} 
+				} });
+			}
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(userShareGeoPosition);
+			} else {
+				StkFunc(loadGoogleClientLocation);
+			}
+		<?php
+		} else {
+		?>
 			StkFunc(loadGoogleClientLocation);
+		<?php
+		}
+		?>
 		</script>
 		<?php 
 		} 

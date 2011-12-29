@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.100
+ * @version     1.0.101
  * @access      public
  * @since       1.0.64
  */
@@ -69,20 +69,21 @@ class CacheFile {
 	 */
 	function __construct($filename,$cache_time=0,$binary=false,$cache_reset_on_midnight=false){
 		$filename = str_replace("\\", "/", $filename);
-		$project_folder = str_replace("wsp/class/utils", "", dirname(__FILE__));
 		
 		if (file_exists($filename)) {
 			$this->exists = true;
 		} else {
-			//$array_dir = explode("/", str_replace($project_folder, "", $filename));
 			$array_dir = explode("/", $filename);
 			if (!is_dir(substr(0, strrpos($filename, "/"), $filename))) {
 				$create_folder = "";
 				for ($i=0; $i < sizeof($array_dir)-1; $i++) {
+					$create_folder_before = $create_folder;
 					$create_folder .= $array_dir[$i]."/";
 					if (!is_dir($create_folder) && $create_folder != "/") {
 						if (!mkdir($create_folder)) {
-							$this->halt("Can't create folder ".$create_folder.".");
+							if (!mkdir(realpath($create_folder_before)."/".$array_dir[$i]."/")) {
+								$this->halt("Can't create folder ".$create_folder.".");
+							}
 						}
 					}
 				}
@@ -184,7 +185,7 @@ class CacheFile {
 	 * @since 1.0.100
 	 */
 	public function halt($message){
-		throw new NewException($message, 0, getDebugBacktrace(1));
+		throw new NewException($message." (filename: ".$this->name.")", 0, getDebugBacktrace(1));
 	}
 }
 ?>

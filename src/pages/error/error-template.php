@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.94
+ * @version     1.0.101
  * @access      public
  * @since       1.0.30
  */
@@ -32,6 +32,7 @@ require_once(dirname(__FILE__)."/../../wsp/class/display/Table.class.php");
 class ErrorTemplate extends DefinedZone {
 	function __construct($content, $title) {
 		parent::__construct();
+		define(GOOGLE_CODE_TRACKER_NOT_ACTIF, true);
 		
 		$this->render = new Table();
 		$this->render->setWidth("100%");

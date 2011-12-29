@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.100
+ * @version     1.0.101
  * @access      public
  * @since       1.0.0
  */
@@ -1054,7 +1054,7 @@ class Page {
 					$html .= "<div style=\"background-color:white;color:black;padding:5px;margin:10px;border:1px solid black;\"><b>DEBUG Page ".$this->getPage().".php :</b><br/>".$html_debug."</div>";
 				}
 			}
-			return str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $html));
+			return str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $html)));
 		}
 	}
 	
@@ -1141,6 +1141,15 @@ class Page {
 			header("Location:".$url);
 			exit;
 		}
+	}
+	
+	/**
+	 * Method redirect404
+	 * @access public
+	 * @since 1.0.101
+	 */
+	public function redirect404() {
+		$this->redirect($this->getBaseURL()."error_doc.php?error=404&url=".urlencode($this->getCurrentURL()));
 	}
 	
 	/**

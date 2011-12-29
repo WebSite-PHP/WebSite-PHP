@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.101
  * @access      public
  * @since       1.0.16
  */
@@ -56,6 +56,12 @@ class GeoLocalisation {
 	public function setKey($key){
 		if(!empty($key)) $this->apiKey = $key;
 	}
+	
+	public function askUserToSharePosition($refresh_page=false, $js_onsuccess='') {
+		$GLOBALS['__GEOLOC_ASK_USER_SHARE_POSITION__'] = true;
+		$_SESSION['geolocalisation_user_share_js'] = $js_onsuccess.($refresh_page?"refreshPage();":"");
+		return $this;
+	}
 
 	/**
 	 * Method showTimezone
@@ -64,6 +70,7 @@ class GeoLocalisation {
 	 */
 	public function showTimezone(){
 		$this->showTimezone = true;
+		return $this;
 	}
 
 	/**
@@ -179,10 +186,12 @@ class GeoLocalisation {
   public function setIP($ip)
   {
     $this->_ip = $ip;
+	return $this;
   }
   
   public function setRemoteIP() {
   	$this->setIP($_SERVER["REMOTE_ADDR"]);
+	return $this;
   }
   
   /**
@@ -195,6 +204,7 @@ class GeoLocalisation {
   public function setDomain($domain)
   {
     $this->_ip = gethostbyname($domain);
+	return $this;
   }
   
   /**

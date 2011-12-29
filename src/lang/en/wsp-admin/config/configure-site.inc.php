@@ -1,5 +1,9 @@
 <?php
+	define("TAB_SITE", "Site");
+	define("TAB_ADVANCE", "Advance");
+	
 	define("EDT_NAME", "Name");
+	define("WARNING_SITE_NAME_DISONNCET", "Warning, if you change the name of the website you will be disconnected.");
 	define("EDT_DESC", "Description");
 	define("EDT_KEY", "Keywords");
 	define("CMB_RATING", "Rating");
@@ -25,6 +29,8 @@
 	define("CMB_SEND_ERROR_BY_MAIL", "Send error by email");
 	define("EDT_SEND_ERROR_BY_MAIL_TO", "Email sending error");
 	define("SEND_ERROR_BY_MAIL_CMT", "Not for local URL (http://127.0.0.1/)");
+	define("EDT_SEND_BY_MAIL_FILE_EX", "Excluded files");
+	define("SEND_BY_MAIL_FILE_EX_CMT", "Separator commas");
 	define("PLEASE_CONFIGURE_SMTP", "Please configure 'Configure send mail' before");
 	define("EDT_FORCE_SERVER_NAME", "Force server name");
 	define("PROBLEM_WITH_REDIRECT", "Use when you have problem with redirect"); 

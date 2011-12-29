@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.100
+ * @version     1.0.101
  * @access      public
  * @since       1.0.0
  */
@@ -101,7 +101,7 @@
 	$add_to_render = $page_object->getBeginAddedObjects();
 	for ($i=0; $i < sizeof($add_to_render); $i++) {
 		if (gettype($add_to_render[$i]) == "object") {
-			$ajax_render = str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $add_to_render[$i]->getAjaxRender()));
+			$ajax_render = str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $add_to_render[$i]->getAjaxRender())));
 			if ($ajax_render != "") {
 				$array_ajax_object_render[] = $ajax_render;
 			}
@@ -112,7 +112,7 @@
 	for ($i=0; $i < sizeof($register_objects); $i++) {
 		$object = $register_objects[$i];
 		if ($object->isObjectChange() && get_class($object) != "DialogBox" && get_class($object) != "JavaScript") {
-			$ajax_render = str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $object->getAjaxRender()));
+			$ajax_render = str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $object->getAjaxRender())));
 			if ($ajax_render != "") {
 				$array_ajax_object_render[] = $ajax_render;
 			}
@@ -123,7 +123,7 @@
 	$add_to_render = $page_object->getEndAddedObjects();
 	for ($i=0; $i < sizeof($add_to_render); $i++) {
 		if (gettype($add_to_render[$i]) == "object") {
-			$ajax_render = str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $add_to_render[$i]->getAjaxRender()));
+			$ajax_render = str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $add_to_render[$i]->getAjaxRender())));
 			if ($ajax_render != "") {
 				$array_ajax_object_render[] = $ajax_render;
 			}
@@ -144,7 +144,7 @@
 			$debug_dialogbox = new DialogBox("DEBUG Page ".$page_object->getPage().".php", $html_debug);
 			$debug_dialogbox->setAlign(DialogBox::ALIGN_LEFT)->setWidth(700);
 			$debug_dialogbox = new JavaScript($debug_dialogbox, true);
-			$array_ajax_object_render[] = str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $debug_dialogbox->getAjaxRender()));
+			$array_ajax_object_render[] = str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $debug_dialogbox->getAjaxRender())));
 		}
 	}
 	

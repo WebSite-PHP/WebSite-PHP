@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.100
+ * @version     1.0.101
  * @access      public
  * @since       1.0.15
  */
@@ -298,7 +298,12 @@ class NewException extends Exception
 				NewException::sendErrorByMail($debug_msg);
 			} else {
 				header('HTTP/1.1 500 Internal Server Error');
-				echo $debug_msg;
+				if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
+					find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0) {
+						echo __(ERROR_DEBUG_MAIL_SENT);
+				} else {
+					echo $debug_msg;
+				}
 				NewException::sendErrorByMail($debug_msg);
 				exit;
 			}

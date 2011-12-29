@@ -240,3 +240,4 @@ function stopEventPropagation(e) {
 	e.cancelBubble = true;
 	if (e.stopPropagation) e.stopPropagation();
 }
+function refreshPage() { location.reload(true); }

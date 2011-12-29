@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.100
+ * @version     1.0.101
  * @access      public
  * @since       1.0.25
  */
@@ -51,6 +51,9 @@ class ConfigureSite extends Page {
 	private $edtForceServerName = null;
 	private $edtDefaultTimezone = null;
 	//private $ = null;
+	private $edt_exclude_files_change = false;
+	private $nb_min_exclude_files = 2;
+	private $edt_exclude_files = array();
 	
 	function __construct() {
 		parent::__construct();
@@ -60,46 +63,46 @@ class ConfigureSite extends Page {
 		parent::$PAGE_TITLE = __(CONFIGURE_SITE);
 		
 		// Admin
-		$form = new Form($this);
+		$this->form = new Form($this);
 		
 		$table_form = new Table();
-		$table_form->setClass(Table::STYLE_SECOND);
 		$table_form->addRow();
 		
-		$this->edtName = new TextBox($form);
+		$this->edtName = new TextBox($this->form);
 		$this->edtName->setValue(SITE_NAME)->setWidth(300);
+		$this->edtName->onChange("changeSiteName")->setAjaxEvent()->disableAjaxWaitMessage();
 		$edtValidation = new LiveValidation();
 		$table_form->addRowColumns(__(EDT_NAME).":&nbsp;", $this->edtName->setLiveValidation($edtValidation->addValidatePresence()->setFieldName(__(EDT_NAME))));
 		
-		$this->edtDesc = new Editor($form);
+		$this->edtDesc = new Editor($this->form);
 		$this->edtDesc->setValue(SITE_DESC);
 		$this->edtDesc->setToolbar(Editor::TOOLBAR_NONE)->setWidth(290)->setHeight(100);
 		$edtValidation = new LiveValidation();
 		$table_form->addRowColumns(__(EDT_DESC).":&nbsp;", $this->edtDesc->setLiveValidation($edtValidation->addValidatePresence()->setFieldName(__(EDT_DESC))));
 		
-		$this->edtKey = new TextBox($form);
+		$this->edtKey = new TextBox($this->form);
 		$this->edtKey->setValue(SITE_KEYS)->setWidth(300);
 		$edtValidation = new LiveValidation();
 		$table_form->addRowColumns(__(EDT_KEY).":&nbsp;", $this->edtKey->setLiveValidation($edtValidation->addValidatePresence()->setFieldName(__(EDT_KEY))));
 		
 		$table_form->addRow();
 		
-		$this->cmbRating = new ComboBox($form);
+		$this->cmbRating = new ComboBox($this->form);
 		$this->cmbRating->addItem("general", "general", (SITE_RATING=="general")?true:false)->addItem("mature", "mature", (SITE_RATING=="mature")?true:false)->addItem("restricted", "restricted", (SITE_RATING=="restricted")?true:false)->addItem("14years", "14years", (SITE_RATING=="14years")?true:false)->setWidth(143);
 		$table_form->addRowColumns(__(CMB_RATING).":&nbsp;", $this->cmbRating);
 		
-		$this->edtAuthor = new TextBox($form);
+		$this->edtAuthor = new TextBox($this->form);
 		$this->edtAuthor->setValue(SITE_AUTHOR);
 		$edtValidation = new LiveValidation();
 		$table_form->addRowColumns(__(EDT_AUTHOR).":&nbsp;", $this->edtAuthor->setLiveValidation($edtValidation->addValidatePresence()->setFieldName(__(EDT_AUTHOR))));
 		
-		$this->cmbLanguage = new ComboBox($form);
+		$this->cmbLanguage = new ComboBox($this->form);
 		$this->cmbLanguage->addItem("en", __(ENGLISH), (SITE_DEFAULT_LANG=="en")?true:false, "wsp/img/lang/en.png")->addItem("fr", __(FRENCH), (SITE_DEFAULT_LANG=="fr")?true:false, "wsp/img/lang/fr.png")->addItem("de", __(GERMAN), (SITE_DEFAULT_LANG=="de")?true:false, "wsp/img/lang/de.png")->addItem("es", __(SPANISH), (SITE_DEFAULT_LANG=="es")?true:false, "wsp/img/lang/es.png")->setWidth(143);
 		$table_form->addRowColumns(__(CMB_LANGUAGE).":&nbsp;", $this->cmbLanguage);
 		
 		$table_form->addRow();
 		
-		$this->cmbSiteType = new ComboBox($form);
+		$this->cmbSiteType = new ComboBox($this->form);
 		$this->cmbSiteType->addItem("activity", "activity", (SITE_META_OPENGRAPH_TYPE=="activity")?true:false);
 		$this->cmbSiteType->addItem("sport", "sport", (SITE_META_OPENGRAPH_TYPE=="sport")?true:false);
 		$this->cmbSiteType->addItem("bar", "bar", (SITE_META_OPENGRAPH_TYPE=="bar")?true:false);
@@ -142,37 +145,37 @@ class ConfigureSite extends Page {
 		$this->cmbSiteType->setWidth(143);
 		$table_form->addRowColumns(__(CMB_SITE_TYPE).":&nbsp;", $this->cmbSiteType);
 		
-		$this->edtSiteImage = new TextBox($form);
+		$this->edtSiteImage = new TextBox($this->form);
 		$this->edtSiteImage->setValue(SITE_META_OPENGRAPH_IMAGE)->setWidth(300);
 		$table_form->addRowColumns(__(EDT_SITE_IMAGE).":&nbsp;", $this->edtSiteImage);
 		
 		$table_form->addRow();
 		
-		$this->edtSiteIphoneImage57 = new TextBox($form);
+		$this->edtSiteIphoneImage57 = new TextBox($this->form);
 		$this->edtSiteIphoneImage57->setValue(SITE_META_IPHONE_IMAGE_57PX)->setWidth(300);
 		$table_form->addRowColumns(__(EDT_SITE_IPHONE_IMAGE_57PX).":&nbsp;", $this->edtSiteIphoneImage57);
 		
-		$this->edtSiteIphoneImage72 = new TextBox($form);
+		$this->edtSiteIphoneImage72 = new TextBox($this->form);
 		$this->edtSiteIphoneImage72->setValue(SITE_META_IPHONE_IMAGE_72PX)->setWidth(300);
 		$table_form->addRowColumns(__(EDT_SITE_IPHONE_IMAGE_72PX).":&nbsp;", $this->edtSiteIphoneImage72);
 		
-		$this->edtSiteIphoneImage114 = new TextBox($form);
+		$this->edtSiteIphoneImage114 = new TextBox($this->form);
 		$this->edtSiteIphoneImage114->setValue(SITE_META_IPHONE_IMAGE_114PX)->setWidth(300);
 		$table_form->addRowColumns(__(EDT_SITE_IPHONE_IMAGE_114PX).":&nbsp;", $this->edtSiteIphoneImage114);
 		
 		$table_form->addRow();
 		
-		$this->edtGoogleTracker = new TextBox($form);
+		$this->edtGoogleTracker = new TextBox($this->form);
 		$this->edtGoogleTracker->setValue(GOOGLE_CODE_TRACKER);
 		$table_form->addRowColumns(__(EDT_GOOGLE_CODE_TRACKER).":&nbsp;", $this->edtGoogleTracker);
 		
-		$this->edtGoogleMapKey = new TextBox($form);
+		$this->edtGoogleMapKey = new TextBox($this->form);
 		$this->edtGoogleMapKey->setValue(GOOGLE_MAP_KEY);
 		$table_form->addRowColumns(__(EDT_GOOGLE_MAP_KEY).":&nbsp;", $this->edtGoogleMapKey);
 		
 		$table_form->addRow();
 		
-		$this->cmbMetaRobots = new ComboBox($form);
+		$this->cmbMetaRobots = new ComboBox($this->form);
 		$this->cmbMetaRobots->addItem("index, follow", "index, follow", (SITE_META_ROBOTS=="index, follow")?true:false);
 		$this->cmbMetaRobots->addItem("noindex, follow", "noindex, follow", (SITE_META_ROBOTS=="noindex, follow")?true:false);
 		$this->cmbMetaRobots->addItem("index, nofollow", "index, nofollow", (SITE_META_ROBOTS=="index, nofollow")?true:false);
@@ -180,113 +183,212 @@ class ConfigureSite extends Page {
 		$this->cmbMetaRobots->setWidth(143);
 		$table_form->addRowColumns(__(CMB_META_ROBOTS).":&nbsp;", $this->cmbMetaRobots);
 		
-		$this->cmbMetaGooglebot = new ComboBox($form);
+		$this->cmbMetaGooglebot = new ComboBox($this->form);
 		$this->cmbMetaGooglebot->addItem("", "&nbsp;", (SITE_META_GOOGLEBOTS=="")?true:false);
 		$this->cmbMetaGooglebot->addItem("archive", "archive", (SITE_META_ROBOTS=="archive")?true:false);
 		$this->cmbMetaGooglebot->addItem("noarchive", "noarchive", (SITE_META_ROBOTS=="noarchive")?true:false);
 		$this->cmbMetaGooglebot->setWidth(143);
 		$table_form->addRowColumns(__(CMB_META_GOOGLEBOTS).":&nbsp;", $this->cmbMetaGooglebot);
 		
-		$this->edtRevisitAfter = new TextBox($form);
+		$this->edtRevisitAfter = new TextBox($this->form);
 		$this->edtRevisitAfter->setValue(SITE_META_REVISIT_AFTER)->setWidth(80);
 		$edtValidation = new LiveValidation();
 		$table_form->addRowColumns(__(EDT_REVISIT_AFTER).":&nbsp;", new Object($this->edtRevisitAfter->setLiveValidation($edtValidation->addValidatePresence()->addValidateNumericality(true)->setFieldName(__(EDT_REVISIT_AFTER))), "&nbsp;".__(DAYS)));
 		
 		$table_form->addRow();
 		
-		$this->cmbCachingAllPage = new ComboBox($form);
+		$this->btnValidateF1 = new Button($this->form);
+		$this->btnValidateF1->setValue(__(BTN_VALIDATE))->onClick("configureSite")->setAjaxEvent();
+		$table_form->addRowColumns($this->btnValidateF1)->setColumnColspan(1, 3)->setColumnAlign(1, RowTable::ALIGN_CENTER);
+		
+		$this->form->setContent($table_form);
+		
+		// advance tab
+		$this->form2 = new Form($this);
+		
+		$table_form2 = new Table();
+		$table_form2->addRow();
+
+		$this->edtDefaultTimezone = new TextBox($this->form2);
+		$this->edtDefaultTimezone->setValue(DEFAULT_TIMEZONE);
+		$edtValidation = new LiveValidation();
+		$table_form2->addRowColumns(__(EDT_DEFAULT_TIMEZONE).":&nbsp;", $this->edtDefaultTimezone->setLiveValidation($edtValidation->addValidatePresence()->setFieldName(__(EDT_DEFAULT_TIMEZONE))));
+		
+		$table_form2->addRow();
+		
+		$this->cmbCachingAllPage = new ComboBox($this->form2);
 		$this->cmbCachingAllPage->addItem("true", "true", (CACHING_ALL_PAGES==true)?true:false);
 		$this->cmbCachingAllPage->addItem("false", "false", (CACHING_ALL_PAGES==false)?true:false);
 		$this->cmbCachingAllPage->onChange("changeCachingAllPage")->setAjaxEvent()->disableAjaxWaitMessage();
 		$this->cmbCachingAllPage->setWidth(143);
-		$table_form->addRowColumns(__(CMB_CACHING_ALL_PAGES).":&nbsp;", $this->cmbCachingAllPage);
+		$table_form2->addRowColumns(__(CMB_CACHING_ALL_PAGES).":&nbsp;", $this->cmbCachingAllPage);
 		
-		$this->edtCacheTime = new TextBox($form);
+		$this->edtCacheTime = new TextBox($this->form2);
 		$this->edtCacheTime->setValue(CACHE_TIME)->setWidth(80);
 		if (CACHING_ALL_PAGES == false) {
 			$this->edtCacheTime->disable();
 			$this->edtCacheTime->setValue("");
 		}
 		$edtValidation = new LiveValidation();
-		$table_form->addRowColumns(__(EDT_CACHE_TIME).":&nbsp;", new Object($this->edtCacheTime->setLiveValidation($edtValidation->addValidatePresence()->addValidateNumericality(true)->setFieldName(__(EDT_CACHE_TIME))), "&nbsp;".__(SECONDS)));
+		$table_form2->addRowColumns(__(EDT_CACHE_TIME).":&nbsp;", new Object($this->edtCacheTime->setLiveValidation($edtValidation->addValidatePresence()->addValidateNumericality(true)->setFieldName(__(EDT_CACHE_TIME))), "&nbsp;".__(SECONDS)));
 		
-		$table_form->addRow();
+		$table_form2->addRow();
 		
-		$this->cmbJqueryLocal = new ComboBox($form);
+		$this->cmbJqueryLocal = new ComboBox($this->form2);
 		$this->cmbJqueryLocal->addItem("true", "true", (JQUERY_LOAD_LOCAL==true)?true:false);
 		$this->cmbJqueryLocal->addItem("false", "false", (JQUERY_LOAD_LOCAL==false)?true:false);
 		$this->cmbJqueryLocal->setWidth(143);
-		$table_form->addRowColumns(__(CMB_JQUERY_LOAD_LOCAL).":&nbsp;", $this->cmbJqueryLocal);
+		$table_form2->addRowColumns(__(CMB_JQUERY_LOAD_LOCAL).":&nbsp;", $this->cmbJqueryLocal);
 		
-		/*$this->cmbJsCompression = new ComboBox($form);
+		/*$this->cmbJsCompression = new ComboBox($this->form);
 		$this->cmbJsCompression->addItem("NONE", "NONE", (JS_COMPRESSION_TYPE=="NONE")?true:false);
 		$this->cmbJsCompression->addItem("GOOGLE_WS", "GOOGLE_WS", (JS_COMPRESSION_TYPE=="GOOGLE_WS")?true:false);
 		$this->cmbJsCompression->addItem("LOCAL", "LOCAL", (JS_COMPRESSION_TYPE=="LOCAL")?true:false);
 		$this->cmbJsCompression->setWidth(143);
 		$table_form->addRowColumns(__(CMB_JS_COMPRESSION_TYPE).":&nbsp;", $this->cmbJsCompression);*/
 		
-		$table_form->addRow();
+		$table_form2->addRow();
 		
-		$this->cmbDebug = new ComboBox($form);
+		$this->cmbDebug = new ComboBox($this->form2);
 		$this->cmbDebug->addItem("true", "true", (DEBUG==true)?true:false);
 		$this->cmbDebug->addItem("false", "false", (DEBUG==false)?true:false);
 		$this->cmbDebug->setWidth(143);
-		$table_form->addRowColumns(__(CMB_DEBUG).":&nbsp;", $this->cmbDebug);
+		$table_form2->addRowColumns(__(CMB_DEBUG).":&nbsp;", $this->cmbDebug);
 		
-		$table_form->addRow();
+		$table_form2->addRow();
 		
-		$this->cmbSendErrorByMail = new ComboBox($form);
+		if (!defined("SEND_ERROR_BY_MAIL")) {
+			define(SEND_ERROR_BY_MAIL, false);
+		}
+		$this->cmbSendErrorByMail = new ComboBox($this->form2);
 		$this->cmbSendErrorByMail->addItem("true", "true", (SEND_ERROR_BY_MAIL==true)?true:false);
 		$this->cmbSendErrorByMail->addItem("false", "false", (SEND_ERROR_BY_MAIL==false)?true:false);
 		$this->cmbSendErrorByMail->setWidth(143);
 		$this->cmbSendErrorByMail->onChange("changeSendErrorByMail")->setAjaxEvent()->disableAjaxWaitMessage();
-		$table_form->addRowColumns(__(CMB_SEND_ERROR_BY_MAIL).":&nbsp;", $this->cmbSendErrorByMail);
+		$table_form2->addRowColumns(__(CMB_SEND_ERROR_BY_MAIL).":&nbsp;", $this->cmbSendErrorByMail);
 		
-		$this->edtSendErrorByMailTo = new TextBox($form);
-		$this->edtSendErrorByMailTo->setWidth(143)->setValue(SEND_ERROR_BY_MAIL_TO);
+		$this->edtSendErrorByMailTo = new TextBox($this->form2);
+		$this->edtSendErrorByMailTo->setWidth(143)->setValue((defined("SEND_ERROR_BY_MAIL_TO")?SEND_ERROR_BY_MAIL_TO:""));
 		if (SEND_ERROR_BY_MAIL == false) {
 			$this->edtSendErrorByMailTo->disable();
 		}
 		$edtValidation = new LiveValidation();
-		$this->edtSendErrorByMailTo->setLiveValidation($edtValidation->addValidateEmail()->setFieldName(__(CMB_SEND_ERROR_BY_MAIL_TO)));
-		$table_form->addRowColumns(__(EDT_SEND_ERROR_BY_MAIL_TO).":&nbsp;", $this->edtSendErrorByMailTo);
-		$table_form->addRowColumns("&nbsp;", __(SEND_ERROR_BY_MAIL_CMT));
+		$this->edtSendErrorByMailTo->setLiveValidation($edtValidation->addValidateEmail()->setFieldName(__(EDT_SEND_ERROR_BY_MAIL_TO)));
+		$table_form2->addRowColumns(__(EDT_SEND_ERROR_BY_MAIL_TO).":&nbsp;", new Object($this->edtSendErrorByMailTo, "&nbsp;", __(SEND_ERROR_BY_MAIL_CMT)));
 		
-		$table_form->addRow();
 		
-		$this->edtForceServerName = new TextBox($form);
+		if (defined("SEND_BY_MAIL_FILE_EX")) {
+			$this->array_files_ex = explode(',', SEND_BY_MAIL_FILE_EX);
+		} else {
+			$this->array_files_ex = array();
+		}
+		
+		$this->hidden_nb_exclude_files = new Hidden($this->form2);
+		if ($this->hidden_nb_exclude_files->getValue() == "") {
+			if (sizeof($this->array_files_ex) > 0) {
+				$this->hidden_nb_exclude_files->setValue(sizeof($this->array_files_ex) + 1);
+			} else {
+				$this->hidden_nb_exclude_files->setValue($this->nb_min_exclude_files);
+			}
+		}
+		
+		$table_form2->addRowColumns("", $this->hidden_nb_exclude_files);
+		
+		$this->exclude_files_table = new Table();
+		$this->exclude_files_table->setId("exclude_files_table_id");
+		
+		$this->nb_empty_exclude_files = 0;
+		$this->edt_exclude_files = array();
+		for ($i=1; $i <= $this->hidden_nb_exclude_files->getValue(); $i++) {
+			$edt_exclude_files = $this->createExcludedFile();
+			if (trim($edt_exclude_files->getValue()) == "") {
+				if ($this->edt_exclude_files_focus == null) {
+					$this->edt_exclude_files_focus = $edt_exclude_files;
+				}
+				$this->nb_empty_exclude_files++;
+			}
+		}
+		$table_form2->addRowColumns(__(EDT_SEND_BY_MAIL_FILE_EX).":&nbsp;", $this->exclude_files_table)->setValign(RowTable::VALIGN_TOP);
+		$this->changeSendErrorByMail();
+		
+		$table_form2->addRow();
+		
+		
+		$this->edtForceServerName = new TextBox($this->form2);
 		if (FORCE_SERVER_NAME == "") {
 			$this->edtForceServerName->setValue("http://");
 		} else {
 			$this->edtForceServerName->setValue(FORCE_SERVER_NAME);
 		}
-		$table_form->addRowColumns(__(EDT_FORCE_SERVER_NAME).":&nbsp;",$this->edtForceServerName);
-		$table_form->addRowColumns("&nbsp;", __(PROBLEM_WITH_REDIRECT));
+		$table_form2->addRowColumns(__(EDT_FORCE_SERVER_NAME).":&nbsp;",$this->edtForceServerName->setWidth(300));
+		$table_form2->addRowColumns("&nbsp;", __(PROBLEM_WITH_REDIRECT));
 		
-		$table_form->addRow();
-
-		$this->edtDefaultTimezone = new TextBox($form);
-		$this->edtDefaultTimezone->setValue(DEFAULT_TIMEZONE);
-		$edtValidation = new LiveValidation();
-		$table_form->addRowColumns(__(EDT_DEFAULT_TIMEZONE).":&nbsp;", $this->edtDefaultTimezone->setLiveValidation($edtValidation->addValidatePresence()->setFieldName(__(EDT_DEFAULT_TIMEZONE))));
+		$table_form2->addRow();
 		
-		$table_form->addRow();
+		$this->btnValidateF2 = new Button($this->form2);
+		$this->btnValidateF2->setValue(__(BTN_VALIDATE))->onClick("configureSite")->setAjaxEvent();
+		$table_form2->addRowColumns($this->btnValidateF2)->setColumnColspan(1, 3)->setColumnAlign(1, RowTable::ALIGN_CENTER);
 		
-		$btnValidate = new Button($form);
-		$btnValidate->setValue(__(BTN_VALIDATE))->onClick("configureSite")->setAjaxEvent();
-		$table_form->addRowColumns($btnValidate)->setColumnColspan(1, 3)->setColumnAlign(1, RowTable::ALIGN_CENTER);
+		$table_form2->addRow();
+		$this->form2->setContent($table_form2);
 		
-		$table_form->addRow();
+		$tabs = new Tabs("tabs_id");
+		$tabs->addTab(__(TAB_SITE), $this->form);
+		$tabs->addTab(__(TAB_ADVANCE), $this->form2);
 		
-		$form->setContent($table_form);
-		$this->render = new AdminTemplateForm($this, $form);
+		$this->render = new AdminTemplateForm($this, $tabs);
+	}
+	
+	public function Loaded() {
+		if ($this->btnValidateF2->isClicked() || $this->edt_exclude_files_change) {
+			$nb_exclude_files = sizeof($this->edt_exclude_files);
+			if ($this->nb_empty_exclude_files < 1) {
+				$this->edt_exclude_files_focus = $this->createExcludedFile();
+				$nb_exclude_files++;
+			} else if ($this->hidden_nb_exclude_files->getValue() > $this->nb_min_exclude_files && $this->nb_empty_exclude_files > 1) {
+				for ($i=$this->hidden_nb_exclude_files->getValue()-1; $i >= $this->nb_min_exclude_files; $i--) {
+					if ($this->edt_exclude_files[$i]->getValue() == "") {
+						$this->exclude_files_table->deleteRow($i);
+						$this->nb_empty_exclude_files--;
+						$nb_exclude_files--;
+					}
+					if ($this->nb_empty_exclude_files <= 1) {
+						break;
+					}
+				}
+			}
+			$this->edt_exclude_files_focus->setFocus();
+			$this->hidden_nb_exclude_files->setValue($nb_exclude_files);
+		}
+	}
+	
+	private function createExcludedFile() {
+		$i = sizeof($this->edt_exclude_files);
+		$this->edt_exclude_files[$i] = new TextBox($this->form2, "edt_exclude_files".$i);
+		$this->edt_exclude_files[$i]->setWidth(300);
+		$this->edt_exclude_files[$i]->onChange("onChangeExcludedFile")->setAjaxEvent()->disableAjaxWaitMessage();
+		if (!$this->isAjaxPage() && isset($this->array_files_ex[$i])) {
+			$this->edt_exclude_files[$i]->setValue($this->array_files_ex[$i]);
+		}
+		if ($i == 0) {
+			$this->exclude_files_table->addRow($this->edt_exclude_files[$i])->setId($i);
+		} else{
+			$this->exclude_files_table->addRow($this->edt_exclude_files[$i])->setId($i);
+		}
+		
+		return $this->edt_exclude_files[$i];
+	}
+	
+	public function onChangeExcludedFile($sender) {
+		$this->edt_exclude_files_change = true;
 	}
 	
 	public function configureSite() {
 		$data_config_file = "<?php\n";
-		$data_config_file .= "define(\"SITE_NAME\", \"".str_replace("\"", "\\\"", utf8_decode($this->edtName->getValue()))."\");\n";
-		$data_config_file .= "define(\"SITE_DESC\", \"".str_replace("\"", "\\\"", html_entity_decode(utf8_decode($this->edtDesc->getValue())))."\");\n";
-		$data_config_file .= "define(\"SITE_KEYS\", \"".str_replace("\"", "\\\"", utf8_decode($this->edtKey->getValue()))."\");\n";
+		$site_name = ($this->btnValidateF1->isClicked()?utf8_decode($this->edtName->getValue()):$this->edtName->getValue());
+		$data_config_file .= "define(\"SITE_NAME\", \"".str_replace("\"", "\\\"", $site_name)."\");\n";
+		$data_config_file .= "define(\"SITE_DESC\", \"".str_replace("\"", "\\\"", html_entity_decode($this->edtDesc->getValue(), ENT_QUOTES))."\");\n";
+		$data_config_file .= "define(\"SITE_KEYS\", \"".str_replace("\"", "\\\"", ($this->btnValidateF1->isClicked()?utf8_decode($this->edtKey->getValue()):$this->edtKey->getValue()))."\");\n";
 		$data_config_file .= "define(\"SITE_RATING\", \"".$this->cmbRating->getValue()."\"); // general, mature, restricted, 14years\n";
 		$data_config_file .= "define(\"SITE_AUTHOR\", \"".str_replace("\"", "\\\"", $this->edtAuthor->getValue())."\");\n";
 		$data_config_file .= "define(\"SITE_DEFAULT_LANG\", \"".$this->cmbLanguage->getValue()."\"); // en, fr, ...\n";
@@ -322,6 +424,22 @@ class ConfigureSite extends Page {
 		$data_config_file .= "define(\"DEBUG\", ".$this->cmbDebug->getValue()."); // autorize use of method addLogDebug\n";
 		$data_config_file .= "define(\"SEND_ERROR_BY_MAIL\", ".$this->cmbSendErrorByMail->getValue()."); // send error by mail if not local URL (http://127.0.0.1/)\n";
 		$data_config_file .= "define(\"SEND_ERROR_BY_MAIL_TO\", \"".$this->edtSendErrorByMailTo->getValue()."\"); // send error to this email\n";
+		
+		if ($this->btnValidateF2->isClicked()) {
+			$list_files = "";
+			for ($i=0; $i < $this->hidden_nb_exclude_files->getValue(); $i++) {
+				if ($this->edt_exclude_files[$i]->getValue() != "") {
+					if ($list_files != "") { $list_files .= ","; }
+					$list_files .= str_replace("'", "", str_replace("\"", "", str_replace(",", "", $this->edt_exclude_files[$i]->getValue())));
+				}
+			}
+			$data_config_file .= "define(\"SEND_BY_MAIL_FILE_EX\", \"".trim($list_files)."\"); // list of files exluded by send error by mail\n";
+		} else if (defined("SEND_BY_MAIL_FILE_EX")) {
+			$data_config_file .= "define(\"SEND_BY_MAIL_FILE_EX\", \"".SEND_BY_MAIL_FILE_EX."\"); // list of files exluded by send error by mail\n";
+		} else {
+			$data_config_file .= "define(\"SEND_BY_MAIL_FILE_EX\", \"\"); // list of files exluded by send error by mail\n";
+		}
+		
 		$data_config_file .= "define(\"FORCE_SERVER_NAME\", \"";
 		if ($this->edtForceServerName->getValue() != "http://") {
 			$data_config_file .= $this->edtForceServerName->getValue();
@@ -344,6 +462,10 @@ class ConfigureSite extends Page {
 		}
 		$result_dialogbox->activateCloseButton();
 		$this->addObject($result_dialogbox);
+		
+		if (formalize_to_variable($site_name) != formalize_to_variable(SITE_NAME) && $this->userHaveRights()) {
+			$this->redirect($this->getBaseLanguageURL()."wsp-admin/disconnect.html");
+		}
 	}
 	
 	public function changeCachingAllPage() {
@@ -362,15 +484,29 @@ class ConfigureSite extends Page {
 			if (SMTP_MAIL == "") {
 				$this->addObject(new DialogBox(__(ERROR), __(PLEASE_CONFIGURE_SMTP)));
 				$this->edtSendErrorByMailTo->disable();
+				for ($i=0; $i < $this->hidden_nb_exclude_files->getValue(); $i++) {
+					$this->edt_exclude_files[$i]->disable();
+				}
 			} else {
 				$this->edtSendErrorByMailTo->enable();
 				if ($this->edtSendErrorByMailTo->getValue() == "") {
 					$this->edtSendErrorByMailTo->setValue("@");
 				}
+				for ($i=0; $i < $this->hidden_nb_exclude_files->getValue(); $i++) {
+					$this->edt_exclude_files[$i]->enable();
+				}
 			}
 		} else {
 			$this->edtSendErrorByMailTo->disable()->forceEmpty();
+			for ($i=0; $i < $this->hidden_nb_exclude_files->getValue(); $i++) {
+				$this->edt_exclude_files[$i]->disable();
+			}
 		}
+	}
+	
+	public function changeSiteName($sender) {
+		$dialog = new DialogBox(__(WARNING), __(WARNING_SITE_NAME_DISONNCET));
+		$this->addObject($dialog->activateCloseButton());
 	}
 }
 ?>
