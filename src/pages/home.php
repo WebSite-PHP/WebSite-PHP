@@ -37,30 +37,41 @@ class Home extends Page {
 		$title_header = new Object($small_img, __(WELCOME));
 		
 		$welcome_box = new Box($title_header, true, Box::STYLE_SECOND, Box::STYLE_SECOND, "", "welcome_box", 600);
-		$welcome_obj = new Object(new Label(__(WELCOME_MSG), true));
+		$welcome_obj = new Object(__(WELCOME_MSG));
 		
 		list($strAdminLogin, $strAdminPasswd, $strAdminRights) = getWspUserRightsInfo("admin");
+		
+		$quickstart_obj = new Object(new Picture("img/quickstart_128.png", 64, 64), "<br/>", __(QUICKSTART));
+		$quickstart_link = new Link("http://www.website-php.com/".$this->getLanguage()."/quick-start.html", Link::TARGET_BLANK, $quickstart_obj);
+		$quickstart_box = new RoundBox(RoundBox::STYLE_MAIN, "quickstart_box", 120, 120);
+		$quickstart_box->setValign(RoundBox::VALIGN_CENTER);
+		$quickstart_box->setContent($quickstart_link);
+		
+		$tutorial_obj = new Object(new Picture("img/tutorials_128.png", 64, 64), "<br/>", __(TUTORIALS));
+		$tutorial_link = new Link("http://www.website-php.com/".$this->getLanguage()."/tutorials.html", Link::TARGET_BLANK, $tutorial_obj);
+		$tutorial_box = new RoundBox(RoundBox::STYLE_MAIN, "tutorial_box", 120, 120);
+		$tutorial_box->setValign(RoundBox::VALIGN_CENTER);
+		$tutorial_box->setContent($tutorial_link);
+		
+		$connect_obj = new Object(new Picture("img/wsp-admin/admin_128.png", 64, 64), "<br/>", __(CONNECT));
+		$connect_link = new Link("wsp-admin/connect.html", Link::TARGET_BLANK, $connect_obj);
+		$connect_box = new RoundBox(RoundBox::STYLE_MAIN, "connect_box", 120, 120);
+		$connect_box->setValign(RoundBox::VALIGN_CENTER);
+		$connect_box->setContent($connect_link);
+		
+		$icon_table = new Table();
+		$icon_table->setDefaultAlign(RowTable::ALIGN_CENTER)->setDefaultValign(RowTable::VALIGN_TOP);
+		$icon_row = $icon_table->addRowColumns($quickstart_box, "&nbsp;", $tutorial_box, "&nbsp;", $connect_box);
+		$icon_row->setColumnWidth(5, 120);
 		
 		if ($strAdminLogin == "admin" && $strAdminPasswd==sha1("admin")) {
 			$finalize = new Font(__(FINALIZE_INSTALL));
 			$finalize->setFontColor("red");
 			$finalize->setFontWeight(Font::FONT_WEIGHT_BOLD);
 			
-			$connect_obj = new Object(new LinkPage("wsp-admin/connect", __(CONNECT), "img/wsp-admin/admin_16.png"));
-			
-			$connect_box = new RoundBox(RoundBox::STYLE_SECOND, "connect_box", 280);
-			$connect_box->setValign(RoundBox::VALIGN_CENTER);
-			$connect_box->setContent($connect_obj);
-			
-			$welcome_obj->add("<br/>", $finalize, "<br/><br/>", $connect_box, __(CONNECT_DEFAULT_PASSWD), "<br/><br/>");
-		} else {
-			$connect_obj = new Object(new LinkPage("wsp-admin/connect", __(CONNECT), "img/wsp-admin/admin_16.png"));
-			$connect_box = new RoundBox(RoundBox::STYLE_SECOND, "connect_box", 280);
-			$connect_box->setValign(RoundBox::VALIGN_CENTER);
-			$connect_box->setContent($connect_obj);
-			
-			$welcome_obj->add($connect_box, "<br/>");
+			$welcome_obj->add("<br/>", $finalize, "<br/>", __(CONNECT_DEFAULT_PASSWD), "<br/>");
 		}
+		$welcome_obj->add("<br/>", $icon_table);
 		
 		$welcome_box->setContent($welcome_obj);
 		
