@@ -7,7 +7,7 @@
  * Class DataBase
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.102
  * @access      public
  * @since       1.0.17
  */
@@ -76,7 +76,7 @@ class DataBase {
 		if (!function_exists('mysqli_init') && !extension_loaded('mysqli')) {
 		    exit("Sorry, the FrameWork WebSite-PHP use MySqli, please install it!\n");
 		} else {
-			$this->connection = new mysqli($this->host, $this->root, $this->password, "", $this->port);
+			$this->connection = new mysqli(trim($this->host), $this->root, $this->password, "", $this->port);
 			if (mysqli_connect_errno()) {
 				if ($this->host == DB_HOST && $this->root == DB_ROOT && $this->password == DB_PASSWORD && $this->port == DB_PORT) {
 					throw new NewException("Error DataBase::getInstance()->connect(): unable to connect : ".mysqli_connect_error(), 0, getDebugBacktrace(1));

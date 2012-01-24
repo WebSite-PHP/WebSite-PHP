@@ -19,44 +19,57 @@ if ($_SERVER['SERVER_PORT'] == 443) {
 	$http_type = "http://";
 }
 
-// define the base URL of the website
-$my_base_url = "";
-$array_cwd = explode('/',  str_replace('\\', '/', getcwd()));
-$wsp_folder_name = $array_cwd[sizeof($array_cwd)-1];
-
-$array_current_url = explode('/', $current_url);
-for ($i=sizeof($array_current_url)-2; $i >= 0; $i--) {
-	if ($array_current_url[$i] == $wsp_folder_name) {
-		$my_base_url = $http_type;
-		for ($j=0; $j <= $i; $j++) {
-			$my_base_url .= $array_current_url[$j]."/";
-		}
-		break;
-	}
-}
-if ($my_base_url == "") {
-	$my_base_url = $http_type.$array_current_url[0]."/";
-}
-$current_url = $http_type.$current_url;
-
 if (isset($_GET['url'])) {
 	$_GET['error-redirect-url'] = $_GET['url'];
 } else {
-	$_GET['error-redirect-url'] = $current_url;
+	$_GET['error-redirect-url'] = $http_type.$current_url;
 }
 
-$my_param_url = "error-page.html?error-redirect=".$_GET['error-redirect']."&error-redirect-url=".urlencode($_GET['error-redirect-url'])."&error-redirect-referer=".urlencode($_SERVER['HTTP_REFERER']);
-
-header('HTTP/1.1 301 Moved Temporarily');  
-header('Status: 301 Moved Temporarily');  
-if (isset($_SESSION['lang']) || isset($_GET['l'])) {
-	if (isset($_SESSION['lang'])) {
-		header("Location:".$my_base_url.$_SESSION['lang']."/".$my_param_url);
-	} else {
-		header("Location:".$my_base_url.$_GET['l']."/".$my_param_url);
-	}
-} else {
-	header("Location:".$my_base_url.$my_param_url);
+error_reporting(E_ALL);
+if (!isset($_SESSION['lang']) && !isset($_GET['l'])) {
+	$_GET['l'] = "fr";
 }
+
+include_once("wsp/config/config.inc.php");
+include_once("wsp/includes/utils_session.inc.php");
+$__AJAX_PAGE__ = false; // use for return catch exception and loadAllVariables method
+$__AJAX_LOAD_PAGE__ = false;
+$__PAGE_IS_INIT__ = false;
+$__LOAD_VARIABLES__ = false;
+$__DEBUG_PAGE_IS_PRINTING__ = false;
+$__GEOLOC_ASK_USER_SHARE_POSITION__ = false;
+
+@session_name(formalize_to_variable(SITE_NAME));
+@session_start();
+
+$_GET['p'] = "error/error-page";
+include_once("wsp/includes/init.inc.php");
+
+$page_object = Page::getInstance($_GET['p']);
+if (method_exists($page_object, "InitializeComponent")) {
+	$page_object->InitializeComponent();
+}
+if (method_exists($page_object, "Load")) {
+	$page_object->Load();
+}
+
+$page_object->loadAllVariables();
+$__PAGE_IS_INIT__ = true;
+$page_object->executeCallback();
+
+if (method_exists($page_object, "Loaded")) {
+	$page_object->Loaded();
+}
+
+echo "<html><head><title>".$page_object->getPageTitle()." - ".SITE_NAME."</title>\n";
+echo "<link type=\"text/css\" rel=\"StyleSheet\" href=\"".BASE_URL."combine-css/styles.php.css,angle.php.css\" media=\"screen\" />\n";
+echo "<script type=\"text/javascript\" src=\"".BASE_URL."wsp/js/jquery/jquery-".JQUERY_VERSION.".min.js\"></script>\n";
+echo "<script type=\"text/javascript\" src=\"".BASE_URL."wsp/js/jquery.backstretch.min.js\"></script>\n";
+echo "<meta name=\"Robots\" content=\"noindex, nofollow\" />\n";
+echo "<base href=\"".BASE_URL."\" />\n";
+echo "</head><body>\n";
+echo $page_object->render();
+echo "</body></html>\n";
+
 exit;
 ?>

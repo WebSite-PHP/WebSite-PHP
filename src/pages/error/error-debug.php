@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php/error/error-debug.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.100
+ * @version     1.0.102
  * @access      public
  * @since       1.0.18
  */
@@ -24,21 +24,34 @@
 require_once(dirname(__FILE__)."/error-template.php");
 
 class ErrorDebug extends Page {
-	function __construct() {}
+	private $is_trace = false;
+	
+	function __construct($is_trace=true) {
+		$this->is_trace = $is_trace;
+	}
 	
 	public function Load() {
 		if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
 			find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0) {
-				parent::$PAGE_TITLE = __(ERROR)." - ".SITE_NAME;
-				$box_title = __(ERROR);
-				$debug_msg = __(ERROR_DEBUG_MAIL_SENT);
+				if ($this->is_trace) {// standard msg "administrator is notified"
+					parent::$PAGE_TITLE = __(ERROR)." - ".SITE_NAME;
+					$box_title = __(ERROR);
+					$debug_msg = __(ERROR_DEBUG_MAIL_SENT);
+				} else {  // no trace in the debug information
+					parent::$PAGE_TITLE = "Debug error - ".SITE_NAME;
+					$box_title = "Debug error";
+					$debug_msg = $_GET['debug'];
+				}
 		} else {
 			parent::$PAGE_TITLE = "Debug error - ".SITE_NAME;
 			$box_title = "Debug error";
 			$debug_msg = $_GET['debug'];
 		}
 		
-		$obj_error_msg = new Object(new Picture("wsp/img/warning.png", 48, 48, 0, "absmidlle"), "<br/>");
+		$error_title_table = new Table();
+		$error_title_table->setClass(Table::STYLE_MAIN);
+		$error_title_table->addRowColumns(new Picture("wsp/img/warning.png", 48, 48, 0, "absmidlle"), "&nbsp;", new Label(__(ERROR), true));
+		$obj_error_msg = new Object($error_title_table, "<br/>");
 		$debug_obj = new Object($debug_msg);
 		$debug_obj->setAlign(Object::ALIGN_LEFT);
 		$debug_obj->setWidth("80%");

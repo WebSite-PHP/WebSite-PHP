@@ -6,7 +6,7 @@
  * WebSite-PHP file loader_class.inc.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.91
+ * @version     1.0.102
  * @access      public
  * @since       0
  */
@@ -28,7 +28,7 @@
 					strtolower(substr($array_components_dir[$i], strlen($array_components_dir[$i])-10, 10)) == ".class.php") {
 					require_once($folder."/".$array_components_dir[$i]);
 				} else if ($sub_folder==true && is_dir($folder."/".$array_components_dir[$i]) && 
-					$array_components_dir[$i] != "." && $array_components_dir[$i] != "..") {
+					$array_components_dir[$i] != "." && $array_components_dir[$i] != ".." && $array_components_dir[$i] != ".svn") {
 					loadWspClass($folder."/".$array_components_dir[$i], $sub_folder);
 				}
 			}

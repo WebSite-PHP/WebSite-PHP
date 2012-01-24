@@ -8,7 +8,7 @@
  * Class Map
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage advanced_object.google
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.81
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.102
  * @access      public
  * @since       1.0.17
  */
@@ -286,9 +286,13 @@ class Map extends WebSitePhpObject {
 					});
 				};\n";
 		$html .= "	initializeGMap_".$this->id."();\n";
-		$html .= "	} else {\n";
-		$html .= "		alert(\"".__(INCLUDE_OBJECT_TO_MAIN_PAGE, get_class($this), get_class($this))."\");\n";
-		$html .= "	}\n";
+		if (DEBUG) {
+			$html .= "	} else {\n";
+			$html .= "		alert(\"".__(INCLUDE_OBJECT_TO_MAIN_PAGE, get_class($this), get_class($this))."\");\n";
+			$html .= "	}\n";
+		} else {
+			$html .= "	}\n";
+		}
 		$html .= $this->getJavascriptTagClose();
 		$this->object_change = false;
 		return $html;

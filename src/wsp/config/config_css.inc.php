@@ -8,7 +8,7 @@ define("DEFINE_STYLE_COLOR_BODY", "#AAA");
 define("DEFINE_STYLE_LINK_COLOR", "#004DE6");
 define("DEFINE_STYLE_LINK_HOVER_COLOR", "#F87628");
 
-define("NB_DEFINE_STYLE_BCK", 2); 
+define("NB_DEFINE_STYLE_BCK", 3); 
 
 define("DEFINE_STYLE_BCK_1_HEADER", "#d46766"); // If DEFINE_STYLE_BCK_PICTURE_1 is defined, DEFINE_STYLE_BCK_1_HEADER not use for Box object
 define("DEFINE_STYLE_BCK_PICTURE_1", ""); // ex : ../wsp/img/round_bgd/round_bgd.png (please use the default file wsp/img/round_bgd/round_bgd.png to create your own background)
@@ -35,6 +35,19 @@ define("DEFINE_STYLE_COLOR_2_HEADER_LINK", "");
 define("DEFINE_STYLE_COLOR_2_HEADER_LINK_HOVER", "");
 define("DEFINE_STYLE_GRADIENT_2", true);
 define("DEFINE_STYLE_OMBRE_COLOR_2", "#122436");
+
+define("DEFINE_STYLE_BCK_3_HEADER", "lightsteelblue"); // If DEFINE_STYLE_BCK_PICTURE_2 is defined", DEFINE_STYLE_BCK_2_HEADER not use for Box object
+define("DEFINE_STYLE_BCK_PICTURE_3", ""); // ex : ../wsp/img/round_bgd/round_bgd.png (please use the default file wsp/img/round_bgd/round_bgd.png to create your own background)
+define("DEFINE_STYLE_COLOR_3_HEADER", "white");
+define("DEFINE_STYLE_BCK_3", "white");
+define("DEFINE_STYLE_COLOR_3", "#6F6F6F");
+define("DEFINE_STYLE_COLOR_3_LINK", "#1D5987");
+define("DEFINE_STYLE_COLOR_3_LINK_HOVER", "");
+define("DEFINE_STYLE_BORDER_TABLE_3", "#5682B7");
+define("DEFINE_STYLE_COLOR_3_HEADER_LINK", "");
+define("DEFINE_STYLE_COLOR_3_HEADER_LINK_HOVER", "");
+define("DEFINE_STYLE_GRADIENT_3", true);
+define("DEFINE_STYLE_OMBRE_COLOR_3", "#B5B5B5");
 
 define("DEFINE_STYLE_JQUERY", "");	// ex: redmond, smoothness, start, flick
 									// complete list : http://www.socialblogr.com/2010/08/how-to-change-jquiery-ui-themes.html

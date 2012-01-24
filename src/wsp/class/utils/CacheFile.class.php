@@ -7,7 +7,7 @@
  * Class CacheFile
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.101
+ * @version     1.0.102
  * @access      public
  * @since       1.0.64
  */
@@ -59,6 +59,7 @@ class CacheFile {
 	var $name;
 	var $cache_time;
 	var $exists = false;
+	var $debug=true;
 	
 	/**
 	 * Constructor CacheFile
@@ -66,9 +67,15 @@ class CacheFile {
 	 * @param integer $cache_time cache time in seconds [default value: 0]
 	 * @param boolean $binary [default value: false]
 	 * @param boolean $cache_reset_on_midnight [default value: false]
+	 * @param boolean $debug [default value: true]
 	 */
-	function __construct($filename,$cache_time=0,$binary=false,$cache_reset_on_midnight=false){
+	function __construct($filename, $cache_time=0, $binary=false, $cache_reset_on_midnight=false, $debug=true){
+		$this->debug = $debug;
 		$filename = str_replace("\\", "/", $filename);
+		
+		$this->name=$filename;
+		$this->binary=$binary;
+		$this->cache_time=$cache_time;
 		
 		if (file_exists($filename)) {
 			$this->exists = true;
@@ -89,10 +96,6 @@ class CacheFile {
 				}
 			}
 		}
-		
-		$this->name=$filename;
-		$this->binary=$binary;
-		$this->cache_time=$cache_time;
 		
 		$cache_file_existe = (@file_exists($this->name)) ? @filemtime($this->name) : 0;
 		
@@ -185,7 +188,22 @@ class CacheFile {
 	 * @since 1.0.100
 	 */
 	public function halt($message){
-		throw new NewException($message." (filename: ".$this->name.")", 0, getDebugBacktrace(1));
+		if($this->debug){
+			throw new NewException($message." (filename: ".$this->name.")", 0, getDebugBacktrace(1));
+		}
+	}
+	
+	/**
+	 * Method debug_mode
+	 * @access public
+	 * @param boolean $debug [default value: true]
+	 * @since 1.0.59
+	 */
+	public function debug_mode($debug=true){
+		$this->debug=$debug;
+		if(!$this->file){
+			$this->halt("File couln't be opened, please check permissions");
+		}
 	}
 }
 ?>

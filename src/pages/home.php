@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php-install/home.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.0.102
  * @access      public
  * @since       1.0.51
  */
@@ -43,19 +43,19 @@ class Home extends Page {
 		
 		$quickstart_obj = new Object(new Picture("img/quickstart_128.png", 64, 64), "<br/>", __(QUICKSTART));
 		$quickstart_link = new Link("http://www.website-php.com/".$this->getLanguage()."/quick-start.html", Link::TARGET_BLANK, $quickstart_obj);
-		$quickstart_box = new RoundBox(RoundBox::STYLE_MAIN, "quickstart_box", 120, 120);
+		$quickstart_box = new RoundBox(3, "quickstart_box", 120, 120);
 		$quickstart_box->setValign(RoundBox::VALIGN_CENTER);
 		$quickstart_box->setContent($quickstart_link);
 		
 		$tutorial_obj = new Object(new Picture("img/tutorials_128.png", 64, 64), "<br/>", __(TUTORIALS));
 		$tutorial_link = new Link("http://www.website-php.com/".$this->getLanguage()."/tutorials.html", Link::TARGET_BLANK, $tutorial_obj);
-		$tutorial_box = new RoundBox(RoundBox::STYLE_MAIN, "tutorial_box", 120, 120);
+		$tutorial_box = new RoundBox(3, "tutorial_box", 120, 120);
 		$tutorial_box->setValign(RoundBox::VALIGN_CENTER);
 		$tutorial_box->setContent($tutorial_link);
 		
 		$connect_obj = new Object(new Picture("img/wsp-admin/admin_128.png", 64, 64), "<br/>", __(CONNECT));
 		$connect_link = new Link("wsp-admin/connect.html", Link::TARGET_BLANK, $connect_obj);
-		$connect_box = new RoundBox(RoundBox::STYLE_MAIN, "connect_box", 120, 120);
+		$connect_box = new RoundBox(3, "connect_box", 120, 120);
 		$connect_box->setValign(RoundBox::VALIGN_CENTER);
 		$connect_box->setContent($connect_link);
 		

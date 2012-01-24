@@ -7,7 +7,7 @@
  * Class Editor
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,12 +17,12 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.102
  * @access      public
  * @since       1.0.17
  */
 
-class Editor extends WebSitePhpObject {
+class Editor extends WebSitePhpEventObject {
 	/**#@+
 	* Editor toolbar config
 	* @access public
@@ -40,7 +40,7 @@ class Editor extends WebSitePhpObject {
 	protected $class_name = "";
 	protected $page_object = null;
 	protected $form_object = null;
-	private $name = "";
+	protected $name = "";
 	private $content = null;
 	private $default_content = null;
 	private $width = "";
@@ -55,7 +55,7 @@ class Editor extends WebSitePhpObject {
 	
 	/**
 	 * Constructor Editor
-	 * @param mixed $page_or_form_object 
+	 * @param Page|Object $page_or_form_object 
 	 * @param string $name 
 	 * @param string $width 
 	 * @param string $height 
@@ -367,6 +367,7 @@ class Editor extends WebSitePhpObject {
 	 * @since 1.0.36
 	 */
 	public function getContent() {
+		$this->initSubmitValue(); // init value with submit value if not already do
 		return $this->content;
 	}
 	

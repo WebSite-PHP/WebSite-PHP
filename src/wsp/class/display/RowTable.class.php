@@ -7,7 +7,7 @@
  * Class RowTable
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.102
  * @access      public
  * @since       1.0.17
  */
@@ -303,6 +303,7 @@ class RowTable extends WebSitePhpObject {
 		$this->col_object[$ind]['style'] = $style;
 		$this->col_object[$ind]['colspan'] = $colspan;
 		$this->col_object[$ind]['rowspan'] = $rowspan;
+		$this->col_object[$ind]['nowrap'] = false;
 		
 		if ($GLOBALS['__PAGE_IS_INIT__']) {
 			$this->object_change =true;
@@ -510,6 +511,21 @@ class RowTable extends WebSitePhpObject {
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
+	
+	/**
+	 * Method setColumnNowrap
+	 * @access public
+	 * @param mixed $column_ind 
+	 * @return RowTable
+	 * @since 1.0.102
+	 */
+	public function setColumnNowrap($column_ind) {
+		if (isset($this->col_object[$column_ind-1])) {
+			$this->col_object[$column_ind-1]['nowrap'] = true;
+		}
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
 
 	/**
 	 * Method hide
@@ -704,7 +720,7 @@ class RowTable extends WebSitePhpObject {
 					$html .= " rowspan=\"".$this->rowspan."\"";
 				}
 			}
-			if ($this->is_nowrap) {
+			if ($this->is_nowrap || $this->col_object[$i]['nowrap'] == true) {
 				$html .= " nowrap";
 			}
 			$html .= ">\n";

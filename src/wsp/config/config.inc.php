@@ -28,8 +28,14 @@ define("JQUERY_UI_VERSION", "1.8.14");
 define("JS_COMPRESSION_TYPE", "NONE"); // Javascript compression (GOOGLE_WS, LOCAL, NONE (recommand))
 
 define("DEBUG", false); // autorize use of method addLogDebug
+
 define("SEND_ERROR_BY_MAIL", false); // send error by mail if not local URL (http://127.0.0.1/)
 define("SEND_ERROR_BY_MAIL_TO", ""); // send error to this email
+define("SEND_BY_MAIL_FILE_EX", ""); // list of files exluded by send error by mail
+
+define("SEND_ADMIN_CONNECT_BY_MAIL", false); // send wsp-admin connection notice, if not local URL (http://127.0.0.1/)
+define("SEND_ADMIN_CONNECT_BY_MAIL_TO", ""); // send wsp-admin connection notice to this email
+
 define("FORCE_SERVER_NAME", ""); // Force site base url (problem with redirect), whithout http:// (ex: www.website-php.com)
 
 define("DEFAULT_TIMEZONE", "Europe/Paris");

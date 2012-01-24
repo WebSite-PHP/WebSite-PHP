@@ -31,6 +31,9 @@
 	define("SEND_ERROR_BY_MAIL_CMT", "Not for local URL (http://127.0.0.1/)");
 	define("EDT_SEND_BY_MAIL_FILE_EX", "Excluded files");
 	define("SEND_BY_MAIL_FILE_EX_CMT", "Separator commas");
+	define("CMB_SEND_ADMIN_CONNECT_BY_MAIL", "Notify admin connection");
+	define("EDT_SEND_ADMIN_CONNECT_BY_MAIL_TO", "Email notice");
+	define("SEND_ADMIN_CONNECT_BY_MAIL_CMT", "Not for local URL (http://127.0.0.1/)");
 	define("PLEASE_CONFIGURE_SMTP", "Please configure 'Configure send mail' before");
 	define("EDT_FORCE_SERVER_NAME", "Force server name");
 	define("PROBLEM_WITH_REDIRECT", "Use when you have problem with redirect"); 

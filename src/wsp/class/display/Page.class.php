@@ -7,7 +7,7 @@
  * Class Page
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.101
+ * @version     1.0.102
  * @access      public
  * @since       1.0.0
  */
@@ -167,6 +167,7 @@ class Page {
 	
 	private $create_object_to_get_css_js = false;
 	private $ended_added_object_loaded = false;
+	private $array_decrypted_form = array();
 	/**#@-*/
 	
 	/**
@@ -190,7 +191,7 @@ class Page {
 				}
 			}
 		}
-		ob_end_flush();
+		@ob_end_flush();
 	}
 	
 	/**
@@ -696,7 +697,10 @@ class Page {
 					if (method_exists($object, "getFormObject")) {
 						$form_object = $object->getFormObject();
 						if ($form_object != null) {
-							decryptRequestEncryptData($form_object, "EncryptData_".$this->class_name."_".$form_object->getName()); // decrypt Form data
+							if (!in_array($this->class_name."_".$form_object->getName(), $this->array_decrypted_form)) {
+								decryptRequestEncryptData($form_object, $this->class_name."_".$form_object->getName()); // decrypt Form data
+								$this->array_decrypted_form[] = $this->class_name."_".$form_object->getName();
+							}
 						}
 					} else {
 						$form_object = null;
@@ -706,31 +710,31 @@ class Page {
 					if ($form_object == null) { // no form associate to event object
 						if (isset($_POST[$name])) {
 							if ($name_hidden != "") {
-								$object->setValue(decryptRequestEncryptData($this, $name_hidden, "POST"));
+								$object->setValue(decryptRequestEncryptData($object, $name_hidden, "POST"));
 							} else {
-								$object->setValue(decryptRequestEncryptData($this, $name, "POST"));
+								$object->setValue(decryptRequestEncryptData($object, $name, "POST"));
 							}
 						} else if (isset($_GET[$name])) {
 							if ($name_hidden != "") {
-								$object->setValue(decryptRequestEncryptData($this, $name_hidden, "GET"));
+								$object->setValue(decryptRequestEncryptData($object, $name_hidden, "GET"));
 							} else {
-								$object->setValue(decryptRequestEncryptData($this, $name, "GET"));
+								$object->setValue(decryptRequestEncryptData($object, $name, "GET"));
 							}
 						}
 					} else if ($form_object->getMethod() == "POST") { // form rights is POST
 						if (isset($_POST[$name])) {
 							if ($name_hidden != "") {
-								$object->setValue(decryptRequestEncryptData($this, $name_hidden, "POST"));
+								$object->setValue(decryptRequestEncryptData($object, $name_hidden, "POST"));
 							} else {
-								$object->setValue(decryptRequestEncryptData($this, $name, "POST"));
+								$object->setValue(decryptRequestEncryptData($object, $name, "POST"));
 							}
 						}
 					} else { // form rights is GET
 						if (isset($_GET[$name])) {
 							if ($name_hidden != "") {
-								$object->setValue(decryptRequestEncryptData($this, $name_hidden, "GET"));
+								$object->setValue(decryptRequestEncryptData($object, $name_hidden, "GET"));
 							} else {
-								$object->setValue(decryptRequestEncryptData($this, $name, "GET"));
+								$object->setValue(decryptRequestEncryptData($object, $name, "GET"));
 							}
 						}
 					}
@@ -785,7 +789,10 @@ class Page {
 						if ($object->getFormObject() == null) {
 							$name = "Callback_".$this->class_name."_".$object->getName();
 						} else {
-							decryptRequestEncryptData($object->getFormObject(), "EncryptData_".$this->class_name."_".$object->getFormObject()->getName()); // decrypt Form data
+							if (!in_array($this->class_name."_".$object->getFormObject()->getName(), $this->array_decrypted_form)) {
+								decryptRequestEncryptData($object->getFormObject(), $this->class_name."_".$object->getFormObject()->getName()); // decrypt Form data
+								$this->array_decrypted_form[] = $this->class_name."_".$object->getFormObject()->getName();
+							}
 							$name = "Callback_".$this->class_name."_".$object->getFormObject()->getName()."_".$object->getName();
 						}
 						$form_object = $object->getFormObject();
@@ -1149,7 +1156,9 @@ class Page {
 	 * @since 1.0.101
 	 */
 	public function redirect404() {
-		$this->redirect($this->getBaseURL()."error_doc.php?error=404&url=".urlencode($this->getCurrentURL()));
+		$_GET['error'] = 404;
+		include(dirname(__FILE__).'/../../../error_doc.php');
+		exit;
 	}
 	
 	/**
@@ -1395,6 +1404,16 @@ class Page {
 			$this->browser = get_browser_info(null, true);
 		}
 		return $this->browser[version];
+	}
+	
+	/**
+	 * Method getBrowserUserAgent
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.102
+	 */
+	public function getBrowserUserAgent() {
+		return $_SERVER['HTTP_USER_AGENT'];
 	}
 	
 	/**

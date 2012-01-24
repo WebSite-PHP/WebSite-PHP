@@ -28,9 +28,12 @@
 	define("CMB_DEBUG", "Debug");
 	define("CMB_SEND_ERROR_BY_MAIL", "Envoyer erreur par mail");
 	define("EDT_SEND_ERROR_BY_MAIL_TO", "Email envoi erreur");
-	define("SEND_ERROR_BY_MAIL_CMT", "Pas pour les URL locales (127.0.0.1)");
+	define("SEND_ERROR_BY_MAIL_CMT", "Pas pour les URL locales (http://127.0.0.1/)");
 	define("EDT_SEND_BY_MAIL_FILE_EX", "Fichiers exclus");
 	define("SEND_BY_MAIL_FILE_EX_CMT", "Séparer avec des virgules");
+	define("CMB_SEND_ADMIN_CONNECT_BY_MAIL", "Avertir connexion admin");
+	define("EDT_SEND_ADMIN_CONNECT_BY_MAIL_TO", "Email avertissement");
+	define("SEND_ADMIN_CONNECT_BY_MAIL_CMT", "Pas pour les URL locales (http://127.0.0.1/)");
 	define("PLEASE_CONFIGURE_SMTP", "Veuillez configurer 'Configurer envoi email' avant");
 	define("EDT_FORCE_SERVER_NAME", "Forcer le nom du serveur");
 	define("PROBLEM_WITH_REDIRECT", "A utiliser lorsque vous avez des problèmes de redirections"); 

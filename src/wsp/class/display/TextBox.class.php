@@ -7,7 +7,7 @@
  * Class TextBox
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.102
  * @access      public
  * @since       1.0.17
  */
@@ -629,7 +629,7 @@ class TextBox extends WebSitePhpEventObject {
 					$html .= "type='".$this->type."' ";
 				}
 			}
-			$html .= "name='".$this->getEventObjectName()."' id='".$this->id."' value=\"".str_replace('"', '\\"', $this->value)."\"";
+			$html .= "name='".$this->getEventObjectName()."' id='".$this->id."' value=\"".str_replace('"', '\\"', $this->getValue())."\"";
 			if ($this->width != "" || $this->style != "") {
 				$html .= " style='";
 				if ($this->width != "") {
@@ -719,8 +719,8 @@ class TextBox extends WebSitePhpEventObject {
 		
 		$html = "";
 		if ($this->object_change && !$this->is_new_object_after_init) {
-			if ($this->isChanged() || $this->value != $this->default_value || ($this->force_empty && $this->value == "")) {
-				$html .= "$('#".$this->id."').val(\"".str_replace('"', '\\"', $this->value)."\");\n";
+			if ($this->isChanged() || $this->getValue() != $this->default_value || ($this->force_empty && $this->getValue() == "")) {
+				$html .= "$('#".$this->id."').val(\"".str_replace('"', '\\"', $this->getValue())."\");\n";
 			}
 			$html .= "$('#".$this->id."').css('width', \"";
 			if (is_integer($this->width)) {

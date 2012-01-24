@@ -6,7 +6,7 @@
  * WebSite-PHP file loader_lang.inc.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.84
+ * @version     1.0.102
  * @access      public
  * @since       1.0.0
  */
@@ -86,17 +86,8 @@
 	if (LANGUAGE_URL != $_SESSION['lang'] || LANGUAGE_URL == "") {
 		$redirect_to_default_lang = true;
 	}
-	if ($redirect_to_default_lang) {
-		if (file_exists('install.htaccess')) {
-	    	rename('install.htaccess', '.htaccess');
-	    	$test_url = @file_get_contents(BASE_URL.$_SESSION['lang']."/".PARAMS_URL);
-	    	if ($test_url == "") {
-	    		rename('.htaccess', 'install.htaccess');
-	    		echo "Please change your configuration to be compatible with <a href='http://www.website-php.com' target='_blank'>WebSite-PHP</a>:<br/>- Webserver needs to support \"AllowOverride All\" for your website directory!<br/>&lt;Directory /your_directory&gt;<br/>&nbsp;&nbsp;&nbsp;AllowOverride all<br/>&lt;/Directory&gt;<br/><a href='http://httpd.apache.org/docs/current/mod/core.html#allowoverride' target='_blank'>http://httpd.apache.org/docs/current/mod/core.html#allowoverride</a>\n";
-	    		exit;
-	    	}
-		}
-		
+	
+	if ($redirect_to_default_lang && (!isset($_GET['error-redirect-url']) && !isset($_GET['error-redirect']))) {
 		header('HTTP/1.1 301 Moved Temporarily');  
 		header('Status: 301 Moved Temporarily');  
 		header("Location:".BASE_URL.$_SESSION['lang']."/".PARAMS_URL);

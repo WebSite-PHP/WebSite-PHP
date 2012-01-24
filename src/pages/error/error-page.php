@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php/error/error-page.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.101
+ * @version     1.0.102
  * @access      public
  * @since       1.0.18
  */
@@ -91,7 +91,10 @@ class ErrorPage extends Page {
 				if (in_array($filename, $array_file_no_mail)) {
 					$send_error_mail = false;
 				} else if ($this->getBrowserName() == "Firefox" && $this->getBrowserVersion() == "3.6" && 
-									substr($filename, strlen($filename)-6, 6) == "%5C%27") { // Error with firefox 3.6
+						(substr($filename, strlen($filename)-6, 6) == "%5C%27" || substr($filename, strlen($filename)-3, 3) == "%22")) { 
+					// Interpretation error by firefox 3.6 and 3.5
+					$send_error_mail = false;
+				} else if ($this->getBrowserName() == "IE" && $this->getBrowserVersion() < 7) { // Error with IE <= 6.0
 					$send_error_mail = false;
 				}
 				
@@ -110,7 +113,13 @@ class ErrorPage extends Page {
 						$debug_mail .= "Referer : ".$this->getRefererURL()."<br/>";
 					}
 					$debug_mail .= "IP : <a href='http://www.infosniper.net/index.php?ip_address=".$this->getRemoteIP()."' target='_blank'>".$this->getRemoteIP()."</a><br/>";
-					$debug_mail .= "Browser : ".$this->getBrowserName()." (version: ".$this->getBrowserVersion().")<br/>";
+					$debug_mail .= "Browser : ";
+					if ($this->getBrowserName() == "Default Browser") {
+						$debug_mail .= $this->getBrowserUserAgent();
+					} else {
+						$debug_mail .= $this->getBrowserName()." (version: ".$this->getBrowserVersion().")";
+					}
+					$debug_mail .= "<br/>";
 					$debug_mail .= "Crawler : ".($this->isCrawlerBot()?"true":"false")."<br/>";
 					
 					try {

@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php/wsp-admin/connect.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.84
+ * @version     1.0.102
  * @access      public
  * @since       1.0.25
  */
@@ -36,7 +36,9 @@ class Connect extends Page {
 	
 	public function Load() {
 		require_once(dirname(__FILE__)."/includes/utils-unset-var.inc.php");
-		unsetWspAdminVariables();
+		if (!$this->isAjaxPage()) {
+			unsetWspAdminVariables();
+		}
 		
 		parent::$PAGE_TITLE = __(CONNECT_PAGE_TITLE);
 		$this->setUserRights("");
@@ -119,6 +121,33 @@ class Connect extends Page {
 	}
 	
 	public function connect() {
+		if (!isset($_SESSION['user_try_connect_wsp_admin']) && $_SESSION['user_try_connect_wsp_admin'] != true) {
+			if (defined('SEND_ADMIN_CONNECT_BY_MAIL') && SEND_ADMIN_CONNECT_BY_MAIL == true &&
+				find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0) {
+					
+					$connect_mail .= "<b>User tried or is connected on administration :</b><br/>";
+					$connect_mail .= "URL : ".$this->getCurrentUrl()."<br/>";
+					$connect_mail .= "Referer : ".$this->getRefererURL()."<br/>";
+					$connect_mail .= "IP : <a href='http://www.infosniper.net/index.php?ip_address=".$this->getRemoteIP()."' target='_blank'>".$this->getRemoteIP()."</a><br/>";
+					$connect_mail .= "Browser : ";
+					if ($this->getBrowserName() == "Default Browser") {
+						$connect_mail .= $this->getBrowserUserAgent();
+					} else {
+						$connect_mail .= $this->getBrowserName()." (version: ".$this->getBrowserVersion().")";
+					}
+					$connect_mail .= "<br/>";
+					$connect_mail .= "Crawler : ".($this->isCrawlerBot()?"true":"false")."<br/><br/>";
+					$connect_mail .= "If it's not you or another member of your organisation, we recommand to ban this IP.<br/>";
+					
+					try {
+						$mail = new SmtpMail(SEND_ADMIN_CONNECT_BY_MAIL_TO, SEND_ADMIN_CONNECT_BY_MAIL_TO, "Admin connection on ".SITE_NAME." !!!", $connect_mail, SMTP_MAIL, SMTP_NAME);
+						$mail->setPriority(SmtpMail::PRIORITY_HIGH);
+						$mail->send();
+					} catch (Exception $e) {}
+					
+					$_SESSION['user_try_connect_wsp_admin'] = true;
+			}
+		}
 		$this->auth_obj->wspAdminConnect();
 	}
 }

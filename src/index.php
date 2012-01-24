@@ -6,7 +6,7 @@
  * Entry point of all HTML pages
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.101
+ * @version     1.0.102
  * @access      public
  * @since       1.0.0
  */
@@ -449,12 +449,7 @@
 		if ($__GEOLOC_ASK_USER_SHARE_POSITION__ == true) {
 		?>
 			function userShareGeoPosition(position) {
-				$.ajax({type: 'GET', url: '<?php  echo BASE_URL; ?>wsp/includes/GoogleGeolocalisationSession.php?user_share=1&latitude='+position.coords.latitude+'&longitude='+position.coords.longitude+'&city=&country=&country_code=&region=', 
-					success: function(data){ 
-					try { 
-						eval(data); 
-					} catch(err) {} 
-				} });
+				$.ajax({type: 'GET', url: '<?php  echo BASE_URL; ?>wsp/includes/GoogleGeolocalisationSession.php?user_share=1&latitude='+position.coords.latitude+'&longitude='+position.coords.longitude+'&city=&country=&country_code=&region=', success: function(data){ try { eval(data); } catch(err) {} } });
 			}
 			if (navigator.geolocation) {
 				navigator.geolocation.getCurrentPosition(userShareGeoPosition);

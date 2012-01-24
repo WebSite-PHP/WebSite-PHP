@@ -46,6 +46,7 @@ Options -indexes
 	RewriteRule ^([a-z]{2})/robots.txt$ robots.txt [L] 
 	RewriteRule ^favicon.ico$ favicon.ico [L] 
 	RewriteRule ^([a-z]{2})/favicon.ico$ favicon.ico [L] 
+	RewriteRule ^wsp/includes/googlegeolocalisationsession.php(.*)$ wsp/includes/GoogleGeolocalisationSession.php$1 [L] 
 	
 	# JS /CSS combine
 	RewriteRule ^wsp/includes/combine.php(.*)$ wsp/includes/combine.php$1 [L] 

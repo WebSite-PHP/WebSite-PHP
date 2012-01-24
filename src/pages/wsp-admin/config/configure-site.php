@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php-install/wsp-admin/config/configure-site.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.101
+ * @version     1.0.102
  * @access      public
  * @since       1.0.25
  */
@@ -313,6 +313,26 @@ class ConfigureSite extends Page {
 		
 		$table_form2->addRow();
 		
+		if (!defined("SEND_ADMIN_CONNECT_BY_MAIL")) {
+			define(SEND_ADMIN_CONNECT_BY_MAIL, false);
+		}
+		$this->cmbSendAdminConnectByMail = new ComboBox($this->form2);
+		$this->cmbSendAdminConnectByMail->addItem("true", "true", (SEND_ADMIN_CONNECT_BY_MAIL==true)?true:false);
+		$this->cmbSendAdminConnectByMail->addItem("false", "false", (SEND_ADMIN_CONNECT_BY_MAIL==false)?true:false);
+		$this->cmbSendAdminConnectByMail->setWidth(143);
+		$this->cmbSendAdminConnectByMail->onChange("changeSendAdminConnectByMail")->setAjaxEvent()->disableAjaxWaitMessage();
+		$table_form2->addRowColumns(__(CMB_SEND_ADMIN_CONNECT_BY_MAIL).":&nbsp;", $this->cmbSendAdminConnectByMail);
+		
+		$this->edtSendAdminConnectByMailTo = new TextBox($this->form2);
+		$this->edtSendAdminConnectByMailTo->setWidth(143)->setValue((defined("SEND_ADMIN_CONNECT_BY_MAIL_TO")?SEND_ADMIN_CONNECT_BY_MAIL_TO:""));
+		if (SEND_ADMIN_CONNECT_BY_MAIL == false) {
+			$this->edtSendAdminConnectByMailTo->disable();
+		}
+		$edtValidation = new LiveValidation();
+		$this->edtSendAdminConnectByMailTo->setLiveValidation($edtValidation->addValidateEmail()->setFieldName(__(EDT_SEND_ADMIN_CONNECT_BY_MAIL_TO)));
+		$table_form2->addRowColumns(__(EDT_SEND_ADMIN_CONNECT_BY_MAIL_TO).":&nbsp;", new Object($this->edtSendAdminConnectByMailTo, "&nbsp;", __(SEND_ADMIN_CONNECT_BY_MAIL_CMT)));
+		
+		$table_form2->addRow();
 		
 		$this->edtForceServerName = new TextBox($this->form2);
 		if (FORCE_SERVER_NAME == "") {
@@ -422,9 +442,10 @@ class ConfigureSite extends Page {
 		$data_config_file .= "define(\"JS_COMPRESSION_TYPE\", \"NONE\"); // Javascript compression (GOOGLE_WS, LOCAL, NONE (recommand))\n";
 		$data_config_file .= "\n";
 		$data_config_file .= "define(\"DEBUG\", ".$this->cmbDebug->getValue()."); // autorize use of method addLogDebug\n";
+		$data_config_file .= "\n";
+		
 		$data_config_file .= "define(\"SEND_ERROR_BY_MAIL\", ".$this->cmbSendErrorByMail->getValue()."); // send error by mail if not local URL (http://127.0.0.1/)\n";
 		$data_config_file .= "define(\"SEND_ERROR_BY_MAIL_TO\", \"".$this->edtSendErrorByMailTo->getValue()."\"); // send error to this email\n";
-		
 		if ($this->btnValidateF2->isClicked()) {
 			$list_files = "";
 			for ($i=0; $i < $this->hidden_nb_exclude_files->getValue(); $i++) {
@@ -439,6 +460,11 @@ class ConfigureSite extends Page {
 		} else {
 			$data_config_file .= "define(\"SEND_BY_MAIL_FILE_EX\", \"\"); // list of files exluded by send error by mail\n";
 		}
+		$data_config_file .= "\n";
+		
+		$data_config_file .= "define(\"SEND_ADMIN_CONNECT_BY_MAIL\", ".$this->cmbSendAdminConnectByMail->getValue()."); // send wsp-admin connection notice, if not local URL (http://127.0.0.1/)\n";
+		$data_config_file .= "define(\"SEND_ADMIN_CONNECT_BY_MAIL_TO\", \"".$this->edtSendAdminConnectByMailTo->getValue()."\"); // send wsp-admin connection notice to this email\n";
+		$data_config_file .= "\n";
 		
 		$data_config_file .= "define(\"FORCE_SERVER_NAME\", \"";
 		if ($this->edtForceServerName->getValue() != "http://") {
@@ -464,7 +490,7 @@ class ConfigureSite extends Page {
 		$this->addObject($result_dialogbox);
 		
 		if (formalize_to_variable($site_name) != formalize_to_variable(SITE_NAME) && $this->userHaveRights()) {
-			$this->redirect($this->getBaseLanguageURL()."wsp-admin/disconnect.html");
+			$this->redirect($this->getBaseLanguageURL()."wsp-admin/disconnect.html?referer=".urlencode(str_replace("ajax/", "", $this->getCurrentURL())));
 		}
 	}
 	
@@ -501,6 +527,22 @@ class ConfigureSite extends Page {
 			for ($i=0; $i < $this->hidden_nb_exclude_files->getValue(); $i++) {
 				$this->edt_exclude_files[$i]->disable();
 			}
+		}
+	}
+	
+	public function changeSendAdminConnectByMail($sender) {
+		if ($this->cmbSendAdminConnectByMail->getValue() == "true") {
+			if (SMTP_MAIL == "") {
+				$this->addObject(new DialogBox(__(ERROR), __(PLEASE_CONFIGURE_SMTP)));
+				$this->edtSendAdminConnectByMailTo->disable();
+			} else {
+				$this->edtSendAdminConnectByMailTo->enable();
+				if ($this->edtSendAdminConnectByMailTo->getValue() == "") {
+					$this->edtSendAdminConnectByMailTo->setValue("@");
+				}
+			}
+		} else {
+			$this->edtSendAdminConnectByMailTo->disable()->forceEmpty();
 		}
 	}
 	

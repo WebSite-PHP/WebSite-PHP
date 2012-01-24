@@ -7,7 +7,7 @@
  * Class Captcha
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.102
  * @access      public
  * @since       1.0.17
  */
@@ -225,16 +225,16 @@ class Captcha extends WebSitePhpObject {
 				$html .= $this->width;
 			}
 			$html .= "px;\">\n";
-			$html .= "<img id=\"captcha_img_".$this->name."\" src=\"wsp/includes/securimage/securimage_show.php?width=".$this->width."&height=".$this->height."\" alt=\"CAPTCHA Image\" align=\"left\" width=\"".$this->width."\" height=\"".$this->height."\" />\n";
+			$html .= "<img id=\"captcha_img_".$this->name."\" src=\"".BASE_URL."wsp/includes/securimage/securimage_show.php?width=".$this->width."&height=".$this->height."\" alt=\"CAPTCHA Image\" align=\"left\" width=\"".$this->width."\" height=\"".$this->height."\" />\n";
 			$html .= "<br />\n";
 			if ($this->sound) {
-				$html .= "<object type=\"application/x-shockwave-flash\" data=\"wsp/includes/securimage/securimage_play.swf?audio=wsp/includes/securimage/securimage_play.php&amp;bgColor1=#fff&amp;bgColor2=#fff&amp;iconColor=#777&amp;borderWidth=1&amp;borderColor=#000\" height=\"19\" width=\"19\">\n";
-	    		$html .= "	<param name=\"movie\" value=\"wsp/includes/securimage/securimage_play.swf?audio=wsp/includes/securimage/securimage_play.php&amp;bgColor1=#fff&amp;bgColor2=#fff&amp;iconColor=#777&amp;borderWidth=1&amp;borderColor=#000\" />\n";
+				$html .= "<object type=\"application/x-shockwave-flash\" data=\"".BASE_URL."wsp/includes/securimage/securimage_play.swf?audio=wsp/includes/securimage/securimage_play.php&amp;bgColor1=#fff&amp;bgColor2=#fff&amp;iconColor=#777&amp;borderWidth=1&amp;borderColor=#000\" height=\"19\" width=\"19\">\n";
+	    		$html .= "	<param name=\"movie\" value=\"".BASE_URL."wsp/includes/securimage/securimage_play.swf?audio=wsp/includes/securimage/securimage_play.php&amp;bgColor1=#fff&amp;bgColor2=#fff&amp;iconColor=#777&amp;borderWidth=1&amp;borderColor=#000\" />\n";
 	  			$html .= "</object>\n";
 			}
   			$html .= "<br /><br />\n";
   			if ($this->refresh) {
-				$html .= "<a tabindex=\"-1\" style=\"border-style: none\" href=\"#\" title=\"Refresh Captcha Image\" onclick=\"$('#captcha_img_".$this->name."').attr('src', 'wsp/includes/securimage/securimage_show.php?width=".$this->width."&height=".$this->height."&sid=' + Math.random()); return false\"><img src=\"wsp/includes/securimage/images/refresh.gif\" alt=\"Reload Captcha Image\" border=\"0\" onclick=\"this.blur()\" align=\"bottom\" /></a>\n";
+				$html .= "<a tabindex=\"-1\" style=\"border-style: none\" href=\"#\" title=\"Refresh Captcha Image\" onclick=\"$('#captcha_img_".$this->name."').attr('src', '".BASE_URL."wsp/includes/securimage/securimage_show.php?width=".$this->width."&height=".$this->height."&sid=' + Math.random()); return false\"><img src=\"".BASE_URL."wsp/includes/securimage/images/refresh.gif\" alt=\"Reload Captcha Image\" border=\"0\" onclick=\"this.blur()\" align=\"bottom\" /></a>\n";
   			}
   			$html .= "<br />\n";
 			$html .= "<strong>".__(CAPTCHA_CODE)."</strong> <input type=\"text\" name=\"".$this->getEventObjectName()."\" size=\"8\" value=\"".$this->value."\" style=\"width: ".($this->width - 100)."px\" />\n";
@@ -259,7 +259,7 @@ class Captcha extends WebSitePhpObject {
 		$html = "";
 		$html .= "$('#wsp_captcha_".$this->name."').html(\"".str_replace('"', '\"', str_replace("\n", "", str_replace("\r", "", $this->render(true))))."\");\n";
 		$html .= "$('#wsp_captcha_".$this->name."').css('width', \"".$this->width."px\");\n";
-		$html .= "$('#captcha_img_".$this->name."').attr('src', 'wsp/includes/securimage/securimage_show.php?width=".$this->width."&height=".$this->height."&sid=' + Math.random());\n";
+		$html .= "$('#captcha_img_".$this->name."').attr('src', '".BASE_URL."wsp/includes/securimage/securimage_show.php?width=".$this->width."&height=".$this->height."&sid=' + Math.random());\n";
 		return $html;
 	}
 }

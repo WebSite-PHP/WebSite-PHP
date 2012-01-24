@@ -8,7 +8,7 @@
  * Class Authentication
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 31/05/2011
- * @version     1.0.100
+ * @version     1.0.102
  * @access      public
  * @since       1.0.84
  */
@@ -39,13 +39,6 @@ class Authentication extends WebSitePhpObject {
 	/**#@+
 	* @access private
 	*/
-	private $page_object = null;
-	private $error_obj = null;
-	private $login = null;
-	private $password = null;
-	private $connect_button = null;
-	private $render = null;
-	
 	private $authentication_msg = true;
 	private $color_ok = "#00FF33";
 	private $color_error = "red";
@@ -78,7 +71,7 @@ class Authentication extends WebSitePhpObject {
 		
 		$form = new Form($this->page_object);
 		if ($encrypt && extension_loaded('openssl')) {
-			$form->setEncryptObject(new EncryptDataWspObject("wsp-authentication", 2048));
+			$form->setEncryptObject(new EncryptDataWspObject("wsp-authentication"));
 		}
 		
 		$this->error_obj = new Object();
@@ -87,6 +80,7 @@ class Authentication extends WebSitePhpObject {
 		$this->login = new TextBox($form, "wsp_auth_login");
 		$login_validation = new LiveValidation();
 		$this->login->setLiveValidation($login_validation->addValidatePresence()->setFieldName(__(AUTHENTICATION_LOGIN)));
+		$this->login->setFocus();
 		
 		$this->password = new Password($form, "wsp_auth_passwd");
 		$passwd_validation = new LiveValidation();
@@ -101,7 +95,7 @@ class Authentication extends WebSitePhpObject {
 		if ($style == Authentication::STYLE_2_LINES) {
 			$table_main->addRow($this->error_obj)->setColspan(2)->setAlign(RowTable::ALIGN_CENTER);
 			
-			$table_main->addRowColumns(__(AUTHENTICATION_LOGIN).":&nbsp;", $this->login->setFocus())->setColumnWidth(2, "100%")->setNowrap();
+			$table_main->addRowColumns(__(AUTHENTICATION_LOGIN).":&nbsp;", $this->login)->setColumnWidth(2, "100%")->setNowrap();
 			$table_main->addRowColumns(__(AUTHENTICATION_PASSWD).":&nbsp;", $this->password)->setNowrap();
 			$table_main->addRow();
 			$table_main->addRow($this->connect_button)->setColspan(2);

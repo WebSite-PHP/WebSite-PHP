@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php-install/wsp-admin/config/configure-database.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.100
+ * @version     1.0.102
  * @access      public
  * @since       1.0.25
  */
@@ -265,6 +265,7 @@ class ConfigureDatabase extends Page {
 				if (($db_key_identifier = $this->generateTableClass($database, $table)) != false) {
 					$this->generateWspTableObject($database, $table, $db_key_identifier);
 					$this->generateTableObject($database, $table, $db_key_identifier);
+					$this->generateTableObjectList($database, $table);
 					$dialog = new DialogBox(__(GENERATE_DATABASE_OBJECTS), __(GENERATE_DATABASE_OBJECTS_OK, $database.".".$table));
 				} else {
 					$dialog = new DialogBox(__(GENERATE_DATABASE_OBJECTS), __(GENERATE_DATABASE_OBJECTS_ERROR, $database.".".$table));

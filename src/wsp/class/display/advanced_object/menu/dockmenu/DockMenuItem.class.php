@@ -8,7 +8,7 @@
  * Class DockMenuItem
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.102
  * @access      public
  * @since       1.0.17
  */
@@ -78,8 +78,11 @@ class DockMenuItem extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$html = "";
 		
-		if (gettype($this->img) == "object") {
+		if (gettype($this->img) == "object" && get_class($this->img) == "Picture") {
 			$this->img = $this->img->getSrc();
+		}
+		if (strtoupper(substr($this->img, 0, 7)) != "HTTP://" && strtoupper(substr($this->img, 0, 8)) != "HTTPS://") {
+			$this->img = BASE_URL.$this->img;
 		}
 		
 		$html .= "<a href=\"".createHrefLink($this->link)."\">"; 

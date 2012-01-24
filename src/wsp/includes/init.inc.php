@@ -6,7 +6,7 @@
  * WebSite-PHP file init.inc.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.97
+ * @version     1.0.102
  * @access      public
  * @since       1.0.0
  */
@@ -32,57 +32,83 @@
 			exit;
 		}
 	}
-	
+		
 	if (!defined("DEFAULT_TIMEZONE") || DEFAULT_TIMEZONE == "") {
 		define("DEFAULT_TIMEZONE", "Europe/Paris");
 	}
 	date_default_timezone_set(DEFAULT_TIMEZONE);
+	
+	$http_type = "";
 	$split_request_uri = explode("\?", $_SERVER['REQUEST_URI']);
 	if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
 		if ($_SERVER['SERVER_PORT'] == 443) {
-			define("SITE_URL", "https://".str_replace("//", "/", $_SERVER['SERVER_NAME'].substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/"));
+			$http_type = "https://";
+			$current_url = str_replace("//", "/", $_SERVER['SERVER_NAME'].substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
 		} else {
 			$port = "";
 			if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
 				$port = ":".$_SERVER['SERVER_PORT'];
 			}
-			define("SITE_URL", "http://".str_replace("//", "/", $_SERVER['SERVER_NAME'].$port.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/"));
+			$http_type = "http://";
+			$current_url = str_replace("//", "/", $_SERVER['SERVER_NAME'].$port.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
 		}
 	} else {
-		define("SITE_URL", "http://".str_replace("//", "/", FORCE_SERVER_NAME.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/"));
+		$http_type = "http://";
+		$current_url = str_replace("//", "/", FORCE_SERVER_NAME.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
 	}
-	
+	define("SITE_URL", $http_type.$current_url);
 	$_SESSION['websitephp_register_object'] = null;
 	
-	// Load URL Variables
-	$my_language_url = "";
-	$my_subfolder_url = "";
-	$my_site_base_url = SITE_URL;
-	if (isset($_GET['folder_level']) && $_GET['folder_level'] > 0) { // when URL rewriting with folders
-		if ($my_site_base_url[strlen($my_site_base_url) - 1] == "/") {
-			$my_site_base_url = substr($my_site_base_url, 0, strlen($my_site_base_url) - 1);
-		}
-		for ($i=0; $i < $_GET['folder_level']; $i++) {
-			$pos = strrpos($my_site_base_url, "/");
-			if ($pos != false && $my_site_base_url[$pos-1] != "/") {
-				$my_subfolder_url .= substr($my_site_base_url, $pos, strlen($my_site_base_url));
-				$my_site_base_url = substr($my_site_base_url, 0, $pos);
-			} else {
-				break;
+	// define the base URL of the website
+	$my_base_url = "";
+	$array_cwd = explode('/',  str_replace('\\', '/', getcwd()));
+	$wsp_folder_name = $array_cwd[sizeof($array_cwd)-1];
+	
+	$array_current_url = explode('/', $current_url);
+	for ($i=sizeof($array_current_url)-2; $i >= 0; $i--) {
+		if ($array_current_url[$i] == $wsp_folder_name) {
+			$my_base_url = $http_type;
+			for ($j=0; $j <= $i; $j++) {
+				$my_base_url .= $array_current_url[$j]."/";
 			}
+			break;
 		}
-		$my_site_base_url .= "/";
 	}
-	if ($my_site_base_url[strlen($my_site_base_url) - 4] == "/") {
-		$my_language_url = substr($my_site_base_url, strlen($my_site_base_url) - 3, 2);
-		$my_site_base_url = substr($my_site_base_url, 0, strlen($my_site_base_url) - 3);
+	if ($my_base_url == "") {
+		$my_base_url = $http_type.$array_current_url[0]."/";
 	}
-	if ($my_language_url == "" && isset($_GET['l']) && $_GET['l'] != "") {
-		$my_language_url = $_GET['l'];
-	}
-	define("BASE_URL", $my_site_base_url);
-	define("LANGUAGE_URL", $my_language_url);
+	$my_subfolder_url = str_replace($my_base_url, "", $http_type.$current_url);
+	define("BASE_URL", $my_base_url);
+	define("LANGUAGE_URL", substr($my_subfolder_url, 0, 2));
 	define("SUBFOLDER_URL", $my_subfolder_url);
+	
+	if (file_exists('install.htaccess')) {
+		$tmp_lang = SITE_DEFAULT_LANG;
+    	$lang_folder = dirname(__FILE__)."/../../lang/";
+    	if (!is_dir($lang_folder.$tmp_lang)) {
+    		$tmp_lang = "";
+	    	$array_lang_dir = scandir($lang_folder);
+			for ($i=0; $i < sizeof($array_lang_dir); $i++) {
+				if (is_dir($lang_folder.$array_lang_dir[$i]) && $array_lang_dir[$i] != "" && 
+					$array_lang_dir[$i] != "." && $array_lang_dir[$i] != ".." && $array_lang_dir[$i] != ".svn" && 
+					strlen($array_lang_dir[$i]) == 2) {
+						$tmp_lang = $array_lang_dir[$i];
+						break;
+				}
+			}
+    	}
+    	if (strlen($tmp_lang) != 2) {
+    		echo "No language defined in WSP lang folder (".realpath($lang_folder).")\n";
+    		exit;
+    	}
+		rename('install.htaccess', '.htaccess');
+    	$test_url = @file_get_contents(BASE_URL.$tmp_lang);
+    	if ($test_url == "") {
+    		rename('.htaccess', 'install.htaccess');
+    		echo "Please change your configuration to be compatible with <a href='http://www.website-php.com' target='_blank'>WebSite-PHP</a>:<br/>- Webserver needs to support \"AllowOverride All\" for your website directory!<br/>&lt;Directory /your_directory&gt;<br/>&nbsp;&nbsp;&nbsp;AllowOverride all<br/>&lt;/Directory&gt;<br/><a href='http://httpd.apache.org/docs/current/mod/core.html#allowoverride' target='_blank'>http://httpd.apache.org/docs/current/mod/core.html#allowoverride</a>\n";
+    		exit;
+    	}
+	}
 	
 	$array_server_name = explode('.', $_SERVER['SERVER_NAME']);
 	if (sizeof($array_server_name) > 1) {
@@ -126,7 +152,8 @@
 
 	// Redirect wrong URL
 	if (strtoupper($_GET['p']) != "HOME") {
-		if (find($_SERVER['REQUEST_URI'], ".html", 1, 0) == 0 && !isset($_GET['mime'])) {
+		if (find($_SERVER['REQUEST_URI'], ".html", 1, 0) == 0 && !isset($_GET['mime']) && 
+			 (!isset($_GET['error-redirect-url']) && !isset($_GET['error-redirect']))) {
 			header('HTTP/1.1 301 Moved Temporarily');  
 			header('Status: 301 Moved Temporarily');  
 			if (isset($_SESSION['lang']) || isset($_GET['l'])) {

@@ -7,7 +7,7 @@
  * Class File
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.101
+ * @version     1.0.102
  * @access      public
  * @since       1.0.13
  */
@@ -37,9 +37,14 @@ class File{
 	 * @param mixed $filename path to the file
 	 * @param boolean $binary [default value: false]
 	 * @param boolean $delete_if_exists [default value: false]
+	 * @param boolean $debug [default value: true]
 	 */
-	function __construct($filename,$binary=false,$delete_if_exists=false){
+	function __construct($filename, $binary=false, $delete_if_exists=false, $debug=true){
+		$this->debug = $debug;
 		$filename = str_replace("\\", "/", $filename);
+		
+		$this->name=$filename;
+		$this->binary=$binary;
 		
 		if (file_exists($filename)) {
 			$this->exists = true;
@@ -67,9 +72,6 @@ class File{
 			}
 		}
 		
-		$this->name=$filename;
-		$this->binary=$binary;
-		
 		if($binary){
 			$this->file=@fopen($filename,"a+b");
 			if(!$this->file){
@@ -90,7 +92,7 @@ class File{
 	 * @since 1.0.59
 	 */
 	public function close(){
-		fclose($this->file);
+		@fclose($this->file);
 	}
 	
 	/**

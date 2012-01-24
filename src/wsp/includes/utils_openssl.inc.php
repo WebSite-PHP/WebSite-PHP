@@ -6,7 +6,7 @@
  * WebSite-PHP file utils_openssl.inc.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.102
  * @access      public
  * @since       1.0.67
  */
@@ -58,19 +58,11 @@
 				return $keys;
 			} else {
 				$error = "";
-				if (DEBUG) {
-					while ($msg = openssl_error_string()) {
-						$error .= $msg."<br />\n";
-					}
+				while ($msg = openssl_error_string()) {
+					$error .= $msg."<br />\n";
 				}
-		    if ($GLOBALS['__AJAX_PAGE__'] == true && $GLOBALS['__AJAX_LOAD_PAGE__'] == false) {
-		    	header('HTTP/1.1 500 Error: generation private key');
-		    	echo $error;
-		    	exit;
-		    } else {
 		    	$error = "Error generation private key".($error!=""?" : ".$error:"");
 		    	throw new NewException($error, 0, getDebugBacktrace(1));
-		    }
 			}
 		}
 		return null;
@@ -78,42 +70,26 @@
 	
 	function decryptMessage($crypttext, $priv_key, $passphrase='passphrase') {
 		$crypttext = base64_decode($crypttext);
-	
+		
 		$res = openssl_pkey_get_private($priv_key, $passphrase);
 		if ($res != false) {
 			if (openssl_private_decrypt($crypttext, $text, $res)) {
 				return $text;
 			} else {
 				$error = "";
-				if (DEBUG) {
-					while ($msg = openssl_error_string()) {
-						$error .= $msg."<br />\n";
-					}
-			  }
-		    if ($GLOBALS['__AJAX_PAGE__'] == true && $GLOBALS['__AJAX_LOAD_PAGE__'] == false) {
-		    	header('HTTP/1.1 500 '.__(DECRYPT_ERROR));
-		    	echo $error;
-		    	exit;
-		    } else {
-		    	$error = __(DECRYPT_ERROR).($error!=""?" : ".$error:"");
-		    	throw new NewException($error, 0, getDebugBacktrace(1));
-		    }
-			}
-		} else {
-			$error = "";
-			if (DEBUG) {
 				while ($msg = openssl_error_string()) {
 					$error .= $msg."<br />\n";
 				}
-		  }
-		  if ($GLOBALS['__AJAX_PAGE__'] == true && $GLOBALS['__AJAX_LOAD_PAGE__'] == false) {
-	    	header('HTTP/1.1 500 Error: parsing private key');
-	    	echo $error;
-	    	exit;
-	    } else {
-	    	$error = "Error parsing private key".($error!=""?" : ".$error:"");
-		    throw new NewException($error, 0, getDebugBacktrace(1));
-	    }
+				$error = __(DECRYPT_ERROR).(DEBUG && $error!=""?" : ".$error:"");
+				throw new NewException($error, 0, false);
+			}
+		} else {
+			$error = "";
+			while ($msg = openssl_error_string()) {
+				$error .= $msg."<br />\n";
+			}
+			$error = "Error parsing private key".($error!=""?" : ".$error:"");
+			throw new NewException($error, 0, getDebugBacktrace(1));
 		}
 		return "";
 	}
@@ -122,25 +98,58 @@
 	global $form_object_decrypted;
 	$form_object_decrypted = array();
 	function decryptRequestEncryptData($object, $name, $submit_method='POST') {
-		$decrypt = false;
-		if (get_class($object) == "Form") { // object is a Form
+		if (get_class($object) == "Form" && $object->isEncrypted()) { // object is a Form
 			$form_object_decrypted = $GLOBALS['form_object_decrypted'];
 			if (!in_array($object, $form_object_decrypted)) {
+				$temp_var_form = "";
+				$name = "EncryptData_".$name;
 				$form_object_decrypted[] = $object;
 				$submit_method = $object->getMethod();
 				if ($submit_method == "POST") {
-					if (isset($_POST[$name]) && $_POST[$name] != "") {
-						parse_str($object->getEncryptObject()->decrypt($_POST[$name]), $_POST);
+					if (isset($_POST[$name]) && is_array($_POST[$name])) {
+						for ($i=0; $i < sizeof($_POST[$name]); $i++) {
+							$temp_var_form .= $object->getEncryptObject()->decrypt($_POST[$name][$i]);
+						}
 					}
-				} else if (isset($_GET[$name]) && $_GET[$name] != "") {
-					parse_str($object->getEncryptObject()->decrypt($_GET[$name]), $_GET);
+				} else if (isset($_GET[$name]) && is_array($_GET[$name])) {
+					for ($i=0; $i < sizeof($_GET[$name]); $i++) {
+						$temp_var_form .= $object->getEncryptObject()->decrypt($_GET[$name][$i]);
+					}
+				}
+				if ($temp_var_form != "") {
+					parse_str($temp_var_form, $array_request);
+					if ($submit_method == "POST") {
+						$_POST = array_merge($_POST, $array_request);
+					} else {
+						$_GET = array_merge($_GET, $array_request);
+					}
 				}
 			}
 		} else if (method_exists($object, "isEncrypted") && $object->isEncrypted()) { // Encrypted object
 			if ($submit_method == "POST") {
-				return $object->getEncryptObject()->decrypt($_POST[$name]);
+				parse_str($_POST[$name], $array_request);
+				$_POST = array_merge($_POST, $array_request);
+				
+				$temp_var = "";
+				$name = "EncryptData_".$name;
+				if (isset($_POST[$name]) && is_array($_POST[$name])) {
+					for ($i=0; $i < sizeof($_POST[$name]); $i++) {
+						$temp_var .= $object->getEncryptObject()->decrypt($_POST[$name][$i]);
+					}
+				}
+				return $temp_var;
 			} else {
-				return $object->getEncryptObject()->decrypt($_GET[$name]);
+				parse_str($_GET[$name], $array_request);
+				$_GET = array_merge($_GET, $array_request);
+				
+				$temp_var = "";
+				$name = "EncryptData_".$name;
+				if (isset($_GET[$name]) && is_array($_GET[$name])) {
+					for ($i=0; $i < sizeof($_GET[$name]); $i++) {
+						$temp_var .= $object->getEncryptObject()->decrypt($_GET[$name][$i]);
+					}
+				}
+				return $temp_var;
 			}
 		} else {
 			// return request data
