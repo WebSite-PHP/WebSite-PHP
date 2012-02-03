@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.102
+ * @version     1.0.103
  * @access      public
  * @since       1.0.18
  */
@@ -58,6 +58,47 @@ class ErrorPage extends Page {
 		
 		$this->render = new ErrorTemplate($obj_error_msg, $error_msg_title);
 		
+		// check if URL is not banned
+		if (!isset($_GET['banned_url'])) {
+			if (file_exists(dirname(__FILE__)."/../../wsp/config/banned_url.cnf")) {
+				$list_banned_url = file_get_contents(dirname(__FILE__)."/../../wsp/config/banned_url.cnf");
+				$array_banned_url = explode("\n", str_replace("\r", "", $list_banned_url));
+			} else {
+				$array_banned_url = array();
+			}
+			$url_without_base = str_replace($this->getBaseURL(), "", $this->getCurrentUrl());
+			if (isset($_GET['error-redirect-url']) && $_GET['error-redirect-url'] != "") {
+				$url_without_base = str_replace($this->getBaseURL(), "", $_GET['error-redirect-url']);
+			}
+			if ($url_without_base[0] != '/') {
+				$url_without_base = "/".$url_without_base;
+			}
+			if (in_array(trim($url_without_base), $array_banned_url)) {
+				$_GET['banned_url'] = "true";
+			}
+		}
+		$nb_user_bad_url_access = 0;
+		if ($_GET['banned_url'] == "true" && !$this->isCrawlerBot()) {
+			$array_wsp_banned_users = SharedMemory::get("wsp_banned_users");
+			if ($array_wsp_banned_users == null) {
+				$array_wsp_banned_users = array();
+			}
+			if (!isset($array_wsp_banned_users[$this->getRemoteIP()])) {
+				$array_wsp_banned_users[$this->getRemoteIP()] = 0;
+			}
+			$array_wsp_banned_users[$this->getRemoteIP()] = $array_wsp_banned_users[$this->getRemoteIP()] + 1;
+			$nb_user_bad_url_access = $array_wsp_banned_users[$this->getRemoteIP()];
+			SharedMemory::add("wsp_banned_users", $array_wsp_banned_users);
+			
+			$array_wsp_banned_users_last_access = SharedMemory::get("wsp_banned_users_last_access");
+			if ($array_wsp_banned_users_last_access == null) {
+				$array_wsp_banned_users_last_access = array();
+			}
+			$array_wsp_banned_users_last_access[$this->getRemoteIP()] = date("Y-m-d H:i:s");
+			SharedMemory::add("wsp_banned_users_last_access", $array_wsp_banned_users_last_access);
+		}
+		
+		// send error by mail
 		if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
 			find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0) {
 				$send_error_mail = true;
@@ -121,6 +162,11 @@ class ErrorPage extends Page {
 					}
 					$debug_mail .= "<br/>";
 					$debug_mail .= "Crawler : ".($this->isCrawlerBot()?"true":"false")."<br/>";
+					
+					if ($_GET['banned_url'] == "true" && $nb_user_bad_url_access > 0) {
+						$debug_mail .= "<br/><font color='red'>This user already tried to access to ".$nb_user_bad_url_access." forbidden URL.</font><br/>";
+						$debug_mail .= "(User will be blocked with captcha code after 4 attempts)<br/>";
+					}
 					
 					try {
 						$mail = new SmtpMail(SEND_ERROR_BY_MAIL_TO, SEND_ERROR_BY_MAIL_TO, "ERROR on ".SITE_NAME." !!!", $debug_mail, SMTP_MAIL, SMTP_NAME);

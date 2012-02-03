@@ -7,7 +7,7 @@
  * Class ListItem
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 28/02/2011
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.0.103
  * @access      public
  * @since       1.0.17
  */
@@ -71,8 +71,7 @@ class ListItem extends WebSitePhpObject {
 	 * @since 1.0.35
 	 */
 	public function render($ajax_render=false) {
-		$html = "<ul style=\"text-align:".$this->align."\">";
-		
+		$html = "<ul style='text-align:".$this->align.";'>";
 		for ($i=0; $i < sizeof($this->item_array); $i++) {
 			$html .= "<li>";
 			if (gettype($this->item_array[$i]) == "object") {
@@ -82,6 +81,7 @@ class ListItem extends WebSitePhpObject {
 			}
 			$html .= "</li>";
 		}
+		$html .= "</ul>";
 			
 		$this->object_change = false;
 		return $html;

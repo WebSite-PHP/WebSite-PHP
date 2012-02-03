@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.102
+ * @version     1.0.103
  * @access      public
  * @since       1.0.17
  */
@@ -36,6 +36,7 @@ class Captcha extends WebSitePhpObject {
 	private $default_value = "";
 	private $width = 230;
 	private $height = 80;
+	private $has_focus = false;
 	/**#@-*/
 	
 	/**
@@ -134,6 +135,18 @@ class Captcha extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method setFocus
+	 * @access public
+	 * @return Captcha
+	 * @since 1.0.103
+	 */
+	public function setFocus() {
+		$this->has_focus = true;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
 	 * Method forceObjectChange
 	 * @access public
 	 * @return Captcha
@@ -206,6 +219,16 @@ class Captcha extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method getId
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.103
+	 */
+	public function getId() {
+		return "wsp_captcha_".$this->name;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -237,10 +260,15 @@ class Captcha extends WebSitePhpObject {
 				$html .= "<a tabindex=\"-1\" style=\"border-style: none\" href=\"#\" title=\"Refresh Captcha Image\" onclick=\"$('#captcha_img_".$this->name."').attr('src', '".BASE_URL."wsp/includes/securimage/securimage_show.php?width=".$this->width."&height=".$this->height."&sid=' + Math.random()); return false\"><img src=\"".BASE_URL."wsp/includes/securimage/images/refresh.gif\" alt=\"Reload Captcha Image\" border=\"0\" onclick=\"this.blur()\" align=\"bottom\" /></a>\n";
   			}
   			$html .= "<br />\n";
-			$html .= "<strong>".__(CAPTCHA_CODE)."</strong> <input type=\"text\" name=\"".$this->getEventObjectName()."\" size=\"8\" value=\"".$this->value."\" style=\"width: ".($this->width - 100)."px\" />\n";
+			$html .= "<strong>".__(CAPTCHA_CODE)."</strong> <input type=\"text\" name=\"".$this->getEventObjectName()."\" id=\"".$this->getEventObjectName()."\" size=\"8\" value=\"".$this->value."\" style=\"width: ".($this->width - 100)."px\" />\n";
 			$html .= "</div>\n";
 			if (!$ajax_render) {
 				$html .= "</div>\n";
+			}
+			if ($this->has_focus) {
+				$html .= $this->getJavascriptTagOpen();
+				$html .= "\$('#".$this->getEventObjectName()."').focus();\n";
+				$html .= $this->getJavascriptTagClose();
 			}
 		}
 		$this->object_change = false;
@@ -260,6 +288,9 @@ class Captcha extends WebSitePhpObject {
 		$html .= "$('#wsp_captcha_".$this->name."').html(\"".str_replace('"', '\"', str_replace("\n", "", str_replace("\r", "", $this->render(true))))."\");\n";
 		$html .= "$('#wsp_captcha_".$this->name."').css('width', \"".$this->width."px\");\n";
 		$html .= "$('#captcha_img_".$this->name."').attr('src', '".BASE_URL."wsp/includes/securimage/securimage_show.php?width=".$this->width."&height=".$this->height."&sid=' + Math.random());\n";
+		if ($this->has_focus) {
+			$html .= "\$('#".$this->getEventObjectName()."').focus();\n";
+		}
 		return $html;
 	}
 }

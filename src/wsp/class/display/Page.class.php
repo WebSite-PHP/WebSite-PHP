@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.102
+ * @version     1.0.103
  * @access      public
  * @since       1.0.0
  */
@@ -146,6 +146,7 @@ class Page {
 	private $class_name = "";
 	private $page = "";
 	private $cache_file_name = "";
+	private $cache_file_name_orig = "";
 	private $cache_time = 0;
 	private $cache_reset_on_midnight = false;
 	
@@ -163,7 +164,7 @@ class Page {
 	private $callback_method_params = array();
 	private $array_callback_object = array("Button", "ComboBox", "TextBox", "Password", "ColorPicker", "CheckBox", 
 											"ContextMenuEvent", "DroppableEvent", "SortableEvent", "Object", "Picture", 
-											"Calendar", "AutoCompleteEvent");
+											"Calendar", "AutoCompleteEvent", "Raty");
 	
 	private $create_object_to_get_css_js = false;
 	private $ended_added_object_loaded = false;
@@ -292,6 +293,7 @@ class Page {
 				mkdir($cache_directory);
 			}
 		}
+		$this->cache_file_name_orig = $cache_directory."/".$file_name;
 		if (find($file_name, ".cache", 1, 0) == 0) {
 			$file_name .= ".cache";
 		}
@@ -304,9 +306,6 @@ class Page {
 		}
 		if ($this->isCss3Browser()){
 			$this->cache_file_name = str_replace(".cache", "_css3.cache", $this->cache_file_name);
-			if (strtolower($this->getBrowserName()) == "firefox") {
-				$this->cache_file_name = str_replace(".cache", "_FF.cache", $this->cache_file_name);
-			}
 		}
 		if ($this->isAjaxPage()){
 			$this->cache_file_name = str_replace(".cache", "_ajax.cache", $this->cache_file_name);
@@ -314,6 +313,22 @@ class Page {
 			$this->cache_file_name = str_replace(".cache", "_load.cache", $this->cache_file_name);
 		}
 		$this->cache_file_name = $cache_directory."/".str_replace("%2F", "/", urlencode($this->cache_file_name));
+	}
+	
+	/**
+	 * Method deleteCacheFilesPage
+	 * @access public
+	 * @return Page
+	 * @since 1.0.103
+	 */
+	public function deleteCacheFilesPage() {
+		$files = glob($this->cache_file_name_orig."*.cache");
+		if (is_array($files)) {
+			foreach ($files as $filename) {
+			  @unlink($filename);
+			}
+		}
+		return $this;
 	}
 	
 	/**
@@ -822,7 +837,8 @@ class Page {
 							$save_load_variables = $GLOBALS['__LOAD_VARIABLES__'];
 							$GLOBALS['__LOAD_VARIABLES__'] = true;
 							if (get_class($object) == "Object" || get_class($object) == "ContextMenuEvent" || 
-								get_class($object) == "Picture" || get_class($object) == "AutoCompleteEvent") {
+								get_class($object) == "Picture" || get_class($object) == "AutoCompleteEvent" || 
+								get_class($object) == "Raty") {
 									$object->setClick();
 							} else if (get_class($object) == "DroppableEvent") {
 								$object->setDrop();
@@ -1151,6 +1167,15 @@ class Page {
 	}
 	
 	/**
+	 * Method refreshPage
+	 * @access public
+	 * @since 1.0.103
+	 */
+	public function refreshPage() {
+		$this->redirect($this->getCurrentURL());
+	}
+	
+	/**
 	 * Method redirect404
 	 * @access public
 	 * @since 1.0.101
@@ -1373,11 +1398,16 @@ class Page {
 		if ($this->browser == null) {
 			$this->browser = get_browser_info(null, true);
 		}
+		$is_crawler = false;
 		if (is_bool($this->browser['crawler'])) {
-			return $this->browser['crawler'];
+			$is_crawler = $this->browser['crawler'];
 		} else {
-			return (trim($this->browser['crawler'])=="true")?true:false;
+			$is_crawler = (trim($this->browser['crawler'])=="true")?true:false;
 		}
+		if (!$is_crawler && find($this->getBrowserUserAgent(), "facebookexternalhit") > 0) {
+			$is_crawler = true;
+		}
+		return $is_crawler;
 	}
 	
 	/**

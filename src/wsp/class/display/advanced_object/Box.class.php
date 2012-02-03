@@ -8,7 +8,7 @@
  * Class Box
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.103
  * @access      public
  * @since       1.0.17
  */
@@ -72,6 +72,7 @@ class Box extends WebSitePhpObject {
 	private $is_browser_ie_6 = false;
 	private $browser_ie_version = false;
 	private $browser_name = "";
+	private $browser_version = 0;
 	private $css3=false;
 	private $tagH = "";
 	private $icon_16_pixels = "";
@@ -128,6 +129,7 @@ class Box extends WebSitePhpObject {
 		$browser = get_browser_info(null, true);
 		$this->css3 = (($browser['cssversion'] >= 3)?true:false) && (($this->browser_ie_version != false && $this->browser_ie_version <= 8)?false:true);
 		$this->browser_name = strtolower($browser['browser']);
+		$this->browser_version = $browser['version'];
 		
 		CssInclude::getInstance()->loadCssConfigFileInMemory(false);
 		if (constant("DEFINE_STYLE_BCK_PICTURE_".strtoupper($this->style_header)) == "") {
@@ -453,21 +455,12 @@ class Box extends WebSitePhpObject {
 			}
 			$html .= "\">";
 			if ($this->icon_48_pixels != "") {
-				$html .= "<img src=\"".$this->icon_48_pixels."\" height=\"48\" width=\"48\" style=\"position:absolute;";
-				if ($this->css3 || ($this->browser_ie_version != false && $this->browser_ie_version <= 7)) {
-					if ($this->browser_name == "firefox" || ($this->browser_ie_version != false && $this->browser_ie_version <= 7)) {
-						$html .= "margin-top:-16px;margin-left:-48px;";
-					} else {
-						$html .= "margin-top:-16px;margin-left:-3px;";
-					}
-				} else {
-					$html .= "top:-14px;left:2px;";
-				}
-				$html .= "\"";
+				$html .= "<table cellpadding=\"0\" cellspacing=\"0\"><tr><td style=\"width:48px;\"><span style=\"position:absolute;margin-top:-24px;margin-left:-2px;\">";
+				$html .= "<img src=\"".$this->icon_48_pixels."\" height=\"48\" width=\"48\"";
 				if ($this->icon_48_pixels_text != ""){
 					$html .= " title=\"".str_replace("\"", " ", $this->icon_48_pixels_text)."\" alt=\"".str_replace("\"", " ", $this->icon_48_pixels_text)."\"";
 				}
-				$html .= "><span style=\"width:46px;display:block;float:left;height:1px;\"><!-- --></span>";
+				$html .= "></span></td><td>";
 			}
 			if ($this->icon_16_pixels != ""){
 				$html .= "<img src=\"".$this->icon_16_pixels."\" height=\"16\" width=\"16\" style=\"vertical-align: middle;\"";
@@ -494,6 +487,9 @@ class Box extends WebSitePhpObject {
 			}
 			if ($this->tagH != "") {
 				$html .= "</".$this->tagH.">";
+			}
+			if ($this->icon_48_pixels != "") {
+				$html .= "</td></tr></table>";
 			}
 			$html .= "</td>\n";
 			$html .= "				</tr>\n";

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.102
+ * @version     1.0.103
  * @access      public
  * @since       1.0.17
  */
@@ -54,13 +54,17 @@ class DataBase {
 	/**
 	 * Method getInstance
 	 * @access static
+	 * @param boolean $connect [default value: true]
 	 * @return DataBase
 	 * @since 1.0.35
 	 */
-	final public static function getInstance() {
+	final public static function getInstance($connect=true) {
 		static $dbInstance = null;
 		if (!isset($dbInstance)) {
 			$dbInstance = new DataBase(DB_HOST, DB_ROOT, DB_PASSWORD, DB_DATABASE, DB_PORT);
+			if ($connect) {
+				$dbInstance->connect();
+			}
 		}
 		return $dbInstance;
 	}
@@ -72,23 +76,24 @@ class DataBase {
 	 * @since 1.0.35
 	 */
 	public function connect() {
-		$this->db_is_connect = false;
-		if (!function_exists('mysqli_init') && !extension_loaded('mysqli')) {
-		    exit("Sorry, the FrameWork WebSite-PHP use MySqli, please install it!\n");
-		} else {
-			$this->connection = new mysqli(trim($this->host), $this->root, $this->password, "", $this->port);
-			if (mysqli_connect_errno()) {
-				if ($this->host == DB_HOST && $this->root == DB_ROOT && $this->password == DB_PASSWORD && $this->port == DB_PORT) {
-					throw new NewException("Error DataBase::getInstance()->connect(): unable to connect : ".mysqli_connect_error(), 0, getDebugBacktrace(1));
-				}
-				return false;
+		if (!$this->isConnect()) {
+			if (!function_exists('mysqli_init') && !extension_loaded('mysqli')) {
+			    exit("Sorry, the FrameWork WebSite-PHP use MySqli, please install it!\n");
 			} else {
-				$this->db_is_connect = true;
-				if ($this->database != "" && !$this->select_db($this->database)) {
-					$this->db_is_connect = false;
+				$this->connection = new mysqli(trim($this->host), $this->root, $this->password, "", $this->port);
+				if (mysqli_connect_errno()) {
+					if ($this->host == DB_HOST && $this->root == DB_ROOT && $this->password == DB_PASSWORD && $this->port == DB_PORT) {
+						throw new NewException("Error DataBase::getInstance()->connect(): unable to connect : ".mysqli_connect_error(), 0, getDebugBacktrace(1));
+					}
 					return false;
+				} else {
+					$this->db_is_connect = true;
+					if ($this->database != "" && !$this->select_db($this->database)) {
+						$this->db_is_connect = false;
+						return false;
+					}
+					return true;
 				}
-				return true;
 			}
 		}
 	}
@@ -129,6 +134,16 @@ class DataBase {
 			}
 		}
 		$this->db_is_connect = false;
+	}
+	
+	/**
+	 * Method isConnect
+	 * @access public
+	 * @return mixed
+	 * @since 1.0.103
+	 */
+	public function isConnect() {
+		return $this->db_is_connect || $this->connection != null;
 	}
 	
 	/**

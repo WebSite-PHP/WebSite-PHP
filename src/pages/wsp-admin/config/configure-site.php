@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.102
+ * @version     1.0.103
  * @access      public
  * @since       1.0.25
  */
@@ -313,6 +313,14 @@ class ConfigureSite extends Page {
 		
 		$table_form2->addRow();
 		
+		$this->edtMaxBadUrlBeforeBan = new TextBox($this->form2);
+		$this->edtMaxBadUrlBeforeBan->setWidth(143)->setValue(MAX_BAD_URL_BEFORE_BANNED);
+		$edtValidation = new LiveValidation();
+		$this->edtMaxBadUrlBeforeBan->setLiveValidation($edtValidation->addValidatePresence()->addValidateNumericality()->setFieldName(__(EDT_MAX_BAD_URL_BEFORE_BANNED)));
+		$table_form2->addRowColumns(__(EDT_MAX_BAD_URL_BEFORE_BANNED).":&nbsp;",$this->edtMaxBadUrlBeforeBan);
+		
+		$table_form2->addRow();
+		
 		if (!defined("SEND_ADMIN_CONNECT_BY_MAIL")) {
 			define(SEND_ADMIN_CONNECT_BY_MAIL, false);
 		}
@@ -460,6 +468,9 @@ class ConfigureSite extends Page {
 		} else {
 			$data_config_file .= "define(\"SEND_BY_MAIL_FILE_EX\", \"\"); // list of files exluded by send error by mail\n";
 		}
+		$data_config_file .= "\n";
+		
+		$data_config_file .= "define(\"MAX_BAD_URL_BEFORE_BANNED\", ".$this->edtMaxBadUrlBeforeBan->getValue()."); // Nb max URL before banned visitor\n";
 		$data_config_file .= "\n";
 		
 		$data_config_file .= "define(\"SEND_ADMIN_CONNECT_BY_MAIL\", ".$this->cmbSendAdminConnectByMail->getValue()."); // send wsp-admin connection notice, if not local URL (http://127.0.0.1/)\n";

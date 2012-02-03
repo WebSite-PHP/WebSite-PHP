@@ -6,7 +6,7 @@
  * Entry point of all AJAX requests
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.101
+ * @version     1.0.103
  * @access      public
  * @since       1.0.0
  */
@@ -65,11 +65,6 @@
 		header('HTTP/1.1 500 Internal Server Error');
 		echo 'Function Load or InitializeComponent doesn\'t exists for the page '.$_GET['p'];
 		exit;
-	}
-	
-	// Connect to the DataBase
-	if (DB_ACTIVE) {
-		DataBase::getInstance()->connect();
 	}
 	
 	if (method_exists($page_object, "InitializeComponent")) {
@@ -153,7 +148,7 @@
 	
 	// Disconnect DataBase
 	if (DB_ACTIVE) {
-		DataBase::getInstance()->disconnect();
+		DataBase::getInstance(false)->disconnect();
 	}
 	unset($_SESSION['websitephp_register_object']);
 ?>

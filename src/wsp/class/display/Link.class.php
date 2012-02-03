@@ -7,7 +7,7 @@
  * Class Link
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.103
  * @access      public
  * @since       1.0.17
  */
@@ -244,22 +244,21 @@ class Link extends WebSitePhpObject {
 			if (get_class($this->link) == "Link") {
 				$tmp_link = $this->link->getLink();
 			} else {
-				if (get_class($this->link) == "DialogBox" || get_class($this->link) == "JavaScript") {
-					$this->link->displayFormURL();
-				}
-				if (method_exists($this->link, "render")) {
-					$tmp_link = $this->link->render();
-				} else {
-					$tmp_link = $this->link;
+				if (get_class($this->link) != "DialogBox" && get_class($this->link) != "JavaScript") {
+					if (method_exists($this->link, "render")) {
+						$tmp_link = $this->link->render();
+					} else {
+						$tmp_link = $this->link;
+					}
 				}
 			}
 		} else {
 			$tmp_link = $this->link;
 		}
-		if (strtoupper(substr($tmp_link, 0, 11)) != "JAVASCRIPT:" && 
-			strtoupper(substr($tmp_link, 0, 7)) != "MAILTO:" &&
-			strtoupper(substr($tmp_link, 0, 6)) != "FTP://" &&
-			strtoupper(substr($tmp_link, 0, 1)) != "#") {
+		if (strtoupper(substr($tmp_link, 0, 11)) != "JAVASCRIPT:" && strtoupper(substr($tmp_link, 0, 7)) != "MAILTO:" &&
+			strtoupper(substr($tmp_link, 0, 6)) != "FTP://" && strtoupper(substr($tmp_link, 0, 1)) != "#" &&
+			get_class($this->link) != "DialogBox" && get_class($this->link) != "JavaScript") {
+				
 			if (strtoupper(substr($tmp_link, 0, strlen(BASE_URL))) == strtoupper(BASE_URL)
 				|| (strtoupper(substr($tmp_link, 0, 7)) != "HTTP://" && strtoupper(substr($tmp_link, 0, 8)) != "HTTPS://")) {
 				
@@ -344,7 +343,7 @@ class Link extends WebSitePhpObject {
 			$html .= " rel=\"nofollow\"";
 		}
 		
-		if ($this->onclick != "" && find($html, "onClick", 1) == 0) {
+		if ($this->onclick != "" && find($html, "javascript:void(0);\" onClick=\"", 1) == 0) {
 			$html .= " onClick=\"".$this->onclick."\"";
 		}
 		$html .= ">";

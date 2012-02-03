@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.102
+ * @version     1.0.103
  * @access      public
  * @since       1.0.19
  */
@@ -386,7 +386,7 @@
 						$html .= "\" target=\"".$str_or_object_link->getTarget()."";
 					}
 				} else {
-					if (get_class($str_or_object_link) == "DialogBox") {
+					if (get_class($str_or_object_link) == "DialogBox" || get_class($str_or_object_link) == "JavaScript") {
 						$str_or_object_link->displayFormURL();
 					}
 					$tmp_link = $str_or_object_link->render();
@@ -461,6 +461,15 @@
 	function alert($text) {
 		$page_object = Page::getInstance($_GET['p']);
 		$page_object->addObject(new DialogBox("Alert", $text));
+	}
+	
+	function delMaskedFiles($mask_filepath) {
+		$files = glob($mask_filepath);
+		if (is_array($files)) {
+			foreach ($files as $filename) {
+			  @unlink($filename);
+			}
+		}
 	}
 	
 	include("utils2.inc.php");

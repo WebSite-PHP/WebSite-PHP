@@ -7,7 +7,7 @@
  * Class SqlDataView
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.103
  * @access      public
  * @since       1.0.17
  */
@@ -53,7 +53,9 @@ class SqlDataView {
 	private $row_count = null;
 	private $attributes = array();
 	private $attributes_order = array();
+	private $attributes_group = array();
 	private $last_query = "";
+	private $list_custom_attribute = "";
 	
 	private $joins_object = array();
 	private $join_clause = array();
@@ -123,6 +125,18 @@ class SqlDataView {
 		}
 		$this->attributes[] = $attribute;
 		$this->attributes_order[] = $order;
+		return $this;
+	}
+	
+	/**
+	 * Method addGroup
+	 * @access public
+	 * @param mixed $attribute 
+	 * @return SqlDataView
+	 * @since 1.0.103
+	 */
+	public function addGroup($attribute) {
+		$this->attributes_group[] = $attribute;
 		return $this;
 	}
 	
@@ -233,7 +247,7 @@ class SqlDataView {
 	 */
 	private function createQuery($list_attribute) {
 		$query = "SELECT ";
-		if (sizeof($this->joins_object) > 0) {
+		if (sizeof($this->joins_object) > 0 && sizeof($this->attributes) == 0) {
 			$query .= "DISTINCT ";
 		}
 		$query .= $list_attribute;
@@ -246,6 +260,13 @@ class SqlDataView {
 				$this->clause = " WHERE ".$this->clause;
 			}
 			$query .= $this->clause." ";
+		}
+		if (sizeof($this->attributes_group) > 0) {
+			$query .= " GROUP BY ";
+			for ($i=0; $i < sizeof($this->attributes_group); $i++) {
+				if ($i != 0) { $query .= ", "; }
+				$query .= $this->attributes_group[$i];
+			}
 		}
 		if (sizeof($this->attributes) > 0) {
 			$query .= " ORDER BY ";
@@ -267,7 +288,11 @@ class SqlDataView {
 	 * @since 1.0.35
 	 */
 	public function retrieve() {
-		$list_attribute = $this->getListAttribute();
+		if ($this->list_custom_attribute != "") {
+			$list_attribute = $this->list_custom_attribute;
+		} else {
+			$list_attribute = $this->getListAttribute();
+		}
 		$this->iterator = new DataRowIterator($this->db_table_object);
 		if ($list_attribute != "") {
 			$query = $this->createQuery($list_attribute);
@@ -295,6 +320,27 @@ class SqlDataView {
 			$stmt->close();
 		}
 		return $this->iterator;
+	}
+	
+	/**
+	 * Method setCustomFields
+	 * @access public
+	 * @param mixed $field1 
+	 * @param mixed $field2 [default value: null]
+	 * @param mixed $field3 [default value: null]
+	 * @param mixed $field4 [default value: null]
+	 * @param mixed $field5 [default value: null]
+	 * @return SqlDataView
+	 * @since 1.0.103
+	 */
+	public function setCustomFields($field1, $field2=null, $field3=null, $field4=null, $field5=null) {
+		$args = func_get_args();
+		if (sizeof($args) > 0) {
+			$this->list_custom_attribute = implode(", ", $args);
+		} else {
+			$this->list_custom_attribute = "";
+		}
+		return $this;
 	}
 	
 	/**

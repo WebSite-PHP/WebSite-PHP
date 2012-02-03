@@ -7,7 +7,7 @@
  * Class Object
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.101
+ * @version     1.0.103
  * @access      public
  * @since       1.0.17
  */
@@ -82,6 +82,8 @@ class Object extends WebSitePhpEventObject {
 	private $hide_object = false;
 	private $style = "";
 	private $class = "";
+	private $itemprop = "";
+	private $itemtype = "";
 	
 	private $font_size = "";
 	private $font_family = "";
@@ -742,6 +744,38 @@ class Object extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method setItemProp
+	 * @access public
+	 * @param mixed $itemprop 
+	 * @return Object
+	 * @since 1.0.103
+	 */
+	public function setItemProp($itemprop) {
+		if (!$this->force_div_tag && !$this->force_span_tag) {
+			$this->forceSpanTag();
+		}
+		$this->itemprop = $itemprop;
+		
+		return $this;
+	}
+	
+	/**
+	 * Method setItemType
+	 * @access public
+	 * @param mixed $itemtype 
+	 * @return Object
+	 * @since 1.0.103
+	 */
+	public function setItemType($itemtype) {
+		if (!$this->force_div_tag && !$this->force_span_tag) {
+			$this->forceSpanTag();
+		}
+		$this->itemtype = $itemtype;
+		
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -770,6 +804,12 @@ class Object extends WebSitePhpEventObject {
 			}
 			if ($this->id != "") {
 				$html .= "id=\"".$this->getId()."\" ";
+			}
+			if ($this->itemprop != "") {
+				$html .= "itemprop=\"".$this->itemprop."\" ";
+			}
+			if ($this->itemtype != "") {
+				$html .= "itemtype=\"".$this->itemtype."\" ";
 			}
 			$html .= "style=\"";
 			if ($this->width != "") {
@@ -1002,7 +1042,7 @@ class Object extends WebSitePhpEventObject {
 			}
 			$html .= $this->getJavascriptTagOpen();
 			$html .= "$('#".$this->getId()."').load('".$this->objects[0]->render()."', {}, ";
-            $html .= "function (response, status, xhr) { if (status == 'error') { $('#".$this->getId()."').html('<table><tr><td><img src=\'".BASE_URL."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + response); } } );";
+            $html .= "function (response, status, xhr) { if (status == 'error' && response != '') { $('#".$this->getId()."').html('<table><tr><td><img src=\'".BASE_URL."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + response); } } );";
 			$html .= $this->getJavascriptTagClose();
 		}
 		

@@ -16,6 +16,10 @@
 	define("ERROR_DATABASE", "Database error");
 	define("ERROR_DATABASE_MSG", "Error: %s");
 	
+	define("ERROR_USER_BANNED", "Security alert");
+	define("ERROR_USER_BANNED_MSG", "You have been blocked to this website,<br/>please enter the following captcha to access on the website.");
+	define("ERROR_USER_BUTTON", "Unblock");
+	
 	define("ERROR_DEBUG_MAIL_SENT", "A technical problem occurred. An administrator has been notified and the problem should be solved quickly.");
 	
 	define("ERROR_401", "Error 401");

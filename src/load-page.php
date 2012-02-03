@@ -6,7 +6,7 @@
  * Entry point of all other pages (.pdf, .xml, .call, ...)
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.100
+ * @version     1.0.103
  * @access      public
  * @since       1.0.0
  */
@@ -51,11 +51,6 @@
 	}
 	
 	include("wsp/includes/init.inc.php");
-	
-	// Connect to the DataBase
-	if (DB_ACTIVE) {
-		DataBase::getInstance()->connect();
-	}
 	
 	header("Expires: Sat, 05 Nov 2005 00:00:00 GMT");
 	header("Last-Modified: ".gmdate("D, d M Y H:i:s")." GMT");
@@ -255,7 +250,7 @@
 	
 	// Disconnect DataBase
 	if (DB_ACTIVE) {
-		DataBase::getInstance()->disconnect();
+		DataBase::getInstance(false)->disconnect();
 	}
 	unset($_SESSION['websitephp_register_object']);
 	

@@ -7,7 +7,7 @@
  * Class DialogBox
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.101
+ * @version     1.0.103
  * @access      public
  * @since       1.0.17
  */
@@ -401,20 +401,25 @@ class DialogBox extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$html = "";
 		$html_content = "";
+		$js_display_from_url = "";
 		if (gettype($this->content) == "object" && method_exists($this->content, "render")) {
 			$html_content = $this->content->render();
 			// Extract JavaScript from HTML
 			include_once(dirname(__FILE__)."/../../includes/utils_ajax.inc.php");
 			$array_extract_js = extract_javascript($html_content);
 			for ($i=1; $i < sizeof($array_extract_js); $i++) {
-				new JavaScript("$(document).ready( function() {".$array_extract_js[$i]." } );", true);
+				if ($this->display_from_url) {
+					$js_display_from_url .= str_replace("//<![CDATA[", "", str_replace("//]]>", "", str_replace("\"", "'", str_replace("\r", "", str_replace("\n", "", $array_extract_js[$i])))))." ";
+				} else {
+					new JavaScript("$(document).ready( function() {".$array_extract_js[$i]." } );", true);
+				}
 			}
 			$html_content = $array_extract_js[0];
 		} else {
 			$html_content = $this->content;
 		}
 		if (get_class($this->content) != "Url") {
-			$html_content = "<div align=\'".$this->align."\'>".addslashes(str_replace("\r", "", str_replace("\n", "", $html_content)))."</div>";
+			$html_content = "<div align=\'".$this->align."\'>".str_replace("\"", "\'", str_replace("'", "\'", str_replace("\r", "", str_replace("\n", "", $html_content))))."</div>";
 		} else {
 			if (find($html_content, "?", 0, 0) > 0) {
 				$html_content .= "&dialogbox_level=".($this->dialogbox_indice==""?1:$this->dialogbox_indice);
@@ -455,11 +460,15 @@ class DialogBox extends WebSitePhpObject {
 		$html .= $html_div;
 		$html .= "</div>').appendTo('body');";
 		$html .= " } ";
+	
+		if ($this->display_from_url && $js_display_from_url != "") {
+			$html .= $js_display_from_url;
+		}
 		
 		if (get_class($this->content) == "Url") {
 			$html .= "wspDialogBox".$this->dialogbox_indice.".load('".$html_content."', {}, ";
             $html .= "function (response, status, xhr) {";
-            $html .= "if (status == 'error') { wspDialogBox".$this->dialogbox_indice." = $('<div style=\'display:hidden;z-index:99999".$this->dialogbox_indice.";\'><table><tr><td><img src=\'".BASE_URL."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + response + '</div>').appendTo('body'); }";
+            $html .= "if (status == 'error' && response != '') { wspDialogBox".$this->dialogbox_indice." = $('<div style=\'display:hidden;z-index:99999".$this->dialogbox_indice.";\'><table><tr><td><img src=\'".BASE_URL."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + response + '</div>').appendTo('body'); }";
 		}
 		$html .= "wspDialogBox".$this->dialogbox_indice.".dialog({ title: '".addslashes(str_replace("\r", "", str_replace("\n", "", $this->title)))."'";
 		$html .= ", close: function() { wspDialogBox".$this->dialogbox_indice.".dialog('widget').find('.ui-dialog-content').html(''); wspDialogBox".$this->dialogbox_indice.".dialog('widget').remove(); }";

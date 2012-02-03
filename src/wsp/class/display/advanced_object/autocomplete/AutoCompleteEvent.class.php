@@ -8,7 +8,7 @@
  * Class AutoCompleteEvent
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.0.103
  * @access      public
  * @since       1.0.17
  */
@@ -107,7 +107,8 @@ class AutoCompleteEvent extends WebSitePhpEventObject {
 	 */
 	public function onSelect($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		$args = func_get_args();
-		$args[0] = new JavaScript("\'' + ui.item.id + '\'");
+		$args = array_merge(array(new JavaScript("\'' + ui.item.id + '\'")), $args);
+		
 		$this->callback_onselect = $this->loadCallbackMethod($str_function, $args);
 		return $this;
 	}

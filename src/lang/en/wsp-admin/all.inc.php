@@ -10,6 +10,7 @@
 	define("CONFIGURE_SMTP", "Configure send mail");
 	define("CONFIGURE_USERS", "Configure users");
 	define("CONFIGURE_MODULES", "Configure modules");
+	define("CONFIGURE_BANNED_VISITORS", "Banned visitors");
 	
 	define("LANGUAGE", "Languages");
 	define("ENGLISH", "English");

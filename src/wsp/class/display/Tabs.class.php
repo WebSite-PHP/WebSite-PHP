@@ -7,7 +7,7 @@
  * Class Tabs
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.101
+ * @version     1.0.103
  * @access      public
  * @since       1.0.17
  */
@@ -323,7 +323,7 @@ class Tabs extends WebSitePhpObject {
 				$html .= "			cache: true,\n";
 			} 
 			$html .= "			success: function() {},\n";
-			$html .= "			error: function (xhr, status, index, anchor) { if (status == 'error') { \$(anchor.hash).html('<table><tr><td><img src=\'".BASE_URL."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + xhr.responseText); } }\n";
+			$html .= "			error: function (xhr, status, index, anchor) { if (status == 'error' && xhr.responseText != '') { \$(anchor.hash).html('<table><tr><td><img src=\'".BASE_URL."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + xhr.responseText); } }\n";
 			$html .= "		}\n";
 		}
 		$html .= "});\n";

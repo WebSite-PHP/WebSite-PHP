@@ -56,6 +56,22 @@ Options -indexes
 	RewriteRule ^combine-css/(.*\.css) wsp/includes/combine.php?type=css&files=$1&%{QUERY_STRING} [L] 
 	RewriteRule ^combine-css/wsp/(.*) wsp/$1&%{QUERY_STRING} [L] 
 	
+	# Banned files/folders of the FrameWork
+	RewriteRule ^wsp/class/(.*)\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
+	RewriteRule ^wsp/config/(.*)\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L]
+	RewriteRule ^wsp/includes/execution_time\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
+	RewriteRule ^wsp/includes/html2text\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
+	RewriteRule ^wsp/includes/init\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
+	RewriteRule ^wsp/includes/loader_class\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
+	RewriteRule ^wsp/includes/loader_lang\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
+	RewriteRule ^wsp/includes/utils_ajax\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
+	RewriteRule ^wsp/includes/utils_image\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
+	RewriteRule ^wsp/includes/utils_openssl\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
+	RewriteRule ^wsp/includes/utils_session\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
+	RewriteRule ^wsp/includes/utils\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
+	RewriteRule ^wsp/includes/utils2\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
+	RewriteRule ^wsp/includes/wsp_user_ban\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L]
+	
 	# FrameWork Folders
 	RewriteRule ^js/(.*)$ js/$1 [L] 
 	RewriteRule ^wsp/js/(.*)$ wsp/js/$1 [L]
@@ -70,11 +86,7 @@ Options -indexes
 	RewriteRule ^flash/(.*)$ flash/$1 [L] 
 	RewriteRule ^wsp/cache/(.*)$ wsp/cache/$1 [L] 
 	RewriteRule ^([a-z]{2})/cache/(.*)$ cache/$2 [L] 
-	RewriteRule ^cache/(.*)$ wsp/cache/$1 [L] 
-	
-	# Banned folders of the FrameWork
-	RewriteRule ^wsp/class/(.*)\.php$ index.php?p=error-page&error-redirect=404&folder_level=2 [L] 
-	RewriteRule ^wsp/config/(.*)\.php$ index.php?p=error-page&error-redirect=404&folder_level=2 [L] 
+	RewriteRule ^cache/(.*)$ wsp/cache/$1 [L]  
 	
 	# Rewrite Ajax URL
 	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4/$5/$6/$7&l=$1&folder_level=6&%{QUERY_STRING} [L] 

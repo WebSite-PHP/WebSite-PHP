@@ -20,6 +20,9 @@
 			<MenuItem>
 				<Menu name="__(CONFIGURE_MODULES)" url="$wsp_admin_url/config/configure-modules.html" icon_16="img/wsp-admin/modules_16.png" icon_64="img/wsp-admin/modules_64.png" />
 			</MenuItem>
+			<MenuItem>
+				<Menu name="__(CONFIGURE_BANNED_VISITORS)" url="$wsp_admin_url/config/configure-banned-visitors.html" icon_16="img/wsp-admin/banned-user_16.png" icon_64="img/wsp-admin/banned-user_64.png" />
+			</MenuItem>
 		</MenuItems>
 	</MenuItem>
 	<MenuItem>
