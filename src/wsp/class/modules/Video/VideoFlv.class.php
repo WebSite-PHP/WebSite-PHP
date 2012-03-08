@@ -8,7 +8,7 @@
  * Class VideoFlv
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 20/06/2011
- * @version     1.0.99
+ * @version     1.1.0 
  * @access      public
  * @since       1.0.17
  */
@@ -146,6 +146,9 @@ class VideoFlv extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$video_object = new SwfObject($this->id, BASE_URL."wsp/flash/mediaplayer.swf", $this->width, $this->height);
 		$video_object->addParam("allowfullscreen","true");
+		if (strtoupper(substr($this->video, 0, 7)) != "HTTP://" && strtoupper(substr($this->video, 0, 8)) != "HTTPS://") {
+			$this->video = BASE_URL.$this->video;
+		}
 		$video_object->addVariable("file",$this->video);
 		$video_object->addVariable("autostart",($this->autostart)?"true":"false");
 		if ($this->controlbar != "") {
@@ -153,7 +156,11 @@ class VideoFlv extends WebSitePhpObject {
 		}
 		if ($this->screencolor != "") {
 			$video_object->addVariable("screencolor",$this->screencolor);
-		}if ($this->snapshot != "") {
+		}
+		if ($this->snapshot != "") {
+			if (strtoupper(substr($this->snapshot, 0, 7)) != "HTTP://" && strtoupper(substr($this->snapshot, 0, 8)) != "HTTPS://") {
+				$this->snapshot = BASE_URL.$this->snapshot;
+			}
 			$video_object->addVariable("image",$this->snapshot);
 		}
 		if ($this->repeat != "") {

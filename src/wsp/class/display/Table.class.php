@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.103
+ * @version     1.1.0 
  * @access      public
  * @since       1.0.17
  */
@@ -376,7 +376,7 @@ class Table extends WebSitePhpObject {
 		
 		$args = func_get_args();
 		for ($i=0; $i < sizeof($args); $i++) {
-    		if ($args[$i] != null) {
+    		if ($args[$i] !== null) {
 				$row->add($args[$i]);
     		}
     	}

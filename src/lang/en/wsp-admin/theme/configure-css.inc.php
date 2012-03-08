@@ -33,4 +33,9 @@
 	define("LINK_ON_BODY", "Sample link on the page");
 	define("BODY_TEXT_LINK_NOTE", "See bottom of page");
 	define("WARNING_CHANGE_PLEASE_SAVE", "Warning, please save the form before change this field.");
+	
+	define("BTN_VALIDATE", "Validate");
+	define("CONFIG_FILE", "Configuration");
+	define("CONFIG_FILE_OK", "Your configuration has been saved !");
+	define("CONFIG_FILE_NOT_OK", "Error during saving configuration file !");
 ?>

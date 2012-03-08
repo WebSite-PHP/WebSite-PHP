@@ -17,7 +17,8 @@
 	define("ERROR_DATABASE_MSG", "Error: %s");
 	
 	define("ERROR_USER_BANNED", "Security alert");
-	define("ERROR_USER_BANNED_MSG", "You have been blocked to this website,<br/>please enter the following captcha to access on the website.");
+	define("ERROR_USER_BANNED_MSG_1", "You have been blocked to this website.");
+	define("ERROR_USER_BANNED_MSG_2", "Please enter the following captcha to access on the website.");
 	define("ERROR_USER_BUTTON", "Unblock");
 	
 	define("ERROR_DEBUG_MAIL_SENT", "A technical problem occurred. An administrator has been notified and the problem should be solved quickly.");
@@ -30,6 +31,7 @@
 	define("ERROR_404_MSG", "Error 404 : Page not found");
 	define("ERROR_500", "Error 500");
 	define("ERROR_500_MSG", "Error 500 : Internal Server Error");
+	define("REDIRECT_URL_TO", "You will be redirect to <a href='%s'>%s</a> (If redirection does not work please click on the link).");
 	
 	define("MAIN_PAGE_GO_BACK", "Go back to the main page");
 	

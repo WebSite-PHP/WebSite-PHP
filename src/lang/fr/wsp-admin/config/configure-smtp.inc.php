@@ -13,5 +13,5 @@
 	
 	define("CONFIG_FILE", "Configuration");
 	define("CONFIG_FILE_OK", "Votre configuration a été enregistrée !");
-	define("CONFIG_FILE_NOT_OK", "Erreur lors de la sauvegarde du configuration de configuration !");
+	define("CONFIG_FILE_NOT_OK", "Erreur lors de la sauvegarde du fichier de configuration !");
 ?>

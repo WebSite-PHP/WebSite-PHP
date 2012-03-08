@@ -8,7 +8,7 @@
  * Class VideoHTML5
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 20/06/2011
- * @version     1.0.99
+ * @version     1.1.0 
  * @access      public
  * @since       1.0.87
  */
@@ -259,9 +259,29 @@ class VideoHTML5 extends WebSitePhpObject {
 		if ($this->video_mp4 == "") {
 			throw new NewException("MP4 video is mandatory (please call method setVideo)", 0, getDebugBacktrace(1));
 		}
+		if ($this->snapshot == "") {
+			throw new NewException("You must specified a snapshot (please call method setSnapshot)", 0, getDebugBacktrace(1));
+		}
 		
 		if ($this->style != "") {
 			$this->addCss(BASE_URL."wsp/css/video/video-".$this->style.".css", "", true);
+		}
+		
+		if (strtoupper(substr($this->snapshot, 0, 7)) != "HTTP://" && strtoupper(substr($this->snapshot, 0, 8)) != "HTTPS://") {
+			$this->snapshot = BASE_URL.$this->snapshot;
+		}
+		if (strtoupper(substr($this->video_mp4, 0, 7)) != "HTTP://" && strtoupper(substr($this->video_mp4, 0, 8)) != "HTTPS://") {
+			$this->video_mp4 = BASE_URL.$this->video_mp4;
+		}
+		if ($this->video_webm != "") {
+			if (strtoupper(substr($this->video_webm, 0, 7)) != "HTTP://" && strtoupper(substr($this->video_webm, 0, 8)) != "HTTPS://") {
+				$this->video_webm = BASE_URL.$this->video_webm;
+			}
+		}
+		if ($this->video_ogg != "") {
+			if (strtoupper(substr($this->video_ogg, 0, 7)) != "HTTP://" && strtoupper(substr($this->video_ogg, 0, 8)) != "HTTPS://") {
+				$this->video_ogg = BASE_URL.$this->video_ogg;
+			}
 		}
 		
 		$html = "";

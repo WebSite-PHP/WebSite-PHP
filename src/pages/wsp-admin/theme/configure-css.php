@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php-install/wsp-admin/theme/configure-css.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.100
+ * @version     1.1.0 
  * @access      public
  * @since       1.0.25
  */
@@ -349,6 +349,13 @@ class ConfigureCss extends Page {
 		$table_form->addRowColumns(__(EDT_COLOR_SHADOW, $this->current_style_val).":&nbsp;", $this->color_shadow);
 		
 		$table_form->addRow();
+		
+		$btnValidate = new Button($form);
+		$btnValidate->setValue(__(BTN_VALIDATE))->onClick("configureCss");
+		$table_form->addRowColumns($btnValidate)->setColumnColspan(1, 3)->setColumnAlign(1, RowTable::ALIGN_CENTER);
+		
+		$table_form->addRow();
+		
 		$form->setContent($table_form);
 		
 		$this->text_link_note_obj = new Object();
@@ -381,6 +388,75 @@ class ConfigureCss extends Page {
 				$this->text_link_note_obj->emptyObject();
 			}
 		}
+	}
+	
+	public function configureCss($sender) {
+		$data_config_file = "";
+		$data_config_file .= "<?php\n";
+		$data_config_file .= "define(\"DEFINE_STYLE_BCK_BODY\", \"".str_replace("\"", "\\\"", $this->background_body->getValue())."\");\n";
+		$data_config_file .= "define(\"DEFINE_STYLE_BCK_BODY_PIC\", \"".str_replace("\"", "\\\"", $this->bck_body_pic->getValue())."\");\n";
+		$data_config_file .= "define(\"DEFINE_STYLE_BCK_BODY_PIC_REPEAT\", \"".str_replace("\"", "\\\"", $this->bck_body_pic_repeat->getValue())."\");\n";
+		$data_config_file .= "define(\"DEFINE_STYLE_BCK_BODY_PIC_POSITION\", \"".trim(str_replace("\"", "\\\"", $this->bck_body_pic_position->getValue())." ".str_replace("\"", "\\\"", $this->bck_body_pic_position_more->getValue()))."\");\n";
+		$data_config_file .= "define(\"DEFINE_STYLE_COLOR_BODY\", \"".str_replace("\"", "\\\"", $this->color_body->getValue())."\");\n";
+		$data_config_file .= "\n";
+		$data_config_file .= "define(\"DEFINE_STYLE_LINK_COLOR\", \"".str_replace("\"", "\\\"", $this->link_color->getValue())."\");\n";
+		$data_config_file .= "define(\"DEFINE_STYLE_LINK_HOVER_COLOR\", \"".str_replace("\"", "\\\"", $this->link_hover_color->getValue())."\");\n";
+		$data_config_file .= "\n";
+		$data_config_file .= "define(\"NB_DEFINE_STYLE_BCK\", ".str_replace("\"", "\\\"", $this->nb_define_style_bck->getValue())."); \n";
+		$data_config_file .= "\n";
+		for ($i=1; $i <= $this->nb_define_style_bck->getValue(); $i++) {
+			if ($this->current_style_display->getValue() == $i) {
+				$data_config_file .= "define(\"DEFINE_STYLE_BCK_".$i."_HEADER\", \"".str_replace("\"", "\\\"", $this->background_1_header->getValue())."\"); // If DEFINE_STYLE_BCK_PICTURE_1 is defined, DEFINE_STYLE_BCK_1_HEADER not use for Box object\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_BCK_PICTURE_".$i."\", \"".str_replace("\"", "\\\"", $this->background_picture_1->getValue())."\"); // ex : ../wsp/img/round_bgd/round_bgd.png (please use the default file wsp/img/round_bgd/round_bgd.png to create your own background)\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_HEADER\", \"".str_replace("\"", "\\\"", $this->color_1_header->getValue())."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_BCK_".$i."\", \"".str_replace("\"", "\\\"", $this->background_1->getValue())."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."\", \"".str_replace("\"", "\\\"", $this->color_1->getValue())."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_LINK\", \"".str_replace("\"", "\\\"", $this->style1_color_link->getValue())."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_LINK_HOVER\", \"".str_replace("\"", "\\\"", $this->style1_color_link_hover->getValue())."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_BORDER_TABLE_".$i."\", \"".str_replace("\"", "\\\"", $this->border_table_1->getValue())."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_HEADER_LINK\", \"".str_replace("\"", "\\\"", $this->style1_header_link->getValue())."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_HEADER_LINK_HOVER\", \"".str_replace("\"", "\\\"", $this->style1_header_link_hover->getValue())."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_GRADIENT_".$i."\", ".($this->style_gradient->isChecked()?"true":"false").");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_OMBRE_COLOR_".$i."\", \"".str_replace("\"", "\\\"", $this->color_shadow->getValue())."\");\n";
+			} else {
+				$data_config_file .= "define(\"DEFINE_STYLE_BCK_".$i."_HEADER\", \"".(defined("DEFINE_STYLE_BCK_".$i."_HEADER")?constant("DEFINE_STYLE_BCK_".$i."_HEADER"):"")."\"); // If DEFINE_STYLE_BCK_PICTURE_1 is defined, DEFINE_STYLE_BCK_1_HEADER not use for Box object\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_BCK_PICTURE_".$i."\", \"".(defined("DEFINE_STYLE_BCK_PICTURE_".$i)?constant("DEFINE_STYLE_BCK_PICTURE_".$i):"")."\"); // ex : ../wsp/img/round_bgd/round_bgd.png (please use the default file wsp/img/round_bgd/round_bgd.png to create your own background)\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_HEADER\", \"".(defined("DEFINE_STYLE_COLOR_".$i."_HEADER")?constant("DEFINE_STYLE_COLOR_".$i."_HEADER"):"")."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_BCK_".$i."\", \"".(defined("DEFINE_STYLE_BCK_".$i)?constant("DEFINE_STYLE_BCK_".$i):"")."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."\", \"".(defined("DEFINE_STYLE_COLOR_".$i)?constant("DEFINE_STYLE_COLOR_".$i):"")."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_LINK\", \"".(defined("DEFINE_STYLE_COLOR_".$i."_LINK")?constant("DEFINE_STYLE_COLOR_".$i."_LINK"):"")."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_LINK_HOVER\", \"".(defined("")?constant(""):"")."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_BORDER_TABLE_".$i."\", \"".(defined("DEFINE_STYLE_BORDER_TABLE_".$i)?constant("DEFINE_STYLE_BORDER_TABLE_".$i):"")."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_HEADER_LINK\", \"".(defined("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK")?constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK"):"")."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_HEADER_LINK_HOVER\", \"".(defined("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK_HOVER")?constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK_HOVER"):"")."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_GRADIENT_".$i."\", ".(defined("DEFINE_STYLE_GRADIENT_".$i)?(constant("DEFINE_STYLE_GRADIENT_".$i)?"true":"false"):"false").");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_OMBRE_COLOR_".$i."\", \"".(defined("DEFINE_STYLE_OMBRE_COLOR_".$i)?constant("DEFINE_STYLE_OMBRE_COLOR_".$i):"")."\");\n";
+			}
+			$data_config_file .= "\n";
+		}
+		$data_config_file .= "define(\"DEFINE_STYLE_JQUERY\", \"".str_replace("\"", "\\\"", $this->style_jquery->getValue())."\");	// ex: redmond, smoothness, start, flick\n";
+		$data_config_file .= "									// complete list : http://www.socialblogr.com/2010/08/how-to-change-jquiery-ui-themes.html\n";
+		$data_config_file .= "\n";
+		$data_config_file .= "// Define the default font\n";
+		$data_config_file .= "define(\"DEFINE_STYLE_FONT\", \"".str_replace("\"", "\\\"", $this->style_font->getValue())."\"); 	// You can use default font (Arial, Times New Roman, Verdana) and Google font (http://code.google.com/webfonts)\n";
+		$data_config_file .= "								// List of google web font : Cantarell, Cardo, Crimson Text, Droid Sans, Droid Sans Mono, Droid Serif, IM Fell, Inconsolata, Josefin Sans Std Light, Lobster, Molengo, Nobile, OFL Sorts Mill Goudy TT, Old Standard TT, Reenie Beanie, Tangerine, Vollkorn, Yanone Kaffeesatz.\n";
+		$data_config_file .= "define(\"DEFINE_STYLE_FONT_SIZE\", \"".str_replace("\"", "\\\"", $this->style_font_size->getValue())."pt\"); // ex: 12pt, 10pt (defautl), 8pt\n";
+		$data_config_file .= "define(\"DEFINE_STYLE_FONT_SERIF\", \"".str_replace("\"", "\\\"", $this->style_font_serif->getValue())."\"); // ex: serif, sans serif (default), monospace\n";
+		$data_config_file .= "?>\n";
+		
+		$config_file = new File(dirname(__FILE__)."/../../../wsp/config/config_css.inc.php", false, true);
+		if ($config_file->write($data_config_file)){
+			$config_ok = true;
+		}
+		$config_file->close();
+		
+		if ($config_ok) {
+			$result_dialogbox = new DialogBox(__(CONFIG_FILE), __(CONFIG_FILE_OK));
+		} else {
+			$result_dialogbox = new DialogBox(__(CONFIG_FILE), __(CONFIG_FILE_NOT_OK));
+		}
+		$result_dialogbox->activateCloseButton();
+		$this->addObject($result_dialogbox);
 	}
 	
 	public function createExamples($ind) {

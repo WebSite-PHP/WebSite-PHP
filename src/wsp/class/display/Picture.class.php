@@ -7,7 +7,7 @@
  * Class Picture
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.1.0 
  * @access      public
  * @since       1.0.17
  */
@@ -502,7 +502,12 @@ class Picture extends WebSitePhpEventObject {
 			}
 			$html .= "'";
 			if ($this->title != "") {
-				$html .= " title='".str_replace("'", "&#39;", str_replace("\"", "&quot;", $this->title))."'";
+				if ($this->tooltip_obj == null) {
+					$html .= " title='";
+				} else {
+					$html .= " oldtitle='";
+				}
+				$html .= str_replace("'", "&#39;", str_replace("\"", "&quot;", $this->title))."'";
 			}
 			$html .= ">";
 		}
@@ -544,16 +549,16 @@ class Picture extends WebSitePhpEventObject {
 			$this->title = $this->title->render();
 		}
 		if ($this->title != "") {
-			$html .= " title='".str_replace("'", "&#39;", str_replace("\"", "&quot;", strip_tags($this->title)))."'";
+			$html .= " title='".str_replace("'", "&#39;", str_replace("\"", "&quot;", str_replace("\n", "", str_replace("\r", "", $this->title))))."'";
 			if ($this->alt == "") {
-				$html .= " alt='".str_replace("'", "&#39;", str_replace("\"", "&quot;", strip_tags($this->title)))."'";
+				$html .= " alt='".str_replace("'", "&#39;", str_replace("\"", "&quot;", str_replace("\n", "", str_replace("\r", "", $this->title))))."'";
 			}
 		}
 		if (gettype($this->alt) == "object" && method_exists($this->alt, "render")) {
 			$this->alt = $this->alt->render();
 		}
 		if ($this->alt != "") {
-			$html .= " alt='".str_replace("'", "&#39;", str_replace("\"", "&quot;", strip_tags($this->alt)))."'";
+			$html .= " alt='".str_replace("'", "&#39;", str_replace("\"", "&quot;", str_replace("\n", "", str_replace("\r", "", $this->alt))))."'";
 		}
 		if ($this->hspace > 0) {
 			$html .= " hspace='".$this->hspace."'";

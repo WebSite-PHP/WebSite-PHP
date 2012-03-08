@@ -33,4 +33,9 @@
 	define("LINK_ON_BODY", "Exemple de lien sur la page");
 	define("BODY_TEXT_LINK_NOTE", "Voir le pied de la page");
 	define("WARNING_CHANGE_PLEASE_SAVE", "Attention, veuillez sauvegarder le formulaire avant de changer ce champ.");
+	
+	define("BTN_VALIDATE", "Valider");
+	define("CONFIG_FILE", "Configuration");
+	define("CONFIG_FILE_OK", "Votre configuration a été enregistrée !");
+	define("CONFIG_FILE_NOT_OK", "Erreur lors de la sauvegarde du fichier de configuration !");
 ?>

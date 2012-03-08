@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.103
+ * @version     1.1.0 
  * @access      public
  * @since       1.0.17
  */
@@ -132,7 +132,7 @@ class Object extends WebSitePhpEventObject {
 		
 		$args = func_get_args();
 		for ($i=0; $i < sizeof($args); $i++) {
-    		if ($args[$i] != null) {
+    		if ($args[$i] !== null) {
 				$this->addObject($args[$i]);
     		}
     	}
@@ -154,7 +154,7 @@ class Object extends WebSitePhpEventObject {
 		$object = array_shift($args);
 		$this->addObject($object);
     	for ($i=0; $i < sizeof($args); $i++) {
-    		if ($args[$i] != null) {
+    		if ($args[$i] !== null) {
 				$this->addObject($args[$i]);
     		}
     	}
@@ -172,8 +172,11 @@ class Object extends WebSitePhpEventObject {
 		if (gettype($object) == "object" && get_class($object) == "DateTime") {
 			throw new NewException(get_class($this)."->addObject() error: Please format your DateTime object (\$my_date->format(\"Y-m-d H:i:s\"))", 0, getDebugBacktrace(1));
 		}
-		if ($this->loaded_from_url || (gettype($object)=="object" && sizeof($this->objects) > 0 && get_class($object)=="Url")) {
+		if ($this->loaded_from_url) {
 			throw new NewException("Error Object->addObject(): This object already loaded from url", 0, getDebugBacktrace(1));
+		}
+		if (gettype($object)=="object" && sizeof($this->objects) > 1 && get_class($object)=="Url") {
+			throw new NewException("Error Object->addObject(): You can load Object from Url if there is no other content (or only 1: loading content).", 0, getDebugBacktrace(1));
 		}
 		if (gettype($object)=="object" && get_class($object)=="Url") {
 			$this->loaded_from_url = true;
@@ -809,7 +812,7 @@ class Object extends WebSitePhpEventObject {
 				$html .= "itemprop=\"".$this->itemprop."\" ";
 			}
 			if ($this->itemtype != "") {
-				$html .= "itemtype=\"".$this->itemtype."\" ";
+				$html .= "itemscope itemtype=\"".$this->itemtype."\" ";
 			}
 			$html .= "style=\"";
 			if ($this->width != "") {
@@ -928,21 +931,29 @@ class Object extends WebSitePhpEventObject {
 			if (sizeof($this->objects) == 0) {
 				$html .= "&nbsp;";
 			}
-		} else {
-			$html .= "<div align=\"center\" style=\"";
-			if ($this->height != "") {
-				if (is_integer($this->height)) {
-					$html .= "height:".$this->height."px;";
+		} else { // loading from Url
+			if (sizeof($this->objects) == 2) {
+				if (gettype($this->objects[0]) == "object" && method_exists($this->objects[0], "render")) {
+					$html .= $this->objects[0]->render();
 				} else {
-					$html .= "height:".$this->height.";";
+					$html .= $this->objects[0];
 				}
-			}
-			if (!$this->disable_ajax_wait_message) {
-				$html .= "#position:absolute;#top:50%;display:table-cell;vertical-align:middle;\"><img src=\"".BASE_URL."wsp/img/loading.gif\" width=\"32\" height=\"32\"/>";
 			} else {
-				$html .= "\">";
+				$html .= "<div align=\"center\" style=\"";
+				if ($this->height != "") {
+					if (is_integer($this->height)) {
+						$html .= "height:".$this->height."px;";
+					} else {
+						$html .= "height:".$this->height.";";
+					}
+				}
+				if (!$this->disable_ajax_wait_message) {
+					$html .= "#position:absolute;#top:50%;display:table-cell;vertical-align:middle;\"><img src=\"".BASE_URL."wsp/img/loading.gif\" width=\"32\" height=\"32\"/>";
+				} else {
+					$html .= "\">";
+				}
+				$html .= "</div>";
 			}
-			$html .= "</div>";
 		}
 		if ($is_span_open) {
 			if ($this->force_div_tag || (!$this->force_span_tag &&
@@ -1036,12 +1047,17 @@ class Object extends WebSitePhpEventObject {
 			}
 		}
 		
-		if ($this->loaded_from_url && sizeof($this->objects)==1 && get_class($this->objects[0])=="Url") {
+		if ($this->loaded_from_url) {
 			if ($this->id == "") {
 				throw new NewException("Error Object: You must specified an id to load an object from an URL", 0, getDebugBacktrace(1));
 			}
+			if (sizeof($this->objects) == 2) {
+				$loaded_url = $this->objects[1]->render();
+			} else {
+				$loaded_url = $this->objects[0]->render();
+			}
 			$html .= $this->getJavascriptTagOpen();
-			$html .= "$('#".$this->getId()."').load('".$this->objects[0]->render()."', {}, ";
+			$html .= "$('#".$this->getId()."').load('".$loaded_url."', {}, ";
             $html .= "function (response, status, xhr) { if (status == 'error' && response != '') { $('#".$this->getId()."').html('<table><tr><td><img src=\'".BASE_URL."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + response); } } );";
 			$html .= $this->getJavascriptTagClose();
 		}

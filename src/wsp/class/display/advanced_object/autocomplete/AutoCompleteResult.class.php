@@ -8,7 +8,7 @@
  * Class AutoCompleteResult
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.95
+ * @version     1.1.0 
  * @access      public
  * @since       1.0.17
  */
@@ -53,10 +53,13 @@ class AutoCompleteResult extends WebSitePhpObject {
 	 * @since 1.0.35
 	 */
 	public function add($id, $label, $value, $icon='') {
-		$this->array_result_id[] = $id;
-		$this->array_result_label[] = $label;
-		$this->array_result_value[] = $value;
-		$this->array_result_icon[] = $icon;
+		$this->array_result_id[] = str_replace("\n", "", str_replace("\r", "", $id));
+		if (gettype($label) == "object" && method_exists($label, "render")) {
+			$label = $label->render();
+		}
+		$this->array_result_label[] = str_replace("\n", "", str_replace("\r", "", $label));
+		$this->array_result_value[] = str_replace("\n", "", str_replace("\r", "", $value));
+		$this->array_result_icon[] = str_replace("\n", "", str_replace("\r", "", $icon));
 		return $this;
 	}
 	

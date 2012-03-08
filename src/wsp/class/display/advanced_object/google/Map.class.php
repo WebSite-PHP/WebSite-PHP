@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.102
+ * @version     1.1.0 
  * @access      public
  * @since       1.0.17
  */
@@ -77,8 +77,14 @@ class Map extends WebSitePhpObject {
 	 * @since 1.0.35
 	 */
 	public function addMarker($address, $text='', $icon_url_32='', $define_as_center=true) {
-		$this->location[] = $address;
-		$this->location_text[] = $text;
+		if (gettype($address) == "object" && method_exists($address, "render")) {
+			$address = $address->render();
+		}
+		$this->location[] = str_replace("\n", "", str_replace("\r", "", $address));
+		if (gettype($text) == "object" && method_exists($text, "render")) {
+			$text = $text->render();
+		}
+		$this->location_text[] = str_replace("\n", "", str_replace("\r", "", $text));
 		$this->location_is_center[] = $define_as_center;
 		if ($icon_url_32 != "") {
 			$icon_id = array_search($icon_url_32, $this->location_icon);

@@ -17,7 +17,8 @@
 	define("ERROR_DATABASE_MSG", "Erreur: %s");
 	
 	define("ERROR_USER_BANNED", "Alerte de sécurité");
-	define("ERROR_USER_BANNED_MSG", "Vous avez été bloqué à ce site,<br/>s'il vous plaît entrez le captcha suivant pour accéder sur le site.");
+	define("ERROR_USER_BANNED_MSG_1", "Vous avez été bloqué à ce site.");
+	define("ERROR_USER_BANNED_MSG_2", "Veuillez entrer le captcha suivant pour accéder sur le site.");
 	define("ERROR_USER_BUTTON", "Débloquer");
 	
 	define("ERROR_DEBUG_MAIL_SENT", "Un problème technique s'est produit. Un administrateur a été notifié et le problème devrait être résolu rapidement.");
@@ -30,6 +31,7 @@
 	define("ERROR_404_MSG", "Erreur 404 : Page introuvable");
 	define("ERROR_500", "Erreur 500");
 	define("ERROR_500_MSG", "Erreur 500 : Erreur de configuration");
+	define("REDIRECT_URL_TO", "Vous allez être redirigé vers <a href='%s'>%s</a> (Si la redirection ne fonctionne pas veuillez clicker sur le lien).");
 	
 	define("MAIN_PAGE_GO_BACK", "Retourner à la page principale du site");
 	

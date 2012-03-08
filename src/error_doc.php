@@ -26,11 +26,10 @@ if (isset($_GET['url'])) {
 }
 
 error_reporting(E_ALL);
-if (!isset($_SESSION['lang']) && !isset($_GET['l'])) {
-	$_GET['l'] = "fr";
-}
-
 include_once("wsp/config/config.inc.php");
+if (!isset($_SESSION['lang']) && !isset($_GET['l'])) {
+	$_GET['l'] = SITE_DEFAULT_LANG;
+}
 include_once("wsp/includes/utils_session.inc.php");
 $__AJAX_PAGE__ = false; // use for return catch exception and loadAllVariables method
 $__AJAX_LOAD_PAGE__ = false;

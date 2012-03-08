@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.103
+ * @version     1.1.0 
  * @access      public
  * @since       1.0.0
  */
@@ -1159,6 +1159,7 @@ class Page {
 		if ($GLOBALS['__AJAX_PAGE__'] == true) {
 			$this->addObject(new JavaScript("location.href='".$url."';"));
 		} else {
+			$this->cache_time = -1;
 			header('HTTP/1.1 301 Moved Temporarily');  
 			header('Status: 301 Moved Temporarily');
 			header("Location:".$url);

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 01/02/2012
- * @version     1.0.103
+ * @version     1.1.0 
  * @access      public
  * @since       1.0.103
  */
@@ -161,16 +161,16 @@ class SharedMemory {
 	 * @since 1.0.103
 	 */
 	public static function get($key) {
-		if (!is_array($wsp_shared_memory)) {
-			self::transaction_start();
-			$tmp_mem = self::fetch();
-			self::transaction_finish();
-			if ($tmp_mem != "") {
-				$wsp_shared_memory = unserialize($tmp_mem);
-			} else {
-				$wsp_shared_memory = array();
-			}
+		self::transaction_start();
+		$tmp_mem = self::fetch();
+		if ($tmp_mem != "") {
+			$wsp_shared_memory = unserialize($tmp_mem);
+		} else {
+			$wsp_shared_memory = array();
+			self::store(serialize($wsp_shared_memory));
 		}
+		self::transaction_finish();
+		
 		if (isset($wsp_shared_memory[$key])) {
 			if ($wsp_shared_memory[$key]['serialize']) {
 				return unserialize($wsp_shared_memory[$key]['value']);

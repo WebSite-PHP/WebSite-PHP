@@ -8,7 +8,7 @@
  * Class ToolTip
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.1.0 
  * @access      public
  * @since       1.0.77
  */
@@ -31,16 +31,19 @@ class ToolTip extends WebSitePhpObject {
 	private $id = "";
 	private $content = "";
 	private $params = "";
+	private $follow_cursor = false;
 	/**#@-*/
 	
 	/**
 	 * Constructor ToolTip
 	 * @param string $content 
 	 * @param string $params 
+	 * @param boolean $follow_cursor [default value: false]
 	 */
-	function __construct($content='', $params='') {
+	function __construct($content='', $params='', $follow_cursor=false) {
 		$this->content = $content;
 		$this->params = $params;
+		$this->follow_cursor = $follow_cursor;
 		
 		$this->addJavaScript(BASE_URL."wsp/js/jquery.qtip.min.js", "", true);
 		$this->addCss(BASE_URL."wsp/css/jquery.qtip.css");
@@ -67,6 +70,17 @@ class ToolTip extends WebSitePhpObject {
 	 */
 	public function setParams($params) {
 		$this->params = $params;
+		return $this;
+	}
+	
+	/**
+	 * Method followCursor
+	 * @access public
+	 * @return ToolTip
+	 * @since 1.1.0 
+	 */
+	public function followCursor() {
+		$this->follow_cursor = true;
 		return $this;
 	}
 	
@@ -114,6 +128,9 @@ class ToolTip extends WebSitePhpObject {
 		$html .= ", style: { widget: true }";
 		if ($this->params != "") {
 			$html .= ", ".$this->params;
+		}
+		if ($this->follow_cursor) {
+			$html .= ", position: { my: 'top left', target: 'mouse', viewport: $(window), adjust: { x: 10,  y: 10 } }";
 		}
 		$html .= " });\n";
 		$html .= "});\n";

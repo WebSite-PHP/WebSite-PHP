@@ -16,31 +16,9 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 02/02/2012
- * @version     1.0.103
+ * @version     1.1.0 
  * @access      public
  * @since       1.0.103
- */
-
-/**
- * PHP file pages\error\error-lang.php
- */
-/**
- * Page error-lang
- * URL: http://127.0.0.1/website-php/error/error-lang.html
- *
- * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
- * PHP versions >= 5.2
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- * 
- * @author      Emilien MOREL <admin@website-php.com>
- * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.89
- * @access      public
- * @since       1.0.18
  */
 
 require_once(dirname(__FILE__)."/error-template.php");
@@ -52,15 +30,31 @@ class ErrorUserBan extends Page {
 		parent::$PAGE_TITLE = __(ERROR_USER_BANNED)." - ".SITE_NAME;
 		parent::$PAGE_META_ROBOTS = "noindex, nofollow";
 		
-		$obj_error_msg = new Object(new Picture("wsp/img/warning.png", 48, 48, 0, "absmidlle"), "<br/><br/>", new Label(__(ERROR_USER_BANNED_MSG), true));
-		$this->captcha_error_obj = new Object();
-		$form = new Form($this);
-		$this->captcha = new Captcha($form);
-		$this->captcha->setFocus();
-		$unblock_btn = new Button($form);
-		$unblock_btn->setValue(__(ERROR_USER_BUTTON))->onClick("onClickUnblock");
-		$form->setContent(new Object($this->captcha, "<br/>", $unblock_btn));
-		$obj_error_msg->add("<br/><br/>", $this->captcha_error_obj, "<br/>", $form, "<br/><br/>", __(MAIN_PAGE_GO_BACK), new Link(BASE_URL, Link::TARGET_NONE, SITE_NAME));
+		$can_use_captacha = true;
+		if (WspBannedVisitors::isBannedIp($this->getRemoteIP())) {
+			$last_access = new DateTime(WspBannedVisitors::getBannedIpLastAccess($this->getRemoteIP()));
+			$duration = WspBannedVisitors::getBannedIpDuration($this->getRemoteIP());
+			$dte_ban = $last_access->modify("+".$duration." seconds");
+			
+			if ($dte_ban > new DateTime()) {
+				$can_use_captacha = false;
+			}
+		}
+	
+		$obj_error_msg = new Object(new Picture("wsp/img/warning.png", 48, 48, 0, "absmidlle"), "<br/><br/>");
+		$obj_error_msg->add(new Label(__(ERROR_USER_BANNED_MSG_1), true), "<br/>");
+		if ($can_use_captacha) {
+			$obj_error_msg->add(new Label(__(ERROR_USER_BANNED_MSG_2), true), "<br/><br/>");
+			$this->captcha_error_obj = new Object();
+			$form = new Form($this);
+			$this->captcha = new Captcha($form);
+			$this->captcha->setFocus();
+			$unblock_btn = new Button($form);
+			$unblock_btn->setValue(__(ERROR_USER_BUTTON))->onClick("onClickUnblock");
+			$form->setContent(new Object($this->captcha, "<br/>", $unblock_btn));
+			$obj_error_msg->add($this->captcha_error_obj, "<br/>", $form);
+		}
+		$obj_error_msg->add("<br/><br/>", __(MAIN_PAGE_GO_BACK), new Link(BASE_URL, Link::TARGET_NONE, SITE_NAME));
 		
 		$this->render = new ErrorTemplate($obj_error_msg, __(ERROR_USER_BANNED));
 	}
@@ -68,16 +62,7 @@ class ErrorUserBan extends Page {
 	public function onClickUnblock($sender) {
 		$this->captcha_error_obj->emptyObject();
 		if ($this->captcha->check()) {
-			$array_wsp_banned_users = SharedMemory::get("wsp_banned_users");
-			if ($array_wsp_banned_users == null) {
-				$array_wsp_banned_users = array();
-			}
-			unset($array_wsp_banned_users[$this->getRemoteIP()]);
-			SharedMemory::add("wsp_banned_users", $array_wsp_banned_users);
-			
-			$array_wsp_banned_users_last_access = SharedMemory::get("wsp_banned_users_last_access");
-			unset($array_wsp_banned_users_last_access[$this->getRemoteIP()]);
-			SharedMemory::add("wsp_banned_users_last_access", $array_wsp_banned_users_last_access);
+			WspBannedVisitors::resetBannedIP($this->getRemoteIP());
 			
 			$this->refreshPage();
 		} else {

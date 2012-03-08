@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.103
+ * @version     1.1.0 
  * @access      public
  * @since       1.0.0
  */
@@ -171,6 +171,12 @@
 				$current_page_meta_opengraph_image = "";
 			}
 		}
+		if ($current_page_meta_opengraph_image != "") {
+			if (strtoupper(substr($current_page_meta_opengraph_image, 0, 7)) != "HTTP://" && 
+				strtoupper(substr($current_page_meta_opengraph_image, 0, 8)) != "HTTPS://") {
+					$current_page_meta_opengraph_image = BASE_URL.$current_page_meta_opengraph_image;
+			}
+		}
 		
 		// init page iphone 57px image
 		if ($page_object->getPageMetaIphoneImage57Px() != "") {
@@ -180,6 +186,12 @@
 				$current_page_meta_iphone_image_57px = SITE_META_IPHONE_IMAGE_57PX;
 			} else {
 				$current_page_meta_iphone_image_57px = "";
+			}
+		}
+		if ($current_page_meta_iphone_image_57px != "") {
+			if (strtoupper(substr($current_page_meta_iphone_image_57px, 0, 7)) != "HTTP://" && 
+				strtoupper(substr($current_page_meta_iphone_image_57px, 0, 8)) != "HTTPS://") {
+					$current_page_meta_iphone_image_57px = BASE_URL.$current_page_meta_iphone_image_57px;
 			}
 		}
 		
@@ -193,6 +205,12 @@
 				$current_page_meta_iphone_image_72px = "";
 			}
 		}
+		if ($current_page_meta_iphone_image_72px != "") {
+			if (strtoupper(substr($current_page_meta_iphone_image_72px, 0, 7)) != "HTTP://" && 
+				strtoupper(substr($current_page_meta_iphone_image_72px, 0, 8)) != "HTTPS://") {
+					$current_page_meta_iphone_image_72px = BASE_URL.$current_page_meta_iphone_image_72px;
+			}
+		}
 		
 		// init page iphone 114px image
 		if ($page_object->getPageMetaIphoneImage114Px() != "") {
@@ -202,6 +220,12 @@
 				$current_page_meta_iphone_image_114px = SITE_META_IPHONE_IMAGE_114PX;
 			} else {
 				$current_page_meta_iphone_image_114px = "";
+			}
+		}
+		if ($current_page_meta_iphone_image_114px != "") {
+			if (strtoupper(substr($current_page_meta_iphone_image_114px, 0, 7)) != "HTTP://" && 
+				strtoupper(substr($current_page_meta_iphone_image_114px, 0, 8)) != "HTTPS://") {
+					$current_page_meta_iphone_image_114px = BASE_URL.$current_page_meta_iphone_image_114px;
 			}
 		}
 ?>
@@ -348,6 +372,7 @@
 			// Load lib by google
 			google.load("jquery", "<?php echo JQUERY_VERSION; ?>");
 			google.load("jqueryui", "<?php echo JQUERY_UI_VERSION; ?>");
+			wsp_javascript_base_url = "<?php echo BASE_URL; ?>";
 		</script>
 <?php
 		}
