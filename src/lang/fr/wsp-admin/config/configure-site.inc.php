@@ -30,6 +30,7 @@
 	define("EDT_SEND_ERROR_BY_MAIL_TO", "Email envoi erreur");
 	define("SEND_ERROR_BY_MAIL_CMT", "Pas pour les URL locales (http://127.0.0.1/)");
 	define("EDT_SEND_BY_MAIL_FILE_EX", "Fichiers exclus");
+	define("EDT_SEND_BY_MAIL_FILE_EX_CMT", "Seulement fichier (pas de chemin)<br/>Regexp possible (ex: /^(a-z)*.html$/)");
 	define("SEND_BY_MAIL_FILE_EX_CMT", "Séparer avec des virgules");
 	define("EDT_MAX_BAD_URL_BEFORE_BANNED", "Nb max URL avant banir visiteur");
 	define("CMB_SEND_ADMIN_CONNECT_BY_MAIL", "Avertir connexion admin");

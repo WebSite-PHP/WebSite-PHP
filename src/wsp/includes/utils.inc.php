@@ -15,13 +15,30 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.103
+ * @version     1.1.1
  * @access      public
  * @since       1.0.19
  */
 
+	// Array for special language which you need to convert your Unicode text to HTML before
+	// you can use http://www.unicodetools.com/unicode/convert-to-html.php
+	$GLOBALS['array_no_encoding'] = array("ru", "pl", "cn", "jp", "gr", "dz", "eg", "iq", 
+											"jo", "ma", "sa", "so", "sd", "sy", "tn", "il",
+											"ae", "kr");
 	function __() {
 		$args = func_get_args();
+		
+		// for special language please convert your Unicode text to HTML before
+		// you can use http://www.unicodetools.com/unicode/convert-to-html.php
+		$array_no_encoding = $GLOBALS['array_no_encoding'];
+		if (in_array($_GET['l'], $array_no_encoding)) {
+			$txt = array_shift($args);
+			for ($i=0; $i < sizeof($args); $i++) {
+	    		$txt = preg_replace('/%s/', $args[$i], $txt, 1);
+	    	}
+			return $txt;
+		}
+		
 		return translate($args);
 	}
 	

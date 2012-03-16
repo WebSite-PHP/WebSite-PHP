@@ -16,12 +16,13 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.0 
+ * @version     1.1.1
  * @access      public
  * @since       1.0.18
  */
 
 require_once(dirname(__FILE__)."/error-template.php");
+require_once(dirname(__FILE__)."/../../wsp/includes/utils_regexp.inc.php");
 
 class ErrorPage extends Page {
 	function __construct() {}
@@ -41,7 +42,7 @@ class ErrorPage extends Page {
 		if ($base_url_tmp[strlen($base_url_tmp)-1] == "/") {
 			$base_url_tmp = substr($base_url_tmp, 0, strlen($base_url_tmp)-1);
 		}
-		$url_to_check = str_replace("%22", "\"", str_replace("%5C", "\\", str_replace("%27", "'", $url_to_check)));
+		$url_to_check = str_replace("%22", "\"", str_replace("%5C", "\\", str_replace("%5c", "\\", str_replace("%27", "'", $url_to_check))));
 		$redirect_bad_url_to = "";
 		if (preg_match("@".$base_url_tmp."([^?]*)/'(http://|https://|http:/|https:/)(.+)/'@i", $url_to_check, $matches) == 1) { // url detect with /' in the end
 			$redirect_bad_url_to = $matches[3];
@@ -139,6 +140,8 @@ class ErrorPage extends Page {
 				if ($url_without_base[0] != '/') {
 					$url_without_base = "/".$url_without_base;
 				}
+				$url_without_base_array = split("\?", $url_without_base);
+				$url_without_base = $url_without_base_array[0];
 				if (in_array(trim($url_without_base), $array_banned_url)) {
 					$_GET['banned_url'] = "true";
 				}
@@ -168,7 +171,7 @@ class ErrorPage extends Page {
 					// Check if file need to send a mail
 					$array_files_ex = array();
 					// list of files without error email
-					$array_file_no_mail = array("", "crossdomain.xml", "sitemap.xml", "error-page.html", "undefined", 
+					$array_file_no_mail = array("", "crossdomain.xml", "sitemap.xml", "error-page.html", "undefined", "&", 
 												"favicon.gif", "favicon.png", "ui.item.id;", "url;", "javascript:void(0);");
 					if (defined('SEND_BY_MAIL_FILE_EX') && SEND_BY_MAIL_FILE_EX != "") {
 						$array_files_ex = explode(',', SEND_BY_MAIL_FILE_EX);
@@ -197,6 +200,15 @@ class ErrorPage extends Page {
 						$base_referer_url = $array_referer_url[0];
 						if (in_array($base_referer_url, $array_exluded_referer)) {
 							$send_error_mail = false;
+						} else { // test if there is regexp in the administrator exclude list
+							for ($i=0; $i < sizeof($array_files_ex); $i++) {
+								if (is_regexp($array_files_ex[$i], true)) {
+									if (preg_match($array_files_ex[$i], $filename)) {
+										$send_error_mail = false;
+										break;
+									}
+								}
+							}
 						}
 					}
 					

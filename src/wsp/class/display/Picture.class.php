@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.0 
+ * @version     1.1.1
  * @access      public
  * @since       1.0.17
  */
@@ -56,6 +56,7 @@ class Picture extends WebSitePhpEventObject {
 	private $is_lightbox = false;
 	private $lightbox_name = "";
 	private $pic_link = "";
+	private $itemprop = false;
 	
 	private $onclick = "";
 	private $callback_onclick = "";
@@ -292,6 +293,17 @@ class Picture extends WebSitePhpEventObject {
 		$this->picture_map = $picture_map;
 		
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method setItemProp
+	 * @access public
+	 * @return Picture
+	 * @since 1.1.1
+	 */
+	public function setItemProp() {
+		$this->itemprop = true;
 		return $this;
 	}
 	
@@ -578,6 +590,9 @@ class Picture extends WebSitePhpEventObject {
 		}
 		if ($this->onload != "") {
 			$html .= " onLoad=\"".str_replace("\n", "", $this->onload)."\"";
+		}
+		if ($this->itemprop) {
+			$html .= " itemprop=\"image\"";
 		}
 		$html .= "/>\n";
 		

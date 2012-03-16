@@ -190,3 +190,9 @@
 /wp-content/themes/Yen/timthumb.php
 /wp-content/themes/Yen/timthumb.php
 /lib/timthumb.php
+/plugins/activity.php
+/blog/wp-login.php
+/test/wp-login.php
+/wordpress/wp-login.php
+/news/wp-login.php
+/wp/wp-login.php

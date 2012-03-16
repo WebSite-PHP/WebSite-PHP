@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.0 
+ * @version     1.1.1
  * @access      public
  * @since       1.0.0
  */
@@ -267,17 +267,22 @@
 		
 		<base href="<?php echo BASE_URL; ?>" />
 
-<?php 	if ($current_page_meta_opengraph_type != "" || $current_page_meta_opengraph_image != "") { ?>
 		<meta property="og:title" content="<?php echo html_entity_decode($current_page_title); ?>"/>
 		<meta property="og:site_name" content="<?php echo SITE_NAME; ?>"/>
 		<meta property="og:description" content="<?php echo html_entity_decode($current_page_description); ?>"/>
 		<meta property="og:url" content="<?php echo $page_object->getCurrentURL(); ?>"/>
-<?php 		if ($current_page_meta_opengraph_type != "") { ?>
+<?php 	if ($current_page_meta_opengraph_type != "" || $current_page_meta_opengraph_image != "") { 
+	 		if ($current_page_meta_opengraph_type != "") { ?>
 		<meta property="og:type" content="<?php echo $current_page_meta_opengraph_type; ?>"/>
-<?php 		} ?>
-<?php 		if ($current_page_meta_opengraph_image != "") { ?>
+<?php 		}
+	 		if ($current_page_meta_opengraph_image != "") { ?>
 		<meta property="og:image" content="<?php echo $current_page_meta_opengraph_image; ?>"/>
-<?php 		} ?>
+<?php 		}
+		} ?>
+		<meta itemprop="name" content="<?php echo html_entity_decode($current_page_title); ?>">
+		<meta itemprop="description" content="<?php echo html_entity_decode($current_page_description); ?>">
+<?php 	if ($current_page_meta_opengraph_image != "") { ?>
+		<meta itemprop="image" content="<?php echo $current_page_meta_opengraph_image; ?>">
 <?php 	} ?>
 		
 <?php 	if (defined('DEFINE_STYLE_FONT') && DEFINE_STYLE_FONT != "") { ?>
