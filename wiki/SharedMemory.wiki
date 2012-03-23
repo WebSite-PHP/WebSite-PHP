@@ -1,0 +1,150 @@
+#labels Class,WebSite-PHP,SharedMemory
+= Class SharedMemory =
+
+
+
+
+
+Location: /utils/SharedMemory.class.php
+
+----
+
+
+*Remarks*
+
+Class SharedMemory
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.1.0
+
+*copyright:* WebSite-PHP.com 01/02/2012
+
+*link:* 
+
+*since:* 1.0.103
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+
+----
+== Method Summary == 
+
+				* `static void add()`
+		Method add
+					* `static mixed get()`
+		Method get
+					* `static mixed toString()`
+		Method toString
+						* `void add()`
+		Method add
+					* `mixed get()`
+		Method get
+					* `mixed toString()`
+		Method toString
+		
+== Inherited Method Summary == 
+
+----
+== Method Detail ==
+
+
+= static SharedMemory::add =
+
+*static add(*
+*mixed*
+_$key_, *mixed*
+_$string_or_object_* );*
+
+
+	
+
+	
+*Parameters*
+			_$key_ 
+			_$string_or_object_ 
+		
+*Remarks*
+
+Method add
+
+
+*since:* 1.0.103
+
+*access:* public
+
+
+
+= static SharedMemory::get =
+
+*static get(*
+*mixed*
+_$key_* );*
+
+
+	
+
+	
+*Parameters*
+			_$key_ 
+		
+*Remarks*
+
+Method get
+
+
+*since:* 1.0.103
+
+*access:* public
+
+
+
+= static SharedMemory::toString =
+
+*static toString(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method toString
+
+
+*since:* 1.0.103
+
+*access:* public
+
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+
+----

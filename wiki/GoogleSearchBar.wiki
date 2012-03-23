@@ -1,0 +1,444 @@
+#labels Class,WebSite-PHP,GoogleSearchBar
+= Class GoogleSearchBar =
+
+WebSitePhpObject
+   |
+   --GoogleSearchBar
+
+
+
+Location: /modules/GoogleSearch/GoogleSearchBar.class.php
+
+----
+
+
+*Remarks*
+
+Class GoogleSearchBar
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2011 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.0.79
+
+*copyright:* WebSite-PHP.com 22/10/2010
+
+*link:* 
+
+*since:* 1.0.17
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+			* `STYLE_BUBBLEGUM` = ` 'bubblegum'`
+		
+		GoogleSearchBar style
+			* `STYLE_DEFAULT` = ` 'default'`
+		
+		GoogleSearchBar style
+			* `STYLE_ESPRESSO` = ` 'espresso'`
+		
+		GoogleSearchBar style
+			* `STYLE_GREENSKY` = ` 'greensky'`
+		
+		GoogleSearchBar style
+			* `STYLE_MINIMALIST` = ` 'minimalist'`
+		
+		GoogleSearchBar style
+			* `STYLE_SHINY` = ` 'shiny'`
+		
+		GoogleSearchBar style
+			* `TARGET_BLANK` = ` 'google.search.Search.LINK_TARGET_BLANK'`
+		
+		Target
+			* `TARGET_NONE` = ` ''`
+		
+		Target
+			* `TARGET_PARENT` = ` 'google.search.Search.LINK_TARGET_PARENT'`
+		
+		Target
+			* `TARGET_SELF` = ` 'google.search.Search.LINK_TARGET_SELF'`
+		
+		Target
+			* `TARGET_TOP` = ` 'google.search.Search.LINK_TARGET_TOP'`
+		
+		Target
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::$is_javascript_object` = ` false`
+		
+		
+			* `WebSitePhpObject::$is_new_object_after_init` = ` false`
+		
+		
+			* `WebSitePhpObject::$object_change` = ` false`
+		
+		
+			* `WebSitePhpObject::$tag` = ` ''`
+		
+		
+		
+
+
+----
+== Method Summary == 
+
+																														
+== Inherited Method Summary == 
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::__construct()`
+		Constructor WebSitePhpObject
+			* `WebSitePhpObject::addCss()`
+		Method addCss
+			* `WebSitePhpObject::addJavaScript()`
+		Method addJavaScript
+			* `WebSitePhpObject::displayJavascriptTag()`
+		Method displayJavascriptTag
+			* `WebSitePhpObject::getAjaxRender()`
+		Method getAjaxRender
+			* `WebSitePhpObject::getCssArray()`
+		Method getCssArray
+			* `WebSitePhpObject::getJavaScriptArray()`
+		Method getJavaScriptArray
+			* `WebSitePhpObject::getJavascriptTagClose()`
+		Method getJavascriptTagClose
+			* `WebSitePhpObject::getJavascriptTagOpen()`
+		Method getJavascriptTagOpen
+			* `WebSitePhpObject::getName()`
+		Method getName
+			* `WebSitePhpObject::getPage()`
+		Method getPage
+			* `WebSitePhpObject::getRegisterObjects()`
+		Method getRegisterObjects
+			* `WebSitePhpObject::getTag()`
+		Method getTag
+			* `WebSitePhpObject::isEventObject()`
+		Method isEventObject
+			* `WebSitePhpObject::isJavascriptObject()`
+		Method isJavascriptObject
+			* `WebSitePhpObject::isObjectChange()`
+		Method isObjectChange
+			* `WebSitePhpObject::render()`
+		Method render
+			* `WebSitePhpObject::setTag()`
+		Method setTag
+	
+----
+== Method Detail ==
+
+
+
+= GoogleSearchBar::__construct =
+
+*__construct(*
+*mixed*
+_$search_control_code_, [*string*
+_$search_style_ = 'default']* );*
+
+
+Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
+	
+
+	
+*Parameters*
+			_$search_control_code_ 
+			_$search_style_ [default value: default]
+		
+*Remarks*
+
+Constructor GoogleSearchBar
+
+
+
+
+= GoogleSearchBar::activateWebTab =
+
+*activateWebTab(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method activateWebTab
+
+
+*since:* 1.0.99
+
+*access:* public
+
+
+
+= GoogleSearchBar::activeAutoComplete =
+
+*activeAutoComplete(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method activeAutoComplete
+
+
+*since:* 1.0.99
+
+*access:* public
+
+
+
+= GoogleSearchBar::addCseResultTab =
+
+*addCseResultTab(*
+*mixed*
+_$site_, *mixed*
+_$label_* );*
+
+
+	
+
+	
+*Parameters*
+			_$site_ 
+			_$label_ 
+		
+*Remarks*
+
+Method addCseResultTab
+
+
+*since:* 1.0.99
+
+*access:* public
+
+
+
+= GoogleSearchBar::render =
+
+*render(*
+[*boolean*
+_$ajax_render_ = false]* );*
+
+
+Overrides WebSitePhpObject::render() (Method render)
+	
+
+	
+*Parameters*
+			_$ajax_render_ [default value: false]
+		
+*Returns*
+		html code of object GoogleSearchBar
+
+*Remarks*
+
+Method render
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= GoogleSearchBar::setAdsenseCode =
+
+*setAdsenseCode(*
+*mixed*
+_$adsense_code_* );*
+
+
+	
+
+	
+*Parameters*
+			_$adsense_code_ 
+		
+*Remarks*
+
+Method setAdsenseCode
+
+
+*since:* 1.0.99
+
+*access:* public
+
+
+
+= GoogleSearchBar::setLinkTarget =
+
+*setLinkTarget(*
+*mixed*
+_$link_target_* );*
+
+
+	
+
+	
+*Parameters*
+			_$link_target_ 
+		
+*Remarks*
+
+Method setLinkTarget
+
+
+*since:* 1.0.99
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+* `STYLE_BUBBLEGUM` = ` 'bubblegum'` (line 59)
+
+
+*Remarks*
+
+GoogleSearchBar style
+
+
+*access:* public
+
+
+* `STYLE_DEFAULT` = ` 'default'` (line 58)
+
+
+*Remarks*
+
+GoogleSearchBar style
+
+
+*access:* public
+
+
+* `STYLE_ESPRESSO` = ` 'espresso'` (line 61)
+
+
+*Remarks*
+
+GoogleSearchBar style
+
+
+*access:* public
+
+
+* `STYLE_GREENSKY` = ` 'greensky'` (line 60)
+
+
+*Remarks*
+
+GoogleSearchBar style
+
+
+*access:* public
+
+
+* `STYLE_MINIMALIST` = ` 'minimalist'` (line 63)
+
+
+*Remarks*
+
+GoogleSearchBar style
+
+
+*access:* public
+
+
+* `STYLE_SHINY` = ` 'shiny'` (line 62)
+
+
+*Remarks*
+
+GoogleSearchBar style
+
+
+*access:* public
+
+
+* `TARGET_BLANK` = ` 'google.search.Search.LINK_TARGET_BLANK'` (line 71)
+
+
+*Remarks*
+
+Target
+
+
+*access:* public
+
+
+* `TARGET_NONE` = ` ''` (line 75)
+
+
+*Remarks*
+
+Target
+
+
+*access:* public
+
+
+* `TARGET_PARENT` = ` 'google.search.Search.LINK_TARGET_PARENT'` (line 74)
+
+
+*Remarks*
+
+Target
+
+
+*access:* public
+
+
+* `TARGET_SELF` = ` 'google.search.Search.LINK_TARGET_SELF'` (line 72)
+
+
+*Remarks*
+
+Target
+
+
+*access:* public
+
+
+* `TARGET_TOP` = ` 'google.search.Search.LINK_TARGET_TOP'` (line 73)
+
+
+*Remarks*
+
+Target
+
+
+*access:* public
+
+
+
+----

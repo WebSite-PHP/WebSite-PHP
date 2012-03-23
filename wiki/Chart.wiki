@@ -1,0 +1,660 @@
+#labels Class,WebSite-PHP,Chart
+= Class Chart =
+
+WebSitePhpObject
+   |
+   --Chart
+
+
+
+Location: /modules/Graphic/Chart.class.php
+
+----
+
+
+*Remarks*
+
+Class Chart
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2011 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.0.99
+
+*copyright:* WebSite-PHP.com 05/08/2011
+
+*link:* 
+
+*since:* 1.0.91
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+			* `DATA_TYPE_DATE` = ` 'time_date'`
+		
+		Chart data type
+			* `DATA_TYPE_DATETIME` = ` 'time_datetime'`
+		
+		Chart data type
+			* `DATA_TYPE_DAY` = ` 'time_day'`
+		
+		Chart data type
+			* `DATA_TYPE_DAYMONTH` = ` 'time_daymonth'`
+		
+		Chart data type
+			* `DATA_TYPE_MONTH` = ` 'time_month'`
+		
+		Chart data type
+			* `DATA_TYPE_NUMERIC` = ` ''`
+		
+		Chart data type
+			* `DATA_TYPE_TIME` = ` 'time_time'`
+		
+		Chart data type
+			* `DATA_TYPE_YEAR` = ` 'time_year'`
+		
+		Chart data type
+			* `DESIGN_BARS` = ` 'bars'`
+		
+		Chart line design
+			* `DESIGN_LINES` = ` 'lines'`
+		
+		Chart line design
+			* `DESIGN_LINES_POINTS` = ` 'lines_points'`
+		
+		Chart line design
+			* `DESIGN_LINES_POINTS_WITH_STEPS` = ` 'lines_points_with_steps'`
+		
+		Chart line design
+			* `DESIGN_LINES_WITH_STEPS` = ` 'lines_with_steps'`
+		
+		Chart line design
+			* `DESIGN_POINTS` = ` 'points'`
+		
+		Chart line design
+			* `STYLE_NO_STACKING` = ` 'no_stack'`
+		
+		Chart stack style
+			* `STYLE_STACKING` = ` 'stack'`
+		
+		Chart stack style
+			* `TRACKING_MODE_X` = ` 'x'`
+		
+		Chart tracking mode
+			* `TRACKING_MODE_Y` = ` 'y'`
+		
+		Chart tracking mode
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::$is_javascript_object` = ` false`
+		
+		
+			* `WebSitePhpObject::$is_new_object_after_init` = ` false`
+		
+		
+			* `WebSitePhpObject::$object_change` = ` false`
+		
+		
+			* `WebSitePhpObject::$tag` = ` ''`
+		
+		
+		
+
+
+----
+== Method Summary == 
+
+																																														
+== Inherited Method Summary == 
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::__construct()`
+		Constructor WebSitePhpObject
+			* `WebSitePhpObject::addCss()`
+		Method addCss
+			* `WebSitePhpObject::addJavaScript()`
+		Method addJavaScript
+			* `WebSitePhpObject::displayJavascriptTag()`
+		Method displayJavascriptTag
+			* `WebSitePhpObject::getAjaxRender()`
+		Method getAjaxRender
+			* `WebSitePhpObject::getCssArray()`
+		Method getCssArray
+			* `WebSitePhpObject::getJavaScriptArray()`
+		Method getJavaScriptArray
+			* `WebSitePhpObject::getJavascriptTagClose()`
+		Method getJavascriptTagClose
+			* `WebSitePhpObject::getJavascriptTagOpen()`
+		Method getJavascriptTagOpen
+			* `WebSitePhpObject::getName()`
+		Method getName
+			* `WebSitePhpObject::getPage()`
+		Method getPage
+			* `WebSitePhpObject::getRegisterObjects()`
+		Method getRegisterObjects
+			* `WebSitePhpObject::getTag()`
+		Method getTag
+			* `WebSitePhpObject::isEventObject()`
+		Method isEventObject
+			* `WebSitePhpObject::isJavascriptObject()`
+		Method isJavascriptObject
+			* `WebSitePhpObject::isObjectChange()`
+		Method isObjectChange
+			* `WebSitePhpObject::render()`
+		Method render
+			* `WebSitePhpObject::setTag()`
+		Method setTag
+	
+----
+== Method Detail ==
+
+
+
+= Chart::__construct =
+
+*__construct(*
+[*string*
+_$id_ = &quot;graphic_chart_id&quot;], [*double*
+_$width_ = 500], [*double*
+_$height_ = 300], [*boolean*
+_$legend_ = false], [*string*
+_$bar_width_ = &quot;&quot;]* );*
+
+
+Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
+	
+
+	
+*Parameters*
+			_$id_ [default value: graphic_chart_id]
+			_$width_ [default value: 500]
+			_$height_ [default value: 300]
+			_$legend_ [default value: false]
+			_$bar_width_ 
+		
+*Remarks*
+
+Constructor Chart
+
+
+
+
+= Chart::addPoints =
+
+*addPoints(*
+*mixed*
+_$title_, *mixed*
+_$array_data_, [*string*
+_$chart_design_ = &quot;lines&quot;], [*string*
+_$stack_ = &quot;no_stack&quot;], [*boolean*
+_$fill_ = false]* );*
+
+
+	
+
+	
+*Parameters*
+			_$title_ 
+			_$array_data_ 
+			_$chart_design_ [default value: lines]
+			_$stack_ [default value: no_stack]
+			_$fill_ [default value: false]
+		
+*Remarks*
+
+Method addPoints
+
+
+*since:* 1.0.91
+
+*access:* public
+
+
+
+= Chart::render =
+
+*render(*
+[*boolean*
+_$ajax_render_ = false]* );*
+
+
+Overrides WebSitePhpObject::render() (Method render)
+	
+
+	
+*Parameters*
+			_$ajax_render_ [default value: false]
+		
+*Returns*
+		html code of object Chart
+
+*Remarks*
+
+Method render
+
+
+*since:* 1.0.91
+
+*access:* public
+
+
+
+= Chart::setLegend =
+
+*setLegend(*
+[*boolean*
+_$bool_ = true]* );*
+
+
+	
+
+	
+*Parameters*
+			_$bool_ [default value: true]
+		
+*Remarks*
+
+Method setLegend
+
+
+*since:* 1.0.91
+
+*access:* public
+
+
+
+= Chart::setXAxisDataType =
+
+*setXAxisDataType(*
+[*string*
+_$x_data_type_ = &quot;&quot;]* );*
+
+
+	
+
+	
+*Parameters*
+			_$x_data_type_ 
+		
+*Remarks*
+
+Method setXAxisDataType
+
+
+*since:* 1.0.91
+
+*access:* public
+
+
+
+= Chart::setXAxisMax =
+
+*setXAxisMax(*
+*mixed*
+_$x_max_* );*
+
+
+	
+
+	
+*Parameters*
+			_$x_max_ 
+		
+*Remarks*
+
+Method setXAxisMax
+
+
+*since:* 1.0.91
+
+*access:* public
+
+
+
+= Chart::setXAxisMin =
+
+*setXAxisMin(*
+*mixed*
+_$x_min_* );*
+
+
+	
+
+	
+*Parameters*
+			_$x_min_ 
+		
+*Remarks*
+
+Method setXAxisMin
+
+
+*since:* 1.0.91
+
+*access:* public
+
+
+
+= Chart::setYAxisDataType =
+
+*setYAxisDataType(*
+[*string*
+_$y_data_type_ = &quot;&quot;]* );*
+
+
+	
+
+	
+*Parameters*
+			_$y_data_type_ 
+		
+*Remarks*
+
+Method setYAxisDataType
+
+
+*since:* 1.0.91
+
+*access:* public
+
+
+
+= Chart::setYAxisMax =
+
+*setYAxisMax(*
+*mixed*
+_$y_max_* );*
+
+
+	
+
+	
+*Parameters*
+			_$y_max_ 
+		
+*Remarks*
+
+Method setYAxisMax
+
+
+*since:* 1.0.91
+
+*access:* public
+
+
+
+= Chart::setYAxisMin =
+
+*setYAxisMin(*
+*mixed*
+_$y_min_* );*
+
+
+	
+
+	
+*Parameters*
+			_$y_min_ 
+		
+*Remarks*
+
+Method setYAxisMin
+
+
+*since:* 1.0.91
+
+*access:* public
+
+
+
+= Chart::trackingWithMouse =
+
+*trackingWithMouse(*
+[*string*
+_$tracking_mode_ = &quot;x&quot;], [*boolean*
+_$tracking_text_ = true]* );*
+
+
+	
+
+	
+*Parameters*
+			_$tracking_mode_ [default value: x]
+			_$tracking_text_ [default value: true]
+		
+*Remarks*
+
+Method trackingWithMouse
+
+
+*since:* 1.0.91
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+* `DATA_TYPE_DATE` = ` 'time_date'` (line 65)
+
+
+*Remarks*
+
+Chart data type
+
+
+*access:* public
+
+
+* `DATA_TYPE_DATETIME` = ` 'time_datetime'` (line 67)
+
+
+*Remarks*
+
+Chart data type
+
+
+*access:* public
+
+
+* `DATA_TYPE_DAY` = ` 'time_day'` (line 68)
+
+
+*Remarks*
+
+Chart data type
+
+
+*access:* public
+
+
+* `DATA_TYPE_DAYMONTH` = ` 'time_daymonth'` (line 70)
+
+
+*Remarks*
+
+Chart data type
+
+
+*access:* public
+
+
+* `DATA_TYPE_MONTH` = ` 'time_month'` (line 69)
+
+
+*Remarks*
+
+Chart data type
+
+
+*access:* public
+
+
+* `DATA_TYPE_NUMERIC` = ` ''` (line 64)
+
+
+*Remarks*
+
+Chart data type
+
+
+*access:* public
+
+
+* `DATA_TYPE_TIME` = ` 'time_time'` (line 66)
+
+
+*Remarks*
+
+Chart data type
+
+
+*access:* public
+
+
+* `DATA_TYPE_YEAR` = ` 'time_year'` (line 71)
+
+
+*Remarks*
+
+Chart data type
+
+
+*access:* public
+
+
+* `DESIGN_BARS` = ` 'bars'` (line 33)
+
+
+*Remarks*
+
+Chart line design
+
+
+*access:* public
+
+
+* `DESIGN_LINES` = ` 'lines'` (line 34)
+
+
+*Remarks*
+
+Chart line design
+
+
+*access:* public
+
+
+* `DESIGN_LINES_POINTS` = ` 'lines_points'` (line 37)
+
+
+*Remarks*
+
+Chart line design
+
+
+*access:* public
+
+
+* `DESIGN_LINES_POINTS_WITH_STEPS` = ` 'lines_points_with_steps'` (line 38)
+
+
+*Remarks*
+
+Chart line design
+
+
+*access:* public
+
+
+* `DESIGN_LINES_WITH_STEPS` = ` 'lines_with_steps'` (line 35)
+
+
+*Remarks*
+
+Chart line design
+
+
+*access:* public
+
+
+* `DESIGN_POINTS` = ` 'points'` (line 36)
+
+
+*Remarks*
+
+Chart line design
+
+
+*access:* public
+
+
+* `STYLE_NO_STACKING` = ` 'no_stack'` (line 47)
+
+
+*Remarks*
+
+Chart stack style
+
+
+*access:* public
+
+
+* `STYLE_STACKING` = ` 'stack'` (line 46)
+
+
+*Remarks*
+
+Chart stack style
+
+
+*access:* public
+
+
+* `TRACKING_MODE_X` = ` 'x'` (line 55)
+
+
+*Remarks*
+
+Chart tracking mode
+
+
+*access:* public
+
+
+* `TRACKING_MODE_Y` = ` 'y'` (line 56)
+
+
+*Remarks*
+
+Chart tracking mode
+
+
+*access:* public
+
+
+
+----

@@ -1,30 +1,615 @@
 #labels Class,WebSite-PHP,Form
 = Class Form =
-File located in : /display/Form.class.php
-
-See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=Form
 
 WebSitePhpObject
    |
-   --WebSitePhpEventObject
-      |
-      --Form
+   --Form
 
-= Method Summary =
-  * getAction () mixed
-  * getEncryptObject () mixed
-  * getFormObjects () mixed
-  * getId () mixed
-  * getMethod () mixed
-  * getName () mixed
-  * getPageObject () mixed
-  * isEncrypted () mixed
-  * __construct (mixed $page_object, [string $name = ''], [string $id = ''], [string $method = "POST"]) Form
-  * onSubmitJs (string|JavaScript $js_function) Form
-  * registerObjectToForm (mixed $object) Form
-  * render ([boolean $ajax_render = false]) string
-  * setAction (mixed $action_file_name) Form
-  * setContent (object $content) Form
-  * setEncryptObject ([mixed $encrypt_object = null]) Form
-  * setMethod (mixed $method) Form
-  * setName (mixed $name) Form
+
+
+Location: /display/Form.class.php
+
+----
+
+
+*Remarks*
+
+Class Form
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.0.102
+
+*copyright:* WebSite-PHP.com 26/05/2011
+
+*link:* 
+
+*since:* 1.0.17
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+							* `$page_object` = ` null`
+		
+		
+		
+----
+== Class Constant Summary ==
+
+			* `METHOD_GET` = ` 'GET'`
+		
+		method properties
+			* `METHOD_POST` = ` 'POST'`
+		
+		method properties
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::$is_javascript_object` = ` false`
+		
+		
+			* `WebSitePhpObject::$is_new_object_after_init` = ` false`
+		
+		
+			* `WebSitePhpObject::$object_change` = ` false`
+		
+		
+			* `WebSitePhpObject::$tag` = ` ''`
+		
+		
+		
+
+
+----
+== Method Summary == 
+
+																																																																																		
+== Inherited Method Summary == 
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::__construct()`
+		Constructor WebSitePhpObject
+			* `WebSitePhpObject::addCss()`
+		Method addCss
+			* `WebSitePhpObject::addJavaScript()`
+		Method addJavaScript
+			* `WebSitePhpObject::displayJavascriptTag()`
+		Method displayJavascriptTag
+			* `WebSitePhpObject::getAjaxRender()`
+		Method getAjaxRender
+			* `WebSitePhpObject::getCssArray()`
+		Method getCssArray
+			* `WebSitePhpObject::getJavaScriptArray()`
+		Method getJavaScriptArray
+			* `WebSitePhpObject::getJavascriptTagClose()`
+		Method getJavascriptTagClose
+			* `WebSitePhpObject::getJavascriptTagOpen()`
+		Method getJavascriptTagOpen
+			* `WebSitePhpObject::getName()`
+		Method getName
+			* `WebSitePhpObject::getPage()`
+		Method getPage
+			* `WebSitePhpObject::getRegisterObjects()`
+		Method getRegisterObjects
+			* `WebSitePhpObject::getTag()`
+		Method getTag
+			* `WebSitePhpObject::isEventObject()`
+		Method isEventObject
+			* `WebSitePhpObject::isJavascriptObject()`
+		Method isJavascriptObject
+			* `WebSitePhpObject::isObjectChange()`
+		Method isObjectChange
+			* `WebSitePhpObject::render()`
+		Method render
+			* `WebSitePhpObject::setTag()`
+		Method setTag
+	
+----
+== Method Detail ==
+
+
+
+= Form::getAction =
+
+*getAction(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getAction
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Form::getEncryptObject =
+
+*getEncryptObject(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getEncryptObject
+
+
+*since:* 1.0.67
+
+*access:* public
+
+
+
+= Form::getFormObjects =
+
+*getFormObjects(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getFormObjects
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Form::getId =
+
+*getId(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getId
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Form::getMethod =
+
+*getMethod(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getMethod
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Form::getName =
+
+*getName(*
+* );*
+
+
+Overrides WebSitePhpObject::getName() (Method getName)
+	
+
+	
+*Remarks*
+
+Method getName
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Form::getPageObject =
+
+*getPageObject(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getPageObject
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Form::isEncrypted =
+
+*isEncrypted(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method isEncrypted
+
+
+*since:* 1.0.67
+
+*access:* public
+
+
+
+= Form::__construct =
+
+*__construct(*
+*mixed*
+_$page_object_, [*string*
+_$name_ = ''], [*string*
+_$id_ = ''], [*string*
+_$method_ = &quot;POST&quot;]* );*
+
+
+Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
+	
+
+	
+*Parameters*
+			_$page_object_ 
+			_$name_ 
+			_$id_ 
+			_$method_ [default value: POST]
+		
+*Remarks*
+
+Constructor Form
+
+
+
+
+= Form::onChangeJs =
+
+*onChangeJs(*
+*mixed*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onChangeJs
+
+
+*since:* 1.0.90
+
+*access:* public
+
+
+
+= Form::onSubmitJs =
+
+*onSubmitJs(*
+*string|JavaScript*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onSubmitJs
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Form::registerObjectToForm =
+
+*registerObjectToForm(*
+*mixed*
+_$object_* );*
+
+
+	
+
+	
+*Parameters*
+			_$object_ 
+		
+*Remarks*
+
+Method registerObjectToForm
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Form::render =
+
+*render(*
+[*boolean*
+_$ajax_render_ = false]* );*
+
+
+Overrides WebSitePhpObject::render() (Method render)
+	
+
+	
+*Parameters*
+			_$ajax_render_ [default value: false]
+		
+*Returns*
+		html code of object Form
+
+*Remarks*
+
+Method render
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Form::resetFormChangeHiddenField =
+
+*resetFormChangeHiddenField(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method resetFormChangeHiddenField
+
+
+*since:* 1.0.90
+
+*access:* public
+
+
+
+= Form::setAction =
+
+*setAction(*
+*mixed*
+_$action_file_name_* );*
+
+
+	
+
+	
+*Parameters*
+			_$action_file_name_ 
+		
+*Remarks*
+
+Method setAction
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Form::setContent =
+
+*setContent(*
+*object*
+_$content_* );*
+
+
+	
+
+	
+*Parameters*
+			_$content_ 
+		
+*Remarks*
+
+Method setContent
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Form::setEncryptObject =
+
+*setEncryptObject(*
+[*mixed*
+_$encrypt_object_ = null]* );*
+
+
+	
+
+	
+*Parameters*
+			_$encrypt_object_ [default value: null]
+		
+*Remarks*
+
+Method setEncryptObject
+
+
+*since:* 1.0.67
+
+*access:* public
+
+
+
+= Form::setMethod =
+
+*setMethod(*
+*mixed*
+_$method_* );*
+
+
+	
+
+	
+*Parameters*
+			_$method_ 
+		
+*Remarks*
+
+Method setMethod
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Form::setName =
+
+*setName(*
+*mixed*
+_$name_* );*
+
+
+	
+
+	
+*Parameters*
+			_$name_ 
+		
+*Remarks*
+
+Method setName
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Form::setSubmitDialogBox =
+
+*setSubmitDialogBox(*
+*mixed*
+_$dialog_box_, [*double*
+_$display_delay_ = 200]* );*
+
+
+	
+
+	
+*Parameters*
+			_$dialog_box_ 
+			_$display_delay_ [default value: 200]
+		
+*Remarks*
+
+Method setSubmitDialogBox
+
+
+*since:* 1.0.99
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+* `$page_object` = ` null` (line 38)
+* *Data type:* `mixed`
+*access:* protected
+
+
+
+----
+== Class Constant Detail ==
+
+* `METHOD_GET` = ` 'GET'` (line 32)
+
+
+*Remarks*
+
+method properties
+
+
+*access:* public
+
+
+* `METHOD_POST` = ` 'POST'` (line 31)
+
+
+*Remarks*
+
+method properties
+
+
+*access:* public
+
+
+
+----

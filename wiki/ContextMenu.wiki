@@ -1,0 +1,330 @@
+#labels Class,WebSite-PHP,ContextMenu
+= Class ContextMenu =
+
+WebSitePhpObject
+   |
+   --ContextMenu
+
+
+
+Location: /display/advanced_object/menu/ContextMenu.class.php
+
+----
+
+
+*Remarks*
+
+Class ContextMenu
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2011 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.0.99
+
+*copyright:* WebSite-PHP.com 26/05/2011
+
+*link:* 
+
+*since:* 1.0.17
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+			* `CONTEXTMENU_ICON_COPY` = ` 'copy'`
+		
+		
+			* `CONTEXTMENU_ICON_CUT` = ` 'cut'`
+		
+		
+			* `CONTEXTMENU_ICON_DELETE` = ` 'delete'`
+		
+		
+			* `CONTEXTMENU_ICON_EDIT` = ` 'edit'`
+		
+		
+			* `CONTEXTMENU_ICON_FOLDER_ADD` = ` 'folder_add'`
+		
+		
+			* `CONTEXTMENU_ICON_FOLDER_DELETE` = ` 'folder_delete'`
+		
+		
+			* `CONTEXTMENU_ICON_FOLDER_RENAME` = ` 'folder_rename'`
+		
+		
+			* `CONTEXTMENU_ICON_PAGE_ADD` = ` 'page_add'`
+		
+		
+			* `CONTEXTMENU_ICON_PAGE_DELETE` = ` 'page_delete'`
+		
+		
+			* `CONTEXTMENU_ICON_PAGE_RENAME` = ` 'page_rename'`
+		
+		
+			* `CONTEXTMENU_ICON_PASTE` = ` 'paste'`
+		
+		
+			* `CONTEXTMENU_ICON_PICTURE` = ` 'picture'`
+		
+		
+			* `CONTEXTMENU_ICON_PICTURE_ADD` = ` 'picture_add'`
+		
+		
+			* `CONTEXTMENU_ICON_PICTURE_DELETE` = ` 'picture_delete'`
+		
+		
+			* `CONTEXTMENU_ICON_PICTURE_EDIT` = ` 'picture_edit'`
+		
+		
+			* `CONTEXTMENU_ICON_QUIT` = ` 'quit'`
+		
+		
+			* `CONTEXTMENU_ICON_RENAME` = ` 'rename'`
+		
+		
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::$is_javascript_object` = ` false`
+		
+		
+			* `WebSitePhpObject::$is_new_object_after_init` = ` false`
+		
+		
+			* `WebSitePhpObject::$object_change` = ` false`
+		
+		
+			* `WebSitePhpObject::$tag` = ` ''`
+		
+		
+		
+
+
+----
+== Method Summary == 
+
+																		
+== Inherited Method Summary == 
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::__construct()`
+		Constructor WebSitePhpObject
+			* `WebSitePhpObject::addCss()`
+		Method addCss
+			* `WebSitePhpObject::addJavaScript()`
+		Method addJavaScript
+			* `WebSitePhpObject::displayJavascriptTag()`
+		Method displayJavascriptTag
+			* `WebSitePhpObject::getAjaxRender()`
+		Method getAjaxRender
+			* `WebSitePhpObject::getCssArray()`
+		Method getCssArray
+			* `WebSitePhpObject::getJavaScriptArray()`
+		Method getJavaScriptArray
+			* `WebSitePhpObject::getJavascriptTagClose()`
+		Method getJavascriptTagClose
+			* `WebSitePhpObject::getJavascriptTagOpen()`
+		Method getJavascriptTagOpen
+			* `WebSitePhpObject::getName()`
+		Method getName
+			* `WebSitePhpObject::getPage()`
+		Method getPage
+			* `WebSitePhpObject::getRegisterObjects()`
+		Method getRegisterObjects
+			* `WebSitePhpObject::getTag()`
+		Method getTag
+			* `WebSitePhpObject::isEventObject()`
+		Method isEventObject
+			* `WebSitePhpObject::isJavascriptObject()`
+		Method isJavascriptObject
+			* `WebSitePhpObject::isObjectChange()`
+		Method isObjectChange
+			* `WebSitePhpObject::render()`
+		Method render
+			* `WebSitePhpObject::setTag()`
+		Method setTag
+	
+----
+== Method Detail ==
+
+
+
+= ContextMenu::addItem =
+
+*addItem(*
+*mixed*
+_$text_, [*string*
+_$contextmenu_icon_ = ''], [*string*
+_$event_js_or_object_ = ''], [*boolean*
+_$separator_ = false]* );*
+
+
+	
+
+	
+*Parameters*
+			_$text_ 
+			_$contextmenu_icon_ 
+			_$event_js_or_object_ 
+			_$separator_ [default value: false]
+		
+*Remarks*
+
+Method addItem
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= ContextMenu::attachContextMenuToObjectId =
+
+*attachContextMenuToObjectId(*
+*mixed*
+_$object_id_* );*
+
+
+	
+
+	
+*Parameters*
+			_$object_id_ 
+		
+*Remarks*
+
+Method attachContextMenuToObjectId
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= ContextMenu::__construct =
+
+*__construct(*
+*mixed*
+_$id_* );*
+
+
+Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
+	
+
+	
+*Parameters*
+			_$id_ 
+		
+*Remarks*
+
+Constructor ContextMenu
+
+
+
+
+= ContextMenu::render =
+
+*render(*
+[*boolean*
+_$ajax_render_ = false]* );*
+
+
+Overrides WebSitePhpObject::render() (Method render)
+	
+
+	
+*Parameters*
+			_$ajax_render_ [default value: false]
+		
+*Returns*
+		html code of object ContextMenu
+
+*Remarks*
+
+Method render
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+* `CONTEXTMENU_ICON_COPY` = ` 'copy'` (line 30)
+
+
+* `CONTEXTMENU_ICON_CUT` = ` 'cut'` (line 29)
+
+
+* `CONTEXTMENU_ICON_DELETE` = ` 'delete'` (line 38)
+
+
+* `CONTEXTMENU_ICON_EDIT` = ` 'edit'` (line 28)
+
+
+* `CONTEXTMENU_ICON_FOLDER_ADD` = ` 'folder_add'` (line 35)
+
+
+* `CONTEXTMENU_ICON_FOLDER_DELETE` = ` 'folder_delete'` (line 36)
+
+
+* `CONTEXTMENU_ICON_FOLDER_RENAME` = ` 'folder_rename'` (line 37)
+
+
+* `CONTEXTMENU_ICON_PAGE_ADD` = ` 'page_add'` (line 32)
+
+
+* `CONTEXTMENU_ICON_PAGE_DELETE` = ` 'page_delete'` (line 33)
+
+
+* `CONTEXTMENU_ICON_PAGE_RENAME` = ` 'page_rename'` (line 34)
+
+
+* `CONTEXTMENU_ICON_PASTE` = ` 'paste'` (line 31)
+
+
+* `CONTEXTMENU_ICON_PICTURE` = ` 'picture'` (line 41)
+
+
+* `CONTEXTMENU_ICON_PICTURE_ADD` = ` 'picture_add'` (line 42)
+
+
+* `CONTEXTMENU_ICON_PICTURE_DELETE` = ` 'picture_delete'` (line 43)
+
+
+* `CONTEXTMENU_ICON_PICTURE_EDIT` = ` 'picture_edit'` (line 44)
+
+
+* `CONTEXTMENU_ICON_QUIT` = ` 'quit'` (line 40)
+
+
+* `CONTEXTMENU_ICON_RENAME` = ` 'rename'` (line 39)
+
+
+
+----

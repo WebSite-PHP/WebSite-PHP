@@ -1,0 +1,462 @@
+#labels Class,WebSite-PHP,GeoLocalisation
+= Class GeoLocalisation =
+
+
+
+
+
+Location: /utils/GeoLocalisation.class.php
+
+----
+
+
+*Remarks*
+
+IPInfoDB geolocation API class
+
+
+http://ipinfodb.com/ip_location_api.php
+
+
+
+----
+== Class Variable Summary ==
+																					* `$apiKey` = ` ''`
+		
+		
+					* `$errors` = `array()`
+		
+		
+					* `$service` = ` 'api.ipinfodb.com'`
+		
+		
+					* `$showTimezone` = ` false`
+		
+		
+					* `$version` = ` 'v2'`
+		
+		
+					* `$_geolocation` = ` ''`
+		
+		
+					* `$_ip` = ` ''`
+		
+		
+					* `$_loaded` = ` false`
+		
+		
+		
+----
+== Class Constant Summary ==
+
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+
+----
+== Method Summary == 
+
+																																																																										
+== Inherited Method Summary == 
+
+----
+== Method Detail ==
+
+
+
+= GeoLocalisation::__construct =
+
+*__construct(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Constructor GeoLocalisation
+
+
+*access:* public
+
+
+
+= GeoLocalisation::__destruct =
+
+*__destruct(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Destructor GeoLocalisation
+
+
+*access:* public
+
+
+
+= GeoLocalisation::askUserToSharePosition =
+
+*askUserToSharePosition(*
+[**
+_$refresh_page_ = false], [**
+_$js_onsuccess_ = '']* );*
+
+
+	
+
+	
+*Parameters*
+			_$refresh_page_ 
+			_$js_onsuccess_ 
+		*access:* public
+
+
+
+= GeoLocalisation::getCity =
+
+*getCity(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Get City as a string
+
+
+*access:* public
+
+
+
+= GeoLocalisation::getCountry =
+
+*getCountry(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Get Country as a string
+
+
+*access:* public
+
+
+
+= GeoLocalisation::getCountryCode =
+
+*getCountryCode(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Get Country Code as a string
+
+
+*access:* public
+
+
+
+= GeoLocalisation::getError =
+
+*getError(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getError
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= GeoLocalisation::getGeoLocation =
+
+*getGeoLocation(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getGeoLocation
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= GeoLocalisation::getIp =
+
+*getIp(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Get IP as a string
+
+
+*access:* public
+
+
+
+= GeoLocalisation::getLatitude =
+
+*getLatitude(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Get Latitude as a string
+
+
+*access:* public
+
+
+
+= GeoLocalisation::getLongitude =
+
+*getLongitude(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Get Longitude as a string
+
+
+*access:* public
+
+
+
+= GeoLocalisation::getRegion =
+
+*getRegion(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Get Region as a string
+
+
+*access:* public
+
+
+
+= GeoLocalisation::isGoogleLocalisation =
+
+*isGoogleLocalisation(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+is a google geolocalisation
+
+
+*access:* public
+
+
+
+= GeoLocalisation::setDomain =
+
+*setDomain(*
+*string*
+_$domain_, *bool*
+_$test_* );*
+
+
+	
+
+	
+*Parameters*
+			_$domain_ The domain name
+			_$test_ To test if the domain is valid or not
+		
+*Remarks*
+
+Set domain
+
+
+*access:* public
+
+
+
+= GeoLocalisation::setIP =
+
+*setIP(*
+*string*
+_$ip_* );*
+
+
+	
+
+	
+*Parameters*
+			_$ip_ The ip address
+		
+*Remarks*
+
+Method setIP
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= GeoLocalisation::setKey =
+
+*setKey(*
+*mixed*
+_$key_* );*
+
+
+	
+
+	
+*Parameters*
+			_$key_ 
+		
+*Remarks*
+
+Method setKey
+
+
+*since:* 1.0.59
+
+*access:* public
+
+
+
+= GeoLocalisation::setRemoteIP =
+
+*setRemoteIP(*
+* );*
+
+
+	
+
+	*access:* public
+
+
+
+= GeoLocalisation::showTimezone =
+
+*showTimezone(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method showTimezone
+
+
+*since:* 1.0.59
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+* `$apiKey` = ` ''` (line 38)
+* *Data type:* `mixed`
+*access:* protected
+
+
+* `$errors` = `array()` (line 30)
+* *Data type:* `mixed`
+*access:* protected
+
+
+* `$service` = ` 'api.ipinfodb.com'` (line 36)
+* *Data type:* `mixed`
+*access:* protected
+
+
+* `$showTimezone` = ` false` (line 34)
+* *Data type:* `mixed`
+*access:* protected
+
+
+* `$version` = ` 'v2'` (line 37)
+* *Data type:* `mixed`
+*access:* protected
+
+
+* `$_geolocation` = ` ''` (line 32)
+* *Data type:* `mixed`
+*access:* protected
+
+
+* `$_ip` = ` ''` (line 31)
+* *Data type:* `mixed`
+*access:* protected
+
+
+* `$_loaded` = ` false` (line 33)
+* *Data type:* `mixed`
+*access:* protected
+
+
+
+----
+== Class Constant Detail ==
+
+
+----

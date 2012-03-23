@@ -1,8 +1,5 @@
 #labels Class,WebSite-PHP,Object
 = Class Object =
-File located in : /display/Object.class.php
-
-See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=Object
 
 WebSitePhpObject
    |
@@ -10,36 +7,1334 @@ WebSitePhpObject
       |
       --Object
 
-= Method Summary =
-  * add (string|Object|Url $str_or_object, [string|Object $str_or_object2 = null], [string|Object $str_or_object3 = null], [string|Object $str_or_object4 = null], [string|Object $str_or_object5 = null]) Object
-  * emptyObject () Object
-  * __construct ([string|Object|Url $str_or_object = null], [string|Object $str_or_object2 = null], [string|Object $str_or_object3 = null], [string|Object $str_or_object4 = null], [string|Object $str_or_object5 = null]) Object
-  * forceDivTag () Object
-  * forceSpanTag () Object
-  * getAjaxRender () string
-  * getId () mixed
-  * getIsDraggable () mixed
-  * getIsDroppable () mixed
-  * getIsSortable () mixed
-  * getOnClickJs () mixed
-  * hide () Object
-  * isClicked () mixed
-  * onClick (mixed $page_or_form_object, mixed $str_function, [mixed $arg1 = null], [mixed $arg2 = null], [mixed $arg3 = null], [mixed $arg4 = null], [mixed $arg5 = null]) Object
-  * onClickJs (string|JavaScript $js_function) Object
-  * onMouseOutJs (string|JavaScript $js_function) Object
-  * onMouseOverJs (string|JavaScript $js_function) Object
-  * render ([boolean $ajax_render = false]) string
-  * setAlign (string $align) Object
-  * setBorder ([double $border = 1], [string $border_color = "black"], [string $border_style = "solid"]) Object
-  * setClass (mixed $class) Object
-  * setClick () Object
-  * setDraggable ([string $bool = true], [string $revert = false], [mixed $draggable_event = null], [boolean $sortable_zone = false], [string $draggable_params = ""]) Object
-  * setDroppable ([string $bool = true], [mixed $droppable_event = null], [string $droppable_params = ""], [string $droppable_style = "droppablehover"]) Object
-  * setFont (mixed $font_size, mixed $font_family, mixed $font_weight) Object
-  * setHeight (integer $height) Object
-  * setId (mixed $id) Object
-  * setMinHeight (mixed $min_height) Object
-  * setSortable ([string $bool = true], [mixed $sortable_event = null], [string $sortable_params = ""]) Object
-  * setStyle (mixed $style) Object
-  * setWidth (integer $width) Object
-  * show () Object
+
+
+Location: /display/Object.class.php
+
+----
+
+
+*Remarks*
+
+Class Object
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.1.0
+
+*copyright:* WebSite-PHP.com 26/05/2011
+
+*link:* 
+
+*since:* 1.0.17
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+			* `ALIGN_CENTER` = ` 'center'`
+		
+		align properties
+			* `ALIGN_LEFT` = ` 'left'`
+		
+		align properties
+			* `ALIGN_RIGHT` = ` 'right'`
+		
+		align properties
+			* `BORDER_STYLE_DASHED` = ` 'dashed'`
+		
+		border style properties
+			* `BORDER_STYLE_DOTTED` = ` 'dotted'`
+		
+		border style properties
+			* `BORDER_STYLE_DOUBLE` = ` 'double'`
+		
+		border style properties
+			* `BORDER_STYLE_GROOVE` = ` 'groove'`
+		
+		border style properties
+			* `BORDER_STYLE_INSET` = ` 'inset'`
+		
+		border style properties
+			* `BORDER_STYLE_OUTSET` = ` 'outset'`
+		
+		border style properties
+			* `BORDER_STYLE_RIDGE` = ` 'ridge'`
+		
+		border style properties
+			* `BORDER_STYLE_SOLID` = ` 'solid'`
+		
+		border style properties
+			* `FONT_ARIAL` = ` 'Arial'`
+		
+		Font family
+			* `FONT_TIMES` = ` 'Times New Roman'`
+		
+		Font family
+			* `FONT_WEIGHT_BOLD` = ` 'bold'`
+		
+		Font weight
+			* `FONT_WEIGHT_NONE` = ` 'none'`
+		
+		Font weight
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+=== Inherited From Class WebSitePhpEventObject ===
+
+			* `WebSitePhpEventObject::$ajax_wait_message` = ` ''`
+		
+		
+			* `WebSitePhpEventObject::$class_name` = ` ''`
+		
+		
+			* `WebSitePhpEventObject::$disable_ajax_wait_message` = ` false`
+		
+		
+			* `WebSitePhpEventObject::$form_object` = ` null`
+		
+		
+			* `WebSitePhpEventObject::$id` = ` ''`
+		
+		
+			* `WebSitePhpEventObject::$is_ajax_event` = ` false`
+		
+		
+			* `WebSitePhpEventObject::$name` = ` ''`
+		
+		
+			* `WebSitePhpEventObject::$on_form_is_changed_js` = ` ''`
+		
+		
+			* `WebSitePhpEventObject::$on_form_is_changed_revert` = ` false`
+		
+		
+			* `WebSitePhpEventObject::$page_object` = ` null`
+		
+		
+		
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::$is_javascript_object` = ` false`
+		
+		
+			* `WebSitePhpObject::$is_new_object_after_init` = ` false`
+		
+		
+			* `WebSitePhpObject::$object_change` = ` false`
+		
+		
+			* `WebSitePhpObject::$tag` = ` ''`
+		
+		
+		
+
+
+----
+== Method Summary == 
+
+																																																																																																																																																										
+== Inherited Method Summary == 
+
+=== Inherited From Class WebSitePhpEventObject ===
+
+			* `WebSitePhpEventObject::__construct()`
+		Constructor WebSitePhpEventObject
+			* `WebSitePhpEventObject::automaticAjaxEvent()`
+		Method automaticAjaxEvent
+			* `WebSitePhpEventObject::disableAjaxWaitMessage()`
+		Method disableAjaxWaitMessage
+			* `WebSitePhpEventObject::getAjaxEventFunctionRender()`
+		Method getAjaxEventFunctionRender
+			* `WebSitePhpEventObject::getEventObjectName()`
+		Method getEventObjectName
+			* `WebSitePhpEventObject::getFormObject()`
+		Method getFormObject
+			* `WebSitePhpEventObject::getId()`
+		Method getId
+			* `WebSitePhpEventObject::getName()`
+		Method getName
+			* `WebSitePhpEventObject::getObjectEventValidationRender()`
+		Method getObjectEventValidationRender
+			* `WebSitePhpEventObject::initSubmitValue()`
+		Method initSubmitValue  Internal method used by an object like ComboBox or TextBox to init it with submitted value (if not already done).
+			* `WebSitePhpEventObject::isAjaxEvent()`
+		Method isAjaxEvent
+			* `WebSitePhpEventObject::isEventObject()`
+		Method isEventObject
+			* `WebSitePhpEventObject::loadCallbackMethod()`
+		Method loadCallbackMethod
+			* `WebSitePhpEventObject::onFormIsChangedJs()`
+		Method onFormIsChangedJs
+			* `WebSitePhpEventObject::setAjaxEvent()`
+		Method setAjaxEvent
+			* `WebSitePhpEventObject::setAjaxWaitMessage()`
+		Method setAjaxWaitMessage
+			* `WebSitePhpEventObject::setSubmitValueIsInit()`
+		Method setSubmitValueIsInit
+	
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::__construct()`
+		Constructor WebSitePhpObject
+			* `WebSitePhpObject::addCss()`
+		Method addCss
+			* `WebSitePhpObject::addJavaScript()`
+		Method addJavaScript
+			* `WebSitePhpObject::displayJavascriptTag()`
+		Method displayJavascriptTag
+			* `WebSitePhpObject::getAjaxRender()`
+		Method getAjaxRender
+			* `WebSitePhpObject::getCssArray()`
+		Method getCssArray
+			* `WebSitePhpObject::getJavaScriptArray()`
+		Method getJavaScriptArray
+			* `WebSitePhpObject::getJavascriptTagClose()`
+		Method getJavascriptTagClose
+			* `WebSitePhpObject::getJavascriptTagOpen()`
+		Method getJavascriptTagOpen
+			* `WebSitePhpObject::getName()`
+		Method getName
+			* `WebSitePhpObject::getPage()`
+		Method getPage
+			* `WebSitePhpObject::getRegisterObjects()`
+		Method getRegisterObjects
+			* `WebSitePhpObject::getTag()`
+		Method getTag
+			* `WebSitePhpObject::isEventObject()`
+		Method isEventObject
+			* `WebSitePhpObject::isJavascriptObject()`
+		Method isJavascriptObject
+			* `WebSitePhpObject::isObjectChange()`
+		Method isObjectChange
+			* `WebSitePhpObject::render()`
+		Method render
+			* `WebSitePhpObject::setTag()`
+		Method setTag
+	
+----
+== Method Detail ==
+
+
+
+= Object::add =
+
+*add(*
+*string|WspObject|Url*
+_$str_or_object_, [*string|WspObject*
+_$str_or_object2_ = null], [*string|WspObject*
+_$str_or_object3_ = null], [*string|WspObject*
+_$str_or_object4_ = null], [*string|WspObject*
+_$str_or_object5_ = null]* );*
+
+
+	
+
+	
+*Parameters*
+			_$str_or_object_ 
+			_$str_or_object2_ [default value: null]
+			_$str_or_object3_ [default value: null]
+			_$str_or_object4_ [default value: null]
+			_$str_or_object5_ [default value: null]
+		
+*Remarks*
+
+Method add
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::emptyObject =
+
+*emptyObject(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method emptyObject
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::__construct =
+
+*__construct(*
+[*string|WspObject|Url*
+_$str_or_object_ = null], [*string|WspObject*
+_$str_or_object2_ = null], [*string|WspObject*
+_$str_or_object3_ = null], [*string|WspObject*
+_$str_or_object4_ = null], [*string|WspObject*
+_$str_or_object5_ = null]* );*
+
+
+Overrides WebSitePhpEventObject::__construct() (Constructor WebSitePhpEventObject)
+	
+
+	
+*Parameters*
+			_$str_or_object_ [default value: null]
+			_$str_or_object2_ [default value: null]
+			_$str_or_object3_ [default value: null]
+			_$str_or_object4_ [default value: null]
+			_$str_or_object5_ [default value: null]
+		
+*Remarks*
+
+Constructor Object
+
+
+
+
+= Object::forceDivTag =
+
+*forceDivTag(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method forceDivTag
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::forceSpanTag =
+
+*forceSpanTag(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method forceSpanTag
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::getAjaxRender =
+
+*getAjaxRender(*
+* );*
+
+
+Overrides WebSitePhpObject::getAjaxRender() (Method getAjaxRender)
+	
+
+	
+*Returns*
+		javascript code to update initial html of object Object (call with AJAX)
+
+*Remarks*
+
+Method getAjaxRender
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::getId =
+
+*getId(*
+* );*
+
+
+Overrides WebSitePhpEventObject::getId() (Method getId)
+	
+
+	
+*Remarks*
+
+Method getId
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::getIsDraggable =
+
+*getIsDraggable(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getIsDraggable
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::getIsDroppable =
+
+*getIsDroppable(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getIsDroppable
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::getIsSortable =
+
+*getIsSortable(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getIsSortable
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::getOnClickJs =
+
+*getOnClickJs(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getOnClickJs
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::hide =
+
+*hide(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method hide
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::isClicked =
+
+*isClicked(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method isClicked
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::onClick =
+
+*onClick(*
+*Page|Form*
+_$page_or_form_object_, *string*
+_$str_function_, [*mixed*
+_$arg1_ = null], [*mixed*
+_$arg2_ = null], [*mixed*
+_$arg3_ = null], [*mixed*
+_$arg4_ = null], [*mixed*
+_$arg5_ = null]* );*
+
+
+	
+
+	
+*Parameters*
+			_$page_or_form_object_ 
+			_$str_function_ 
+			_$arg1_ [default value: null]
+			_$arg2_ [default value: null]
+			_$arg3_ [default value: null]
+			_$arg4_ [default value: null]
+			_$arg5_ [default value: null]
+		
+*Remarks*
+
+Method onClick
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::onClickJs =
+
+*onClickJs(*
+*string|JavaScript*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onClickJs
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::onDblClick =
+
+*onDblClick(*
+*mixed*
+_$page_or_form_object_, *mixed*
+_$str_function_, [*mixed*
+_$arg1_ = null], [*mixed*
+_$arg2_ = null], [*mixed*
+_$arg3_ = null], [*mixed*
+_$arg4_ = null], [*mixed*
+_$arg5_ = null]* );*
+
+
+	
+
+	
+*Parameters*
+			_$page_or_form_object_ 
+			_$str_function_ 
+			_$arg1_ [default value: null]
+			_$arg2_ [default value: null]
+			_$arg3_ [default value: null]
+			_$arg4_ [default value: null]
+			_$arg5_ [default value: null]
+		
+*Remarks*
+
+Method onDblClick
+
+
+*since:* 1.0.97
+
+*access:* public
+
+
+
+= Object::onDblClickJs =
+
+*onDblClickJs(*
+*mixed*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onDblClickJs
+
+
+*since:* 1.0.97
+
+*access:* public
+
+
+
+= Object::onMouseOutJs =
+
+*onMouseOutJs(*
+*string|JavaScript*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onMouseOutJs
+
+
+*since:* 1.0.63
+
+*access:* public
+
+
+
+= Object::onMouseOverJs =
+
+*onMouseOverJs(*
+*string|JavaScript*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onMouseOverJs
+
+
+*since:* 1.0.63
+
+*access:* public
+
+
+
+= Object::render =
+
+*render(*
+[*boolean*
+_$ajax_render_ = false]* );*
+
+
+Overrides WebSitePhpObject::render() (Method render)
+	
+
+	
+*Parameters*
+			_$ajax_render_ [default value: false]
+		
+*Returns*
+		html code of object Object
+
+*Remarks*
+
+Method render
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::setAlign =
+
+*setAlign(*
+*string*
+_$align_* );*
+
+
+	
+
+	
+*Parameters*
+			_$align_ 
+		
+*Remarks*
+
+Method setAlign
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::setBorder =
+
+*setBorder(*
+[*integer*
+_$border_ = 1], [*string*
+_$border_color_ = &quot;black&quot;], [*string*
+_$border_style_ = &quot;solid&quot;]* );*
+
+
+	
+
+	
+*Parameters*
+			_$border_ [default value: 1]
+			_$border_color_ [default value: black]
+			_$border_style_ [default value: solid]
+		
+*Remarks*
+
+Method setBorder
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::setClass =
+
+*setClass(*
+*string*
+_$class_* );*
+
+
+	
+
+	
+*Parameters*
+			_$class_ 
+		
+*Remarks*
+
+Method setClass
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::setClick =
+
+*setClick(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method setClick
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::setContextMenu =
+
+*setContextMenu(*
+*mixed*
+_$context_menu_object_* );*
+
+
+	
+
+	
+*Parameters*
+			_$context_menu_object_ 
+		
+*Remarks*
+
+Method setContextMenu
+
+
+*since:* 1.0.97
+
+*access:* public
+
+
+
+= Object::setDraggable =
+
+*setDraggable(*
+[*boolean*
+_$bool_ = true], [*boolean*
+_$revert_ = false], [*DraggableEvent*
+_$draggable_event_ = null], [*boolean*
+_$sortable_zone_ = false], [*string*
+_$draggable_params_ = &quot;&quot;]* );*
+
+
+	
+
+	
+*Parameters*
+			_$bool_ if object can be move [default value: true]
+			_$revert_ if object revert first place when dropped [default value: false]
+			_$draggable_event_ [default value: null]
+			_$sortable_zone_ [default value: false]
+			_$draggable_params_ 
+		
+*Remarks*
+
+Method setDraggable
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::setDroppable =
+
+*setDroppable(*
+[*boolean*
+_$bool_ = true], [*DroppableEvent*
+_$droppable_event_ = null], [*string*
+_$droppable_params_ = &quot;&quot;], [*string*
+_$droppable_style_ = &quot;droppablehover&quot;]* );*
+
+
+	
+
+	
+*Parameters*
+			_$bool_ if object can be dropped [default value: true]
+			_$droppable_event_ [default value: null]
+			_$droppable_params_ 
+			_$droppable_style_ [default value: droppablehover]
+		
+*Remarks*
+
+Method setDroppable
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::setFont =
+
+*setFont(*
+*integer*
+_$font_size_, *string*
+_$font_family_, *string*
+_$font_weight_* );*
+
+
+	
+
+	
+*Parameters*
+			_$font_size_ 
+			_$font_family_ 
+			_$font_weight_ 
+		
+*Remarks*
+
+Method setFont
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::setHeight =
+
+*setHeight(*
+*integer*
+_$height_* );*
+
+
+	
+
+	
+*Parameters*
+			_$height_ 
+		
+*Remarks*
+
+Method setHeight
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::setId =
+
+*setId(*
+*string*
+_$id_* );*
+
+
+	
+
+	
+*Parameters*
+			_$id_ 
+		
+*Remarks*
+
+Method setId
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::setItemProp =
+
+*setItemProp(*
+*mixed*
+_$itemprop_* );*
+
+
+	
+
+	
+*Parameters*
+			_$itemprop_ 
+		
+*Remarks*
+
+Method setItemProp
+
+
+*since:* 1.0.103
+
+*access:* public
+
+
+
+= Object::setItemType =
+
+*setItemType(*
+*mixed*
+_$itemtype_* );*
+
+
+	
+
+	
+*Parameters*
+			_$itemtype_ 
+		
+*Remarks*
+
+Method setItemType
+
+
+*since:* 1.0.103
+
+*access:* public
+
+
+
+= Object::setMaxHeight =
+
+*setMaxHeight(*
+*mixed*
+_$max_height_* );*
+
+
+	
+
+	
+*Parameters*
+			_$max_height_ 
+		
+*Remarks*
+
+Method setMaxHeight
+
+
+*since:* 1.0.97
+
+*access:* public
+
+
+
+= Object::setMinHeight =
+
+*setMinHeight(*
+*integer*
+_$min_height_* );*
+
+
+	
+
+	
+*Parameters*
+			_$min_height_ 
+		
+*Remarks*
+
+Method setMinHeight
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::setSortable =
+
+*setSortable(*
+[*boolean*
+_$bool_ = true], [*SortableEvent*
+_$sortable_event_ = null], [*string*
+_$sortable_params_ = &quot;&quot;]* );*
+
+
+	
+
+	
+*Parameters*
+			_$bool_ if object can be sort [default value: true]
+			_$sortable_event_ [default value: null]
+			_$sortable_params_ 
+		
+*Remarks*
+
+Method setSortable
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::setStyle =
+
+*setStyle(*
+*string*
+_$style_* );*
+
+
+	
+
+	
+*Parameters*
+			_$style_ 
+		
+*Remarks*
+
+Method setStyle
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::setWidth =
+
+*setWidth(*
+*integer*
+_$width_* );*
+
+
+	
+
+	
+*Parameters*
+			_$width_ 
+		
+*Remarks*
+
+Method setWidth
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::show =
+
+*show(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method show
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+* `ALIGN_CENTER` = ` 'center'` (line 32)
+
+
+*Remarks*
+
+align properties
+
+
+*access:* public
+
+
+* `ALIGN_LEFT` = ` 'left'` (line 31)
+
+
+*Remarks*
+
+align properties
+
+
+*access:* public
+
+
+* `ALIGN_RIGHT` = ` 'right'` (line 33)
+
+
+*Remarks*
+
+align properties
+
+
+*access:* public
+
+
+* `BORDER_STYLE_DASHED` = ` 'dashed'` (line 42)
+
+
+*Remarks*
+
+border style properties
+
+
+*access:* public
+
+
+* `BORDER_STYLE_DOTTED` = ` 'dotted'` (line 41)
+
+
+*Remarks*
+
+border style properties
+
+
+*access:* public
+
+
+* `BORDER_STYLE_DOUBLE` = ` 'double'` (line 44)
+
+
+*Remarks*
+
+border style properties
+
+
+*access:* public
+
+
+* `BORDER_STYLE_GROOVE` = ` 'groove'` (line 45)
+
+
+*Remarks*
+
+border style properties
+
+
+*access:* public
+
+
+* `BORDER_STYLE_INSET` = ` 'inset'` (line 47)
+
+
+*Remarks*
+
+border style properties
+
+
+*access:* public
+
+
+* `BORDER_STYLE_OUTSET` = ` 'outset'` (line 48)
+
+
+*Remarks*
+
+border style properties
+
+
+*access:* public
+
+
+* `BORDER_STYLE_RIDGE` = ` 'ridge'` (line 46)
+
+
+*Remarks*
+
+border style properties
+
+
+*access:* public
+
+
+* `BORDER_STYLE_SOLID` = ` 'solid'` (line 43)
+
+
+*Remarks*
+
+border style properties
+
+
+*access:* public
+
+
+* `FONT_ARIAL` = ` 'Arial'` (line 56)
+
+
+*Remarks*
+
+Font family
+
+
+*access:* public
+
+
+* `FONT_TIMES` = ` 'Times New Roman'` (line 57)
+
+
+*Remarks*
+
+Font family
+
+
+*access:* public
+
+
+* `FONT_WEIGHT_BOLD` = ` 'bold'` (line 65)
+
+
+*Remarks*
+
+Font weight
+
+
+*access:* public
+
+
+* `FONT_WEIGHT_NONE` = ` 'none'` (line 66)
+
+
+*Remarks*
+
+Font weight
+
+
+*access:* public
+
+
+
+----

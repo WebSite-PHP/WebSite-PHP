@@ -1,13 +1,367 @@
 #labels Class,WebSite-PHP,CssInclude
 = Class CssInclude =
-File located in : /CssInclude.class.php
 
-See complete documentation on : http://www.website-php.com/documentation/?package=default&cls=CssInclude
 
-= Method Summary =
-  * static getInstance () mixed
-  * __construct () CssInclude
-  * add (mixed $css_url, [string $conditional_comment = ''], [boolean $conbine = false]) void
-  * get ([boolean $sort_by_name = false]) mixed
-  * getCombine (mixed $indice) mixed
-  * getConditionalComment (mixed $indice) mixed
+
+
+
+Location: /CssInclude.class.php
+
+----
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+
+----
+== Method Summary == 
+
+																								* `static CssInclude getInstance()`
+		Method getInstance
+																																* `CssInclude getInstance()`
+		Method getInstance
+								
+== Inherited Method Summary == 
+
+----
+== Method Detail ==
+
+
+= static CssInclude::getInstance =
+
+*static getInstance(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getInstance
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+
+= CssInclude::__construct =
+
+*__construct(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Constructor CssInclude
+
+
+
+
+= CssInclude::add =
+
+*add(*
+*string*
+_$css_url_, [*string*
+_$conditional_comment_ = ''], [*boolean*
+_$conbine_ = false]* );*
+
+
+	
+
+	
+*Parameters*
+			_$css_url_ 
+			_$conditional_comment_ 
+			_$conbine_ [default value: false]
+		
+*Remarks*
+
+Method add
+
+
+*since:* 1.0.59
+
+*access:* public
+
+
+
+= CssInclude::addToBegin =
+
+*addToBegin(*
+*string*
+_$css_url_, [*string*
+_$conditional_comment_ = ''], [*boolean*
+_$conbine_ = false]* );*
+
+
+	
+
+	
+*Parameters*
+			_$css_url_ 
+			_$conditional_comment_ 
+			_$conbine_ [default value: false]
+		
+*Remarks*
+
+Method addToBegin
+
+
+*since:* 1.0.80
+
+*access:* public
+
+
+
+= CssInclude::addToEnd =
+
+*addToEnd(*
+*string*
+_$css_url_, [*string*
+_$conditional_comment_ = ''], [*boolean*
+_$conbine_ = false]* );*
+
+
+	
+
+	
+*Parameters*
+			_$css_url_ 
+			_$conditional_comment_ 
+			_$conbine_ [default value: false]
+		
+*Remarks*
+
+Method addToEnd
+
+
+*since:* 1.0.80
+
+*access:* public
+
+
+
+= CssInclude::get =
+
+*get(*
+[*boolean*
+_$sort_ = false]* );*
+
+
+	
+
+	
+*Parameters*
+			_$sort_ [default value: false]
+		
+*Remarks*
+
+Method get
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= CssInclude::getArrayCssToBegin =
+
+*getArrayCssToBegin(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getArrayCssToBegin
+
+
+*since:* 1.0.80
+
+*access:* public
+
+
+
+= CssInclude::getArrayCssToEnd =
+
+*getArrayCssToEnd(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getArrayCssToEnd
+
+
+*since:* 1.0.80
+
+*access:* public
+
+
+
+= CssInclude::getCombine =
+
+*getCombine(*
+*mixed*
+_$indice_* );*
+
+
+	
+
+	
+*Parameters*
+			_$indice_ 
+		
+*Remarks*
+
+Method getCombine
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= CssInclude::getConditionalComment =
+
+*getConditionalComment(*
+*mixed*
+_$indice_* );*
+
+
+	
+
+	
+*Parameters*
+			_$indice_ 
+		
+*Remarks*
+
+Method getConditionalComment
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= CssInclude::getCssConfigFile =
+
+*getCssConfigFile(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getCssConfigFile
+
+
+*since:* 1.0.83
+
+*access:* public
+
+
+
+= CssInclude::isCssConfigFileLoaded =
+
+*isCssConfigFileLoaded(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method isCssConfigFileLoaded
+
+
+*since:* 1.0.83
+
+*access:* public
+
+
+
+= CssInclude::loadCssConfigFileInMemory =
+
+*loadCssConfigFileInMemory(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method loadCssConfigFileInMemory
+
+
+*since:* 1.0.83
+
+*access:* public
+
+
+
+= CssInclude::setCssConfigFile =
+
+*setCssConfigFile(*
+[*string*
+_$file_ = 'config_css.inc.php']* );*
+
+
+	
+
+	
+*Parameters*
+			_$file_ [default value: config_css.inc.php]
+		
+*Remarks*
+
+Method setCssConfigFile
+
+
+*since:* 1.0.83
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+
+----

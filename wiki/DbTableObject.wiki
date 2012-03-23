@@ -1,0 +1,302 @@
+#labels Class,WebSite-PHP,DbTableObject
+= Class DbTableObject =
+
+
+
+
+
+Location: /database/DbTableObject.class.php
+
+----
+
+
+*Remarks*
+
+Class DbTableObject
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2011 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.0.79
+
+*copyright:* WebSite-PHP.com 03/10/2010
+
+*link:* 
+
+*since:* 1.0.17
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+
+----
+== Method Summary == 
+
+																																																		
+== Inherited Method Summary == 
+
+----
+== Method Detail ==
+
+
+
+= DbTableObject::__construct =
+
+*__construct(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Constructor DbTableObject
+
+
+
+
+= DbTableObject::getDbSchemaName =
+
+*getDbSchemaName(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getDbSchemaName
+
+
+*since:* 1.0.35
+
+
+
+= DbTableObject::getDbTableAttributes =
+
+*getDbTableAttributes(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getDbTableAttributes
+
+
+*since:* 1.0.35
+
+
+
+= DbTableObject::getDbTableAttributesType =
+
+*getDbTableAttributesType(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getDbTableAttributesType
+
+
+*since:* 1.0.35
+
+
+
+= DbTableObject::getDbTableName =
+
+*getDbTableName(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getDbTableName
+
+
+*since:* 1.0.35
+
+
+
+= DbTableObject::getDbTablePrimaryKeys =
+
+*getDbTablePrimaryKeys(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getDbTablePrimaryKeys
+
+
+*since:* 1.0.35
+
+
+
+= DbTableObject::getDbTableSchemaName =
+
+*getDbTableSchemaName(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getDbTableSchemaName
+
+
+*since:* 1.0.35
+
+
+
+= DbTableObject::setDbSchemaName =
+
+*setDbSchemaName(*
+*mixed*
+_$db_schema_name_* );*
+
+
+	
+
+	
+*Parameters*
+			_$db_schema_name_ 
+		
+*Remarks*
+
+Method setDbSchemaName
+
+
+*since:* 1.0.59
+
+
+
+= DbTableObject::setDbTableAttributes =
+
+*setDbTableAttributes(*
+*mixed*
+_$db_table_attributes_* );*
+
+
+	
+
+	
+*Parameters*
+			_$db_table_attributes_ 
+		
+*Remarks*
+
+Method setDbTableAttributes
+
+
+*since:* 1.0.59
+
+
+
+= DbTableObject::setDbTableAttributesType =
+
+*setDbTableAttributesType(*
+*mixed*
+_$db_table_attributes_type_* );*
+
+
+	
+
+	
+*Parameters*
+			_$db_table_attributes_type_ 
+		
+*Remarks*
+
+Method setDbTableAttributesType
+
+
+*since:* 1.0.59
+
+
+
+= DbTableObject::setDbTableName =
+
+*setDbTableName(*
+*mixed*
+_$db_table_name_* );*
+
+
+	
+
+	
+*Parameters*
+			_$db_table_name_ 
+		
+*Remarks*
+
+Method setDbTableName
+
+
+*since:* 1.0.59
+
+
+
+= DbTableObject::setDbTablePrimaryKeys =
+
+*setDbTablePrimaryKeys(*
+*mixed*
+_$db_table_primary_keys_* );*
+
+
+	
+
+	
+*Parameters*
+			_$db_table_primary_keys_ 
+		
+*Remarks*
+
+Method setDbTablePrimaryKeys
+
+
+*since:* 1.0.59
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+
+----

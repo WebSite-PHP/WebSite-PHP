@@ -1,0 +1,266 @@
+#labels Class,WebSite-PHP,MenuItem
+= Class MenuItem =
+
+WebSitePhpObject
+   |
+   --MenuItem
+
+
+
+Location: /display/advanced_object/menu/MenuItem.class.php
+
+----
+
+
+*Remarks*
+
+Class MenuItem
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2011 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.0.99
+
+*copyright:* WebSite-PHP.com 26/05/2011
+
+*link:* 
+
+*since:* 1.0.17
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+			* `ALIGN_CENTER` = ` 'center'`
+		
+		MenuItem align
+			* `ALIGN_LEFT` = ` 'left'`
+		
+		MenuItem align
+			* `ALIGN_RIGHT` = ` 'right'`
+		
+		MenuItem align
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::$is_javascript_object` = ` false`
+		
+		
+			* `WebSitePhpObject::$is_new_object_after_init` = ` false`
+		
+		
+			* `WebSitePhpObject::$object_change` = ` false`
+		
+		
+			* `WebSitePhpObject::$tag` = ` ''`
+		
+		
+		
+
+
+----
+== Method Summary == 
+
+																		
+== Inherited Method Summary == 
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::__construct()`
+		Constructor WebSitePhpObject
+			* `WebSitePhpObject::addCss()`
+		Method addCss
+			* `WebSitePhpObject::addJavaScript()`
+		Method addJavaScript
+			* `WebSitePhpObject::displayJavascriptTag()`
+		Method displayJavascriptTag
+			* `WebSitePhpObject::getAjaxRender()`
+		Method getAjaxRender
+			* `WebSitePhpObject::getCssArray()`
+		Method getCssArray
+			* `WebSitePhpObject::getJavaScriptArray()`
+		Method getJavaScriptArray
+			* `WebSitePhpObject::getJavascriptTagClose()`
+		Method getJavascriptTagClose
+			* `WebSitePhpObject::getJavascriptTagOpen()`
+		Method getJavascriptTagOpen
+			* `WebSitePhpObject::getName()`
+		Method getName
+			* `WebSitePhpObject::getPage()`
+		Method getPage
+			* `WebSitePhpObject::getRegisterObjects()`
+		Method getRegisterObjects
+			* `WebSitePhpObject::getTag()`
+		Method getTag
+			* `WebSitePhpObject::isEventObject()`
+		Method isEventObject
+			* `WebSitePhpObject::isJavascriptObject()`
+		Method isJavascriptObject
+			* `WebSitePhpObject::isObjectChange()`
+		Method isObjectChange
+			* `WebSitePhpObject::render()`
+		Method render
+			* `WebSitePhpObject::setTag()`
+		Method setTag
+	
+----
+== Method Detail ==
+
+
+
+= MenuItem::__construct =
+
+*__construct(*
+*mixed*
+_$value_, [*string*
+_$link_ = ''], [*string*
+_$img_ = ''], [*boolean*
+_$current_ = false]* );*
+
+
+Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
+	
+
+	
+*Parameters*
+			_$value_ 
+			_$link_ 
+			_$img_ 
+			_$current_ [default value: false]
+		
+*Remarks*
+
+Constructor MenuItem
+
+
+
+
+= MenuItem::render =
+
+*render(*
+[*boolean*
+_$ajax_render_ = false]* );*
+
+
+Overrides WebSitePhpObject::render() (Method render)
+	
+
+	
+*Parameters*
+			_$ajax_render_ [default value: false]
+		
+*Returns*
+		html code of object MenuItem
+
+*Remarks*
+
+Method render
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= MenuItem::setCurrent =
+
+*setCurrent(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method setCurrent
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= MenuItem::setMenuItems =
+
+*setMenuItems(*
+*mixed*
+_$menu_items_object_* );*
+
+
+	
+
+	
+*Parameters*
+			_$menu_items_object_ 
+		
+*Remarks*
+
+Method setMenuItems
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+* `ALIGN_CENTER` = ` 'center'` (line 36)
+
+
+*Remarks*
+
+MenuItem align
+
+
+*access:* public
+
+
+* `ALIGN_LEFT` = ` 'left'` (line 35)
+
+
+*Remarks*
+
+MenuItem align
+
+
+*access:* public
+
+
+* `ALIGN_RIGHT` = ` 'right'` (line 37)
+
+
+*Remarks*
+
+MenuItem align
+
+
+*access:* public
+
+
+
+----

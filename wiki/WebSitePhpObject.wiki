@@ -1,24 +1,999 @@
 #labels Class,WebSite-PHP,WebSitePhpObject
 = Class WebSitePhpObject =
-File located in : /WebSitePhpObject.class.php
 
-See complete documentation on : http://www.website-php.com/documentation/?package=default&cls=WebSitePhpObject
 
-= Method Summary =
-  * static getRegisterObjects () mixed
-  * __construct () WebSitePhpObject
-  * addCss (mixed $css_url, [string $conditional_comment = ''], [boolean $conbine = false]) void
-  * addJavaScript (mixed $js_url, [string $conditional_comment = ''], [boolean $conbine = false]) void
-  * displayJavascriptTag () WebSitePhpObject
-  * getAjaxRender () string
-  * getCssArray () mixed
-  * getJavaScriptArray () mixed
-  * getJavascriptTagClose () mixed
-  * getJavascriptTagOpen () mixed
-  * getName () mixed
-  * getTag () mixed
-  * isEventObject () boolean
-  * isJavascriptObject () mixed
-  * isObjectChange () mixed
-  * render ([boolean $ajax_render = false]) string
-  * setTag (mixed $value) WebSitePhpObject
+
+
+Classes extended from WebSitePhpObject:
+ 		AutoComplete
+	    |
+	    --Class AutoComplete
+		AutoCompleteResult
+	    |
+	    --Class AutoCompleteResult
+		Box
+	    |
+	    --Class Box
+		DraggableEvent
+	    |
+	    --Class DraggableEvent
+		ToolTip
+	    |
+	    --Class ToolTip
+		Adsense
+	    |
+	    --Class Adsense
+		Map
+	    |
+	    --Class Map
+		Language
+	    |
+	    --Class Language
+		LanguageBox
+	    |
+	    --Class LanguageBox
+		LanguageComboBox
+	    |
+	    --Class LanguageComboBox
+		LiveValidation
+	    |
+	    --Class LiveValidation
+		ContextMenu
+	    |
+	    --Class ContextMenu
+		DockMenu
+	    |
+	    --Class DockMenu
+		DockMenuItem
+	    |
+	    --Class DockMenuItem
+		Menu
+	    |
+	    --Class Menu
+		MenuItem
+	    |
+	    --Class MenuItem
+		MenuItems
+	    |
+	    --Class MenuItems
+		RoundBox
+	    |
+	    --Class RoundBox
+		SwfObject
+	    |
+	    --Class SwfObject
+		TreeView
+	    |
+	    --Class TreeView
+		TreeViewItem
+	    |
+	    --Class TreeViewItem
+		TreeViewItems
+	    |
+	    --Class TreeViewItems
+		Anchor
+	    |
+	    --Class Anchor
+		Captcha
+	    |
+	    --Class Captcha
+		DefinedZone
+	    |
+	    --Class DefinedZone
+		DialogBox
+	    |
+	    --Class DialogBox
+		Font
+	    |
+	    --Class Font
+		Form
+	    |
+	    --Class Form
+		JavaScript
+	    |
+	    --Class JavaScript
+		Label
+	    |
+	    --Class Label
+		Link
+	    |
+	    --Class Link
+		LinkPage
+	    |
+	    --Class LinkPage
+		ListItem
+	    |
+	    --Class ListItem
+		PictureMap
+	    |
+	    --Class PictureMap
+		RowTable
+	    |
+	    --Class RowTable
+		Table
+	    |
+	    --Class Table
+		Tabs
+	    |
+	    --Class Tabs
+		Url
+	    |
+	    --Class Url
+		Authentication
+	    |
+	    --Class Authentication
+		ContactForm
+	    |
+	    --Class ContactForm
+		DownloadButton
+	    |
+	    --Class DownloadButton
+		FacebookActivityFeed
+	    |
+	    --Class FacebookActivityFeed
+		FacebookComments
+	    |
+	    --Class FacebookComments
+		FacebookRecommendations
+	    |
+	    --Class FacebookRecommendations
+		GoogleSearchBar
+	    |
+	    --Class GoogleSearchBar
+		GoogleSearchResult
+	    |
+	    --Class GoogleSearchResult
+		Chart
+	    |
+	    --Class Chart
+		ImageRotator
+	    |
+	    --Class ImageRotator
+		FacebookLikeButton
+	    |
+	    --Class FacebookLikeButton
+		GoogleLikeButton
+	    |
+	    --Class GoogleLikeButton
+		ShareButton
+	    |
+	    --Class ShareButton
+		VideoFlv
+	    |
+	    --Class VideoFlv
+		VideoHTML5
+	    |
+	    --Class VideoHTML5
+		WebSitePhpEventObject
+	    |
+	    --Class WebSitePhpObject
+	
+
+
+Location: /WebSitePhpObject.class.php
+
+----
+
+
+*Remarks*
+
+Class WebSitePhpObject
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2011 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.0.99
+
+*copyright:* WebSite-PHP.com 26/05/2011
+
+*link:* 
+
+*since:* 1.0.17
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+													* `$is_javascript_object` = ` false`
+		
+		
+					* `$is_new_object_after_init` = ` false`
+		
+		
+					* `$object_change` = ` false`
+		
+		
+					* `$tag` = ` ''`
+		
+		
+		
+----
+== Class Constant Summary ==
+
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+
+----
+== Method Summary == 
+
+																										* `static mixed getRegisterObjects()`
+		Method getRegisterObjects
+																																								* `mixed getRegisterObjects()`
+		Method getRegisterObjects
+														
+== Inherited Method Summary == 
+
+----
+== Method Detail ==
+
+
+= static WebSitePhpObject::getRegisterObjects =
+
+*static getRegisterObjects(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getRegisterObjects
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+
+= WebSitePhpObject::__construct =
+
+*__construct(*
+* );*
+
+
+	Overridden in child classes as:
+		AutoComplete::__construct()
+		  Constructor AutoComplete
+		AutoCompleteResult::__construct()
+		  Constructor AutoCompleteResult
+		Box::__construct()
+		  Constructor Box
+		DraggableEvent::__construct()
+		  Constructor DraggableEvent
+		ToolTip::__construct()
+		  Constructor ToolTip
+		Adsense::__construct()
+		  Constructor Adsense
+		Map::__construct()
+		  Constructor Map
+		Language::__construct()
+		  Constructor Language
+		LanguageBox::__construct()
+		  Constructor LanguageBox
+		LanguageComboBox::__construct()
+		  Constructor LanguageComboBox
+		LiveValidation::__construct()
+		  Constructor LiveValidation
+		ContextMenu::__construct()
+		  Constructor ContextMenu
+		DockMenu::__construct()
+		  Constructor DockMenu
+		DockMenuItem::__construct()
+		  Constructor DockMenuItem
+		Menu::__construct()
+		  Constructor Menu
+		MenuItem::__construct()
+		  Constructor MenuItem
+		MenuItems::__construct()
+		  Constructor MenuItems
+		RoundBox::__construct()
+		  Constructor RoundBox
+		SwfObject::__construct()
+		  Constructor SwfObject
+		TreeView::__construct()
+		  Constructor TreeView
+		TreeViewItem::__construct()
+		  Constructor TreeViewItem
+		TreeViewFile::__construct()
+		  Constructor TreeViewFile
+		TreeViewFolder::__construct()
+		  Constructor TreeViewFolder
+		TreeViewItems::__construct()
+		  Constructor TreeViewItems
+		Anchor::__construct()
+		  Constructor Anchor
+		Captcha::__construct()
+		  Constructor Captcha
+		DefinedZone::__construct()
+		  Constructor DefinedZone
+		DialogBox::__construct()
+		  Constructor DialogBox
+		Font::__construct()
+		  Constructor Font
+		Form::__construct()
+		  Constructor Form
+		JavaScript::__construct()
+		  Constructor JavaScript
+		Label::__construct()
+		  Constructor Label
+		Link::__construct()
+		  Constructor Link
+		LinkPage::__construct()
+		  Constructor LinkPage
+		ListItem::__construct()
+		  Constructor ListItem
+		PictureMap::__construct()
+		  Constructor PictureMap
+		RowTable::__construct()
+		  Constructor RowTable
+		Table::__construct()
+		  Constructor Table
+		Tabs::__construct()
+		  Constructor Tabs
+		Url::__construct()
+		  Constructor Url
+		Authentication::__construct()
+		  Constructor Authentication
+		ContactForm::__construct()
+		  Constructor ContactForm
+		DownloadButton::__construct()
+		  Constructor DownloadButton
+		FacebookActivityFeed::__construct()
+		  Constructor FacebookActivityFeed
+		FacebookComments::__construct()
+		  Constructor FacebookComments
+		FacebookRecommendations::__construct()
+		  Constructor FacebookRecommendations
+		GoogleSearchBar::__construct()
+		  Constructor GoogleSearchBar
+		GoogleSearchResult::__construct()
+		  Constructor GoogleSearchResult
+		Chart::__construct()
+		  Constructor Chart
+		ImageRotator::__construct()
+		  Constructor ImageRotator
+		FacebookLikeButton::__construct()
+		  Constructor FacebookLikeButton
+		GoogleLikeButton::__construct()
+		  Constructor GoogleLikeButton
+		ShareButton::__construct()
+		  Constructor ShareButton
+		VideoFlv::__construct()
+		  Constructor VideoFlv
+		VideoHTML5::__construct()
+		  Constructor VideoHTML5
+		WebSitePhpEventObject::__construct()
+		  Constructor WebSitePhpEventObject
+		AutoCompleteEvent::__construct()
+		  Constructor AutoCompleteEvent
+		ContextMenuEvent::__construct()
+		  Constructor ContextMenuEvent
+		DroppableEvent::__construct()
+		  Constructor DroppableEvent
+		SortableEvent::__construct()
+		  Constructor SortableEvent
+		Button::__construct()
+		  Constructor Button
+		CheckBox::__construct()
+		  Constructor CheckBox
+		ComboBox::__construct()
+		  Constructor ComboBox
+		Editor::__construct()
+		  Constructor Editor
+		Hidden::__construct()
+		  Constructor Hidden
+		Object::__construct()
+		  Constructor Object
+		Picture::__construct()
+		  Constructor Picture
+		TextBox::__construct()
+		  Constructor TextBox
+		ColorPicker::__construct()
+		  Constructor ColorPicker
+		Calendar::__construct()
+		  Constructor Calendar
+		Password::__construct()
+		  Constructor Password
+		Raty::__construct()
+		  Constructor Raty
+		
+
+	
+*Remarks*
+
+Constructor WebSitePhpObject
+
+
+
+
+= WebSitePhpObject::addCss =
+
+*addCss(*
+*mixed*
+_$css_url_, [*string*
+_$conditional_comment_ = ''], [*boolean*
+_$conbine_ = false]* );*
+
+
+	
+
+	
+*Parameters*
+			_$css_url_ 
+			_$conditional_comment_ 
+			_$conbine_ [default value: false]
+		
+*Remarks*
+
+Method addCss
+
+
+*since:* 1.0.59
+
+*access:* protected
+
+
+
+= WebSitePhpObject::addJavaScript =
+
+*addJavaScript(*
+*mixed*
+_$js_url_, [*string*
+_$conditional_comment_ = ''], [*boolean*
+_$conbine_ = false]* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_url_ 
+			_$conditional_comment_ 
+			_$conbine_ [default value: false]
+		
+*Remarks*
+
+Method addJavaScript
+
+
+*since:* 1.0.59
+
+*access:* protected
+
+
+
+= WebSitePhpObject::displayJavascriptTag =
+
+*displayJavascriptTag(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method displayJavascriptTag
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= WebSitePhpObject::getAjaxRender =
+
+*getAjaxRender(*
+* );*
+
+
+	Overridden in child classes as:
+		Box::getAjaxRender()
+		  Method getAjaxRender
+		RoundBox::getAjaxRender()
+		  Method getAjaxRender
+		TreeView::getAjaxRender()
+		  Method getAjaxRender
+		TreeViewItem::getAjaxRender()
+		  Method getAjaxRender
+		TreeViewItems::getAjaxRender()
+		  Method getAjaxRender
+		Captcha::getAjaxRender()
+		  Method getAjaxRender
+		DialogBox::getAjaxRender()
+		  Method getAjaxRender
+		Font::getAjaxRender()
+		  Method getAjaxRender
+		JavaScript::getAjaxRender()
+		  Method getAjaxRender
+		RowTable::getAjaxRender()
+		  Method getAjaxRender
+		Table::getAjaxRender()
+		  Method getAjaxRender
+		Tabs::getAjaxRender()
+		  Method getAjaxRender
+		Button::getAjaxRender()
+		  Method getAjaxRender
+		CheckBox::getAjaxRender()
+		  Method getAjaxRender
+		ComboBox::getAjaxRender()
+		  Method getAjaxRender
+		Editor::getAjaxRender()
+		  Method getAjaxRender
+		Hidden::getAjaxRender()
+		  Method getAjaxRender
+		Object::getAjaxRender()
+		  Method getAjaxRender
+		Picture::getAjaxRender()
+		  Method getAjaxRender
+		TextBox::getAjaxRender()
+		  Method getAjaxRender
+		
+
+	
+*Returns*
+		javascript code to update initial html with ajax call
+
+*Remarks*
+
+Method getAjaxRender
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= WebSitePhpObject::getCssArray =
+
+*getCssArray(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getCssArray
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= WebSitePhpObject::getJavaScriptArray =
+
+*getJavaScriptArray(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getJavaScriptArray
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= WebSitePhpObject::getJavascriptTagClose =
+
+*getJavascriptTagClose(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getJavascriptTagClose
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= WebSitePhpObject::getJavascriptTagOpen =
+
+*getJavascriptTagOpen(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getJavascriptTagOpen
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= WebSitePhpObject::getName =
+
+*getName(*
+* );*
+
+
+	Overridden in child classes as:
+		Captcha::getName()
+		  Method getName
+		Form::getName()
+		  Method getName
+		WebSitePhpEventObject::getName()
+		  Method getName
+		DroppableEvent::getName()
+		  Method getName
+		SortableEvent::getName()
+		  Method getName
+		CheckBox::getName()
+		  Method getName
+		Editor::getName()
+		  Method getName
+		Hidden::getName()
+		  Method getName
+		
+
+	
+*Remarks*
+
+Method getName
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= WebSitePhpObject::getPage =
+
+*getPage(*
+* );*
+
+
+	Overridden in child classes as:
+		DefinedZone::getPage()
+		  Method getPage
+		
+
+	
+*Remarks*
+
+Method getPage
+
+
+*since:* 1.0.92
+
+*access:* public
+
+
+
+= WebSitePhpObject::getTag =
+
+*getTag(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getTag
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= WebSitePhpObject::isEventObject =
+
+*isEventObject(*
+* );*
+
+
+	Overridden in child classes as:
+		WebSitePhpEventObject::isEventObject()
+		  Method isEventObject
+		
+
+	
+*Remarks*
+
+Method isEventObject
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= WebSitePhpObject::isJavascriptObject =
+
+*isJavascriptObject(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method isJavascriptObject
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= WebSitePhpObject::isObjectChange =
+
+*isObjectChange(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method isObjectChange
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= WebSitePhpObject::render =
+
+*render(*
+[*boolean*
+_$ajax_render_ = false]* );*
+
+
+	Overridden in child classes as:
+		AutoComplete::render()
+		  Method render
+		AutoCompleteResult::render()
+		  Method render
+		Box::render()
+		  Method render
+		DraggableEvent::render()
+		  Method render
+		ToolTip::render()
+		  Method render
+		Adsense::render()
+		  Method render
+		Map::render()
+		  Method render
+		Language::render()
+		  Method render
+		LanguageBox::render()
+		  Method render
+		LanguageComboBox::render()
+		  Method render
+		LiveValidation::render()
+		  Method render
+		ContextMenu::render()
+		  Method render
+		DockMenu::render()
+		  Method render
+		DockMenuItem::render()
+		  Method render
+		Menu::render()
+		  Method render
+		MenuItem::render()
+		  Method render
+		MenuItems::render()
+		  Method render
+		RoundBox::render()
+		  Method render
+		SwfObject::render()
+		  Method render
+		TreeView::render()
+		  Method render
+		TreeViewItem::render()
+		  Method render
+		TreeViewItems::render()
+		  Method render
+		Anchor::render()
+		  Method render
+		Captcha::render()
+		  Method render
+		DefinedZone::render()
+		  Method render
+		DialogBox::render()
+		  Method render
+		Font::render()
+		  Method render
+		Form::render()
+		  Method render
+		JavaScript::render()
+		  Method render
+		Label::render()
+		  Method render
+		Link::render()
+		  Method render
+		LinkPage::render()
+		  Method render
+		ListItem::render()
+		  Method render
+		PictureMap::render()
+		  Method render
+		RowTable::render()
+		  Method render
+		Table::render()
+		  Method render
+		Tabs::render()
+		  Method render
+		Url::render()
+		  Method render
+		Authentication::render()
+		  Method render
+		ContactForm::render()
+		  Method render
+		DownloadButton::render()
+		  Method render
+		FacebookActivityFeed::render()
+		  Method render
+		FacebookComments::render()
+		  Method render
+		FacebookRecommendations::render()
+		  Method render
+		GoogleSearchBar::render()
+		  Method render
+		GoogleSearchResult::render()
+		  Method render
+		Chart::render()
+		  Method render
+		ImageRotator::render()
+		  Method render
+		FacebookLikeButton::render()
+		  Method render
+		GoogleLikeButton::render()
+		  Method render
+		ShareButton::render()
+		  Method render
+		VideoFlv::render()
+		  Method render
+		VideoHTML5::render()
+		  Method render
+		AutoCompleteEvent::render()
+		  Method render
+		ContextMenuEvent::render()
+		  Method render
+		DroppableEvent::render()
+		  Method render
+		SortableEvent::render()
+		  Method render
+		Button::render()
+		  Method render
+		CheckBox::render()
+		  Method render
+		ComboBox::render()
+		  Method render
+		Editor::render()
+		  Method render
+		Hidden::render()
+		  Method render
+		Object::render()
+		  Method render
+		Picture::render()
+		  Method render
+		TextBox::render()
+		  Method render
+		Calendar::render()
+		  Method render
+		Raty::render()
+		  Method render
+		
+
+	
+*Parameters*
+			_$ajax_render_ [default value: false]
+		
+*Returns*
+		html code from object
+
+*Remarks*
+
+Method render
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= WebSitePhpObject::setTag =
+
+*setTag(*
+*mixed*
+_$value_* );*
+
+
+	
+
+	
+*Parameters*
+			_$value_ 
+		
+*Remarks*
+
+Method setTag
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+* `$is_javascript_object` = ` false` (line 28)
+* *Data type:* `mixed`
+*access:* protected
+
+
+* `$is_new_object_after_init` = ` false` (line 29)
+* *Data type:* `mixed`
+*access:* protected
+
+
+* `$object_change` = ` false` (line 27)
+* *Data type:* `mixed`
+*access:* protected
+
+
+* `$tag` = ` ''` (line 30)
+* *Data type:* `mixed`
+*access:* protected
+
+
+
+----
+== Class Constant Detail ==
+
+
+----

@@ -1,0 +1,391 @@
+#labels Class,WebSite-PHP,Analytics
+= Class Analytics =
+
+
+
+
+
+Location: /utils/Analytics.class.php
+
+----
+
+
+*Remarks*
+
+Google Analytics PHP API
+
+
+This class can be used to retrieve data from the Google Analytics API with PHP  It fetches data as array for use in applications or scriptsThis library is free software; you can redistribute it and/or  modify it under the terms of the GNU Lesser General Public  License as published by the Free Software Foundation; either  version 2.1 of the License, or (at your option) any later version.This library is distributed in the hope that it will be useful,  but WITHOUT ANY WARRANTY; without even the implied warranty of  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU  Lesser General Public License for more details.You should have received a copy of the GNU Lesser General Public  License along with this library; if not, write to the Free Software  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USACredits: http://www.alexc.me/  parsing the profile XML to a PHP array
+
+
+*author:* Vincent Kleijnendorst - SWIS BV (vkleijnendorst [AT] swis [DOT] nl)
+
+*version:* 0.1
+
+*copyright:* 2009 SWIS BV
+
+*link:* 
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+
+----
+== Method Summary == 
+
+																																																																		
+== Inherited Method Summary == 
+
+----
+== Method Detail ==
+
+
+
+= Analytics::__construct =
+
+*__construct(*
+*string*
+_$sUser_, *string*
+_$sPass_* );*
+
+
+	
+
+	
+*Parameters*
+			_$sUser_ 
+			_$sPass_ 
+		
+*Remarks*
+
+public constructor
+
+
+*access:* public
+
+
+
+= Analytics::getBrowsers =
+
+*getBrowsers(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Get Browsers for given period
+
+
+*access:* public
+
+
+
+= Analytics::getData =
+
+*getData(*
+[*array*
+_$aProperties_ = array()]* );*
+
+
+	
+
+	
+*Parameters*
+			_$aProperties_ (GA properties: metrics &amp; dimensions)
+		
+*Returns*
+		result
+
+*Remarks*
+
+Parses GA XML to an array (dimension => metric)  Check http://code.google.com/intl/nl/apis/analytics/docs/gdata/gdataReferenceDimensionsMetrics.html  for usage of dimensions and metrics
+
+
+*access:* public
+
+
+
+= Analytics::getOperatingSystem =
+
+*getOperatingSystem(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Get Operating System for given period
+
+
+*access:* public
+
+
+
+= Analytics::getPageviews =
+
+*getPageviews(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Get pageviews for given period
+
+
+*access:* public
+
+
+
+= Analytics::getProfileList =
+
+*getProfileList(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Returns an array with profileID => accountName
+
+
+*access:* public
+
+
+
+= Analytics::getReferrers =
+
+*getReferrers(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Get referrers for given period
+
+
+*access:* public
+
+
+
+= Analytics::getScreenResolution =
+
+*getScreenResolution(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Get screen resolution for given period
+
+
+*access:* public
+
+
+
+= Analytics::getSearchWords =
+
+*getSearchWords(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Get search words for given period
+
+
+*access:* public
+
+
+
+= Analytics::getVisitors =
+
+*getVisitors(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Get visitors for given period
+
+
+*access:* public
+
+
+
+= Analytics::getVisitsPerHour =
+
+*getVisitsPerHour(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Get visitors per hour for given period
+
+
+*access:* public
+
+
+
+= Analytics::setDateRange =
+
+*setDateRange(*
+*string*
+_$sStartDate_, *string*
+_$sEndDate_* );*
+
+
+	
+
+	
+*Parameters*
+			_$sStartDate_ (YYY-MM-DD)
+			_$sEndDate_ (YYY-MM-DD)
+		
+*Remarks*
+
+Sets the date range for GA data
+
+
+*access:* public
+
+
+
+= Analytics::setMonth =
+
+*setMonth(*
+*int*
+_$iMonth_, *int*
+_$iYear_* );*
+
+
+	
+
+	
+*Parameters*
+			_$iMonth_ 
+			_$iYear_ 
+		
+*Remarks*
+
+Sets de data range to a given month
+
+
+*access:* public
+
+
+
+= Analytics::setProfileById =
+
+*setProfileById(*
+**
+_$sProfileId_* );*
+
+
+	
+
+	
+*Parameters*
+			_$sProfileId_ 
+		
+*Remarks*
+
+Sets GA Profile ID  (Example: ga:12345)
+
+
+*access:* public
+
+
+
+= Analytics::setProfileByName =
+
+*setProfileByName(*
+**
+_$sAccountName_* );*
+
+
+	
+
+	
+*Parameters*
+			_$sAccountName_ 
+		
+*Remarks*
+
+Sets Profile ID by a given accountname
+
+
+*access:* public
+
+
+
+= Analytics::useCache =
+
+*useCache(*
+[*bool*
+_$bCaching_ = true], [*int*
+_$iCacheAge_ = 600]* );*
+
+
+	
+
+	
+*Parameters*
+			_$bCaching_ (true/false)
+			_$iCacheAge_ seconds (default: 10 minutes)
+		
+*Remarks*
+
+Use caching (bool)  Whether or not to store GA data in a session for a given period
+
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+
+----

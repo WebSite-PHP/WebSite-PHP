@@ -1,0 +1,316 @@
+#labels Class,WebSite-PHP,WspBannedVisitors
+= Class WspBannedVisitors =
+
+
+
+
+
+Location: /utils/WspBannedVisitors.class.php
+
+----
+
+
+*Remarks*
+
+Class WspBannedVisitors
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.1.0
+
+*copyright:* WebSite-PHP.com 06/02/2012
+
+*link:* 
+
+*since:* 1.1.0
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+
+----
+== Method Summary == 
+
+				* `static void addIP()`
+		Method addIP
+					* `static double getBannedIpDuration()`
+		Method getBannedIpDuration
+					* `static double getBannedIpLastAccess()`
+		Method getBannedIpLastAccess
+					* `static mixed getBannedVisitors()`
+		Method getBannedVisitors
+					* `static double getIpNbBadAccess()`
+		Method getIpNbBadAccess
+					* `static boolean isBannedIp()`
+		Method isBannedIp
+					* `static void resetBannedIP()`
+		Method resetBannedIP
+					* `static void setIpBanned()`
+		Method setIpBanned
+					* `static mixed toString()`
+		Method toString
+						* `void addIP()`
+		Method addIP
+					* `double getBannedIpDuration()`
+		Method getBannedIpDuration
+					* `double getBannedIpLastAccess()`
+		Method getBannedIpLastAccess
+					* `mixed getBannedVisitors()`
+		Method getBannedVisitors
+					* `double getIpNbBadAccess()`
+		Method getIpNbBadAccess
+					* `boolean isBannedIp()`
+		Method isBannedIp
+					* `void resetBannedIP()`
+		Method resetBannedIP
+					* `void setIpBanned()`
+		Method setIpBanned
+					* `mixed toString()`
+		Method toString
+		
+== Inherited Method Summary == 
+
+----
+== Method Detail ==
+
+
+= static WspBannedVisitors::addIP =
+
+*static addIP(*
+*mixed*
+_$ip_, [*double*
+_$duration_ = 0]* );*
+
+
+	
+
+	
+*Parameters*
+			_$ip_ 
+			_$duration_ [default value: 0]
+		
+*Remarks*
+
+Method addIP
+
+
+*since:* 1.1.0
+
+*access:* public
+
+
+
+= static WspBannedVisitors::getBannedIpDuration =
+
+*static getBannedIpDuration(*
+*mixed*
+_$ip_* );*
+
+
+	
+
+	
+*Parameters*
+			_$ip_ 
+		
+*Remarks*
+
+Method getBannedIpDuration
+
+
+*since:* 1.1.0
+
+*access:* public
+
+
+
+= static WspBannedVisitors::getBannedIpLastAccess =
+
+*static getBannedIpLastAccess(*
+*mixed*
+_$ip_* );*
+
+
+	
+
+	
+*Parameters*
+			_$ip_ 
+		
+*Remarks*
+
+Method getBannedIpLastAccess
+
+
+*since:* 1.1.0
+
+*access:* public
+
+
+
+= static WspBannedVisitors::getBannedVisitors =
+
+*static getBannedVisitors(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getBannedVisitors
+
+
+*since:* 1.1.0
+
+*access:* public
+
+
+
+= static WspBannedVisitors::getIpNbBadAccess =
+
+*static getIpNbBadAccess(*
+*mixed*
+_$ip_* );*
+
+
+	
+
+	
+*Parameters*
+			_$ip_ 
+		
+*Remarks*
+
+Method getIpNbBadAccess
+
+
+*since:* 1.1.0
+
+*access:* public
+
+
+
+= static WspBannedVisitors::isBannedIp =
+
+*static isBannedIp(*
+*mixed*
+_$ip_* );*
+
+
+	
+
+	
+*Parameters*
+			_$ip_ 
+		
+*Remarks*
+
+Method isBannedIp
+
+
+*since:* 1.1.0
+
+*access:* public
+
+
+
+= static WspBannedVisitors::resetBannedIP =
+
+*static resetBannedIP(*
+*mixed*
+_$ip_* );*
+
+
+	
+
+	
+*Parameters*
+			_$ip_ 
+		
+*Remarks*
+
+Method resetBannedIP
+
+
+*since:* 1.1.0
+
+*access:* public
+
+
+
+= static WspBannedVisitors::setIpBanned =
+
+*static setIpBanned(*
+*mixed*
+_$ip_, [*double*
+_$duration_ = 0]* );*
+
+
+	
+
+	
+*Parameters*
+			_$ip_ 
+			_$duration_ [default value: 0]
+		
+*Remarks*
+
+Method setIpBanned
+
+
+*since:* 1.1.0
+
+*access:* public
+
+
+
+= static WspBannedVisitors::toString =
+
+*static toString(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method toString
+
+
+*since:* 1.1.0
+
+*access:* public
+
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+
+----

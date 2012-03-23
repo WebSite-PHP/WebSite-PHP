@@ -1,0 +1,232 @@
+#labels Class,WebSite-PHP,DataRowIterator
+= Class DataRowIterator =
+
+
+
+
+
+Location: /database/DataRowIterator.class.php
+
+----
+
+
+*Remarks*
+
+Class DataRowIterator
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2011 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.0.99
+
+*copyright:* WebSite-PHP.com 26/05/2011
+
+*link:* 
+
+*since:* 1.0.17
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+
+----
+== Method Summary == 
+
+																																		
+== Inherited Method Summary == 
+
+----
+== Method Detail ==
+
+
+
+= DataRowIterator::__construct =
+
+*__construct(*
+*mixed*
+_$db_table_object_* );*
+
+
+	
+
+	
+*Parameters*
+			_$db_table_object_ 
+		
+*Remarks*
+
+Constructor DataRowIterator
+
+
+
+
+= DataRowIterator::getRowsNum =
+
+*getRowsNum(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getRowsNum
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= DataRowIterator::hasNext =
+
+*hasNext(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method hasNext
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= DataRowIterator::initIterator =
+
+*initIterator(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method initIterator
+
+
+*since:* 1.0.59
+
+*access:* public
+
+
+
+= DataRowIterator::insert =
+
+*insert(*
+[*boolean*
+_$is_sql_load_mode_ = false]* );*
+
+
+	
+
+	
+*Parameters*
+			_$is_sql_load_mode_ [default value: false]
+		
+*Remarks*
+
+Method insert
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= DataRowIterator::next =
+
+*next(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method next
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= DataRowIterator::save =
+
+*save(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method save
+
+
+*since:* 1.0.59
+
+*access:* public
+
+
+
+= DataRowIterator::toArray =
+
+*toArray(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method toArray
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+
+----

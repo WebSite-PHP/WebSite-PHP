@@ -1,0 +1,472 @@
+#labels Class,WebSite-PHP,SqlDataView
+= Class SqlDataView =
+
+
+
+
+
+Location: /database/SqlDataView.class.php
+
+----
+
+
+*Remarks*
+
+Class SqlDataView
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.0.103
+
+*copyright:* WebSite-PHP.com 26/05/2011
+
+*link:* 
+
+*since:* 1.0.17
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+			* `JOIN_TYPE_INNER` = ` 'INNER'`
+		
+		
+			* `JOIN_TYPE_LEFT` = ` 'LEFT'`
+		
+		
+			* `JOIN_TYPE_LEFT_OUTER` = ` 'LEFT OUTER'`
+		
+		
+			* `JOIN_TYPE_RIGHT` = ` 'RIGHT'`
+		
+		
+			* `JOIN_TYPE_RIGHT_OUTER` = ` 'RIGHT OUTER'`
+		
+		
+			* `ORDER_ASC` = ` 'ASC'`
+		
+		
+			* `ORDER_DESC` = ` 'DESC'`
+		
+		
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+
+----
+== Method Summary == 
+
+																																																										
+== Inherited Method Summary == 
+
+----
+== Method Detail ==
+
+
+
+= SqlDataView::__construct =
+
+*__construct(*
+*mixed*
+_$db_table_object_* );*
+
+
+	
+
+	
+*Parameters*
+			_$db_table_object_ 
+		
+*Remarks*
+
+Constructor SqlDataView
+
+
+
+
+= SqlDataView::addGroup =
+
+*addGroup(*
+*mixed*
+_$attribute_* );*
+
+
+	
+
+	
+*Parameters*
+			_$attribute_ 
+		
+*Remarks*
+
+Method addGroup
+
+
+*since:* 1.0.103
+
+*access:* public
+
+
+
+= SqlDataView::addJoinAttribute =
+
+*addJoinAttribute(*
+*mixed*
+_$db_table_object_join_, *mixed*
+_$join_attribute_1_, *mixed*
+_$join_attribute_2_, [*string*
+_$join_type_ = 'INNER']* );*
+
+
+	
+
+	
+*Parameters*
+			_$db_table_object_join_ 
+			_$join_attribute_1_ 
+			_$join_attribute_2_ 
+			_$join_type_ [default value: INNER]
+		
+*Remarks*
+
+Method addJoinAttribute
+
+
+*since:* 1.0.59
+
+*access:* public
+
+
+
+= SqlDataView::addJoinClause =
+
+*addJoinClause(*
+*mixed*
+_$db_table_object_join_, *mixed*
+_$join_clause_, [*string*
+_$join_type_ = 'INNER']* );*
+
+
+	
+
+	
+*Parameters*
+			_$db_table_object_join_ 
+			_$join_clause_ 
+			_$join_type_ [default value: INNER]
+		
+*Remarks*
+
+Method addJoinClause
+
+
+*since:* 1.0.59
+
+*access:* public
+
+
+
+= SqlDataView::addJoinTableAttribute =
+
+*addJoinTableAttribute(*
+*mixed*
+_$db_table_object_join_1_, *mixed*
+_$db_table_object_join_2_, *mixed*
+_$join_attribute_1_, *mixed*
+_$join_attribute_2_, [*string*
+_$join_type_ = 'INNER']* );*
+
+
+	
+
+	
+*Parameters*
+			_$db_table_object_join_1_ 
+			_$db_table_object_join_2_ 
+			_$join_attribute_1_ 
+			_$join_attribute_2_ 
+			_$join_type_ [default value: INNER]
+		
+*Remarks*
+
+Method addJoinTableAttribute
+
+
+*since:* 1.0.59
+
+*access:* public
+
+
+
+= SqlDataView::addOrder =
+
+*addOrder(*
+*mixed*
+_$attribute_, [*string*
+_$order_ = 'ASC']* );*
+
+
+	
+
+	
+*Parameters*
+			_$attribute_ 
+			_$order_ [default value: ASC]
+		
+*Remarks*
+
+Method addOrder
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= SqlDataView::createEmpty =
+
+*createEmpty(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method createEmpty
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= SqlDataView::enableHtmlentitiesMode =
+
+*enableHtmlentitiesMode(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method enableHtmlentitiesMode
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= SqlDataView::getLastQuery =
+
+*getLastQuery(*
+[*boolean*
+_$display_params_ = true]* );*
+
+
+	
+
+	
+*Parameters*
+			_$display_params_ [default value: true]
+		
+*Remarks*
+
+Method getLastQuery
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= SqlDataView::retrieve =
+
+*retrieve(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method retrieve
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= SqlDataView::retrieveCount =
+
+*retrieveCount(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method retrieveCount
+
+
+*since:* 1.0.99
+
+*access:* public
+
+
+
+= SqlDataView::setClause =
+
+*setClause(*
+*mixed*
+_$clause_, [*mixed*
+_$clause_objects_ = array()]* );*
+
+
+	
+
+	
+*Parameters*
+			_$clause_ 
+			_$clause_objects_ [default value: array(]
+		
+*Remarks*
+
+Method setClause
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= SqlDataView::setCustomFields =
+
+*setCustomFields(*
+*mixed*
+_$field1_, [*mixed*
+_$field2_ = null], [*mixed*
+_$field3_ = null], [*mixed*
+_$field4_ = null], [*mixed*
+_$field5_ = null]* );*
+
+
+	
+
+	
+*Parameters*
+			_$field1_ 
+			_$field2_ [default value: null]
+			_$field3_ [default value: null]
+			_$field4_ [default value: null]
+			_$field5_ [default value: null]
+		
+*Remarks*
+
+Method setCustomFields
+
+
+*since:* 1.0.103
+
+*access:* public
+
+
+
+= SqlDataView::setLimit =
+
+*setLimit(*
+*mixed*
+_$offset_, *mixed*
+_$row_count_* );*
+
+
+	
+
+	
+*Parameters*
+			_$offset_ 
+			_$row_count_ 
+		
+*Remarks*
+
+Method setLimit
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+* `JOIN_TYPE_INNER` = ` 'INNER'` (line 30)
+
+*access:* public
+
+
+* `JOIN_TYPE_LEFT` = ` 'LEFT'` (line 31)
+
+*access:* public
+
+
+* `JOIN_TYPE_LEFT_OUTER` = ` 'LEFT OUTER'` (line 32)
+
+*access:* public
+
+
+* `JOIN_TYPE_RIGHT` = ` 'RIGHT'` (line 33)
+
+*access:* public
+
+
+* `JOIN_TYPE_RIGHT_OUTER` = ` 'RIGHT OUTER'` (line 34)
+
+*access:* public
+
+
+* `ORDER_ASC` = ` 'ASC'` (line 42)
+
+*access:* public
+
+
+* `ORDER_DESC` = ` 'DESC'` (line 41)
+
+*access:* public
+
+
+
+----

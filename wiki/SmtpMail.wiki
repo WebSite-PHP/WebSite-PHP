@@ -1,0 +1,233 @@
+#labels Class,WebSite-PHP,SmtpMail
+= Class SmtpMail =
+
+
+
+
+
+Location: /utils/SmtpMail.class.php
+
+----
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+			* `PRIORITY_HIGH` = ` '1'`
+		
+		Priority level
+			* `PRIORITY_LOW` = ` '5'`
+		
+		Priority level
+			* `PRIORITY_NORMAL` = ` '3'`
+		
+		Priority level
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+
+----
+== Method Summary == 
+
+																										
+== Inherited Method Summary == 
+
+----
+== Method Detail ==
+
+
+
+= SmtpMail::__construct =
+
+*__construct(*
+*mixed*
+_$to_mail_, *mixed*
+_$to_name_, *mixed*
+_$subject_, *mixed*
+_$message_, [*string*
+_$from_mail_ = ''], [*string*
+_$from_name_ = '']* );*
+
+
+	
+
+	
+*Parameters*
+			_$to_mail_ 
+			_$to_name_ 
+			_$subject_ 
+			_$message_ 
+			_$from_mail_ 
+			_$from_name_ 
+		
+*Remarks*
+
+Constructor SmtpMail
+
+
+
+
+= SmtpMail::addAddress =
+
+*addAddress(*
+*mixed*
+_$to_mail_, *mixed*
+_$to_name_* );*
+
+
+	
+
+	
+*Parameters*
+			_$to_mail_ 
+			_$to_name_ 
+		
+*Remarks*
+
+Method addAddress
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= SmtpMail::addAttachment =
+
+*addAttachment(*
+*mixed*
+_$file_* );*
+
+
+	
+
+	
+*Parameters*
+			_$file_ 
+		
+*Remarks*
+
+Method addAttachment
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= SmtpMail::getErrorInfo =
+
+*getErrorInfo(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getErrorInfo
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= SmtpMail::send =
+
+*send(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method send
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= SmtpMail::setPriority =
+
+*setPriority(*
+*mixed*
+_$priority_level_* );*
+
+
+	
+
+	
+*Parameters*
+			_$priority_level_ 
+		
+*Remarks*
+
+Method setPriority
+
+
+*since:* 1.0.100
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+* `PRIORITY_HIGH` = ` '1'` (line 36)
+
+
+*Remarks*
+
+Priority level
+
+
+*access:* public
+
+
+* `PRIORITY_LOW` = ` '5'` (line 34)
+
+
+*Remarks*
+
+Priority level
+
+
+*access:* public
+
+
+* `PRIORITY_NORMAL` = ` '3'` (line 35)
+
+
+*Remarks*
+
+Priority level
+
+
+*access:* public
+
+
+
+----

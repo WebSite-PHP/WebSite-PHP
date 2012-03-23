@@ -1,20 +1,400 @@
 #labels Class,WebSite-PHP,Font
 = Class Font =
-File located in : /display/Font.class.php
-
-See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=Font
 
 WebSitePhpObject
    |
    --Font
 
-= Method Summary =
-  * __construct (object $content_object, [string $font_size = ''], [string $font_family = ''], [string $font_weight = '']) Font
-  * getAjaxRender () string
-  * getId () mixed
-  * render ([boolean $ajax_render = false]) string
-  * setFontColor (mixed $font_color) Font
-  * setFontFamily (mixed $font_family) Font
-  * setFontSize (mixed $font_size) Font
-  * setFontWeight (mixed $font_weight) Font
-  * setId (mixed $id) void
+
+
+Location: /display/Font.class.php
+
+----
+
+
+*Remarks*
+
+Class Font
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2011 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.0.99
+
+*copyright:* WebSite-PHP.com 26/05/2011
+
+*link:* 
+
+*since:* 1.0.17
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+			* `FONT_ARIAL` = ` 'Arial'`
+		
+		Font family
+			* `FONT_TIMES` = ` 'Times New Roman'`
+		
+		Font family
+			* `FONT_WEIGHT_BOLD` = ` 'bold'`
+		
+		Font weight
+			* `FONT_WEIGHT_NONE` = ` 'none'`
+		
+		Font weight
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::$is_javascript_object` = ` false`
+		
+		
+			* `WebSitePhpObject::$is_new_object_after_init` = ` false`
+		
+		
+			* `WebSitePhpObject::$object_change` = ` false`
+		
+		
+			* `WebSitePhpObject::$tag` = ` ''`
+		
+		
+		
+
+
+----
+== Method Summary == 
+
+																																						
+== Inherited Method Summary == 
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::__construct()`
+		Constructor WebSitePhpObject
+			* `WebSitePhpObject::addCss()`
+		Method addCss
+			* `WebSitePhpObject::addJavaScript()`
+		Method addJavaScript
+			* `WebSitePhpObject::displayJavascriptTag()`
+		Method displayJavascriptTag
+			* `WebSitePhpObject::getAjaxRender()`
+		Method getAjaxRender
+			* `WebSitePhpObject::getCssArray()`
+		Method getCssArray
+			* `WebSitePhpObject::getJavaScriptArray()`
+		Method getJavaScriptArray
+			* `WebSitePhpObject::getJavascriptTagClose()`
+		Method getJavascriptTagClose
+			* `WebSitePhpObject::getJavascriptTagOpen()`
+		Method getJavascriptTagOpen
+			* `WebSitePhpObject::getName()`
+		Method getName
+			* `WebSitePhpObject::getPage()`
+		Method getPage
+			* `WebSitePhpObject::getRegisterObjects()`
+		Method getRegisterObjects
+			* `WebSitePhpObject::getTag()`
+		Method getTag
+			* `WebSitePhpObject::isEventObject()`
+		Method isEventObject
+			* `WebSitePhpObject::isJavascriptObject()`
+		Method isJavascriptObject
+			* `WebSitePhpObject::isObjectChange()`
+		Method isObjectChange
+			* `WebSitePhpObject::render()`
+		Method render
+			* `WebSitePhpObject::setTag()`
+		Method setTag
+	
+----
+== Method Detail ==
+
+
+
+= Font::__construct =
+
+*__construct(*
+*object*
+_$content_object_, [*string*
+_$font_size_ = ''], [*string*
+_$font_family_ = ''], [*string*
+_$font_weight_ = '']* );*
+
+
+Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
+	
+
+	
+*Parameters*
+			_$content_object_ 
+			_$font_size_ 
+			_$font_family_ 
+			_$font_weight_ 
+		
+*Remarks*
+
+Constructor Font
+
+
+
+
+= Font::getAjaxRender =
+
+*getAjaxRender(*
+* );*
+
+
+Overrides WebSitePhpObject::getAjaxRender() (Method getAjaxRender)
+	
+
+	
+*Returns*
+		javascript code to update initial html of object Font (call with AJAX)
+
+*Remarks*
+
+Method getAjaxRender
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Font::getId =
+
+*getId(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getId
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Font::render =
+
+*render(*
+[*boolean*
+_$ajax_render_ = false]* );*
+
+
+Overrides WebSitePhpObject::render() (Method render)
+	
+
+	
+*Parameters*
+			_$ajax_render_ [default value: false]
+		
+*Returns*
+		html code of object Font
+
+*Remarks*
+
+Method render
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Font::setFontColor =
+
+*setFontColor(*
+*mixed*
+_$font_color_* );*
+
+
+	
+
+	
+*Parameters*
+			_$font_color_ 
+		
+*Remarks*
+
+Method setFontColor
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Font::setFontFamily =
+
+*setFontFamily(*
+*mixed*
+_$font_family_* );*
+
+
+	
+
+	
+*Parameters*
+			_$font_family_ 
+		
+*Remarks*
+
+Method setFontFamily
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Font::setFontSize =
+
+*setFontSize(*
+*mixed*
+_$font_size_* );*
+
+
+	
+
+	
+*Parameters*
+			_$font_size_ 
+		
+*Remarks*
+
+Method setFontSize
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Font::setFontWeight =
+
+*setFontWeight(*
+*mixed*
+_$font_weight_* );*
+
+
+	
+
+	
+*Parameters*
+			_$font_weight_ 
+		
+*Remarks*
+
+Method setFontWeight
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= Font::setId =
+
+*setId(*
+*mixed*
+_$id_* );*
+
+
+	
+
+	
+*Parameters*
+			_$id_ 
+		
+*Remarks*
+
+Method setId
+
+
+*since:* 1.0.59
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+* `FONT_ARIAL` = ` 'Arial'` (line 31)
+
+
+*Remarks*
+
+Font family
+
+
+*access:* public
+
+
+* `FONT_TIMES` = ` 'Times New Roman'` (line 32)
+
+
+*Remarks*
+
+Font family
+
+
+*access:* public
+
+
+* `FONT_WEIGHT_BOLD` = ` 'bold'` (line 40)
+
+
+*Remarks*
+
+Font weight
+
+
+*access:* public
+
+
+* `FONT_WEIGHT_NONE` = ` 'none'` (line 41)
+
+
+*Remarks*
+
+Font weight
+
+
+*access:* public
+
+
+
+----

@@ -1,0 +1,214 @@
+#labels Class,WebSite-PHP,RSSFeedException
+= Class RSSFeedException =
+
+Exception
+   |
+   --RSSFeedException
+
+
+
+Location: /modules/RSS-Generator/RSSFeedException.class.php
+
+----
+
+
+*Remarks*
+
+**************************************************
+
+
+*author:* : Hugo 'Emacs' HAMON
+
+*version:* : 1.0
+
+*abstract:* : no
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+=== Inherited From Class Exception (Internal Class) ===
+
+			* `$code` = ``
+		
+		
+			* `$file` = ``
+		
+		
+			* `$line` = ``
+		
+		
+			* `$message` = ``
+		
+		
+			* `$previous` = ``
+		
+		
+			* `$string` = ``
+		
+		
+			* `$trace` = ``
+		
+		
+		
+
+
+----
+== Method Summary == 
+
+				* `static : __construct()`
+		**************************************************
+					* `static : getErrorMessage()`
+		**************************************************
+							* `static : __toString()`
+		**************************************************
+						* `: __construct()`
+		**************************************************
+					* `: getErrorMessage()`
+		**************************************************
+							* `: __toString()`
+		**************************************************
+		
+== Inherited Method Summary == 
+
+=== Inherited From Class Exception (Internal Class) ===
+
+			* `constructor __construct ( [$message = ], [$code = ], [$previous = ] )`
+		
+			* `getCode (  )`
+		
+			* `getFile (  )`
+		
+			* `getLine (  )`
+		
+			* `getMessage (  )`
+		
+			* `getPrevious (  )`
+		
+			* `getTrace (  )`
+		
+			* `getTraceAsString (  )`
+		
+			* `__clone (  )`
+		
+			* `__toString (  )`
+		
+	
+----
+== Method Detail ==
+
+
+= static RSSFeedException::__construct =
+
+*static __construct(*
+*:*
+_$message_, *:*
+_$class_, *:*
+_$method_* );*
+
+
+Overrides Exception::constructor __construct ( [$message = ], [$code = ], [$previous = ] ) (parent method not documented)
+	
+
+	
+*Parameters*
+			_$message_ string $message
+			_$class_ string $class
+			_$method_ string $method
+		
+*Returns*
+		void *************************************************
+
+*Remarks*
+
+**************************************************
+
+
+*access:* public
+
+
+
+= static RSSFeedException::getErrorMessage =
+
+*static getErrorMessage(*
+*:*
+_0_* );*
+
+
+	
+
+	
+*Parameters*
+			_0_ void
+		
+*Returns*
+		string $return *************************************************
+
+*Remarks*
+
+**************************************************
+
+
+*access:* public
+
+
+
+= static RSSFeedException::__toString =
+
+*static __toString(*
+*:*
+_0_* );*
+
+
+Overrides Exception::__toString (  ) (parent method not documented)
+	
+
+	
+*Parameters*
+			_0_ void
+		
+*Returns*
+		void *************************************************
+
+*Remarks*
+
+**************************************************
+
+
+*access:* public
+
+
+
+
+= RSSFeedException::getException =
+
+*getException(*
+* );*
+
+
+	
+
+	*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+
+----

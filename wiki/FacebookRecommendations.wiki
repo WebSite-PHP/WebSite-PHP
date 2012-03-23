@@ -1,0 +1,442 @@
+#labels Class,WebSite-PHP,FacebookRecommendations
+= Class FacebookRecommendations =
+
+WebSitePhpObject
+   |
+   --FacebookRecommendations
+
+
+
+Location: /modules/Facebook/FacebookRecommendations.class.php
+
+----
+
+
+*Remarks*
+
+Class FacebookRecommendations
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2011 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.0.87
+
+*copyright:* WebSite-PHP.com 08/06/2011
+
+*link:* 
+
+*since:* 1.0.86
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+			* `FONT_ARIAL` = ` 'arial'`
+		
+		FacebookRecommendations font
+			* `FONT_LUCIDA_GRANDE` = ` 'lucida grande'`
+		
+		FacebookRecommendations font
+			* `FONT_SEGOE_UI` = ` 'segoe ui'`
+		
+		FacebookRecommendations font
+			* `FONT_TAHOMA` = ` 'tahoma'`
+		
+		FacebookRecommendations font
+			* `FONT_TREBUCHET_MS` = ` 'trebuchet ms'`
+		
+		FacebookRecommendations font
+			* `FONT_VERDANA` = ` 'verdana'`
+		
+		FacebookRecommendations font
+			* `STYLE_DARK` = ` 'dark'`
+		
+		FacebookRecommendations style
+			* `STYLE_LIGHT` = ` 'light'`
+		
+		FacebookRecommendations style
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::$is_javascript_object` = ` false`
+		
+		
+			* `WebSitePhpObject::$is_new_object_after_init` = ` false`
+		
+		
+			* `WebSitePhpObject::$object_change` = ` false`
+		
+		
+			* `WebSitePhpObject::$tag` = ` ''`
+		
+		
+		
+
+
+----
+== Method Summary == 
+
+																																		
+== Inherited Method Summary == 
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::__construct()`
+		Constructor WebSitePhpObject
+			* `WebSitePhpObject::addCss()`
+		Method addCss
+			* `WebSitePhpObject::addJavaScript()`
+		Method addJavaScript
+			* `WebSitePhpObject::displayJavascriptTag()`
+		Method displayJavascriptTag
+			* `WebSitePhpObject::getAjaxRender()`
+		Method getAjaxRender
+			* `WebSitePhpObject::getCssArray()`
+		Method getCssArray
+			* `WebSitePhpObject::getJavaScriptArray()`
+		Method getJavaScriptArray
+			* `WebSitePhpObject::getJavascriptTagClose()`
+		Method getJavascriptTagClose
+			* `WebSitePhpObject::getJavascriptTagOpen()`
+		Method getJavascriptTagOpen
+			* `WebSitePhpObject::getName()`
+		Method getName
+			* `WebSitePhpObject::getPage()`
+		Method getPage
+			* `WebSitePhpObject::getRegisterObjects()`
+		Method getRegisterObjects
+			* `WebSitePhpObject::getTag()`
+		Method getTag
+			* `WebSitePhpObject::isEventObject()`
+		Method isEventObject
+			* `WebSitePhpObject::isJavascriptObject()`
+		Method isJavascriptObject
+			* `WebSitePhpObject::isObjectChange()`
+		Method isObjectChange
+			* `WebSitePhpObject::render()`
+		Method render
+			* `WebSitePhpObject::setTag()`
+		Method setTag
+	
+----
+== Method Detail ==
+
+
+
+= FacebookRecommendations::__construct =
+
+*__construct(*
+[*string*
+_$domain_ = ''], [*double*
+_$width_ = 300], [*double*
+_$height_ = 300], [*boolean*
+_$header_ = true], [*string*
+_$style_ = 'light'], [*string*
+_$font_ = ''], [*string*
+_$border_color_ = '']* );*
+
+
+Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
+	
+
+	
+*Parameters*
+			_$domain_ 
+			_$width_ [default value: 300]
+			_$height_ [default value: 300]
+			_$header_ [default value: true]
+			_$style_ [default value: light]
+			_$font_ 
+			_$border_color_ 
+		
+*Remarks*
+
+Constructor FacebookRecommendations
+
+
+
+
+= FacebookRecommendations::render =
+
+*render(*
+[*boolean*
+_$ajax_render_ = false]* );*
+
+
+Overrides WebSitePhpObject::render() (Method render)
+	
+
+	
+*Parameters*
+			_$ajax_render_ [default value: false]
+		
+*Returns*
+		html code of object FacebookRecommendations
+
+*Remarks*
+
+Method render
+
+
+*since:* 1.0.86
+
+*access:* public
+
+
+
+= FacebookRecommendations::setBorderColor =
+
+*setBorderColor(*
+*mixed*
+_$border_color_* );*
+
+
+	
+
+	
+*Parameters*
+			_$border_color_ 
+		
+*Remarks*
+
+Method setBorderColor
+
+
+*since:* 1.0.86
+
+*access:* public
+
+
+
+= FacebookRecommendations::setFont =
+
+*setFont(*
+*mixed*
+_$font_* );*
+
+
+	
+
+	
+*Parameters*
+			_$font_ 
+		
+*Remarks*
+
+Method setFont
+
+
+*since:* 1.0.86
+
+*access:* public
+
+
+
+= FacebookRecommendations::setHeader =
+
+*setHeader(*
+*mixed*
+_$header_* );*
+
+
+	
+
+	
+*Parameters*
+			_$header_ 
+		
+*Remarks*
+
+Method setHeader
+
+
+*since:* 1.0.86
+
+*access:* public
+
+
+
+= FacebookRecommendations::setHeight =
+
+*setHeight(*
+*integer*
+_$height_* );*
+
+
+	
+
+	
+*Parameters*
+			_$height_ 
+		
+*Remarks*
+
+Method setHeight
+
+
+*since:* 1.0.86
+
+*access:* public
+
+
+
+= FacebookRecommendations::setStyle =
+
+*setStyle(*
+*mixed*
+_$style_* );*
+
+
+	
+
+	
+*Parameters*
+			_$style_ 
+		
+*Remarks*
+
+Method setStyle
+
+
+*since:* 1.0.86
+
+*access:* public
+
+
+
+= FacebookRecommendations::setWidth =
+
+*setWidth(*
+*integer*
+_$width_* );*
+
+
+	
+
+	
+*Parameters*
+			_$width_ 
+		
+*Remarks*
+
+Method setWidth
+
+
+*since:* 1.0.86
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+* `FONT_ARIAL` = ` 'arial'` (line 42)
+
+
+*Remarks*
+
+FacebookRecommendations font
+
+
+*access:* public
+
+
+* `FONT_LUCIDA_GRANDE` = ` 'lucida grande'` (line 43)
+
+
+*Remarks*
+
+FacebookRecommendations font
+
+
+*access:* public
+
+
+* `FONT_SEGOE_UI` = ` 'segoe ui'` (line 44)
+
+
+*Remarks*
+
+FacebookRecommendations font
+
+
+*access:* public
+
+
+* `FONT_TAHOMA` = ` 'tahoma'` (line 45)
+
+
+*Remarks*
+
+FacebookRecommendations font
+
+
+*access:* public
+
+
+* `FONT_TREBUCHET_MS` = ` 'trebuchet ms'` (line 46)
+
+
+*Remarks*
+
+FacebookRecommendations font
+
+
+*access:* public
+
+
+* `FONT_VERDANA` = ` 'verdana'` (line 47)
+
+
+*Remarks*
+
+FacebookRecommendations font
+
+
+*access:* public
+
+
+* `STYLE_DARK` = ` 'dark'` (line 34)
+
+
+*Remarks*
+
+FacebookRecommendations style
+
+
+*access:* public
+
+
+* `STYLE_LIGHT` = ` 'light'` (line 33)
+
+
+*Remarks*
+
+FacebookRecommendations style
+
+
+*access:* public
+
+
+
+----

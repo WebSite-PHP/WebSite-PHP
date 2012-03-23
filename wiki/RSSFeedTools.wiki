@@ -1,0 +1,146 @@
+#labels Class,WebSite-PHP,RSSFeedTools
+= Class RSSFeedTools =
+
+
+
+
+
+Location: /modules/RSS-Generator/RSSFeedTools.class.php
+
+----
+
+
+*Remarks*
+
+**************************************************
+
+
+*author:* : Hugo 'Emacs' HAMON
+
+*version:* : 1.0
+
+*abstract:* 
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+
+----
+== Method Summary == 
+
+				* `static : checkEmail()`
+		**************************************************
+					* `static : checkUrl()`
+		**************************************************
+					* `static : prepareFeedDate()`
+		**************************************************
+						* `: checkEmail()`
+		**************************************************
+					* `: checkUrl()`
+		**************************************************
+					* `: prepareFeedDate()`
+		**************************************************
+		
+== Inherited Method Summary == 
+
+----
+== Method Detail ==
+
+
+= static RSSFeedTools::checkEmail =
+
+*static checkEmail(*
+*:*
+_$email_* );*
+
+
+	
+
+	
+*Parameters*
+			_$email_ string $email
+		
+*Returns*
+		string $email *************************************************
+
+*Remarks*
+
+**************************************************
+
+
+*access:* public
+
+
+
+= static RSSFeedTools::checkUrl =
+
+*static checkUrl(*
+*:*
+_$url_* );*
+
+
+	
+
+	
+*Parameters*
+			_$url_ string $url
+		
+*Returns*
+		string $url *************************************************
+
+*Remarks*
+
+**************************************************
+
+
+*access:* public
+
+
+
+= static RSSFeedTools::prepareFeedDate =
+
+*static prepareFeedDate(*
+*:*
+_$date_* );*
+
+
+	
+
+	
+*Parameters*
+			_$date_ string $date
+		
+*Returns*
+		boolean true / false *************************************************
+
+*Remarks*
+
+**************************************************
+
+
+*access:* public
+
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+
+----

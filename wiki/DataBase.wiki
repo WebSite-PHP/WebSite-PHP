@@ -1,0 +1,340 @@
+#labels Class,WebSite-PHP,DataBase
+= Class DataBase =
+
+
+
+
+
+Location: /database/DataBase.class.php
+
+----
+
+
+*Remarks*
+
+Class DataBase
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.0.103
+
+*copyright:* WebSite-PHP.com 26/05/2011
+
+*link:* 
+
+*since:* 1.0.17
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+
+----
+== Method Summary == 
+
+														* `static DataBase getInstance()`
+		Method getInstance
+																												* `DataBase getInstance()`
+		Method getInstance
+														
+== Inherited Method Summary == 
+
+----
+== Method Detail ==
+
+
+= static DataBase::getInstance =
+
+*static getInstance(*
+[*boolean*
+_$connect_ = true]* );*
+
+
+	
+
+	
+*Parameters*
+			_$connect_ [default value: true]
+		
+*Remarks*
+
+Method getInstance
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+
+= DataBase::__construct =
+
+*__construct(*
+*mixed*
+_$host_, *mixed*
+_$root_, *mixed*
+_$password_, [*string*
+_$database_ = ''], [*double*
+_$port_ = 3306]* );*
+
+
+	
+
+	
+*Parameters*
+			_$host_ 
+			_$root_ 
+			_$password_ 
+			_$database_ 
+			_$port_ [default value: 3306]
+		
+*Remarks*
+
+Constructor DataBase
+
+
+
+
+= DataBase::beginTransaction =
+
+*beginTransaction(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method beginTransaction
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= DataBase::commitTransaction =
+
+*commitTransaction(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method commitTransaction
+
+
+*since:* 1.0.59
+
+*access:* public
+
+
+
+= DataBase::connect =
+
+*connect(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method connect
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= DataBase::disconnect =
+
+*disconnect(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method disconnect
+
+
+*since:* 1.0.59
+
+*access:* public
+
+
+
+= DataBase::getLastInsertId =
+
+*getLastInsertId(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getLastInsertId
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= DataBase::isConnect =
+
+*isConnect(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method isConnect
+
+
+*since:* 1.0.103
+
+*access:* public
+
+
+
+= DataBase::prepareStatement =
+
+*prepareStatement(*
+*mixed*
+_$query_, [*mixed*
+_$stmt_objects_ = array()]* );*
+
+
+	
+
+	
+*Parameters*
+			_$query_ 
+			_$stmt_objects_ [default value: array(]
+		
+*Remarks*
+
+Method prepareStatement
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= DataBase::rollbackTransaction =
+
+*rollbackTransaction(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method rollbackTransaction
+
+
+*since:* 1.0.59
+
+*access:* public
+
+
+
+= DataBase::select_db =
+
+*select_db(*
+*mixed*
+_$schema_* );*
+
+
+	
+
+	
+*Parameters*
+			_$schema_ 
+		
+*Remarks*
+
+Method select_db
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= DataBase::stmtBindAssoc =
+
+*stmtBindAssoc(*
+**
+_&$stmt_, *mixed*
+_$&stmt_* );*
+
+
+	
+
+	
+*Parameters*
+			_$&stmt_ 
+			_&$stmt_ 
+		
+*Remarks*
+
+Method stmtBindAssoc
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+
+----

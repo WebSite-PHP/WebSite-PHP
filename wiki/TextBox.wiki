@@ -1,9 +1,5 @@
 #labels Class,WebSite-PHP,TextBox
 = Class TextBox =
-File located in : /display/TextBox.class.php
-
-See complete documentation on : http://www.website-php.com/documentation/?package=display&cls=TextBox
-
 
 WebSitePhpObject
    |
@@ -12,28 +8,1050 @@ WebSitePhpObject
       --TextBox
 
 
-= Method Summary =
-  * __construct (mixed $page_or_form_object, [string $name = ''], [string $id = ''], [string $value = ''], [string $width = ''], [double $length = 0]) TextBox
-  * disable () TextBox
-  * enable () TextBox
-  * getAjaxRender () string
-  * getClass () mixed
-  * getDefaultValue () mixed
-  * getEncryptObject () mixed
-  * getValue () mixed
-  * isChanged () mixed
-  * isEncrypted () mixed
-  * onChange (mixed $str_function, [mixed $arg1 = null], [mixed $arg2 = null], [mixed $arg3 = null], [mixed $arg4 = null], [mixed $arg5 = null]) TextBox
-  * onChangeJs (string|JavaScript $js_function) TextBox
-  * render ([boolean $ajax_render = false]) string
-  * setAutoComplete (mixed $autocomplete_object) TextBox
-  * setClass (mixed $class) TextBox
-  * setDefaultValue (mixed $value) TextBox
-  * setEncryptObject (mixed $encrypt_object) TextBox
-  * setFocus () TextBox
-  * setLength (mixed $length) TextBox
-  * setLiveValidation (mixed $live_validation_object) TextBox
-  * setName (mixed $name) TextBox
-  * setStyle (mixed $style) TextBox
-  * setValue (mixed $value) TextBox
-  * setWidth (integer $width) TextBox
+Classes extended from TextBox:
+ 		ColorPicker
+	    |
+	    --Class TextBox
+		Calendar
+	    |
+	    --Class TextBox
+		Password
+	    |
+	    --Class TextBox
+	
+
+
+Location: /display/TextBox.class.php
+
+----
+
+
+*Remarks*
+
+Class TextBox
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.0.102
+
+*copyright:* WebSite-PHP.com 26/05/2011
+
+*link:* 
+
+*since:* 1.0.17
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+							* `$type` = ` 'text'`
+		
+		
+		
+----
+== Class Constant Summary ==
+
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+=== Inherited From Class WebSitePhpEventObject ===
+
+			* `WebSitePhpEventObject::$ajax_wait_message` = ` ''`
+		
+		
+			* `WebSitePhpEventObject::$class_name` = ` ''`
+		
+		
+			* `WebSitePhpEventObject::$disable_ajax_wait_message` = ` false`
+		
+		
+			* `WebSitePhpEventObject::$form_object` = ` null`
+		
+		
+			* `WebSitePhpEventObject::$id` = ` ''`
+		
+		
+			* `WebSitePhpEventObject::$is_ajax_event` = ` false`
+		
+		
+			* `WebSitePhpEventObject::$name` = ` ''`
+		
+		
+			* `WebSitePhpEventObject::$on_form_is_changed_js` = ` ''`
+		
+		
+			* `WebSitePhpEventObject::$on_form_is_changed_revert` = ` false`
+		
+		
+			* `WebSitePhpEventObject::$page_object` = ` null`
+		
+		
+		
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::$is_javascript_object` = ` false`
+		
+		
+			* `WebSitePhpObject::$is_new_object_after_init` = ` false`
+		
+		
+			* `WebSitePhpObject::$object_change` = ` false`
+		
+		
+			* `WebSitePhpObject::$tag` = ` ''`
+		
+		
+		
+
+
+----
+== Method Summary == 
+
+																																																																																																																																										
+== Inherited Method Summary == 
+
+=== Inherited From Class WebSitePhpEventObject ===
+
+			* `WebSitePhpEventObject::__construct()`
+		Constructor WebSitePhpEventObject
+			* `WebSitePhpEventObject::automaticAjaxEvent()`
+		Method automaticAjaxEvent
+			* `WebSitePhpEventObject::disableAjaxWaitMessage()`
+		Method disableAjaxWaitMessage
+			* `WebSitePhpEventObject::getAjaxEventFunctionRender()`
+		Method getAjaxEventFunctionRender
+			* `WebSitePhpEventObject::getEventObjectName()`
+		Method getEventObjectName
+			* `WebSitePhpEventObject::getFormObject()`
+		Method getFormObject
+			* `WebSitePhpEventObject::getId()`
+		Method getId
+			* `WebSitePhpEventObject::getName()`
+		Method getName
+			* `WebSitePhpEventObject::getObjectEventValidationRender()`
+		Method getObjectEventValidationRender
+			* `WebSitePhpEventObject::initSubmitValue()`
+		Method initSubmitValue  Internal method used by an object like ComboBox or TextBox to init it with submitted value (if not already done).
+			* `WebSitePhpEventObject::isAjaxEvent()`
+		Method isAjaxEvent
+			* `WebSitePhpEventObject::isEventObject()`
+		Method isEventObject
+			* `WebSitePhpEventObject::loadCallbackMethod()`
+		Method loadCallbackMethod
+			* `WebSitePhpEventObject::onFormIsChangedJs()`
+		Method onFormIsChangedJs
+			* `WebSitePhpEventObject::setAjaxEvent()`
+		Method setAjaxEvent
+			* `WebSitePhpEventObject::setAjaxWaitMessage()`
+		Method setAjaxWaitMessage
+			* `WebSitePhpEventObject::setSubmitValueIsInit()`
+		Method setSubmitValueIsInit
+	
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::__construct()`
+		Constructor WebSitePhpObject
+			* `WebSitePhpObject::addCss()`
+		Method addCss
+			* `WebSitePhpObject::addJavaScript()`
+		Method addJavaScript
+			* `WebSitePhpObject::displayJavascriptTag()`
+		Method displayJavascriptTag
+			* `WebSitePhpObject::getAjaxRender()`
+		Method getAjaxRender
+			* `WebSitePhpObject::getCssArray()`
+		Method getCssArray
+			* `WebSitePhpObject::getJavaScriptArray()`
+		Method getJavaScriptArray
+			* `WebSitePhpObject::getJavascriptTagClose()`
+		Method getJavascriptTagClose
+			* `WebSitePhpObject::getJavascriptTagOpen()`
+		Method getJavascriptTagOpen
+			* `WebSitePhpObject::getName()`
+		Method getName
+			* `WebSitePhpObject::getPage()`
+		Method getPage
+			* `WebSitePhpObject::getRegisterObjects()`
+		Method getRegisterObjects
+			* `WebSitePhpObject::getTag()`
+		Method getTag
+			* `WebSitePhpObject::isEventObject()`
+		Method isEventObject
+			* `WebSitePhpObject::isJavascriptObject()`
+		Method isJavascriptObject
+			* `WebSitePhpObject::isObjectChange()`
+		Method isObjectChange
+			* `WebSitePhpObject::render()`
+		Method render
+			* `WebSitePhpObject::setTag()`
+		Method setTag
+	
+----
+== Method Detail ==
+
+
+
+= TextBox::__construct =
+
+*__construct(*
+*mixed*
+_$page_or_form_object_, [*string*
+_$name_ = ''], [*string*
+_$id_ = ''], [*string*
+_$value_ = ''], [*string*
+_$width_ = ''], [*double*
+_$length_ = 0]* );*
+
+
+	Overridden in child classes as:
+		ColorPicker::__construct()
+		  Constructor ColorPicker
+		Calendar::__construct()
+		  Constructor Calendar
+		Password::__construct()
+		  Constructor Password
+	Overrides WebSitePhpEventObject::__construct() (Constructor WebSitePhpEventObject)
+	
+
+	
+*Parameters*
+			_$page_or_form_object_ 
+			_$name_ 
+			_$id_ 
+			_$value_ 
+			_$width_ 
+			_$length_ [default value: 0]
+		
+*Remarks*
+
+Constructor TextBox
+
+
+
+
+= TextBox::disable =
+
+*disable(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method disable
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::enable =
+
+*enable(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method enable
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::forceEmpty =
+
+*forceEmpty(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method forceEmpty
+
+
+*since:* 1.0.85
+
+*access:* public
+
+
+
+= TextBox::getAjaxRender =
+
+*getAjaxRender(*
+* );*
+
+
+Overrides WebSitePhpObject::getAjaxRender() (Method getAjaxRender)
+	
+
+	
+*Returns*
+		javascript code to update initial html of object TextBox (call with AJAX)
+
+*Remarks*
+
+Method getAjaxRender
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::getClass =
+
+*getClass(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getClass
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::getDefaultValue =
+
+*getDefaultValue(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getDefaultValue
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::getEncryptObject =
+
+*getEncryptObject(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getEncryptObject
+
+
+*since:* 1.0.67
+
+*access:* public
+
+
+
+= TextBox::getValue =
+
+*getValue(*
+* );*
+
+
+	Overridden in child classes as:
+		Calendar::getValue()
+		  Method getValue
+		
+
+	
+*Remarks*
+
+Method getValue
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::isChanged =
+
+*isChanged(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method isChanged
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::isClicked =
+
+*isClicked(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method isClicked
+
+
+*since:* 1.0.85
+
+*access:* public
+
+
+
+= TextBox::isEncrypted =
+
+*isEncrypted(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method isEncrypted
+
+
+*since:* 1.0.67
+
+*access:* public
+
+
+
+= TextBox::onBlur =
+
+*onBlur(*
+*mixed*
+_$str_function_, [*mixed*
+_$arg1_ = null], [*mixed*
+_$arg2_ = null], [*mixed*
+_$arg3_ = null], [*mixed*
+_$arg4_ = null], [*mixed*
+_$arg5_ = null]* );*
+
+
+	
+
+	
+*Parameters*
+			_$str_function_ 
+			_$arg1_ [default value: null]
+			_$arg2_ [default value: null]
+			_$arg3_ [default value: null]
+			_$arg4_ [default value: null]
+			_$arg5_ [default value: null]
+		
+*Remarks*
+
+Method onBlur
+
+
+*since:* 1.0.96
+
+*access:* public
+
+
+
+= TextBox::onBlurJs =
+
+*onBlurJs(*
+*mixed*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onBlurJs
+
+
+*since:* 1.0.95
+
+*access:* public
+
+
+
+= TextBox::onChange =
+
+*onChange(*
+*mixed*
+_$str_function_, [*mixed*
+_$arg1_ = null], [*mixed*
+_$arg2_ = null], [*mixed*
+_$arg3_ = null], [*mixed*
+_$arg4_ = null], [*mixed*
+_$arg5_ = null]* );*
+
+
+	
+
+	
+*Parameters*
+			_$str_function_ 
+			_$arg1_ [default value: null]
+			_$arg2_ [default value: null]
+			_$arg3_ [default value: null]
+			_$arg4_ [default value: null]
+			_$arg5_ [default value: null]
+		
+*Remarks*
+
+Method onChange
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::onChangeJs =
+
+*onChangeJs(*
+*string|JavaScript*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onChangeJs
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::onClick =
+
+*onClick(*
+*mixed*
+_$str_function_, [*mixed*
+_$arg1_ = null], [*mixed*
+_$arg2_ = null], [*mixed*
+_$arg3_ = null], [*mixed*
+_$arg4_ = null], [*mixed*
+_$arg5_ = null]* );*
+
+
+	
+
+	
+*Parameters*
+			_$str_function_ 
+			_$arg1_ [default value: null]
+			_$arg2_ [default value: null]
+			_$arg3_ [default value: null]
+			_$arg4_ [default value: null]
+			_$arg5_ [default value: null]
+		
+*Remarks*
+
+Method onClick
+
+
+*since:* 1.0.84
+
+*access:* public
+
+
+
+= TextBox::onClickJs =
+
+*onClickJs(*
+*mixed*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onClickJs
+
+
+*since:* 1.0.84
+
+*access:* public
+
+
+
+= TextBox::onKeyPress =
+
+*onKeyPress(*
+*mixed*
+_$str_function_, [*mixed*
+_$arg1_ = null], [*mixed*
+_$arg2_ = null], [*mixed*
+_$arg3_ = null], [*mixed*
+_$arg4_ = null], [*mixed*
+_$arg5_ = null]* );*
+
+
+	
+
+	
+*Parameters*
+			_$str_function_ 
+			_$arg1_ [default value: null]
+			_$arg2_ [default value: null]
+			_$arg3_ [default value: null]
+			_$arg4_ [default value: null]
+			_$arg5_ [default value: null]
+		
+*Remarks*
+
+Method onKeyPress
+
+
+*since:* 1.0.96
+
+*access:* public
+
+
+
+= TextBox::onKeyPressJs =
+
+*onKeyPressJs(*
+*mixed*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onKeyPressJs
+
+
+*since:* 1.0.96
+
+*access:* public
+
+
+
+= TextBox::onMouseOutJs =
+
+*onMouseOutJs(*
+*mixed*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onMouseOutJs
+
+
+*since:* 1.0.95
+
+*access:* public
+
+
+
+= TextBox::onMouseOverJs =
+
+*onMouseOverJs(*
+*mixed*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onMouseOverJs
+
+
+*since:* 1.0.95
+
+*access:* public
+
+
+
+= TextBox::render =
+
+*render(*
+[*boolean*
+_$ajax_render_ = false]* );*
+
+
+	Overridden in child classes as:
+		Calendar::render()
+		  Method render
+	Overrides WebSitePhpObject::render() (Method render)
+	
+
+	
+*Parameters*
+			_$ajax_render_ [default value: false]
+		
+*Returns*
+		html code of object TextBox
+
+*Remarks*
+
+Method render
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::setAutoComplete =
+
+*setAutoComplete(*
+*mixed*
+_$autocomplete_object_* );*
+
+
+	Overridden in child classes as:
+		Calendar::setAutoComplete()
+		  Method setAutoComplete
+		
+
+	
+*Parameters*
+			_$autocomplete_object_ 
+		
+*Remarks*
+
+Method setAutoComplete
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::setClass =
+
+*setClass(*
+*mixed*
+_$class_* );*
+
+
+	
+
+	
+*Parameters*
+			_$class_ 
+		
+*Remarks*
+
+Method setClass
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::setDefaultValue =
+
+*setDefaultValue(*
+*mixed*
+_$value_* );*
+
+
+	
+
+	
+*Parameters*
+			_$value_ 
+		
+*Remarks*
+
+Method setDefaultValue
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::setEncryptObject =
+
+*setEncryptObject(*
+*mixed*
+_$encrypt_object_* );*
+
+
+	
+
+	
+*Parameters*
+			_$encrypt_object_ 
+		
+*Remarks*
+
+Method setEncryptObject
+
+
+*since:* 1.0.67
+
+*access:* public
+
+
+
+= TextBox::setFocus =
+
+*setFocus(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method setFocus
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::setLength =
+
+*setLength(*
+*mixed*
+_$length_* );*
+
+
+	
+
+	
+*Parameters*
+			_$length_ 
+		
+*Remarks*
+
+Method setLength
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::setLiveValidation =
+
+*setLiveValidation(*
+*mixed*
+_$live_validation_object_* );*
+
+
+	
+
+	
+*Parameters*
+			_$live_validation_object_ 
+		
+*Remarks*
+
+Method setLiveValidation
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::setName =
+
+*setName(*
+*mixed*
+_$name_* );*
+
+
+	
+
+	
+*Parameters*
+			_$name_ 
+		
+*Remarks*
+
+Method setName
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::setStyle =
+
+*setStyle(*
+*mixed*
+_$style_* );*
+
+
+	
+
+	
+*Parameters*
+			_$style_ 
+		
+*Remarks*
+
+Method setStyle
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::setValue =
+
+*setValue(*
+*mixed*
+_$value_* );*
+
+
+	
+
+	
+*Parameters*
+			_$value_ 
+		
+*Remarks*
+
+Method setValue
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::setWidth =
+
+*setWidth(*
+*integer*
+_$width_* );*
+
+
+	
+
+	
+*Parameters*
+			_$width_ 
+		
+*Remarks*
+
+Method setWidth
+
+
+*since:* 1.0.36
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+* `$type` = ` 'text'` (line 29)
+* *Data type:* `mixed`
+*access:* protected
+
+
+
+----
+== Class Constant Detail ==
+
+
+----

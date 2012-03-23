@@ -1,13 +1,340 @@
 #labels Class,WebSite-PHP,JavaScriptInclude
 = Class JavaScriptInclude =
-File located in : /JavaScriptInclude.class.php
 
-See complete documentation on : http://www.website-php.com/documentation/?package=default&cls=JavaScriptInclude
 
-= Method Summary =
-  * static getInstance () mixed
-  * __construct () JavaScriptInclude
-  * add (mixed $js_url, [string $conditional_comment = ''], [boolean $conbine = false]) void
-  * get ([boolean $sort_by_name = false]) mixed
-  * getCombine (mixed $indice) mixed
-  * getConditionalComment (mixed $indice) mixed
+
+
+
+Location: /JavaScriptInclude.class.php
+
+----
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+
+----
+== Method Summary == 
+
+																								* `static JavaScriptInclude getInstance()`
+		Method getInstance
+																												* `JavaScriptInclude getInstance()`
+		Method getInstance
+				
+== Inherited Method Summary == 
+
+----
+== Method Detail ==
+
+
+= static JavaScriptInclude::getInstance =
+
+*static getInstance(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getInstance
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+
+= JavaScriptInclude::__construct =
+
+*__construct(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Constructor JavaScriptInclude
+
+
+
+
+= JavaScriptInclude::add =
+
+*add(*
+*string*
+_$js_url_, [*string*
+_$conditional_comment_ = ''], [*boolean*
+_$combine_ = false], [*string*
+_$js_script_ = '']* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_url_ 
+			_$conditional_comment_ 
+			_$combine_ [default value: false]
+			_$js_script_ 
+		
+*Remarks*
+
+Method add
+
+
+*since:* 1.0.59
+
+*access:* public
+
+
+
+= JavaScriptInclude::addToBegin =
+
+*addToBegin(*
+*string*
+_$js_url_, [*string*
+_$conditional_comment_ = ''], [*boolean*
+_$combine_ = false]* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_url_ 
+			_$conditional_comment_ 
+			_$combine_ [default value: false]
+		
+*Remarks*
+
+Method addToBegin
+
+
+*since:* 1.0.80
+
+*access:* public
+
+
+
+= JavaScriptInclude::addToEnd =
+
+*addToEnd(*
+*string*
+_$js_url_, [*string*
+_$conditional_comment_ = ''], [*boolean*
+_$combine_ = false]* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_url_ 
+			_$conditional_comment_ 
+			_$combine_ [default value: false]
+		
+*Remarks*
+
+Method addToEnd
+
+
+*since:* 1.0.80
+
+*access:* public
+
+
+
+= JavaScriptInclude::addUrlWithScript =
+
+*addUrlWithScript(*
+*string*
+_$js_url_, *string*
+_$js_script_, [*string*
+_$conditional_comment_ = '']* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_url_ 
+			_$js_script_ 
+			_$conditional_comment_ 
+		
+*Remarks*
+
+Method addUrlWithScript
+
+
+With this method you can include javascript file with script like <script src=...>$js_script</script>  Warning this script can be only load in standard page (.html)
+
+
+*since:* 1.0.88
+
+*access:* public
+
+
+
+= JavaScriptInclude::get =
+
+*get(*
+[*boolean*
+_$sort_ = false]* );*
+
+
+	
+
+	
+*Parameters*
+			_$sort_ [default value: false]
+		
+*Remarks*
+
+Method get
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= JavaScriptInclude::getArrayJsToBegin =
+
+*getArrayJsToBegin(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getArrayJsToBegin
+
+
+*since:* 1.0.80
+
+*access:* public
+
+
+
+= JavaScriptInclude::getArrayJsToEnd =
+
+*getArrayJsToEnd(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getArrayJsToEnd
+
+
+*since:* 1.0.80
+
+*access:* public
+
+
+
+= JavaScriptInclude::getCombine =
+
+*getCombine(*
+*mixed*
+_$indice_* );*
+
+
+	
+
+	
+*Parameters*
+			_$indice_ 
+		
+*Remarks*
+
+Method getCombine
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= JavaScriptInclude::getConditionalComment =
+
+*getConditionalComment(*
+*mixed*
+_$indice_* );*
+
+
+	
+
+	
+*Parameters*
+			_$indice_ 
+		
+*Remarks*
+
+Method getConditionalComment
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= JavaScriptInclude::getJsIncludeScript =
+
+*getJsIncludeScript(*
+*mixed*
+_$indice_* );*
+
+
+	
+
+	
+*Parameters*
+			_$indice_ 
+		
+*Remarks*
+
+Method getJsIncludeScript
+
+
+*since:* 1.0.88
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+
+----

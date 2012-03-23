@@ -1,0 +1,317 @@
+#labels Class,WebSite-PHP,NewException
+= Class NewException =
+
+Exception
+   |
+   --NewException
+
+
+
+Location: /NewException.class.php
+
+----
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+=== Inherited From Class Exception (Internal Class) ===
+
+			* `$code` = ``
+		
+		
+			* `$file` = ``
+		
+		
+			* `$line` = ``
+		
+		
+			* `$message` = ``
+		
+		
+			* `$previous` = ``
+		
+		
+			* `$string` = ``
+		
+		
+			* `$trace` = ``
+		
+		
+		
+
+
+----
+== Method Summary == 
+
+						* `static string generateErrorMessage()`
+		Method generateErrorMessage
+							* `static void getStaticException()`
+		Method getStaticException
+					* `static void printStaticDebugMessage()`
+		Method printStaticDebugMessage
+					* `static void printStaticException()`
+		Method printStaticException
+					* `static mixed redirectOnError()`
+		Method redirectOnError
+										* `string generateErrorMessage()`
+		Method generateErrorMessage
+							* `void getStaticException()`
+		Method getStaticException
+					* `void printStaticDebugMessage()`
+		Method printStaticDebugMessage
+					* `void printStaticException()`
+		Method printStaticException
+					* `mixed redirectOnError()`
+		Method redirectOnError
+				
+== Inherited Method Summary == 
+
+=== Inherited From Class Exception (Internal Class) ===
+
+			* `constructor __construct ( [$message = ], [$code = ], [$previous = ] )`
+		
+			* `getCode (  )`
+		
+			* `getFile (  )`
+		
+			* `getLine (  )`
+		
+			* `getMessage (  )`
+		
+			* `getPrevious (  )`
+		
+			* `getTrace (  )`
+		
+			* `getTraceAsString (  )`
+		
+			* `__clone (  )`
+		
+			* `__toString (  )`
+		
+	
+----
+== Method Detail ==
+
+
+= static NewException::generateErrorMessage =
+
+*static generateErrorMessage(*
+*string*
+_$code_, *string*
+_$message_, *string*
+_$file_, *string*
+_$line_, [*string*
+_$class_name_ = ''], [*string*
+_$method_ = ''], [*string*
+_$trace_ = '']* );*
+
+
+	
+
+	
+*Parameters*
+			_$code_ 
+			_$message_ 
+			_$file_ 
+			_$line_ 
+			_$class_name_ 
+			_$method_ 
+			_$trace_ 
+		
+*Remarks*
+
+Method generateErrorMessage
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= static NewException::getStaticException =
+
+*static getStaticException(*
+*string|Exception*
+_$exception_* );*
+
+
+	
+
+	
+*Parameters*
+			_$exception_ 
+		
+*Remarks*
+
+Method getStaticException
+
+
+*since:* 1.0.59
+
+*access:* public
+
+
+
+= static NewException::printStaticDebugMessage =
+
+*static printStaticDebugMessage(*
+*string|object *
+_$debug_msg_* );*
+
+
+	
+
+	
+*Parameters*
+			_$debug_msg_ 
+		
+*Remarks*
+
+Method printStaticDebugMessage
+
+
+*since:* 1.0.59
+
+*access:* public
+
+
+
+= static NewException::printStaticException =
+
+*static printStaticException(*
+*string|Exception*
+_$exception_* );*
+
+
+	
+
+	
+*Parameters*
+			_$exception_ 
+		
+*Remarks*
+
+Method printStaticException
+
+
+*since:* 1.0.59
+
+*access:* public
+
+
+
+= static NewException::redirectOnError =
+
+*static redirectOnError(*
+*string*
+_$buffer_* );*
+
+
+	
+
+	
+*Parameters*
+			_$buffer_ 
+		
+*Remarks*
+
+Method redirectOnError
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+
+= NewException::__construct =
+
+*__construct(*
+*string*
+_$message_, [*mixed*
+_$code_ = NULL], [*string*
+_$trace_ = '']* );*
+
+
+Overrides Exception::constructor __construct ( [$message = ], [$code = ], [$previous = ] ) (parent method not documented)
+	
+
+	
+*Parameters*
+			_$message_ 
+			_$code_ [default value: NULL]
+			_$trace_ 
+		
+*Remarks*
+
+Constructor NewException
+
+
+*access:* public
+
+
+
+= NewException::getException =
+
+*getException(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getException
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= NewException::__toString =
+
+*__toString(*
+* );*
+
+
+Overrides Exception::__toString (  ) (parent method not documented)
+	
+
+	
+*Remarks*
+
+Method __toString
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+
+----

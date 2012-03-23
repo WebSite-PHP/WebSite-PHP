@@ -1,0 +1,182 @@
+#labels Class,WebSite-PHP,EncryptDataWspObject
+= Class EncryptDataWspObject =
+
+
+
+
+
+Location: /utils/EncryptDataWspObject.class.php
+
+----
+
+
+*Remarks*
+
+Class EncryptDataWspObject
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.0.102
+
+*copyright:* WebSite-PHP.com 26/05/2011
+
+*link:* 
+
+*since:* 1.0.67
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+
+----
+== Method Summary == 
+
+																						
+== Inherited Method Summary == 
+
+----
+== Method Detail ==
+
+
+
+= EncryptDataWspObject::__construct =
+
+*__construct(*
+[*string*
+_$passphrase_ = 'passphrase'], [*integer*
+_$private_key_bits_ = 1024], [*mixed*
+_$private_key_type_ = OPENSSL_KEYTYPE_RSA], [*boolean*
+_$encrypte_key_ = true]* );*
+
+
+	
+
+	
+*Parameters*
+			_$passphrase_ [default value: passphrase]
+			_$private_key_bits_ [default value: 1024]
+			_$private_key_type_ [default value: OPENSSL_KEYTYPE_RSA]
+			_$encrypte_key_ [default value: true]
+		
+*Remarks*
+
+Constructor EncryptDataWspObject
+
+
+
+
+= EncryptDataWspObject::decrypt =
+
+*decrypt(*
+*mixed*
+_$data_* );*
+
+
+	
+
+	
+*Parameters*
+			_$data_ 
+		
+*Remarks*
+
+Method decrypt
+
+
+*since:* 1.0.67
+
+*access:* public
+
+
+
+= EncryptDataWspObject::getPublicKey =
+
+*getPublicKey(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getPublicKey
+
+
+*since:* 1.0.67
+
+*access:* public
+
+
+
+= EncryptDataWspObject::getPublicKeyBits =
+
+*getPublicKeyBits(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getPublicKeyBits
+
+
+*since:* 1.0.102
+
+*access:* public
+
+
+
+= EncryptDataWspObject::setObject =
+
+*setObject(*
+*WebSitePhpObject|WebSitePhpEventObject*
+_$object_* );*
+
+
+	
+
+	
+*Parameters*
+			_$object_ 
+		
+*Remarks*
+
+Method setObject
+
+
+*since:* 1.0.67
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+
+----

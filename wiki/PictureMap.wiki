@@ -1,0 +1,359 @@
+#labels Class,WebSite-PHP,PictureMap
+= Class PictureMap =
+
+WebSitePhpObject
+   |
+   --PictureMap
+
+
+
+Location: /display/PictureMap.class.php
+
+----
+
+
+*Remarks*
+
+Class PictureMap
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.0.102
+
+*copyright:* WebSite-PHP.com 26/05/2011
+
+*link:* 
+
+*since:* 1.0.17
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::$is_javascript_object` = ` false`
+		
+		
+			* `WebSitePhpObject::$is_new_object_after_init` = ` false`
+		
+		
+			* `WebSitePhpObject::$object_change` = ` false`
+		
+		
+			* `WebSitePhpObject::$tag` = ` ''`
+		
+		
+		
+
+
+----
+== Method Summary == 
+
+																														
+== Inherited Method Summary == 
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::__construct()`
+		Constructor WebSitePhpObject
+			* `WebSitePhpObject::addCss()`
+		Method addCss
+			* `WebSitePhpObject::addJavaScript()`
+		Method addJavaScript
+			* `WebSitePhpObject::displayJavascriptTag()`
+		Method displayJavascriptTag
+			* `WebSitePhpObject::getAjaxRender()`
+		Method getAjaxRender
+			* `WebSitePhpObject::getCssArray()`
+		Method getCssArray
+			* `WebSitePhpObject::getJavaScriptArray()`
+		Method getJavaScriptArray
+			* `WebSitePhpObject::getJavascriptTagClose()`
+		Method getJavascriptTagClose
+			* `WebSitePhpObject::getJavascriptTagOpen()`
+		Method getJavascriptTagOpen
+			* `WebSitePhpObject::getName()`
+		Method getName
+			* `WebSitePhpObject::getPage()`
+		Method getPage
+			* `WebSitePhpObject::getRegisterObjects()`
+		Method getRegisterObjects
+			* `WebSitePhpObject::getTag()`
+		Method getTag
+			* `WebSitePhpObject::isEventObject()`
+		Method isEventObject
+			* `WebSitePhpObject::isJavascriptObject()`
+		Method isJavascriptObject
+			* `WebSitePhpObject::isObjectChange()`
+		Method isObjectChange
+			* `WebSitePhpObject::render()`
+		Method render
+			* `WebSitePhpObject::setTag()`
+		Method setTag
+	
+----
+== Method Detail ==
+
+
+
+= PictureMap::__construct =
+
+*__construct(*
+*string*
+_$id_, [*ToolTip*
+_$default_tooltip_obj_ = null]* );*
+
+
+Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
+	
+
+	
+*Parameters*
+			_$id_ 
+			_$default_tooltip_obj_ [default value: null]
+		
+*Remarks*
+
+Constructor PictureMap
+
+
+
+
+= PictureMap::addCircle =
+
+*addCircle(*
+*string*
+_$link_, *string*
+_$title_, *integer*
+_$x_, *integer*
+_$y_, *integer*
+_$r_, [*string*
+_$onclick_js_ = ''], [*string*
+_$onmouseover_js_ = ''], [*string*
+_$onmouseout_js_ = '']* );*
+
+
+	
+
+	
+*Parameters*
+			_$link_ link when click on the picture
+			_$title_ title of the link area
+			_$x_ coordonate x of the circle
+			_$y_ coordonate y of the circle
+			_$r_ rayon of the circle
+			_$onclick_js_ 
+			_$onmouseover_js_ 
+			_$onmouseout_js_ 
+		
+*Remarks*
+
+Method addCircle
+
+
+Define a circle link area on a picture
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= PictureMap::addPolygon =
+
+*addPolygon(*
+*string*
+_$link_, *string*
+_$title_, [*integer*
+_$x1_ = null], [*integer*
+_$y1_ = null], [*integer*
+_$x2_ = null], [*integer*
+_$y2_ = null], [*integer*
+_$x3_ = null], [*integer*
+_$y3_ = null], [*string*
+_$onclick_js_ = ''], [*string*
+_$onmouseover_js_ = ''], [*string*
+_$onmouseout_js_ = '']* );*
+
+
+	
+
+	
+*Parameters*
+			_$link_ link when click on the picture
+			_$title_ title of the link area
+			_$x1_ coordonate x1 of the polygon [default value: null]
+			_$y1_ coordonate y1 of the polygon [default value: null]
+			_$x2_ coordonate x2 of the polygon [default value: null]
+			_$y2_ coordonate y2 of the polygon [default value: null]
+			_$x3_ coordonate x3 of the polygon [default value: null]
+			_$y3_ coordonate y3 of the polygon [default value: null]
+			_$onclick_js_ 
+			_$onmouseover_js_ 
+			_$onmouseout_js_ 
+		
+*Remarks*
+
+Method addPolygon
+
+
+Define a polygon link area on a picture  The polygon is define by coordonate x1-y1, x2-y2, x3-y3, and more if necessary
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= PictureMap::addRect =
+
+*addRect(*
+*string*
+_$link_, *string*
+_$title_, *integer*
+_$x1_, *integer*
+_$y1_, *integer*
+_$x2_, *integer*
+_$y2_, [*string*
+_$onclick_js_ = ''], [*string*
+_$onmouseover_js_ = ''], [*string*
+_$onmouseout_js_ = '']* );*
+
+
+	
+
+	
+*Parameters*
+			_$link_ link when click on the picture
+			_$title_ title of the link area
+			_$x1_ coordonate x1 of the rectangle
+			_$y1_ coordonate y1 of the rectangle
+			_$x2_ coordonate x2 of the rectangle
+			_$y2_ coordonate y2 of the rectangle
+			_$onclick_js_ 
+			_$onmouseover_js_ 
+			_$onmouseout_js_ 
+		
+*Remarks*
+
+Method addRect
+
+
+Define a rectangle link area on a picture
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= PictureMap::getId =
+
+*getId(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getId
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= PictureMap::render =
+
+*render(*
+[*boolean*
+_$ajax_render_ = false]* );*
+
+
+Overrides WebSitePhpObject::render() (Method render)
+	
+
+	
+*Parameters*
+			_$ajax_render_ [default value: false]
+		
+*Remarks*
+
+Method render
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= PictureMap::setDefault =
+
+*setDefault(*
+*string*
+_$link_, [*string*
+_$title_ = ''], [*string*
+_$onclick_js_ = ''], [*string*
+_$onmouseover_js_ = ''], [*string*
+_$onmouseout_js_ = '']* );*
+
+
+	
+
+	
+*Parameters*
+			_$link_ link when click on the picture
+			_$title_ title of the link area
+			_$onclick_js_ 
+			_$onmouseover_js_ 
+			_$onmouseout_js_ 
+		
+*Remarks*
+
+Method setDefault
+
+
+Define the default link on the picture
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+
+----

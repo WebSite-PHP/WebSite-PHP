@@ -1,0 +1,468 @@
+#labels Class,WebSite-PHP,FacebookActivityFeed
+= Class FacebookActivityFeed =
+
+WebSitePhpObject
+   |
+   --FacebookActivityFeed
+
+
+
+Location: /modules/Facebook/FacebookActivityFeed.class.php
+
+----
+
+
+*Remarks*
+
+Class FacebookActivityFeed
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2011 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.0.87
+
+*copyright:* WebSite-PHP.com 08/06/2011
+
+*link:* 
+
+*since:* 1.0.86
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+			* `FONT_ARIAL` = ` 'arial'`
+		
+		FacebookActivityFeed font
+			* `FONT_LUCIDA_GRANDE` = ` 'lucida grande'`
+		
+		FacebookActivityFeed font
+			* `FONT_SEGOE_UI` = ` 'segoe ui'`
+		
+		FacebookActivityFeed font
+			* `FONT_TAHOMA` = ` 'tahoma'`
+		
+		FacebookActivityFeed font
+			* `FONT_TREBUCHET_MS` = ` 'trebuchet ms'`
+		
+		FacebookActivityFeed font
+			* `FONT_VERDANA` = ` 'verdana'`
+		
+		FacebookActivityFeed font
+			* `STYLE_DARK` = ` 'dark'`
+		
+		FacebookActivityFeed style
+			* `STYLE_LIGHT` = ` 'light'`
+		
+		FacebookActivityFeed style
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::$is_javascript_object` = ` false`
+		
+		
+			* `WebSitePhpObject::$is_new_object_after_init` = ` false`
+		
+		
+			* `WebSitePhpObject::$object_change` = ` false`
+		
+		
+			* `WebSitePhpObject::$tag` = ` ''`
+		
+		
+		
+
+
+----
+== Method Summary == 
+
+																																						
+== Inherited Method Summary == 
+
+=== Inherited From Class WebSitePhpObject ===
+
+			* `WebSitePhpObject::__construct()`
+		Constructor WebSitePhpObject
+			* `WebSitePhpObject::addCss()`
+		Method addCss
+			* `WebSitePhpObject::addJavaScript()`
+		Method addJavaScript
+			* `WebSitePhpObject::displayJavascriptTag()`
+		Method displayJavascriptTag
+			* `WebSitePhpObject::getAjaxRender()`
+		Method getAjaxRender
+			* `WebSitePhpObject::getCssArray()`
+		Method getCssArray
+			* `WebSitePhpObject::getJavaScriptArray()`
+		Method getJavaScriptArray
+			* `WebSitePhpObject::getJavascriptTagClose()`
+		Method getJavascriptTagClose
+			* `WebSitePhpObject::getJavascriptTagOpen()`
+		Method getJavascriptTagOpen
+			* `WebSitePhpObject::getName()`
+		Method getName
+			* `WebSitePhpObject::getPage()`
+		Method getPage
+			* `WebSitePhpObject::getRegisterObjects()`
+		Method getRegisterObjects
+			* `WebSitePhpObject::getTag()`
+		Method getTag
+			* `WebSitePhpObject::isEventObject()`
+		Method isEventObject
+			* `WebSitePhpObject::isJavascriptObject()`
+		Method isJavascriptObject
+			* `WebSitePhpObject::isObjectChange()`
+		Method isObjectChange
+			* `WebSitePhpObject::render()`
+		Method render
+			* `WebSitePhpObject::setTag()`
+		Method setTag
+	
+----
+== Method Detail ==
+
+
+
+= FacebookActivityFeed::__construct =
+
+*__construct(*
+[*string*
+_$domain_ = ''], [*double*
+_$width_ = 300], [*double*
+_$height_ = 300], [*boolean*
+_$header_ = true], [*string*
+_$style_ = 'light'], [*string*
+_$font_ = ''], [*string*
+_$border_color_ = ''], [*boolean*
+_$show_recommandations_ = false]* );*
+
+
+Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
+	
+
+	
+*Parameters*
+			_$domain_ 
+			_$width_ [default value: 300]
+			_$height_ [default value: 300]
+			_$header_ [default value: true]
+			_$style_ [default value: light]
+			_$font_ 
+			_$border_color_ 
+			_$show_recommandations_ [default value: false]
+		
+*Remarks*
+
+Constructor FacebookActivityFeed
+
+
+
+
+= FacebookActivityFeed::render =
+
+*render(*
+[*boolean*
+_$ajax_render_ = false]* );*
+
+
+Overrides WebSitePhpObject::render() (Method render)
+	
+
+	
+*Parameters*
+			_$ajax_render_ [default value: false]
+		
+*Returns*
+		html code of object FacebookActivityFeed
+
+*Remarks*
+
+Method render
+
+
+*since:* 1.0.86
+
+*access:* public
+
+
+
+= FacebookActivityFeed::setBorderColor =
+
+*setBorderColor(*
+*mixed*
+_$border_color_* );*
+
+
+	
+
+	
+*Parameters*
+			_$border_color_ 
+		
+*Remarks*
+
+Method setBorderColor
+
+
+*since:* 1.0.86
+
+*access:* public
+
+
+
+= FacebookActivityFeed::setFont =
+
+*setFont(*
+*mixed*
+_$font_* );*
+
+
+	
+
+	
+*Parameters*
+			_$font_ 
+		
+*Remarks*
+
+Method setFont
+
+
+*since:* 1.0.86
+
+*access:* public
+
+
+
+= FacebookActivityFeed::setHeader =
+
+*setHeader(*
+*mixed*
+_$header_* );*
+
+
+	
+
+	
+*Parameters*
+			_$header_ 
+		
+*Remarks*
+
+Method setHeader
+
+
+*since:* 1.0.86
+
+*access:* public
+
+
+
+= FacebookActivityFeed::setHeight =
+
+*setHeight(*
+*integer*
+_$height_* );*
+
+
+	
+
+	
+*Parameters*
+			_$height_ 
+		
+*Remarks*
+
+Method setHeight
+
+
+*since:* 1.0.86
+
+*access:* public
+
+
+
+= FacebookActivityFeed::setShowRecommandations =
+
+*setShowRecommandations(*
+*mixed*
+_$show_recommandations_* );*
+
+
+	
+
+	
+*Parameters*
+			_$show_recommandations_ 
+		
+*Remarks*
+
+Method setShowRecommandations
+
+
+*since:* 1.0.86
+
+*access:* public
+
+
+
+= FacebookActivityFeed::setStyle =
+
+*setStyle(*
+*mixed*
+_$style_* );*
+
+
+	
+
+	
+*Parameters*
+			_$style_ 
+		
+*Remarks*
+
+Method setStyle
+
+
+*since:* 1.0.86
+
+*access:* public
+
+
+
+= FacebookActivityFeed::setWidth =
+
+*setWidth(*
+*integer*
+_$width_* );*
+
+
+	
+
+	
+*Parameters*
+			_$width_ 
+		
+*Remarks*
+
+Method setWidth
+
+
+*since:* 1.0.86
+
+*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+* `FONT_ARIAL` = ` 'arial'` (line 42)
+
+
+*Remarks*
+
+FacebookActivityFeed font
+
+
+*access:* public
+
+
+* `FONT_LUCIDA_GRANDE` = ` 'lucida grande'` (line 43)
+
+
+*Remarks*
+
+FacebookActivityFeed font
+
+
+*access:* public
+
+
+* `FONT_SEGOE_UI` = ` 'segoe ui'` (line 44)
+
+
+*Remarks*
+
+FacebookActivityFeed font
+
+
+*access:* public
+
+
+* `FONT_TAHOMA` = ` 'tahoma'` (line 45)
+
+
+*Remarks*
+
+FacebookActivityFeed font
+
+
+*access:* public
+
+
+* `FONT_TREBUCHET_MS` = ` 'trebuchet ms'` (line 46)
+
+
+*Remarks*
+
+FacebookActivityFeed font
+
+
+*access:* public
+
+
+* `FONT_VERDANA` = ` 'verdana'` (line 47)
+
+
+*Remarks*
+
+FacebookActivityFeed font
+
+
+*access:* public
+
+
+* `STYLE_DARK` = ` 'dark'` (line 34)
+
+
+*Remarks*
+
+FacebookActivityFeed style
+
+
+*access:* public
+
+
+* `STYLE_LIGHT` = ` 'light'` (line 33)
+
+
+*Remarks*
+
+FacebookActivityFeed style
+
+
+*access:* public
+
+
+
+----
