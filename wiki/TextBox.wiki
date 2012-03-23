@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,TextBox
+#labels Class,WebSite-PHP,TextBox,WebSitePhpObject,WebSitePhpEventObject,TextBox,ColorPicker,Calendar,Password
 = Class TextBox =
 
 WebSitePhpObject

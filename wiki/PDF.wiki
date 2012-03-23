@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,PDF
+#labels Class,WebSite-PHP,PDF,FPDF,PDF
 = Class PDF =
 
 FPDF

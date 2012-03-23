@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,WebSitePhpObject
+#labels Class,WebSite-PHP,WebSitePhpObject,AutoComplete,AutoCompleteResult,Box,DraggableEvent,ToolTip,Adsense,Map,Language,LanguageBox,LanguageComboBox,LiveValidation,ContextMenu,DockMenu,DockMenuItem,Menu,MenuItem,MenuItems,RoundBox,SwfObject,TreeView,TreeViewItem,TreeViewItems,Anchor,Captcha,DefinedZone,DialogBox,Font,Form,JavaScript,Label,Link,LinkPage,ListItem,PictureMap,RowTable,Table,Tabs,Url,Authentication,ContactForm,DownloadButton,FacebookActivityFeed,FacebookComments,FacebookRecommendations,GoogleSearchBar,GoogleSearchResult,Chart,ImageRotator,FacebookLikeButton,GoogleLikeButton,ShareButton,VideoFlv,VideoHTML5,WebSitePhpEventObject
 = Class WebSitePhpObject =
 
 

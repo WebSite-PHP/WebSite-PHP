@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,Url
+#labels Class,WebSite-PHP,Url,WebSitePhpObject,Url
 = Class Url =
 
 WebSitePhpObject

@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,ShareButton
+#labels Class,WebSite-PHP,ShareButton,WebSitePhpObject,ShareButton
 = Class ShareButton =
 
 WebSitePhpObject

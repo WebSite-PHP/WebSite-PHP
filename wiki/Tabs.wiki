@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,Tabs
+#labels Class,WebSite-PHP,Tabs,WebSitePhpObject,Tabs
 = Class Tabs =
 
 WebSitePhpObject

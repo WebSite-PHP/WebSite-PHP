@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,ContactForm
+#labels Class,WebSite-PHP,ContactForm,WebSitePhpObject,ContactForm
 = Class ContactForm =
 
 WebSitePhpObject

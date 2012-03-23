@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,FacebookActivityFeed
+#labels Class,WebSite-PHP,FacebookActivityFeed,WebSitePhpObject,FacebookActivityFeed
 = Class FacebookActivityFeed =
 
 WebSitePhpObject

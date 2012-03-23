@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,WebSitePhpEventObject
+#labels Class,WebSite-PHP,WebSitePhpEventObject,WebSitePhpObject,WebSitePhpEventObject,AutoCompleteEvent,ContextMenuEvent,DroppableEvent,SortableEvent,Button,CheckBox,ComboBox,Editor,Hidden,Object,Picture,TextBox,Raty
 = Class WebSitePhpEventObject =
 
 WebSitePhpObject

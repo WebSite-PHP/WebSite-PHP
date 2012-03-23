@@ -1,6 +1,4 @@
-
-Warning: fread(): Length parameter must be greater than 0 in E:\EasyPHP-5.3.6.0\www\website-php-create-install\PhpDocumentor\phpDocumentor\Smarty-2.6.0\libs\Smarty.class.php on line 1759
-#labels Class,WebSite-PHP,Adsense
+#labels Class,WebSite-PHP,Adsense,WebSitePhpObject,Adsense
 = Class Adsense =
 
 WebSitePhpObject
@@ -180,5 +178,3 @@ Method render
 
 
 ----
-
-Warning: fread(): Length parameter must be greater than 0 in E:\EasyPHP-5.3.6.0\www\website-php-create-install\PhpDocumentor\phpDocumentor\Smarty-2.6.0\libs\Smarty.class.php on line 1759

@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,Editor
+#labels Class,WebSite-PHP,Editor,WebSitePhpObject,WebSitePhpEventObject,Editor
 = Class Editor =
 
 WebSitePhpObject

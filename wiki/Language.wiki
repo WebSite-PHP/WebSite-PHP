@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,Language
+#labels Class,WebSite-PHP,Language,WebSitePhpObject,Language
 = Class Language =
 
 WebSitePhpObject

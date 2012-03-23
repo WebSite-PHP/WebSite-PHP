@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,Hidden
+#labels Class,WebSite-PHP,Hidden,WebSitePhpObject,WebSitePhpEventObject,Hidden
 = Class Hidden =
 
 WebSitePhpObject

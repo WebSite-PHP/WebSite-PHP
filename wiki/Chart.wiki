@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,Chart
+#labels Class,WebSite-PHP,Chart,WebSitePhpObject,Chart
 = Class Chart =
 
 WebSitePhpObject

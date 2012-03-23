@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,Menu
+#labels Class,WebSite-PHP,Menu,WebSitePhpObject,Menu
 = Class Menu =
 
 WebSitePhpObject

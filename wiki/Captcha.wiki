@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,Captcha
+#labels Class,WebSite-PHP,Captcha,WebSitePhpObject,Captcha
 = Class Captcha =
 
 WebSitePhpObject

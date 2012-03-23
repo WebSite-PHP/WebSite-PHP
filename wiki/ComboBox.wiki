@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,ComboBox
+#labels Class,WebSite-PHP,ComboBox,WebSitePhpObject,WebSitePhpEventObject,ComboBox
 = Class ComboBox =
 
 WebSitePhpObject

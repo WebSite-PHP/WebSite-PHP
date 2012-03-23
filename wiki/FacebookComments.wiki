@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,FacebookComments
+#labels Class,WebSite-PHP,FacebookComments,WebSitePhpObject,FacebookComments
 = Class FacebookComments =
 
 WebSitePhpObject

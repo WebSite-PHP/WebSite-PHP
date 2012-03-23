@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,ColorPicker
+#labels Class,WebSite-PHP,ColorPicker,WebSitePhpObject,WebSitePhpEventObject,TextBox,ColorPicker
 = Class ColorPicker =
 
 WebSitePhpObject

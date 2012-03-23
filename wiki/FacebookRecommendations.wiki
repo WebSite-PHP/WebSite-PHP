@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,FacebookRecommendations
+#labels Class,WebSite-PHP,FacebookRecommendations,WebSitePhpObject,FacebookRecommendations
 = Class FacebookRecommendations =
 
 WebSitePhpObject

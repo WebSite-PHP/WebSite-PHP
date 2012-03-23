@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,Button
+#labels Class,WebSite-PHP,Button,WebSitePhpObject,WebSitePhpEventObject,Button
 = Class Button =
 
 WebSitePhpObject

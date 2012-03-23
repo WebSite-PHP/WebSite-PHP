@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,LiveValidation
+#labels Class,WebSite-PHP,LiveValidation,WebSitePhpObject,LiveValidation
 = Class LiveValidation =
 
 WebSitePhpObject

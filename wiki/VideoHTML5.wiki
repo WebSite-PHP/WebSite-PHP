@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,VideoHTML5
+#labels Class,WebSite-PHP,VideoHTML5,WebSitePhpObject,VideoHTML5
 = Class VideoHTML5 =
 
 WebSitePhpObject

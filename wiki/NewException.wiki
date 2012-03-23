@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,NewException
+#labels Class,WebSite-PHP,NewException,Exception,NewException
 = Class NewException =
 
 Exception

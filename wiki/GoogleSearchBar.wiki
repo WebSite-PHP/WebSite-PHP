@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,GoogleSearchBar
+#labels Class,WebSite-PHP,GoogleSearchBar,WebSitePhpObject,GoogleSearchBar
 = Class GoogleSearchBar =
 
 WebSitePhpObject

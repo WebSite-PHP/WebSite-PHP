@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,Authentication
+#labels Class,WebSite-PHP,Authentication,WebSitePhpObject,Authentication
 = Class Authentication =
 
 WebSitePhpObject

@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,DraggableEvent
+#labels Class,WebSite-PHP,DraggableEvent,WebSitePhpObject,DraggableEvent
 = Class DraggableEvent =
 
 WebSitePhpObject

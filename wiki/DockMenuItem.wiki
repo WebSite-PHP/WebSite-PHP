@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,DockMenuItem
+#labels Class,WebSite-PHP,DockMenuItem,WebSitePhpObject,DockMenuItem
 = Class DockMenuItem =
 
 WebSitePhpObject

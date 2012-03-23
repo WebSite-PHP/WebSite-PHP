@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,CheckBox
+#labels Class,WebSite-PHP,CheckBox,WebSitePhpObject,WebSitePhpEventObject,CheckBox
 = Class CheckBox =
 
 WebSitePhpObject

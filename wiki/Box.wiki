@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,Box
+#labels Class,WebSite-PHP,Box,WebSitePhpObject,Box
 = Class Box =
 
 WebSitePhpObject

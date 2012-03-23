@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,Font
+#labels Class,WebSite-PHP,Font,WebSitePhpObject,Font
 = Class Font =
 
 WebSitePhpObject

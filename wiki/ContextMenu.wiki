@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,ContextMenu
+#labels Class,WebSite-PHP,ContextMenu,WebSitePhpObject,ContextMenu
 = Class ContextMenu =
 
 WebSitePhpObject

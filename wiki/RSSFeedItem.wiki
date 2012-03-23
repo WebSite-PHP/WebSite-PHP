@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,RSSFeedItem
+#labels Class,WebSite-PHP,RSSFeedItem,RSSFeedBase,RSSFeedItem
 = Class RSSFeedItem =
 
 RSSFeedBase

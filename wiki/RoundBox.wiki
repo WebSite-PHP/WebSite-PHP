@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,RoundBox
+#labels Class,WebSite-PHP,RoundBox,WebSitePhpObject,RoundBox
 = Class RoundBox =
 
 WebSitePhpObject

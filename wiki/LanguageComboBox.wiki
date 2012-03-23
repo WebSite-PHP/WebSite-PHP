@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,LanguageComboBox
+#labels Class,WebSite-PHP,LanguageComboBox,WebSitePhpObject,LanguageComboBox
 = Class LanguageComboBox =
 
 WebSitePhpObject
