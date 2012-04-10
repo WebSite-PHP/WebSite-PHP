@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.102
+ * @version     1.1.2
  * @access      public
  * @since       1.0.25
  */
@@ -228,7 +228,7 @@ class ConfigureDatabase extends Page {
 			$selected_table = $this->cmb_tables->getValue();
 			$this->cmb_tables->removeItems();
 			$this->cmb_tables->addItem("all", __(ALL_TABLES));
-			$query = "SHOW TABLES FROM ".$selected_db;
+			$query = "SHOW TABLES FROM `".$selected_db."`";
 			$result = $this->dbInstance->prepareStatement($query);
 			while ($row = $result->fetch_array()) {
 				$this->cmb_tables->addItem($row['Tables_in_'.$selected_db], $row['Tables_in_'.$selected_db], (strtolower($selected_table) == strtolower($row['Tables_in_'.$selected_db])?true:false));
@@ -247,7 +247,7 @@ class ConfigureDatabase extends Page {
 		if ($this->saveDatabaseConfig()) {
 			$database = $this->cmb_databases->getValue();
 			if ($this->cmb_tables->getValue() == "all") {
-				$query = "SHOW TABLES FROM ".$database;
+				$query = "SHOW TABLES FROM `".$database."`";
 				$result = $this->dbInstance->prepareStatement($query);
 				while ($row = $result->fetch_array()) {
 					$table = $row['Tables_in_'.$database];
@@ -325,7 +325,7 @@ class ConfigureDatabase extends Page {
 		$attr_unique_key = "";
 		$db_key_identifier = "PRI";
 		
-		$query = "SHOW COLUMNS FROM ".$database.".".$table;
+		$query = "SHOW COLUMNS FROM `".$database."`.`".$table."`";
 		$result = $this->dbInstance->prepareStatement($query);
 		while ($row = $result->fetch_array()) {
 			$wsp_field = "FIELD_".str_replace("-", "_", strtoupper($row['Field']));
@@ -398,7 +398,7 @@ class ".$class_name."DbTable extends DbTableObject {
 		$load_clause_obj = "";
 		$auto_increment_var = "";
 		
-		$query = "SHOW COLUMNS FROM ".$database.".".$table;
+		$query = "SHOW COLUMNS FROM `".$database."`.`".$table."`";
 		$result = $this->dbInstance->prepareStatement($query);
 		while ($row = $result->fetch_array()) {
 			$var = str_replace("-", "_", strtolower($row['Field']));
@@ -573,6 +573,7 @@ $data .= "		}
 			$data .= "			\$it->save();\n";
 			if ($auto_increment_var != "") {
 				$data .= "			if (\$insert) {
+				\$this->".$auto_increment_var." = \"\";
 				\$this->set".$this->getFormatValue($auto_increment_var)."(DataBase::getInstance()->getLastInsertId());
 			}\n";
 			}
@@ -737,7 +738,7 @@ $data .= "	/**
 		while (\$it->hasNext()) {
 			\$row = \$it->next();
 			\$obj_".str_replace("-", "_", strtolower($row['table_name']))." = new ".$this->getFormatValue($row['table_name'])."Obj();\n";
-		$query2 = "SHOW COLUMNS FROM ".$row['table_schema'].".".$row['table_name'];
+		$query2 = "SHOW COLUMNS FROM `".$row['table_schema']."`.`".$row['table_name']."`";
 		$result2 = $this->dbInstance->prepareStatement($query2);
 		while ($row2 = $result2->fetch_array()) {
 			$data .= "			\$obj_".str_replace("-", "_", strtolower($row['table_name']))."->set".$this->getFormatValue(strtolower($row2['Field']))."(\$row->getValue(".$this->getFormatValue($row['table_name'])."DbTable::FIELD_".str_replace("-", "_", strtoupper(strtolower($row2['Field'])))."));\n";
@@ -766,7 +767,7 @@ $data .= "	/**
 			$construct_key_param = "";
 			$params = "";
 			
-			$query = "SHOW COLUMNS FROM ".$database.".".$table;
+			$query = "SHOW COLUMNS FROM `".$database."`.`".$table."`";
 			$result = $this->dbInstance->prepareStatement($query);
 			while ($row = $result->fetch_array()) {
 				$var = str_replace("-", "_", strtolower($row['Field']));
@@ -840,7 +841,7 @@ $data .= "	/**
 			while (\$it->hasNext()) {
 				\$row = \$it->next();
 				\$obj_".str_replace("-", "_", strtolower($class_name))." = new ".$this->getFormatValue($class_name)."Obj();\n";
-			$query2 = "SHOW COLUMNS FROM ".$database.".".$table;
+			$query2 = "SHOW COLUMNS FROM `".$database."`.`".$table."`";
 			$result2 = $this->dbInstance->prepareStatement($query2);
 			while ($row2 = $result2->fetch_array()) {
 				$data .= "				\$obj_".str_replace("-", "_", strtolower($class_name))."->set".$this->getFormatValue(strtolower($row2['Field']))."(\$row->getValue(".$this->getFormatValue($class_name)."DbTable::FIELD_".str_replace("-", "_", strtoupper(strtolower($row2['Field'])))."));\n";

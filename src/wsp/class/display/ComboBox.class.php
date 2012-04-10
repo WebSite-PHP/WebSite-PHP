@@ -7,7 +7,7 @@
  * Class ComboBox
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.1.2
  * @access      public
  * @since       1.0.17
  */
@@ -36,6 +36,7 @@ class ComboBox extends WebSitePhpEventObject {
 	private $item_default_selected = -1;
 	private $option = "";
 	private $disable = false;
+	private $strip_tags = false;
 	
 	private $list_items_change = false;
 	private $is_changed = false;
@@ -261,6 +262,17 @@ class ComboBox extends WebSitePhpEventObject {
 		}
 		return $this;
 	}
+	
+	/**
+	 * Method setStripTags
+	 * @access public
+	 * @return ComboBox
+	 * @since 1.1.2
+	 */
+	public function setStripTags() {
+		$this->strip_tags = true;
+		return $this;
+	}
 
 	/**
 	 * Method getValue
@@ -297,7 +309,12 @@ class ComboBox extends WebSitePhpEventObject {
 				$save_is_changed = $this->is_changed;
 				$this->setValue($value);
 				$this->is_changed = $save_is_changed;
-				return $value;
+				
+				if ($this->strip_tags) {
+					return strip_tags($value);
+				} else {
+					return $value;
+				}
 			} 
 		} 
 		return (isset($this->item_value[$this->item_selected])?$this->item_value[$this->item_selected]:"");

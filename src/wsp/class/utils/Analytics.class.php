@@ -1,5 +1,32 @@
 <?php
+/**
+ * PHP file wsp\class\utils\Analytics.class.php
+ * @package utils
+ */
+/**
+ * Class Analytics
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2012 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @package utils
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 11/08/2011
+ * @version     1.1.2
+ * @access      public
+ * @since       1.1.2
+ */
 
+
+/**
+ * PHP file wsp\class\utils\HTTP.class.php
+ * @package utils
+ */
 /**
  * Google Analytics PHP API
  * 
@@ -51,6 +78,11 @@
     * @param string $sPass
     * @return analytics
     */
+	/**
+	 * Constructor Analytics
+	 * @param mixed $sUser 
+	 * @param mixed $sPass 
+	 */
     public function __construct($sUser, $sPass){
         $this->_sUser = $sUser;
         $this->_sPass = $sPass;
@@ -64,6 +96,11 @@
     /**
     * Google Authentification, returns session when set
     */
+	/**
+	 * Method auth
+	 * @access private
+	 * @since 1.1.2
+	 */
     private function auth(){
         
         if (isset($_SESSION['auth'])){
@@ -102,6 +139,13 @@
     * @param bool $bCaching (true/false)
     * @param int $iCacheAge seconds (default: 10 minutes)
     */
+	/**
+	 * Method useCache
+	 * @access public
+	 * @param mixed $bCaching [default value:  true]
+	 * @param double $iCacheAge [default value:  600]
+	 * @since 1.1.2
+	 */
     public function useCache($bCaching = true, $iCacheAge = 600){
         $this->_bUseCache = $bCaching;
         $this->_iCacheAge = $iCacheAge;
@@ -117,6 +161,13 @@
     * @param string $sUrl
     * @return string XML
     */
+	/**
+	 * Method getXml
+	 * @access private
+	 * @param mixed $sUrl 
+	 * @return mixed
+	 * @since 1.1.2
+	 */
     private function getXml($sUrl){
         
         return $this->getUrl($sUrl, array(), array('Authorization: GoogleLogin auth=' . $this->_sAuth));
@@ -126,6 +177,12 @@
     /**
     * Sets GA Profile ID  (Example: ga:12345)
     */        
+	/**
+	 * Method setProfileById
+	 * @access public
+	 * @param mixed $sProfileId 
+	 * @since 1.1.2
+	 */
     public function setProfileById($sProfileId){
         
             $this->_sProfileId = $sProfileId; 
@@ -135,6 +192,12 @@
     * Sets Profile ID by a given accountname
     * 
     */
+	/**
+	 * Method setProfileByName
+	 * @access public
+	 * @param mixed $sAccountName 
+	 * @since 1.1.2
+	 */
     public function setProfileByName($sAccountName){
         
         if (isset($_SESSION['profile'])){
@@ -164,6 +227,12 @@
     * Returns an array with profileID => accountName
     * 
     */
+	/**
+	 * Method getProfileList
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.2
+	 */
     public function getProfileList(){
         
         $sXml = $this->getXml('https://www.google.com/analytics/feeds/accounts/default');
@@ -181,6 +250,13 @@
     * @param string $sKey
     * @return mixed cached data
     */
+	/**
+	 * Method getCache
+	 * @access private
+	 * @param mixed $sKey 
+	 * @return boolean
+	 * @since 1.1.2
+	 */
     private function getCache($sKey){
         
         if ($this->_bUseCache === false){
@@ -204,6 +280,14 @@
     * @param string $sKey
     * @param mixed $mData Te cachen data
     */
+	/**
+	 * Method setCache
+	 * @access private
+	 * @param mixed $sKey 
+	 * @param mixed $mData 
+	 * @return boolean
+	 * @since 1.1.2
+	 */
     private function setCache($sKey, $mData){
         
         if ($this->_bUseCache === false){
@@ -226,6 +310,13 @@
     * 
     * @return array result
     */
+	/**
+	 * Method getData
+	 * @access public
+	 * @param mixed $aProperties [default value:  array(]
+	 * @return mixed
+	 * @since 1.1.2
+	 */
     public function getData($aProperties = array()){
         $aParams = array();
         foreach($aProperties as $sKey => $sProperty){
@@ -278,6 +369,13 @@
     * 
     * @param string $sXml
     */
+	/**
+	 * Method parseAccountList
+	 * @access private
+	 * @param mixed $sXml 
+	 * @return mixed
+	 * @since 1.1.2
+	 */
     private function parseAccountList($sXml){
         
         $oDoc = new DOMDocument();
@@ -328,6 +426,14 @@
     * @param array $aHeader
     * @return string Response
     */
+	/**
+	 * Method getUrl
+	 * @access private
+	 * @param mixed $sUrl 
+	 * @param mixed $aPost [default value:  array(]
+	 * @return mixed
+	 * @since 1.1.2
+	 */
     private function getUrl($sUrl, $aPost = array(), $aHeader = array()){
         
         
@@ -401,6 +507,13 @@
     * @param string $sStartDate (YYY-MM-DD)
     * @param string $sEndDate   (YYY-MM-DD)
     */
+	/**
+	 * Method setDateRange
+	 * @access public
+	 * @param mixed $sStartDate 
+	 * @param mixed $sEndDate 
+	 * @since 1.1.2
+	 */
     public function setDateRange($sStartDate, $sEndDate){
         
         $this->_sStartDate = $sStartDate; 
@@ -414,6 +527,13 @@
     * @param int $iMonth
     * @param int $iYear
     */
+	/**
+	 * Method setMonth
+	 * @access public
+	 * @param mixed $iMonth 
+	 * @param mixed $iYear 
+	 * @since 1.1.2
+	 */
     public function setMonth($iMonth, $iYear){  
         
         $this->_sStartDate = date('Y-m-d', strtotime($iYear . '-' . $iMonth . '-01')); 
@@ -424,6 +544,11 @@
     * Get visitors for given period
     * 
     */
+	/**
+	 * Method getVisitors
+	 * @access public
+	 * @since 1.1.2
+	 */
     public function getVisitors(){
                                 
         return $this->getData(array( 'dimensions' => 'ga:day',
@@ -435,6 +560,11 @@
     * Get pageviews for given period
     * 
     */    
+	/**
+	 * Method getPageviews
+	 * @access public
+	 * @since 1.1.2
+	 */
     public function getPageviews(){
                                 
         return $this->getData(array( 'dimensions' => 'ga:day',
@@ -446,6 +576,11 @@
     * Get visitors per hour for given period
     * 
     */    
+	/**
+	 * Method getVisitsPerHour
+	 * @access public
+	 * @since 1.1.2
+	 */
     public function getVisitsPerHour(){
         
         return $this->getData(array( 'dimensions' => 'ga:hour',
@@ -457,6 +592,12 @@
     * Get Browsers for given period
     * 
     */    
+	/**
+	 * Method getBrowsers
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.2
+	 */
     public function getBrowsers(){
         
         $aData = $this->getData(array(  'dimensions' => 'ga:browser,ga:browserVersion',
@@ -470,6 +611,12 @@
     * Get Operating System for given period
     * 
     */    
+	/**
+	 * Method getOperatingSystem
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.2
+	 */
     public function getOperatingSystem(){
         
         $aData = $this->getData(array(   'dimensions' => 'ga:operatingSystem',
@@ -484,6 +631,12 @@
     * Get screen resolution for given period
     * 
     */    
+	/**
+	 * Method getScreenResolution
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.2
+	 */
     public function getScreenResolution(){
         
         $aData = $this->getData(array(   'dimensions' => 'ga:screenResolution',
@@ -499,6 +652,12 @@
     * Get referrers for given period
     * 
     */    
+	/**
+	 * Method getReferrers
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.2
+	 */
     public function getReferrers(){
         
         $aData = $this->getData(array(   'dimensions' => 'ga:source',
@@ -514,6 +673,12 @@
     * Get search words for given period
     * 
     */    
+	/**
+	 * Method getSearchWords
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.2
+	 */
     public function getSearchWords(){
         $aData = $this->getData(array(   'dimensions' => 'ga:keyword',
                                          'metrics'    => 'ga:visits',

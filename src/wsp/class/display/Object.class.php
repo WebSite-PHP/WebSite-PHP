@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.0 
+ * @version     1.1.2
  * @access      public
  * @since       1.0.17
  */
@@ -860,7 +860,7 @@ class Object extends WebSitePhpEventObject {
 				$html .= "min-height: 24px;height: expression(this.scrollHeight < 22 ? '24px' : 'auto');";
 			}
 			if ($this->max_height != "") {
-				$html .= "max-height: ".$this->max_height."px;overflow:auto;height: expression(this.scrollHeight > ".$this->max_height." ? 'scroll' : 'auto');";
+				$html .= "max-height: ".$this->max_height."px;overflow:auto;height: expression(this.scrollHeight > ".$this->max_height." ? '".$this->max_height."px' : 'auto');";
 			}
 			if ($this->droppable || $this->sortable) {
 				$html .= "min-width: 24px;width: expression(this.scrollWidth < 26 ? '26px' : 'auto');";

@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.102
+ * @version     1.1.2
  * @access      public
  * @since       1.0.15
  */
@@ -289,9 +289,13 @@ class NewException extends Exception
 					header("Content-Type: text/html");
 					
 					echo "<html><head><title>Debug Error - ".SITE_NAME."</title>\n";
-					echo "<link type=\"text/css\" rel=\"StyleSheet\" href=\"".$my_site_base_url."combine-css/styles.php.css,angle.php.css\" media=\"screen\" />\n";
+					echo "<link type=\"text/css\" rel=\"StyleSheet\" href=\"".$my_site_base_url."combine-css/styles.php.css,angle.php.css";
+					if (trim(CssInclude::getInstance()->getCssConfigFile()) != "") {
+						echo "?conf_file=".CssInclude::getInstance()->getCssConfigFile();
+					}
+					echo "\" media=\"screen\" />\n";
 					echo "<script type=\"text/javascript\" src=\"".$my_site_base_url."wsp/js/jquery/jquery-".JQUERY_VERSION.".min.js\"></script>\n";
-					echo "<script type=\"text/javascript\" src=\"".$my_site_base_url."wsp/js/jquery.backstretch.min.js\"></script>\n";
+					echo "<script type=\"text/javascript\" src=\"".$my_site_base_url."combine-js/jquery.backstretch.min.js,jquery.cookie.js\"></script>\n";
 					echo "<meta name=\"Robots\" content=\"noindex, nofollow\" />\n";
 					echo "<base href=\"".$my_site_base_url."\" />\n";
 					echo "</head><body>\n";

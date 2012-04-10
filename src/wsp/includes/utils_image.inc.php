@@ -6,7 +6,7 @@
  * WebSite-PHP file utils_image.inc.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.98
+ * @version     1.1.2
  * @access      public
  * @since       1.0.19
  */
@@ -486,5 +486,32 @@
 		// Save image 
 		$image_save_func($new_image, $OutFile) or die("There was a problem in saving the new file.");
 	  	imagedestroy($new_image);
+	}
+	
+	function gradientColorGenerator($startcol,$endcol,$graduations=10) {
+		$graduations--;
+	 
+		$startcoln['r'] = hexdec(substr($startcol,0,2));
+		$startcoln['g'] = hexdec(substr($startcol,2,2));
+		$startcoln['b'] = hexdec(substr($startcol,4,2));
+	 
+		$GSize['r'] = (hexdec(substr($endcol,0,2))-$startcoln['r'])/$graduations; //Graduation Size Red
+		$GSize['g'] = (hexdec(substr($endcol,2,2))-$startcoln['g'])/$graduations;
+		$GSize['b'] = (hexdec(substr($endcol,4,2))-$startcoln['b'])/$graduations;
+	 
+		for($i=0;$i<=$graduations;$i++)
+			{
+			$HexR = dechex(intval($startcoln['r']+($GSize['r']*$i)));
+			$HexG = dechex(intval($startcoln['g']+($GSize['g']*$i)));
+			$HexB = dechex(intval($startcoln['b']+($GSize['b']*$i)));
+	 
+			//Make HTML Happy
+			if (strlen($HexR)==1) $HexR = "0$HexR";
+			if (strlen($HexG)==1) $HexG = "0$HexG";
+			if (strlen($HexB)==1) $HexB = "0$HexB";
+			$HexCol[] = "$HexR$HexG$HexB";
+		}
+		
+		return $HexCol;
 	}
 ?>

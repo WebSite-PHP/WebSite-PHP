@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.103
+ * @version     1.1.2
  * @access      public
  * @since       1.0.17
  */
@@ -35,9 +35,9 @@ class DataBase {
 	
 	/**
 	 * Constructor DataBase
-	 * @param mixed $host 
-	 * @param mixed $root 
-	 * @param mixed $password 
+	 * @param string $host 
+	 * @param string $root 
+	 * @param string $password 
 	 * @param string $database 
 	 * @param double $port [default value: 3306]
 	 */
@@ -101,7 +101,7 @@ class DataBase {
 	/**
 	 * Method select_db
 	 * @access public
-	 * @param mixed $schema 
+	 * @param string $schema 
 	 * @return boolean
 	 * @since 1.0.35
 	 */
@@ -143,15 +143,15 @@ class DataBase {
 	 * @since 1.0.103
 	 */
 	public function isConnect() {
-		return $this->db_is_connect || $this->connection != null;
+		return $this->db_is_connect && $this->connection != null;
 	}
 	
 	/**
 	 * Method prepareStatement
 	 * @access public
-	 * @param mixed $query 
-	 * @param mixed $stmt_objects [default value: array(]
-	 * @return mixed
+	 * @param string $query 
+	 * @param array $stmt_objects [default value: array()]
+	 * @return mysqli_stmt
 	 * @since 1.0.35
 	 */
 	public function prepareStatement($query, $stmt_objects=array()) {
@@ -228,8 +228,8 @@ class DataBase {
 	/**
 	 * Method convertInvisibleCar
 	 * @access private
-	 * @param mixed $txt 
-	 * @return mixed
+	 * @param string $txt 
+	 * @return string
 	 * @since 1.0.35
 	 */
 	private function convertInvisibleCar($txt) {
@@ -347,7 +347,7 @@ class DataBase {
 	/**
 	 * Method getLastInsertId
 	 * @access public
-	 * @return mixed
+	 * @return integer
 	 * @since 1.0.35
 	 */
 	public function getLastInsertId() {

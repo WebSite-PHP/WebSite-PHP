@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.102
+ * @version     1.1.2
  * @access      public
  * @since       1.0.17
  */
@@ -41,6 +41,7 @@ class TextBox extends WebSitePhpEventObject {
 	private $disable = false;
 	private $has_focus = false;
 	private $force_empty = false;
+	private $strip_tags = false;
 	
 	private $live_validation = null;
 	
@@ -123,7 +124,11 @@ class TextBox extends WebSitePhpEventObject {
 	 * @since 1.0.36
 	 */
 	public function setValue($value) {
-		$this->value = $value;
+		if ($this->strip_tags) {
+			$this->value = strip_tags($value);
+		} else {
+			$this->value = $value;
+		}
 		if (!$GLOBALS['__LOAD_VARIABLES__']) { 
 			if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		} else {
@@ -281,6 +286,17 @@ class TextBox extends WebSitePhpEventObject {
 		$this->encrypt_object = $encrypt_object;
 		$this->encrypt_object->setObject($this);
 		
+		return $this;
+	}
+	
+	/**
+	 * Method setStripTags
+	 * @access public
+	 * @return TextBox
+	 * @since 1.1.2
+	 */
+	public function setStripTags() {
+		$this->strip_tags = true;
 		return $this;
 	}
 	

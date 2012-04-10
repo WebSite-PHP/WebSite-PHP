@@ -7,7 +7,7 @@
  * Class HTTP
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,28 +17,12 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 16/12/2011
- * @version     1.0.99
+ * @version     1.1.2
  * @access      public
  * @since       1.0.99
  */
 
-
-/**
- * HTTP Class
- *
- * This is a wrapper HTTP class that uses either cURL or fsockopen to 
- * harvest resources from web. This can be used with scripts that need 
- * a way to communicate with various APIs who support REST.
- *
- * @author      Md Emran Hasan <phpfour@gmail.com>
- * @package     HTTP Library
- * @copyright   2007-2008 Md Emran Hasan
- * @link        http://www.phpfour.com/lib/http
- * @since       Version 0.1
- */
-
-class HTTP
-{
+class HTTP {
     /**
      * Contains the target URL
      *

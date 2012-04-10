@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * @package modules
+ * @subpackage RSS-Reader
+ */
 /**
 * Project:     MagpieRSS: a simple RSS integration tool
 * File:        rss_parse.inc  - parse an RSS or Atom feed
@@ -17,6 +20,7 @@
 * @author           Kellan Elliott-McCrea <kellan@protest.net>
 * @version          0.7a
 * @license          GPL
+* @package modules
 *
 */
 

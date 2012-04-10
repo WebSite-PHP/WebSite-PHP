@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.1
+ * @version     1.1.2
  * @access      public
  * @since       1.0.19
  */
@@ -487,6 +487,23 @@
 			  @unlink($filename);
 			}
 		}
+	}
+	
+	function xml_highlight($s) {        
+	    $s = htmlspecialchars($s);
+	    $s = preg_replace("#&lt;([/]*?)(.*)([\s]*?)&gt;#sU",
+	        "<font color=\"#0000FF\">&lt;\\1\\2\\3&gt;</font>",$s);
+	    $s = preg_replace("#&lt;([\?])(.*)([\?])&gt;#sU",
+	        "<font color=\"#800000\">&lt;\\1\\2\\3&gt;</font>",$s);
+	    $s = preg_replace("#&lt;([^\s\?/=])(.*)([\[\s/]|&gt;)#iU",
+	        "&lt;<font color=\"#808000\">\\1\\2</font>\\3",$s);
+	    $s = preg_replace("#&lt;([/])([^\s]*?)([\s\]]*?)&gt;#iU",
+	        "&lt;\\1<font color=\"#808000\">\\2</font>\\3&gt;",$s);
+	    $s = preg_replace("#([^\s]*?)\=(&quot;|')(.*)(&quot;|')#isU",
+	        "<font color=\"#800080\">\\1</font>=<font color=\"#FF00FF\">\\2\\3\\4</font>",$s);
+	    $s = preg_replace("#&lt;(.*)(\[)(.*)(\])&gt;#isU",
+	        "&lt;\\1<font color=\"#800080\">\\2\\3\\4</font>&gt;",$s);
+	    return nl2br($s);
 	}
 	
 	include("utils2.inc.php");

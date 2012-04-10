@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.0 
+ * @version     1.1.2
  * @access      public
  * @since       1.0.0
  */
@@ -381,7 +381,9 @@ class Page {
 				} else {
 					$background_body_pic = DEFINE_STYLE_BCK_BODY_PIC;
 				}
-				$this->addObject(new JavaScript("$.backstretch(\"".$background_body_pic."\");"), true);
+				if (trim($background_body_pic) != "" && $background_body_pic != $this->getBaseURL()) {
+					$this->addObject(new JavaScript("$.backstretch(\"".$background_body_pic."\");"), true);
+				}
 		}
 	}
 		

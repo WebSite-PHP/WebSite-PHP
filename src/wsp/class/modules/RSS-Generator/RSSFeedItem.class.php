@@ -1,5 +1,33 @@
 <?php
+/**
+ * PHP file wsp\class\modules\RSS-Generator\RSSFeedItem.class.php
+ * @package modules
+ * @subpackage RSS-Generator
+ */
+/**
+ * Class RSSFeedItem
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2012 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @package modules
+ * @subpackage RSS-Generator
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 05/08/2011
+ * @version     1.1.2
+ * @access      public
+ * @since       1.1.2
+ */
 
+/**
+ * @package modules
+ * @subpackage RSS-Generator
+ */
 /****************************************************
  * @class : RSSFeedItem
  * @parent : RSSFeedBase
@@ -8,6 +36,7 @@
  * @author : Hugo 'Emacs' HAMON
  * @email : webmaster[at]apprendre-php[dot]com
  * @version : 1.0
+ * @package modules
  * @changelog : 
  ***************************************************/
  
@@ -30,18 +59,16 @@
 	* @param : string $encoding
 	* @return : void
 	***************************************************/
+	/**
+	 * Constructor RSSFeedItem
+	 */
 	public function __construct() {}
 	
 	// Destructor
 	
-	/****************************************************
-	* @function : __destruct
-	* @aim : delete the instance from the memory
-	* @access : public
-	* @static : no
-	* @param : void
-	* @return : void
-	***************************************************/
+	/**
+	 * Destructor RSSFeedItem
+	 */
 	public function __destruct() {}
 	
 	// SET methods
@@ -55,6 +82,14 @@
 	*	@param : string $name
 	* @return : void
 	***************************************************/
+	/**
+	 * Method setAuthor
+	 * @access public
+	 * @param mixed $email 
+	 * @param string $name 
+	 * @return mixed
+	 * @since 1.1.2
+	 */
 	public function setAuthor($email, $name='')
 	{
 		$this->_itemAuthor['email'] = RSSFeedTools::checkEmail($email);

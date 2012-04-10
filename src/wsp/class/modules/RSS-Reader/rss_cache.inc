@@ -1,4 +1,8 @@
 <?php
+/**
+ * @package modules
+ * @subpackage RSS-Reader
+ */
 /*
  * Project:     MagpieRSS: a simple RSS integration tool
  * File:        rss_cache.inc, a simple, rolling(no GC), cache 
@@ -6,6 +10,7 @@
  * Author:      Kellan Elliott-McCrea <kellan@protest.net>
  * Version:     0.51
  * License:     GPL
+ * @package modules
  *
  * The lastest version of MagpieRSS can be obtained from:
  * http://magpierss.sourceforge.net

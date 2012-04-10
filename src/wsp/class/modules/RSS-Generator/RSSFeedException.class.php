@@ -1,5 +1,33 @@
 <?php
+/**
+ * PHP file wsp\class\modules\RSS-Generator\RSSFeedException.class.php
+ * @package modules
+ * @subpackage RSS-Generator
+ */
+/**
+ * Class RSSFeedException
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2012 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @package modules
+ * @subpackage RSS-Generator
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 05/08/2011
+ * @version     1.1.2
+ * @access      public
+ * @since       1.1.2
+ */
 
+/**
+ * @package modules
+ * @subpackage RSS-Generator
+ */
 /****************************************************
  * @class : RSSFeedException
  * @parent : Exception
@@ -8,6 +36,7 @@
  * @author : Hugo 'Emacs' HAMON
  * @email : webmaster[at]apprendre-php[dot]com
  * @version : 1.0
+ * @package modules
  * @changelog : see the changelog file
  ***************************************************/
  class RSSFeedException extends Exception
@@ -28,6 +57,12 @@
 	* @param : string $method
 	* @return : void
 	***************************************************/
+	/**
+	 * Constructor RSSFeedException
+	 * @param mixed $message 
+	 * @param mixed $class 
+	 * @param mixed $method 
+	 */
 	public function __construct($message, $class, $method) 
 	{
 		$this->_class = $class;
@@ -45,6 +80,12 @@
 	* @param :  void
 	* @return : void
 	***************************************************/
+	/**
+	 * Method __toString
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.2
+	 */
 	public function __toString()
 	{
 		echo $this->getErrorMessage();	

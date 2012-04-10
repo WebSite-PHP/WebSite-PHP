@@ -7,7 +7,7 @@
  * Class Hidden
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.1.2
  * @access      public
  * @since       1.0.17
  */
@@ -31,6 +31,7 @@ class Hidden extends WebSitePhpEventObject {
 	protected $form_object = null;
 	private $value = "";
 	private $default_value = "";
+	private $strip_tags = false;
 	/**#@-*/
 	
 	/**
@@ -86,7 +87,11 @@ class Hidden extends WebSitePhpEventObject {
 	 * @since 1.0.35
 	 */
 	public function setValue($value) {
-		$this->value = $value;
+		if ($this->strip_tags) {
+			$this->value = strip_tags($value);
+		} else {
+			$this->value = $value;
+		}
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -101,6 +106,17 @@ class Hidden extends WebSitePhpEventObject {
 	public function setDefaultValue($value) {
 		$this->default_value = $value;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method setStripTags
+	 * @access public
+	 * @return Hidden
+	 * @since 1.1.2
+	 */
+	public function setStripTags() {
+		$this->strip_tags = true;
 		return $this;
 	}
 		

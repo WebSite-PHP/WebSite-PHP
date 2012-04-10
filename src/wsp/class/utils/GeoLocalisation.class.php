@@ -7,7 +7,7 @@
  * Class GeoLocalisation
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.101
+ * @version     1.1.2
  * @access      public
  * @since       1.0.16
  */
@@ -40,7 +40,11 @@ class GeoLocalisation {
 	/**
 	 * Constructor GeoLocalisation
 	 */
-	public function __construct(){}
+	public function __construct(){
+		if (!isset($_SESSION['geolocalisation_user_share']) || $_COOKIE['wsp_geolocalisation_user_share'] == "") {
+			$_SESSION['geolocalisation_user_share'] = false;
+		}
+	}
 
 	/**
 	 * Destructor GeoLocalisation
@@ -57,15 +61,34 @@ class GeoLocalisation {
 		if(!empty($key)) $this->apiKey = $key;
 	}
 	
+	/**
+	 * Method askUserToSharePosition
+	 * @access public
+	 * @param boolean $refresh_page [default value: false]
+	 * @param string $js_onsuccess 
+	 * @return GeoLocalisation
+	 * @since 1.0.98
+	 */
 	public function askUserToSharePosition($refresh_page=false, $js_onsuccess='') {
 		$GLOBALS['__GEOLOC_ASK_USER_SHARE_POSITION__'] = true;
 		$_SESSION['geolocalisation_user_share_js'] = $js_onsuccess.($refresh_page?"refreshPage();":"");
 		return $this;
 	}
+	
+	/**
+	 * Method isUserPositionShared
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.2
+	 */
+	public function isUserPositionShared() {
+		return $_SESSION['geolocalisation_user_share'];
+	}
 
 	/**
 	 * Method showTimezone
 	 * @access public
+	 * @return GeoLocalisation
 	 * @since 1.0.59
 	 */
 	public function showTimezone(){

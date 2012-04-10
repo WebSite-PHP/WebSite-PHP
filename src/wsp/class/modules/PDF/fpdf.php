@@ -1,4 +1,29 @@
 <?php
+/**
+ * PHP file wsp\class\modules\PDF\fpdf.php
+ */
+/**
+ * Class 
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2012 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 05/08/2011
+ * @version     1.1.2
+ * @access      public
+ * @since       1.1.2
+ */
+
+/**
+ * @package modules
+ * @subpackage PDF
+ */
 /*******************************************************************************
 * FPDF                                                                         *
 *                                                                              *
@@ -72,6 +97,14 @@ var $PDFVersion;         //PDF version number
 *                               Public methods                                 *
 *                                                                              *
 *******************************************************************************/
+	/**
+	 * Method FPDF
+	 * @param string $orientation [default value: P]
+	 * @param string $unit [default value: mm]
+	 * @param string $format [default value: A4]
+	 * @return mixed
+	 * @since 1.1.2
+	 */
 function FPDF($orientation='P', $unit='mm', $format='A4')
 {
 	//Some checks

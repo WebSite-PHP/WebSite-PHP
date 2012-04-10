@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.0 
+ * @version     1.1.2
  * @access      public
  * @since       1.0.17
  */
@@ -162,6 +162,19 @@ class Tabs extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method setWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return Tabs
+	 * @since 1.1.2
+	 */
+	public function setWidth($width) {
+		$this->width = $width;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
 	 * Method activateCache
 	 * @access public
 	 * @return Tabs
@@ -219,13 +232,16 @@ class Tabs extends WebSitePhpObject {
 		
 		$html = "";
 		$html .= "<div id=\"".$this->getId()."\"";
-		if ($this->min_height != "" || $this->height != "") {
+		if ($this->min_height != "" || $this->height != "" || $this->width != "") {
 			$html .= " style=\"";
 			if ($this->min_height != "") {
 				$html .= "min-height:".$this->min_height."px;height: expression(this.scrollHeight < ".$this->min_height." ? '".$this->min_height."px' : 'auto');";
 			}
 			if ($this->height != "") {
 				$html .= "height:".$this->height."px;";
+			}
+			if ($this->width != "") {
+				$html .= "width:".$this->width."px;";
 			}
 			$html .= "\"";
 		}
@@ -268,7 +284,11 @@ class Tabs extends WebSitePhpObject {
 				} else {
 					$html_content = $this->array_tabs_content[$i];
 				}
-				$html .= "	<div id=\"".$this->getId()."_".formalize_to_variable($this->array_tabs_name[$i])."\" style=\"padding:5px;\">\n";
+				$html .= "	<div id=\"".$this->getId()."_".formalize_to_variable($this->array_tabs_name[$i])."\" style=\"padding:5px;";
+				if ($this->width != "") {
+					$html .= "width:".($this->width-10)."px;";
+				}
+				$html .= "\">\n";
 				$html .= $html_content;
 				$html .= "	</div>\n";
 			}

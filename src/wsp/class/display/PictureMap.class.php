@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.102
+ * @version     1.1.2
  * @access      public
  * @since       1.0.17
  */
@@ -28,6 +28,7 @@ class PictureMap extends WebSitePhpObject {
 	* @access private
 	*/
 	private $id = "";
+	private $is_render = false;
 	private $default_tooltip_obj=null;
 	
 	private $array_rect = array();
@@ -155,7 +156,11 @@ class PictureMap extends WebSitePhpObject {
 		$this->array_polygon[$ind]['onmouseover_js'] = "";
 		$this->array_polygon[$ind]['onmouseout_js'] = "";
 		
-		$args = func_get_args();
+		if (is_array($x1)) {
+			$args = array_merge(array($link, $title), $x1, array($y1, $x2, $y2));
+		} else {
+			$args = func_get_args();
+		}
 		$is_js = false;
 		$js_idx = 0;
 		for ($i=2; $i < sizeof($args); $i++) {
@@ -315,104 +320,107 @@ class PictureMap extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$html = "";
 		
-		$ind = 0;
-		$html .= "<map name=\"".$this->getId()."\" id=\"".$this->getId()."\">\n";
-		for ($i=0; $i < sizeof($this->array_polygon); $i++) {
-			if ($this->array_polygon[$i]['link']->getUserHaveRights()) {
-				$html .= "	<area shape=\"poly\" coords=\"";
-				$coords = "";
-				for($j=0; $j < sizeof($this->array_polygon[$i]); $j++) {
-					if (is_numeric($this->array_polygon[$i][$j])) {
-						if ($coords != "") { $coords .= ","; }
-						$coords .= $this->array_polygon[$i][$j];
+		if (!$this->is_render) {
+			$ind = 0;
+			$html .= "<map name=\"".$this->getId()."\" id=\"".$this->getId()."\">\n";
+			for ($i=0; $i < sizeof($this->array_polygon); $i++) {
+				if ($this->array_polygon[$i]['link']->getUserHaveRights()) {
+					$html .= "	<area shape=\"poly\" coords=\"";
+					$coords = "";
+					for($j=0; $j < sizeof($this->array_polygon[$i]); $j++) {
+						if (is_numeric($this->array_polygon[$i][$j])) {
+							if ($coords != "") { $coords .= ","; }
+							$coords .= $this->array_polygon[$i][$j];
+						}
 					}
+					$html .= $coords."\" ";
+					$html .= "href=\"".createHrefLink($this->array_polygon[$i]['link']->getLink(), $this->array_polygon[$i]['link']->getTarget())."\" ";
+					$html .= "alt=\"".str_replace("\"", " ", $this->array_polygon[$i]['title'])."\" title=\"".str_replace("\"", " ", $this->array_polygon[$i]['title'])."\"";
+					if ($this->array_polygon[$i]['onclick_js'] != "") {
+						$html .= " onClick=\"".str_replace("\n", "", $this->array_polygon[$i]['onclick_js'])."\"";
+					}
+					if ($this->array_polygon[$i]['onmouseover_js'] != "") {
+						$html .= " onMouseOver=\"".str_replace("\n", "", $this->array_polygon[$i]['onmouseover_js'])."\"";
+					}
+					if ($this->array_polygon[$i]['onmouseout_js'] != "") {
+						$html .= " onMouseOut=\"".str_replace("\n", "", $this->array_polygon[$i]['onmouseout_js'])."\"";
+					}
+					$html .= ">\n";
+					$ind++;
 				}
-				$html .= $coords."\" ";
-				$html .= "href=\"".createHrefLink($this->array_polygon[$i]['link']->getLink(), $this->array_polygon[$i]['link']->getTarget())."\" ";
-				$html .= "alt=\"".str_replace("\"", " ", $this->array_polygon[$i]['title'])."\" title=\"".str_replace("\"", " ", $this->array_polygon[$i]['title'])."\"";
-				if ($this->array_polygon[$i]['onclick_js'] != "") {
-					$html .= " onClick=\"".str_replace("\n", "", $this->array_polygon[$i]['onclick_js'])."\"";
-				}
-				if ($this->array_polygon[$i]['onmouseover_js'] != "") {
-					$html .= " onMouseOver=\"".str_replace("\n", "", $this->array_polygon[$i]['onmouseover_js'])."\"";
-				}
-				if ($this->array_polygon[$i]['onmouseout_js'] != "") {
-					$html .= " onMouseOut=\"".str_replace("\n", "", $this->array_polygon[$i]['onmouseout_js'])."\"";
-				}
-				$html .= ">\n";
-				$ind++;
 			}
-		}
-		
-		for ($i=0; $i < sizeof($this->array_rect); $i++) {
-			if ($this->array_rect[$i]['link']->getUserHaveRights()) {
-				$html .= "	<area shape=\"rect\" coords=\"";
-				$html .= $this->array_rect[$i]['x1'].",".$this->array_rect[$i]['y1'].",".$this->array_rect[$i]['x2'].",".$this->array_rect[$i]['y2']."\" ";
-				$html .= "href=\"".createHrefLink($this->array_rect[$i]['link']->getLink(), $this->array_rect[$i]['link']->getTarget())."\" ";
-				$html .= "alt=\"".str_replace("\"", " ", $this->array_rect[$i]['title'])."\" title=\"".str_replace("\"", " ", $this->array_rect[$i]['title'])."\"";
-				if ($this->array_rect[$i]['onclick_js'] != "") {
-					$html .= " onClick=\"".str_replace("\n", "", $this->array_rect[$i]['onclick_js'])."\"";
+			
+			for ($i=0; $i < sizeof($this->array_rect); $i++) {
+				if ($this->array_rect[$i]['link']->getUserHaveRights()) {
+					$html .= "	<area shape=\"rect\" coords=\"";
+					$html .= $this->array_rect[$i]['x1'].",".$this->array_rect[$i]['y1'].",".$this->array_rect[$i]['x2'].",".$this->array_rect[$i]['y2']."\" ";
+					$html .= "href=\"".createHrefLink($this->array_rect[$i]['link']->getLink(), $this->array_rect[$i]['link']->getTarget())."\" ";
+					$html .= "alt=\"".str_replace("\"", " ", $this->array_rect[$i]['title'])."\" title=\"".str_replace("\"", " ", $this->array_rect[$i]['title'])."\"";
+					if ($this->array_rect[$i]['onclick_js'] != "") {
+						$html .= " onClick=\"".str_replace("\n", "", $this->array_rect[$i]['onclick_js'])."\"";
+					}
+					if ($this->array_rect[$i]['onmouseover_js'] != "") {
+						$html .= " onMouseOver=\"".str_replace("\n", "", $this->array_rect[$i]['onmouseover_js'])."\"";
+					}
+					if ($this->array_rect[$i]['onmouseout_js'] != "") {
+						$html .= " onMouseOut=\"".str_replace("\n", "", $this->array_rect[$i]['onmouseout_js'])."\"";
+					}
+					$html .= ">\n";
+					$ind++;
 				}
-				if ($this->array_rect[$i]['onmouseover_js'] != "") {
-					$html .= " onMouseOver=\"".str_replace("\n", "", $this->array_rect[$i]['onmouseover_js'])."\"";
-				}
-				if ($this->array_rect[$i]['onmouseout_js'] != "") {
-					$html .= " onMouseOut=\"".str_replace("\n", "", $this->array_rect[$i]['onmouseout_js'])."\"";
-				}
-				$html .= ">\n";
-				$ind++;
 			}
-		}
-		
-		for ($i=0; $i < sizeof($this->array_circle); $i++) {
-			if ($this->array_circle[$i]['link']->getUserHaveRights()) {
-				$html .= "	<area shape=\"circle\" coords=\"";
-				$html .= $this->array_circle[$i]['x'].",".$this->array_circle[$i]['y'].",".$this->array_circle[$i]['r']."\" ";
-				$html .= "href=\"".createHrefLink($this->array_circle[$i]['link']->getLink(), $this->array_circle[$i]['link']->getTarget())."\" ";
-				$html .= "alt=\"".str_replace("\"", " ", $this->array_circle[$i]['title'])."\" title=\"".str_replace("\"", " ", $this->array_circle[$i]['title'])."\"";
-				if ($this->array_circle[$i]['onclick_js'] != "") {
-					$html .= " onClick=\"".str_replace("\n", "", $this->array_circle[$i]['onclick_js'])."\"";
+			
+			for ($i=0; $i < sizeof($this->array_circle); $i++) {
+				if ($this->array_circle[$i]['link']->getUserHaveRights()) {
+					$html .= "	<area shape=\"circle\" coords=\"";
+					$html .= $this->array_circle[$i]['x'].",".$this->array_circle[$i]['y'].",".$this->array_circle[$i]['r']."\" ";
+					$html .= "href=\"".createHrefLink($this->array_circle[$i]['link']->getLink(), $this->array_circle[$i]['link']->getTarget())."\" ";
+					$html .= "alt=\"".str_replace("\"", " ", $this->array_circle[$i]['title'])."\" title=\"".str_replace("\"", " ", $this->array_circle[$i]['title'])."\"";
+					if ($this->array_circle[$i]['onclick_js'] != "") {
+						$html .= " onClick=\"".str_replace("\n", "", $this->array_circle[$i]['onclick_js'])."\"";
+					}
+					if ($this->array_circle[$i]['onmouseover_js'] != "") {
+						$html .= " onMouseOver=\"".str_replace("\n", "", $this->array_circle[$i]['onmouseover_js'])."\"";
+					}
+					if ($this->array_circle[$i]['onmouseout_js'] != "") {
+						$html .= " onMouseOut=\"".str_replace("\n", "", $this->array_circle[$i]['onmouseout_js'])."\"";
+					}
+					$html .= ">\n";
+					$ind++;
 				}
-				if ($this->array_circle[$i]['onmouseover_js'] != "") {
-					$html .= " onMouseOver=\"".str_replace("\n", "", $this->array_circle[$i]['onmouseover_js'])."\"";
-				}
-				if ($this->array_circle[$i]['onmouseout_js'] != "") {
-					$html .= " onMouseOut=\"".str_replace("\n", "", $this->array_circle[$i]['onmouseout_js'])."\"";
-				}
-				$html .= ">\n";
-				$ind++;
 			}
-		}
-		
-		if ($this->default_link != "") {
-			if ($this->default_link->getUserHaveRights()) {
-				$html .= "	<area shape=\"default\" href=\"".createHrefLink($this->default_link->getLink(), $this->default_link->getTarget())."\"";
-				if ($this->default_onclick_js != "") {
-					$html .= " onClick=\"".str_replace("\n", "", $this->default_onclick_js)."\"";
+			
+			if ($this->default_link != "") {
+				if ($this->default_link->getUserHaveRights()) {
+					$html .= "	<area shape=\"default\" href=\"".createHrefLink($this->default_link->getLink(), $this->default_link->getTarget())."\"";
+					if ($this->default_onclick_js != "") {
+						$html .= " onClick=\"".str_replace("\n", "", $this->default_onclick_js)."\"";
+					}
+					if ($this->default_onmouseover_js != "") {
+						$html .= " onMouseOver=\"".str_replace("\n", "", $this->default_onmouseover_js)."\"";
+					}
+					if ($this->default_onmouseout_js != "") {
+						$html .= " onMouseOut=\"".str_replace("\n", "", $this->default_onmouseout_js)."\"";
+					}
+					$html .= ">\n";
+					$ind++;
 				}
-				if ($this->default_onmouseover_js != "") {
-					$html .= " onMouseOver=\"".str_replace("\n", "", $this->default_onmouseover_js)."\"";
-				}
-				if ($this->default_onmouseout_js != "") {
-					$html .= " onMouseOut=\"".str_replace("\n", "", $this->default_onmouseout_js)."\"";
-				}
-				$html .= ">\n";
-				$ind++;
 			}
-		}
-		$html .= "</map>\n";
-		
-		if ($this->default_tooltip_obj != null) {
-			$html .= $this->getJavascriptTagOpen();
-			$html .= "$(document).ready(function() { $('#".$this->getId()."').find('area').qtip({ content: { attr: 'alt' }, style: { widget: true }";
-			if (trim($this->default_tooltip_obj->getParams()) != "") {
-				$html .= ", ".$this->default_tooltip_obj->getParams();
+			$html .= "</map>\n";
+			
+			if ($this->default_tooltip_obj != null) {
+				$html .= $this->getJavascriptTagOpen();
+				$html .= "$(document).ready(function() { $('#".$this->getId()."').find('area').qtip({ content: { attr: 'alt' }, style: { widget: true }";
+				if (trim($this->default_tooltip_obj->getParams()) != "") {
+					$html .= ", ".$this->default_tooltip_obj->getParams();
+				}
+				$html .= " }); });";
+				$html .= $this->getJavascriptTagClose();
 			}
-			$html .= " }); });";
-			$html .= $this->getJavascriptTagClose();
+			
+			$this->is_render = true;
+			$this->object_change = false;
 		}
-		
-		$this->object_change = false;
 		return $html;
 	}
 }

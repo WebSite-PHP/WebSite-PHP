@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 31/05/2011
- * @version     1.0.102
+ * @version     1.1.2
  * @access      public
  * @since       1.0.84
  */
@@ -80,11 +80,12 @@ class Authentication extends WebSitePhpObject {
 		$this->login = new TextBox($form, "wsp_auth_login");
 		$login_validation = new LiveValidation();
 		$this->login->setLiveValidation($login_validation->addValidatePresence()->setFieldName(__(AUTHENTICATION_LOGIN)));
-		$this->login->setFocus();
+		$this->login->setFocus()->setStripTags();
 		
 		$this->password = new Password($form, "wsp_auth_passwd");
 		$passwd_validation = new LiveValidation();
 		$this->password->setLiveValidation($passwd_validation->addValidatePresence()->setFieldName(__(AUTHENTICATION_PASSWD)));
+		$this->password->setStripTags();
 		
 		$this->connect_button = new Button($form, "wsp_auth_connect", "", __(AUTHENTICATION_CONNECT));
 		if ($button_class != '') {

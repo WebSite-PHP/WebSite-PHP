@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.1
+ * @version     1.1.2
  * @access      public
  * @since       1.0.0
  */
@@ -457,8 +457,7 @@
 		</script>
 		<?php 
 		}
-		if (!isset($_SESSION['google_geolocalisation']) || ($__GEOLOC_ASK_USER_SHARE_POSITION__ == true && !isset($_SESSION['geolocalisation_user_share']))) {
-			if (JQUERY_LOAD_LOCAL == true) {
+		if (JQUERY_LOAD_LOCAL == true) {
 		?>
 		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 		<?php
@@ -467,7 +466,7 @@
 		<script type="text/javascript">
 			function loadGoogleClientLocation() {
 				if(google.loader.ClientLocation) {
-					$.ajax({type: 'GET', url: '<?php  echo BASE_URL; ?>wsp/includes/GoogleGeolocalisationSession.php?latitude='+google.loader.ClientLocation.latitude+'&longitude='+google.loader.ClientLocation.longitude+'&city='+google.loader.ClientLocation.address.city+'&country='+google.loader.ClientLocation.address.country+'&country_code='+google.loader.ClientLocation.address.country_code+'&region='+google.loader.ClientLocation.address.region });
+					$.ajax({type: 'GET', url: '<?php  echo BASE_URL; ?>wsp/includes/GoogleGeolocalisationSession.php?latitude='+google.loader.ClientLocation.latitude+'&longitude='+google.loader.ClientLocation.longitude+'&city='+google.loader.ClientLocation.address.city+'&country='+google.loader.ClientLocation.address.country+'&country_code='+google.loader.ClientLocation.address.country_code+'&region='+google.loader.ClientLocation.address.region, success: function(data){ try { eval(data); } catch(err) {} } });
 				}
 			}
 		<?php
@@ -476,22 +475,26 @@
 			function userShareGeoPosition(position) {
 				$.ajax({type: 'GET', url: '<?php  echo BASE_URL; ?>wsp/includes/GoogleGeolocalisationSession.php?user_share=1&latitude='+position.coords.latitude+'&longitude='+position.coords.longitude+'&city=&country=&country_code=&region=', success: function(data){ try { eval(data); } catch(err) {} } });
 			}
-			if (navigator.geolocation) {
-				navigator.geolocation.getCurrentPosition(userShareGeoPosition);
-			} else {
+			if ($.cookie('wsp_geolocalisation_google') != "true") {
 				StkFunc(loadGoogleClientLocation);
+			}
+			if (navigator.geolocation) {
+				$(document).ready( function() {
+					if ($.cookie('wsp_geolocalisation_user_share') != "true") {
+						navigator.geolocation.getCurrentPosition(userShareGeoPosition);
+					}
+				});
 			}
 		<?php
 		} else {
 		?>
-			StkFunc(loadGoogleClientLocation);
+			if ($.cookie('wsp_geolocalisation_google') != "true") {
+				StkFunc(loadGoogleClientLocation);
+			}
 		<?php
 		}
 		?>
 		</script>
-		<?php 
-		} 
-		?>
 		
 		<?php 
 			if (is_browser_ie_6() && !isset($_SESSION['WSP_IE6_MSG_'.formalize_to_variable(SITE_NAME)]) && $_SESSION['WSP_IE6_MSG_'.formalize_to_variable(SITE_NAME)] != "ok") {
