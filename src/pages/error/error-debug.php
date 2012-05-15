@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.102
+ * @version     1.1.3
  * @access      public
  * @since       1.0.18
  */
@@ -40,12 +40,12 @@ class ErrorDebug extends Page {
 				} else {  // no trace in the debug information
 					parent::$PAGE_TITLE = "Debug error - ".SITE_NAME;
 					$box_title = "Debug error";
-					$debug_msg = $_GET['debug'];
+					$debug_msg = $_POST['debug'];
 				}
 		} else {
 			parent::$PAGE_TITLE = "Debug error - ".SITE_NAME;
 			$box_title = "Debug error";
-			$debug_msg = $_GET['debug'];
+			$debug_msg = $_POST['debug'];
 		}
 		
 		$error_title_table = new Table();
@@ -66,6 +66,17 @@ class ErrorDebug extends Page {
 		$obj_error_msg->add("<br/><br/>", "Go back to the main page", new Link(BASE_URL, Link::TARGET_NONE, SITE_NAME));
 		
 		$this->render = new ErrorTemplate($obj_error_msg, $box_title);
+		
+		if (trim($_POST['debug']) != "") {
+			$cache_filename = "";
+			if (isset($_POST['cache_filename']) && trim($_POST['cache_filename']) != "") {
+				$cache_filename = $this->getRealCacheFileName($_POST['cache_filename']);
+				if (!file_exists($cache_filename)) {
+					$cache_filename = "";
+				}
+			}
+			NewException::sendErrorByMail($_POST['debug'], $cache_filename);
+		}
 	}
 }
 ?>

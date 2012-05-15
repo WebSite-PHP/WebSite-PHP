@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.102
+ * @version     1.1.3
  * @access      public
  * @since       1.0.17
  */
@@ -30,7 +30,7 @@ class Button extends WebSitePhpEventObject {
 	private $default_value = "";
 	private $width = 0;
 	private $class = "";
-	private $is_link = false;
+	protected $is_link = false;
 	private $assign_enter_key = false;
 	private $hide = false;
 	
@@ -301,6 +301,21 @@ class Button extends WebSitePhpEventObject {
 	public function isClicked() {
 		if ($this->callback_onclick == "") {
 			throw new NewException(get_class($this)."->isClicked(): this method can be used only if an onClick event is defined on this ".get_class($this).".", 0, getDebugBacktrace(1));
+		}
+		if (!$this->is_clicked) {
+			if ($this->form_object == null) {
+				if (isset($_POST["Callback_".$this->getEventObjectName()])) {
+					$this->is_clicked = true;
+				} else if (isset($_GET["Callback_".$this->getEventObjectName()])) {
+					$this->is_clicked = true;
+				}
+			} else {
+				if ($this->form_object->getMethod() == "POST" && isset($_POST["Callback_".$this->getEventObjectName()])) {
+					$this->is_clicked = true;
+				} else if (isset($_GET["Callback_".$this->getEventObjectName()])) {
+					$this->is_clicked = true;
+				}
+			}
 		}
 		return $this->is_clicked;
 	}

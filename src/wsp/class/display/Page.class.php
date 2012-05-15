@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.2
+ * @version     1.1.3
  * @access      public
  * @since       1.0.0
  */
@@ -283,36 +283,69 @@ class Page {
 	 * @since 1.0.3
 	 */
 	protected function setCacheFileName($file_name) {
-		$cache_directory = SITE_DIRECTORY."/wsp/cache";
-		if (!is_dir($cache_directory)) {
-			mkdir($cache_directory);
-		}
-		if ($_SESSION['lang'] != "") {
-			$cache_directory = $cache_directory."/".$_SESSION['lang'];
+		if (trim($file_name) != "") {
+			$cache_directory = SITE_DIRECTORY."/wsp/cache";
 			if (!is_dir($cache_directory)) {
 				mkdir($cache_directory);
 			}
+			if ($_SESSION['lang'] != "") {
+				$cache_directory = $cache_directory."/".$_SESSION['lang'];
+				if (!is_dir($cache_directory)) {
+					mkdir($cache_directory);
+				}
+			}
+			$this->cache_file_name_orig = $cache_directory."/".$file_name;
+			$this->cache_file_name = $this->getRealCacheFileName();
 		}
-		$this->cache_file_name_orig = $cache_directory."/".$file_name;
-		if (find($file_name, ".cache", 1, 0) == 0) {
-			$file_name .= ".cache";
+	}
+	
+	/**
+	 * Method getRealCacheFileName
+	 * @access public
+	 * @param string $cache_file_name_orig 
+	 * @return string
+	 * @since 1.1.3
+	 */
+	public function getRealCacheFileName($cache_file_name_orig="") {
+		$cache_file_name = "";
+		if ($cache_file_name_orig == "" && $this->cache_file_name_orig != "") {
+			$cache_file_name_orig = $this->cache_file_name_orig;
 		}
-		if ($this->is_browser_ie_6) {
-			$this->cache_file_name = str_replace(".cache", "_ie6.cache", $file_name);
-		} else if ($this->is_browser_ie) {
-			$this->cache_file_name = str_replace(".cache", "_ie".get_browser_ie_version().".cache", $file_name);
-		} else {
-			$this->cache_file_name = $file_name;
+		if ($cache_file_name_orig != "") {
+			$cache_directory = SITE_DIRECTORY."/wsp/cache";
+			if ($_SESSION['lang'] != "") {
+				$cache_directory = $cache_directory."/".$_SESSION['lang'];
+			}
+			$cache_file_name = str_replace($cache_directory, "", $cache_file_name_orig);
+			
+			$cache_file_name_ext = "";
+			if (find($cache_file_name, ".cache", 1, 0) == 0) {
+				$cache_file_name_ext = ".cache";
+			}
+			$cache_file_name = $cache_file_name.$cache_file_name_ext;
+			
+			if ($this->is_browser_ie_6) {
+				$cache_file_name = str_replace(".cache", "_ie6.cache", $cache_file_name);
+			} else if ($this->is_browser_ie) {
+				$cache_file_name = str_replace(".cache", "_ie".get_browser_ie_version().".cache", $cache_file_name);
+			}
+			if (!$this->isAjaxPage()) {
+				$last_css_config_file = CssInclude::getInstance()->getLastCssConfigFileSession();
+				if ($last_css_config_file != "config_css.inc.php" && trim($last_css_config_file) != "") {
+					$cache_file_name = str_replace(".cache", "_".$last_css_config_file.".cache", $cache_file_name);
+				}
+			}
+			if ($this->isCss3Browser()){
+				$cache_file_name = str_replace(".cache", "_css3.cache", $cache_file_name);
+			}
+			if ($this->isAjaxPage()){
+				$cache_file_name = str_replace(".cache", "_ajax.cache", $cache_file_name);
+			} else if ($this->isAjaxLoadPage()){
+				$cache_file_name = str_replace(".cache", "_load.cache", $cache_file_name);
+			}
+			$cache_file_name = $cache_directory.str_replace("%2F", "/", urlencode($cache_file_name));
 		}
-		if ($this->isCss3Browser()){
-			$this->cache_file_name = str_replace(".cache", "_css3.cache", $this->cache_file_name);
-		}
-		if ($this->isAjaxPage()){
-			$this->cache_file_name = str_replace(".cache", "_ajax.cache", $this->cache_file_name);
-		} else if ($this->isAjaxLoadPage()){
-			$this->cache_file_name = str_replace(".cache", "_load.cache", $this->cache_file_name);
-		}
-		$this->cache_file_name = $cache_directory."/".str_replace("%2F", "/", urlencode($this->cache_file_name));
+		return str_replace("\"", "", $cache_file_name);
 	}
 	
 	/**
@@ -334,12 +367,21 @@ class Page {
 	/**
 	 * Method getCacheFileName
 	 * @access protected
-	 * @param mixed $file_name 
 	 * @return mixed
 	 * @since 1.0.73
 	 */
-	protected function getCacheFileName($file_name) {
+	protected function getCacheFileName() {
 		return $this->cache_file_name;
+	}
+	
+	/**
+	 * Method getOriginalCacheFileName
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.3
+	 */
+	public function getOriginalCacheFileName() {
+		return $this->cache_file_name_orig;
 	}
 	
 	/**
@@ -356,10 +398,10 @@ class Page {
 	
 	/**
 	 * Method disableCache
-	 * @access protected
+	 * @access public
 	 * @since 1.0.3
 	 */
-	protected function disableCache() {
+	public function disableCache() {
 		$this->PAGE_CACHING = false;
 	}
 	
@@ -506,6 +548,16 @@ class Page {
 	public function getPageIsCaching() {
 		return $this->page_is_caching;
 	}
+	
+	/**
+	 * Method isCachingAsked
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.3
+	 */
+	public function isCachingAsked() {
+		return $this->page_is_display;
+	}	
 	
 	/**
 	 * Method getPage

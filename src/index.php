@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.2
+ * @version     1.1.3
  * @access      public
  * @since       1.0.0
  */
@@ -377,14 +377,35 @@
 			// Load lib by google
 			google.load("jquery", "<?php echo JQUERY_VERSION; ?>");
 			google.load("jqueryui", "<?php echo JQUERY_UI_VERSION; ?>");
-			wsp_javascript_base_url = "<?php echo BASE_URL; ?>";
 		</script>
 <?php
 		}
-		
+?>
+		<script type="text/javascript">
+			wsp_user_language = "<?php echo $_GET['l']; ?>";
+			wsp_javascript_base_url = "<?php echo BASE_URL; ?>";
+			wsp_js_session_cache_expire = <?php echo session_cache_expire(); ?>;
+<?php if ($page_object->isCachingAsked()) { ?>
+			wsp_cache_filename = "<?php echo str_replace("/", "{#%2F#}", str_replace(SITE_DIRECTORY."/wsp/cache/".$_GET['l'], "", $page_object->getOriginalCacheFileName())); ?>";
+<?php } else { ?>
+			wsp_cache_filename = "";
+<?php } ?>
+		</script>
+<?php
 		JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery.cookie.js", "", true);
 		JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/utils.js", "", true);
 		JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/pngfix.js", "", true);
+		
+		// log JS error system
+		if (!defined("SEND_JS_ERROR_BY_MAIL")) {
+			define(SEND_JS_ERROR_BY_MAIL, false);
+		}
+		if (SEND_JS_ERROR_BY_MAIL) {
+			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
+				find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0) {
+					JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery.onerror.js", "", true);
+			}
+		}
 		
 		$combine_js = "";
 		$not_combine_js = "";
@@ -464,34 +485,23 @@
 			}
 		?>
 		<script type="text/javascript">
-			function loadGoogleClientLocation() {
-				if(google.loader.ClientLocation) {
-					$.ajax({type: 'GET', url: '<?php  echo BASE_URL; ?>wsp/includes/GoogleGeolocalisationSession.php?latitude='+google.loader.ClientLocation.latitude+'&longitude='+google.loader.ClientLocation.longitude+'&city='+google.loader.ClientLocation.address.city+'&country='+google.loader.ClientLocation.address.country+'&country_code='+google.loader.ClientLocation.address.country_code+'&region='+google.loader.ClientLocation.address.region, success: function(data){ try { eval(data); } catch(err) {} } });
-				}
-			}
 		<?php
 		if ($__GEOLOC_ASK_USER_SHARE_POSITION__ == true && !$page_object->isCrawlerBot()) {
 		?>
-			function userShareGeoPosition(position) {
-				$.ajax({type: 'GET', url: '<?php  echo BASE_URL; ?>wsp/includes/GoogleGeolocalisationSession.php?user_share=1&latitude='+position.coords.latitude+'&longitude='+position.coords.longitude+'&city=&country=&country_code=&region=', success: function(data){ try { eval(data); } catch(err) {} } });
-			}
-			if ($.cookie('wsp_geolocalisation_google') != "true") {
-				StkFunc(loadGoogleClientLocation);
-			}
-			if (navigator.geolocation) {
-				$(document).ready( function() {
-					if ($.cookie('wsp_geolocalisation_user_share') != "true") {
-						navigator.geolocation.getCurrentPosition(userShareGeoPosition);
-					}
-				});
-			}
+			launchGeoLocalisation(true);
 		<?php
 		} else {
 		?>
-			if ($.cookie('wsp_geolocalisation_google') != "true") {
-				StkFunc(loadGoogleClientLocation);
-			}
+			launchGeoLocalisation(false);
 		<?php
+		}
+		if (SEND_JS_ERROR_BY_MAIL) {
+			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
+				find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0) {
+		?>
+			$(document).jsErrorHandler();
+		<?php
+			}
 		}
 		?>
 		</script>

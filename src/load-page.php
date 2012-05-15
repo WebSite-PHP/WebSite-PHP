@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.103
+ * @version     1.1.3
  * @access      public
  * @since       1.0.0
  */
@@ -29,6 +29,7 @@
 	$__PAGE_IS_INIT__ = false;
 	$__LOAD_VARIABLES__ = false;
 	$__DEBUG_PAGE_IS_PRINTING__ = false;
+	$__GEOLOC_ASK_USER_SHARE_POSITION__ = false;
 	
 	session_name(formalize_to_variable(SITE_NAME));  
 	if (isset($_COOKIE['WSP_WS_SESSION'])) {
@@ -236,6 +237,20 @@
 ?>
 				waitForJsScripts(<?php echo $ind_load_js; ?>);
 				LoadPngPicture();
+
+				if(typeof launchGeoLocalisation == 'function' && typeof wsp_javascript_base_url != "undefined") { 
+				<?php
+				if ($__GEOLOC_ASK_USER_SHARE_POSITION__ == true && !$page_object->isCrawlerBot()) {
+				?>
+					launchGeoLocalisation(true);
+				<?php
+				} else {
+				?>
+					launchGeoLocalisation(false);
+				<?php
+				}
+				?>
+				}
 			</script>
 <?php 
 			} else {

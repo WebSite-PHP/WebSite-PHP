@@ -7,7 +7,7 @@
  * Class SmtpMail
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.100
+ * @version     1.1.3
  * @access      public
  * @since       1.0.16
  */
@@ -45,6 +45,7 @@ class SmtpMail {
 	private $from_mail = "";
 	private $from_name = "";
 	private $attachement = array();
+	private $attachement_name = array();
 	private $smtp_object = null;
 	private $priority_level = 3;
 	/**#@-*/
@@ -93,15 +94,21 @@ class SmtpMail {
 	/**
 	 * Method addAttachment
 	 * @access public
-	 * @param mixed $file 
+	 * @param mixed $file_path 
+	 * @param string $file_name 
 	 * @return SmtpMail
 	 * @since 1.0.35
 	 */
-	public function addAttachment($file) {
-		if (file_exists($file)) {
-			$this->attachement[] = $file;
+	public function addAttachment($file_path, $file_name="") {
+		if (file_exists($file_path)) {
+			$this->attachement[] = $file_path;
+			if ($file_name == "") {
+				$this->attachement_name[] = basename($file_path);
+			} else {
+				$this->attachement_name[] = $file_name;
+			}
 		} else {
-			throw new NewException("SmtpMail Error: File not found ".$file, 0, getDebugBacktrace(1));
+			throw new NewException("SmtpMail Error: File not found ".$file_path, 0, getDebugBacktrace(1));
 		}
 		return $this;
 	}
@@ -139,7 +146,7 @@ class SmtpMail {
 	/**
 	 * Method send
 	 * @access public
-	 * @return mixed
+	 * @return boolean
 	 * @since 1.0.35
 	 */
 	public function send() {
@@ -163,8 +170,8 @@ class SmtpMail {
 		
 		$this->smtp_object->WordWrap = 50; // set word wrap
 		
-		for ($i=0; $i < sizeof($attachement); $i++) {
-			$this->smtp_object->AddAttachment($attachement[$i]); // attachment
+		for ($i=0; $i < sizeof($this->attachement); $i++) {
+			$this->smtp_object->AddAttachment($this->attachement[$i], $this->attachement_name[$i]); // attachment
 		}
 		$this->smtp_object->Priority = $this->priority_level;
 		$this->smtp_object->IsHTML(true); // send as HTML
@@ -176,7 +183,11 @@ class SmtpMail {
 		$this->smtp_object->AltBody = $text_message; //Text Body
 		$this->smtp_object->Body = $html_message; //HTML Body
 		
-		return $this->smtp_object->Send();
+		if (!$this->smtp_object->Send()) {
+			return $this->smtp_object->ErrorInfo;
+		} else {
+			return true;
+		}
 	}
 }
 ?>

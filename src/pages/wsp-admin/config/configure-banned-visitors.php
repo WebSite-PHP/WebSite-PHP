@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 03/02/2012
- * @version     1.1.0 
+ * @version     1.1.3
  * @access      public
  * @since       1.0.103
  */
@@ -40,7 +40,7 @@ class ConfigureBannedVisitors extends Page {
 		$this->array_wsp_banned_users = WspBannedVisitors::getBannedVisitors();
 		
 		$this->table_ban = new Table();
-		$this->table_ban->setId("table_ban")->activateAdvanceTable()->activatePagination()->activateSort(1)->setWidth(500);
+		$this->table_ban->setId("table_ban")->activateAdvanceTable()->activatePagination()->activateSort(2, "desc")->setWidth(500);
 		$this->table_ban->addRowColumns("IP", __(LAST_ACCESS), __(DURATION), __(AUTHORIZE))->setHeaderClass(0);
 		$ban_vistors_obj = new Object("<br/><br/>", $this->table_ban, "<br/><br/>");
 		
@@ -56,7 +56,7 @@ class ConfigureBannedVisitors extends Page {
 		$validation->addValidatePresence()->addValidateNumericality(true);
 		$this->duration_edt->setLiveValidation($validation);
 		$ip_btn = new Button($form);
-		$ip_btn->setValue(__(BAN_IP))->onClick("onBannedIP")->setAjaxEvent()->disableAjaxWaitMessage();
+		$ip_btn->setValue(__(BAN_IP))->onClick("onBannedIP")->setAjaxEvent();
 		$ban_ip_table->addRowColumns("IP : ", $this->ip_edt);
 		$ban_ip_table->addRowColumns( __(DURATION)." : ", $this->duration_edt);
 		$form->setContent(new Object($ban_ip_table, $ip_btn));
@@ -71,7 +71,7 @@ class ConfigureBannedVisitors extends Page {
 		foreach ($this->array_wsp_banned_users as $ip => $array_ip_info) {
 			if ($array_ip_info['cnt'] >= MAX_BAD_URL_BEFORE_BANNED) {
 				$btn_authorize = new Picture("img/wsp-admin/button_ok_16.png", 16, 16, 0, Picture::ALIGN_ABSMIDDLE, __(AUTHORIZE));
-				$btn_authorize->onClick($this, "onAuthorizeVisitor", $ip)->setAjaxEvent()->disableAjaxWaitMessage();
+				$btn_authorize->onClick($this, "onAuthorizeVisitor", $ip)->setAjaxEvent();
 				if (!$btn_authorize->isClicked()) {
 					$link_ip = new Link("http://www.infosniper.net/index.php?ip_address=".$ip, Link::TARGET_BLANK, $ip);
 					$row = $this->table_ban->addRowColumns($link_ip, $array_ip_info['dte'], $array_ip_info['len'], $btn_authorize);

@@ -28,6 +28,7 @@
 	define("CMB_DEBUG", "Debug");
 	define("CMB_SEND_ERROR_BY_MAIL", "Envoyer erreur par mail");
 	define("EDT_SEND_ERROR_BY_MAIL_TO", "Email envoi erreur");
+	define("CMB_SEND_JS_ERROR_BY_MAIL", "Envoyer erreur JavaScript par mail");
 	define("SEND_ERROR_BY_MAIL_CMT", "Pas pour les URL locales (http://127.0.0.1/)");
 	define("EDT_SEND_BY_MAIL_FILE_EX", "Fichiers exclus");
 	define("EDT_SEND_BY_MAIL_FILE_EX_CMT", "Seulement fichier (pas de chemin)<br/>Regexp possible (ex: /^(a-z)*.html$/)");

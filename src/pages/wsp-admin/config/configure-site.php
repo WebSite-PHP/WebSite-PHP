@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.1
+ * @version     1.1.3
  * @access      public
  * @since       1.0.25
  */
@@ -279,6 +279,15 @@ class ConfigureSite extends Page {
 		$this->edtSendErrorByMailTo->setLiveValidation($edtValidation->addValidateEmail()->setFieldName(__(EDT_SEND_ERROR_BY_MAIL_TO)));
 		$table_form2->addRowColumns(__(EDT_SEND_ERROR_BY_MAIL_TO).":&nbsp;", new Object($this->edtSendErrorByMailTo, "&nbsp;", __(SEND_ERROR_BY_MAIL_CMT)));
 		
+		if (!defined("SEND_JS_ERROR_BY_MAIL")) {
+			define(SEND_JS_ERROR_BY_MAIL, false);
+		}
+		$this->cmbSendJsErrorByMail = new ComboBox($this->form2, "cmbSendJsErrorByMail");
+		$this->cmbSendJsErrorByMail->addItem("true", "true", (SEND_JS_ERROR_BY_MAIL==true)?true:false);
+		$this->cmbSendJsErrorByMail->addItem("false", "false", (SEND_JS_ERROR_BY_MAIL==false)?true:false);
+		$this->cmbSendJsErrorByMail->setWidth(143);
+		$table_form2->addRowColumns(__(CMB_SEND_JS_ERROR_BY_MAIL).":&nbsp;", $this->cmbSendJsErrorByMail);
+		
 		
 		if (defined("SEND_BY_MAIL_FILE_EX")) {
 			$this->array_files_ex = explode(',', SEND_BY_MAIL_FILE_EX);
@@ -457,6 +466,7 @@ class ConfigureSite extends Page {
 		
 		$data_config_file .= "define(\"SEND_ERROR_BY_MAIL\", ".$this->cmbSendErrorByMail->getValue()."); // send error by mail if not local URL (http://127.0.0.1/)\n";
 		$data_config_file .= "define(\"SEND_ERROR_BY_MAIL_TO\", \"".$this->edtSendErrorByMailTo->getValue()."\"); // send error to this email\n";
+		$data_config_file .= "define(\"SEND_JS_ERROR_BY_MAIL\", ".$this->cmbSendJsErrorByMail->getValue()."); // send JS error by mail if not local URL (http://127.0.0.1/)\n";
 		if ($this->btnValidateF2->isClicked()) {
 			$list_files = "";
 			for ($i=0; $i < $this->hidden_nb_exclude_files->getValue(); $i++) {
@@ -524,11 +534,14 @@ class ConfigureSite extends Page {
 			if (SMTP_MAIL == "") {
 				$this->addObject(new DialogBox(__(ERROR), __(PLEASE_CONFIGURE_SMTP)));
 				$this->edtSendErrorByMailTo->disable();
+				$this->cmbSendJsErrorByMail->disable();
+				$this->cmbSendJsErrorByMail->setValue("false");
 				for ($i=0; $i < $this->hidden_nb_exclude_files->getValue(); $i++) {
 					$this->edt_exclude_files[$i]->disable();
 				}
 			} else {
 				$this->edtSendErrorByMailTo->enable();
+				$this->cmbSendJsErrorByMail->enable();
 				if ($this->edtSendErrorByMailTo->getValue() == "") {
 					$this->edtSendErrorByMailTo->setValue("@");
 				}
@@ -538,6 +551,8 @@ class ConfigureSite extends Page {
 			}
 		} else {
 			$this->edtSendErrorByMailTo->disable()->forceEmpty();
+			$this->cmbSendJsErrorByMail->disable();
+			$this->cmbSendJsErrorByMail->setValue("false");
 			for ($i=0; $i < $this->hidden_nb_exclude_files->getValue(); $i++) {
 				$this->edt_exclude_files[$i]->disable();
 			}

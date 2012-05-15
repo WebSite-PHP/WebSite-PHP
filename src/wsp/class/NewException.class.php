@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.2
+ * @version     1.1.3
  * @access      public
  * @since       1.0.15
  */
@@ -218,7 +218,7 @@ class NewException extends Exception
 			}
 			
 			if ($GLOBALS['__AJAX_PAGE__'] == false || ($GLOBALS['__AJAX_LOAD_PAGE__'] == true && $_GET['mime'] == "text/html")) {
-				$_GET['debug'] = $debug_msg;
+				$_POST['debug'] = $debug_msg;
 				$_GET['p'] = "error-debug";
 				
 				try {
@@ -313,8 +313,8 @@ class NewException extends Exception
 					echo "</body></html>\n";
 				} catch (Exception $e) {
 					echo $e->getMessage();
+					NewException::sendErrorByMail($debug_msg);
 				}
-				NewException::sendErrorByMail($debug_msg);
 			} else {
 				header('HTTP/1.1 500 Internal Server Error');
 				if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
@@ -337,9 +337,10 @@ class NewException extends Exception
 	 * Method sendErrorByMail
 	 * @access static
 	 * @param mixed $debug_msg 
+	 * @param string $attachment_file 
 	 * @since 1.0.100
 	 */
-    private static function sendErrorByMail($debug_msg) {
+    public static function sendErrorByMail($debug_msg, $attachment_file="") {
     	if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
 			find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0) {
 				$caching_file = new CacheFile(dirname(__FILE__)."/../cache/error_send_by_mail.log", CacheFile::CACHE_TIME_2MIN);
@@ -360,13 +361,20 @@ class NewException extends Exception
 					$debug_mail .= "Crawler : ".($page_object->isCrawlerBot()?"true":"false")."<br/>";
 					
 					$caching_file->writeCache($debug_mail);
-					$caching_file->close();
 					
 					try {
 						$mail = new SmtpMail(SEND_ERROR_BY_MAIL_TO, SEND_ERROR_BY_MAIL_TO, "ERROR on ".SITE_NAME." !!!", $debug_mail, SMTP_MAIL, SMTP_NAME);
 						$mail->setPriority(SmtpMail::PRIORITY_HIGH);
-						$mail->send();
-					} catch (Exception $e) {}
+						if ($attachment_file != "" && is_file($attachment_file)) {
+							$mail->addAttachment($attachment_file, basename(str_replace(".cache", ".txt", $attachment_file)));
+						}
+						if (($send_result = $mail->send()) != true) {
+							//echo $send_result;
+						}
+					} catch (Exception $e) {
+						$caching_file->writeCache("\n\nMail sending error:\n".$e);
+					}
+					$caching_file->close();
 				}
 		}
     }

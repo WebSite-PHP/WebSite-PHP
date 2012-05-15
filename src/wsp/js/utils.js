@@ -241,3 +241,44 @@ function stopEventPropagation(e) {
 	if (e.stopPropagation) e.stopPropagation();
 }
 function refreshPage() { location.reload(true); }
+
+/* GeoLocalisation */
+var wspGoogleClientLocationDone = false;
+function loadGoogleClientLocation() {
+	if(google.loader.ClientLocation && wspGoogleClientLocationDone == false) {
+		wspGoogleClientLocationDone = true;
+		$.ajax({type: 'GET', url: wsp_javascript_base_url + 'wsp/includes/GoogleGeolocalisationSession.php?latitude='+google.loader.ClientLocation.latitude+'&longitude='+google.loader.ClientLocation.longitude+'&city='+google.loader.ClientLocation.address.city+'&country='+google.loader.ClientLocation.address.country+'&country_code='+google.loader.ClientLocation.address.country_code+'&region='+google.loader.ClientLocation.address.region, success: function(data){ try { eval(data); } catch(err) {} } });
+	}
+}
+function userShareGeoPosition(position) {
+	$.ajax({type: 'GET', url: wsp_javascript_base_url + 'wsp/includes/GoogleGeolocalisationSession.php?user_share=1&latitude='+position.coords.latitude+'&longitude='+position.coords.longitude+'&city=&country=&country_code=&region=', success: function(data){ try { eval(data); } catch(err) {} } });
+}
+function userShareGeoPositionError(error) {
+	expiresDate = new Date();
+	expiresDate.setTime(expiresDate.getTime() + ((wsp_js_session_cache_expire-1) * 60 * 1000));
+	switch(error.code) {
+		case error.POSITION_UNAVAILABLE:
+			$.cookie('wsp_geolocalisation_user_share', 'unavailable', { path: '/', expires: expiresDate });
+			break;
+		case error.PERMISSION_DENIED:
+			$.cookie('wsp_geolocalisation_user_share', 'denied', { path: '/', expires: expiresDate });
+			break;
+	}
+}
+function launchGeoLocalisation(ask_user_share_position) {
+	if ($.cookie('wsp_geolocalisation_google') != "true") {
+		StkFunc(loadGoogleClientLocation);
+	}
+	if (ask_user_share_position == true) {
+		if (navigator.geolocation) {
+			$(document).ready( function() {
+				if ($.cookie('wsp_geolocalisation_user_share') != "true" && 
+						$.cookie('wsp_geolocalisation_user_share') != "denied" && 
+						$.cookie('wsp_geolocalisation_user_share') != "unavailable") {
+					navigator.geolocation.getCurrentPosition(userShareGeoPosition, userShareGeoPositionError);
+				}
+			});
+		}
+	}
+}
+/* End GeoLocalisation */

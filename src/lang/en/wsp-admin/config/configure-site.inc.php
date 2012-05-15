@@ -28,6 +28,7 @@
 	define("CMB_DEBUG", "Debug");
 	define("CMB_SEND_ERROR_BY_MAIL", "Send error by email");
 	define("EDT_SEND_ERROR_BY_MAIL_TO", "Email sending error");
+	define("CMB_SEND_JS_ERROR_BY_MAIL", "Send JavaScript error by email");
 	define("SEND_ERROR_BY_MAIL_CMT", "Not for local URL (http://127.0.0.1/)");
 	define("EDT_SEND_BY_MAIL_FILE_EX", "Excluded files");
 	define("EDT_SEND_BY_MAIL_FILE_EX_CMT", "Only file name (no path)<br/>Regexp possible (ie: /^(a-z)*.html$/)");

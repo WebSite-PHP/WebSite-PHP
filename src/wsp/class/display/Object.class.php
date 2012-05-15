@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.2
+ * @version     1.1.3
  * @access      public
  * @since       1.0.17
  */
@@ -793,7 +793,8 @@ class Object extends WebSitePhpEventObject {
 		if ($this->force_div_tag || $this->force_span_tag || $this->id != "" || $this->align != "" || 
 			$this->border != "" || $this->width != "" || $this->font_size != "" || $this->font_family != "" || 
 			$this->font_weight != "" || $this->style != "" || $this->class != "" || $this->min_height != "" || 
-			$this->max_height != "") {
+			$this->max_height != "" || $this->onclick != "" || $this->ondblclick != "" || 
+			$this->onmouseover != "" || $this->onmouseout != "") {
 				
 			if ($this->force_div_tag || (!$this->force_span_tag &&
 				($this->align != "" || $this->height != "" || $this->width != "" || $this->class != "" || 

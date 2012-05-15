@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.102
+ * @version     1.1.3
  * @access      public
  * @since       1.0.18
  */
@@ -444,7 +444,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		$html .= "					var dialogbox_is_change = false;\n";
 		$html .= "					for (var ajax_event_ind=0; ajax_event_ind < ajax_event_response.length; ajax_event_ind++) {\n";
 		if (!$this->disable_ajax_wait_message) {
-			$html .= "						if (ajax_event_response[ajax_event_ind].indexOf('wspDialogBox".$modalbox_indice."' + ' = ') != -1) {\n";
+			$html .= "						if (ajax_event_response[ajax_event_ind] != null && ajax_event_response[ajax_event_ind].indexOf('wspDialogBox".$modalbox_indice."' + ' = ') != -1) {\n";
 			$html .= "							dialogbox_is_change = true;\n";
 			$html .= "						}\n";
 		}
@@ -571,7 +571,11 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	protected function getObjectEventValidationRender($on_event, $callback, $params='', $abort_last_request=false) {
 		if ($callback != "" && $this->form_object == null && 
 			(isset($_GET['dialogbox_level']) || isset($_GET['tabs_object_id']))) {
-				throw new NewException("Object ".get_class($this)." must link to a Form Object when he have a callback method in a DialogBox or a Tabs", 0, getDebugBacktrace(1));
+				if (get_class($this) == "Button" && $this->is_link) {
+					// it's ok for this case
+				} else {
+					throw new NewException("Object ".get_class($this)." must link to a Form Object when he have a callback method in a DialogBox or a Tabs", 0, getDebugBacktrace(1));
+				}
 		}
 		
 		$html = "";

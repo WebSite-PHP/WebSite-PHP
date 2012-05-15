@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.103
+ * @version     1.1.3
  * @access      public
  * @since       1.0.17
  */
@@ -451,9 +451,9 @@ class Box extends WebSitePhpObject {
 			}
 			$html .= "\"";
 			if (!$this->css3) {
-				$html .= " style=\"padding: ".($this->browser_ie_version!=false?($this->browser_ie_version!=false&&$this->browser_ie_version<=7?4:0):2)."px 0px 4px 5px;";
+				$html .= " style=\"padding: ".($this->browser_ie_version!=false?($this->browser_ie_version!=false&&$this->browser_ie_version<=7?4:0):2)."px 0px 4px 5px;\"";
 			}
-			$html .= "\">";
+			$html .= ">";
 			if ($this->icon_48_pixels != "") {
 				$html .= "<table cellpadding=\"0\" cellspacing=\"0\"><tr><td style=\"width:48px;\"><span style=\"position:absolute;margin-top:-24px;margin-left:-2px;\">";
 				$html .= "<img src=\"".$this->icon_48_pixels."\" height=\"48\" width=\"48\"";

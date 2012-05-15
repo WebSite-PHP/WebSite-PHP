@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.2
+ * @version     1.1.3
  * @access      public
  * @since       1.0.16
  */
@@ -71,6 +71,13 @@ class GeoLocalisation {
 	 */
 	public function askUserToSharePosition($refresh_page=false, $js_onsuccess='') {
 		$GLOBALS['__GEOLOC_ASK_USER_SHARE_POSITION__'] = true;
+		
+		if (gettype($js_onsuccess) != "string" && get_class($js_onsuccess) != "JavaScript") {
+			throw new NewException(get_class($this)."->askUserToSharePosition(): \$js_onsuccess must be a string or JavaScript object.", 0, getDebugBacktrace(1));
+		}
+		if (get_class($js_onsuccess) == "JavaScript") {
+			$js_onsuccess = $js_onsuccess->render();
+		}
 		$_SESSION['geolocalisation_user_share_js'] = $js_onsuccess.($refresh_page?"refreshPage();":"");
 		return $this;
 	}

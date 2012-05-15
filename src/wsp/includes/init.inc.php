@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.103
+ * @version     1.1.3
  * @access      public
  * @since       1.0.0
  */
@@ -101,13 +101,17 @@
     		echo "No language defined in WSP lang folder (".realpath($lang_folder).")\n";
     		exit;
     	}
-		rename('install.htaccess', '.htaccess');
-    	$test_url = @file_get_contents(BASE_URL.$tmp_lang);
-    	if ($test_url == "") {
-    		rename('.htaccess', 'install.htaccess');
-    		echo "Please change your configuration to be compatible with <a href='http://www.website-php.com' target='_blank'>WebSite-PHP</a>:<br/>- Webserver needs to support \"AllowOverride All\" for your website directory!<br/>&lt;Directory /your_directory&gt;<br/>&nbsp;&nbsp;&nbsp;AllowOverride all<br/>&lt;/Directory&gt;<br/><a href='http://httpd.apache.org/docs/current/mod/core.html#allowoverride' target='_blank'>http://httpd.apache.org/docs/current/mod/core.html#allowoverride</a>\n";
-    		exit;
-    	}
+		if (!rename('install.htaccess', '.htaccess')) {
+			echo "The apache user has no right to rename the file install.htaccess to .htaccess. Please give the rights on this file to finalize the installation.\n";
+	    	exit;
+		} else {
+	    	$test_url = @file_get_contents(BASE_URL.$tmp_lang);
+	    	if ($test_url == "") {
+	    		rename('.htaccess', 'install.htaccess');
+	    		echo "Please change your configuration to be compatible with <a href='http://www.website-php.com' target='_blank'>WebSite-PHP</a>:<br/>- Webserver needs to support \"AllowOverride All\" for your website directory!<br/>&lt;Directory /your_directory&gt;<br/>&nbsp;&nbsp;&nbsp;AllowOverride all<br/>&lt;/Directory&gt;<br/>Edit the configuration file httpd.conf of you apache server. In this file you need to find the tag \"Directory\" concerning website folder (i.e.: www) and set the property AllowOverride with the parameter \"All\" as explained before.<br/><a href='http://httpd.apache.org/docs/current/mod/core.html#allowoverride' target='_blank'>http://httpd.apache.org/docs/current/mod/core.html#allowoverride</a>\n";
+	    		exit;
+	    	}
+		}
 	}
 	
 	$array_server_name = explode('.', $_SERVER['SERVER_NAME']);

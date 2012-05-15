@@ -8,7 +8,7 @@
  * Class RoundBox
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.1.3
  * @access      public
  * @since       1.0.17
  */
@@ -349,7 +349,7 @@ class RoundBox extends WebSitePhpObject {
 			if ($this->height != "") {
 				$html .= " height=\"".$this->height."\"";
 			}
-			$html .= "width=\"100%\" style=\"table-layout:fixed;";
+			$html .= " width=\"100%\" style=\"table-layout:fixed;";
 			if (!$this->css3) {
 				$html .= "border-bottom:0px;";
 			}

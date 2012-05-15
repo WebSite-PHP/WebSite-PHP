@@ -6,7 +6,7 @@
  * Class CssInclude
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.1.3
  * @access      public
  * @since       1.0.23
  */
@@ -72,7 +72,11 @@ class CssInclude {
 	/**
 	 * Constructor CssInclude
 	 */
-	function __construct() {}
+	function __construct() {
+		if (!isset($_SESSION['wspCssConfigFile'])) {
+			$_SESSION['wspCssConfigFile'] = "";
+		}
+	}
 	
 	/**
 	 * Method getInstance
@@ -201,6 +205,7 @@ class CssInclude {
 			throw new NewException("Error ".get_class($this)."->setCssConfigFile(): Config file is already loaded, set this configuration in the begining of your code.", 0, getDebugBacktrace(1));
 		}
 		$this->config_file = $file;
+		$_SESSION['wspCssConfigFile'] = $this->config_file;
 		$this->loadCssConfigFileInMemory();
 		return $this;
 	}
@@ -224,12 +229,26 @@ class CssInclude {
 	public function loadCssConfigFileInMemory() {
 		if (!$this->config_file_loaded) {
 			if ($this->config_file == "") {
-				$this->config_file = "config_css.inc.php";
+				if ($_SESSION['wspCssConfigFile'] != "" && $GLOBALS['__AJAX_PAGE__'] == true) {
+					$this->config_file = $_SESSION['wspCssConfigFile'];
+				} else {
+					$this->config_file = "config_css.inc.php";
+				}
 			}
 			include(dirname(__FILE__)."/../config/".$this->config_file);
 			$this->config_file_loaded = true;
 		}
 		return $this;
+	}
+	
+	/**
+	 * Method getLastCssConfigFileSession
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.3
+	 */
+	public function getLastCssConfigFileSession() {
+		return ($_SESSION['wspCssConfigFile']==""?"config_css.inc.php":$_SESSION['wspCssConfigFile']);
 	}
 	
 	/**
