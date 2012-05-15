@@ -67,19 +67,11 @@ Location: /modules/RSS-Generator/RSSFeedException.class.php
 ----
 == Method Summary == 
 
-				* `static : __construct()`
+						* `static : getErrorMessage()`
 		**************************************************
-					* `static : getErrorMessage()`
+												* `: getErrorMessage()`
 		**************************************************
-							* `static : __toString()`
-		**************************************************
-						* `: __construct()`
-		**************************************************
-					* `: getErrorMessage()`
-		**************************************************
-							* `: __toString()`
-		**************************************************
-		
+						
 == Inherited Method Summary == 
 
 === Inherited From Class Exception (Internal Class) ===
@@ -109,36 +101,6 @@ Location: /modules/RSS-Generator/RSSFeedException.class.php
 == Method Detail ==
 
 
-= static RSSFeedException::__construct =
-
-*static __construct(*
-*:*
-_$message_, *:*
-_$class_, *:*
-_$method_* );*
-
-
-Overrides Exception::constructor __construct ( [$message = ], [$code = ], [$previous = ] ) (parent method not documented)
-	
-
-	
-*Parameters*
-			_$message_ string $message
-			_$class_ string $class
-			_$method_ string $method
-		
-*Returns*
-		void *************************************************
-
-*Remarks*
-
-**************************************************
-
-
-*access:* public
-
-
-
 = static RSSFeedException::getErrorMessage =
 
 *static getErrorMessage(*
@@ -164,30 +126,31 @@ _0_* );*
 
 
 
-= static RSSFeedException::__toString =
 
-*static __toString(*
-*:*
-_0_* );*
+= RSSFeedException::__construct =
+
+*__construct(*
+*mixed*
+_$message_, *mixed*
+_$class_, *mixed*
+_$method_* );*
 
 
-Overrides Exception::__toString (  ) (parent method not documented)
+Overrides Exception::constructor __construct ( [$message = ], [$code = ], [$previous = ] ) (parent method not documented)
 	
 
 	
 *Parameters*
-			_0_ void
+			_$message_ 
+			_$class_ 
+			_$method_ 
 		
-*Returns*
-		void *************************************************
-
 *Remarks*
 
-**************************************************
+Constructor RSSFeedException
 
 
 *access:* public
-
 
 
 
@@ -200,6 +163,27 @@ Overrides Exception::__toString (  ) (parent method not documented)
 	
 
 	*access:* public
+
+
+
+= RSSFeedException::__toString =
+
+*__toString(*
+* );*
+
+
+Overrides Exception::__toString (  ) (parent method not documented)
+	
+
+	
+*Remarks*
+
+Method __toString
+
+
+*since:* 1.1.2
+
+*access:* public
 
 
 

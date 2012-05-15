@@ -219,9 +219,9 @@ Location: /modules/PDF/fpdf.php
 = FPDF::FPDF =
 
 *FPDF(*
-[**
-_$orientation_ = 'P'], [**
-_$unit_ = 'mm'], [**
+[*string*
+_$orientation_ = 'P'], [*string*
+_$unit_ = 'mm'], [*string*
 _$format_ = 'A4']* );*
 
 
@@ -229,17 +229,16 @@ _$format_ = 'A4']* );*
 
 	
 *Parameters*
-			_$orientation_ 
-			_$unit_ 
-			_$format_ 
+			_$orientation_ [default value: P]
+			_$unit_ [default value: mm]
+			_$format_ [default value: A4]
 		
 *Remarks*
 
-*****************************************************************************
+Method FPDF
 
 
-*                                Public methods                                 *                                                                               * *****************************************************************************
-
+*since:* 1.1.2
 
 
 
@@ -1317,178 +1316,178 @@ _$s_* );*
 ----
 
 == Variable Detail ==
-* `$AliasNbPages` = `` (line 71)
+* `$AliasNbPages` = `` (line 92)
 * *Data type:* `mixed`
 
-* `$author` = `` (line 68)
+* `$author` = `` (line 89)
 * *Data type:* `mixed`
 
-* `$AutoPageBreak` = `` (line 60)
+* `$AutoPageBreak` = `` (line 81)
 * *Data type:* `mixed`
 
-* `$bMargin` = `` (line 37)
+* `$bMargin` = `` (line 58)
 * *Data type:* `mixed`
 
-* `$buffer` = `` (line 21)
+* `$buffer` = `` (line 42)
 * *Data type:* `mixed`
 
-* `$cMargin` = `` (line 38)
+* `$cMargin` = `` (line 59)
 * *Data type:* `mixed`
 
-* `$ColorFlag` = `` (line 55)
+* `$ColorFlag` = `` (line 76)
 * *Data type:* `mixed`
 
-* `$compress` = `` (line 24)
+* `$compress` = `` (line 45)
 * *Data type:* `mixed`
 
-* `$CoreFonts` = `` (line 42)
+* `$CoreFonts` = `` (line 63)
 * *Data type:* `mixed`
 
-* `$creator` = `` (line 70)
+* `$creator` = `` (line 91)
 * *Data type:* `mixed`
 
-* `$CurOrientation` = `` (line 27)
+* `$CurOrientation` = `` (line 48)
 * *Data type:* `mixed`
 
-* `$CurPageFormat` = `` (line 30)
+* `$CurPageFormat` = `` (line 51)
 * *Data type:* `mixed`
 
-* `$CurrentFont` = `` (line 49)
+* `$CurrentFont` = `` (line 70)
 * *Data type:* `mixed`
 
-* `$DefOrientation` = `` (line 26)
+* `$DefOrientation` = `` (line 47)
 * *Data type:* `mixed`
 
-* `$DefPageFormat` = `` (line 29)
+* `$DefPageFormat` = `` (line 50)
 * *Data type:* `mixed`
 
-* `$diffs` = `` (line 45)
+* `$diffs` = `` (line 66)
 * *Data type:* `mixed`
 
-* `$DrawColor` = `` (line 52)
+* `$DrawColor` = `` (line 73)
 * *Data type:* `mixed`
 
-* `$FillColor` = `` (line 53)
+* `$FillColor` = `` (line 74)
 * *Data type:* `mixed`
 
-* `$FontFamily` = `` (line 46)
+* `$FontFamily` = `` (line 67)
 * *Data type:* `mixed`
 
-* `$FontFiles` = `` (line 44)
+* `$FontFiles` = `` (line 65)
 * *Data type:* `mixed`
 
-* `$fonts` = `` (line 43)
+* `$fonts` = `` (line 64)
 * *Data type:* `mixed`
 
-* `$FontSize` = `` (line 51)
+* `$FontSize` = `` (line 72)
 * *Data type:* `mixed`
 
-* `$FontSizePt` = `` (line 50)
+* `$FontSizePt` = `` (line 71)
 * *Data type:* `mixed`
 
-* `$FontStyle` = `` (line 47)
+* `$FontStyle` = `` (line 68)
 * *Data type:* `mixed`
 
-* `$h` = `` (line 33)
+* `$h` = `` (line 54)
 * *Data type:* `mixed`
 
-* `$hPt` = `` (line 32)
+* `$hPt` = `` (line 53)
 * *Data type:* `mixed`
 
-* `$images` = `` (line 57)
+* `$images` = `` (line 78)
 * *Data type:* `mixed`
 
-* `$InFooter` = `` (line 63)
+* `$InFooter` = `` (line 84)
 * *Data type:* `mixed`
 
-* `$InHeader` = `` (line 62)
+* `$InHeader` = `` (line 83)
 * *Data type:* `mixed`
 
-* `$k` = `` (line 25)
+* `$k` = `` (line 46)
 * *Data type:* `mixed`
 
-* `$keywords` = `` (line 69)
+* `$keywords` = `` (line 90)
 * *Data type:* `mixed`
 
-* `$lasth` = `` (line 40)
+* `$lasth` = `` (line 61)
 * *Data type:* `mixed`
 
-* `$LayoutMode` = `` (line 65)
+* `$LayoutMode` = `` (line 86)
 * *Data type:* `mixed`
 
-* `$LineWidth` = `` (line 41)
+* `$LineWidth` = `` (line 62)
 * *Data type:* `mixed`
 
-* `$links` = `` (line 59)
+* `$links` = `` (line 80)
 * *Data type:* `mixed`
 
-* `$lMargin` = `` (line 34)
+* `$lMargin` = `` (line 55)
 * *Data type:* `mixed`
 
-* `$n` = `` (line 19)
+* `$n` = `` (line 40)
 * *Data type:* `mixed`
 
-* `$offsets` = `` (line 20)
+* `$offsets` = `` (line 41)
 * *Data type:* `mixed`
 
-* `$page` = `` (line 18)
+* `$page` = `` (line 39)
 * *Data type:* `mixed`
 
-* `$PageBreakTrigger` = `` (line 61)
+* `$PageBreakTrigger` = `` (line 82)
 * *Data type:* `mixed`
 
-* `$PageFormats` = `` (line 28)
+* `$PageFormats` = `` (line 49)
 * *Data type:* `mixed`
 
-* `$PageLinks` = `` (line 58)
+* `$PageLinks` = `` (line 79)
 * *Data type:* `mixed`
 
-* `$pages` = `` (line 22)
+* `$pages` = `` (line 43)
 * *Data type:* `mixed`
 
-* `$PageSizes` = `` (line 31)
+* `$PageSizes` = `` (line 52)
 * *Data type:* `mixed`
 
-* `$PDFVersion` = `` (line 72)
+* `$PDFVersion` = `` (line 93)
 * *Data type:* `mixed`
 
-* `$rMargin` = `` (line 36)
+* `$rMargin` = `` (line 57)
 * *Data type:* `mixed`
 
-* `$state` = `` (line 23)
+* `$state` = `` (line 44)
 * *Data type:* `mixed`
 
-* `$subject` = `` (line 67)
+* `$subject` = `` (line 88)
 * *Data type:* `mixed`
 
-* `$TextColor` = `` (line 54)
+* `$TextColor` = `` (line 75)
 * *Data type:* `mixed`
 
-* `$title` = `` (line 66)
+* `$title` = `` (line 87)
 * *Data type:* `mixed`
 
-* `$tMargin` = `` (line 35)
+* `$tMargin` = `` (line 56)
 * *Data type:* `mixed`
 
-* `$underline` = `` (line 48)
+* `$underline` = `` (line 69)
 * *Data type:* `mixed`
 
-* `$w` = `` (line 33)
+* `$w` = `` (line 54)
 * *Data type:* `mixed`
 
-* `$wPt` = `` (line 32)
+* `$wPt` = `` (line 53)
 * *Data type:* `mixed`
 
-* `$ws` = `` (line 56)
+* `$ws` = `` (line 77)
 * *Data type:* `mixed`
 
-* `$x` = `` (line 39)
+* `$x` = `` (line 60)
 * *Data type:* `mixed`
 
-* `$y` = `` (line 39)
+* `$y` = `` (line 60)
 * *Data type:* `mixed`
 
-* `$ZoomMode` = `` (line 64)
+* `$ZoomMode` = `` (line 85)
 * *Data type:* `mixed`
 
 

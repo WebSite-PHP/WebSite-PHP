@@ -214,7 +214,7 @@ Location: /modules/PDF/info/tutoriel/tuto2.php
 === Inherited From Class FPDF ===
 
 			* `FPDF::FPDF()`
-		*****************************************************************************
+		Method FPDF
 			* `FPDF::AcceptPageBreak()`
 		
 			* `FPDF::AddFont()`

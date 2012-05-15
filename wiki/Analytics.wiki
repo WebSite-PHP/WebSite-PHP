@@ -56,8 +56,8 @@ This class can be used to retrieve data from the Google Analytics API with PHP  
 = Analytics::__construct =
 
 *__construct(*
-*string*
-_$sUser_, *string*
+*mixed*
+_$sUser_, *mixed*
 _$sPass_* );*
 
 
@@ -70,7 +70,7 @@ _$sPass_* );*
 		
 *Remarks*
 
-public constructor
+Constructor Analytics
 
 
 *access:* public
@@ -88,8 +88,10 @@ public constructor
 	
 *Remarks*
 
-Get Browsers for given period
+Method getBrowsers
 
+
+*since:* 1.1.2
 
 *access:* public
 
@@ -98,7 +100,7 @@ Get Browsers for given period
 = Analytics::getData =
 
 *getData(*
-[*array*
+[*mixed*
 _$aProperties_ = array()]* );*
 
 
@@ -106,15 +108,14 @@ _$aProperties_ = array()]* );*
 
 	
 *Parameters*
-			_$aProperties_ (GA properties: metrics &amp; dimensions)
+			_$aProperties_ [default value:  array(]
 		
-*Returns*
-		result
-
 *Remarks*
 
-Parses GA XML to an array (dimension => metric)  Check http://code.google.com/intl/nl/apis/analytics/docs/gdata/gdataReferenceDimensionsMetrics.html  for usage of dimensions and metrics
+Method getData
 
+
+*since:* 1.1.2
 
 *access:* public
 
@@ -131,8 +132,10 @@ Parses GA XML to an array (dimension => metric)  Check http://code.google.com/in
 	
 *Remarks*
 
-Get Operating System for given period
+Method getOperatingSystem
 
+
+*since:* 1.1.2
 
 *access:* public
 
@@ -149,8 +152,10 @@ Get Operating System for given period
 	
 *Remarks*
 
-Get pageviews for given period
+Method getPageviews
 
+
+*since:* 1.1.2
 
 *access:* public
 
@@ -167,8 +172,10 @@ Get pageviews for given period
 	
 *Remarks*
 
-Returns an array with profileID => accountName
+Method getProfileList
 
+
+*since:* 1.1.2
 
 *access:* public
 
@@ -185,8 +192,10 @@ Returns an array with profileID => accountName
 	
 *Remarks*
 
-Get referrers for given period
+Method getReferrers
 
+
+*since:* 1.1.2
 
 *access:* public
 
@@ -203,8 +212,10 @@ Get referrers for given period
 	
 *Remarks*
 
-Get screen resolution for given period
+Method getScreenResolution
 
+
+*since:* 1.1.2
 
 *access:* public
 
@@ -221,8 +232,10 @@ Get screen resolution for given period
 	
 *Remarks*
 
-Get search words for given period
+Method getSearchWords
 
+
+*since:* 1.1.2
 
 *access:* public
 
@@ -239,8 +252,10 @@ Get search words for given period
 	
 *Remarks*
 
-Get visitors for given period
+Method getVisitors
 
+
+*since:* 1.1.2
 
 *access:* public
 
@@ -257,8 +272,10 @@ Get visitors for given period
 	
 *Remarks*
 
-Get visitors per hour for given period
+Method getVisitsPerHour
 
+
+*since:* 1.1.2
 
 *access:* public
 
@@ -267,8 +284,8 @@ Get visitors per hour for given period
 = Analytics::setDateRange =
 
 *setDateRange(*
-*string*
-_$sStartDate_, *string*
+*mixed*
+_$sStartDate_, *mixed*
 _$sEndDate_* );*
 
 
@@ -276,13 +293,15 @@ _$sEndDate_* );*
 
 	
 *Parameters*
-			_$sStartDate_ (YYY-MM-DD)
-			_$sEndDate_ (YYY-MM-DD)
+			_$sStartDate_ 
+			_$sEndDate_ 
 		
 *Remarks*
 
-Sets the date range for GA data
+Method setDateRange
 
+
+*since:* 1.1.2
 
 *access:* public
 
@@ -291,8 +310,8 @@ Sets the date range for GA data
 = Analytics::setMonth =
 
 *setMonth(*
-*int*
-_$iMonth_, *int*
+*mixed*
+_$iMonth_, *mixed*
 _$iYear_* );*
 
 
@@ -305,8 +324,10 @@ _$iYear_* );*
 		
 *Remarks*
 
-Sets de data range to a given month
+Method setMonth
 
+
+*since:* 1.1.2
 
 *access:* public
 
@@ -315,7 +336,7 @@ Sets de data range to a given month
 = Analytics::setProfileById =
 
 *setProfileById(*
-**
+*mixed*
 _$sProfileId_* );*
 
 
@@ -327,8 +348,10 @@ _$sProfileId_* );*
 		
 *Remarks*
 
-Sets GA Profile ID  (Example: ga:12345)
+Method setProfileById
 
+
+*since:* 1.1.2
 
 *access:* public
 
@@ -337,7 +360,7 @@ Sets GA Profile ID  (Example: ga:12345)
 = Analytics::setProfileByName =
 
 *setProfileByName(*
-**
+*mixed*
 _$sAccountName_* );*
 
 
@@ -349,8 +372,10 @@ _$sAccountName_* );*
 		
 *Remarks*
 
-Sets Profile ID by a given accountname
+Method setProfileByName
 
+
+*since:* 1.1.2
 
 *access:* public
 
@@ -359,8 +384,8 @@ Sets Profile ID by a given accountname
 = Analytics::useCache =
 
 *useCache(*
-[*bool*
-_$bCaching_ = true], [*int*
+[*mixed*
+_$bCaching_ = true], [*double*
 _$iCacheAge_ = 600]* );*
 
 
@@ -368,13 +393,15 @@ _$iCacheAge_ = 600]* );*
 
 	
 *Parameters*
-			_$bCaching_ (true/false)
-			_$iCacheAge_ seconds (default: 10 minutes)
+			_$bCaching_ [default value:  true]
+			_$iCacheAge_ [default value:  600]
 		
 *Remarks*
 
-Use caching (bool)  Whether or not to store GA data in a session for a given period
+Method useCache
 
+
+*since:* 1.1.2
 
 *access:* public
 

@@ -61,7 +61,7 @@ http://ipinfodb.com/ip_location_api.php
 ----
 == Method Summary == 
 
-																																																																										
+																																																																														
 == Inherited Method Summary == 
 
 ----
@@ -108,8 +108,8 @@ Destructor GeoLocalisation
 = GeoLocalisation::askUserToSharePosition =
 
 *askUserToSharePosition(*
-[**
-_$refresh_page_ = false], [**
+[*boolean*
+_$refresh_page_ = false], [*string*
 _$js_onsuccess_ = '']* );*
 
 
@@ -117,9 +117,17 @@ _$js_onsuccess_ = '']* );*
 
 	
 *Parameters*
-			_$refresh_page_ 
+			_$refresh_page_ [default value: false]
 			_$js_onsuccess_ 
-		*access:* public
+		
+*Remarks*
+
+Method askUserToSharePosition
+
+
+*since:* 1.0.98
+
+*access:* public
 
 
 
@@ -302,6 +310,26 @@ Get Region as a string
 
 is a google geolocalisation
 
+
+*access:* public
+
+
+
+= GeoLocalisation::isUserPositionShared =
+
+*isUserPositionShared(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method isUserPositionShared
+
+
+*since:* 1.1.2
 
 *access:* public
 

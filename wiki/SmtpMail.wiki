@@ -105,14 +105,16 @@ Method addAddress
 
 *addAttachment(*
 *mixed*
-_$file_* );*
+_$file_path_, [*string*
+_$file_name_ = &quot;&quot;]* );*
 
 
 	
 
 	
 *Parameters*
-			_$file_ 
+			_$file_path_ 
+			_$file_name_ 
 		
 *Remarks*
 

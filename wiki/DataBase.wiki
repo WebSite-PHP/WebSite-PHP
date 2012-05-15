@@ -20,7 +20,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.0.103
+*version:* 1.1.2
 
 *copyright:* WebSite-PHP.com 26/05/2011
 
@@ -88,9 +88,9 @@ Method getInstance
 = DataBase::__construct =
 
 *__construct(*
-*mixed*
-_$host_, *mixed*
-_$root_, *mixed*
+*string*
+_$host_, *string*
+_$root_, *string*
 _$password_, [*string*
 _$database_ = ''], [*double*
 _$port_ = 3306]* );*
@@ -236,8 +236,8 @@ Method isConnect
 = DataBase::prepareStatement =
 
 *prepareStatement(*
-*mixed*
-_$query_, [*mixed*
+*string*
+_$query_, [*array*
 _$stmt_objects_ = array()]* );*
 
 
@@ -246,7 +246,7 @@ _$stmt_objects_ = array()]* );*
 	
 *Parameters*
 			_$query_ 
-			_$stmt_objects_ [default value: array(]
+			_$stmt_objects_ [default value: array()]
 		
 *Remarks*
 
@@ -282,7 +282,7 @@ Method rollbackTransaction
 = DataBase::select_db =
 
 *select_db(*
-*mixed*
+*string*
 _$schema_* );*
 
 

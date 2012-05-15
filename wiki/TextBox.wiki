@@ -36,7 +36,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.0.102
+*version:* 1.1.2
 
 *copyright:* WebSite-PHP.com 26/05/2011
 
@@ -118,7 +118,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																																																																																																										
+																																																																																																																																														
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpEventObject ===
@@ -964,6 +964,26 @@ Method setName
 
 
 *since:* 1.0.36
+
+*access:* public
+
+
+
+= TextBox::setStripTags =
+
+*setStripTags(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method setStripTags
+
+
+*since:* 1.1.2
 
 *access:* public
 

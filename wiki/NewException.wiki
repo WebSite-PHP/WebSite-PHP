@@ -65,6 +65,8 @@ Location: /NewException.class.php
 		Method printStaticException
 					* `static mixed redirectOnError()`
 		Method redirectOnError
+					* `static void sendErrorByMail()`
+		Method sendErrorByMail
 										* `string generateErrorMessage()`
 		Method generateErrorMessage
 							* `void getStaticException()`
@@ -75,6 +77,8 @@ Location: /NewException.class.php
 		Method printStaticException
 					* `mixed redirectOnError()`
 		Method redirectOnError
+					* `void sendErrorByMail()`
+		Method sendErrorByMail
 				
 == Inherited Method Summary == 
 
@@ -232,6 +236,32 @@ Method redirectOnError
 
 
 *since:* 1.0.35
+
+*access:* public
+
+
+
+= static NewException::sendErrorByMail =
+
+*static sendErrorByMail(*
+*mixed*
+_$debug_msg_, [*string*
+_$attachment_file_ = &quot;&quot;]* );*
+
+
+	
+
+	
+*Parameters*
+			_$debug_msg_ 
+			_$attachment_file_ 
+		
+*Remarks*
+
+Method sendErrorByMail
+
+
+*since:* 1.0.100
 
 *access:* public
 

@@ -24,7 +24,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.0.102
+*version:* 1.1.3
 
 *copyright:* WebSite-PHP.com 26/05/2011
 
@@ -37,6 +37,9 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 ----
 == Class Variable Summary ==
+							* `$is_link` = ` false`
+		
+		
 		
 ----
 == Class Constant Summary ==
@@ -665,6 +668,11 @@ Method show
 ----
 
 == Variable Detail ==
+* `$is_link` = ` false` (line 33)
+* *Data type:* `mixed`
+*access:* protected
+
+
 
 ----
 == Class Constant Detail ==

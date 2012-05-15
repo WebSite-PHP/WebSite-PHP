@@ -30,9 +30,9 @@ Location: /CssInclude.class.php
 
 																								* `static CssInclude getInstance()`
 		Method getInstance
-																																* `CssInclude getInstance()`
+																																		* `CssInclude getInstance()`
 		Method getInstance
-								
+										
 == Inherited Method Summary == 
 
 ----
@@ -287,6 +287,26 @@ Method getCssConfigFile
 
 
 *since:* 1.0.83
+
+*access:* public
+
+
+
+= CssInclude::getLastCssConfigFileSession =
+
+*getLastCssConfigFileSession(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getLastCssConfigFileSession
+
+
+*since:* 1.1.3
 
 *access:* public
 

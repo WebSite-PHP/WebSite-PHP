@@ -790,7 +790,7 @@ _$parentNode_* );*
 ----
 == Class Constant Detail ==
 
-* `RSS_ENCODING_UTF8` = `'utf-8'` (line 48)
+* `RSS_ENCODING_UTF8` = `'utf-8'` (line 73)
 
 
 

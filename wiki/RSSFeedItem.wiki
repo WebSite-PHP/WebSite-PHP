@@ -61,11 +61,7 @@ Location: /modules/RSS-Generator/RSSFeedItem.class.php
 ----
 == Method Summary == 
 
-				* `static : __construct()`
-		**************************************************
-					* `static : __destruct()`
-		**************************************************
-					* `static : getAuthor()`
+								* `static : getAuthor()`
 		**************************************************
 					* `static : getComments()`
 		**************************************************
@@ -75,9 +71,7 @@ Location: /modules/RSS-Generator/RSSFeedItem.class.php
 		**************************************************
 					* `static : getSource()`
 		**************************************************
-					* `static : setAuthor()`
-		**************************************************
-					* `static : setComments()`
+							* `static : setComments()`
 		**************************************************
 					* `static : setEnclosure()`
 		**************************************************
@@ -85,11 +79,7 @@ Location: /modules/RSS-Generator/RSSFeedItem.class.php
 		**************************************************
 					* `static : setSource()`
 		**************************************************
-						* `: __construct()`
-		**************************************************
-					* `: __destruct()`
-		**************************************************
-					* `: getAuthor()`
+										* `: getAuthor()`
 		**************************************************
 					* `: getComments()`
 		**************************************************
@@ -99,9 +89,7 @@ Location: /modules/RSS-Generator/RSSFeedItem.class.php
 		**************************************************
 					* `: getSource()`
 		**************************************************
-					* `: setAuthor()`
-		**************************************************
-					* `: setComments()`
+							* `: setComments()`
 		**************************************************
 					* `: setEnclosure()`
 		**************************************************
@@ -137,56 +125,6 @@ Location: /modules/RSS-Generator/RSSFeedItem.class.php
 	
 ----
 == Method Detail ==
-
-
-= static RSSFeedItem::__construct =
-
-*static __construct(*
-*:*
-_0_* );*
-
-
-	
-
-	
-*Parameters*
-			_0_ string $encoding
-		
-*Returns*
-		void *************************************************
-
-*Remarks*
-
-**************************************************
-
-
-*access:* public
-
-
-
-= static RSSFeedItem::__destruct =
-
-*static __destruct(*
-*:*
-_0_* );*
-
-
-	
-
-	
-*Parameters*
-			_0_ void
-		
-*Returns*
-		void *************************************************
-
-*Remarks*
-
-**************************************************
-
-
-*access:* public
-
 
 
 = static RSSFeedItem::getAuthor =
@@ -314,33 +252,6 @@ _0_* );*
 
 
 
-= static RSSFeedItem::setAuthor =
-
-*static setAuthor(*
-*:*
-_$email_, [*:*
-_$name_ = '']* );*
-
-
-	
-
-	
-*Parameters*
-			_$email_ string $email
-			_$name_ string $name
-		
-*Returns*
-		void *************************************************
-
-*Remarks*
-
-**************************************************
-
-
-*access:* public
-
-
-
 = static RSSFeedItem::setComments =
 
 *static setComments(*
@@ -447,6 +358,68 @@ _$content_* );*
 
 *access:* public
 
+
+
+
+= RSSFeedItem::__construct =
+
+*__construct(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Constructor RSSFeedItem
+
+
+*access:* public
+
+
+
+= RSSFeedItem::__destruct =
+
+*__destruct(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Destructor RSSFeedItem
+
+
+*access:* public
+
+
+
+= RSSFeedItem::setAuthor =
+
+*setAuthor(*
+*mixed*
+_$email_, [*string*
+_$name_ = '']* );*
+
+
+	
+
+	
+*Parameters*
+			_$email_ 
+			_$name_ 
+		
+*Remarks*
+
+Method setAuthor
+
+
+*since:* 1.1.2
+
+*access:* public
 
 
 

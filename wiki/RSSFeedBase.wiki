@@ -370,27 +370,27 @@ _$title_* );*
 ----
 
 == Variable Detail ==
-* `$_categories` = `array()` (line 24)
+* `$_categories` = `array()` (line 49)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `$_description` = ` ''` (line 20)
+* `$_description` = ` ''` (line 45)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `$_link` = ` ''` (line 22)
+* `$_link` = ` ''` (line 47)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `$_pubDate` = ` ''` (line 23)
+* `$_pubDate` = ` ''` (line 48)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `$_title` = ` ''` (line 21)
+* `$_title` = ` ''` (line 46)
 * *Data type:* `mixed`
 *access:* protected
 
