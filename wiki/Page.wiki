@@ -20,7 +20,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.3
+*version:* 1.1.5
 
 *copyright:* WebSite-PHP.com 26/05/2011
 
@@ -295,11 +295,11 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																														* `static Page getInstance()`
+																																																										* `static Page getInstance()`
 		Method getInstance
-																																																																																																																																																																* `Page getInstance()`
+																																																																																																																																																																				* `Page getInstance()`
 		Method getInstance
-																																																																																																		
+																																																																																																										
 == Inherited Method Summary == 
 
 ----
@@ -430,38 +430,6 @@ Method addObject
 *since:* 1.0.18
 
 *access:* public
-
-
-
-= Page::__construct =
-
-*__construct(*
-* );*
-
-
-	
-
-	
-*Remarks*
-
-Constructor Page
-
-
-
-
-= Page::__destruct =
-
-*__destruct(*
-* );*
-
-
-	
-
-	
-*Remarks*
-
-Destructor Page
-
 
 
 
@@ -1695,6 +1663,26 @@ Method isMobileDevice
 
 
 
+= Page::isMobileMetaTag =
+
+*isMobileMetaTag(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method isMobileMetaTag
+
+
+*since:* 1.1.4
+
+*access:* public
+
+
+
 = Page::loadAllVariables =
 
 *loadAllVariables(*
@@ -1715,6 +1703,38 @@ Load all GET and POST Varaibles after submit a form
 *since:* 1.0.22
 
 *access:* public
+
+
+
+= Page::__construct =
+
+*__construct(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Constructor Page
+
+
+
+
+= Page::__destruct =
+
+*__destruct(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Destructor Page
+
 
 
 
@@ -1875,6 +1895,30 @@ Method setCacheTime
 *since:* 1.0.3
 
 *access:* protected
+
+
+
+= Page::setMobileMetaTag =
+
+*setMobileMetaTag(*
+[*boolean*
+_$bool_ = true]* );*
+
+
+	
+
+	
+*Parameters*
+			_$bool_ [default value: true]
+		
+*Remarks*
+
+Method setMobileMetaTag
+
+
+*since:* 1.1.4
+
+*access:* public
 
 
 

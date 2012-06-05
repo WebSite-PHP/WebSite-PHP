@@ -652,7 +652,7 @@ Method showMenuOnlyWhenButtonClicked
 ----
 == Class Constant Detail ==
 
-* `BUTTON_BIG` = ` 'big'` (line 35)
+* `BUTTON_BIG` = ` 'big'` (line 60)
 
 
 *Remarks*
@@ -663,7 +663,7 @@ Button style
 *access:* public
 
 
-* `BUTTON_ICON` = ` 'icon'` (line 37)
+* `BUTTON_ICON` = ` 'icon'` (line 62)
 
 
 *Remarks*
@@ -674,7 +674,7 @@ Button style
 *access:* public
 
 
-* `BUTTON_ICONS_TEXT` = ` 'icons_text'` (line 36)
+* `BUTTON_ICONS_TEXT` = ` 'icons_text'` (line 61)
 
 
 *Remarks*
@@ -685,7 +685,7 @@ Button style
 *access:* public
 
 
-* `BUTTON_MEDIUM` = ` 'medium'` (line 34)
+* `BUTTON_MEDIUM` = ` 'medium'` (line 59)
 
 
 *Remarks*
@@ -696,7 +696,7 @@ Button style
 *access:* public
 
 
-* `BUTTON_SMALL` = ` 'small'` (line 33)
+* `BUTTON_SMALL` = ` 'small'` (line 58)
 
 
 *Remarks*
@@ -707,7 +707,7 @@ Button style
 *access:* public
 
 
-* `BUTTON_TEXT` = ` 'text'` (line 38)
+* `BUTTON_TEXT` = ` 'text'` (line 63)
 
 
 *Remarks*
@@ -718,7 +718,7 @@ Button style
 *access:* public
 
 
-* `SHARE_BY_AIM` = ` 'aim'` (line 46)
+* `SHARE_BY_AIM` = ` 'aim'` (line 71)
 
 
 *Remarks*
@@ -729,7 +729,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_ALLVOICES` = ` 'allvoices'` (line 48)
+* `SHARE_BY_ALLVOICES` = ` 'allvoices'` (line 73)
 
 
 *Remarks*
@@ -740,7 +740,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_AMAZON_WISH_LIST` = ` 'amazon_wish_list'` (line 49)
+* `SHARE_BY_AMAZON_WISH_LIST` = ` 'amazon_wish_list'` (line 74)
 
 
 *Remarks*
@@ -751,7 +751,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_AOL_MAIL` = ` 'aol_mail'` (line 47)
+* `SHARE_BY_AOL_MAIL` = ` 'aol_mail'` (line 72)
 
 
 *Remarks*
@@ -762,7 +762,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_ARTO` = ` 'arto'` (line 50)
+* `SHARE_BY_ARTO` = ` 'arto'` (line 75)
 
 
 *Remarks*
@@ -773,7 +773,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_ASK_COM_MYSTUFF` = ` 'ask_com_mystuff'` (line 51)
+* `SHARE_BY_ASK_COM_MYSTUFF` = ` 'ask_com_mystuff'` (line 76)
 
 
 *Remarks*
@@ -784,7 +784,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_BACKFLIP` = ` 'backflip'` (line 52)
+* `SHARE_BY_BACKFLIP` = ` 'backflip'` (line 77)
 
 
 *Remarks*
@@ -795,7 +795,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_BEBO` = ` 'bebo'` (line 53)
+* `SHARE_BY_BEBO` = ` 'bebo'` (line 78)
 
 
 *Remarks*
@@ -806,7 +806,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_BIBSONOMY` = ` 'bibsonomy'` (line 54)
+* `SHARE_BY_BIBSONOMY` = ` 'bibsonomy'` (line 79)
 
 
 *Remarks*
@@ -817,7 +817,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_BITTY_BROWSER` = ` 'bitty_browser'` (line 55)
+* `SHARE_BY_BITTY_BROWSER` = ` 'bitty_browser'` (line 80)
 
 
 *Remarks*
@@ -828,7 +828,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_BLINKLIST` = ` 'blinklist'` (line 56)
+* `SHARE_BY_BLINKLIST` = ` 'blinklist'` (line 81)
 
 
 *Remarks*
@@ -839,7 +839,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_BLOGGER_POST` = ` 'blogger_post'` (line 58)
+* `SHARE_BY_BLOGGER_POST` = ` 'blogger_post'` (line 83)
 
 
 *Remarks*
@@ -850,7 +850,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_BLOGMARKS` = ` 'blogmarks'` (line 57)
+* `SHARE_BY_BLOGMARKS` = ` 'blogmarks'` (line 82)
 
 
 *Remarks*
@@ -861,7 +861,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_BOOKMARKS_FR` = ` 'bookmarks_fr'` (line 59)
+* `SHARE_BY_BOOKMARKS_FR` = ` 'bookmarks_fr'` (line 84)
 
 
 *Remarks*
@@ -872,7 +872,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_BOX_NET` = ` 'box_net'` (line 60)
+* `SHARE_BY_BOX_NET` = ` 'box_net'` (line 85)
 
 
 *Remarks*
@@ -883,7 +883,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_BUDDYMARKS` = ` 'buddymarks'` (line 61)
+* `SHARE_BY_BUDDYMARKS` = ` 'buddymarks'` (line 86)
 
 
 *Remarks*
@@ -894,7 +894,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_BUSINESS_EXCHANGE` = ` 'business_exchange'` (line 62)
+* `SHARE_BY_BUSINESS_EXCHANGE` = ` 'business_exchange'` (line 87)
 
 
 *Remarks*
@@ -905,7 +905,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_CARE2_NEWS` = ` 'care2_news'` (line 63)
+* `SHARE_BY_CARE2_NEWS` = ` 'care2_news'` (line 88)
 
 
 *Remarks*
@@ -916,7 +916,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_CITEULIKE` = ` 'citeulike'` (line 64)
+* `SHARE_BY_CITEULIKE` = ` 'citeulike'` (line 89)
 
 
 *Remarks*
@@ -927,7 +927,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_CONNOTEA` = ` 'connotea'` (line 65)
+* `SHARE_BY_CONNOTEA` = ` 'connotea'` (line 90)
 
 
 *Remarks*
@@ -938,7 +938,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_CURRENT` = ` 'current'` (line 66)
+* `SHARE_BY_CURRENT` = ` 'current'` (line 91)
 
 
 *Remarks*
@@ -949,7 +949,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_DAILYME` = ` 'dailyme'` (line 68)
+* `SHARE_BY_DAILYME` = ` 'dailyme'` (line 93)
 
 
 *Remarks*
@@ -960,7 +960,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_DELICIOUS` = ` 'delicious'` (line 69)
+* `SHARE_BY_DELICIOUS` = ` 'delicious'` (line 94)
 
 
 *Remarks*
@@ -971,7 +971,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_DIGG` = ` 'digg'` (line 70)
+* `SHARE_BY_DIGG` = ` 'digg'` (line 95)
 
 
 *Remarks*
@@ -982,7 +982,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_DIGLOG` = ` 'diglog'` (line 71)
+* `SHARE_BY_DIGLOG` = ` 'diglog'` (line 96)
 
 
 *Remarks*
@@ -993,7 +993,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_DIIGO` = ` 'diigo'` (line 72)
+* `SHARE_BY_DIIGO` = ` 'diigo'` (line 97)
 
 
 *Remarks*
@@ -1004,7 +1004,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_DZONE` = ` 'dzone'` (line 67)
+* `SHARE_BY_DZONE` = ` 'dzone'` (line 92)
 
 
 *Remarks*
@@ -1015,7 +1015,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_EMAIL` = ` 'email'` (line 73)
+* `SHARE_BY_EMAIL` = ` 'email'` (line 98)
 
 
 *Remarks*
@@ -1026,7 +1026,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_EVERNOTE` = ` 'evernote'` (line 74)
+* `SHARE_BY_EVERNOTE` = ` 'evernote'` (line 99)
 
 
 *Remarks*
@@ -1037,7 +1037,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_EXPRESSION` = ` 'expression'` (line 75)
+* `SHARE_BY_EXPRESSION` = ` 'expression'` (line 100)
 
 
 *Remarks*
@@ -1048,7 +1048,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_FACEBOOK` = ` 'facebook'` (line 76)
+* `SHARE_BY_FACEBOOK` = ` 'facebook'` (line 101)
 
 
 *Remarks*
@@ -1059,7 +1059,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_FARK` = ` 'fark'` (line 77)
+* `SHARE_BY_FARK` = ` 'fark'` (line 102)
 
 
 *Remarks*
@@ -1070,7 +1070,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_FAVES` = ` 'faves'` (line 78)
+* `SHARE_BY_FAVES` = ` 'faves'` (line 103)
 
 
 *Remarks*
@@ -1081,7 +1081,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_FOLKD` = ` 'folkd'` (line 79)
+* `SHARE_BY_FOLKD` = ` 'folkd'` (line 104)
 
 
 *Remarks*
@@ -1092,7 +1092,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_FRIENDFEED` = ` 'friendfeed'` (line 80)
+* `SHARE_BY_FRIENDFEED` = ` 'friendfeed'` (line 105)
 
 
 *Remarks*
@@ -1103,7 +1103,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_FUNP` = ` 'funp'` (line 81)
+* `SHARE_BY_FUNP` = ` 'funp'` (line 106)
 
 
 *Remarks*
@@ -1114,7 +1114,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_GABBR` = ` 'gabbr'` (line 82)
+* `SHARE_BY_GABBR` = ` 'gabbr'` (line 107)
 
 
 *Remarks*
@@ -1125,7 +1125,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_GOOGLE_BOOKMARKS` = ` 'google_bookmarks'` (line 83)
+* `SHARE_BY_GOOGLE_BOOKMARKS` = ` 'google_bookmarks'` (line 108)
 
 
 *Remarks*
@@ -1136,7 +1136,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_GOOGLE_BUZZ` = ` 'google_buzz'` (line 84)
+* `SHARE_BY_GOOGLE_BUZZ` = ` 'google_buzz'` (line 109)
 
 
 *Remarks*
@@ -1147,7 +1147,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_GOOGLE_GMAIL` = ` 'google_gmail'` (line 85)
+* `SHARE_BY_GOOGLE_GMAIL` = ` 'google_gmail'` (line 110)
 
 
 *Remarks*
@@ -1158,7 +1158,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_GOOGLE_READER` = ` 'google_reader'` (line 86)
+* `SHARE_BY_GOOGLE_READER` = ` 'google_reader'` (line 111)
 
 
 *Remarks*
@@ -1169,7 +1169,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_HELLOTXT` = ` 'hellotxt'` (line 87)
+* `SHARE_BY_HELLOTXT` = ` 'hellotxt'` (line 112)
 
 
 *Remarks*
@@ -1180,7 +1180,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_HEMIDEMI` = ` 'hemidemi'` (line 88)
+* `SHARE_BY_HEMIDEMI` = ` 'hemidemi'` (line 113)
 
 
 *Remarks*
@@ -1191,7 +1191,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_HOTMAIL` = ` 'hotmail'` (line 89)
+* `SHARE_BY_HOTMAIL` = ` 'hotmail'` (line 114)
 
 
 *Remarks*
@@ -1202,7 +1202,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_HUGG` = ` 'hugg'` (line 90)
+* `SHARE_BY_HUGG` = ` 'hugg'` (line 115)
 
 
 *Remarks*
@@ -1213,7 +1213,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_HYVES` = ` 'hyves'` (line 91)
+* `SHARE_BY_HYVES` = ` 'hyves'` (line 116)
 
 
 *Remarks*
@@ -1224,7 +1224,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_IDENTI_CA` = ` 'identi_ca'` (line 92)
+* `SHARE_BY_IDENTI_CA` = ` 'identi_ca'` (line 117)
 
 
 *Remarks*
@@ -1235,7 +1235,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_IMERA_BRAZIL` = ` 'imera_brazil'` (line 93)
+* `SHARE_BY_IMERA_BRAZIL` = ` 'imera_brazil'` (line 118)
 
 
 *Remarks*
@@ -1246,7 +1246,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_INSTAPAPER` = ` 'instapaper'` (line 94)
+* `SHARE_BY_INSTAPAPER` = ` 'instapaper'` (line 119)
 
 
 *Remarks*
@@ -1257,7 +1257,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_JAMESPOT` = ` 'jamespot'` (line 95)
+* `SHARE_BY_JAMESPOT` = ` 'jamespot'` (line 120)
 
 
 *Remarks*
@@ -1268,7 +1268,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_JUMPTAGS` = ` 'jumptags'` (line 96)
+* `SHARE_BY_JUMPTAGS` = ` 'jumptags'` (line 121)
 
 
 *Remarks*
@@ -1279,7 +1279,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_KHABBR` = ` 'khabbr'` (line 97)
+* `SHARE_BY_KHABBR` = ` 'khabbr'` (line 122)
 
 
 *Remarks*
@@ -1290,7 +1290,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_KLEDY` = ` 'kledy'` (line 98)
+* `SHARE_BY_KLEDY` = ` 'kledy'` (line 123)
 
 
 *Remarks*
@@ -1301,7 +1301,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_LINKAGOGO` = ` 'linkagogo'` (line 99)
+* `SHARE_BY_LINKAGOGO` = ` 'linkagogo'` (line 124)
 
 
 *Remarks*
@@ -1312,7 +1312,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_LINKATOPIA` = ` 'linkatopia'` (line 100)
+* `SHARE_BY_LINKATOPIA` = ` 'linkatopia'` (line 125)
 
 
 *Remarks*
@@ -1323,7 +1323,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_LINKEDIN` = ` 'linkedin'` (line 101)
+* `SHARE_BY_LINKEDIN` = ` 'linkedin'` (line 126)
 
 
 *Remarks*
@@ -1334,7 +1334,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_LIVE` = ` 'live'` (line 106)
+* `SHARE_BY_LIVE` = ` 'live'` (line 131)
 
 
 *Remarks*
@@ -1345,7 +1345,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_LIVEJOURNAL` = ` 'livejournal'` (line 102)
+* `SHARE_BY_LIVEJOURNAL` = ` 'livejournal'` (line 127)
 
 
 *Remarks*
@@ -1356,7 +1356,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_MAPLE` = ` 'maple'` (line 104)
+* `SHARE_BY_MAPLE` = ` 'maple'` (line 129)
 
 
 *Remarks*
@@ -1367,7 +1367,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_MENEAME` = ` 'meneame'` (line 105)
+* `SHARE_BY_MENEAME` = ` 'meneame'` (line 130)
 
 
 *Remarks*
@@ -1378,7 +1378,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_MINDBODYGREEN` = ` 'mindbodygreen'` (line 107)
+* `SHARE_BY_MINDBODYGREEN` = ` 'mindbodygreen'` (line 132)
 
 
 *Remarks*
@@ -1389,7 +1389,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_MISTER_WONG` = ` 'mister_wong'` (line 108)
+* `SHARE_BY_MISTER_WONG` = ` 'mister_wong'` (line 133)
 
 
 *Remarks*
@@ -1400,7 +1400,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_MIXX` = ` 'mixx'` (line 109)
+* `SHARE_BY_MIXX` = ` 'mixx'` (line 134)
 
 
 *Remarks*
@@ -1411,7 +1411,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_MOZILLACA` = ` 'mozillaca'` (line 110)
+* `SHARE_BY_MOZILLACA` = ` 'mozillaca'` (line 135)
 
 
 *Remarks*
@@ -1422,7 +1422,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_MSDN` = ` 'msdn'` (line 103)
+* `SHARE_BY_MSDN` = ` 'msdn'` (line 128)
 
 
 *Remarks*
@@ -1433,7 +1433,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_MULTIPLY` = ` 'multiply'` (line 111)
+* `SHARE_BY_MULTIPLY` = ` 'multiply'` (line 136)
 
 
 *Remarks*
@@ -1444,7 +1444,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_MYLINKVAULT` = ` 'mylinkvault'` (line 112)
+* `SHARE_BY_MYLINKVAULT` = ` 'mylinkvault'` (line 137)
 
 
 *Remarks*
@@ -1455,7 +1455,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_MYSPACE` = ` 'myspace'` (line 113)
+* `SHARE_BY_MYSPACE` = ` 'myspace'` (line 138)
 
 
 *Remarks*
@@ -1466,7 +1466,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_NETLOG` = ` 'netlog'` (line 114)
+* `SHARE_BY_NETLOG` = ` 'netlog'` (line 139)
 
 
 *Remarks*
@@ -1477,7 +1477,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_NETVIBES_SHARE` = ` 'netvibes_share'` (line 115)
+* `SHARE_BY_NETVIBES_SHARE` = ` 'netvibes_share'` (line 140)
 
 
 *Remarks*
@@ -1488,7 +1488,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_NETVOUZ` = ` 'netvouz'` (line 116)
+* `SHARE_BY_NETVOUZ` = ` 'netvouz'` (line 141)
 
 
 *Remarks*
@@ -1499,7 +1499,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_NEWSTRUST` = ` 'newstrust'` (line 117)
+* `SHARE_BY_NEWSTRUST` = ` 'newstrust'` (line 142)
 
 
 *Remarks*
@@ -1510,7 +1510,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_NEWSVINE` = ` 'newsvine'` (line 118)
+* `SHARE_BY_NEWSVINE` = ` 'newsvine'` (line 143)
 
 
 *Remarks*
@@ -1521,7 +1521,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_NOWPUBLIC` = ` 'nowpublic'` (line 119)
+* `SHARE_BY_NOWPUBLIC` = ` 'nowpublic'` (line 144)
 
 
 *Remarks*
@@ -1532,7 +1532,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_ONEVIEW` = ` 'oneview'` (line 120)
+* `SHARE_BY_ONEVIEW` = ` 'oneview'` (line 145)
 
 
 *Remarks*
@@ -1543,7 +1543,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_ORKUT` = ` 'orkut'` (line 121)
+* `SHARE_BY_ORKUT` = ` 'orkut'` (line 146)
 
 
 *Remarks*
@@ -1554,7 +1554,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_PHONEFAVS` = ` 'phonefavs'` (line 122)
+* `SHARE_BY_PHONEFAVS` = ` 'phonefavs'` (line 147)
 
 
 *Remarks*
@@ -1565,7 +1565,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_PING` = ` 'ping'` (line 123)
+* `SHARE_BY_PING` = ` 'ping'` (line 148)
 
 
 *Remarks*
@@ -1576,7 +1576,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_PLAXO_PULSE` = ` 'plaxo_pulse'` (line 124)
+* `SHARE_BY_PLAXO_PULSE` = ` 'plaxo_pulse'` (line 149)
 
 
 *Remarks*
@@ -1587,7 +1587,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_PLURK` = ` 'plurk'` (line 125)
+* `SHARE_BY_PLURK` = ` 'plurk'` (line 150)
 
 
 *Remarks*
@@ -1598,7 +1598,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_POSTEROUS` = ` 'posterous'` (line 126)
+* `SHARE_BY_POSTEROUS` = ` 'posterous'` (line 151)
 
 
 *Remarks*
@@ -1609,7 +1609,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_PRINTFRIENDLY` = ` 'printfriendly'` (line 127)
+* `SHARE_BY_PRINTFRIENDLY` = ` 'printfriendly'` (line 152)
 
 
 *Remarks*
@@ -1620,7 +1620,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_PROTOPAGE_BOOKMARKS` = ` 'protopage_bookmarks'` (line 128)
+* `SHARE_BY_PROTOPAGE_BOOKMARKS` = ` 'protopage_bookmarks'` (line 153)
 
 
 *Remarks*
@@ -1631,7 +1631,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_PUSHA` = ` 'pusha'` (line 129)
+* `SHARE_BY_PUSHA` = ` 'pusha'` (line 154)
 
 
 *Remarks*
@@ -1642,7 +1642,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_READ_IT_LATER` = ` 'read_it_later'` (line 130)
+* `SHARE_BY_READ_IT_LATER` = ` 'read_it_later'` (line 155)
 
 
 *Remarks*
@@ -1653,7 +1653,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_REDDIT` = ` 'reddit'` (line 131)
+* `SHARE_BY_REDDIT` = ` 'reddit'` (line 156)
 
 
 *Remarks*
@@ -1664,7 +1664,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_REDIFF` = ` 'rediff'` (line 132)
+* `SHARE_BY_REDIFF` = ` 'rediff'` (line 157)
 
 
 *Remarks*
@@ -1675,7 +1675,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_SEGNALO` = ` 'segnalo'` (line 133)
+* `SHARE_BY_SEGNALO` = ` 'segnalo'` (line 158)
 
 
 *Remarks*
@@ -1686,7 +1686,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_SHOUTWIRE` = ` 'shoutwire'` (line 134)
+* `SHARE_BY_SHOUTWIRE` = ` 'shoutwire'` (line 159)
 
 
 *Remarks*
@@ -1697,7 +1697,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_SIMPY` = ` 'simpy'` (line 135)
+* `SHARE_BY_SIMPY` = ` 'simpy'` (line 160)
 
 
 *Remarks*
@@ -1708,7 +1708,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_SITEJOT` = ` 'sitejot'` (line 136)
+* `SHARE_BY_SITEJOT` = ` 'sitejot'` (line 161)
 
 
 *Remarks*
@@ -1719,7 +1719,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_SLASHDOT` = ` 'slashdot'` (line 137)
+* `SHARE_BY_SLASHDOT` = ` 'slashdot'` (line 162)
 
 
 *Remarks*
@@ -1730,7 +1730,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_SMAKNEWS` = ` 'smaknews'` (line 138)
+* `SHARE_BY_SMAKNEWS` = ` 'smaknews'` (line 163)
 
 
 *Remarks*
@@ -1741,7 +1741,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_SPHERE` = ` 'sphere'` (line 139)
+* `SHARE_BY_SPHERE` = ` 'sphere'` (line 164)
 
 
 *Remarks*
@@ -1752,7 +1752,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_SPHINN` = ` 'sphinn'` (line 140)
+* `SHARE_BY_SPHINN` = ` 'sphinn'` (line 165)
 
 
 *Remarks*
@@ -1763,7 +1763,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_SPURL` = ` 'spurl'` (line 141)
+* `SHARE_BY_SPURL` = ` 'spurl'` (line 166)
 
 
 *Remarks*
@@ -1774,7 +1774,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_SQUIDOO` = ` 'squidoo'` (line 142)
+* `SHARE_BY_SQUIDOO` = ` 'squidoo'` (line 167)
 
 
 *Remarks*
@@ -1785,7 +1785,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_STARTAID` = ` 'startaid'` (line 143)
+* `SHARE_BY_STARTAID` = ` 'startaid'` (line 168)
 
 
 *Remarks*
@@ -1796,7 +1796,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_STRANDS` = ` 'strands'` (line 144)
+* `SHARE_BY_STRANDS` = ` 'strands'` (line 169)
 
 
 *Remarks*
@@ -1807,7 +1807,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_STUMBLEUPON` = ` 'stumbleupon'` (line 145)
+* `SHARE_BY_STUMBLEUPON` = ` 'stumbleupon'` (line 170)
 
 
 *Remarks*
@@ -1818,7 +1818,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_SYMBALOO_FEEDS` = ` 'symbaloo_feeds'` (line 146)
+* `SHARE_BY_SYMBALOO_FEEDS` = ` 'symbaloo_feeds'` (line 171)
 
 
 *Remarks*
@@ -1829,7 +1829,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_TAGZA` = ` 'tagza'` (line 147)
+* `SHARE_BY_TAGZA` = ` 'tagza'` (line 172)
 
 
 *Remarks*
@@ -1840,7 +1840,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_TAILRANK` = ` 'tailrank'` (line 148)
+* `SHARE_BY_TAILRANK` = ` 'tailrank'` (line 173)
 
 
 *Remarks*
@@ -1851,7 +1851,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_TECHNET` = ` 'technet'` (line 149)
+* `SHARE_BY_TECHNET` = ` 'technet'` (line 174)
 
 
 *Remarks*
@@ -1862,7 +1862,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_TECHNORATI_FAVORITES` = ` 'technorati_favorites'` (line 150)
+* `SHARE_BY_TECHNORATI_FAVORITES` = ` 'technorati_favorites'` (line 175)
 
 
 *Remarks*
@@ -1873,7 +1873,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_TECHNOTIZIE` = ` 'technotizie'` (line 151)
+* `SHARE_BY_TECHNOTIZIE` = ` 'technotizie'` (line 176)
 
 
 *Remarks*
@@ -1884,7 +1884,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_TIPD` = ` 'tipd'` (line 152)
+* `SHARE_BY_TIPD` = ` 'tipd'` (line 177)
 
 
 *Remarks*
@@ -1895,7 +1895,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_TUENTI` = ` 'tuenti'` (line 153)
+* `SHARE_BY_TUENTI` = ` 'tuenti'` (line 178)
 
 
 *Remarks*
@@ -1906,7 +1906,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_TUMBLR` = ` 'tumblr'` (line 154)
+* `SHARE_BY_TUMBLR` = ` 'tumblr'` (line 179)
 
 
 *Remarks*
@@ -1917,7 +1917,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_TWIDDLA` = ` 'twiddla'` (line 155)
+* `SHARE_BY_TWIDDLA` = ` 'twiddla'` (line 180)
 
 
 *Remarks*
@@ -1928,7 +1928,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_TWITTER` = ` 'twitter'` (line 156)
+* `SHARE_BY_TWITTER` = ` 'twitter'` (line 181)
 
 
 *Remarks*
@@ -1939,7 +1939,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_TYPEPAD_POST` = ` 'typepad_post'` (line 157)
+* `SHARE_BY_TYPEPAD_POST` = ` 'typepad_post'` (line 182)
 
 
 *Remarks*
@@ -1950,7 +1950,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_UNALOG` = ` 'unalog'` (line 173)
+* `SHARE_BY_UNALOG` = ` 'unalog'` (line 198)
 
 
 *Remarks*
@@ -1961,7 +1961,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_VIADEO` = ` 'viadeo'` (line 158)
+* `SHARE_BY_VIADEO` = ` 'viadeo'` (line 183)
 
 
 *Remarks*
@@ -1972,7 +1972,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_VODPOD` = ` 'vodpod'` (line 159)
+* `SHARE_BY_VODPOD` = ` 'vodpod'` (line 184)
 
 
 *Remarks*
@@ -1983,7 +1983,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_WEBNEWS` = ` 'webnews'` (line 160)
+* `SHARE_BY_WEBNEWS` = ` 'webnews'` (line 185)
 
 
 *Remarks*
@@ -1994,7 +1994,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_WINK` = ` 'wink'` (line 161)
+* `SHARE_BY_WINK` = ` 'wink'` (line 186)
 
 
 *Remarks*
@@ -2005,7 +2005,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_WISTS` = ` 'wists'` (line 162)
+* `SHARE_BY_WISTS` = ` 'wists'` (line 187)
 
 
 *Remarks*
@@ -2016,7 +2016,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_WORDPRESS` = ` 'wordpress'` (line 163)
+* `SHARE_BY_WORDPRESS` = ` 'wordpress'` (line 188)
 
 
 *Remarks*
@@ -2027,7 +2027,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_XERPI` = ` 'xerpi'` (line 165)
+* `SHARE_BY_XERPI` = ` 'xerpi'` (line 190)
 
 
 *Remarks*
@@ -2038,7 +2038,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_XING` = ` 'xing'` (line 164)
+* `SHARE_BY_XING` = ` 'xing'` (line 189)
 
 
 *Remarks*
@@ -2049,7 +2049,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_YAHOO_BOOKMARKS` = ` 'yahoo_bookmarks'` (line 166)
+* `SHARE_BY_YAHOO_BOOKMARKS` = ` 'yahoo_bookmarks'` (line 191)
 
 
 *Remarks*
@@ -2060,7 +2060,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_YAHOO_MAIL` = ` 'yahoo_mail'` (line 167)
+* `SHARE_BY_YAHOO_MAIL` = ` 'yahoo_mail'` (line 192)
 
 
 *Remarks*
@@ -2071,7 +2071,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_YAHOO_MESSENGER` = ` 'yahoo_messenger'` (line 168)
+* `SHARE_BY_YAHOO_MESSENGER` = ` 'yahoo_messenger'` (line 193)
 
 
 *Remarks*
@@ -2082,7 +2082,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_YAMPLE` = ` 'yample'` (line 169)
+* `SHARE_BY_YAMPLE` = ` 'yample'` (line 194)
 
 
 *Remarks*
@@ -2093,7 +2093,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_YIGG` = ` 'yigg'` (line 170)
+* `SHARE_BY_YIGG` = ` 'yigg'` (line 195)
 
 
 *Remarks*
@@ -2104,7 +2104,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_YOOLINK` = ` 'yoolink'` (line 171)
+* `SHARE_BY_YOOLINK` = ` 'yoolink'` (line 196)
 
 
 *Remarks*
@@ -2115,7 +2115,7 @@ Share services
 *access:* public
 
 
-* `SHARE_BY_YOUMOB` = ` 'youmob'` (line 172)
+* `SHARE_BY_YOUMOB` = ` 'youmob'` (line 197)
 
 
 *Remarks*

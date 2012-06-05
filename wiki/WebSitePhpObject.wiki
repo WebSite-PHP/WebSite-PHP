@@ -1,11 +1,14 @@
-#labels Class,WebSite-PHP,WebSitePhpObject,AutoComplete,AutoCompleteResult,Box,DraggableEvent,ToolTip,Adsense,Map,Language,LanguageBox,LanguageComboBox,LiveValidation,ContextMenu,DockMenu,DockMenuItem,Menu,MenuItem,MenuItems,RoundBox,SwfObject,TreeView,TreeViewItem,TreeViewItems,Anchor,Captcha,DefinedZone,DialogBox,Font,Form,JavaScript,Label,Link,LinkPage,ListItem,PictureMap,RowTable,Table,Tabs,Url,Authentication,ContactForm,DownloadButton,FacebookActivityFeed,FacebookComments,FacebookRecommendations,GoogleSearchBar,GoogleSearchResult,Chart,ImageRotator,FacebookLikeButton,GoogleLikeButton,ShareButton,VideoFlv,VideoHTML5,WebSitePhpEventObject
+#labels Class,WebSite-PHP,WebSitePhpObject,Accordion,AutoComplete,AutoCompleteResult,Box,DraggableEvent,ToolTip,Adsense,Map,Language,LanguageBox,LanguageComboBox,LiveValidation,ContextMenu,DockMenu,DockMenuItem,Menu,MenuItem,MenuItems,RoundBox,SwfObject,TreeView,TreeViewItem,TreeViewItems,Anchor,Captcha,DefinedZone,DialogBox,Font,Form,JavaScript,Label,Link,LinkPage,ListItem,PictureMap,RowTable,Table,Tabs,Url,Authentication,ContactForm,DownloadButton,FacebookActivityFeed,FacebookComments,FacebookRecommendations,GoogleSearchBar,GoogleSearchResult,Chart,ImageRotator,FacebookLikeButton,GoogleLikeButton,ShareButton,VideoFlv,VideoHTML5,WebSitePhpEventObject
 = Class WebSitePhpObject =
 
 
 
 
 Classes extended from WebSitePhpObject:
- 		AutoComplete
+ 		Accordion
+	    |
+	    --Class Accordion
+		AutoComplete
 	    |
 	    --Class AutoComplete
 		AutoCompleteResult
@@ -180,12 +183,12 @@ Location: /WebSitePhpObject.class.php
 Class WebSitePhpObject
 
 
-WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2011 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.0.99
+*version:* 1.1.5
 
 *copyright:* WebSite-PHP.com 26/05/2011
 
@@ -265,6 +268,8 @@ Method getRegisterObjects
 
 
 	Overridden in child classes as:
+		Accordion::__construct()
+		  Constructor Accordion
 		AutoComplete::__construct()
 		  Constructor AutoComplete
 		AutoCompleteResult::__construct()
@@ -790,6 +795,8 @@ _$ajax_render_ = false]* );*
 
 
 	Overridden in child classes as:
+		Accordion::render()
+		  Method render
 		AutoComplete::render()
 		  Method render
 		AutoCompleteResult::render()

@@ -1,20 +1,20 @@
-#labels Class,WebSite-PHP,Anchor,WebSitePhpObject,Anchor
-= Class Anchor =
+#labels Class,WebSite-PHP,Accordion,WebSitePhpObject,Accordion
+= Class Accordion =
 
 WebSitePhpObject
    |
-   --Anchor
+   --Accordion
 
 
 
-Location: /display/Anchor.class.php
+Location: /display/advanced_object/Accordion.class.php
 
 ----
 
 
 *Remarks*
 
-Class Anchor
+Class Accordion
 
 
 WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
@@ -24,11 +24,11 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *version:* 1.1.5
 
-*copyright:* WebSite-PHP.com 26/05/2011
+*copyright:* WebSite-PHP.com 18/05/2012
 
 *link:* 
 
-*since:* 1.0.17
+*since:* 1.1.4
 
 *access:* public
 
@@ -67,7 +67,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-										
+																																						
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpObject ===
@@ -114,11 +114,11 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 
 
-= Anchor::__construct =
+= Accordion::__construct =
 
 *__construct(*
-*mixed*
-_$name_* );*
+[*string*
+_$id_ = 'accordion']* );*
 
 
 Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
@@ -126,16 +126,146 @@ Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
 
 	
 *Parameters*
-			_$name_ 
+			_$id_ [default value: accordion]
 		
 *Remarks*
 
-Constructor Anchor
+Constructor Accordion
 
 
 
 
-= Anchor::render =
+= Accordion::addSection =
+
+*addSection(*
+*mixed*
+_$title_, *object*
+_$content_or_url_* );*
+
+
+	
+
+	
+*Parameters*
+			_$title_ 
+			_$content_or_url_ 
+		
+*Remarks*
+
+Method addSection
+
+
+*since:* 1.1.4
+
+*access:* public
+
+
+
+= Accordion::collapseContent =
+
+*collapseContent(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method collapseContent
+
+
+*since:* 1.1.4
+
+*access:* public
+
+
+
+= Accordion::fillSpace =
+
+*fillSpace(*
+*mixed*
+_$min_height_* );*
+
+
+	
+
+	
+*Parameters*
+			_$min_height_ 
+		
+*Remarks*
+
+Method fillSpace
+
+
+*since:* 1.1.4
+
+*access:* public
+
+
+
+= Accordion::noAutoHeight =
+
+*noAutoHeight(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method noAutoHeight
+
+
+*since:* 1.1.4
+
+*access:* public
+
+
+
+= Accordion::openOnMouseHint =
+
+*openOnMouseHint(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method openOnMouseHint
+
+
+*since:* 1.1.4
+
+*access:* public
+
+
+
+= Accordion::openOnMouseOver =
+
+*openOnMouseOver(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method openOnMouseOver
+
+
+*since:* 1.1.4
+
+*access:* public
+
+
+
+= Accordion::render =
 
 *render(*
 [*boolean*
@@ -150,14 +280,40 @@ Overrides WebSitePhpObject::render() (Method render)
 			_$ajax_render_ [default value: false]
 		
 *Returns*
-		html code of object Anchor
+		html code of object Accordion
 
 *Remarks*
 
 Method render
 
 
-*since:* 1.0.35
+*since:* 1.1.4
+
+*access:* public
+
+
+
+= Accordion::setIcon =
+
+*setIcon(*
+*mixed*
+_$icon_16px_, *mixed*
+_$icon_selected_16px_* );*
+
+
+	
+
+	
+*Parameters*
+			_$icon_16px_ 
+			_$icon_selected_16px_ 
+		
+*Remarks*
+
+Method setIcon
+
+
+*since:* 1.1.4
 
 *access:* public
 

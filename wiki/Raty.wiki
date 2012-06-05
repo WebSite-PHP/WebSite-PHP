@@ -24,7 +24,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.0.103
+*version:* 1.1.5
 
 *copyright:* WebSite-PHP.com 25/01/2012
 
