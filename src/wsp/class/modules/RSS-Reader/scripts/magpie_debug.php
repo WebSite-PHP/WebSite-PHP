@@ -1,4 +1,25 @@
 <?php
+/**
+ * PHP file wsp\class\modules\RSS-Reader\scripts\magpie_debug.php
+ */
+/**
+ * Class 
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2012 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 05/08/2011
+ * @version     1.1.5
+ * @access      public
+ * @since       1.1.5
+ */
+
 
 ini_set('display_errors', 1);
 ini_set('error_reporting', E_ALL);
@@ -39,7 +60,6 @@ else {
 	echo "Error: " . magpie_error();
 }
 ?>
-
 <form>
 	RSS URL: <input type="text" size="30" name="url" value="<?php echo $url ?>"><br />
 	<input type="submit" value="Parse RSS">
@@ -47,8 +67,7 @@ else {
 
 <h3>Parsed Results (var_dump'ed)</h3>
 <pre>
-<?php var_dump($rss); ?>
-</pre>
+<?php var_dump($rss); ?></pre>
 
 <?php
 

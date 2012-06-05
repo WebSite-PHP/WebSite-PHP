@@ -1,5 +1,30 @@
 <?php
 /**
+ * PHP file wsp\class\modules\GoogleSearch\GoogleSearchResult.class.php
+ * @package modules
+ * @subpackage GoogleSearch
+ */
+/**
+ * Class GoogleSearchResult
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2012 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @package modules
+ * @subpackage GoogleSearch
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.1.5
+ * @access      public
+ * @since       1.1.5
+ */
+
+/**
  * PHP file wsp\class\display\advanced_object\google\googlesearch\GoogleSearchResult.class.php
  * @package display
  * @subpackage advanced_object.google.googlesearch

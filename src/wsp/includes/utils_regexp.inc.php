@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 16/03/2012
- * @version     1.1.1
+ * @version     1.1.5
  * @access      public
  * @since       1.1.1
  */

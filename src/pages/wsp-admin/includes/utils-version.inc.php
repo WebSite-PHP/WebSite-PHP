@@ -6,11 +6,16 @@
 	function isNewWspVersion() {
 		if (extension_loaded('soap')) {
 			$user_wsp_version = getCurrentWspVersion();
-			$timeout_ctx = stream_context_create(array('http' => array('timeout' => 2))); 
-			$wsdl = file_get_contents("http://www.website-php.com/en/webservices/wsp-information-server.wsdl?wsdl", 0, $timeout_ctx);
-			if (!isset($_SESSION['server_wsp_version']) && $wsdl != "") {
-				$client = new WebSitePhpSoapClient("http://www.website-php.com/en/webservices/wsp-information-server.wsdl?wsdl");
-				$_SESSION['server_wsp_version'] = $client->getLastVersionNumber2($user_wsp_version, BASE_URL);
+			
+			if (!isset($_SESSION['server_wsp_version'])) {
+				$http = new Http();
+				$http->setTimeout(2);
+				$http->execute("http://www.website-php.com/en/webservices/wsp-information-server.wsdl?wsdl");
+				$wsdl = $http->getResult();
+				if ($wsdl != "" && find($wsdl, "<?xml", 1) > 0) {
+					$client = new WebSitePhpSoapClient("http://www.website-php.com/en/webservices/wsp-information-server.wsdl?wsdl");
+					$_SESSION['server_wsp_version'] = $client->getLastVersionNumber2($user_wsp_version, BASE_URL);
+				}
 			}
 			//echo trim($user_wsp_version)." != ".trim($_SESSION['server_wsp_version']);
 			if (trim($user_wsp_version) != trim($_SESSION['server_wsp_version'])) {
@@ -36,9 +41,12 @@
 		if (!isset($_SESSION['server_browscap_version'])) {
 			$http = new Http();
 			$http->setTimeout(2);
-			$http->execute("http://browsers.garykeith.com/versions/version-number.asp");
-			$http->getError();
-			$_SESSION['server_browscap_version'] = $http->getResult();
+			$http->execute("http://www.website-php.com/en/webservices/wsp-information-server.wsdl?wsdl");
+			$wsdl = $http->getResult();
+			if ($wsdl != "" && find($wsdl, "<?xml", 1) > 0) {
+				$client = new WebSitePhpSoapClient("http://www.website-php.com/en/webservices/wsp-information-server.wsdl?wsdl");
+				$_SESSION['server_browscap_version'] = $client->getBrowscapVersionNumber();
+			}
 		}
 		if (trim($_SESSION['user_browscap_version']) != trim($_SESSION['server_browscap_version'])) {
 			return trim($_SESSION['server_browscap_version']);

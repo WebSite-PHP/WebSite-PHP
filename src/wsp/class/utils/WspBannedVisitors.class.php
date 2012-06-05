@@ -17,9 +17,9 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 06/02/2012
- * @version     1.1.0 
+ * @version     1.1.5
  * @access      public
- * @since       1.1.0 
+ * @since       1.1.0
  */
 
 class WspBannedVisitors {
@@ -30,7 +30,7 @@ class WspBannedVisitors {
 	 * Method _open
 	 * @access static
 	 * @return mixed
-	 * @since 1.1.0 
+	 * @since 1.1.0
 	 */
 	private static function _open() {
 		$file = "wsp/wsp_banned_visitors";
@@ -52,7 +52,7 @@ class WspBannedVisitors {
 	 * Method transaction_start
 	 * @access static
 	 * @return boolean
-	 * @since 1.1.0 
+	 * @since 1.1.0
 	 */
 	private static function transaction_start() {
 		if (!isset($handle)) {
@@ -66,7 +66,7 @@ class WspBannedVisitors {
 	 * Method transaction_finish
 	 * @access static
 	 * @return boolean
-	 * @since 1.1.0 
+	 * @since 1.1.0
 	 */
 	private static function transaction_finish() {
 		if (isset($handle)) {
@@ -82,7 +82,7 @@ class WspBannedVisitors {
 	 * Method fetch
 	 * @access static
 	 * @return mixed
-	 * @since 1.1.0 
+	 * @since 1.1.0
 	 */
 	private static function fetch() {
 		$h = null;
@@ -109,7 +109,7 @@ class WspBannedVisitors {
 	 * Method store
 	 * @access static
 	 * @param mixed $value 
-	 * @since 1.1.0 
+	 * @since 1.1.0
 	 */
 	private static function store($value) {
 		$h = null;
@@ -133,7 +133,7 @@ class WspBannedVisitors {
 	 * @access static
 	 * @param mixed $ip 
 	 * @param double $duration [default value: 0]
-	 * @since 1.1.0 
+	 * @since 1.1.0
 	 */
 	public static function addIP($ip, $duration=0) {
 		self::transaction_start();
@@ -163,7 +163,7 @@ class WspBannedVisitors {
 	 * @access static
 	 * @param mixed $ip 
 	 * @param double $duration [default value: 0]
-	 * @since 1.1.0 
+	 * @since 1.1.0
 	 */
 	public static function setIpBanned($ip, $duration=0) {
 		self::transaction_start();
@@ -196,7 +196,7 @@ class WspBannedVisitors {
 	 * @access static
 	 * @param mixed $ip 
 	 * @return boolean
-	 * @since 1.1.0 
+	 * @since 1.1.0
 	 */
 	public static function isBannedIp($ip) {
 		self::transaction_start();
@@ -224,7 +224,7 @@ class WspBannedVisitors {
 	 * @access static
 	 * @param mixed $ip 
 	 * @return double
-	 * @since 1.1.0 
+	 * @since 1.1.0
 	 */
 	public static function getIpNbBadAccess($ip) {
 		self::transaction_start();
@@ -249,7 +249,7 @@ class WspBannedVisitors {
 	 * @access static
 	 * @param mixed $ip 
 	 * @return double
-	 * @since 1.1.0 
+	 * @since 1.1.0
 	 */
 	public static function getBannedIpDuration($ip) {
 		self::transaction_start();
@@ -274,7 +274,7 @@ class WspBannedVisitors {
 	 * @access static
 	 * @param mixed $ip 
 	 * @return double
-	 * @since 1.1.0 
+	 * @since 1.1.0
 	 */
 	public static function getBannedIpLastAccess($ip) {
 		self::transaction_start();
@@ -298,7 +298,7 @@ class WspBannedVisitors {
 	 * Method getBannedVisitors
 	 * @access static
 	 * @return mixed
-	 * @since 1.1.0 
+	 * @since 1.1.0
 	 */
 	public static function getBannedVisitors() {
 		self::transaction_start();
@@ -318,7 +318,7 @@ class WspBannedVisitors {
 	 * Method resetBannedIP
 	 * @access static
 	 * @param mixed $ip 
-	 * @since 1.1.0 
+	 * @since 1.1.0
 	 */
 	public static function resetBannedIP($ip) {
 		self::transaction_start();
@@ -341,7 +341,7 @@ class WspBannedVisitors {
 	 * Method toString
 	 * @access static
 	 * @return mixed
-	 * @since 1.1.0 
+	 * @since 1.1.0
 	 */
 	public static function toString() {
 		self::transaction_start();

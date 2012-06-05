@@ -1,4 +1,25 @@
 <?php
+/**
+ * PHP file wsp\class\modules\RSS-Reader\scripts\magpie_slashbox.php
+ */
+/**
+ * Class 
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2012 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 05/08/2011
+ * @version     1.1.5
+ * @access      public
+ * @since       1.1.5
+ */
+
 
 define('MAGPIE_DIR', '../');
 require_once(MAGPIE_DIR.'rss_fetch.inc');
@@ -6,7 +27,6 @@ require_once(MAGPIE_DIR.'rss_fetch.inc');
 $url = $_GET['rss_url'];
 
 ?>
-
 <html>
 <body LINK="#999999" VLINK="#000000">
 
@@ -26,7 +46,6 @@ echo "<pre>";
 print_r($rss);
 echo "</pre>";
 ?>
-
 </body>
 </html>
 

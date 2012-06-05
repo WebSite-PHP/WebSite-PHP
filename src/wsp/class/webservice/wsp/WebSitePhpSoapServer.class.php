@@ -8,7 +8,7 @@
  * Class WebSitePhpSoapServer
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage wsp
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 03/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 26/05/2011
+ * @version     1.1.5
  * @access      public
  * @since       1.0.17
  */
@@ -32,12 +32,7 @@ class WebSitePhpSoapServer {
 	function __construct($class_name) {
 		include_once('wsp/class/webservice/Soap/AutoDiscover.php');
 		
-		if (find(BASE_URL, "127.0.0.1/", 0, 0) > 0 || find(BASE_URL, "localhost/", 0, 0) > 0) { // localhost
-			ini_set("soap.wsdl_cache_enabled", "0");
-		} else {
-			ini_set("soap.wsdl_cache_enabled", "1");
-		}
-		
+		ini_set("soap.wsdl_cache_enabled", "0");
 		if(isset($_GET['wsdl'])) {
 			$this->server = new Zend_Soap_AutoDiscover();
 			$this->server->setClass($class_name);

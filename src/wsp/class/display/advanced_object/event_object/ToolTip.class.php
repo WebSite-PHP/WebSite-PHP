@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.0 
+ * @version     1.1.5
  * @access      public
  * @since       1.0.77
  */
@@ -77,7 +77,7 @@ class ToolTip extends WebSitePhpObject {
 	 * Method followCursor
 	 * @access public
 	 * @return ToolTip
-	 * @since 1.1.0 
+	 * @since 1.1.0
 	 */
 	public function followCursor() {
 		$this->follow_cursor = true;
