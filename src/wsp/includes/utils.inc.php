@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.2
+ * @version     1.1.4
  * @access      public
  * @since       1.0.19
  */
@@ -110,6 +110,10 @@
 		}
 		list($date, $heure) = explode(" ", $date);
 		return formatDate($date)." ".substr($heure, 0, 5);
+	}
+	
+	function getMonth($month_number) {
+		return $GLOBALS['months'][$month_number];
 	}
 	
 	function convert12HourTo24Hour($hour) {

@@ -6,7 +6,7 @@
  * Defined zone template: define the render of the zone template
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.1.4
  * @access      public
  * @since       1.0.51
  */
@@ -40,6 +40,7 @@ class Template extends DefinedZone {
 		$lang_box->setWidth(600);
 		$lang_box->addLanguage("en");
 		$lang_box->addLanguage("fr");
+		$lang_box->addLanguage("de");
 		$this->render->addRow($lang_box);
 		
 		// Footer

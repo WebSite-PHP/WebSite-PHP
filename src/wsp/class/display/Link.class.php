@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.2
+ * @version     1.1.4
  * @access      public
  * @since       1.0.17
  */
@@ -348,7 +348,11 @@ class Link extends WebSitePhpObject {
 		}
 		$html .= ">";
 		if (gettype($this->content) == "object" && method_exists($this->content, "render")) {
-			$html .= $this->content->render();
+			if (get_class($this->content) == "Object") {
+				$html .= str_replace(">\n <br/>", "><br/>", str_replace(">\n <BR/>", "><BR/>", str_replace(">\n <br />", "><br />", str_replace(">\n <BR />", "><BR />", $this->content->render()))));
+			} else {
+				$html .= $this->content->render();
+			}
 		} else {
 			$html .= $this->content;
 		}

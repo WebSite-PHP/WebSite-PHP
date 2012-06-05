@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.3
+ * @version     1.1.4
  * @access      public
  * @since       1.0.0
  */
@@ -169,6 +169,8 @@ class Page {
 	private $create_object_to_get_css_js = false;
 	private $ended_added_object_loaded = false;
 	private $array_decrypted_form = array();
+	
+	private $is_mobile_meta_tag = false;
 	/**#@-*/
 	
 	/**
@@ -1546,6 +1548,28 @@ class Page {
 	public function addLogDebugExecutionTime($info='') {
 		$wspPageTotalTime = elog_time($_SESSION['wspPageStartTime']);
      	$this->addLogDebug("<b>Execution Time".($info!=""?" ".$info:"").":</b> ".round($wspPageTotalTime,3)." Seconds");
+	}
+	
+	/**
+	 * Method setMobileMetaTag
+	 * @access public
+	 * @param boolean $bool [default value: true]
+	 * @return Page
+	 * @since 1.1.4
+	 */
+	public function setMobileMetaTag($bool=true) {
+		$this->is_mobile_meta_tag = $bool;
+		return $this;
+	}
+	
+	/**
+	 * Method isMobileMetaTag
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.4
+	 */
+	public function isMobileMetaTag() {
+		return $this->is_mobile_meta_tag;
 	}
 }
 ?>

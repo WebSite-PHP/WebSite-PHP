@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.102
+ * @version     1.1.4
  * @access      public
  * @since       1.0.17
  */
@@ -500,13 +500,14 @@ class Editor extends WebSitePhpEventObject {
 				}
 				$html .= "\"";
 			}
-			$html .= "></textarea>\n";
+			$html .= ">";
 			if ($this->form_object != null) {
 				$hidden_text = new TextBox($this->form_object, "hidden_".$this->name);
 			} else {
 				$hidden_text = new TextBox($this->page_object, "hidden_".$this->name);
 			}
-			$hidden_text->setStyle("display:none;");
+			$html .= $this->getValue()."</textarea>\n";
+			$hidden_text->setStyle("display:none;")->forceEmpty();
 			$html .= $hidden_text->render()."\n";
 			
 			if (!$ajax_render) {
@@ -516,6 +517,12 @@ class Editor extends WebSitePhpEventObject {
 				$html .= $this->getJavascriptTagClose();
 				if ($this->live_validation != null) {
 					$html .= $this->live_validation->render();
+				}
+			} else {
+				// For Ajax render: Extract JavaScript from HTML
+				$array_ajax_render = extract_javascript($this->live_validation->render());
+				for ($i=1; $i < sizeof($array_ajax_render); $i++) {
+					new JavaScript($array_ajax_render[$i], true);
 				}
 			}
 		}

@@ -227,3 +227,7 @@
 /admin/my/scripts/setup.php
 /admin--/mysqladmin/scripts/setup.php
 /admin/mysqladmin/scripts/setup.php
+/wordpress/wp-trackback.php
+/wp/wp-trackback.php
+/blog/wp-trackback.php
+/wp-trackback.php

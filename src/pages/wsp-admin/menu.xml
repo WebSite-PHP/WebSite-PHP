@@ -45,6 +45,9 @@
 			<MenuItem>
 				<Menu name="__(FRENCH)" url='".BASE_URL."fr/".PARAMS_URL."' icon_16="img/wsp-admin/fr_16.png" icon_64="img/wsp-admin/fr_64.png" />
 			</MenuItem>
+			<MenuItem>
+				<Menu name="__(GERMAN)" url='".BASE_URL."de/".PARAMS_URL."' icon_16="img/wsp-admin/de_16.png" icon_64="img/wsp-admin/de_64.png" />
+			</MenuItem>
 		</MenuItems>
 	</MenuItem>
 	<MenuItem>

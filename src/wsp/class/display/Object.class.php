@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.3
+ * @version     1.1.4
  * @access      public
  * @since       1.0.17
  */
@@ -1052,13 +1052,14 @@ class Object extends WebSitePhpEventObject {
 			if ($this->id == "") {
 				throw new NewException("Error Object: You must specified an id to load an object from an URL", 0, getDebugBacktrace(1));
 			}
-			if (sizeof($this->objects) == 2) {
+			if (sizeof($this->objects) == 2) { // When we want to define a content before ajax loading
 				$loaded_url = $this->objects[1]->render();
 			} else {
 				$loaded_url = $this->objects[0]->render();
 			}
 			$html .= $this->getJavascriptTagOpen();
-			$html .= "$('#".$this->getId()."').load('".$loaded_url."', {}, ";
+			$html .= "var oldContentHtml = ''; if (trim($('#".$this->getId()."').html().replace(/<div[^>]*>(.*?)<\/div>/gi, '')) != '') { oldContentHtml = $('#".$this->getId()."').html(); }\n";
+			$html .= "$('#".$this->getId()."').load('".$loaded_url."', { 'oldContentHtml': oldContentHtml }, ";
             $html .= "function (response, status, xhr) { if (status == 'error' && response != '') { $('#".$this->getId()."').html('<table><tr><td><img src=\'".BASE_URL."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + response); } } );";
 			$html .= $this->getJavascriptTagClose();
 		}

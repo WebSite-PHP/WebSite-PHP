@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 16/12/2011
- * @version     1.1.2
+ * @version     1.1.4
  * @access      public
  * @since       1.0.99
  */
@@ -906,7 +906,7 @@ class HTTP {
         if($this->status == 0)
         {
             // Oooops !
-            if(!eregi($match = "^http/[0-9]+\\.[0-9]+[ \t]+([0-9]+)[ \t]*(.*)\$", $headers[0], $matches))
+            if(!@eregi($match = "^http/[0-9]+\\.[0-9]+[ \t]+([0-9]+)[ \t]*(.*)\$", $headers[0], $matches))
             {
                 $this->_setError('Unexpected HTTP response status');
                 return FALSE;

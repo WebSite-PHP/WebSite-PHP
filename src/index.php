@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.3
+ * @version     1.1.4
  * @access      public
  * @since       1.0.0
  */
@@ -232,6 +232,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="<?php echo $_SESSION['lang']; ?>">
 	<head>
+<?php if ($page_object->isMobileMetaTag()) { ?>
+		<meta content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport"/>
+		<meta name="format-detection" content="telephone=no"/>
+		<meta name="format-detection" content="address=no"/>
+<?php } ?>
 		<title><?php echo html_entity_decode($current_page_title); ?></title>
 		
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
@@ -461,7 +466,7 @@
 		  window.google_analytics_uacct = "<?php echo GOOGLE_CODE_TRACKER; ?>";
 		  <?php 
 			if (SUBDOMAIN_URL != "") { 
-				echo "_gaq.push(['_setDomainName', '".str_replace(SUBDOMAIN_URL, "", $_SERVER['SERVER_NAME'])."']);\n";
+				echo "_gaq.push(['_setDomainName', '".str_replace("http://".SUBDOMAIN_URL, "", "http://".$_SERVER['SERVER_NAME'])."']);\n";
 			} else {
 				echo "_gaq.push(['_setDomainName', 'none']);\n";
 			}

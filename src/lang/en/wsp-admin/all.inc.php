@@ -15,6 +15,7 @@
 	define("LANGUAGE", "Languages");
 	define("ENGLISH", "English");
 	define("FRENCH", "French");
+	define("GERMAN", "German");
 	
 	define("DISCONNECT", "Disconnect");
 	define("CHANGE_PASSWD", "Change password");

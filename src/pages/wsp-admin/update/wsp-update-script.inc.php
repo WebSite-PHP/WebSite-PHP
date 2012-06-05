@@ -100,6 +100,10 @@ Options -indexes
 	RewriteCond %{HTTP_HOST} ^mydomain\.com$ [NC]
 	RewriteRule ^(.*)$ http://www.mydomain.com/$1 [R=301,L] 
 	
+	# Alias: If you have configured an alias in the httpd.conf of Apache
+	# Uncomment this line and configure the name of your alias.
+	# If you are not sure don't change this line.
+	#RewriteBase /myAliasName/
 	
 	# Zone to define your URL rewriting
 	# Exemple 1: 
@@ -116,7 +120,7 @@ Options -indexes
 	# Create an URL with 1 variable virtual folder (warning param2)
 	# RewriteRule ^([a-z]{2})/((?!(ajax|wsp\-admin)).+)/(.+)\.html$ index.php?p=my_page&l=$1&param1=$2&param2=$4&folder_level=1&%{QUERY_STRING} [L]
 	# 
-	# Warning: Create your rules only if the framework can't support your special URL => virtual folder
+	# Warning: Create your rules only if the framework can't support your special URL => virtual folder (the framework manages the real folders)
 	#
 	\n";
 		}

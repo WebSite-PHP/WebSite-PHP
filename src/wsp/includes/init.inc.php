@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.3
+ * @version     1.1.4
  * @access      public
  * @since       1.0.0
  */
@@ -105,10 +105,15 @@
 			echo "The apache user has no right to rename the file install.htaccess to .htaccess. Please give the rights on this file to finalize the installation.\n";
 	    	exit;
 		} else {
-	    	$test_url = @file_get_contents(BASE_URL.$tmp_lang);
-	    	if ($test_url == "") {
+			require_once(dirname(__FILE__)."/../class/utils/HTTP.class.php");
+			$http = new Http();
+			$http->execute(BASE_URL.$tmp_lang."/");
+			$http_error = $http->getError();
+			$http_result = $http->getResult();
+	    	if ($http_result == "") {
 	    		rename('.htaccess', 'install.htaccess');
-	    		echo "Please change your configuration to be compatible with <a href='http://www.website-php.com' target='_blank'>WebSite-PHP</a>:<br/>- Webserver needs to support \"AllowOverride All\" for your website directory!<br/>&lt;Directory /your_directory&gt;<br/>&nbsp;&nbsp;&nbsp;AllowOverride all<br/>&lt;/Directory&gt;<br/>Edit the configuration file httpd.conf of you apache server. In this file you need to find the tag \"Directory\" concerning website folder (i.e.: www) and set the property AllowOverride with the parameter \"All\" as explained before.<br/><a href='http://httpd.apache.org/docs/current/mod/core.html#allowoverride' target='_blank'>http://httpd.apache.org/docs/current/mod/core.html#allowoverride</a>\n";
+	    		echo "Please change your configuration to be compatible with <a href='http://www.website-php.com' target='_blank'>WebSite-PHP</a>:<br/>- Webserver needs to support \"<b>AllowOverride <font color='red'>All</font></b>\" for your website directory!<br/>&lt;Directory /your_directory&gt;<br/>&nbsp;&nbsp;&nbsp;AllowOverride all<br/>&lt;/Directory&gt;<br/>Edit the configuration file httpd.conf of your apache server. In this file you need to find the tag \"Directory\" concerning website folder (i.e.: www) and set the property AllowOverride with the parameter \"All\" as explained before.<br/><a href='http://httpd.apache.org/docs/current/mod/core.html#allowoverride' target='_blank'>http://httpd.apache.org/docs/current/mod/core.html#allowoverride</a><br/><br/>\n";
+	    		echo "<b>If you want to use <font color='red'>Alias</font></b> with WebSite-PHP you need to uncomment and configure the line with \"RewriteBase /myAliasName/\" in the file install.htaccess of the framework.<br/>\n";
 	    		exit;
 	    	}
 		}

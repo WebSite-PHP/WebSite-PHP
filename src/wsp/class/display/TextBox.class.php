@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.2
+ * @version     1.1.4
  * @access      public
  * @since       1.0.17
  */
@@ -607,6 +607,7 @@ class TextBox extends WebSitePhpEventObject {
 	 * @since 1.0.85
 	 */
 	public function forceEmpty() {
+		$this->getValue(); // ack to be sure of the value of force empty
 		$this->force_empty = true;
 		$this->setValue("");
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }

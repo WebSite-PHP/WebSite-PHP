@@ -1,0 +1,41 @@
+<?php
+	define("NO_PICTURE", "Kein Bild");
+	define("CURRENT_PICTURE", "Aktuelles Bild");
+	define("EDT_BACKGROUND_BODY", "Hintergrund Body Farbe");
+	define("EDT_BCK_BODY_PIC", "Hintergrund Body Bild");
+	define("EDT_BCK_BODY_PIC_REPEAT", "Hintergrund Body Bild wiederholen");
+	define("EDT_BCK_BODY_PIC_POSITION", "Hintergrund Body Bild Position");
+	define("EDT_COLOR_BODY", "Text body Farbe");
+	define("EDT_LINK_COLOR", "Link Farbe");
+	define("EDT_LINK_HOVER_COLOR", "Hover Link Farbe");
+	define("CMB_BCK_PICTURE_1", "Box Hintergrund Bild %s");
+	define("EDT_BCK_1_HEADER", "Header Hintergrund Farbe %s");
+	define("EDT_COLOR_1_HEADER", "Header Text Farbe %s");
+	define("EDT_COLOR_1_HEADER_LINK", "Header Link Farbe %s");
+	define("EDT_COLOR_1_HEADER_LINK_HOVER", "Header hover Link Farbe %s");
+	define("EDT_BCK_1", "Hintergrund Farbe %s");
+	define("EDT_COLOR_1", "Text Farbe %s");
+	define("EDT_COLOR_1_LINK", "Link Farbe %s");
+	define("EDT_COLOR_1_LINK_HOVER", "Hover Link Farbe %s");
+	define("EDT_BCK_BORDER_TABLE_1", "Randfarbe %s");
+	define("EDT_COLOR_SHADOW", "Box Schatten Farbe %s");
+	define("EDT_STYLE_GRADIENT", "Aktiviere Box gradient %s");
+	define("EDT_STYLE_FONT", "Schriftstil");
+	define("EDT_FONT_SIZE", "Schriftgröße");
+	define("EDT_STYLE_FONT_SERIF", "Serif");
+	define("EDT_STYLE_JQUERY", "jQuery Style");
+	define("CMB_NB_PREDEFINE_STYLE", "Nb vordefinierter Style");
+	define("CMB_CURRENT_PREDEFINE_STYLE", "Aktueller vordefinierter Style");
+	define("VIEW_DIALOGBOX", "Klicken Sie hier um eine DialogBox zu sehen");
+	define("DIALOGBOX_TITLE", "DialogBox Titel");
+	define("DIALOGBOX_CONTENT", "DialogBox Inhalt");
+	define("TEXT_ON_BODY", "Beispiel Text auf der Seite");
+	define("LINK_ON_BODY", "Beispiel Link auf der Seite");
+	define("BODY_TEXT_LINK_NOTE", "Schauen Sie nach unten auf der Seite");
+	define("WARNING_CHANGE_PLEASE_SAVE", "Warnung, bitte speichern Sie das Formular bevor Sie dieses Feld ändern.");
+	
+	define("BTN_VALIDATE", "Prüfen");
+	define("CONFIG_FILE", "Konfiguration");
+	define("CONFIG_FILE_OK", "Ihre Konfiguration wurde gespeichert !");
+	define("CONFIG_FILE_NOT_OK", "Fehler während der Speicherung der Konfigurationsdatei !");
+?>

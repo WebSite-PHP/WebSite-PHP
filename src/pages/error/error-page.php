@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.1
+ * @version     1.1.4
  * @access      public
  * @since       1.0.18
  */
@@ -187,11 +187,13 @@ class ErrorPage extends Page {
 					$filename = $array_current_url[sizeof($array_current_url)-1];
 					if (in_array($filename, $array_file_no_mail)) {
 						$send_error_mail = false;
-					} else if ($this->getBrowserName() == "Firefox" && $this->getBrowserVersion() == "3.6" && 
-							(substr($filename, strlen($filename)-6, 6) == "%5C%27" || substr($filename, strlen($filename)-3, 3) == "%22")) { 
+					} else if ($this->getBrowserName() == "Firefox" && ($this->getBrowserVersion() == "3.6" || $this->getBrowserVersion() == "3.5") && 
+							(substr($filename, strlen($filename)-6, 6) == "%5C%27" || substr($filename, strlen($filename)-3, 3) == "%22" || substr($filename, strlen($filename)-3, 3) == "%5C")) { 
 						// Interpretation error by firefox 3.6 and 3.5
 						$send_error_mail = false;
 					} else if ($this->getBrowserName() == "IE" && $this->getBrowserVersion() < 7) { // Error with IE <= 6.0
+						$send_error_mail = false;
+					} else if ($this->getBrowserName() == "BlackBerry" && $this->getBrowserVersion() == 0) { // Error with BlackBerry version 0
 						$send_error_mail = false;
 					} else { // no mail for some referers (html transformed or base href not take into account)
 						$array_exluded_referer = array("translate.googleusercontent.com",
@@ -203,7 +205,11 @@ class ErrorPage extends Page {
 						} else { // test if there is regexp in the administrator exclude list
 							for ($i=0; $i < sizeof($array_files_ex); $i++) {
 								if (is_regexp($array_files_ex[$i], true)) {
-									if (preg_match($array_files_ex[$i], $filename)) {
+									$path_or_filename = $filename;
+									if (find($array_files_ex[$i], "\/") > 0) { // detect is regex on a path
+										$path_or_filename = str_replace(BASE_URL, "", $current_url);
+									}
+									if (preg_match($array_files_ex[$i], $path_or_filename)) {
 										$send_error_mail = false;
 										break;
 									}

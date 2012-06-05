@@ -6,7 +6,7 @@
  * Template for admin-template-button.inc
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.99
+ * @version     1.1.4
  * @access      public
  * @since       1.0.99
  */
@@ -82,7 +82,8 @@ class AdminTemplateButton extends DefinedZone {
 		$table->setDefaultAlign(RowTable::ALIGN_LEFT);
 		
 		// Header
-		$table->addRowColumns(new AdminMenu($page_object, $array_menu), new Link("http://www.website-php.com", Link::TARGET_BLANK, new Picture("img/wsp-admin/logo_60x160_".$_SESSION['lang'].".png", 60, 160, 0)))->setColumnAlign(2, RowTable::ALIGN_RIGHT);
+		$logo_pic = new Picture("img/wsp-admin/logo_60x160_".$_SESSION['lang'].".png", 60, 160, 0);
+		$table->addRowColumns(new AdminMenu($page_object, $array_menu), new Link("http://www.website-php.com", Link::TARGET_BLANK, $logo_pic))->setColumnAlign(2, RowTable::ALIGN_RIGHT);
 		
 		// check WSP version
 		$alert_version_obj = getAlertVersiobObject($page_object);

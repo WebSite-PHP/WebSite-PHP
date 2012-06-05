@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.3
+ * @version     1.1.4
  * @access      public
  * @since       1.0.18
  */
@@ -448,7 +448,15 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 			$html .= "							dialogbox_is_change = true;\n";
 			$html .= "						}\n";
 		}
-	    $html .= "						eval(ajax_event_response[ajax_event_ind]);\n";
+	    if (find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0) {
+			$html .= "						eval(ajax_event_response[ajax_event_ind]);\n";
+		} else { // display ajax render error message when it's local execution (useful to debug)
+			$html .= "						try {\n";
+		    $html .= "							eval(ajax_event_response[ajax_event_ind]);\n";
+		    $html .= "						} catch (e) {\n";
+		    $html .= "							console.log('Js error: ' + e.message + '\\nCode: ' + ajax_event_response[ajax_event_ind]);\n";
+			$html .= "						}\n";
+		}
 	    $html .= "					}\n";
 	    if (!$this->disable_ajax_wait_message) {
 	    	if (gettype($this->ajax_wait_message) == "object") {
