@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.17
  */
@@ -31,7 +31,9 @@ class Hidden extends WebSitePhpEventObject {
 	protected $form_object = null;
 	private $value = "";
 	private $default_value = "";
+	
 	private $strip_tags = false;
+	private $strip_tags_allowable = "";
 	/**#@-*/
 	
 	/**
@@ -88,7 +90,7 @@ class Hidden extends WebSitePhpEventObject {
 	 */
 	public function setValue($value) {
 		if ($this->strip_tags) {
-			$this->value = strip_tags($value);
+			$this->value = strip_tags($value, $this->strip_tags_allowable);
 		} else {
 			$this->value = $value;
 		}
@@ -112,11 +114,13 @@ class Hidden extends WebSitePhpEventObject {
 	/**
 	 * Method setStripTags
 	 * @access public
+	 * @param string $allowable_tags 
 	 * @return Hidden
 	 * @since 1.1.2
 	 */
-	public function setStripTags() {
+	public function setStripTags($allowable_tags='') {
 		$this->strip_tags = true;
+		$this->strip_tags_allowable = $allowable_tags;
 		return $this;
 	}
 		

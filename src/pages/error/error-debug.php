@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.18
  */
@@ -49,7 +49,6 @@ class ErrorDebug extends Page {
 		}
 		
 		$error_title_table = new Table();
-		$error_title_table->setClass(Table::STYLE_MAIN);
 		$error_title_table->addRowColumns(new Picture("wsp/img/warning.png", 48, 48, 0, "absmidlle"), "&nbsp;", new Label(__(ERROR), true));
 		$obj_error_msg = new Object($error_title_table, "<br/>");
 		$debug_obj = new Object($debug_msg);

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.17
  */
@@ -185,7 +185,7 @@ class DataBase {
 					$stmt_bind_param = array($list_type);
 					for ($i=0; $i < sizeof($stmt_objects); $i++) {
 						if ($stmt_objects[$i] == null) {
-							$stmt_bind_param[] = "NULL";
+							$stmt_bind_param[] = NULL;
 						} else {
 							$stmt_objects[$i] = str_replace("\\", "{#WSP_BACKSLASHE_CODE#}", $stmt_objects[$i]);
 							if (get_magic_quotes_gpc()) {

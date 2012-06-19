@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.17
  */
@@ -56,6 +56,7 @@ class SqlDataView {
 	private $attributes_group = array();
 	private $last_query = "";
 	private $list_custom_attribute = "";
+	private $save_list_attribute_array = array();
 	
 	private $joins_object = array();
 	private $join_clause = array();
@@ -63,6 +64,9 @@ class SqlDataView {
 	
 	private $iterator = null;
 	private $activate_htmlentities = false;
+	
+	// internal variable to disable the generation of the good field name
+	private $not_check_field_real_name = false;
 	/**#@-*/
 	
 	/**
@@ -73,8 +77,14 @@ class SqlDataView {
 		if (!isset($db_table_object)) {
 			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, getDebugBacktrace(1));
 		}
+		if (gettype($db_table_object) != "object" && !is_subclass_of($db_table_object, "DbTableObject")) {
+			throw new NewException("Parameter \$db_table_object of ".get_class($this)." need to be a DbTableObject object", 0, getDebugBacktrace(1));
+		}
 		$this->db_table_object = $db_table_object;
 		$this->last_query = "";
+		
+		// init save_list_attribute_array
+		$this->save_list_attribute_array = array();
 	}
 	
 	/**
@@ -153,6 +163,9 @@ class SqlDataView {
 		if (!isset($db_table_object_join) && !isset($join_attribute_1) && !isset($join_attribute_2)) {
 			throw new NewException("Error SqlDataView->addJoinAttribute(): 3 arguments for method addJoin are mandatory", 0, getDebugBacktrace(1));
 		}
+		if (gettype($db_table_object_join) != "object" && !is_subclass_of($db_table_object_join, "DbTableObject")) {
+			throw new NewException("Parameter \$db_table_object_join of ".get_class($this)."->addJoinAttribute() need to be a DbTableObject object", 0, getDebugBacktrace(1));
+		}
 		
 		$this->addJoinTableAttribute($db_table_object_join, null, $join_attribute_1, $join_attribute_2, $join_type);
 	}
@@ -170,6 +183,12 @@ class SqlDataView {
 	public function addJoinTableAttribute($db_table_object_join_1, $db_table_object_join_2, $join_attribute_1, $join_attribute_2, $join_type='INNER') {
 		if (!isset($db_table_object_join_1) && !isset($db_table_object_join_2) && !isset($join_attribute_1) && !isset($join_attribute_2)) {
 			throw new NewException("Error SqlDataView->addJoinTableAttribute(): 4 arguments for method addJoin are mandatory", 0, getDebugBacktrace(1));
+		}
+		if (gettype($db_table_object_join_1) != "object" && !is_subclass_of($db_table_object_join_1, "DbTableObject")) {
+			throw new NewException("Parameter \$db_table_object_join_1 of ".get_class($this)."->addJoinTableAttribute() need to be a DbTableObject object", 0, getDebugBacktrace(1));
+		}
+		if ($db_table_object_join_2 != null && gettype($db_table_object_join_2) != "object" && !is_subclass_of($db_table_object_join_2, "DbTableObject")) {
+			throw new NewException("Parameter \$db_table_object_join_2 of ".get_class($this)."->addJoinTableAttribute() need to be a DbTableObject object", 0, getDebugBacktrace(1));
 		}
 		
 		$join_clause = "";
@@ -203,16 +222,22 @@ class SqlDataView {
 		if (!isset($db_table_object_join) && !isset($join_clause)) {
 			throw new NewException("Error SqlDataView->addJoinClause(): 2 arguments for method addJoin are mandatory", 0, getDebugBacktrace(1));
 		}
+		if (gettype($db_table_object_join) != "object" && !is_subclass_of($db_table_object_join, "DbTableObject")) {
+			throw new NewException("Parameter \$db_table_object_join of ".get_class($this)."->addJoinClause() need to be a DbTableObject object", 0, getDebugBacktrace(1));
+		}
 		
 		$join_type = trim($join_type);
 		if (strtoupper($join_type) != SqlDataView::JOIN_TYPE_INNER && strtoupper($join_type) != SqlDataView::JOIN_TYPE_LEFT 
 			&& strtoupper($join_type) != SqlDataView::JOIN_TYPE_LEFT_OUTER && strtoupper($join_type) != SqlDataView::JOIN_TYPE_RIGHT 
 			&& strtoupper($join_type) != SqlDataView::JOIN_TYPE_RIGHT_OUTER) {
-			throw new NewException("Error SqlDataView->addJoin(): join type error, ".$join_type." doesn't exist", 0, getDebugBacktrace(1));
+			throw new NewException("Error SqlDataView->addJoinClause(): join type error, ".$join_type." doesn't exist", 0, getDebugBacktrace(1));
 		}
 		$this->joins_object[] = $db_table_object_join;
 		$this->join_clause[] = $join_clause;
 		$this->joins_type[] = $join_type;
+		
+		// init save_list_attribute_array
+		$this->save_list_attribute_array = array();
 	}
 	
 	/**
@@ -236,6 +261,122 @@ class SqlDataView {
 			}
 		}
 		return $list_attribute;
+	}
+	
+	/**
+	 * Method getListAttributeArray
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.6
+	 */
+	public function getListAttributeArray() {
+		if (sizeof($this->save_list_attribute_array) > 0) {
+			return $this->save_list_attribute_array;
+		}
+		if ($this->list_custom_attribute != "") {
+			$is_parenthesis_open = 0;
+			$tmp_list_attribute = array();
+			$list_attribute = explode(",", $this->list_custom_attribute);
+			for ($i=0; $i < sizeof($list_attribute); $i++) {
+				if ($is_parenthesis_open == 0) {
+					if (find($list_attribute[$i], "(") > 0) { // is a function (there is commas when there is function)
+						$is_parenthesis_open++;
+						$tmp_attribute = "";
+					} else {
+						$tmp_attribute_array = explode(' ', trim($list_attribute[$i])); // if user define a name to the field
+						$tmp_attribute_array = explode('.', $tmp_attribute_array[sizeof($tmp_attribute_array)-1]);
+						$tmp_attribute = $tmp_attribute_array[sizeof($tmp_attribute_array)-1];
+						$tmp_list_attribute[] = trim(str_replace("`", "", $tmp_attribute)); // add column name in the list
+					}
+				} else if (find($list_attribute[$i], ")") > 0) {
+					$is_parenthesis_open--;
+					$i--;
+				}
+			}
+			$this->save_list_attribute_array = $tmp_list_attribute;
+			return $tmp_list_attribute;
+		} else {
+			$list_attribute = array();
+			$db_table_attributes = $this->db_table_object->getDbTableAttributes();
+			for ($i=0; $i < sizeof($db_table_attributes); $i++) {
+				if ($this->not_check_field_real_name == false) {
+					// if the field already exists with same name
+					if (in_array($db_table_attributes[$i], $list_attribute)) {
+						$ind = 1;
+						while (in_array($db_table_attributes[$i].$ind, $list_attribute)) {
+							$ind++;
+						}
+						$list_attribute[] = $db_table_attributes[$i].$ind;
+					} else {
+						$list_attribute[] = $db_table_attributes[$i];
+					}
+				} else {
+					$list_attribute[] = $db_table_attributes[$i];
+				}
+			}
+			for ($i=0; $i < sizeof($this->joins_object); $i++) {
+				$db_table_join_attributes = $this->joins_object[$i]->getDbTableAttributes();
+				for ($j=0; $j < sizeof($db_table_join_attributes); $j++) {
+					if ($this->not_check_field_real_name == false) {
+						// if the field already exists with same name
+						if (in_array($db_table_join_attributes[$j], $list_attribute)) {
+							$ind = 1;
+							while (in_array($db_table_join_attributes[$j].$ind, $list_attribute)) {
+								$ind++;
+							}
+							$list_attribute[] = $db_table_join_attributes[$j].$ind;
+						} else {
+							$list_attribute[] = $db_table_join_attributes[$j];
+						}
+					} else {
+						$list_attribute[] = $db_table_join_attributes[$j];
+					}
+				}
+			}
+			$this->save_list_attribute_array = $list_attribute;
+			return $list_attribute;
+		}
+	}
+	
+	/**
+	 * Method getListAttributeTypeArray
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.6
+	 */
+	public function getListAttributeTypeArray() {
+		$this->not_check_field_real_name = true;
+		$list_attribute = $this->getListAttributeArray();
+		$this->not_check_field_real_name = false;
+		
+		$list_attribute_type = array();
+		$db_table_attributes = $this->db_table_object->getDbTableAttributes();
+		for ($i=0; $i < sizeof($list_attribute); $i++) {
+			$list_attribute_type[$i] = null;
+			for ($j=0; $j < sizeof($db_table_attributes); $j++) {
+				if ($list_attribute[$i] == $db_table_attributes[$j]) {
+					$db_table_attributes_type = $this->db_table_object->getDbTableAttributesType();
+					$list_attribute_type[$i] = $db_table_attributes_type[$j];
+					break;
+				}
+			}
+			if ($list_attribute_type[$i] == null) {
+				for ($j=0; $j < sizeof($this->joins_object); $j++) {
+					$db_table_join_attributes = $this->joins_object[$j]->getDbTableAttributes();
+					for ($k=0; $k < sizeof($db_table_join_attributes); $k++) {
+						if ($list_attribute[$i] == $db_table_join_attributes[$k]) {
+							$db_table_attributes_type = $this->joins_object[$j]->getDbTableAttributesType();
+							$list_attribute_type[$i] = $db_table_attributes_type[$k];
+							break;
+						}
+					}
+					if ($list_attribute_type[$i] != null) {
+						break;
+					}
+				}
+			}
+		}
+		return $list_attribute_type;
 	}
 	
 	/**
@@ -284,7 +425,7 @@ class SqlDataView {
 	/**
 	 * Method retrieve
 	 * @access public
-	 * @return mixed
+	 * @return DataRowIterator
 	 * @since 1.0.35
 	 */
 	public function retrieve() {
@@ -319,6 +460,10 @@ class SqlDataView {
 			$stmt->free_result();
 			$stmt->close();
 		}
+		
+		// init save_list_attribute_array
+		$this->save_list_attribute_array = array();
+		
 		return $this->iterator;
 	}
 	
@@ -340,6 +485,10 @@ class SqlDataView {
 		} else {
 			$this->list_custom_attribute = "";
 		}
+		
+		// init save_list_attribute_array
+		$this->save_list_attribute_array = array();
+		
 		return $this;
 	}
 	
@@ -350,9 +499,13 @@ class SqlDataView {
 	 * @since 1.0.99
 	 */
 	public function retrieveCount() {
+		// init save_list_attribute_array
+		$this->save_list_attribute_array = array();
+		
+		// execute query
 		$query = $this->createQuery("COUNT(*)");
 		$this->last_query = $query;
-			
+		
 		$stmt = DataBase::getInstance()->prepareStatement($query, $this->clause_objects);
 		$stmt->bind_result($count);
 		if ($stmt->fetch()) {
@@ -399,6 +552,10 @@ class SqlDataView {
 	 * @since 1.0.35
 	 */
 	public function createEmpty() {
+		// init save_list_attribute_array
+		$this->save_list_attribute_array = array();
+		
+		// create empty iterator
 		$this->last_query = "";
 		$this->iterator = new DataRowIterator($this->db_table_object);
 		return $this->iterator;
@@ -413,6 +570,40 @@ class SqlDataView {
 	public function enableHtmlentitiesMode() {
 		$this->activate_htmlentities = true;
 		return $this;
+	}
+	
+	/**
+	 * Method isQueryWithJoin
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.6
+	 */
+	public function isQueryWithJoin() {
+		return (sizeof($this->joins_object) > 0);
+	}
+	
+	/**
+	 * Method getPrimaryKeysAttributes
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.6
+	 */
+	public function getPrimaryKeysAttributes() {
+		$key_attributes = $this->db_table_object->getDbTablePrimaryKeys();
+		for ($i=0; $i < sizeof($this->joins_object); $i++) {
+			$key_attributes = array_merge($key_attributes, $this->joins_object[$i]->getDbTablePrimaryKeys());
+		}
+		return $key_attributes;
+	}
+	
+	/**
+	 * Method getDbTableObject
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.6
+	 */
+	public function getDbTableObject() {
+		return $this->db_table_object;
 	}
 }
 ?>

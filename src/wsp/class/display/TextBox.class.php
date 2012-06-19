@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.17
  */
@@ -42,6 +42,7 @@ class TextBox extends WebSitePhpEventObject {
 	private $has_focus = false;
 	private $force_empty = false;
 	private $strip_tags = false;
+	private $strip_tags_allowable = "";
 	
 	private $live_validation = null;
 	
@@ -58,6 +59,9 @@ class TextBox extends WebSitePhpEventObject {
 	
 	private $callback_onkeypress = "";
 	private $onkeypress = "";
+	
+	private $callback_onkeyup = "";
+	private $onkeyup = "";
 	
 	private $onmouseover = "";
 	private $onmouseout = "";
@@ -125,7 +129,7 @@ class TextBox extends WebSitePhpEventObject {
 	 */
 	public function setValue($value) {
 		if ($this->strip_tags) {
-			$this->value = strip_tags($value);
+			$this->value = strip_tags($value, $this->strip_tags_allowable);
 		} else {
 			$this->value = $value;
 		}
@@ -292,11 +296,13 @@ class TextBox extends WebSitePhpEventObject {
 	/**
 	 * Method setStripTags
 	 * @access public
+	 * @param string $allowable_tags 
 	 * @return TextBox
 	 * @since 1.1.2
 	 */
-	public function setStripTags() {
+	public function setStripTags($allowable_tags='') {
 		$this->strip_tags = true;
+		$this->strip_tags_allowable = $allowable_tags;
 		return $this;
 	}
 	
@@ -601,6 +607,45 @@ class TextBox extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method onKeyUp
+	 * @access public
+	 * @param mixed $str_function 
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return TextBox
+	 * @since 1.1.6
+	 */
+	public function onKeyUp($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
+		$args = func_get_args();
+		$str_function = array_shift($args);
+		$this->callback_onkeyup = $this->loadCallbackMethod($str_function, $args);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method onKeyUpJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return TextBox
+	 * @since 1.1.6
+	 */
+	public function onKeyUpJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onkeyup = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
 	 * Method forceEmpty
 	 * @access public
 	 * @return TextBox
@@ -626,7 +671,7 @@ class TextBox extends WebSitePhpEventObject {
 		
 		$html = "";
 		if ($this->class_name != "") {
-			if ($this->callback_onchange != "" || $this->callback_onclick != "" || $this->callback_onblur != "" || $this->callback_onkeypress != "") {
+			if ($this->callback_onchange != "" || $this->callback_onclick != "" || $this->callback_onblur != "" || $this->callback_onkeypress != "" || $this->callback_onkeyup != "") {
 				$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
 			}
 			if ($this->is_ajax_event) {
@@ -646,7 +691,12 @@ class TextBox extends WebSitePhpEventObject {
 					$html .= "type='".$this->type."' ";
 				}
 			}
-			$html .= "name='".$this->getEventObjectName()."' id='".$this->id."' value=\"".str_replace('"', '\\"', $this->getValue())."\"";
+			if (get_class($this) == "Calendar") {
+				$tmp_value = $this->getValueStr();
+			} else {
+				$tmp_value = $this->getValue();
+			}
+			$html .= "name='".$this->getEventObjectName()."' id='".$this->id."' value=\"".str_replace('"', '\\"', $tmp_value)."\"";
 			if ($this->width != "" || $this->style != "") {
 				$html .= " style='";
 				if ($this->width != "") {
@@ -697,6 +747,9 @@ class TextBox extends WebSitePhpEventObject {
 			}
 			if ($this->onkeypress != "" || $this->callback_onkeypress != "") {
 				$html .= " onKeyPress=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeypress, $this->callback_onkeypress, "", true))."\"";
+			}
+			if ($this->onkeyup != "" || $this->callback_onkeyup != "") {
+				$html .= " onKeyUp=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeyup, $this->callback_onkeyup, "", true))."\"";
 			}
 			$html .= "/>\n";
 			
@@ -779,6 +832,9 @@ class TextBox extends WebSitePhpEventObject {
 			}
 			if ($this->onkeypress != "" || $this->callback_onkeypress != "") {
 				$html .= "$('#".$this->id."').attr('onKeyPress', '".addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeypress, $this->callback_onkeypress, "", true)))."');\n";
+			}
+			if ($this->onkeyup != "" || $this->callback_onkeyup != "") {
+				$html .= "$('#".$this->id."').attr('onKeyUp', '".addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeyup, $this->callback_onkeyup, "", true)))."');\n";
 			}
 			
 			if ($this->has_focus) {

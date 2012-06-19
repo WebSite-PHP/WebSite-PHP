@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.25
  */
@@ -46,7 +46,6 @@ class ConfigureSmtp extends Page {
 		$form = new Form($this);
 		
 		$table_form = new Table();
-		$table_form->setClass(Table::STYLE_SECOND);
 		$table_form->addRow();
 		
 		$this->edtHost = new TextBox($form);

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.0
  */
@@ -849,6 +849,7 @@ class Page {
 	 */
 	public function getUserEventObject() {
 		if ($this->callback_method == "") {
+			//$this->addLogDebugRegisterObjects("ComboBox");
 			foreach ($this->objects as $class_name => $object_array) {
 				$array_class_name = explode('_', $class_name);
 				// For all event objects (button, combobox, ...), check if event exists
@@ -894,7 +895,7 @@ class Page {
 							$GLOBALS['__LOAD_VARIABLES__'] = true;
 							if (get_class($object) == "Object" || get_class($object) == "ContextMenuEvent" || 
 								get_class($object) == "Picture" || get_class($object) == "AutoCompleteEvent" || 
-								get_class($object) == "Raty") {
+								get_class($object) == "Raty" || get_class($object) == "CheckBox") {
 									$object->setClick();
 							} else if (get_class($object) == "DroppableEvent") {
 								$object->setDrop();
@@ -1060,6 +1061,30 @@ class Page {
 	 */
 	public function addLogDebug($str) {
 		$this->log_debug_str[] = $str;
+	}
+	
+	/**
+	 * Method addLogDebugRegisterObjects
+	 * @access public
+	 * @param string $class_filter 
+	 * @since 1.1.6
+	 */
+	public function addLogDebugRegisterObjects($class_filter='') {
+		$register_objects = WebSitePhpObject::getRegisterObjects();
+		$this->addLogDebug("<b>RegisterObjects:</b> ");
+		for ($i=0; $i < sizeof($register_objects); $i++) {
+			if ($class_filter == "" || get_class($register_objects[$i]) == $class_filter) {
+				$tmp_log = get_class($register_objects[$i]);
+				if (method_exists($register_objects[$i], "getId")) {
+					$tmp_log .= ", id=".$register_objects[$i]->getId();
+				}
+				if (method_exists($register_objects[$i], "getName")) {
+					$tmp_log .= ", name=".$register_objects[$i]->getName();
+				}
+				$this->addLogDebug($tmp_log);
+			}
+		}
+		$this->addLogDebug();
 	}
 	
 	/**

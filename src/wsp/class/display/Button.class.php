@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.17
  */
@@ -304,15 +304,15 @@ class Button extends WebSitePhpEventObject {
 		}
 		if (!$this->is_clicked) {
 			if ($this->form_object == null) {
-				if (isset($_POST["Callback_".$this->getEventObjectName()])) {
+				if (isset($_POST["Callback_".$this->getEventObjectName()]) && $_POST["Callback_".$this->getEventObjectName()] != "") {
 					$this->is_clicked = true;
-				} else if (isset($_GET["Callback_".$this->getEventObjectName()])) {
+				} else if (isset($_GET["Callback_".$this->getEventObjectName()]) && $_GET["Callback_".$this->getEventObjectName()] != "") {
 					$this->is_clicked = true;
 				}
 			} else {
-				if ($this->form_object->getMethod() == "POST" && isset($_POST["Callback_".$this->getEventObjectName()])) {
+				if ($this->form_object->getMethod() == "POST" && isset($_POST["Callback_".$this->getEventObjectName()]) && $_POST["Callback_".$this->getEventObjectName()] != "") {
 					$this->is_clicked = true;
-				} else if (isset($_GET["Callback_".$this->getEventObjectName()])) {
+				} else if (isset($_GET["Callback_".$this->getEventObjectName()]) && $_GET["Callback_".$this->getEventObjectName()] != "") {
 					$this->is_clicked = true;
 				}
 			}

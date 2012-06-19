@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.93
  */
@@ -46,7 +46,7 @@ class Calendar extends TextBox {
 	*/
 	private $minDate = -999999999;
 	private $maxDate = "";
-	private $dateFormat = "";
+	private $dateFormat = "mm-dd-yy";
 	private $showButtonPanel = false;
 	private $changeMonth = false;
 	private $changeYear = false;
@@ -57,7 +57,7 @@ class Calendar extends TextBox {
 	private $numberOfMonths = "";
 	private $showAnim = "show";
 	
-	private $dateFormatConsertPhpFormat = array("dd/mm/yy" => "d/m/Y",
+	private $dateFormatConvertPhpFormat = array("dd/mm/yy" => "d/m/Y",
 												"mm-dd-yy" => "m-d-Y");
 	/**#@-*/
 	
@@ -86,11 +86,27 @@ class Calendar extends TextBox {
 		if ($this->value == null || $this->value == "") {
 			return $this->value;
 		} else if (get_class($this->value) != "DateTime") {
-			if (array_key_exists($this->dateFormat, $this->dateFormatConsertPhpFormat)) {
-				return DateTime::createFromFormat($this->dateFormatConsertPhpFormat[$this->dateFormat], $this->value);
+			if (array_key_exists($this->dateFormat, $this->dateFormatConvertPhpFormat)) {
+				return DateTime::createFromFormat($this->dateFormatConvertPhpFormat[$this->dateFormat], $this->value);
 			}
 		}
 		
+		return $this->value;
+	}
+	
+	/**
+	 * Method getValueStr
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.6
+	 */
+	public function getValueStr() {
+		$this->value = parent::getValue();
+		if (get_class($this->value) == "DateTime") {
+			if (array_key_exists($this->dateFormat, $this->dateFormatConvertPhpFormat)) {
+				$this->value = $this->value->format($this->dateFormatConvertPhpFormat[$this->dateFormat]);
+			}
+		}
 		return $this->value;
 	}
 	
@@ -290,8 +306,8 @@ class Calendar extends TextBox {
 			if (get_class($this->minDate) == "DateTime") {
 				if ($this->dateFormat == "") {
 					$html .= $this->minDate->format("m-d-Y");
-				} else if (array_key_exists($this->dateFormat, $this->dateFormatConsertPhpFormat)) {
-					$html .= $this->minDate->format($this->dateFormatConsertPhpFormat[$this->dateFormat]);
+				} else if (array_key_exists($this->dateFormat, $this->dateFormatConvertPhpFormat)) {
+					$html .= $this->minDate->format($this->dateFormatConvertPhpFormat[$this->dateFormat]);
 				} else {
 					$html .= $this->minDate->format($this->dateFormat);
 				}

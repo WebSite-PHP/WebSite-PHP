@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.17
  */
@@ -60,6 +60,7 @@ class RowTable extends WebSitePhpObject {
 	private $height = "";
 	private $align = "";
 	private $class = "";
+	private $row_class = "";
 	private $style = "";
 	private $valign = "";
 	private $is_header_row = false; 
@@ -126,6 +127,19 @@ class RowTable extends WebSitePhpObject {
 	 */
 	public function setClass($class) {
 		$this->class = $class;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method setRowClass
+	 * @access public
+	 * @param mixed $class 
+	 * @return RowTable
+	 * @since 1.1.6
+	 */
+	public function setRowClass($class) {
+		$this->row_class = $class;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -599,7 +613,11 @@ class RowTable extends WebSitePhpObject {
 		if (sizeof($this->col_object) == 0) {
 			$this->add();
 		}
-		$html .= "<tr>\n";
+		$html .= "<tr";
+		if ($this->row_class != "") {
+			$html .= " class=\"".$this->row_class."\"";
+		}
+		$html .= ">\n";
 		for ($i=0; $i < sizeof($this->col_object); $i++) {
 			$is_droppable_object = false;
 			if (gettype($this->col_object[$i]['content_object']) == "object" && method_exists($this->col_object[$i]['content_object'], "render")) {

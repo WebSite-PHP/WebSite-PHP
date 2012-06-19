@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.17
  */
@@ -64,7 +64,7 @@ class DataRow {
 	/**
 	 * Method getValue
 	 * @access public
-	 * @param mixed $attribute 
+	 * @param string $attribute 
 	 * @return mixed
 	 * @since 1.0.35
 	 */
@@ -94,7 +94,7 @@ class DataRow {
 	/**
 	 * Method setValue
 	 * @access public
-	 * @param mixed $attribute 
+	 * @param string $attribute 
 	 * @param mixed $value 
 	 * @since 1.0.59
 	 */
@@ -190,6 +190,15 @@ class DataRow {
 	 */
 	public function disableSqlLoadMode() {
 		$this->is_sql_load_mode = false;
+	}
+
+	/**
+	 * Method enableSqlLoadMode
+	 * @access public
+	 * @since 1.1.6
+	 */
+	public function enableSqlLoadMode() {
+		$this->is_sql_load_mode = true;
 	}
 	
 	/**

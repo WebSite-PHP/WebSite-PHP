@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.17
  */
@@ -37,6 +37,7 @@ class ComboBox extends WebSitePhpEventObject {
 	private $option = "";
 	private $disable = false;
 	private $strip_tags = false;
+	private $strip_tags_allowable = "";
 	
 	private $list_items_change = false;
 	private $is_changed = false;
@@ -157,6 +158,9 @@ class ComboBox extends WebSitePhpEventObject {
 	 */
 	public function setName($name) {
 		$this->name = $name;
+		$this->page_object->addEventObject($this, $this->form_object);
+		
+		$this->initSubmitValue();
 		return $this;
 	}
 	
@@ -266,11 +270,13 @@ class ComboBox extends WebSitePhpEventObject {
 	/**
 	 * Method setStripTags
 	 * @access public
+	 * @param string $allowable_tags 
 	 * @return ComboBox
 	 * @since 1.1.2
 	 */
-	public function setStripTags() {
+	public function setStripTags($allowable_tags='') {
 		$this->strip_tags = true;
+		$this->strip_tags_allowable = $allowable_tags;
 		return $this;
 	}
 
@@ -311,7 +317,7 @@ class ComboBox extends WebSitePhpEventObject {
 				$this->is_changed = $save_is_changed;
 				
 				if ($this->strip_tags) {
-					return strip_tags($value);
+					return strip_tags($value, $this->strip_tags_allowable);
 				} else {
 					return $value;
 				}
@@ -348,7 +354,7 @@ class ComboBox extends WebSitePhpEventObject {
 	 * @since 1.0.36
 	 */
 	public function getId() {
-		return $this->getEventObjectName();
+		return $this->getName();
 	}
 
 	/**

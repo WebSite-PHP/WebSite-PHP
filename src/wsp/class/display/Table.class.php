@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.17
  */
@@ -132,6 +132,18 @@ class Table extends WebSitePhpObject {
 	private $advance_table_title = "";
 	private $advance_table_type_define = false;
 	private $col_type = array();
+	
+	private $sql_data_view_object = null;
+	private $data_row_iterator_object = null;
+	private $is_table_form_object = false;
+	private $table_form_object = null;
+	private $from_sql_data_view_insert = false;
+	private $from_sql_data_view_update = false;
+	private $from_sql_data_view_delete = false;
+	private $from_sql_data_view_properties = array();
+	private $from_sql_data_view_add_button = null;
+	private $from_sql_data_view_reload_pic = null;
+	private $from_sql_data_view_data_row_array = array();
 	/**#@-*/
 	
 	/**
@@ -347,6 +359,9 @@ class Table extends WebSitePhpObject {
 		}
 		if ($row->getClass() == "" && $this->class != "") {
 			$row->setClass($this->class);
+			if (sizeof($this->rows) > 0 && $this->rows[0]->isHeader()) {
+				$row->setBorderPredefinedStyle($this->class);
+			}
 		}
 		$this->rows[sizeof($this->rows)] = $row;
 		
@@ -382,6 +397,9 @@ class Table extends WebSitePhpObject {
     	}
 		if ($row->getClass() == "" && $this->class != "" ) {
 			$row->setClass($this->class);
+			if (sizeof($this->rows) > 0 && $this->rows[0]->isHeader()) {
+				$row->setBorderPredefinedStyle($this->class);
+			}
 		}
     	$this->rows[sizeof($this->rows)] = $row;
     	
@@ -391,6 +409,597 @@ class Table extends WebSitePhpObject {
     	
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
     	return $row;
+	}
+	
+	/**
+	 * Method loadFromSqlDataView
+	 * @access public
+	 * @param mixed $sql 
+	 * @param mixed $properties [default value: array(]
+	 * @return boolean
+	 * @since 1.1.6
+	 */
+	public function loadFromSqlDataView($sql, $properties=array(), $insert=false, $update=false, $delete=false) {
+		if ($this->id == "") {
+			throw new NewException(get_class($this)."->loadFromSqlDataView() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
+		}
+		
+		if (gettype($sql) != "object" && get_class($$sql) != "SqlDataView") {
+			throw new NewException(get_class($this)."->loadFromSqlDataView() error: \$sql is not SqlDataView object", 0, getDebugBacktrace(1));
+		}
+		
+		if ($insert || $update || $delete) {
+			if ($sql->isQueryWithJoin()) {
+				throw new NewException(get_class($this)."->loadFromSqlDataView() error: you need use SqlDataView object without JOIN if you want to use insert update or delete.", 0, getDebugBacktrace(1));
+			}
+			
+			$this->is_table_form_object = true;
+			$this->table_form_object = new Form($this->getPage(), "Form_Table_".$this->id);
+			$this->table_form_object->setContent($this);
+			$this->table_form_object->onSubmitJs("return false;");
+		}
+		
+		if (!is_array($properties)) {
+			throw new NewException(get_class($this)."->loadFromSqlDataView() error: \$properties need to be an array", 0, getDebugBacktrace(1));
+		}
+		
+		$this->from_sql_data_view_insert = $insert;
+		$this->from_sql_data_view_update = $update;
+		$this->from_sql_data_view_delete = $delete;
+		
+		// check foreign keys
+		$db_table_foreign_keys = $sql->getDbTableObject()->getDbTableForeignKeys();
+		foreach ($db_table_foreign_keys as $fk_attribute => $value) {
+			if (isset($properties[$fk_attribute])) {
+				$fk_property = $properties[$fk_attribute];
+				if (isset($fk_property["fk_attribute"])) {
+					// create combobox
+					$cmb = new ComboBox(($this->table_form_object==null?$this->getPage():$this->table_form_object));
+					
+					// get foreign key data
+					$query = "select distinct ".$value["column"]." as id, ".$fk_property["fk_attribute"]." as value from ".$value["table"];
+					if (isset($fk_property["fk_where"])) {
+						$query .= " where ".$fk_property["fk_where"];
+					}
+					if (isset($fk_property["fk_orderby"])) {
+						$query .= " order by ".$fk_property["fk_orderby"];
+					}
+					$stmt = DataBase::getInstance()->prepareStatement($query);
+					$row = DataBase::getInstance()->stmtBindAssoc($stmt, $row);
+					while ($stmt->fetch()) {
+						$cmb->addItem($row['id'], $row['value']);
+					}
+					
+					// add combo box in properties
+					$value['cmb_obj'] = $cmb;
+					$properties[$fk_attribute] = array_merge($properties[$fk_attribute], $value);
+				}
+			}
+		}
+		$this->from_sql_data_view_properties = $properties;
+		
+		$list_attribute = $sql->getListAttributeArray();
+		
+		// Define header
+		$is_table_defined_style = false;
+		$auto_header = (sizeof($this->rows) > 0?false:true);
+		if ($auto_header) {
+			$row_table = new RowTable();
+			for ($i=0; $i < sizeof($list_attribute); $i++) {
+				// get property display
+				if (isset($this->from_sql_data_view_properties[$list_attribute[$i]]["display"]) && 
+					$this->from_sql_data_view_properties[$list_attribute[$i]]["display"] == false) {
+						continue;
+				}
+				$row_table->add($list_attribute[$i]);
+			}
+			if ($delete || $insert) {
+				$row_table->add();
+			}
+			$row_table = $this->addRow($row_table);
+			if ($this->class == "") {
+				$row_table->setHeaderClass(0);
+			} else if (is_numeric($this->class)) {
+				$row_table->setHeaderClass($this->class);
+				$is_table_defined_style = true;
+			}
+		}
+		
+		$key_attributes = $sql->getPrimaryKeysAttributes();
+		$list_attribute_type = $sql->getListAttributeTypeArray();
+		
+		// create empty row (ack to keep correct order of the table)
+		$row_table = new RowTable();
+		$row_table->setId($this->id."_emptyrow_");
+		for ($i=0; $i < sizeof($list_attribute); $i++) {
+			// get property display
+			if (isset($this->from_sql_data_view_properties[$list_attribute[$i]]["display"]) && 
+				$this->from_sql_data_view_properties[$list_attribute[$i]]["display"] == false) {
+					continue;
+			}
+			$row_table->add();
+		}
+		if ($insert || $delete) {
+			$row_table->add();
+		}
+		$row_table->setStyle("display:none;");
+		$this->addRow($row_table);
+		
+		// Create insert row
+		if ($insert) {
+			$row_table = new RowTable();
+			$row_table->setId($this->id."_row_");
+			for ($i=0; $i < sizeof($list_attribute); $i++) {
+				// get property display
+				if (isset($this->from_sql_data_view_properties[$list_attribute[$i]]["display"]) && 
+					$this->from_sql_data_view_properties[$list_attribute[$i]]["display"] == false) {
+						continue;
+				}
+				
+				if (!in_array($list_attribute[$i], $key_attributes)) {
+					$input_obj = $this->createDbAttributeObject(null, $list_attribute, $list_attribute_type, $i, "");
+					$row_table->add($input_obj);
+				} else {
+					$row_table->add();
+				}
+			}
+			$this->from_sql_data_view_add_button = new Button($this->table_form_object, $this->id."_btnadd__ind_");
+			$this->from_sql_data_view_add_button->setPrimaryIcon("img/wsp-admin/button_ok_16.png");
+			$this->from_sql_data_view_add_button->onClick("onChangeTableFromSqlDataView")->setAjaxEvent()->disableAjaxWaitMessage();
+			$row_table->add($this->from_sql_data_view_add_button);
+			if ($is_table_defined_style) {
+				$row_table->setBorderPredefinedStyle($this->class);
+			}
+			$this->addRow($row_table);
+		} else if ($this->is_advance_table) {
+			$row_table = clone($row_table);
+			$this->addRow($row_table);
+		}
+		
+		// create reload button
+		if ($insert || $update) {
+			$this->from_sql_data_view_reload_pic = new Picture("wsp/img/reload_16x16.png", 16, 16, 0, Picture::ALIGN_ABSMIDDLE, "Please reload");
+			$this->from_sql_data_view_reload_pic->setId($this->id."_btnreload__ind_");
+			$this->from_sql_data_view_reload_pic->onClick($this->getPage(), "onChangeTableFromSqlDataView")->setAjaxEvent()->disableAjaxWaitMessage();
+		}
+			
+		// Check if a delete button is clicked (if no primary key defined in table)
+		$deleted_ind = -1;
+		$is_delete_action = false;
+		$it = $sql->retrieve();
+		if ($this->from_sql_data_view_delete && sizeof($key_attributes) == 0) {
+			for ($i=0; $i < $it->getRowsNum(); $i++) {
+				$delete_pic = new Picture("img/wsp-admin/delete_16.png", 16, 16, 0, Picture::ALIGN_ABSMIDDLE);
+				$delete_pic->setId($this->id."_btndel__ind_".$i);
+				$delete_pic->onClickJs("if (!confirm('".__(TABLE_CONFIME_DEL_ROW)."')) { return false; }");
+				$delete_pic->onClick($this->getPage(), "onChangeTableFromSqlDataView")->setAjaxEvent()->disableAjaxWaitMessage();
+				if ($delete_pic->isClicked()) {
+					$is_delete_action = true;
+					$deleted_ind = $i;
+					break;
+				}
+			}
+		}
+		
+		// Generate table data
+		$ind = 0;
+		$this->sql_data_view_object = $sql;
+		$this->data_row_iterator_object = $it;
+		while ($it->hasNext()) {
+			$row = $it->next();
+			$key_str = "";
+			if (sizeof($key_attributes) == 0) {
+				$key_str = $ind;
+			} else {
+				for ($i=0; $i < sizeof($key_attributes); $i++) {
+					if ($i > 0) { $key_str .= "-"; }
+					$key_str .= $row->getValue($key_attributes[$i]);
+				}
+				$key_str = strtolower(url_rewrite_format($key_str));
+			}
+			$this->from_sql_data_view_data_row_array[$key_str] = $row;
+			
+			if ($deleted_ind == $ind) { // if no primary key defined in table
+				$deleted_ind = -1;
+				$ind--;
+			} else {
+				$row_table = $this->addRowLoadFromSqlDataView($row, $list_attribute, $list_attribute_type, $key_attributes, $key_str, $is_delete_action);
+				if ($this->is_advance_table) {
+					$row_table->setRowClass(($ind%2==0?"odd":"even"));
+				}
+			}
+			$ind++;
+		}
+	}
+	
+	/**
+	 * Method addRowLoadFromSqlDataView
+	 * @access private
+	 * @param mixed $row 
+	 * @param mixed $list_attribute 
+	 * @param mixed $list_attribute_type 
+	 * @param mixed $key_attributes 
+	 * @param mixed $ind 
+	 * @param boolean $is_delete_action [default value: false]
+	 * @return mixed
+	 * @since 1.1.6
+	 */
+	private function addRowLoadFromSqlDataView($row, $list_attribute, $list_attribute_type, $key_attributes, $ind, $is_delete_action=false) {
+		if ($this->from_sql_data_view_delete) {
+			// create delete button if not already exists
+			$bnt_del_id = $this->id."_btndel__ind_".$ind;
+			$delete_pic = $this->getPage()->getObjectId($bnt_del_id);
+			if ($delete_pic == null) {
+				$delete_pic = new Picture("img/wsp-admin/delete_16.png", 16, 16, 0, Picture::ALIGN_ABSMIDDLE);
+				$delete_pic->setId($bnt_del_id);
+				$delete_pic->onClickJs("if (!confirm('".__(TABLE_CONFIME_DEL_ROW)."')) { return false; }");
+				$delete_pic->onClick($this->getPage(), "onChangeTableFromSqlDataView")->setAjaxEvent()->disableAjaxWaitMessage();
+			}
+		}
+		
+		// create row
+		$row_table = new RowTable();
+		$row_table->setId($this->id."_row_".$ind);
+		for ($i=0; $i < sizeof($list_attribute); $i++) {
+			// get field properties
+			if (is_array($this->from_sql_data_view_properties[$list_attribute[$i]])) {
+				$attribute_properties = $this->from_sql_data_view_properties[$list_attribute[$i]];
+			} else {
+				$attribute_properties = array();
+			}
+			
+			// get property display
+			if (isset($attribute_properties["display"]) && $attribute_properties["display"] == false) {
+				continue;
+			}
+			
+			// get property update
+			$is_update_ok = true;
+			if (isset($attribute_properties["update"]) && $attribute_properties["update"] == false) {
+				$is_update_ok = false;
+			}
+			
+			if ($this->from_sql_data_view_update && !in_array($list_attribute[$i], $key_attributes) && $is_update_ok) {
+				$row_value = $row->getValue($list_attribute[$i]);
+				if (gettype($row_value) == "object" && method_exists($row_value, "render")) {
+					$row_value = $row_value->render();
+				}
+				$edit_pic = new Picture("wsp/img/edit_16x16.png", 16, 16);
+				$row_obj = new Object($edit_pic, trim($row_value)==""?"&nbsp;&nbsp;":$row_value);
+				$row_obj->setId($this->id."_".$list_attribute[$i]."_obj_".$ind)->setStyle("cursor:pointer;border:1px solid gray;");
+				
+				$input_obj = $this->createDbAttributeObject($row, $list_attribute, $list_attribute_type, $i, $ind);
+				if (get_class($input_obj) == "ComboBox") { // Get foreign key value
+					$row_obj->emptyObject();
+					$value = $input_obj->getText();
+					$row_obj->add($edit_pic, trim($value)==""?"&nbsp;&nbsp;":$value);
+				} else if (get_class($input_obj) == "Calendar") {
+					$row_obj->emptyObject();
+					$value = $input_obj->getValueStr();
+					$row_obj->add($edit_pic, trim($value)==""?"&nbsp;&nbsp;":$value);
+					$row_table->setNowrap();
+				}
+				
+				$row_obj_input = new Object($input_obj);
+				$row_obj_input->setId($this->id."_".$list_attribute[$i]."_input_obj_".$ind);
+				
+				$cancel_pic = new Picture("wsp/img/cancel_12x12.png", 12, 12);
+				$cancel_pic->setId($this->id."_img_".$ind."_cancel_".$list_attribute[$i]);
+				$cancel_pic->onClickJs("$('#".$row_obj->getId()."').css('display', 'inline');$('#".$row_obj_input->getId()."').hide();".($this->from_sql_data_view_add_button!=null?"$('#".$this->from_sql_data_view_add_button->getId()."').button({ disabled: false });":""));
+				$cancel_pic_obj = new Object($cancel_pic);
+				$row_obj_input->add($cancel_pic_obj->forceSpanTag()->setStyle("position:absolute;"));
+				
+				if (!$this->getPage()->isAjaxPage() || $is_delete_action || 
+						($this->from_sql_data_view_reload_pic != null && $this->from_sql_data_view_reload_pic->isClicked()) || 
+						($this->from_sql_data_view_add_button != null && $this->from_sql_data_view_add_button->isClicked())) {
+					$this->getPage()->addObject(new JavaScript("$(document).ready(function() { $('#".$row_obj_input->getId()."').hide(); });"));
+				}
+				$row_obj->onClickJs("$('#".$row_obj->getId()."').hide();$('#".$row_obj_input->getId()."').show();".($this->from_sql_data_view_add_button!=null?"$('#".$this->from_sql_data_view_add_button->getId()."').button({ disabled: true });":""));
+				$row_table->add(new Object($row_obj, $row_obj_input));
+				
+				// get properties align
+				if (isset($attribute_properties["align"])) {
+					$row_table->setColumnAlign($i+1, $attribute_properties["align"]);
+				}
+			} else {
+				$value = $row->getValue($list_attribute[$i]);
+				if (isset($this->from_sql_data_view_properties[$list_attribute[$i]]['cmb_obj'])) {
+					$input_obj_tmp = $this->from_sql_data_view_properties[$list_attribute[$i]]['cmb_obj'];
+					$input_obj_tmp->setValue($value);
+					$value = $input_obj_tmp->getText();
+				}
+				if (get_class($value) == "DateTime") {
+					$value = $value->format("Y-m-d");
+				}
+				$row_table->add($value);
+			}
+		}
+		if ($this->from_sql_data_view_delete) {
+			$row_table->add($delete_pic);
+		} else if ($this->from_sql_data_view_insert) {
+			$row_table->add();
+		}
+		if ($is_table_defined_style) {
+			$row_table->setBorderPredefinedStyle($this->class);
+		}
+		$this->addRow($row_table);
+		return $row_table;
+	}
+	
+	/**
+	 * Method createDbAttributeObject
+	 * @access private
+	 * @param mixed $row 
+	 * @param mixed $list_attribute 
+	 * @param mixed $list_attribute_type 
+	 * @param mixed $i 
+	 * @param mixed $ind 
+	 * @return mixed
+	 * @since 1.1.6
+	 */
+	private function createDbAttributeObject($row, $list_attribute, $list_attribute_type, $i, $ind) {
+		// get property cmb_obj (created by method loadFromSqlDataView)
+		if (isset($this->from_sql_data_view_properties[$list_attribute[$i]]['cmb_obj'])) {
+			$input_obj_tmp = $this->from_sql_data_view_properties[$list_attribute[$i]]['cmb_obj'];
+			$input_obj = clone($input_obj_tmp);
+			$input_obj->setName($this->id."_input_".$list_attribute[$i]."_ind_".$ind);
+			$register_objects = WebSitePhpObject::getRegisterObjects();
+			$register_objects[] = $input_obj;
+			$_SESSION['websitephp_register_object'] = $register_objects;
+			
+		} else if ($list_attribute_type[$i] == "datetime") {
+			$input_obj = new Calendar($this->table_form_object, $this->id."_input_".$list_attribute[$i]."_ind_".$ind);
+		} else if ($list_attribute_type[$i] == "boolean") {
+			$input_obj = new CheckBox($this->table_form_object, $this->id."_input_".$list_attribute[$i]."_ind_".$ind);
+		} else {
+			$input_obj = new TextBox($this->table_form_object, $this->id."_input_".$list_attribute[$i]."_ind_".$ind);
+			if ($list_attribute_type[$i] == "integer" || $list_attribute_type[$i] == "double") {
+				$input_obj->setWidth(70);
+			}
+		}
+		
+		// get properties width and strip_tags
+		if (is_array($this->from_sql_data_view_properties[$list_attribute[$i]])) {
+			$attribute_properties = $this->from_sql_data_view_properties[$list_attribute[$i]];
+			if (isset($attribute_properties["width"]) && method_exists($input_obj, "setWidth")) {
+				$input_obj->setWidth($attribute_properties["width"]);
+			}
+			if (get_class($input_obj) != "Calendar") {
+				if (isset($attribute_properties["strip_tags"]) && $attribute_properties["strip_tags"] == true && 
+						method_exists($input_obj, "setStripTags")) {
+					if (isset($attribute_properties["allowable_tags"])) {
+						$input_obj->setStripTags($attribute_properties["allowable_tags"]);
+					} else {
+						$input_obj->setStripTags(""); // no tag allowed
+					}
+				}
+			}
+		}
+		if ($row != null) {
+			// get property db_attribute
+			$field_value = $row->getValue($list_attribute[$i]);
+			if (isset($this->from_sql_data_view_properties[$list_attribute[$i]]["db_attribute"])) {
+				$db_attribute = $this->from_sql_data_view_properties[$list_attribute[$i]]["db_attribute"];
+				$field_value = $row->getValue($db_attribute);
+			}
+			
+			$input_obj->onChange("onChangeTableFromSqlDataView")->setAjaxEvent()->disableAjaxWaitMessage();
+			if (get_class($input_obj) == "TextBox") {
+				$input_obj->onKeyUpJs("if (\$(this)[0].defaultValue != \$(this).val()) { $('#".$this->id."_img_".$ind."_cancel_".$list_attribute[$i]."').hide(); } else { $('#".$this->id."_img_".$ind."_cancel_".$list_attribute[$i]."').show(); }");
+			}
+			if ($list_attribute_type[$i] == "boolean") {
+				if (!$input_obj->isChanged()) {
+					$input_obj->setValue($field_value==true?"on":"off");
+				}
+			} else {
+				$input_obj->setValue($field_value);
+			}
+		}
+		return $input_obj;
+	}
+	
+	/**
+	 * Method onChangeTableFromSqlDataView
+	 * @access public
+	 * @param mixed $sender 
+	 * @since 1.1.6
+	 */
+	public function onChangeTableFromSqlDataView($sender) {
+		if ($this->id == "") {
+			throw new NewException(get_class($this)."->onChangeTableFromSqlDataView() error: you must define an id to the Table (".get_class($this)."->setId()) or you don't call this method for the good table", 0, getDebugBacktrace(1));
+		}
+		
+		if (gettype($sender) == "object") {
+			$sender_id = $sender->getId();
+		} else {
+			$sender_id = $sender;
+		}
+		
+		$sender_table_id = substr($sender_id, 0, strlen($this->id));
+		if ($sender_table_id != $this->id) {
+			throw new NewException(get_class($this)."->onChangeTableFromSqlDataView() error: \$sender object is not link to this Table", 0, getDebugBacktrace(1));
+		}
+		
+		$sender_id = substr($sender_id, strlen($this->id)+1, strlen($sender_id));
+		$sender_id_array = explode('_', $sender_id);
+		$sender_type = $sender_id_array[0];
+		
+		$input_ind = $sender_id_array[sizeof($sender_id_array)-1];
+		$attribute_name = str_replace($sender_type."_", "", $sender_id);
+		$attribute_name = str_replace("_ind_".$input_ind, "", $attribute_name);
+		
+		$list_attribute = $this->sql_data_view_object->getListAttributeArray();
+		$key_attributes = $this->sql_data_view_object->getPrimaryKeysAttributes();
+		$list_attribute_type = $this->sql_data_view_object->getListAttributeTypeArray();
+		$it = $this->data_row_iterator_object;
+		
+		if ($sender_type == "input" && $attribute_name != "" && !in_array($list_attribute[$i], $key_attributes)) {
+			if (isset($this->from_sql_data_view_data_row_array[$input_ind])) {
+				$row = $this->from_sql_data_view_data_row_array[$input_ind];
+				$value = $sender->getValue();
+				
+				$search_pos = array_search($attribute_name, $list_attribute);
+				if ($search_pos !== false) {
+					settype($value, $list_attribute_type[$search_pos]);
+					if ($value == "") {
+						$value = null;
+					}
+				}
+				
+				try {
+					// get property db_attribute
+					$is_db_attribute = false;
+					if (isset($this->from_sql_data_view_properties[$attribute_name]["db_attribute"])) {
+						$db_attribute = $this->from_sql_data_view_properties[$attribute_name]["db_attribute"];
+						$row->setValue($db_attribute, $value);
+						$is_db_attribute = true;
+					} else {
+						$row->setValue($attribute_name, $value);
+					}
+					$it->save();
+					
+					$object_id = "wsp_object_".$this->id."_".$attribute_name."_input_obj_".$input_ind;
+					$object_text_id = "wsp_object_".$this->id."_".$attribute_name."_obj_".$input_ind;
+					$row_obj = $this->getPage()->getObjectId($object_text_id);
+					$row_obj->emptyObject();
+					if ($is_db_attribute) {
+						$this->from_sql_data_view_reload_pic->onClickJs("$('#".$object_id."').html('<img src=\'".BASE_URL."wsp/img/loading.gif\' height=\'16\' width=\'16\'/>');");
+						$row_obj->add($this->from_sql_data_view_reload_pic, " ");
+					} else {
+						$edit_pic = new Picture("wsp/img/edit_16x16.png", 16, 16);
+						$row_obj->add($edit_pic, " ");
+					}
+					if (get_class($sender) == "ComboBox") {
+						$row_obj->add(($value==null?"&nbsp;&nbsp;":$sender->getText()));
+					} else if (get_class($sender) == "Calendar") {
+						$row_obj->add(($value==null?"&nbsp;&nbsp;":$sender->getValueStr()));
+					} else {
+						$row_obj->add(($value==null?"&nbsp;&nbsp;":$value));
+					}
+					$this->getPage()->addObject(new JavaScript("$('#".$object_text_id."').css('display', 'inline');$('#".$object_id."').hide();".($this->from_sql_data_view_add_button!=null?"$('#".$this->from_sql_data_view_add_button->getId()."').button({ disabled: false });":"")), false, true);
+				} catch (Exception $e) {
+					$error_msg = $e->getMessage();
+					if (($pos=find($error_msg, ": ")) > 0) {
+						$error_msg = ucfirst(substr($error_msg, $pos, strlen($error_msg)));
+					}
+					$this->getPage()->addObject(new DialogBox(__(ERROR), $error_msg));
+				}
+			}
+		} else if ($sender_type == "btnadd" && $attribute_name == "") {
+			$error = false;
+			$objects_ok_array = array("TextBox", "ComboBox", "CheckBox", "Calendar");
+			
+			$reload_pics_array = array();
+			$already_add_by_db_attribute = array();
+			$ind = $it->getRowsNum();
+			$row = $it->insert();
+			for ($i=0; $i < sizeof($list_attribute); $i++) {
+				$object_id = $this->id."_input_".$list_attribute[$i]."_ind_";
+				$input_obj = $this->getPage()->getObjectId($object_id);
+				if (!in_array($list_attribute[$i], $already_add_by_db_attribute)) {
+					if (!in_array($list_attribute[$i], $key_attributes) && in_array(get_class($input_obj), $objects_ok_array)) {
+						$value = $input_obj->getValue();
+						
+						$search_pos = array_search($list_attribute[$i], $list_attribute);
+						if ($search_pos !== false && $value != "") {
+							settype($value, $list_attribute_type[$search_pos]);
+							
+							if ("".$value != "".$input_obj->getValue() && get_class($input_obj) != "CheckBox") {
+								$error_dialog = new DialogBox(__(ERROR), "Can't convert ".$input_obj->getValue()." to ".$list_attribute_type[$search_pos]);
+								$this->getPage()->addObject($error_dialog->activateCloseButton());
+								$error = true;
+							}
+						}
+						if ($value == "") {
+							$value = null;
+						}
+						if (!$error) {
+							// get property db_attribute
+							if (isset($this->from_sql_data_view_properties[$list_attribute[$i]]["db_attribute"])) {
+								$db_attribute = $this->from_sql_data_view_properties[$list_attribute[$i]]["db_attribute"];
+								$row->setValue($db_attribute, $value);
+								$already_add_by_db_attribute[] = $db_attribute;
+								
+								$row->enableSqlLoadMode();
+								$reload_pic = clone($this->from_sql_data_view_reload_pic);
+								$reload_pic->setTag($list_attribute[$i]);
+								$reload_pics_array[] = $reload_pic;
+								$row->setValue($list_attribute[$i], new Object($reload_pic, $value));
+								$row->disableSqlLoadMode();
+							} else {
+								$row->setValue($list_attribute[$i], $value);
+							}
+						}
+					} else {
+						// get property db_attribute
+						if (isset($this->from_sql_data_view_properties[$list_attribute[$i]]["db_attribute"])) {
+							$db_attribute = $this->from_sql_data_view_properties[$list_attribute[$i]]["db_attribute"];
+							$row->setValue($db_attribute, null);
+							$already_add_by_db_attribute[] = $db_attribute;
+							
+							$row->enableSqlLoadMode();
+							$row->setValue($list_attribute[$i], null);
+							$row->disableSqlLoadMode();
+						} else {
+							$row->setValue($list_attribute[$i], null);
+						}
+					}
+				}
+			}
+			if (!$error) {
+				$it->save();
+				$auto_increment_id = $this->sql_data_view_object->getDbTableObject()->getDbTableAutoIncrement();
+				if ($auto_increment_id != null && $auto_increment_id != "") {
+					$row->setValue($auto_increment_id, DataBase::getInstance()->getLastInsertId());
+				}
+				
+				$key_str = "";
+				if (sizeof($key_attributes) == 0) {
+					$key_str = $ind;
+				} else {
+					for ($i=0; $i < sizeof($key_attributes); $i++) {
+						if ($i > 0) { $key_str .= "-"; }
+						$key_str .= $row->getValue($key_attributes[$i]);
+					}
+					$key_str = strtolower(url_rewrite_format($key_str));
+				}
+				
+				for ($i=0; $i < sizeof($reload_pics_array); $i++) {
+					$reload_pics_array[$i]->onClickJs("$('#wsp_object_".$this->id."_".$reload_pics_array[$i]->getTag()."_input_obj_".$key_str."').html('<img src=\'".BASE_URL."wsp/img/loading.gif\' height=\'16\' width=\'16\'/>');");
+				}
+				
+				$this->addRowLoadFromSqlDataView($row, $list_attribute, $list_attribute_type, $key_attributes, $key_str);
+			}
+		} else if ($sender_type == "btndel" && $attribute_name == "") {
+			if (isset($this->from_sql_data_view_data_row_array[$input_ind])) {
+				$rowToDelete = $this->from_sql_data_view_data_row_array[$input_ind];
+				$this->deleteRow($this->id."_row_".$input_ind);
+				
+				try {
+					$rowToDelete->delete();
+					$it->save();
+				} catch (Exception $e) {
+					$error_msg = $e->getMessage();
+					if (($pos=find($error_msg, ": ")) > 0) {
+						$error_msg = ucfirst(substr($error_msg, $pos, strlen($error_msg)));
+					}
+					$error_msg = explode(" - Query:", $error_msg);
+					$error_msg = $error_msg[0];
+					$error_msg = explode("(", $error_msg);
+					$error_msg = $error_msg[0];
+					$this->getPage()->addObject(new DialogBox(__(ERROR), $error_msg));
+				}
+			}
+		} else if ($sender_type == "btnreload" && $attribute_name == "") {
+			/*if (isset($this->from_sql_data_view_data_row_array[$input_ind])) {
+				$row = $this->from_sql_data_view_data_row_array[$input_ind];
+				$this->deleteRow($this->id."_row_".$input_ind);
+				$this->addRowLoadFromSqlDataView($row, $list_attribute, $list_attribute_type, $key_attributes, $input_ind);
+			}*/
+			$this->setAjaxRefreshAllTable();
+		} else {
+			throw new NewException(get_class($this)."->onChangeTableFromSqlDataView() error: \$sender type (".$sender_type.") is not valid", 0, getDebugBacktrace(1));
+		}
 	}
 	
 	/**
@@ -625,94 +1234,100 @@ class Table extends WebSitePhpObject {
 	 * @since 1.0.36
 	 */
 	public function render($ajax_render=false) {
-		$html = "";
-		if (!$ajax_render && $this->is_advance_table && $this->width != "") {
-			$html .= "<div style=\"";
-			if (is_integer($this->width)) {
-				$html .= "width:".$this->width."px;";
-			} else {
-				$html .= "width:".$this->width.";";
-			}
-			$html .= "\">";
-		}
-		$html .= "<table ";
-		if ($this->border != "" && is_integer($this->border)) {
-			$html .= "border=\"".$this->border."\" ";
-		}
-		$html .= "cellpadding=\"".$this->cellpadding."\" cellspacing=\"".$this->cellspacing."\"";
-		if ($this->id != "") {
-			$html .= " id=\"".$this->id."\"";
-		}
-		if ($this->class != "" || $this->is_advance_table) {
-			$html .= " class=\"";
-			if (is_integer($this->class) || (is_integer(substr($this->class, 0, 1)) && find($this->class, "_round") > 0)) {
-				$html .= "table_".$this->class;
-			} else {
-				$html .= $this->class;
-			}
-			if ($this->is_advance_table) {
-				$html .= " display";
-			}
-			$html .= "\"";
-		}
-		if ($this->border != "" || $this->width != "" || $this->height != "" || $this->font_size != "" || $this->font_family != "" || $this->font_weight != "" || $this->style != "") {
-			$html .= " style=\"";
-			if ($this->width != "") {
+		// Table need to be included in Form when loadFromSqlDataView
+		if ($this->is_table_form_object && !$this->ajax_refresh_all_table) {
+			$this->is_table_form_object = false;
+			return $this->table_form_object->render($ajax_render);
+		} else {
+			$html = "";
+			if (!$ajax_render && $this->is_advance_table && $this->width != "") {
+				$html .= "<div style=\"";
 				if (is_integer($this->width)) {
 					$html .= "width:".$this->width."px;";
 				} else {
 					$html .= "width:".$this->width.";";
 				}
+				$html .= "\">";
 			}
-			if ($this->height != "") {
-				if (is_integer($this->height)) {
-					$html .= "height:".$this->height."px;";
+			$html .= "<table ";
+			if ($this->border != "" && is_integer($this->border)) {
+				$html .= "border=\"".$this->border."\" ";
+			}
+			$html .= "cellpadding=\"".$this->cellpadding."\" cellspacing=\"".$this->cellspacing."\"";
+			if ($this->id != "") {
+				$html .= " id=\"".$this->id."\"";
+			}
+			if ($this->class != "" || $this->is_advance_table) {
+				$html .= " class=\"";
+				if (is_numeric($this->class) || (is_numeric(substr($this->class, 0, 1)) && find($this->class, "_round") > 0)) {
+					$html .= "table_".$this->class;
 				} else {
-					$html .= "height:".$this->height.";";
+					$html .= $this->class;
+				}
+				if ($this->is_advance_table) {
+					$html .= " display";
+				}
+				$html .= "\"";
+			}
+			if ($this->border != "" || $this->width != "" || $this->height != "" || $this->font_size != "" || $this->font_family != "" || $this->font_weight != "" || $this->style != "") {
+				$html .= " style=\"";
+				if ($this->width != "") {
+					if (is_integer($this->width)) {
+						$html .= "width:".$this->width."px;";
+					} else {
+						$html .= "width:".$this->width.";";
+					}
+				}
+				if ($this->height != "") {
+					if (is_integer($this->height)) {
+						$html .= "height:".$this->height."px;";
+					} else {
+						$html .= "height:".$this->height.";";
+					}
+				}
+				if ($this->font_size != "") {
+					if (is_integer($this->font_size)) {
+						$html .= "font-size:".$this->font_size."pt;";
+					} else {
+						$html .= "font-size:".$this->font_size.";";
+					}
+				}
+				if ($this->font_family != "") {
+					$html .= "font-family:".$this->font_family.";";
+				}
+				if ($this->font_weight != "") {
+					$html .= "font-weight:".$this->font_weight.";";
+				}
+				if ($this->border != "") {
+					$html .= "border:";
+					if (is_integer($this->border)) {
+						$html .= $this->border."px";
+					} else {
+						$html .= $this->border;
+					}
+					$html .= " ".$this->border_style." ".$this->border_color.";";
+				}
+				if ($this->style != "") {
+					$html .= $this->style;
+				}
+				$html .= "\"";
+			}
+			$html .= ">\n";
+			for ($i=0; $i < sizeof($this->rows); $i++) {
+				if (!$this->rows[$i]->isDeleted()) {
+					$html .= "	".$this->rows[$i]->render();
 				}
 			}
-			if ($this->font_size != "") {
-				if (is_integer($this->font_size)) {
-					$html .= "font-size:".$this->font_size."pt;";
-				} else {
-					$html .= "font-size:".$this->font_size.";";
-				}
+			$html .= "</table>\n";
+			if (!$ajax_render && $this->is_advance_table && $this->width != "") {
+				$html .= "</div>";
 			}
-			if ($this->font_family != "") {
-				$html .= "font-family:".$this->font_family.";";
-			}
-			if ($this->font_weight != "") {
-				$html .= "font-weight:".$this->font_weight.";";
-			}
-			if ($this->border != "") {
-				$html .= "border:";
-				if (is_integer($this->border)) {
-					$html .= $this->border."px";
-				} else {
-					$html .= $this->border;
-				}
-				$html .= " ".$this->border_style." ".$this->border_color.";";
-			}
-			if ($this->style != "") {
-				$html .= $this->style;
-			}
-			$html .= "\"";
+			
+			$html .= $this->renderAdvanceTable();
+			
+			$this->object_change = false;
+			return $html;
 		}
-		$html .= ">\n";
-		for ($i=0; $i < sizeof($this->rows); $i++) {
-			if (!$this->rows[$i]->isDeleted()) {
-				$html .= "	".$this->rows[$i]->render();
-			}
-		}
-		$html .= "</table>\n";
-		if (!$ajax_render && $this->is_advance_table && $this->width != "") {
-			$html .= "</div>";
-		}
-		
-		$html .= $this->renderAdvanceTable();
-		
-		$this->object_change = false;
-		return $html;
 	}
 	
 	/**

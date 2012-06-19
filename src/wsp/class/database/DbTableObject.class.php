@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.17
  */
@@ -31,6 +31,8 @@ class DbTableObject {
 	private $db_table_attributes = array();
 	private $db_table_attributes_type = array();
 	private $db_table_primary_keys = array();
+	private $db_table_auto_increment = "";
+	private $db_table_foreign_keys = array();
 	/**#@-*/
 	
 	/**
@@ -93,6 +95,24 @@ class DbTableObject {
 	}
 	
 	/**
+	 * Method getDbTableAutoIncrement
+	 * @return mixed
+	 * @since 1.1.6
+	 */
+	function getDbTableAutoIncrement() {
+		return $this->db_table_auto_increment;
+	}
+
+	/**
+	 * Method getDbTableForeignKeys
+	 * @return mixed
+	 * @since 1.1.6
+	 */
+	function getDbTableForeignKeys() {
+		return $this->db_table_foreign_keys;
+	}
+	
+	/**
 	 * Method setDbSchemaName
 	 * @param mixed $db_schema_name 
 	 * @since 1.0.59
@@ -135,6 +155,24 @@ class DbTableObject {
 	 */
 	function setDbTablePrimaryKeys($db_table_primary_keys) {
 		$this->db_table_primary_keys = $db_table_primary_keys;
+	}
+	
+	/**
+	 * Method setDbTableAutoIncrement
+	 * @param mixed $db_table_auto_increment 
+	 * @since 1.1.6
+	 */
+	function setDbTableAutoIncrement($db_table_auto_increment) {
+		$this->db_table_auto_increment = $db_table_auto_increment;
+	}
+	
+	/**
+	 * Method setDbTableForeignKeys
+	 * @param mixed $db_table_foreign_keys 
+	 * @since 1.1.6
+	 */
+	function setDbTableForeignKeys($db_table_foreign_keys) {
+		$this->db_table_foreign_keys = $db_table_foreign_keys;
 	}
 }
 ?>

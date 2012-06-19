@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.17
  */
@@ -162,7 +162,7 @@ class DataRowIterator {
 		$list_prepare_stmt_update = "";
 		for ($i=0; $i < sizeof($db_table_attributes); $i++) {
 			$value = $data_row->getValue($db_table_attributes[$i]);
-			if ($value != null && !in_array($db_table_attributes[$i], $db_table_primary_keys)) {
+			if (!in_array($db_table_attributes[$i], $db_table_primary_keys)) {
 				if ($list_prepare_stmt_update != "") { $list_prepare_stmt_update .= ", "; }
 				$list_prepare_stmt_update .= "`".$this->db_table_object->getDbTableName()."`.`".$db_table_attributes[$i]."`=";
 				if (gettype($value) == "object") {
@@ -181,6 +181,7 @@ class DataRowIterator {
 		}
 		
 		$query = "UPDATE ".$this->db_table_object->getDbTableSchemaName()." SET ".$list_prepare_stmt_update." WHERE ".$where_cond;
+		//print_r($stmt_objects);
 		DataBase::getInstance()->prepareStatement($query, $stmt_objects);
 	}
 	
@@ -206,7 +207,7 @@ class DataRowIterator {
 	/**
 	 * Method getRowsNum
 	 * @access public
-	 * @return mixed
+	 * @return integer
 	 * @since 1.0.35
 	 */
 	public function getRowsNum() {
@@ -225,7 +226,7 @@ class DataRowIterator {
 	/**
 	 * Method next
 	 * @access public
-	 * @return mixed
+	 * @return DataRow
 	 * @since 1.0.35
 	 */
 	public function next() {

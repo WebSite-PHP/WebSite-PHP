@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.25
  */
@@ -54,7 +54,6 @@ class ConfigureDatabase extends Page {
 		$this->form = new Form($this);
 		
 		$table_form = new Table();
-		$table_form->setClass(Table::STYLE_SECOND);
 		$table_form->addRow();
 		
 		$this->edtHost = new TextBox($this->form);
@@ -98,7 +97,6 @@ class ConfigureDatabase extends Page {
 		$table_form->addRow($this->objCreateDbClass)->setColspan(2);
 		
 		$table_gen = new Table();
-		$table_gen->setClass(Table::STYLE_SECOND);
 		$table_gen->addRow(__(GENERATE_DATABASE_OBJECTS))->setColspan(2);
 		$table_gen->addRow();
 		
@@ -300,11 +298,11 @@ class ConfigureDatabase extends Page {
 		$type = strtolower($type);
 		if (in_array($type, array("char", "varchar", "text", "tinyblob", "tinytext", "blob", "mediumblob", "mediumtext", "longblob", "longtext", "enum", "set", "bit"))) {
 			return "string";
-		} else if (in_array($type, array("int", "integer", "tinyint", "smallint", "mediumint", "bigint"))) {
+		} else if (in_array($type, array("int", "integer", "smallint", "mediumint", "bigint"))) {
 			return "integer";
 		} else if (in_array($type, array("float", "double", "real", "decimal", "numeric"))) {
 			return "double";
-		} else if (in_array($type, array("bool"))) {
+		} else if (in_array($type, array("bool", "tinyint"))) {
 			return "boolean";
 		} else if (in_array($type, array("date", "time", "timestamp", "datetime", "year"))) {
 			return "datetime";
@@ -324,6 +322,7 @@ class ConfigureDatabase extends Page {
 		$attr_key = "";
 		$attr_unique_key = "";
 		$db_key_identifier = "PRI";
+		$auto_increment_var = "";
 		
 		$query = "SHOW COLUMNS FROM `".$database."`.`".$table."`";
 		$result = $this->dbInstance->prepareStatement($query);
@@ -344,6 +343,10 @@ class ConfigureDatabase extends Page {
 				$attr_unique_key .= $class_name."DbTable::".$wsp_field;
 				$is_unique_key = true;
 			}
+			
+			if ($row['Extra'] == "auto_increment") {
+				$auto_increment_var = $row['Field'];
+			}
 		}
 		if (!$is_primary && $is_unique_key) {
 			$attr_key = $attr_unique_key;
@@ -356,6 +359,21 @@ class ConfigureDatabase extends Page {
 			$this->addObject($dialog);
 			return false;
 		}
+		
+		$attr_foreign_key = "";
+		$query = "SELECT column_name, referenced_table_schema, referenced_table_name, referenced_column_name
+					FROM INFORMATION_SCHEMA.key_column_usage 
+					WHERE referenced_table_schema = '".$database."' 
+					  AND table_name = '".$table."'
+					  AND referenced_table_name IS NOT NULL 
+					ORDER BY table_name, column_name";
+		$stmt = $this->dbInstance->prepareStatement($query);
+		$row = DataBase::getInstance()->stmtBindAssoc($stmt, $row);
+		while ($stmt->fetch()) {
+			if ($attr_foreign_key != "") { $attr_foreign_key .= ", "; }
+			$attr_foreign_key .= "'".$row['column_name']."' => array('table' => '`".$row['referenced_table_schema']."`.`".$row['referenced_table_name']."`', 'column' => '`".$row['referenced_column_name']."`')";
+		}
+		$attr_foreign_key = "array(".$attr_foreign_key.")";
 		
 		$data = "<?php
 class ".$class_name."DbTable extends DbTableObject {
@@ -374,6 +392,8 @@ class ".$class_name."DbTable extends DbTableObject {
 		\$this->setDbTableAttributes(array(".$attr."));
 		\$this->setDbTableAttributesType(array(".$attr_type."));
 		\$this->setDbTablePrimaryKeys(array(".$attr_key."));
+		\$this->setDbTableAutoIncrement('".$auto_increment_var."');
+		\$this->setDbTableForeignKeys(".$attr_foreign_key.");
 	}
 }
 ?>";

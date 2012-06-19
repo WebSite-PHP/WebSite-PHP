@@ -1,7 +1,7 @@
 The MIT License
 
 WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
-Copyright (c) 2009-2011 WebSite-PHP.com
+Copyright (c) 2009-2012 WebSite-PHP.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

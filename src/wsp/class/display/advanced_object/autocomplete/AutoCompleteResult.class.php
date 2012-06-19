@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.17
  */
@@ -45,9 +45,9 @@ class AutoCompleteResult extends WebSitePhpObject {
 	/**
 	 * Method add
 	 * @access public
-	 * @param mixed $id 
-	 * @param mixed $label 
-	 * @param mixed $value 
+	 * @param string $id 
+	 * @param string|WebSitePhpObject $label 
+	 * @param string $value 
 	 * @param string $icon 
 	 * @return AutoCompleteResult
 	 * @since 1.0.35

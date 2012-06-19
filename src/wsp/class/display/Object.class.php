@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.17
  */
@@ -904,7 +904,7 @@ class Object extends WebSitePhpEventObject {
 			
 			if ($this->callback_ondblclick != "") {
 				$html .= " onDblClick=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->ondblclick, $this->callback_ondblclick, $this->getId()))."\"";
-			} else if ($this->onclick != "") {
+			} else if ($this->ondblclick != "") {
 				$html .= " onDblClick=\"".str_replace("\n", "", $this->ondblclick)."\"";
 			}
 			

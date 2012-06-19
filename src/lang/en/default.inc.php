@@ -56,4 +56,6 @@
 	define('NOT_SUPPORTED_BROWSER', '<b>Internet Explorer 6 and older version are not fully supported.</b><br/>We recommand to use an other browser.<br/><br/>There must be 50 ways to leave your browser - here are 5:<br/><br/>');
 	
 	define("JAVASCRIPT_NOT_ACTIVATE", "JavaScript is turned off in your web browser. Turn it on to take full advantage of this site, then refresh the page.");
+	
+	define("TABLE_CONFIME_DEL_ROW", "Are you sure you want to delete this row ?");
 ?>

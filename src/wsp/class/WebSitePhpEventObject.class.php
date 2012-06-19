@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.18
  */
@@ -579,7 +579,7 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	protected function getObjectEventValidationRender($on_event, $callback, $params='', $abort_last_request=false) {
 		if ($callback != "" && $this->form_object == null && 
 			(isset($_GET['dialogbox_level']) || isset($_GET['tabs_object_id']))) {
-				if (get_class($this) == "Button" && $this->is_link) {
+				if (get_class($this) == "Button" && $this->is_link || get_class($this) == "Picture") {
 					// it's ok for this case
 				} else {
 					throw new NewException("Object ".get_class($this)." must link to a Form Object when he have a callback method in a DialogBox or a Tabs", 0, getDebugBacktrace(1));
@@ -643,7 +643,8 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 				}
 				$html .= ")');\n";
 			}
-			if ($this->is_ajax_event || $this->form_object != null || $callback != "") {
+			if (($this->is_ajax_event && $callback != "") || 
+					($this->form_object != null && $callback != "") || $callback != "") {
 				$html .= "if ($('#Callback_".$this->getEventObjectName()."').val() == '') { return false; }\n";
 			}
 			if ($on_event != "" || $this->is_ajax_event) {
@@ -654,14 +655,16 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 					}
 					$html .= "\n";
 				}
-				if ($this->is_ajax_event) {
-					$html .= $encrypt_html;
-					$html .= "callAjax".get_class($this)."_".$this->getEventObjectName()."_event($('#Callback_".$this->getEventObjectName()."').val(), ".($abort_last_request?"true":"false").");\n";
-				} else if ($this->form_object != null) {
-					$html .= $encrypt_html;
-					$html .= "$('#".$this->form_object->getId()."').submit();\n";
-				} else if ($callback != "") {
-					$html .= "location.href='".$this->generateCurrentUrlWithCallback()."';\n";
+				if ($callback != "") {
+					if ($this->is_ajax_event) {
+						$html .= $encrypt_html;
+						$html .= "callAjax".get_class($this)."_".$this->getEventObjectName()."_event($('#Callback_".$this->getEventObjectName()."').val(), ".($abort_last_request?"true":"false").");\n";
+					} else if ($this->form_object != null) {
+						$html .= $encrypt_html;
+						$html .= "$('#".$this->form_object->getId()."').submit();\n";
+					} else {
+						$html .= "location.href='".$this->generateCurrentUrlWithCallback()."';\n";
+					}
 				}
 			} else if ($this->form_object != null) {
 				$html .= $encrypt_html;

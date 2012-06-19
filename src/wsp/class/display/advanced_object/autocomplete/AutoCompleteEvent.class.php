@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.17
  */
@@ -107,6 +107,7 @@ class AutoCompleteEvent extends WebSitePhpEventObject {
 	 */
 	public function onSelect($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		$args = func_get_args();
+		$str_function = array_shift($args);
 		$args = array_merge(array(new JavaScript("\'' + ui.item.id + '\'")), $args);
 		
 		$this->callback_onselect = $this->loadCallbackMethod($str_function, $args);

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.6
  * @access      public
  * @since       1.0.17
  */
@@ -83,6 +83,7 @@ class CheckBox extends WebSitePhpEventObject {
 			$this->setValue("");
 		}
 		$this->default_value = $checked;
+		$this->checked = $checked;
 	}
 	
 	/**
@@ -202,7 +203,7 @@ class CheckBox extends WebSitePhpEventObject {
 	 * @since 1.0.36
 	 */
 	public function getValue() {
-		return $this->checked;
+		return $this->isChecked();
 	}
 
 	/**
@@ -212,7 +213,7 @@ class CheckBox extends WebSitePhpEventObject {
 	 * @since 1.0.36
 	 */
 	public function isChecked() {
-		return ($this->checked == "on") ? true : false;
+		return ($this->checked == "on" || $this->checked == true) ? true : false;
 	}
 
 	/**
@@ -290,6 +291,51 @@ class CheckBox extends WebSitePhpEventObject {
 		} else {
 			return $this->is_changed;
 		}
+	}
+	
+	/* Intern management of Object */
+	/**
+	 * Method setClick
+	 * @access public
+	 * @return CheckBox
+	 * @since 1.1.6
+	 */
+	public function setClick() {
+		if ($GLOBALS['__LOAD_VARIABLES__']) {
+			$class_name = get_class($this->page_object);
+			$form_name = "";
+			if ($this->form_object != null) {
+				$form_name = $this->form_object->getName();
+			}
+			$value = "";
+			$find_value_in_request = false;
+			if ($form_name == "") {
+				$name = $class_name."_".$this->getName();
+				if (isset($_POST[$name])) {
+					$value = $_POST[$name];
+					$find_value_in_request = true;
+				} else if (isset($_GET[$name])) {
+					$value = $_GET[$name];
+					$find_value_in_request = true;
+				}
+			} else {
+				$name = $class_name."_".$form_name."_".$this->getName();
+				if ($this->form_object->getMethod() == "POST" && isset($_POST[$name])) {
+					$value = $_POST[$name];
+					$find_value_in_request = true;
+				} else if (isset($_GET[$name])) {
+					$value = $_GET[$name];
+					$find_value_in_request = true;
+				}
+			}
+			if ($find_value_in_request && $value == "on") {
+				$this->checked = true;
+			} else {
+				$this->checked = false;
+			}
+			$this->is_changed = true; 
+		}
+		return $this;
 	}
 	
 	/**

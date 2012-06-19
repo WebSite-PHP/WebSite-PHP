@@ -56,4 +56,6 @@
 	define('NOT_SUPPORTED_BROWSER', '<b>Internet Explorer 6 und ältere Versionen werden nicht vollständig unterstützt.</b><br/>Wir empfehlen einen anderen Browser zu benutzen.<br/><br/>Es muss 50 Wege geben um Ihren Browser zu wechseln - hier sind 5:<br/><br/>');
 	
 	define("JAVASCRIPT_NOT_ACTIVATE", "JavaScript ist in Ihrem Webbrowser ausgeschaltet. Schalten Sie es ein um den vollen Funktionsumfang dieser Seite nutzen zu können, dann aktualisieren Sie die Seite.");
+	
+	define("TABLE_CONFIME_DEL_ROW", "Sind Sie sicher, dass Sie diese Zeile löschen?");
 ?>
