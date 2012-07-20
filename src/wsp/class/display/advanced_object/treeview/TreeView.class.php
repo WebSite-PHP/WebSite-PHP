@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.7
  * @access      public
  * @since       1.0.17
  */
@@ -383,14 +383,16 @@ class TreeView extends WebSitePhpObject {
 	 * @since 1.0.35
 	 */
 	private function searchNodeId($treeview_item, $id) {
-		if ($treeview_item->getId() == $id) {
-			return $treeview_item;
-		} else if ($treeview_item->getTreeViewItemsObject() != null) {
-			$node_treeview_items = $treeview_item->getTreeViewItemsObject()->getTreeViewItemArray();
-			for ($i=0; $i < sizeof($node_treeview_items); $i++) {
-				$search_item = $this->searchNodeId($node_treeview_items[$i], $id);
-				if ($search_item != null) {
-					return $search_item;
+		if ($treeview_item != null) {
+			if ($treeview_item->getId() == $id) {
+				return $treeview_item;
+			} else if ($treeview_item->getTreeViewItemsObject() != null) {
+				$node_treeview_items = $treeview_item->getTreeViewItemsObject()->getTreeViewItemArray();
+				for ($i=0; $i < sizeof($node_treeview_items); $i++) {
+					$search_item = $this->searchNodeId($node_treeview_items[$i], $id);
+					if ($search_item != null) {
+						return $search_item;
+					}
 				}
 			}
 		}

@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.7
  * @access      public
  * @since       1.0.0
  */
@@ -32,7 +32,7 @@
 	$__GEOLOC_ASK_USER_SHARE_POSITION__ = false;
 	
 	session_name(formalize_to_variable(SITE_NAME)); 
-	session_start();
+	@session_start();
 	
 	if (!isset($_GET['p'])) {
 		$_GET['p'] = "home"; 

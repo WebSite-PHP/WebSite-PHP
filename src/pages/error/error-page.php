@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.7
  * @access      public
  * @since       1.0.18
  */
@@ -133,9 +133,17 @@ class ErrorPage extends Page {
 				} else {
 					$array_banned_url = array();
 				}
-				$url_without_base = str_replace($this->getBaseURL(), "", $this->getCurrentUrl());
+				if (find($this->getCurrentUrl(), $this->getBaseLanguageURL()) > 0) {
+					$url_without_base = str_replace($this->getBaseLanguageURL(), "", $this->getCurrentUrl());
+				} else {
+					$url_without_base = str_replace($this->getBaseURL(), "", $this->getCurrentUrl());
+				}
 				if (isset($_GET['error-redirect-url']) && $_GET['error-redirect-url'] != "") {
-					$url_without_base = str_replace($this->getBaseURL(), "", $_GET['error-redirect-url']);
+					if (find($_GET['error-redirect-url'], $this->getBaseLanguageURL()) > 0) {
+						$url_without_base = str_replace($this->getBaseLanguageURL(), "", $_GET['error-redirect-url']);
+					} else {
+						$url_without_base = str_replace($this->getBaseURL(), "", $_GET['error-redirect-url']);
+					}
 				}
 				if ($url_without_base[0] != '/') {
 					$url_without_base = "/".$url_without_base;

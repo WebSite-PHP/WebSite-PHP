@@ -27,9 +27,18 @@ if (isset($_GET['url'])) {
 
 error_reporting(E_ALL);
 include_once("wsp/config/config.inc.php");
+
+// define language
 if (!isset($_SESSION['lang']) && !isset($_GET['l'])) {
 	$_GET['l'] = SITE_DEFAULT_LANG;
 }
+$temp_lang = substr($_SERVER['REQUEST_URI'], 0, 4);
+if (strlen($temp_lang)==4 && $temp_lang[0] == "/" && $temp_lang[3] == "/" && 
+	is_dir(dirname(__FILE__)."/lang/".$temp_lang)) {
+		// set the url language
+		$_GET['l'] = str_replace("/", "", $temp_lang);
+}
+
 include_once("wsp/includes/utils_session.inc.php");
 $__AJAX_PAGE__ = false; // use for return catch exception and loadAllVariables method
 $__AJAX_LOAD_PAGE__ = false;
@@ -61,8 +70,12 @@ if (method_exists($page_object, "Loaded")) {
 }
 
 echo "<html><head><title>".$page_object->getPageTitle()." - ".SITE_NAME."</title>\n";
-echo "<link type=\"text/css\" rel=\"StyleSheet\" href=\"".BASE_URL."combine-css/styles.php.css,angle.php.css\" media=\"screen\" />\n";
-echo "<script type=\"text/javascript\" src=\"".BASE_URL."wsp/js/jquery/jquery-".JQUERY_VERSION.".min.js\"></script>\n";
+$jquery_style = "";
+if (DEFINE_STYLE_JQUERY != "") {
+	$jquery_style = DEFINE_STYLE_JQUERY;
+}
+echo "<link type=\"text/css\" rel=\"StyleSheet\" href=\"".BASE_URL."combine-css/styles.php.css,angle.php.css,jquery".JQUERY_UI_VERSION."|".$jquery_style."|jquery-ui-".JQUERY_UI_VERSION.".custom.css\" media=\"screen\" />\n";
+echo "<script type=\"text/javascript\" src=\"".BASE_URL."combine-js/jquery|jquery-".JQUERY_VERSION.".min.js,jquery|jquery-ui-".JQUERY_UI_VERSION.".custom.min.js,jquery.cookie.js,pngfix.js,utils.js\"></script>\n";
 echo "<script type=\"text/javascript\" src=\"".BASE_URL."wsp/js/jquery.backstretch.min.js\"></script>\n";
 echo "<meta name=\"Robots\" content=\"noindex, nofollow\" />\n";
 echo "<base href=\"".BASE_URL."\" />\n";

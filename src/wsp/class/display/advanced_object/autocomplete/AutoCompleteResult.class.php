@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.7
  * @access      public
  * @since       1.0.17
  */
@@ -41,7 +41,6 @@ class AutoCompleteResult extends WebSitePhpObject {
 		parent::__construct();
 	}
 	
-	/* Intern management of ContextMenuEvent */
 	/**
 	 * Method add
 	 * @access public

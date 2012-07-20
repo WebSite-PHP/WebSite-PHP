@@ -1,0 +1,24 @@
+.divclearable {
+	border: 1px solid #888;
+	background-color: white;
+	display: -moz-inline-stack;
+	display: inline-block;
+	zoom:1;
+	*display:inline;	
+	padding-right:5px;
+	vertical-align:middle;
+}
+
+a.clearlink {
+	background: url("../wsp/img/clearable-button.png") no-repeat scroll 0 0 transparent;
+	background-position: center center;
+	cursor: pointer;
+	display: -moz-inline-stack;
+	display: inline-block;
+	zoom:1;
+	*display:inline;	
+	height: 12px;
+	width: 12px;
+	z-index: 2000;
+	border: 0px solid;
+}

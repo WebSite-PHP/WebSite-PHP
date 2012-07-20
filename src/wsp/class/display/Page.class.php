@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.7
  * @access      public
  * @since       1.0.0
  */
@@ -185,16 +185,20 @@ class Page {
 	 * Destructor Page
 	 */
 	function __destruct() {
-		if ($this->page_is_display) {
-			if ((CACHING_ALL_PAGES || $this->PAGE_CACHING) && !$this->page_is_caching && $this->cache_time != -1) {
-				if (strtoupper(substr($this->class_name, 0, 5)) != "ERROR" && $GLOBALS['__ERROR_DEBUG_PAGE__'] != true) {
-					$cache_file = new File($this->cache_file_name, false, true);
-					$cache_file->write(ob_get_contents());
-					$cache_file->close();
+		try {
+			if ($this->page_is_display) {
+				if ((CACHING_ALL_PAGES || $this->PAGE_CACHING) && !$this->page_is_caching && $this->cache_time != -1) {
+					if (strtoupper(substr($this->class_name, 0, 5)) != "ERROR" && $GLOBALS['__ERROR_DEBUG_PAGE__'] != true) {
+						$cache_file = new File($this->cache_file_name, false, true);
+						$cache_file->write(ob_get_contents());
+						$cache_file->close();
+					}
 				}
 			}
+			@ob_end_flush();
+		} catch(Exception $e) {
+			// No action
 		}
-		@ob_end_flush();
 	}
 	
 	/**

@@ -536,3 +536,11 @@ div.box {
 	border: 1px solid #8080FF;
 	background-color: #E5E5FF;
 }
+
+.number_range_filter {
+    width: 20px;
+}
+
+.date_range_filter {
+    width: 5.5em;
+}

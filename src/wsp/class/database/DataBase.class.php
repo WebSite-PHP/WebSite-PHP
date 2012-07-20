@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.7
  * @access      public
  * @since       1.0.17
  */
@@ -319,12 +319,18 @@ class DataBase {
 	/**
 	 * Method commitTransaction
 	 * @access public
+	 * @return boolean
 	 * @since 1.0.59
 	 */
 	public function commitTransaction() {
-		if ($this->db_is_connect && $this->is_begin_transaction) {
-			$this->is_begin_transaction = false;
-			$this->connection->commit();
+		if ($this->db_is_connect) {
+			if ($this->is_begin_transaction) {
+				$this->is_begin_transaction = false;
+				$this->connection->commit();
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			throw new NewException("Error DataBase::getInstance()->prepareStatement(): Not connect to database", 0, getDebugBacktrace(1));
 		}
@@ -333,12 +339,18 @@ class DataBase {
 	/**
 	 * Method rollbackTransaction
 	 * @access public
+	 * @return boolean
 	 * @since 1.0.59
 	 */
 	public function rollbackTransaction() {
-		if ($this->db_is_connect && $this->is_begin_transaction) {
-			$this->is_begin_transaction = false;
-			$this->connection->rollback();
+		if ($this->db_is_connect) {
+			if ($this->is_begin_transaction) {
+				$this->is_begin_transaction = false;
+				$this->connection->rollback();
+				return true;
+			} else {
+				return false;
+			}
 		} else {
 			throw new NewException("Error DataBase::getInstance()->prepareStatement(): Not connect to database", 0, getDebugBacktrace(1));
 		}

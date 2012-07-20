@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.7
  * @access      public
  * @since       1.0.17
  */
@@ -103,8 +103,8 @@ class TreeViewFolder extends TreeViewItem {
 	 * @since 1.0.35
 	 */
 	public function addFile($value="New File", $data='', $link='', $context_menu_object=null) {
+		$file = null;
 		$path = $this->getLocalPath();
-		$file = new File($path.$value);
 		
 		if ($this->treeview_object == null) {
 			$this->treeview_object = $this->getTreeViewObject();
@@ -112,6 +112,7 @@ class TreeViewFolder extends TreeViewItem {
 		$is_file_ok = true;
 		if ($this->treeview_object->isSynchronizeWithDir()) {
 			if ($data == "") { $data  = " "; }
+			$file = new File($path.$value);
 			if ($file->write($data) == false) {
 				$is_file_ok = false;
 			}
@@ -123,7 +124,9 @@ class TreeViewFolder extends TreeViewItem {
 			if ($context_menu_object != null) {
 				$this->treeview_object->setContextMenuOnTreeViewItem($context_menu_object, $new_item);
 			}
-			$file->close();
+			if ($file != null) {
+				$file->close();
+			}
 			return $new_item;
 		}
 		return null;

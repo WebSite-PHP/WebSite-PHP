@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.7
  * @access      public
  * @since       1.0.17
  */
@@ -348,7 +348,7 @@ class TreeViewItem extends WebSitePhpObject {
 				}
 				$html .= "\">";
 	
-				$html .= "<a href=\"".str_replace("{#file}", $this->path, createHrefLink($this->link))."\" id=\"".$this->getId()."_id\" style=\"white-space: nowrap;\">&nbsp;";
+				$html .= "<a href=\"".str_replace("{#file}", $this->path, str_replace("{#filename}", basename($this->path), createHrefLink($this->link)))."\" id=\"".$this->getId()."_id\" style=\"white-space: nowrap;\">&nbsp;";
 				$html .= $this->value."</a>";
 				
 				$html .= "</span>";

@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.7
  * @access      public
  * @since       1.0.17
  */
@@ -29,9 +29,11 @@ class ContextMenu extends WebSitePhpObject {
 	const CONTEXTMENU_ICON_CUT = "cut";
 	const CONTEXTMENU_ICON_COPY = "copy";
 	const CONTEXTMENU_ICON_PASTE = "paste";
+	const CONTEXTMENU_ICON_PAGE = "page";
 	const CONTEXTMENU_ICON_PAGE_ADD = "page_add";
 	const CONTEXTMENU_ICON_PAGE_DELETE = "page_delete";
 	const CONTEXTMENU_ICON_PAGE_RENAME = "page_rename";
+	const CONTEXTMENU_ICON_FOLDER = "folder";
 	const CONTEXTMENU_ICON_FOLDER_ADD = "folder_add";
 	const CONTEXTMENU_ICON_FOLDER_DELETE = "folder_delete";
 	const CONTEXTMENU_ICON_FOLDER_RENAME = "folder_rename";
@@ -42,6 +44,10 @@ class ContextMenu extends WebSitePhpObject {
 	const CONTEXTMENU_ICON_PICTURE_ADD = "picture_add";
 	const CONTEXTMENU_ICON_PICTURE_DELETE = "picture_delete";
 	const CONTEXTMENU_ICON_PICTURE_EDIT = "picture_edit";
+	const CONTEXTMENU_ICON_LINK = "link";
+	const CONTEXTMENU_ICON_FAIL = "fail";
+	const CONTEXTMENU_ICON_SUCCESS = "success";
+	const CONTEXTMENU_ICON_REDO = "redo";
 	
 	/**#@+
 	* @access private

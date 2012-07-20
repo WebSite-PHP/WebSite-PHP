@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 05/09/2011
- * @version     1.1.5
+ * @version     1.1.7
  * @access      public
  * @since       1.0.93
  */
@@ -54,7 +54,7 @@ class LanguageComboBox extends WebSitePhpObject {
 	public function addLanguage($language_code, $language_text) {
 		$lang_link = BASE_URL.$language_code."/".str_replace($this->getPage()->getBaseLanguageURL(), "", $this->getPage()->getCurrentURL());
 		$this->cmb_language->addItem($lang_link, $language_text, ($this->getPage()->getLanguage()==$language_code)?true:false, BASE_URL."wsp/img/lang/".$language_code.".png");
-		$this->cmb_language->onChangeJs("location.href=$('#".$this->cmb_language->getId()."').val();");
+		$this->cmb_language->onChangeJs("location.href=$('#".$this->cmb_language->getEventObjectName()."').val();");
 		return $this;
 	}
 	
@@ -68,6 +68,15 @@ class LanguageComboBox extends WebSitePhpObject {
 	public function setWidth($width) {
 		$this->cmb_language->setWidth($width);
 		return $this;
+	}
+	
+	/**
+	 * Method setSmallIcons
+	 * @access public
+	 * @since 1.1.7
+	 */
+	public function setSmallIcons() {
+		$this->cmb_language->setSmallIcons();
 	}
 	
 	/**

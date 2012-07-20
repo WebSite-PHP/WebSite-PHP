@@ -58,9 +58,11 @@
 .contextMenu LI.cut A { background-image: url(../wsp/img/context_menu/cut.png); text-align:left; }
 .contextMenu LI.copy A { background-image: url(../wsp/img/context_menu/page_white_copy.png); text-align:left; }
 .contextMenu LI.paste A { background-image: url(../wsp/img/context_menu/page_white_paste.png); text-align:left; }
+.contextMenu LI.page A { background-image: url(../wsp/img/context_menu/page_white.png); text-align:left; }
 .contextMenu LI.page_add A { background-image: url(../wsp/img/context_menu/page_white_add.png); text-align:left; }
 .contextMenu LI.page_delete A { background-image: url(../wsp/img/context_menu/page_white_delete.png); text-align:left; }
 .contextMenu LI.page_rename A { background-image: url(../wsp/img/context_menu/page_white_rename.png); text-align:left; }
+.contextMenu LI.folder A { background-image: url(../wsp/img/context_menu/folder.png); text-align:left; }
 .contextMenu LI.folder_add A { background-image: url(../wsp/img/context_menu/folder_add.png); text-align:left; }
 .contextMenu LI.folder_delete A { background-image: url(../wsp/img/context_menu/folder_delete.png); text-align:left; }
 .contextMenu LI.folder_rename A { background-image: url(../wsp/img/context_menu/folder_rename.png); text-align:left; }
@@ -71,3 +73,7 @@
 .contextMenu LI.picture_add A { background-image: url(../wsp/img/context_menu/picture_add.png); text-align:left; }
 .contextMenu LI.picture_delete A { background-image: url(../wsp/img/context_menu/picture_delete.png); text-align:left; }
 .contextMenu LI.picture_edit A { background-image: url(../wsp/img/context_menu/picture_edit.png); text-align:left; }
+.contextMenu LI.link A { background-image: url(../wsp/img/context_menu/link.png); text-align:left; }
+.contextMenu LI.fail A { background-image: url(../wsp/img/context_menu/fail.png); text-align:left; }
+.contextMenu LI.success A { background-image: url(../wsp/img/context_menu/success.png); text-align:left; }
+.contextMenu LI.redo A { background-image: url(../wsp/img/context_menu/redo.png); text-align:left; }

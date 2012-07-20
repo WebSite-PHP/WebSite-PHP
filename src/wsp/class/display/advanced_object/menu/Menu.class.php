@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.7
  * @access      public
  * @since       1.0.17
  */
@@ -72,7 +72,7 @@ class Menu extends WebSitePhpObject {
 	/**
 	 * Method setMenuItems
 	 * @access public
-	 * @param mixed $menu_items_object 
+	 * @param MenuItems $menu_items_object 
 	 * @return Menu
 	 * @since 1.0.35
 	 */

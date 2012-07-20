@@ -3,7 +3,7 @@
 	if(!isset($_SESSION)) {
 		include_once("../includes/utils_session.inc.php");
 		session_name(formalize_to_variable(SITE_NAME));
-		session_start();
+		@session_start();
 	}
 	
 	if (isset($_GET['conf_file']) && file_exists("../config/".$_GET['conf_file'])) {

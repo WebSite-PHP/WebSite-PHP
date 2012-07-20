@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.7
  * @access      public
  * @since       1.0.15
  */
@@ -289,12 +289,16 @@ class NewException extends Exception
 					header("Content-Type: text/html");
 					
 					echo "<html><head><title>Debug Error - ".SITE_NAME."</title>\n";
-					echo "<link type=\"text/css\" rel=\"StyleSheet\" href=\"".$my_site_base_url."combine-css/styles.php.css,angle.php.css";
+					$jquery_style = "";
+					if (DEFINE_STYLE_JQUERY != "") {
+						$jquery_style = DEFINE_STYLE_JQUERY;
+					}
+					echo "<link type=\"text/css\" rel=\"StyleSheet\" href=\"".$my_site_base_url."combine-css/styles.php.css,angle.php.css,jquery".JQUERY_UI_VERSION."|".$jquery_style."|jquery-ui-".JQUERY_UI_VERSION.".custom.css";
 					if (trim(CssInclude::getInstance()->getCssConfigFile()) != "") {
 						echo "?conf_file=".CssInclude::getInstance()->getCssConfigFile();
 					}
 					echo "\" media=\"screen\" />\n";
-					echo "<script type=\"text/javascript\" src=\"".$my_site_base_url."wsp/js/jquery/jquery-".JQUERY_VERSION.".min.js\"></script>\n";
+					echo "<script type=\"text/javascript\" src=\"".$my_site_base_url."combine-js/jquery|jquery-".JQUERY_VERSION.".min.js,jquery|jquery-ui-".JQUERY_UI_VERSION.".custom.min.js,jquery.cookie.js,pngfix.js,utils.js\"></script>\n";
 					echo "<script type=\"text/javascript\" src=\"".$my_site_base_url."combine-js/jquery.backstretch.min.js,jquery.cookie.js\"></script>\n";
 					echo "<meta name=\"Robots\" content=\"noindex, nofollow\" />\n";
 					echo "<base href=\"".$my_site_base_url."\" />\n";

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.7
  * @access      public
  * @since       1.0.17
  */
@@ -278,19 +278,20 @@ class SqlDataView {
 			$tmp_list_attribute = array();
 			$list_attribute = explode(",", $this->list_custom_attribute);
 			for ($i=0; $i < sizeof($list_attribute); $i++) {
-				if ($is_parenthesis_open == 0) {
-					if (find($list_attribute[$i], "(") > 0) { // is a function (there is commas when there is function)
-						$is_parenthesis_open++;
+				if (find($list_attribute[$i], "(") > 0) { // is a function (it's possible to have commas when there is function)
+					if ($is_parenthesis_open == 0) {
 						$tmp_attribute = "";
-					} else {
-						$tmp_attribute_array = explode(' ', trim($list_attribute[$i])); // if user define a name to the field
-						$tmp_attribute_array = explode('.', $tmp_attribute_array[sizeof($tmp_attribute_array)-1]);
-						$tmp_attribute = $tmp_attribute_array[sizeof($tmp_attribute_array)-1];
-						$tmp_list_attribute[] = trim(str_replace("`", "", $tmp_attribute)); // add column name in the list
 					}
-				} else if (find($list_attribute[$i], ")") > 0) {
-					$is_parenthesis_open--;
-					$i--;
+					$is_parenthesis_open += substr_count($list_attribute[$i], "(");
+				}
+				if (find($list_attribute[$i], ")") > 0) {
+					$is_parenthesis_open -= substr_count($list_attribute[$i], ")");
+				}
+				if ($is_parenthesis_open == 0) {
+					$tmp_attribute_array = explode(' ', trim($list_attribute[$i])); // if user define a name to the field
+					$tmp_attribute_array = explode('.', $tmp_attribute_array[sizeof($tmp_attribute_array)-1]);
+					$tmp_attribute = $tmp_attribute_array[sizeof($tmp_attribute_array)-1];
+					$tmp_list_attribute[] = trim(str_replace("`", "", $tmp_attribute)); // add column name in the list
 				}
 			}
 			$this->save_list_attribute_array = $tmp_list_attribute;
@@ -437,7 +438,9 @@ class SqlDataView {
 		$this->iterator = new DataRowIterator($this->db_table_object);
 		if ($list_attribute != "") {
 			$query = $this->createQuery($list_attribute);
-			$attributes_type = $this->db_table_object->getDbTableAttributesType();
+			if ($this->list_custom_attribute == "") {
+				$attributes_type = $this->db_table_object->getDbTableAttributesType();
+			}
 			$this->last_query = $query;
 			
 			$stmt = DataBase::getInstance()->prepareStatement($query, $this->clause_objects);

@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.7
  * @access      public
  * @since       1.0.0
  */
@@ -32,7 +32,7 @@
 	$__GEOLOC_ASK_USER_SHARE_POSITION__ = false;
 	
 	session_name(formalize_to_variable(SITE_NAME));
-	session_start();
+	@session_start();
 	
 	include_once("wsp/includes/execution_time.php");
 	$_SESSION['wspPageStartTime'] = slog_time();
@@ -442,7 +442,9 @@
 		
 		<script type="text/javascript">
 			function windowHeaderTitle() {
+<?php if (!in_array($_GET['l'], $GLOBALS['array_no_encoding'])) { ?> 
 				document.title = '<?php echo addslashes(str_replace("\n", "", str_replace("\r", "", str_replace("\t", "", html_entity_decode($current_page_title))))); ?>';
+<?php } ?>
 			}
 		 	StkFunc(windowHeaderTitle);
 			StkFunc(SaveDocumentSize);StkFuncOR(SaveDocumentSize);

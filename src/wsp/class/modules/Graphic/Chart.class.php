@@ -18,8 +18,8 @@
  * @subpackage Graphic
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 05/08/2011
- * @version     1.1.5
+ * @copyright   WebSite-PHP.com 13/07/2012
+ * @version     1.1.7
  * @access      public
  * @since       1.0.91
  */
@@ -303,7 +303,9 @@ class Chart extends WebSitePhpObject {
 	 * @since 1.0.91
 	 */
 	public function render($ajax_render=false) {
-		$html = "<div id=\"".$this->id."\" style=\"width:".$this->width."px;height:".$this->height."px;\"></div>\n";
+		$html .= "<div id=\"".$this->id."\" align=\"center\" style=\"width:".$this->width."px;height:".$this->height."px;";
+		$html .= "#position:absolute;#top:50%;display:table-cell;vertical-align:middle;\"><img src=\"".BASE_URL."wsp/img/loading.gif\" width=\"32\" height=\"32\"/>";
+		$html .= "</div>\n";
 		$html .= $this->getJavascriptTagOpen();
 		$html .= "$(function () {\n";
 		for ($i=0; $i < sizeof($this->array_data); $i++) {

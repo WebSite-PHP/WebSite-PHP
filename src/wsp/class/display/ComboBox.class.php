@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.7
  * @access      public
  * @since       1.0.17
  */
@@ -247,6 +247,15 @@ class ComboBox extends WebSitePhpEventObject {
 		$this->setSelectedIndex(-1);
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; $this->list_items_change = true; }
 		return $this;
+	}
+	
+	/**
+	 * Method setSmallIcons
+	 * @access public
+	 * @since 1.1.7
+	 */
+	public function setSmallIcons() {
+		$this->page_object->addObject(New JavaScript("$(\"<style type='text/css'>.dd .ddChild a img { border:0; padding:0 2px 0 0; vertical-align:middle; height: 16px; width: 16px; }</style>\").appendTo(\"head\");"));
 	}
 	
 	/**

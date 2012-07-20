@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.7
  * @access      public
  * @since       1.0.19
  */
@@ -23,7 +23,7 @@
 include_once("../config/config.inc.php");
 include_once("utils_session.inc.php");
 session_name(formalize_to_variable(SITE_NAME)); 
-session_start();
+@session_start();
 
 if (!isset($_SESSION['google_geolocalisation']) || isset($_GET['user_share'])) {
 	if ($_GET['latitude']!="undefined" && $_GET['longitude']!="undefined" && $_GET['city']!="undefined" 

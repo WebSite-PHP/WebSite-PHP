@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.7
  * @access      public
  * @since       1.0.17
  */
@@ -79,6 +79,15 @@ class Table extends WebSitePhpObject {
 	/**#@-*/
 	
 	/**#@+
+	* column filter position properties
+	* @access public
+	* @var string
+	*/
+	const COL_FILTER_POSITION_TOP = "top";
+	const COL_FILTER_POSITION_BOTTOM = "bottom";
+	/**#@-*/
+	
+	/**#@+
 	* Font family
 	* @access public
 	* @var string
@@ -132,6 +141,14 @@ class Table extends WebSitePhpObject {
 	private $advance_table_title = "";
 	private $advance_table_type_define = false;
 	private $col_type = array();
+	private $is_search_enable = false;
+	private $is_fixe_header = false;
+	private $is_column_filter = false;
+	private $column_filter_params = "";
+	private $column_filter_position = "top";
+	private $vertical_scroll = false;
+	private $vertical_scroll_size = 200;
+	private $horizontal_scroll = false;
 	
 	private $sql_data_view_object = null;
 	private $data_row_iterator_object = null;
@@ -591,11 +608,19 @@ class Table extends WebSitePhpObject {
 			if (sizeof($key_attributes) == 0) {
 				$key_str = $ind;
 			} else {
-				for ($i=0; $i < sizeof($key_attributes); $i++) {
-					if ($i > 0) { $key_str .= "-"; }
-					$key_str .= $row->getValue($key_attributes[$i]);
+				try {
+					for ($i=0; $i < sizeof($key_attributes); $i++) {
+						if ($i > 0) { $key_str .= "-"; }
+						$key_str .= $row->getValue($key_attributes[$i]);
+					}
+					$key_str = strtolower(url_rewrite_format($key_str));
+				} catch (Exception $ex) {
+					if ($insert || $update || $delete) {
+						throw new NewException(get_class($this)."->loadFromSqlDataView() error: \$properties need to include primary key of the table if you want to use inser, update or delete feature", 0, getDebugBacktrace(1));
+					} else {
+						$key_str = $ind;
+					}
 				}
-				$key_str = strtolower(url_rewrite_format($key_str));
 			}
 			$this->from_sql_data_view_data_row_array[$key_str] = $row;
 			
@@ -1205,10 +1230,87 @@ class Table extends WebSitePhpObject {
 	 */
 	public function activateSearch() {
 		if ($this->id == "") {
-			throw new NewException(get_class($this)."->activatePagination() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
+			throw new NewException(get_class($this)."->activateSearch() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
 		}
 		
-		$this->is_filtered = true;
+		$this->is_search_enable = true;
+		$this->activateAdvanceTable();
+		
+		return $this;
+	}
+	
+	/**
+	 * Method activateFixeHeader
+	 * @access public
+	 * @return Table
+	 * @since 1.1.7
+	 */
+	public function activateFixeHeader() {
+		if ($this->id == "") {
+			throw new NewException(get_class($this)."->activateFixeHeader() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
+		}
+		
+		$this->is_fixe_header = true;
+		$this->activateAdvanceTable();
+		$this->addJavaScript(BASE_URL."wsp/js/jquery.dataTables.fixedHeader.js", "", true);
+		
+		return $this;
+	}
+	
+	/**
+	 * Method activateColumnsFilter
+	 * @access public
+	 * @param string $column_filter_params 
+	 * @param string $position [default value: top]
+	 * @return Table
+	 * @since 1.1.7
+	 */
+	public function activateColumnsFilter($column_filter_params='', $position='top') {
+		if ($this->id == "") {
+			throw new NewException(get_class($this)."->activateColumnsFilter() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
+		}
+		
+		$this->is_column_filter = true;
+		$this->column_filter_params = $column_filter_params;
+		$this->column_filter_position = $position;
+		
+		$this->activateAdvanceTable();
+		$this->addJavaScript(BASE_URL."wsp/js/jquery.dataTables.columnFilter.js", "", true);
+		
+		return $this;
+	}
+	
+	/**
+	 * Method activateVerticalScroll
+	 * @access public
+	 * @param double $height [default value: 200]
+	 * @return Table
+	 * @since 1.1.7
+	 */
+	public function activateVerticalScroll($height=200) {
+		if ($this->id == "") {
+			throw new NewException(get_class($this)."->activateColumnsFilter() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
+		}
+		
+		$this->vertical_scroll = true;
+		$this->vertical_scroll_size = $height;
+		$this->activateAdvanceTable();
+		
+		return $this;
+	}
+	
+	/**
+	 * Method activateHorizontalScroll
+	 * @access public
+	 * @return Table
+	 * @since 1.1.7
+	 */
+	public function activateHorizontalScroll() {
+		if ($this->id == "") {
+			throw new NewException(get_class($this)."->activateColumnsFilter() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
+		}
+		
+		$this->horizontal_scroll = true;
 		$this->activateAdvanceTable();
 		
 		return $this;
@@ -1341,7 +1443,7 @@ class Table extends WebSitePhpObject {
 		
 		if ($this->is_advance_table) {
 			if ($this->id == "") {
-				throw new NewException("To use advance table propoerties (filter, sort, pagination) you must define an id (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
+				throw new NewException("To use advance table propoerties (search, filter, sort, pagination) you must define an id (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
 			}
 			
 			if (sizeof($this->rows) == 0 || !$this->rows[0]->isHeader()) {
@@ -1349,7 +1451,7 @@ class Table extends WebSitePhpObject {
 			}
 			
 			$html .= $this->getJavascriptTagOpen();
-			$html .= "$(\"#".$this->getId()."\").dataTable({'bJQueryUI': true";
+			$html .= "var oTable = $(\"#".$this->getId()."\").dataTable({'bJQueryUI': true";
 			if ($this->is_sortable) {
 				$html .= ", 'aaSorting': [[".($this->sort_col_number-1).", '".$this->sort_order."']]";
 			} else {
@@ -1364,10 +1466,12 @@ class Table extends WebSitePhpObject {
 					$html .= ", 'sPaginationType': 'full_numbers'";
 				}
 			}
-			if ($this->is_filtered) {
-				$html .= ", 'bFilter': true";
-			} else {
-				$html .= ", 'bFilter': false";
+			if (!$this->is_column_filter) {
+				if ($this->is_search_enable) {
+					$html .= ", 'bFilter': true";
+				} else {
+					$html .= ", 'bFilter': false";
+				}
 			}
 			if (!$this->advance_table_info) {
 				$html .= ", 'bInfo': false";
@@ -1390,7 +1494,35 @@ class Table extends WebSitePhpObject {
 				}
 	        	$html .= "]";
 			}
+			if (!$this->is_fixe_header) {
+				if ($this->vertical_scroll || $this->horizontal_scroll) {
+					$html .= ", 'bScrollCollapse': true";
+					if ($this->vertical_scroll) {
+						$html .= ", 'sScrollY': '".$this->vertical_scroll_size."px'";
+					}
+					if ($this->horizontal_scroll) {
+						$html .= ", 'sScrollX': '100%'";
+						$html .= ", 'sScrollXInner': '110%'";
+					}
+				}
+			}
 			$html .= " });\n";
+			if ($this->is_column_filter) {
+				$is_column_filter_param = false;
+				$html .= "$(\"#".$this->getId()."\").dataTable().columnFilter({ ";
+				if ($this->column_filter_position == Table::COL_FILTER_POSITION_TOP) {
+					$html .= "sPlaceHolder: 'head:after'";
+					$is_column_filter_param = true;
+				}
+				if ($this->column_filter_params != "") {
+					if ($is_column_filter_param) { $html .= ", "; }
+					$html .= "aoColumns: [".$this->column_filter_params."]";
+				}
+				$html .= " });\n";
+			}
+			if ($this->is_fixe_header) {
+				$html .= "$(document).ready(function() { new FixedHeader( oTable ); });\n";
+			}
 			if ($this->advance_table_title != "") {
 				$html .= "$('#".$this->getId()."_wrapper').find('div.toolbar').html('";
 				if (gettype($this->advance_table_title) == "object" && method_exists($this->advance_table_title, "render")) {
@@ -1399,7 +1531,7 @@ class Table extends WebSitePhpObject {
 					$html .= addslashes($this->advance_table_title);
 				}
 				$html .= "').attr('align', 'left');\n";
-				if ($this->is_filtered) {
+				if ($this->is_search_enable) {
 					$html .= "$('#".$this->getId()."_filter').attr('class', 'fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix');\n";
 				}
 				if ($this->pagination) {

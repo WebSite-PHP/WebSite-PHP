@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.7
  * @access      public
  * @since       1.0.17
  */
@@ -45,6 +45,7 @@ class TextBox extends WebSitePhpEventObject {
 	private $strip_tags_allowable = "";
 	
 	private $live_validation = null;
+	private $is_clearable = false;
 	
 	private $is_changed = false;
 	private $onchange = "";
@@ -347,6 +348,21 @@ class TextBox extends WebSitePhpEventObject {
 	public function disable() {
 		$this->disable = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method clearable
+	 * @access public
+	 * @return TextBox
+	 * @since 1.1.7
+	 */
+	public function clearable() {
+		$this->is_clearable = true;
+		
+		$this->addCss(BASE_URL."wsp/css/jquery.clearable.css", "", true);
+		$this->addJavaScript(BASE_URL."wsp/js/jquery.clearable.js", "", true);
+		
 		return $this;
 	}
 
@@ -761,9 +777,16 @@ class TextBox extends WebSitePhpEventObject {
 				$html .= "jscolor.init();\n";
 				$html .= $this->getJavascriptTagClose();
 			}
-			if ($this->has_focus) {
+			if ($this->has_focus || $this->is_clearable) {
 				$html .= $this->getJavascriptTagOpen();
-				$html .= "\$('#".$this->getId()."').focus();\n";
+				$html .= "\$(document).ready(function() { ";
+				if ($this->is_clearable) {
+					$html .= "\$('#".$this->getId()."').clearable(); \$('#".$this->getId()."').focus(); ";
+				}
+				if ($this->has_focus) {
+					$html .= "\$('#".$this->getId()."').focus(); ";
+				} 
+				$html .= "});\n";
 				$html .= $this->getJavascriptTagClose();
 			}
 			if ($this->autocomplete_object != null) {

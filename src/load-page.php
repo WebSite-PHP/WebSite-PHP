@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.7
  * @access      public
  * @since       1.0.0
  */
@@ -35,7 +35,7 @@
 	if (isset($_COOKIE['WSP_WS_SESSION'])) {
 		session_id($_COOKIE['WSP_WS_SESSION']);
 	} else {
-		session_start();
+		@session_start();
 	}
 	
 	include_once("wsp/includes/execution_time.php");
