@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.7
+ * @version     1.1.8
  * @access      public
  * @since       1.0.17
  */
@@ -156,6 +156,9 @@ class DataBase {
 	 */
 	public function prepareStatement($query, $stmt_objects=array()) {
 		if ($this->db_is_connect) {
+			if (DEBUG) {
+				$queryStartTime = slog_time();
+			}
 			$list_type = "";
 			$list_stmt_objects = "";
 			$type_array = array("i", "d", "s", "b");
@@ -176,6 +179,10 @@ class DataBase {
 			
 			if (strtoupper(substr($query, 0, 5)) == "SHOW ") {
 				if ($stmt = $this->connection->query($query)) {
+					if (DEBUG) {
+						$queryStartTime = elog_time($queryStartTime);
+						Page::getInstance($_GET['p'])->addLogDebug($query." [Execution Time: ".round($queryStartTime, 3)." Seconds]");
+					}
 					return $stmt;
 				} else {
 					throw new NewException("Error DataBase::getInstance()->prepareStatement(): ".$this->connection->error." - SHOW Query: ".$query, 0, getDebugBacktrace(1));
@@ -210,6 +217,11 @@ class DataBase {
 								$this->rollbackTransaction();
 							}
 							throw new NewException("Error DataBase::getInstance()->prepareStatement(): ".$stmt->error." - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, getDebugBacktrace(1));
+						}
+					
+						if (DEBUG) {
+							$queryStartTime = elog_time($queryStartTime);
+							Page::getInstance($_GET['p'])->addLogDebug($query." [Execution Time: ".round($queryStartTime, 3)." Seconds]");
 						}
 						
 						return $stmt;

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.8
  * @access      public
  * @since       1.0.64
  */
@@ -55,10 +55,12 @@ class CacheFile {
 	/**#@-*/
 	
 	var $file;
+	var $filename;
 	var $binary;
 	var $name;
 	var $cache_time;
 	var $exists = false;
+	var $read_current_cache = false;
 	var $debug=true;
 	
 	/**
@@ -74,6 +76,7 @@ class CacheFile {
 		$filename = str_replace("\\", "/", $filename);
 		
 		$this->name=$filename;
+		$this->filename=$filename;
 		$this->binary=$binary;
 		$this->cache_time=$cache_time;
 		
@@ -99,19 +102,15 @@ class CacheFile {
 		
 		$cache_file_existe = (@file_exists($this->name)) ? @filemtime($this->name) : 0;
 		
-		$read_current_cache = false;
+		$this->read_current_cache = false;
 		// cache is always to define time
 		if ($cache_file_existe > time() - $this->cache_time) {
-			$read_current_cache = true;
+			$this->read_current_cache = true;
 			
 			// if cache_reset_on_midnight is true and the caching file has not the same date like today
 			if ($cache_reset_on_midnight && date("Ymd", $cache_file_existe) != date("Ymd")) {
-				$read_current_cache = false;
+				$this->read_current_cache = false;
 			}
-		}
-		
-		if (!$read_current_cache) {
-			unlink($filename);
 		}
 		
 		if($binary){
@@ -134,6 +133,10 @@ class CacheFile {
 	 * @since 1.0.64
 	 */
 	public function readCache(){
+		if (!$this->read_current_cache) {
+			return false;
+		}
+		
 		$cache = "";
 		while (($buffer = fgets($this->file, 4096)) !== false) {
 			$cache .= $buffer;
@@ -153,6 +156,8 @@ class CacheFile {
 	 * @since 1.0.64
 	 */
 	public function writeCache($data){
+		file_put_contents($this->filename, "");
+		
 		if(strlen($data)>0){
 			if($this->binary){
 				$bytes=fwrite($this->file,$data);

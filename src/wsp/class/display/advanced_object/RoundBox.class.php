@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.8
  * @access      public
  * @since       1.0.17
  */
@@ -102,8 +102,7 @@ class RoundBox extends WebSitePhpObject {
 		$this->width = $width;
 		$this->height = $height;
 		
-		$browser = get_browser_info(null, true);
-		$this->css3 = (($browser['cssversion'] >= 3)?true:false) && (($this->browser_ie_version != false && $this->browser_ie_version <= 8)?false:true);
+		$this->css3 = $this->getPage()->isCss3Browser();
 		
 		CssInclude::getInstance()->loadCssConfigFileInMemory(false);
 		if (constant("DEFINE_STYLE_BCK_PICTURE_".strtoupper($this->style_content)) == "") {

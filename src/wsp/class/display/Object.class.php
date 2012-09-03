@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.8
  * @access      public
  * @since       1.0.17
  */
@@ -82,8 +82,13 @@ class Object extends WebSitePhpEventObject {
 	private $hide_object = false;
 	private $style = "";
 	private $class = "";
+	
 	private $itemprop = "";
 	private $itemtype = "";
+	private $typeof = "";
+	private $xmlns = "";
+	private $xmlnsv = "";
+	private $property = "";
 	
 	private $font_size = "";
 	private $font_family = "";
@@ -779,6 +784,70 @@ class Object extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method setTypeOf
+	 * @access public
+	 * @param mixed $typeof 
+	 * @return Object
+	 * @since 1.1.8
+	 */
+	public function setTypeOf($typeof) {
+		if (!$this->force_div_tag && !$this->force_span_tag) {
+			$this->forceSpanTag();
+		}
+		$this->typeof = $typeof;
+		
+		return $this;
+	}
+	
+	/**
+	 * Method setXmlns
+	 * @access public
+	 * @param mixed $xmlns 
+	 * @return Object
+	 * @since 1.1.8
+	 */
+	public function setXmlns($xmlns) {
+		if (!$this->force_div_tag && !$this->force_span_tag) {
+			$this->forceSpanTag();
+		}
+		$this->xmlns = $xmlns;
+		
+		return $this;
+	}
+	
+	/**
+	 * Method setXmlnsV
+	 * @access public
+	 * @param mixed $xmlnsv 
+	 * @return Object
+	 * @since 1.1.8
+	 */
+	public function setXmlnsV($xmlnsv) {
+		if (!$this->force_div_tag && !$this->force_span_tag) {
+			$this->forceSpanTag();
+		}
+		$this->xmlnsv = $xmlnsv;
+		
+		return $this;
+	}
+	
+	/**
+	 * Method setProperty
+	 * @access public
+	 * @param mixed $property 
+	 * @return Object
+	 * @since 1.1.8
+	 */
+	public function setProperty($property) {
+		if (!$this->force_div_tag && !$this->force_span_tag) {
+			$this->forceSpanTag();
+		}
+		$this->property = $property;
+		
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -814,6 +883,18 @@ class Object extends WebSitePhpEventObject {
 			}
 			if ($this->itemtype != "") {
 				$html .= "itemscope itemtype=\"".$this->itemtype."\" ";
+			}
+			if ($this->typeof != "") {
+				$html .= "typeof=\"".$this->typeof."\" ";
+			}
+			if ($this->xmlns != "") {
+				$html .= "xmlns=\"".$this->xmlns."\" ";
+			}
+			if ($this->xmlnsv != "") {
+				$html .= "xmlns:v=\"".$this->xmlnsv."\" ";
+			}
+			if ($this->property != "") {
+				$html .= "property=\"".$this->property."\" ";
 			}
 			$html .= "style=\"";
 			if ($this->width != "") {

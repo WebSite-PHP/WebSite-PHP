@@ -26,12 +26,9 @@
 	}
 	
 	function getCurrentBrowscapVersion() {
-		$db = dirname(__FILE__)."/../../../wsp/includes/browscap/php_browscap.ini";
+		$db = realpath(dirname(__FILE__)."/../../../wsp/includes/browscap/php_browscap.ini");
 		$browscapIni=defined('INI_SCANNER_RAW') ? parse_ini_file($db,true,INI_SCANNER_RAW) : parse_ini_file($db,true);
-		uksort($browscapIni,'_sortBrowscap');
-		$browscapIni=array_map('_lowerBrowscap',$browscapIni);
-		
-		return $browscapIni['GJK_Browscap_Version']['version'];
+		return $browscapIni['GJK_Browscap_Version']['Version'];
 	}
 	
 	function isNewBrowscapVersion() {

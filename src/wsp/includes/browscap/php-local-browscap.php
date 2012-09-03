@@ -70,10 +70,25 @@ function get_browser_local($user_agent=null,$return_array=false,$db='./browscap.
 	global $browscapPath;
 	if ((!isset($browscapIni))||(!$cache)||($browscapPath!==$db))
 	{
-		$browscapIni=defined('INI_SCANNER_RAW') ? parse_ini_file($db,true,INI_SCANNER_RAW) : parse_ini_file($db,true);
-		$browscapPath=$db;
-		uksort($browscapIni,'_sortBrowscap');
-		$browscapIni=array_map('_lowerBrowscap',$browscapIni);
+		$load_browscap_cache = true;
+		if (extension_loaded('apc') && $cache) {
+			$acp_browscap_cache_exists = false;
+			apc_fetch('BrowscapCache', $acp_browscap_cache_exists);
+			if ($acp_browscap_cache_exists) {
+				$browscapIni = apc_fetch('BrowscapCache');
+				$load_browscap_cache = false;
+			}
+		}
+		if ($load_browscap_cache) {
+			$browscapIni=defined('INI_SCANNER_RAW') ? parse_ini_file($db,true,INI_SCANNER_RAW) : parse_ini_file($db,true);
+			$browscapPath=$db;
+			uksort($browscapIni,'_sortBrowscap');
+			$browscapIni=array_map('_lowerBrowscap',$browscapIni);
+			
+			if (extension_loaded('apc') && $cache) {
+				apc_store('BrowscapCache', $browscapIni);
+			}
+		}
 	}
 	$cap=null;
 	foreach ($browscapIni as $key=>$value)

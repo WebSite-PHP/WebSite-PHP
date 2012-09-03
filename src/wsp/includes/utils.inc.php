@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.8
  * @access      public
  * @since       1.0.19
  */
@@ -396,7 +396,7 @@
 					$html .= "\" target=\"".$tmp_link->getTarget()."";
 				}
 			} else if (gettype($str_or_object_link) != "object" && strtoupper(substr($str_or_object_link, 0, 11)) == "JAVASCRIPT:") {
-				$html .= "javascript:void(0);\" onClick=\"".$str_or_object_link.$onclick;
+				$html .= "javascript:void(0);\" onClick=\"".str_replace("javascript:", "", str_replace("javascript:void(0);", "", $str_or_object_link)).$onclick;
 			} else {
 				if (get_class($str_or_object_link) == "Link") {
 					if (!$str_or_object_link->getUserHaveRights()) {
@@ -412,7 +412,7 @@
 					}
 					$tmp_link = $str_or_object_link->render();
 					if (strtoupper(substr($tmp_link, 0, 11)) == "JAVASCRIPT:") {
-						$html .= "javascript:void(0);\" onClick=\"".$tmp_link.$onclick;
+						$html .= "javascript:void(0);\" onClick=\"".str_replace("javascript:", "", str_replace("javascript:void(0);", "", $tmp_link)).$onclick;
 					} else {
 						$html .= $tmp_link;
 					}

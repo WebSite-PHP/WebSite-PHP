@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.8
  * @access      public
  * @since       1.0.0
  */
@@ -183,14 +183,14 @@
 	include_once("wsp/includes/loader_lang.inc.php");
 
 	global $months;
-	$months = array(translate(__JANUARY__), translate(__FEBRUARY__), translate(__MARCH__), 
-									translate(__APRIL__), translate(__MAY__), translate(__JUNE__), 
-									translate(__JULY__), translate(__AUGUST__), translate(__SEPTEMBER__), 
-									translate(__OCTOBER__), translate(__NOVEMBER__), translate(__DECEMBER__));
+	$months = array(__(__JANUARY__), __(__FEBRUARY__), __(__MARCH__), 
+					__(__APRIL__), __(__MAY__), __(__JUNE__), 
+					__(__JULY__), __(__AUGUST__), __(__SEPTEMBER__), 
+					__(__OCTOBER__), __(__NOVEMBER__), __(__DECEMBER__));
 	
 	global $days_week;
-	$days_week = array(translate(__MONDAY__), translate(__TUESDAY__), translate(__WEDNESDAY__), translate(__THURSDAY__), 
-									translate(__FRIDAY__), translate(__SATURDAY__), translate(__SUNDAY__));
+	$days_week = array(__(__MONDAY__), __(__TUESDAY__), __(__WEDNESDAY__), __(__THURSDAY__), 
+						__(__FRIDAY__), __(__SATURDAY__), __(__SUNDAY__));
 	
 	
 	register_shutdown_function("register_shutdown_handler");

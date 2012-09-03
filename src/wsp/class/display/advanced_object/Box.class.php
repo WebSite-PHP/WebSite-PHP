@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.8
  * @access      public
  * @since       1.0.17
  */
@@ -126,8 +126,7 @@ class Box extends WebSitePhpObject {
 		$this->height = $height;
 		$this->tagH = "";
 		
-		$browser = get_browser_info(null, true);
-		$this->css3 = (($browser['cssversion'] >= 3)?true:false) && (($this->browser_ie_version != false && $this->browser_ie_version <= 8)?false:true);
+		$this->css3 = $this->getPage()->isCss3Browser();
 		$this->browser_name = strtolower($browser['browser']);
 		$this->browser_version = $browser['version'];
 		

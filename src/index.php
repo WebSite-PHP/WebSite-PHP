@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.7
+ * @version     1.1.8
  * @access      public
  * @since       1.0.0
  */
@@ -49,10 +49,25 @@
 		$_GET['p'] = "error-page"; 
 	}
 	
+	if (DEBUG) {
+		$wspPageTotalTime = elog_time($_SESSION['wspPageStartTime']); 
+		$_SESSION['log_debug_str_session'][] = "<b>Execution Time Init WSP ...:</b> ".round($wspPageTotalTime,3)." Seconds";
+	}
 	include("wsp/includes/init.inc.php");
+	if (DEBUG) {
+		$wspPageTotalTime = elog_time($_SESSION['wspPageStartTime']); 
+		$_SESSION['log_debug_str_session'][] = "<b>Execution Time End Init WSP:</b> ".round($wspPageTotalTime,3)." Seconds";
+		$_SESSION['log_debug_str_session'][] = "";
+	}
 	
 	// Create current page object
+	if (DEBUG) {
+		$wspPageTotalTime = elog_time($_SESSION['wspPageStartTime']); 
+		$_SESSION['log_debug_str_session'][] = "<b>Execution Time Create Page ...:</b> ".round($wspPageTotalTime,3)." Seconds";
+	}
 	$page_object = Page::getInstance($_GET['p']);
+	$page_object->addLogDebugExecutionTime("End Create Page");
+	$page_object->addLogDebug("");
 	if (!$page_object->userHaveRights()) {
 		$user_no_rights_redirect = $page_object->getUserNoRightsRedirect();
 		if ($user_no_rights_redirect != "") {
@@ -83,26 +98,38 @@
 	
 	if ($call_load_method) {
 		if (method_exists($page_object, "InitializeComponent")) {
+			if (DEBUG) { $page_object->addLogDebugExecutionTime("InitializeComponent ..."); }
 			$page_object->InitializeComponent();
+			if (DEBUG) { $page_object->addLogDebugExecutionTime("End InitializeComponent ..."); $page_object->addLogDebug(""); }
 		}
 		if (method_exists($page_object, "Load")) {
+			if (DEBUG) { $page_object->addLogDebugExecutionTime("Load ..."); }
 			$page_object->Load();
+			if (DEBUG) { $page_object->addLogDebugExecutionTime("End Load ..."); $page_object->addLogDebug(""); }
 		}
 	}
 	
 	// If page is not caching -> generate HTML
 	if (!$page_object->getPageIsCaching()) {
 		// set GET and POST data to the current page
+		if (DEBUG) { $page_object->addLogDebugExecutionTime("Variables ..."); }
 		$page_object->loadAllVariables();
+		if (DEBUG) { $page_object->addLogDebugExecutionTime("End Variables"); $page_object->addLogDebug(""); }
 		$__PAGE_IS_INIT__ = true;
 		
 		// execute callback method
+		if (DEBUG) { $page_object->addLogDebugExecutionTime("Callback ..."); }
 		$page_object->executeCallback();
+		if (DEBUG) { $page_object->addLogDebugExecutionTime("End Callback"); $page_object->addLogDebug(""); }
 		
 		// call the display method
 		if (method_exists($page_object, "Loaded")) {
+			if (DEBUG) { $page_object->addLogDebugExecutionTime("Loaded ..."); }
 			$page_object->Loaded();
+			if (DEBUG) { $page_object->addLogDebugExecutionTime("End Loaded"); $page_object->addLogDebug(""); }
 		}
+		
+		if (DEBUG) { $page_object->addLogDebugExecutionTime("Page Header ..."); }
 		
 		// init page title
 		if ($page_object->getPageTitle() != "") {
@@ -438,6 +465,7 @@
 		if (DEBUG) {
 			echo "<script type=\"text/javascript\" src=\"wsp/js/debug.js\"></script>";
 		} 
+		if (DEBUG) { $page_object->addLogDebugExecutionTime("End Page Header ..."); $page_object->addLogDebug(""); }
 		?>
 		
 		<script type="text/javascript">
@@ -526,7 +554,9 @@
 			}
 			
 			// call current page page
+			if (DEBUG) { $page_object->addLogDebugExecutionTime("Render ..."); }
 			echo str_replace("\n\n", "\n", str_replace("\r", "", str_replace("\t", "", $page_object->render())));
+			if (DEBUG) { $page_object->displayExecutionTime("End Render"); }
 		?>
 		<div align="center">
 			<img src="http://www.website-php.com/img/logo_16x16.png" height="16" width="16" align="absmiddle"/> Site created with framework <a href="http://www.website-php.com" target="_blank">WebSite-PHP</a>
@@ -540,7 +570,9 @@
 	// End If page is not caching
 	} else {
 		// call current page page cache
+		if (DEBUG) { $page_object->addLogDebugExecutionTime("Load Cache ..."); }
 		echo $page_object->render();
+		if (DEBUG) { $page_object->displayExecutionTime("End Load Cache"); }
 	}
 	
 	// Disconnect DataBase
@@ -548,8 +580,4 @@
 		DataBase::getInstance(false)->disconnect();
 	}
 	unset($_SESSION['websitephp_register_object']);
-	
-	if (DEBUG) {
-		$page_object->displayExecutionTime();
-	}
 ?>

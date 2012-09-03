@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 20/06/2011
- * @version     1.1.5
+ * @version     1.1.8
  * @access      public
  * @since       1.0.87
  */
@@ -137,7 +137,7 @@ class VideoHTML5 extends WebSitePhpObject {
 	 * @since 1.0.87
 	 */
 	public function activeAutostart() {
-		$this->autostart = true;
+		$this->autoplay = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -290,15 +290,15 @@ class VideoHTML5 extends WebSitePhpObject {
 			$html .= " ".$this->style."-css";
 		}
 		$html .= "\" id=\"div-video-".md5($this->video_mp4)."\" width=\"".$this->width."\" style=\"text-align:center;\">\n";
-		$html .= "  <video id=\"video-".md5($this->video_mp4)."\" class=\"video-js\" width=\"".$this->width."\" height=\"".$this->height."\" controls preload poster=\"".$this->snapshot."\">\n";
+		$html .= "  <video id=\"video-".md5($this->video_mp4)."\" class=\"video-js\" width=\"".$this->width."\" height=\"".$this->height."\" controls poster=\"".$this->snapshot."\"".($this->autoplay?" autoplay=\"true\"":"").($this->autobuffering?"preload=\"auto\"":"").">\n";
 		if ($this->video_mp4 != "") {
-			$html .= "    <source src=\"".$this->video_mp4."\" type='video/mp4; codecs=\"avc1.42E01E, mp4a.40.2\"' />\n";
+			$html .= "    <source src=\"".$this->video_mp4."\" type='video/mp4' />\n";
 		}
 		if ($this->video_webm != "") {
-			$html .= "    <source src=\"".$this->video_webm."\" type='video/webm; codecs=\"vp8, vorbis\"' />\n";
+			$html .= "    <source src=\"".$this->video_webm."\" type='video/webm' />\n";
 		}
 		if ($this->video_ogg != "") {
-			$html .= "    <source src=\"".$this->video_ogg."\" type='video/ogg; codecs=\"theora, vorbis\"' />\n";
+			$html .= "    <source src=\"".$this->video_ogg."\" type='video/ogg' />\n";
 		}
 		if ($this->video_mp4 != "") {
 			$html .= "    <object class=\"vjs-flash-fallback\" width=\"".$this->width."\" height=\"".$this->height."\" type=\"application/x-shockwave-flash\"\n";
@@ -328,8 +328,10 @@ class VideoHTML5 extends WebSitePhpObject {
 		$html .= "	VideoJS.setup(\"div-video-".md5($this->video_mp4)."\");\n";
 		if ($this->track_categ != "" || $this->onplay != "") {
 			$html .= "	$('#video-".md5($this->video_mp4)."').bind(\"play\", function(){\n";
-			if ($this->track_categ != "") {
-				$html .= "_gaq.push(['_trackEvent', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."']);";
+			if (GOOGLE_CODE_TRACKER != "" && find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0 && !defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
+				if ($this->track_categ != "") {
+					$html .= "_gaq.push(['_trackEvent', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."']);";
+				}
 			}
 			if ($this->onplay != "") {
 				$html .= $this->onplay;

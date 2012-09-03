@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.7
+ * @version     1.1.8
  * @access      public
  * @since       1.0.0
  */
@@ -1064,6 +1064,10 @@ class Page {
 	 * @since 1.0.3
 	 */
 	public function addLogDebug($str) {
+		if (sizeof($this->log_debug_str) == 0 && sizeof($_SESSION['log_debug_str_session']) > 0) {
+			$this->log_debug_str = $_SESSION['log_debug_str_session'];
+			unset($_SESSION['log_debug_str_session']);
+		}
 		$this->log_debug_str[] = $str;
 	}
 	
@@ -1445,6 +1449,24 @@ class Page {
 	}
 	
 	/**
+	 * Method getBrowserInfo
+	 * @access private
+	 * @return mixed
+	 * @since 1.1.8
+	 */
+	private function getBrowserInfo() {
+		if ($this->browser == null) {
+			if (isset($_SESSION['browser_info'])) {
+				$this->browser = $_SESSION['browser_info'];
+			} else {
+				$this->browser = get_browser_info(null, true);
+				$_SESSION['browser_info'] = $this->browser;
+			}
+		}
+		return $this->browser;
+	}
+	
+	/**
 	 * Method isCss3Browser
 	 * @access public
 	 * @return boolean
@@ -1452,7 +1474,7 @@ class Page {
 	 */
 	public function isCss3Browser() {
 		if ($this->browser == null) {
-			$this->browser = get_browser_info(null, true);
+			$this->browser = $this->getBrowserInfo();
 		}
 		return ($this->browser['cssversion'] >= 3)?true:false;
 	}
@@ -1465,7 +1487,7 @@ class Page {
 	 */
 	public function isMobileDevice() {
 		if ($this->browser == null) {
-			$this->browser = get_browser_info(null, true);
+			$this->browser = $this->getBrowserInfo();
 		}
 		if (is_bool($this->browser['ismobiledevice'])) {
 			return $this->browser['ismobiledevice'];
@@ -1482,7 +1504,7 @@ class Page {
 	 */
 	public function isCrawlerBot() {
 		if ($this->browser == null) {
-			$this->browser = get_browser_info(null, true);
+			$this->browser = $this->getBrowserInfo();
 		}
 		$is_crawler = false;
 		if (is_bool($this->browser['crawler'])) {
@@ -1504,7 +1526,7 @@ class Page {
 	 */
 	public function getBrowserName() {
 		if ($this->browser == null) {
-			$this->browser = get_browser_info(null, true);
+			$this->browser = $this->getBrowserInfo();
 		}
 		return $this->browser[browser];
 	}
@@ -1517,7 +1539,7 @@ class Page {
 	 */
 	public function getBrowserVersion() {
 		if ($this->browser == null) {
-			$this->browser = get_browser_info(null, true);
+			$this->browser = $this->getBrowserInfo();
 		}
 		return $this->browser[version];
 	}
