@@ -22,7 +22,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.5
+*version:* 1.1.7
 
 *copyright:* WebSite-PHP.com 26/05/2011
 
@@ -51,6 +51,12 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 			* `CONTEXTMENU_ICON_EDIT` = ` 'edit'`
 		
 		
+			* `CONTEXTMENU_ICON_FAIL` = ` 'fail'`
+		
+		
+			* `CONTEXTMENU_ICON_FOLDER` = ` 'folder'`
+		
+		
 			* `CONTEXTMENU_ICON_FOLDER_ADD` = ` 'folder_add'`
 		
 		
@@ -58,6 +64,12 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		
 		
 			* `CONTEXTMENU_ICON_FOLDER_RENAME` = ` 'folder_rename'`
+		
+		
+			* `CONTEXTMENU_ICON_LINK` = ` 'link'`
+		
+		
+			* `CONTEXTMENU_ICON_PAGE` = ` 'page'`
 		
 		
 			* `CONTEXTMENU_ICON_PAGE_ADD` = ` 'page_add'`
@@ -87,7 +99,13 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 			* `CONTEXTMENU_ICON_QUIT` = ` 'quit'`
 		
 		
+			* `CONTEXTMENU_ICON_REDO` = ` 'redo'`
+		
+		
 			* `CONTEXTMENU_ICON_RENAME` = ` 'rename'`
+		
+		
+			* `CONTEXTMENU_ICON_SUCCESS` = ` 'success'`
 		
 		
 	
@@ -281,49 +299,67 @@ Method render
 * `CONTEXTMENU_ICON_CUT` = ` 'cut'` (line 29)
 
 
-* `CONTEXTMENU_ICON_DELETE` = ` 'delete'` (line 38)
+* `CONTEXTMENU_ICON_DELETE` = ` 'delete'` (line 40)
 
 
 * `CONTEXTMENU_ICON_EDIT` = ` 'edit'` (line 28)
 
 
-* `CONTEXTMENU_ICON_FOLDER_ADD` = ` 'folder_add'` (line 35)
+* `CONTEXTMENU_ICON_FAIL` = ` 'fail'` (line 48)
 
 
-* `CONTEXTMENU_ICON_FOLDER_DELETE` = ` 'folder_delete'` (line 36)
+* `CONTEXTMENU_ICON_FOLDER` = ` 'folder'` (line 36)
 
 
-* `CONTEXTMENU_ICON_FOLDER_RENAME` = ` 'folder_rename'` (line 37)
+* `CONTEXTMENU_ICON_FOLDER_ADD` = ` 'folder_add'` (line 37)
 
 
-* `CONTEXTMENU_ICON_PAGE_ADD` = ` 'page_add'` (line 32)
+* `CONTEXTMENU_ICON_FOLDER_DELETE` = ` 'folder_delete'` (line 38)
 
 
-* `CONTEXTMENU_ICON_PAGE_DELETE` = ` 'page_delete'` (line 33)
+* `CONTEXTMENU_ICON_FOLDER_RENAME` = ` 'folder_rename'` (line 39)
 
 
-* `CONTEXTMENU_ICON_PAGE_RENAME` = ` 'page_rename'` (line 34)
+* `CONTEXTMENU_ICON_LINK` = ` 'link'` (line 47)
+
+
+* `CONTEXTMENU_ICON_PAGE` = ` 'page'` (line 32)
+
+
+* `CONTEXTMENU_ICON_PAGE_ADD` = ` 'page_add'` (line 33)
+
+
+* `CONTEXTMENU_ICON_PAGE_DELETE` = ` 'page_delete'` (line 34)
+
+
+* `CONTEXTMENU_ICON_PAGE_RENAME` = ` 'page_rename'` (line 35)
 
 
 * `CONTEXTMENU_ICON_PASTE` = ` 'paste'` (line 31)
 
 
-* `CONTEXTMENU_ICON_PICTURE` = ` 'picture'` (line 41)
+* `CONTEXTMENU_ICON_PICTURE` = ` 'picture'` (line 43)
 
 
-* `CONTEXTMENU_ICON_PICTURE_ADD` = ` 'picture_add'` (line 42)
+* `CONTEXTMENU_ICON_PICTURE_ADD` = ` 'picture_add'` (line 44)
 
 
-* `CONTEXTMENU_ICON_PICTURE_DELETE` = ` 'picture_delete'` (line 43)
+* `CONTEXTMENU_ICON_PICTURE_DELETE` = ` 'picture_delete'` (line 45)
 
 
-* `CONTEXTMENU_ICON_PICTURE_EDIT` = ` 'picture_edit'` (line 44)
+* `CONTEXTMENU_ICON_PICTURE_EDIT` = ` 'picture_edit'` (line 46)
 
 
-* `CONTEXTMENU_ICON_QUIT` = ` 'quit'` (line 40)
+* `CONTEXTMENU_ICON_QUIT` = ` 'quit'` (line 42)
 
 
-* `CONTEXTMENU_ICON_RENAME` = ` 'rename'` (line 39)
+* `CONTEXTMENU_ICON_REDO` = ` 'redo'` (line 50)
+
+
+* `CONTEXTMENU_ICON_RENAME` = ` 'rename'` (line 41)
+
+
+* `CONTEXTMENU_ICON_SUCCESS` = ` 'success'` (line 49)
 
 
 

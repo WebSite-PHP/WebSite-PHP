@@ -20,7 +20,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.5
+*version:* 1.1.8
 
 *copyright:* WebSite-PHP.com 26/05/2011
 
@@ -295,9 +295,9 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																										* `static Page getInstance()`
+																																																												* `static Page getInstance()`
 		Method getInstance
-																																																																																																																																																																				* `Page getInstance()`
+																																																																																																																																																																						* `Page getInstance()`
 		Method getInstance
 																																																																																																										
 == Inherited Method Summary == 
@@ -400,6 +400,30 @@ Method addLogDebugExecutionTime
 
 
 *since:* 1.0.93
+
+*access:* public
+
+
+
+= Page::addLogDebugRegisterObjects =
+
+*addLogDebugRegisterObjects(*
+[*string*
+_$class_filter_ = '']* );*
+
+
+	
+
+	
+*Parameters*
+			_$class_filter_ 
+		
+*Remarks*
+
+Method addLogDebugRegisterObjects
+
+
+*since:* 1.1.6
 
 *access:* public
 

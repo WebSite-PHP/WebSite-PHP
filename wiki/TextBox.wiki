@@ -36,7 +36,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.5
+*version:* 1.1.7
 
 *copyright:* WebSite-PHP.com 26/05/2011
 
@@ -118,7 +118,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																																																																																																														
+																																																																																																																																																										
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpEventObject ===
@@ -237,6 +237,26 @@ _$length_ = 0]* );*
 
 Constructor TextBox
 
+
+
+
+= TextBox::clearable =
+
+*clearable(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method clearable
+
+
+*since:* 1.1.7
+
+*access:* public
 
 
 
@@ -699,6 +719,64 @@ Method onKeyPressJs
 
 
 
+= TextBox::onKeyUp =
+
+*onKeyUp(*
+*mixed*
+_$str_function_, [*mixed*
+_$arg1_ = null], [*mixed*
+_$arg2_ = null], [*mixed*
+_$arg3_ = null], [*mixed*
+_$arg4_ = null], [*mixed*
+_$arg5_ = null]* );*
+
+
+	
+
+	
+*Parameters*
+			_$str_function_ 
+			_$arg1_ [default value: null]
+			_$arg2_ [default value: null]
+			_$arg3_ [default value: null]
+			_$arg4_ [default value: null]
+			_$arg5_ [default value: null]
+		
+*Remarks*
+
+Method onKeyUp
+
+
+*since:* 1.1.6
+
+*access:* public
+
+
+
+= TextBox::onKeyUpJs =
+
+*onKeyUpJs(*
+*mixed*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onKeyUpJs
+
+
+*since:* 1.1.6
+
+*access:* public
+
+
+
 = TextBox::onMouseOutJs =
 
 *onMouseOutJs(*
@@ -972,12 +1050,16 @@ Method setName
 = TextBox::setStripTags =
 
 *setStripTags(*
-* );*
+[*string*
+_$allowable_tags_ = '']* );*
 
 
 	
 
 	
+*Parameters*
+			_$allowable_tags_ 
+		
 *Remarks*
 
 Method setStripTags

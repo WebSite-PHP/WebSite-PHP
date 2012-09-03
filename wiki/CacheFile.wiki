@@ -20,7 +20,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.5
+*version:* 1.1.8
 
 *copyright:* WebSite-PHP.com 26/05/2011
 
@@ -33,7 +33,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 ----
 == Class Variable Summary ==
-																	* `$binary` = ``
+																					* `$binary` = ``
 		
 		
 					* `$cache_time` = ``
@@ -48,7 +48,13 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 					* `$file` = ``
 		
 		
+					* `$filename` = ``
+		
+		
 					* `$name` = ``
+		
+		
+					* `$read_current_cache` = ` false`
 		
 		
 		
@@ -293,22 +299,28 @@ Method writeCache
 ----
 
 == Variable Detail ==
-* `$binary` = `` (line 58)
+* `$binary` = `` (line 59)
 * *Data type:* `mixed`
 
-* `$cache_time` = `` (line 60)
+* `$cache_time` = `` (line 61)
 * *Data type:* `mixed`
 
-* `$debug` = `true` (line 62)
+* `$debug` = `true` (line 64)
 * *Data type:* `mixed`
 
-* `$exists` = ` false` (line 61)
+* `$exists` = ` false` (line 62)
 * *Data type:* `mixed`
 
 * `$file` = `` (line 57)
 * *Data type:* `mixed`
 
-* `$name` = `` (line 59)
+* `$filename` = `` (line 58)
+* *Data type:* `mixed`
+
+* `$name` = `` (line 60)
+* *Data type:* `mixed`
+
+* `$read_current_cache` = ` false` (line 63)
 * *Data type:* `mixed`
 
 

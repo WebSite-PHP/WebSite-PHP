@@ -20,7 +20,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.5
+*version:* 1.1.6
 
 *copyright:* WebSite-PHP.com 26/05/2011
 
@@ -49,7 +49,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																		
+																																																																		
 == Inherited Method Summary == 
 
 ----
@@ -124,6 +124,42 @@ Method getDbTableAttributesType
 
 
 *since:* 1.0.35
+
+
+
+= DbTableObject::getDbTableAutoIncrement =
+
+*getDbTableAutoIncrement(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getDbTableAutoIncrement
+
+
+*since:* 1.1.6
+
+
+
+= DbTableObject::getDbTableForeignKeys =
+
+*getDbTableForeignKeys(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getDbTableForeignKeys
+
+
+*since:* 1.1.6
 
 
 
@@ -244,6 +280,50 @@ Method setDbTableAttributesType
 
 
 *since:* 1.0.59
+
+
+
+= DbTableObject::setDbTableAutoIncrement =
+
+*setDbTableAutoIncrement(*
+*mixed*
+_$db_table_auto_increment_* );*
+
+
+	
+
+	
+*Parameters*
+			_$db_table_auto_increment_ 
+		
+*Remarks*
+
+Method setDbTableAutoIncrement
+
+
+*since:* 1.1.6
+
+
+
+= DbTableObject::setDbTableForeignKeys =
+
+*setDbTableForeignKeys(*
+*mixed*
+_$db_table_foreign_keys_* );*
+
+
+	
+
+	
+*Parameters*
+			_$db_table_foreign_keys_ 
+		
+*Remarks*
+
+Method setDbTableForeignKeys
+
+
+*since:* 1.1.6
 
 
 

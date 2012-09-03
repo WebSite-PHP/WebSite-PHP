@@ -22,7 +22,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.5
+*version:* 1.1.8
 
 *copyright:* WebSite-PHP.com 26/05/2011
 
@@ -63,6 +63,12 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 			* `BORDER_STYLE_SOLID` = ` 'solid'`
 		
 		border style properties
+			* `COL_FILTER_POSITION_BOTTOM` = ` 'bottom'`
+		
+		column filter position properties
+			* `COL_FILTER_POSITION_TOP` = ` 'top'`
+		
+		column filter position properties
 			* `COL_TYPE_ALT_STRING` = ` 'alt-string'`
 		
 		column type properties
@@ -181,7 +187,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																																																																																						
+																																																																																																																																														
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpObject ===
@@ -228,6 +234,35 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 
 
+= Table::__construct =
+
+*__construct(*
+[*integer*
+_$cellpadding_ = 0], [*integer*
+_$cellspacing_ = 0], [*string*
+_$width_ = ''], [*string*
+_$default_align_ = ''], [*string*
+_$default_valign_ = '']* );*
+
+
+Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
+	
+
+	
+*Parameters*
+			_$cellpadding_ [default value: 0]
+			_$cellspacing_ [default value: 0]
+			_$width_ 
+			_$default_align_ 
+			_$default_valign_ 
+		
+*Remarks*
+
+Constructor Table
+
+
+
+
 = Table::activateAdvanceTable =
 
 *activateAdvanceTable(*
@@ -263,6 +298,72 @@ Method activateAdvanceTableInfo
 
 
 *since:* 1.0.96
+
+*access:* public
+
+
+
+= Table::activateColumnsFilter =
+
+*activateColumnsFilter(*
+[*string*
+_$column_filter_params_ = ''], [*string*
+_$position_ = 'top']* );*
+
+
+	
+
+	
+*Parameters*
+			_$column_filter_params_ 
+			_$position_ [default value: top]
+		
+*Remarks*
+
+Method activateColumnsFilter
+
+
+*since:* 1.1.7
+
+*access:* public
+
+
+
+= Table::activateFixeHeader =
+
+*activateFixeHeader(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method activateFixeHeader
+
+
+*since:* 1.1.7
+
+*access:* public
+
+
+
+= Table::activateHorizontalScroll =
+
+*activateHorizontalScroll(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method activateHorizontalScroll
+
+
+*since:* 1.1.7
 
 *access:* public
 
@@ -335,6 +436,30 @@ Method activateSort
 
 
 *since:* 1.0.96
+
+*access:* public
+
+
+
+= Table::activateVerticalScroll =
+
+*activateVerticalScroll(*
+[*double*
+_$height_ = 200]* );*
+
+
+	
+
+	
+*Parameters*
+			_$height_ [default value: 200]
+		
+*Remarks*
+
+Method activateVerticalScroll
+
+
+*since:* 1.1.7
 
 *access:* public
 
@@ -446,35 +571,6 @@ Method deleteRow
 
 
 
-= Table::__construct =
-
-*__construct(*
-[*integer*
-_$cellpadding_ = 0], [*integer*
-_$cellspacing_ = 0], [*string*
-_$width_ = ''], [*string*
-_$default_align_ = ''], [*string*
-_$default_valign_ = '']* );*
-
-
-Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
-	
-
-	
-*Parameters*
-			_$cellpadding_ [default value: 0]
-			_$cellspacing_ [default value: 0]
-			_$width_ 
-			_$default_align_ 
-			_$default_valign_ 
-		
-*Remarks*
-
-Constructor Table
-
-
-
-
 = Table::getAjaxRender =
 
 *getAjaxRender(*
@@ -554,6 +650,62 @@ Method getNbRows
 
 
 *since:* 1.0.93
+
+*access:* public
+
+
+
+= Table::loadFromSqlDataView =
+
+*loadFromSqlDataView(*
+*mixed*
+_$sql_, [*mixed*
+_$properties_ = array()], [**
+_$insert_ = false], [**
+_$update_ = false], [**
+_$delete_ = false]* );*
+
+
+	
+
+	
+*Parameters*
+			_$sql_ 
+			_$properties_ [default value: array(]
+			_$insert_ 
+			_$update_ 
+			_$delete_ 
+		
+*Remarks*
+
+Method loadFromSqlDataView
+
+
+*since:* 1.1.6
+
+*access:* public
+
+
+
+= Table::onChangeTableFromSqlDataView =
+
+*onChangeTableFromSqlDataView(*
+*mixed*
+_$sender_* );*
+
+
+	
+
+	
+*Parameters*
+			_$sender_ 
+		
+*Remarks*
+
+Method onChangeTableFromSqlDataView
+
+
+*since:* 1.1.6
 
 *access:* public
 
@@ -1024,6 +1176,28 @@ border style properties
 *access:* public
 
 
+* `COL_FILTER_POSITION_BOTTOM` = ` 'bottom'` (line 87)
+
+
+*Remarks*
+
+column filter position properties
+
+
+*access:* public
+
+
+* `COL_FILTER_POSITION_TOP` = ` 'top'` (line 86)
+
+
+*Remarks*
+
+column filter position properties
+
+
+*access:* public
+
+
 * `COL_TYPE_ALT_STRING` = ` 'alt-string'` (line 61)
 
 
@@ -1266,7 +1440,7 @@ column type properties
 *access:* public
 
 
-* `FONT_ARIAL` = ` 'Arial'` (line 86)
+* `FONT_ARIAL` = ` 'Arial'` (line 95)
 
 
 *Remarks*
@@ -1277,7 +1451,7 @@ Font family
 *access:* public
 
 
-* `FONT_TIMES` = ` 'Times New Roman'` (line 87)
+* `FONT_TIMES` = ` 'Times New Roman'` (line 96)
 
 
 *Remarks*
@@ -1288,7 +1462,7 @@ Font family
 *access:* public
 
 
-* `FONT_WEIGHT_BOLD` = ` 'bold'` (line 95)
+* `FONT_WEIGHT_BOLD` = ` 'bold'` (line 104)
 
 
 *Remarks*
@@ -1299,7 +1473,7 @@ Font weight
 *access:* public
 
 
-* `FONT_WEIGHT_NONE` = ` 'none'` (line 96)
+* `FONT_WEIGHT_NONE` = ` 'none'` (line 105)
 
 
 *Remarks*

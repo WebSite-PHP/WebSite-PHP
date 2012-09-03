@@ -24,7 +24,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.5
+*version:* 1.1.8
 
 *copyright:* WebSite-PHP.com 26/05/2011
 
@@ -148,7 +148,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																																																																																																																										
+																																																																																																																																																																										
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpEventObject ===
@@ -232,6 +232,35 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 
 
+= Object::__construct =
+
+*__construct(*
+[*string|WspObject|Url*
+_$str_or_object_ = null], [*string|WspObject*
+_$str_or_object2_ = null], [*string|WspObject*
+_$str_or_object3_ = null], [*string|WspObject*
+_$str_or_object4_ = null], [*string|WspObject*
+_$str_or_object5_ = null]* );*
+
+
+Overrides WebSitePhpEventObject::__construct() (Constructor WebSitePhpEventObject)
+	
+
+	
+*Parameters*
+			_$str_or_object_ [default value: null]
+			_$str_or_object2_ [default value: null]
+			_$str_or_object3_ [default value: null]
+			_$str_or_object4_ [default value: null]
+			_$str_or_object5_ [default value: null]
+		
+*Remarks*
+
+Constructor Object
+
+
+
+
 = Object::add =
 
 *add(*
@@ -281,35 +310,6 @@ Method emptyObject
 *since:* 1.0.36
 
 *access:* public
-
-
-
-= Object::__construct =
-
-*__construct(*
-[*string|WspObject|Url*
-_$str_or_object_ = null], [*string|WspObject*
-_$str_or_object2_ = null], [*string|WspObject*
-_$str_or_object3_ = null], [*string|WspObject*
-_$str_or_object4_ = null], [*string|WspObject*
-_$str_or_object5_ = null]* );*
-
-
-Overrides WebSitePhpEventObject::__construct() (Constructor WebSitePhpEventObject)
-	
-
-	
-*Parameters*
-			_$str_or_object_ [default value: null]
-			_$str_or_object2_ [default value: null]
-			_$str_or_object3_ [default value: null]
-			_$str_or_object4_ [default value: null]
-			_$str_or_object5_ [default value: null]
-		
-*Remarks*
-
-Constructor Object
-
 
 
 
@@ -1068,6 +1068,30 @@ Method setMinHeight
 
 
 
+= Object::setProperty =
+
+*setProperty(*
+*mixed*
+_$property_* );*
+
+
+	
+
+	
+*Parameters*
+			_$property_ 
+		
+*Remarks*
+
+Method setProperty
+
+
+*since:* 1.1.8
+
+*access:* public
+
+
+
 = Object::setSortable =
 
 *setSortable(*
@@ -1120,6 +1144,30 @@ Method setStyle
 
 
 
+= Object::setTypeOf =
+
+*setTypeOf(*
+*mixed*
+_$typeof_* );*
+
+
+	
+
+	
+*Parameters*
+			_$typeof_ 
+		
+*Remarks*
+
+Method setTypeOf
+
+
+*since:* 1.1.8
+
+*access:* public
+
+
+
 = Object::setWidth =
 
 *setWidth(*
@@ -1139,6 +1187,54 @@ Method setWidth
 
 
 *since:* 1.0.36
+
+*access:* public
+
+
+
+= Object::setXmlns =
+
+*setXmlns(*
+*mixed*
+_$xmlns_* );*
+
+
+	
+
+	
+*Parameters*
+			_$xmlns_ 
+		
+*Remarks*
+
+Method setXmlns
+
+
+*since:* 1.1.8
+
+*access:* public
+
+
+
+= Object::setXmlnsV =
+
+*setXmlnsV(*
+*mixed*
+_$xmlnsv_* );*
+
+
+	
+
+	
+*Parameters*
+			_$xmlnsv_ 
+		
+*Remarks*
+
+Method setXmlnsV
+
+
+*since:* 1.1.8
 
 *access:* public
 

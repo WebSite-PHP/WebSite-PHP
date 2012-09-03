@@ -26,7 +26,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.5
+*version:* 1.1.7
 
 *copyright:* WebSite-PHP.com 26/05/2011
 
@@ -133,13 +133,15 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																																		
+																																																																						
 == Inherited Method Summary == 
 
 === Inherited From Class TextBox ===
 
 			* `TextBox::__construct()`
 		Constructor TextBox
+			* `TextBox::clearable()`
+		Method clearable
 			* `TextBox::disable()`
 		Method disable
 			* `TextBox::enable()`
@@ -178,6 +180,10 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method onKeyPress
 			* `TextBox::onKeyPressJs()`
 		Method onKeyPressJs
+			* `TextBox::onKeyUp()`
+		Method onKeyUp
+			* `TextBox::onKeyUpJs()`
+		Method onKeyUpJs
 			* `TextBox::onMouseOutJs()`
 		Method onMouseOutJs
 			* `TextBox::onMouseOverJs()`
@@ -375,6 +381,26 @@ Method getValue
 
 
 *since:* 1.0.99
+
+*access:* public
+
+
+
+= Calendar::getValueStr =
+
+*getValueStr(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getValueStr
+
+
+*since:* 1.1.6
 
 *access:* public
 

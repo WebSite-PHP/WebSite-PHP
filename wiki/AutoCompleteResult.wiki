@@ -22,7 +22,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.5
+*version:* 1.1.7
 
 *copyright:* WebSite-PHP.com 26/05/2011
 
@@ -134,9 +134,9 @@ Constructor AutoCompleteResult
 = AutoCompleteResult::add =
 
 *add(*
-*mixed*
-_$id_, *mixed*
-_$label_, *mixed*
+*string*
+_$id_, *string|WebSitePhpObject*
+_$label_, *string*
 _$value_, [*string*
 _$icon_ = '']* );*
 

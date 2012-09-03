@@ -22,7 +22,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.5
+*version:* 1.1.6
 
 *copyright:* WebSite-PHP.com 26/05/2011
 
@@ -91,7 +91,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																																																																																																																		
+																																																																																																																																																						
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpObject ===
@@ -138,33 +138,6 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 
 
-= RowTable::__construct =
-
-*__construct(*
-[*string*
-_$align_ = 'center'], [*string*
-_$width_ = ''], [*string*
-_$class_ = ''], [*string*
-_$valign_ = '']* );*
-
-
-Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
-	
-
-	
-*Parameters*
-			_$align_ [default value: center]
-			_$width_ 
-			_$class_ 
-			_$valign_ 
-		
-*Remarks*
-
-Constructor RowTable
-
-
-
-
 = RowTable::add =
 
 *add(*
@@ -200,6 +173,33 @@ Method add
 *since:* 1.0.36
 
 *access:* public
+
+
+
+= RowTable::__construct =
+
+*__construct(*
+[*string*
+_$align_ = 'center'], [*string*
+_$width_ = ''], [*string*
+_$class_ = ''], [*string*
+_$valign_ = '']* );*
+
+
+Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
+	
+
+	
+*Parameters*
+			_$align_ [default value: center]
+			_$width_ 
+			_$class_ 
+			_$valign_ 
+		
+*Remarks*
+
+Constructor RowTable
+
 
 
 
@@ -878,6 +878,30 @@ Method setNowrap
 
 
 *since:* 1.0.36
+
+*access:* public
+
+
+
+= RowTable::setRowClass =
+
+*setRowClass(*
+*mixed*
+_$class_* );*
+
+
+	
+
+	
+*Parameters*
+			_$class_ 
+		
+*Remarks*
+
+Method setRowClass
+
+
+*since:* 1.1.6
 
 *access:* public
 

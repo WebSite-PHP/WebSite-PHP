@@ -20,7 +20,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.5
+*version:* 1.1.7
 
 *copyright:* WebSite-PHP.com 26/05/2011
 
@@ -70,7 +70,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																										
+																																																																														
 == Inherited Method Summary == 
 
 ----
@@ -278,6 +278,26 @@ Method enableHtmlentitiesMode
 
 
 
+= SqlDataView::getDbTableObject =
+
+*getDbTableObject(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getDbTableObject
+
+
+*since:* 1.1.6
+
+*access:* public
+
+
+
 = SqlDataView::getLastQuery =
 
 *getLastQuery(*
@@ -297,6 +317,86 @@ Method getLastQuery
 
 
 *since:* 1.0.35
+
+*access:* public
+
+
+
+= SqlDataView::getListAttributeArray =
+
+*getListAttributeArray(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getListAttributeArray
+
+
+*since:* 1.1.6
+
+*access:* public
+
+
+
+= SqlDataView::getListAttributeTypeArray =
+
+*getListAttributeTypeArray(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getListAttributeTypeArray
+
+
+*since:* 1.1.6
+
+*access:* public
+
+
+
+= SqlDataView::getPrimaryKeysAttributes =
+
+*getPrimaryKeysAttributes(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getPrimaryKeysAttributes
+
+
+*since:* 1.1.6
+
+*access:* public
+
+
+
+= SqlDataView::isQueryWithJoin =
+
+*isQueryWithJoin(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method isQueryWithJoin
+
+
+*since:* 1.1.6
 
 *access:* public
 

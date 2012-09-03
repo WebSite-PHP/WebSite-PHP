@@ -24,7 +24,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.5
+*version:* 1.1.6
 
 *copyright:* WebSite-PHP.com 26/05/2011
 
@@ -103,7 +103,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																																														
+																																																																																		
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpEventObject ===
@@ -523,6 +523,26 @@ Method setChecked
 
 
 *since:* 1.0.36
+
+*access:* public
+
+
+
+= CheckBox::setClick =
+
+*setClick(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method setClick
+
+
+*since:* 1.1.6
 
 *access:* public
 
