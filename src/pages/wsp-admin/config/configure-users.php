@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 06/06/2011
- * @version     1.1.5
+ * @version     1.1.9
  * @access      public
  * @since       1.0.85
  */
@@ -67,6 +67,9 @@ class ConfigureUsers extends Page {
 		
 		$this->cmb_rights = new ComboBox($form);
 		$this->cmb_rights->addItem("administrator", "administrator");
+		$this->cmb_rights->addItem("moderator", "moderator");
+		$this->cmb_rights->addItem("user", "user");
+		$this->cmb_rights->addItem("guest", "guest");
 		$user_table->addRowColumns(__(RIGHTS).":&nbsp;", $this->cmb_rights);
 		
 		$this->edt_old_password = new Password($form);

@@ -17,6 +17,6 @@
 	define("__TUESDAY__", "Mardi");
 	define("__WEDNESDAY__", "Mercredi");
 	define("__THURSDAY__", "Jeudi");
-	define("__FRIDAY__", "Vendre");
+	define("__FRIDAY__", "Vendredi");
 	define("__SATURDAY__", "Samedi");
 ?>

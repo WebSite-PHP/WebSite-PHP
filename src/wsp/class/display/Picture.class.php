@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.9
  * @access      public
  * @since       1.0.17
  */
@@ -35,7 +35,7 @@ class Picture extends WebSitePhpEventObject {
 	const ALIGN_CENTER = "center";
 	/**#@-*/
 	
-	private static $array_lightbox = array();
+	private static $array_lightbox_last_pic = array();
 	
 	/**#@+
 	* @access private
@@ -56,6 +56,8 @@ class Picture extends WebSitePhpEventObject {
 	private $is_lightbox = false;
 	private $lightbox_name = "";
 	private $pic_link = "";
+	private $lightbox_max_width = "";
+	private $lightbox_max_height = "";
 	private $itemprop = false;
 	
 	private $onclick = "";
@@ -243,17 +245,19 @@ class Picture extends WebSitePhpEventObject {
 	 * @access public
 	 * @param string $lightbox_name 
 	 * @param string $pic_link 
+	 * @param string $max_width 
+	 * @param string $max_height 
 	 * @return Picture
 	 * @since 1.0.35
 	 */
-	public function addLightbox($lightbox_name='', $pic_link='') {
+	public function addLightbox($lightbox_name='', $pic_link='', $max_width='', $max_height='') {
 		$this->is_lightbox = true;
 		$this->lightbox_name = $lightbox_name;
 		$this->pic_link = $pic_link;
+		$this->lightbox_max_width = $max_width;
+		$this->lightbox_max_height = $max_height;
 		
-		if (!isset(self::$array_lightbox[$this->lightbox_name])) {
-			self::$array_lightbox[$this->lightbox_name] = false;
-		}
+		self::$array_lightbox_last_pic[$this->lightbox_name] = $this;
 		
 		$this->addCss(BASE_URL."wsp/css/jquery.lightbox-0.5.css", "", true);
 		$this->addJavaScript(BASE_URL."wsp/js/jquery.lightbox-0.5.min.js", "", true);
@@ -615,15 +619,28 @@ class Picture extends WebSitePhpEventObject {
 		}
 		
 		if ($this->is_lightbox) {
-			if (!self::$array_lightbox[$this->lightbox_name]) {
+			if (self::$array_lightbox_last_pic[$this->lightbox_name] == $this) {
 				$html .= $this->getJavascriptTagOpen();
-				$html .= "$(function() { $('a[rel=lightbox";
+				$html .= "$('a[rel=lightbox";
 				if ($this->lightbox_name != "") {
 					$html .= $this->lightbox_name;
 				}
-				$html .= "]').lightBox(); });\n";
+				$html .= "]').lightBox(";
+				if ($this->lightbox_max_width != "" || $this->lightbox_max_height) {
+					$html .= "{";
+					if ($this->lightbox_max_width != "") {
+						$html .= "maxWidth: ".$this->lightbox_max_width;
+					}
+					if ($this->lightbox_max_height != "") {
+						if ($this->lightbox_max_width != "") {
+							$html .= ", ";
+						}
+						$html .= "maxHeight: ".$this->lightbox_max_height;
+					}
+					$html .= "}";
+				}
+				$html .= ");\n";
 				$html .= $this->getJavascriptTagClose();
-				self::$array_lightbox[$this->lightbox_name] = true;
 			}
 		}
 		if ($this->tooltip_obj != null) {

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.7
+ * @version     1.1.9
  * @access      public
  * @since       1.0.17
  */
@@ -781,7 +781,7 @@ class TextBox extends WebSitePhpEventObject {
 				$html .= $this->getJavascriptTagOpen();
 				$html .= "\$(document).ready(function() { ";
 				if ($this->is_clearable) {
-					$html .= "\$('#".$this->getId()."').clearable(); \$('#".$this->getId()."').focus(); ";
+					$html .= "\$('#".$this->getId()."').clearable(); ";
 				}
 				if ($this->has_focus) {
 					$html .= "\$('#".$this->getId()."').focus(); ";

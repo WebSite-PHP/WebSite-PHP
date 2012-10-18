@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.8
+ * @version     1.1.9
  * @access      public
  * @since       1.0.0
  */
@@ -302,6 +302,10 @@ class Page {
 			}
 			$this->cache_file_name_orig = $cache_directory."/".$file_name;
 			$this->cache_file_name = $this->getRealCacheFileName();
+		} else {
+			$this->cache_file_name_orig = "";
+			$this->cache_file_name = "";
+			$this->disableCache();
 		}
 	}
 	
@@ -330,24 +334,26 @@ class Page {
 			}
 			$cache_file_name = $cache_file_name.$cache_file_name_ext;
 			
-			if ($this->is_browser_ie_6) {
-				$cache_file_name = str_replace(".cache", "_ie6.cache", $cache_file_name);
-			} else if ($this->is_browser_ie) {
-				$cache_file_name = str_replace(".cache", "_ie".get_browser_ie_version().".cache", $cache_file_name);
-			}
-			if (!$this->isAjaxPage()) {
-				$last_css_config_file = CssInclude::getInstance()->getLastCssConfigFileSession();
-				if ($last_css_config_file != "config_css.inc.php" && trim($last_css_config_file) != "") {
-					$cache_file_name = str_replace(".cache", "_".$last_css_config_file.".cache", $cache_file_name);
+			if (!isset($_GET['mime']) || (isset($_GET['mime']) && ($_GET['mime'] == "text/html" || $_GET['mime'] == "html"))) {
+				if ($this->is_browser_ie_6) {
+					$cache_file_name = str_replace(".cache", "_ie6.cache", $cache_file_name);
+				} else if ($this->is_browser_ie) {
+					$cache_file_name = str_replace(".cache", "_ie".get_browser_ie_version().".cache", $cache_file_name);
 				}
-			}
-			if ($this->isCss3Browser()){
-				$cache_file_name = str_replace(".cache", "_css3.cache", $cache_file_name);
-			}
-			if ($this->isAjaxPage()){
-				$cache_file_name = str_replace(".cache", "_ajax.cache", $cache_file_name);
-			} else if ($this->isAjaxLoadPage()){
-				$cache_file_name = str_replace(".cache", "_load.cache", $cache_file_name);
+				if (!$this->isAjaxPage()) {
+					$last_css_config_file = CssInclude::getInstance()->getLastCssConfigFileSession();
+					if ($last_css_config_file != "config_css.inc.php" && trim($last_css_config_file) != "") {
+						$cache_file_name = str_replace(".cache", "_".$last_css_config_file.".cache", $cache_file_name);
+					}
+				}
+				if ($this->isCss3Browser()){
+					$cache_file_name = str_replace(".cache", "_css3.cache", $cache_file_name);
+				}
+				if ($this->isAjaxPage()){
+					$cache_file_name = str_replace(".cache", "_ajax.cache", $cache_file_name);
+				} else if ($this->isAjaxLoadPage()){
+					$cache_file_name = str_replace(".cache", "_load.cache", $cache_file_name);
+				}
 			}
 			$cache_file_name = $cache_directory.str_replace("%2F", "/", urlencode($cache_file_name));
 		}

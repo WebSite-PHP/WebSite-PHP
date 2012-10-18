@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.7
+ * @version     1.1.9
  * @access      public
  * @since       1.0.0
  */
@@ -157,29 +157,31 @@
 		// Encode to JSON + detect JSON encode error
 		$json_error = false;
 		$json_ajax_render = json_encode($array_ajax_object_render);
-		switch (json_last_error()) {
-	        case JSON_ERROR_NONE:
-	            // No errors
-	        break;
-	        case JSON_ERROR_DEPTH:
-	            $json_error = 'Maximum stack depth exceeded';
-	        break;
-	        case JSON_ERROR_STATE_MISMATCH:
-	            $json_error = 'Underflow or the modes mismatch';
-	        break;
-	        case JSON_ERROR_CTRL_CHAR:
-	            $json_error = 'Unexpected control character found';
-	        break;
-	        case JSON_ERROR_SYNTAX:
-	            $json_error = 'Syntax error, malformed JSON';
-	        break;
-	        case JSON_ERROR_UTF8:
-	            $json_error = 'Malformed UTF-8 characters, possibly incorrectly encoded';
-	        break;
-	        default:
-	            $json_error = 'Unknown error';
-	        break;
-	    }
+		if (version_compare(PHP_VERSION, '5.3.0', '>=') ) { 
+			switch (json_last_error()) {
+		        case JSON_ERROR_NONE:
+		            // No errors
+		        break;
+		        case JSON_ERROR_DEPTH:
+		            $json_error = 'Maximum stack depth exceeded';
+		        break;
+		        case JSON_ERROR_STATE_MISMATCH:
+		            $json_error = 'Underflow or the modes mismatch';
+		        break;
+		        case JSON_ERROR_CTRL_CHAR:
+		            $json_error = 'Unexpected control character found';
+		        break;
+		        case JSON_ERROR_SYNTAX:
+		            $json_error = 'Syntax error, malformed JSON';
+		        break;
+		        case JSON_ERROR_UTF8:
+		            $json_error = 'Malformed UTF-8 characters, possibly incorrectly encoded';
+		        break;
+		        default:
+		            $json_error = 'Unknown error';
+		        break;
+		    }
+		}
 	    if ($json_error !== false) {
 	    	$detected_json_error = array_diff($array_ajax_object_render, json_decode($json_ajax_render));
 	    	$detected_json_error_ok = array();

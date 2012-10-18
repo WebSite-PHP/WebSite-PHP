@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.8
+ * @version     1.1.9
  * @access      public
  * @since       1.0.64
  */
@@ -146,6 +146,16 @@ class CacheFile {
 		} else {
 			return $cache;
 		}
+	}
+	
+	/**
+	 * Method isCached
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.9
+	 */
+	public function isCached() {
+		return $this->read_current_cache;
 	}
 	
 	/**
