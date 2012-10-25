@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 06/02/2012
- * @version     1.1.5
+ * @version     1.1.10
  * @access      public
  * @since       1.1.0
  */
@@ -42,7 +42,7 @@ class WspBannedVisitors {
 		$result = fopen($file, $mode);
 		umask($old_mask);
 		if (!$result) {
-			throw new Exception("fopen(\"$file\", \"$mode\") failed.");
+			throw new NewException("The WSP framework needs to create the file ".$file.". Please give write rights on the folder or create manually the file (with write rights).", 0, getDebugBacktrace(1));
 		}
 		return $result;
 	}

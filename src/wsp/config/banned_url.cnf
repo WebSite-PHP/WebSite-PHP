@@ -299,3 +299,6 @@
 /profile.php
 /twindow_notice.php
 /administrator/index.php
+/admin/record_company.php/password_forgotten.php
+/admin/sqlpatch.php/password_forgotten.php
+/extras/curltest.php
