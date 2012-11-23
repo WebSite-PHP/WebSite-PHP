@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.11
  * @access      public
  * @since       1.0.25
  */
@@ -24,7 +24,7 @@
 require_once(dirname(__FILE__)."/../includes/admin-template-form.inc.php");
 
 class ConfigureDatabase extends Page {
-	protected $USER_RIGHTS = "administrator";
+	protected $USER_RIGHTS = Page::RIGHTS_ADMINISTRATOR;
 	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/connect.html";
 	
 	private $edtHost = null;
@@ -707,6 +707,10 @@ $data .= "	/**
 	}
 ";
 		
+		$array_code_table1 = array();
+		$array_code_table_var1 = array();
+		$array_code_table2 = array();
+		$array_code_table_var2 = array();
 		$query = "SELECT table_schema, table_name, column_name, referenced_table_name, referenced_column_name
 					FROM INFORMATION_SCHEMA.key_column_usage 
 					WHERE referenced_table_schema = '".$database."' 
@@ -716,8 +720,13 @@ $data .= "	/**
 		$stmt = $this->dbInstance->prepareStatement($query);
 		$row = DataBase::getInstance()->stmtBindAssoc($stmt, $row);
 			while ($stmt->fetch()) {
-			if ($row['table_name'] == $table) {
-				$data .= "\n	/**
+				if ($row['table_name'] == $table) {
+					if (!is_array($array_code_table_var1[$this->getFormatValue($row['referenced_table_name'])])) {
+						$array_code_table_var1[$this->getFormatValue($row['referenced_table_name'])] = array();
+					}
+					$array_code_table_var1[$this->getFormatValue($row['referenced_table_name'])][] = $row['referenced_column_name']." = '\".addslashes(\$this->get".$this->getFormatValue($row['column_name'])."()).\"'";
+					if (!isset($array_code_table1[$this->getFormatValue($row['referenced_table_name'])])) {
+						$data_table = "\n	/**
 	 * Method get".$this->getFormatValue($row['referenced_table_name'])."Object
 	 * @access public
 	 * @param boolean \$activate_htmlentities [default value: false]
@@ -725,11 +734,18 @@ $data .= "	/**
 	 */
 	public function get".$this->getFormatValue($row['referenced_table_name'])."Object(\$activate_htmlentities=false) {
 		\$obj_".str_replace("-", "_", strtolower($row['referenced_table_name']))." = new ".$this->getFormatValue($row['referenced_table_name'])."Obj();
-		return \$obj_".str_replace("-", "_", strtolower($row['referenced_table_name']))."->loadClause(\"".$row['referenced_column_name']." = '\".addslashes(\$this->get".$this->getFormatValue($row['column_name'])."()).\"'\", \$activate_htmlentities);
+		return \$obj_".str_replace("-", "_", strtolower($row['referenced_table_name']))."->loadClause(\"/* #!#get_object_array_".$this->getFormatValue($row['referenced_table_name'])."_key#!# */\", \$activate_htmlentities);
 	}
 ";
-			} else {
-				$data .= "\n	/**
+						$array_code_table1[$this->getFormatValue($row['referenced_table_name'])] = $data_table;
+					}
+				} else {
+					if (!is_array($array_code_table_var2[$this->getFormatValue($row['table_name'])])) {
+						$array_code_table_var2[$this->getFormatValue($row['table_name'])] = array();
+					}
+					$array_code_table_var2[$this->getFormatValue($row['table_name'])][] = $row['column_name']." = '\".addslashes(\$this->get".$this->getFormatValue($row['referenced_column_name'])."()).\"'";
+					if (!isset($array_code_table2[$this->getFormatValue($row['table_name'])])) {
+						$data_table = "\n	/**
 	 * Method get".$this->getFormatValue($row['table_name'])."ObjectArray
 	 * @access public
 	 * @param string \$clause [default value: ]
@@ -744,7 +760,7 @@ $data .= "	/**
 		\$array_".str_replace("-", "_", strtolower($row['table_name']))." = array();
 		
 		\$sql = new SqlDataView(new ".$this->getFormatValue($row['table_name'])."DbTable());
-		\$sql->setClause(\"".$row['column_name']." = '\".addslashes(\$this->get".$this->getFormatValue($row['referenced_column_name'])."()).\"'\".(\$clause!=''?\" AND \".\$clause:\"\"));
+		\$sql->setClause(\"/* #!#get_object_array_".$this->getFormatValue($row['table_name'])."_key#!# */\".(\$clause!=''?\" AND \".\$clause:\"\"));
 		if (\$sort_attribut != '') {
 			\$sql->addOrder(\$sort_attribut, \$sort_order);
 		}
@@ -758,19 +774,39 @@ $data .= "	/**
 		while (\$it->hasNext()) {
 			\$row = \$it->next();
 			\$obj_".str_replace("-", "_", strtolower($row['table_name']))." = new ".$this->getFormatValue($row['table_name'])."Obj();\n";
-		$query2 = "SHOW COLUMNS FROM `".$row['table_schema']."`.`".$row['table_name']."`";
-		$result2 = $this->dbInstance->prepareStatement($query2);
-		while ($row2 = $result2->fetch_array()) {
-			$data .= "			\$obj_".str_replace("-", "_", strtolower($row['table_name']))."->set".$this->getFormatValue(strtolower($row2['Field']))."(\$row->getValue(".$this->getFormatValue($row['table_name'])."DbTable::FIELD_".str_replace("-", "_", strtoupper(strtolower($row2['Field'])))."));\n";
-		}
-		$data .= "			\$obj_".str_replace("-", "_", strtolower($row['table_name']))."->foreignKeyLoadMode();
+			$query2 = "SHOW COLUMNS FROM `".$row['table_schema']."`.`".$row['table_name']."`";
+			$result2 = $this->dbInstance->prepareStatement($query2);
+			while ($row2 = $result2->fetch_array()) {
+				$data_table .= "			\$obj_".str_replace("-", "_", strtolower($row['table_name']))."->set".$this->getFormatValue(strtolower($row2['Field']))."(\$row->getValue(".$this->getFormatValue($row['table_name'])."DbTable::FIELD_".str_replace("-", "_", strtoupper(strtolower($row2['Field'])))."));\n";
+			}
+			$data_table .= "			\$obj_".str_replace("-", "_", strtolower($row['table_name']))."->foreignKeyLoadMode();
 			\$array_".str_replace("-", "_", strtolower($row['table_name']))."[] = \$obj_".str_replace("-", "_", strtolower($row['table_name'])).";
 		}
 		
 		return \$array_".str_replace("-", "_", strtolower($row['table_name'])).";
 	}
-";	
+";
+					$array_code_table2[$this->getFormatValue($row['table_name'])] = $data_table;
+				}
 			}
+		}
+		
+		foreach ($array_code_table1 as $key => $value) {
+			$get_object_array_table_key = "";
+			for ($i=0; $i < sizeof($array_code_table_var1[$key]); $i++) {
+				if ($i > 0) { $get_object_array_table_key .= " AND "; }
+				$get_object_array_table_key .= $array_code_table_var1[$key][$i];
+			}
+			$data .= str_replace("/* #!#get_object_array_".$key."_key#!# */", $get_object_array_table_key, $value);
+		}
+		
+		foreach ($array_code_table2 as $key => $value) {
+			$get_object_array_table_key = "";
+			for ($i=0; $i < sizeof($array_code_table_var2[$key]); $i++) {
+				if ($i > 0) { $get_object_array_table_key .= " AND "; }
+				$get_object_array_table_key .= $array_code_table_var2[$key][$i];
+			}
+			$data .= str_replace("/* #!#get_object_array_".$key."_key#!# */", $get_object_array_table_key, $value);
 		}
 		
 		$data .= "}\n?>";

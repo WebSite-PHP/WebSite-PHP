@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 13/07/2012
- * @version     1.1.7
+ * @version     1.1.11
  * @access      public
  * @since       1.0.91
  */
@@ -594,6 +594,7 @@ class Chart extends WebSitePhpObject {
 		    });\n";
 		}
 		
+		$html .= "	$(\"#".$this->id."\").css('display', 'block');\n";
    		$html .= " });\n";
 		$html .= $this->getJavascriptTagClose();
 		return $html;

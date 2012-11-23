@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.11
  * @access      public
  * @since       1.0.93
  */
@@ -42,6 +42,16 @@ class Calendar extends TextBox {
 	/**#@-*/
 	
 	/**#@+
+	* Calendar Date Format
+	* @access public
+	* @var string
+	*/
+	const DATE_FORMAT_ENGLISH = "mm-dd-yy";
+	const DATE_FORMAT_FRENCH = "dd/mm/yy";
+	const DATE_FORMAT_GERMAN = "dd.mm.yy";
+	/**#@-*/
+	
+	/**#@+
 	* @access private
 	*/
 	private $minDate = -999999999;
@@ -58,7 +68,14 @@ class Calendar extends TextBox {
 	private $showAnim = "show";
 	
 	private $dateFormatConvertPhpFormat = array("dd/mm/yy" => "d/m/Y",
-												"mm-dd-yy" => "m-d-Y");
+												"mm-dd-yy" => "m-d-Y",
+												"dd.mm.yy" => "d.m.Y");
+	
+	private $monthNames = array();
+	private $monthNamesShort = array();
+	private $dayNames = array();
+	private $dayNamesShort = array();
+	private $dayNamesMin = array();
 	/**#@-*/
 	
 	/**
@@ -72,6 +89,11 @@ class Calendar extends TextBox {
 	function __construct($page_or_form_object, $name='', $id='', $value='', $width='') {
 		parent::__construct($page_or_form_object, $name, $id, $value, $width);
 		$this->type = "calendar";
+		if ($this->getPage()->getLanguage() == "fr") {
+			$this->setDateFormat(Calendar::DATE_FORMAT_FRENCH);
+		} else if ($this->getPage()->getLanguage() == "de") {
+			$this->setDateFormat(Calendar::DATE_FORMAT_GERMAN);
+		}
 	}
 	
 	/**
@@ -259,6 +281,43 @@ class Calendar extends TextBox {
 	}
 	
 	/**
+	 * Method setMonthNames
+	 * @access public
+	 * @param mixed $monthNames [default value: array(]
+	 * @return Calendar
+	 * @since 1.1.11
+	 */
+	public function setMonthNames($monthNames=array(), $monthNamesShort=array()) {
+		if (is_array($monthNames) && sizeof($monthNames) > 0) {
+			$this->monthNames = $monthNames;
+		}
+		if (is_array($monthNamesShort) && sizeof($monthNamesShort) > 0) {
+			$this->monthNamesShort = $monthNamesShort;
+		}
+		return $this;
+	}
+	
+	/**
+	 * Method setDayNames
+	 * @access public
+	 * @param mixed $dayNames [default value: array(]
+	 * @return Calendar
+	 * @since 1.1.11
+	 */
+	public function setDayNames($dayNames=array(), $dayNamesShort=array(), $dayNamesMin=array()) {
+		if (is_array($dayNames) && sizeof($dayNames) > 0) {
+			$this->dayNames = $dayNames;
+		}
+		if (is_array($dayNamesShort) && sizeof($dayNamesShort) > 0) {
+			$this->dayNamesShort = $dayNamesShort;
+		}
+		if (is_array($dayNamesMin) && sizeof($dayNamesMin) > 0) {
+			$this->dayNamesMin = $dayNamesMin;
+		}
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -297,6 +356,8 @@ class Calendar extends TextBox {
 		}
 		if ($this->firstDay != "") {
 			$html .= "firstDay: ".$this->firstDay.", ";
+		} else {
+			$html .= "firstDay: 1, ";
 		}
 		if ($this->numberOfMonths != "") {
 			$html .= "numberOfMonths: ".$this->numberOfMonths.", ";
@@ -316,7 +377,54 @@ class Calendar extends TextBox {
 			}
 			$html .= "', ";
 		}
-		$html .= "showAnim: '".$this->showAnim."' ";
+		$html .= "showAnim: '".$this->showAnim."'";
+		if ($this->getPage()->getLanguage() != "en") {
+			$html .= ",monthNames: [";
+			if (sizeof($this->monthNames)> 0) {
+				for ($i=0; $i < sizeof($this->monthNames); $i++) {
+					if ($i > 0) { $html .= ","; }
+					$html .= "'".addslashes($this->monthNames[$i])."'";
+				}
+			} else {
+				$html .= "'".addslashes(__(__JANUARY__))."', '".addslashes(__(__FEBRUARY__))."', '".addslashes(__(__MARCH__))."', '".addslashes(__(__APRIL__))."', '".addslashes(__(__MAY__))."', '".addslashes(__(__JUNE__))."', '".addslashes(__(__JULY__))."', '".addslashes(__(__AUGUST__))."', '".addslashes(__(__SEPTEMBER__))."', '".addslashes(__(__OCTOBER__))."', '".addslashes(__(__NOVEMBER__))."', '".addslashes(__(__DECEMBER__))."']";
+			}
+			$html .= ",dayNames: [";
+			if (sizeof($this->dayNames)> 0) {
+				for ($i=0; $i < sizeof($this->dayNames); $i++) {
+					if ($i > 0) { $html .= ","; }
+					$html .= "'".addslashes($this->dayNames[$i])."'";
+				}
+			} else {
+				$html .= "'".addslashes(__(__SUNDAY__))."', '".addslashes(__(__MONDAY__))."', '".addslashes(__(__TUESDAY__))."', '".addslashes(__(__WEDNESDAY__))."', '".addslashes(__(__THURSDAY__))."', '".addslashes(__(__FRIDAY__))."', '".addslashes(__(__SATURDAY__))."']";
+			}
+			$html .= ",monthNamesShort: [";
+			if (sizeof($this->monthNamesShort)> 0) {
+				for ($i=0; $i < sizeof($this->monthNamesShort); $i++) {
+					if ($i > 0) { $html .= ","; }
+					$html .= "'".addslashes($this->monthNamesShort[$i])."'";
+				}
+			} else {
+				$html .= "'".addslashes(substr(__(__JANUARY__), 0, 3))."', '".addslashes(substr(__(__FEBRUARY__), 0, 3))."', '".addslashes(substr(__(__MARCH__), 0, 3))."', '".addslashes(substr(__(__APRIL__), 0, 3))."', '".addslashes(substr(__(__MAY__), 0, 3))."', '".addslashes(substr(__(__JUNE__), 0, 3))."', '".addslashes(substr(__(__JULY__), 0, 3))."', '".addslashes(substr(__(__AUGUST__), 0, 3))."', '".addslashes(substr(__(__SEPTEMBER__), 0, 3))."', '".addslashes(substr(__(__OCTOBER__), 0, 3))."', '".addslashes(substr(__(__NOVEMBER__), 0, 3))."', '".addslashes(substr(__(__DECEMBER__), 0, 3))."']";
+			}
+			$html .= ",dayNamesShort: [";
+			if (sizeof($this->dayNamesShort)> 0) {
+				for ($i=0; $i < sizeof($this->dayNamesShort); $i++) {
+					if ($i > 0) { $html .= ","; }
+					$html .= "'".addslashes($this->dayNamesShort[$i])."'";
+				}
+			} else {
+				$html .= "'".addslashes(substr(__(__SUNDAY__), 0, 3))."', '".addslashes(substr(__(__MONDAY__), 0, 3))."', '".addslashes(substr(__(__TUESDAY__), 0, 3))."', '".addslashes(substr(__(__WEDNESDAY__), 0, 3))."', '".addslashes(substr(__(__THURSDAY__), 0, 3))."', '".addslashes(substr(__(__FRIDAY__), 0, 3))."', '".addslashes(substr(__(__SATURDAY__), 0, 3))."']";
+			}
+			$html .= ",dayNamesMin: [";
+			if (sizeof($this->dayNamesMin)> 0) {
+				for ($i=0; $i < sizeof($this->dayNamesMin); $i++) {
+					if ($i > 0) { $html .= ","; }
+					$html .= "'".addslashes($this->dayNamesMin[$i])."'";
+				}
+			} else {
+				$html .= "'".addslashes(substr(__(__SUNDAY__), 0, 2))."', '".addslashes(substr(__(__MONDAY__), 0, 2))."', '".addslashes(substr(__(__TUESDAY__), 0, 2))."', '".addslashes(substr(__(__WEDNESDAY__), 0, 2))."', '".addslashes(substr(__(__THURSDAY__), 0, 2))."', '".addslashes(substr(__(__FRIDAY__), 0, 2))."', '".addslashes(substr(__(__SATURDAY__), 0, 2))."']";
+			}
+		}
 		$html .= "});\n";
 		$html .= $this->getJavascriptTagClose();
 		

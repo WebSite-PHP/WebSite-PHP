@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.11
  * @access      public
  * @since       1.0.17
  */
@@ -173,6 +173,17 @@ class Form extends WebSitePhpObject {
 		$this->encrypt_object = $encrypt_object;
 		$this->encrypt_object->setObject($this);
 		
+		return $this;
+	}
+	
+	/**
+	 * Method disableEncryptObject
+	 * @access public
+	 * @return Form
+	 * @since 1.1.11
+	 */
+	public function disableEncryptObject() {
+		$this->encrypt_object = null;
 		return $this;
 	}
 	
@@ -405,13 +416,14 @@ class Form extends WebSitePhpObject {
 				}
 			}
 			
-			$hidden_form_change_value = "";
+			/*$hidden_form_change_value = "";
 			if ($this->getMethod() == "POST" && isset($_POST[$this->id."_WspFormChange"])) {
 				$hidden_form_change_value = $_POST[$this->id."_WspFormChange"];
 			} else if (isset($_GET[$this->id."_WspFormChange"])) {
 				$hidden_form_change_value = $_GET[$this->id."_WspFormChange"];
-			}
-			$html .= "<input type=\"hidden\" id=\"".$this->id."_WspFormChange\" name=\"".$this->id."_WspFormChange\" value=\"".$hidden_form_change_value."\"/>\n";
+			}*/
+			//$html .= "<input type=\"hidden\" id=\"".$this->id."_WspFormChange\" name=\"".$this->id."_WspFormChange\" value=\"".$hidden_form_change_value."\"/>\n";
+			$html .= "<input type=\"hidden\" id=\"".$this->id."_WspFormChange\" value=\"\"/>\n";
 			$html .= "<input type=\"hidden\" id=\"".$this->id."_LastChangeObjectValue\" value=\"\"/>\n";
 			$html .= "</form>\n";
 			if ($this->onchangejs != "") {

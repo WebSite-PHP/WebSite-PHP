@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 06/06/2011
- * @version     1.1.5
+ * @version     1.1.11
  * @access      public
  * @since       1.0.85
  */
@@ -24,7 +24,7 @@
 require_once(dirname(__FILE__)."/../includes/admin-template-form.inc.php");
 
 class ConfigureModules extends Page {
-	protected $USER_RIGHTS = "administrator";
+	protected $USER_RIGHTS = Page::RIGHTS_ADMINISTRATOR;
 	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/connect.html";
 	
 	function __construct() {
@@ -32,7 +32,7 @@ class ConfigureModules extends Page {
 	}
 	
 	public function Load() {
-		parent::$PAGE_TITLE = __(CONFIGURE_USERS);
+		parent::$PAGE_TITLE = __(CONFIGURE_MODULES);
 		
 		$config_modules_obj = new Object();
 		

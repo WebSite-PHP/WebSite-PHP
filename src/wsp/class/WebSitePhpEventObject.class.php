@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.11
  * @access      public
  * @since       1.0.18
  */
@@ -304,10 +304,11 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 				if ($this->callback_args != "") { $this->callback_args .= ","; }
 				if (gettype($array_args[$i]) == "object") {
 					if (get_class($array_args[$i]) == "TextBox" || get_class($array_args[$i]) == "ColorPicker" || 
-						get_class($array_args[$i]) == "Button" || get_class($array_args[$i]) == "ComboBox" || 
-						get_class($array_args[$i]) == "CheckBox" || get_class($array_args[$i]) == "Hidden" || 
-						get_class($array_args[$i]) == "Calendar") {
+						get_class($array_args[$i]) == "Button" || get_class($array_args[$i]) == "Calendar" || 
+						get_class($array_args[$i]) == "CheckBox" || get_class($array_args[$i]) == "Hidden") {
 							$this->callback_args .= "\''+$('#".trim($array_args[$i]->getId())."').val()+'\'";
+					} else if (get_class($array_args[$i]) == "ComboBox") {
+						$this->callback_args .= "\''+$('#".trim($array_args[$i]->getEventObjectName())."').val()+'\'";
 					} else if (get_class($array_args[$i]) == "Editor") {
 						$this->callback_args .= "\''+getEditorContent_".trim($array_args[$i]->getName())."()+'\'";
 					} else if (get_class($array_args[$i]) == "JavaScript") {
@@ -588,9 +589,13 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 		
 		$html = "";
 		if ($this->on_form_is_changed_js != "" && $this->form_object != null && get_class($this->form_object) == "Form") {
-			$html .= "if ($('#".$this->form_object->getId()."_WspFormChange').val() != ';".$this->getId().";') { ";
+			$obj_id = $this->getId();
+			if (get_class($this) == "ComboBox") {
+				$obj_id = $this->getEventObjectName();
+			}
+			$html .= "if ($('#".$this->form_object->getId()."_WspFormChange').val() != ';".$obj_id.";') { ";
 			if ($this->on_form_is_changed_revert) {
-				$html .= "revertLastFormChangeObjectToDefaultValue('".get_class($this)."', '".$this->getId()."', '".$this->form_object->getId()."');";
+				$html .= "revertLastFormChangeObjectToDefaultValue('".get_class($this)."', '".$obj_id."', '".$this->form_object->getId()."');";
 			}
 			$html .= $this->on_form_is_changed_js." }\n";
 		}

@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 06/06/2011
- * @version     1.1.10
+ * @version     1.1.11
  * @access      public
  * @since       1.0.85
  */
@@ -24,7 +24,7 @@
 require_once(dirname(__FILE__)."/../includes/admin-template-form.inc.php");
 
 class ConfigureUsers extends Page {
-	protected $USER_RIGHTS = "administrator";
+	protected $USER_RIGHTS = Page::RIGHTS_ADMINISTRATOR;
 	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/connect.html";
 	
 	private $result_obj = null;
@@ -66,10 +66,10 @@ class ConfigureUsers extends Page {
 		$user_table->addRowColumns(__(LOGIN).":&nbsp;", $this->edt_login->setLiveValidation($validation->addValidatePresence()));
 		
 		$this->cmb_rights = new ComboBox($form);
-		$this->cmb_rights->addItem("administrator", "administrator");
-		$this->cmb_rights->addItem("moderator", "moderator");
-		$this->cmb_rights->addItem("user", "user");
-		$this->cmb_rights->addItem("guest", "guest");
+		$this->cmb_rights->addItem(Page::RIGHTS_ADMINISTRATOR, "Administrator");
+		$this->cmb_rights->addItem(Page::RIGHTS_MODERATOR, "Moderator");
+		$this->cmb_rights->addItem(Page::RIGHTS_AUTH_USER, "Authentificated user");
+		$this->cmb_rights->addItem(Page::RIGHTS_GUEST, "Guest");
 		$user_table->addRowColumns(__(RIGHTS).":&nbsp;", $this->cmb_rights);
 		
 		$this->edt_old_password = new Password($form);

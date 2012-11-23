@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 31/05/2011
- * @version     1.1.6
+ * @version     1.1.11
  * @access      public
  * @since       1.0.84
  */
@@ -39,9 +39,16 @@ class Authentication extends WebSitePhpObject {
 	/**#@+
 	* @access private
 	*/
-	private $authentication_msg = true;
-	private $color_ok = "#00FF33";
-	private $color_error = "red";
+	private $page_object = null;
+	private $connect_method = "connect";
+	private $style=Authentication::STYLE_2_LINES;
+	private $encrypt=true;
+	private $button_class='';
+	private $table_style='';
+	
+	protected $authentication_msg = true;
+	protected $color_ok = "#00FF33";
+	protected $color_error = "red";
 	/**#@-*/
 	
 	/**
@@ -55,9 +62,11 @@ class Authentication extends WebSitePhpObject {
 	 */
 	function __construct($page_object, $connect_method, $style=Authentication::STYLE_2_LINES, $encrypt=true, $button_class='', $table_style='') {
 		parent::__construct();
+		require_once(dirname(__FILE__)."/../../../config/config_admin.inc.php");
 		
 		if (!isset($page_object) || !isset($connect_method)) {
-			throw new NewException("2 arguments for ".get_class($this)."::__construct() are mandatory", 0, getDebugBacktrace(1));
+			$nb_argument = 2;
+			throw new NewException($nb_argument." arguments for ".get_class($this)."::__construct() are mandatory", 0, getDebugBacktrace(1));
 		}
 		
 		if (gettype($page_object) != "object" || !is_subclass_of($page_object, "Page")) {
@@ -65,42 +74,118 @@ class Authentication extends WebSitePhpObject {
 		}
 		
 		$this->page_object = $page_object;
+		$this->connect_method = $connect_method;
+		$this->style = $style;
+		$this->encrypt = $encrypt;
+		$this->button_class = $button_class;
+		$this->table_style = $table_style;
 		
+		$this->createRender();
+	}
+	
+	/**
+	 * Method setStyle
+	 * @access public
+	 * @param mixed $style [default value: Authentication::STYLE_2_LINES]
+	 * @return Authentication
+	 * @since 1.1.11
+	 */
+	public function setStyle($style=Authentication::STYLE_2_LINES) {
+		$this->style = $style;
+		
+		$this->createRender(false);
+		return $this;
+	}
+	
+	/**
+	 * Method setEncrypt
+	 * @access public
+	 * @param boolean $encrypt [default value: true]
+	 * @return Authentication
+	 * @since 1.1.11
+	 */
+	public function setEncrypt($encrypt=true) {
+		$this->encrypt = $encrypt;
+		
+		$this->createRender(false);
+		return $this;
+	}
+
+	/**
+	 * Method setButtonClass
+	 * @access public
+	 * @return Authentication
+	 * @since 1.1.11
+	 */
+	public function setButtonClass() {
+		$this->button_class = $button_class;
+		
+		$this->createRender(false);
+		return $this;
+	}
+	
+	/**
+	 * Method setTableStyle
+	 * @access public
+	 * @return Authentication
+	 * @since 1.1.11
+	 */
+	public function setTableStyle() {
+		$this->table_style = $table_style;
+		
+		$this->createRender(false);
+		return $this;
+	}
+	
+	/**
+	 * Method createRender
+	 * @access private
+	 * @param boolean $first_time [default value: true]
+	 * @since 1.1.11
+	 */
+	private function createRender($first_time=true) {
 		$table_main = new Table();
-		$table_main->setClass($table_style);
+		$table_main->setClass($this->table_style);
 		
-		$form = new Form($this->page_object);
-		if ($encrypt && extension_loaded('openssl')) {
-			$form->setEncryptObject(new EncryptDataWspObject("wsp-authentication"));
+		if ($first_time) {
+			$this->form = new Form($this->page_object);
+			
+			$this->error_obj = new Object();
+			$this->error_obj->setId("wsp_auth_IdErrorMsg");
+			
+			$this->login = new TextBox($this->form, "wsp_auth_login");
+			$login_validation = new LiveValidation();
+			$this->login->setLiveValidation($login_validation->addValidatePresence()->setFieldName(__(AUTHENTICATION_LOGIN)));
+			$this->login->setFocus()->setStripTags();
+			
+			$this->password = new Password($this->form, "wsp_auth_passwd");
+			$passwd_validation = new LiveValidation();
+			$this->password->setLiveValidation($passwd_validation->addValidatePresence()->setFieldName(__(AUTHENTICATION_PASSWD)));
+			$this->password->setStripTags();
+			
+			$this->connect_button = new Button($this->form, "wsp_auth_connect", "", __(AUTHENTICATION_CONNECT));
+			$this->hdnReferer = new Hidden($this->form, "wsp_auth_referer");
 		}
 		
-		$this->error_obj = new Object();
-		$this->error_obj->setId("wsp_auth_IdErrorMsg");
-		
-		$this->login = new TextBox($form, "wsp_auth_login");
-		$login_validation = new LiveValidation();
-		$this->login->setLiveValidation($login_validation->addValidatePresence()->setFieldName(__(AUTHENTICATION_LOGIN)));
-		$this->login->setFocus()->setStripTags();
-		
-		$this->password = new Password($form, "wsp_auth_passwd");
-		$passwd_validation = new LiveValidation();
-		$this->password->setLiveValidation($passwd_validation->addValidatePresence()->setFieldName(__(AUTHENTICATION_PASSWD)));
-		$this->password->setStripTags();
-		
-		$this->connect_button = new Button($form, "wsp_auth_connect", "", __(AUTHENTICATION_CONNECT));
-		if ($button_class != '') {
-			$this->connect_button->setClass($button_class);
+		if ($this->encrypt && extension_loaded('openssl')) {
+			$this->form->setEncryptObject(new EncryptDataWspObject("wsp-authentication"));
+		} else {
+			$this->form->disableEncryptObject();
 		}
-		$this->connect_button->assignEnterKey()->onClick($connect_method)->setAjaxEvent();
 		
-		if ($style == Authentication::STYLE_2_LINES) {
+		if ($this->button_class != '') {
+			$this->connect_button->setClass($this->button_class);
+		}
+		$this->connect_button->assignEnterKey()->onClick($this->connect_method)->setAjaxEvent();
+		
+		if ($this->style == Authentication::STYLE_2_LINES) {
 			$table_main->addRow($this->error_obj)->setColspan(2)->setAlign(RowTable::ALIGN_CENTER);
 			
 			$table_main->addRowColumns(__(AUTHENTICATION_LOGIN).":&nbsp;", $this->login)->setColumnWidth(2, "100%")->setNowrap();
 			$table_main->addRowColumns(__(AUTHENTICATION_PASSWD).":&nbsp;", $this->password)->setNowrap();
 			$table_main->addRow();
 			$table_main->addRow($this->connect_button)->setColspan(2);
-		} else if ($style == Authentication::STYLE_2_LINES_NO_TEXT) {
+		} else if ($this->style == Authentication::STYLE_2_LINES_NO_TEXT) {
 			$table_main->addRow($this->error_obj)->setAlign(RowTable::ALIGN_CENTER);
 			
 			$this->login->setValue(__(AUTHENTICATION_LOGIN));
@@ -112,13 +197,13 @@ class Authentication extends WebSitePhpObject {
 			$table_main->addRowColumns($this->password)->setNowrap();
 			$table_main->addRow();
 			$table_main->addRow($this->connect_button);
-		} else if ($style == Authentication::STYLE_1_LINE) {
+		} else if ($this->style == Authentication::STYLE_1_LINE) {
 			$table_main->addRow($this->error_obj)->setColspan(5)->setAlign(RowTable::ALIGN_CENTER);
 			
 			$table_main->addRowColumns(new Object(__(AUTHENTICATION_LOGIN), ":<br/>", $this->login->setFocus()), "&nbsp;", 
 										new Object(__(AUTHENTICATION_PASSWD), ":<br/>", $this->password), "&nbsp;", 
 										$this->connect_button)->setNowrap();
-		} else if ($style == Authentication::STYLE_1_LINE_NO_TEXT) {
+		} else if ($this->style == Authentication::STYLE_1_LINE_NO_TEXT) {
 			$table_main->addRow($this->error_obj)->setColspan(3)->setAlign(RowTable::ALIGN_CENTER);
 			
 			$this->login->setValue(__(AUTHENTICATION_LOGIN));
@@ -131,13 +216,12 @@ class Authentication extends WebSitePhpObject {
 										$this->connect_button)->setNowrap();
 		}
 		
-		$this->hdnReferer = new Hidden($form, "wsp_auth_referer");
 		if (isset($_GET['referer'])) {
 			$this->hdnReferer->setValue(trim($_GET['referer']));
 		}
 		
-		$form->setContent(new Object($table_main, $this->hdnReferer));
-		$this->render = $form;
+		$this->form->setContent(new Object($table_main, $this->hdnReferer));
+		$this->render = $this->form;
 	}
 	
 	/**
@@ -157,7 +241,7 @@ class Authentication extends WebSitePhpObject {
 	 * @since 1.0.84
 	 */
 	public function getPassword() {
-		return $this->passwd->getValue();
+		return $this->password->getValue();
 	}
 	
 	/**
@@ -187,47 +271,61 @@ class Authentication extends WebSitePhpObject {
 	}
 	
 	/**
-	 * Method wspAdminConnect
+	 * Method connect
 	 * @access public
 	 * @param boolean $redirect [default value: true]
 	 * @param string $redirect_url [default value: REFERER]
-	 * @since 1.0.84
+	 * @return boolean
+	 * @since 1.1.11
 	 */
-	public function wspAdminConnect($redirect=true, $redirect_url='REFERER') {
-		require_once(dirname(__FILE__)."/../../../config/config_admin.inc.php");
+	public function connect($redirect=true, $redirect_url='REFERER') {
 		require_once(dirname(__FILE__)."/../../../../pages/".WSP_ADMIN_URL."/includes/utils-users.inc.php");
 		
-		list($strAdminLogin, $strAdminPasswd, $strAdminRights) = getWspUserRightsInfo($this->login->getValue());
+		list($strAdminLogin, $strAdminPasswd, $strUserRights) = getWspUserRightsInfo($this->getLogin());
 		
-		if ($strAdminLogin != "" && $strAdminLogin == $this->login->getValue() && $strAdminPasswd == sha1($this->password->getValue())) {
-			$this->page_object->setUserRights($strAdminRights);
-			$_SESSION['wsp-login'] = $this->login->getValue();
-			if ($redirect) {
-				if ($this->authentication_msg) {
-					$str_msg = new Label(__(AUTHENTICATION_LOGIN_OK_REDIRECT));
-					$str_msg->setStyle("text-shadow:#888888 1px 1px 1px;");
-					$this->error_obj->add($str_msg->setColor($this->color_ok));
-				}
-				if ($redirect_url == "") {
-					$this->page_object->redirect($this->page_object->getBaseLanguageURL().WSP_ADMIN_URL."/admin.html");
-				} else if (strtoupper($redirect_url) == "REFERER") {
-					if ($this->hdnReferer->getValue() != "") {
-						$this->page_object->redirect($this->hdnReferer->getValue());
-					} else {
-						$this->page_object->redirect($this->page_object->getBaseLanguageURL().WSP_ADMIN_URL."/admin.html");
-					}
-				} else {
-					$this->page_object->redirect($redirect_url);
-				}
-			} else if ($this->authentication_msg) {
-				$str_msg = new Label(__(AUTHENTICATION_LOGIN_OK));
-				$str_msg->setStyle("text-shadow:#888888 1px 1px 1px;");
-				$this->error_obj->add($str_msg->setColor($this->color_ok));
-			}
+		if ($strAdminLogin != "" && $strAdminLogin == $this->getLogin() && $strAdminPasswd == sha1($this->getPassword())) {
+			$this->userIsAuthentificated($strUserRights, $redirect, $redirect_url);
 		} else if ($this->authentication_msg) {
 			$str_msg = new Label(__(AUTHENTICATION_ERROR_LOGIN_PASS));
 			$str_msg->setStyle("text-shadow:#888888 1px 1px 1px;");
 			$this->error_obj->add($str_msg->setColor($this->color_error));
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Method userIsAuthentificated
+	 * @access protected
+	 * @param mixed $strUserRights 
+	 * @param mixed $redirect 
+	 * @param mixed $redirect_url 
+	 * @since 1.1.11
+	 */
+	protected function userIsAuthentificated($strUserRights, $redirect, $redirect_url) {
+		$this->page_object->setUserRights($strUserRights);
+		$_SESSION['wsp-login'] = $this->getLogin();
+		if ($redirect) {
+			if ($this->authentication_msg) {
+				$str_msg = new Label(__(AUTHENTICATION_LOGIN_OK_REDIRECT));
+				$str_msg->setStyle("text-shadow:#888888 1px 1px 1px;");
+				$this->error_obj->add($str_msg->setColor($this->color_ok));
+			}
+			if ($redirect_url == "") {
+				$this->page_object->redirect($this->page_object->getBaseLanguageURL().WSP_ADMIN_URL."/admin.html");
+			} else if (strtoupper($redirect_url) == "REFERER") {
+				if ($this->getReferer() != "") {
+					$this->page_object->redirect($this->getReferer());
+				} else {
+					$this->page_object->redirect($this->page_object->getBaseLanguageURL().WSP_ADMIN_URL."/admin.html");
+				}
+			} else {
+				$this->page_object->redirect($redirect_url);
+			}
+		} else if ($this->authentication_msg) {
+			$str_msg = new Label(__(AUTHENTICATION_LOGIN_OK));
+			$str_msg->setStyle("text-shadow:#888888 1px 1px 1px;");
+			$this->error_obj->add($str_msg->setColor($this->color_ok));
 		}
 	}
 	

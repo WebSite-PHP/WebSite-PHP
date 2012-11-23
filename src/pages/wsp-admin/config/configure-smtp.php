@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.11
  * @access      public
  * @since       1.0.25
  */
@@ -24,7 +24,7 @@
 require_once(dirname(__FILE__)."/../includes/admin-template-form.inc.php");
 
 class ConfigureSmtp extends Page {
-	protected $USER_RIGHTS = "administrator";
+	protected $USER_RIGHTS = Page::RIGHTS_ADMINISTRATOR;
 	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/connect.html";
 	
 	private $edtHost = null;

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.10
+ * @version     1.1.11
  * @access      public
  * @since       1.0.17
  */
@@ -813,7 +813,13 @@ class TextBox extends WebSitePhpEventObject {
 		$html = "";
 		if ($this->object_change && !$this->is_new_object_after_init) {
 			if ($this->isChanged() || $this->getValue() != $this->default_value || ($this->force_empty && $this->getValue() == "")) {
-				$html .= "$('#".$this->id."').val(\"".str_replace('"', '\\"', $this->getValue())."\");\n";
+				$html .= "$('#".$this->id."').val(\"";
+				if (get_class($this) == "Calendar") {
+					$html .= str_replace('"', '\\"', $this->getValueStr());
+				} else {
+					$html .= str_replace('"', '\\"', $this->getValue());
+				}
+				$html .= "\");\n";
 			}
 			$html .= "$('#".$this->id."').css('width', \"";
 			if (is_integer($this->width)) {

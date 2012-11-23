@@ -38,5 +38,5 @@
 	define("UPDATE_FRAMEWORK_YES", "Yes");
 	define("UPDATE_FRAMEWORK_NO", "No");
 	
-	define("PAGE_IN_CONSTRUCTION", "Page in construction, <a href=\"http://www.website-php.com/contact.html\">contact us</a> if you have suggestions or see some errors.");
+	define("PAGE_IN_CONSTRUCTION", "Page under construction, <a href=\"http://www.website-php.com/contact.html\">contact us</a> if you have suggestions or see some errors.");
 ?>

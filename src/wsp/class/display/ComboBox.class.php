@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.8
+ * @version     1.1.11
  * @access      public
  * @since       1.0.17
  */
@@ -271,6 +271,7 @@ class ComboBox extends WebSitePhpEventObject {
 		}
 		if (isset($this->item_value[$index])) {
 			$this->item_selected = $index;
+			$this->item_loaded = true;
 			if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		}
 		return $this;

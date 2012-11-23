@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.11
  * @access      public
  * @since       1.0.17
  */
@@ -95,7 +95,7 @@ class CheckBox extends WebSitePhpEventObject {
 	public function activateOnOffStyle() {
 		$this->on_off_style = true;
 		
-		JavaScriptInclude::getInstance()->addToEnd(BASE_URL."wsp/js/iphone-style-checkboxes.js", "", true);
+		JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/iphone-style-checkboxes.js", "", true);
 		CssInclude::getInstance()->add(BASE_URL."wsp/css/iphone-style-checkboxes.css", "", true);
 		
 		return $this;

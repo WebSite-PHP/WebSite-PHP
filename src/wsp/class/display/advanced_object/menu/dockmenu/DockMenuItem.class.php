@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.11
  * @access      public
  * @since       1.0.17
  */
@@ -77,17 +77,21 @@ class DockMenuItem extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		$html = "";
+		$item_link = createHrefLink($this->link);
 		
-		if (gettype($this->img) == "object" && get_class($this->img) == "Picture") {
-			$this->img = $this->img->getSrc();
-		}
-		if (strtoupper(substr($this->img, 0, 7)) != "HTTP://" && strtoupper(substr($this->img, 0, 8)) != "HTTPS://") {
-			$this->img = BASE_URL.$this->img;
+		if ($item_link != "") {
+			if (gettype($this->img) == "object" && get_class($this->img) == "Picture") {
+				$this->img = $this->img->getSrc();
+			}
+			if (strtoupper(substr($this->img, 0, 7)) != "HTTP://" && strtoupper(substr($this->img, 0, 8)) != "HTTPS://") {
+				$this->img = BASE_URL.$this->img;
+			}
+			
+			$html .= "<a href=\"".$item_link."\">"; 
+			$html .= "<img src=\"".$this->img."\" border=\"0\" alt=\"".str_replace("\"", " ", $this->value)."\" title=\"".str_replace("\"", " ", $this->value)."\" />";
+			$html .= "</a>\n";
 		}
 		
-		$html .= "<a href=\"".createHrefLink($this->link)."\">"; 
-		$html .= "<img src=\"".$this->img."\" border=\"0\" alt=\"".str_replace("\"", " ", $this->value)."\" title=\"".str_replace("\"", " ", $this->value)."\" />";
-		$html .= "</a>\n";
 		$this->object_change = false;
 		return $html;
 	}

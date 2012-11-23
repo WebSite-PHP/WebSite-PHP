@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.9
+ * @version     1.1.11
  * @access      public
  * @since       1.0.0
  */
@@ -109,6 +109,17 @@ class Page {
 	const OPENGRAPH_TYPE_ARTICLE = "article";
 	const OPENGRAPH_TYPE_BLOG = "blog";
 	const OPENGRAPH_TYPE_WEBSITE = "website";
+	/**#@-*/
+	
+	/**#@+
+	* Page Rights
+	* @access public
+	* @var string
+	*/
+	const RIGHTS_ADMINISTRATOR = "administrator";
+	const RIGHTS_MODERATOR = "moderator";
+	const RIGHTS_AUTH_USER = "auth_user";
+	const RIGHTS_GUEST = "guest";
 	/**#@-*/
 	
 	/**#@+
@@ -426,7 +437,7 @@ class Page {
 		// add stretch fixe background
 		CssInclude::getInstance()->loadCssConfigFileInMemory(false);
 		if (!$this->isAjaxLoadPage() && !$this->isAjaxPage() && 
-			defined('DEFINE_STYLE_BCK_BODY_PIC_POSITION') && DEFINE_STYLE_BCK_BODY_PIC_POSITION == "STRETCH" &&
+			defined('DEFINE_STYLE_BCK_BODY_PIC_POSITION') && strtoupper(DEFINE_STYLE_BCK_BODY_PIC_POSITION) == "STRETCH" &&
 			defined('DEFINE_STYLE_BCK_BODY_PIC') && DEFINE_STYLE_BCK_BODY_PIC_POSITION != "") {
 				JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery.backstretch.min.js", "", true);
 				$background_body_pic = "";
@@ -1196,7 +1207,10 @@ class Page {
 		$user_rights = $this->USER_RIGHTS;
 		if (isset($user_rights) && $user_rights != "") {
 			if (isset($_SESSION['USER_RIGHTS']) && $_SESSION['USER_RIGHTS'] != "") {
-				if (find($user_rights, $_SESSION['USER_RIGHTS'], 1, 0) > 0) {
+				if (!is_array($user_rights)) {
+					$user_rights = array($user_rights);
+				}
+				if (in_array($_SESSION['USER_RIGHTS'], $user_rights)) {
 					return true;
 				}
 			}

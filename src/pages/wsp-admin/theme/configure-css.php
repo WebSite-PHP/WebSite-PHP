@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.11
  * @access      public
  * @since       1.0.25
  */
@@ -24,7 +24,7 @@
 require_once(dirname(__FILE__)."/../includes/admin-template-form.inc.php");
 
 class ConfigureCss extends Page {
-	protected $USER_RIGHTS = "administrator";
+	protected $USER_RIGHTS = Page::RIGHTS_ADMINISTRATOR;
 	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/connect.html";
 	
 	private $array_font = array('body', 'form', 'blockquote', 'p', 'h1', 'h2,h3,h4,h5,h6', 'a,.link', 'a:hover,.link:hover', 'td');
@@ -217,9 +217,9 @@ class ConfigureCss extends Page {
 		
 		$this->nb_define_style_bck = new ComboBox($form);
 		for ($i=1; $i<=99; $i++) {
-			$this->nb_define_style_bck->addItem($i, $i, ($i==NB_DEFINE_STYLE_BCK?true:false));
+			$this->nb_define_style_bck->addItem($i, $i, (!$this->nb_define_style_bck->isChanged() && $i==NB_DEFINE_STYLE_BCK?true:false));
 		}
-		$this->nb_define_style_bck->onChange("changeNbDefineStyleBck")->disableAjaxWaitMessage()->setAjaxEvent();
+		$this->nb_define_style_bck->onChange("changeNbDefineStyleBck")->setAjaxEvent();
 		$this->nb_define_style_bck->onFormIsChangedJs("alert('".__(WARNING_CHANGE_PLEASE_SAVE)."');return false;", true);
 		$table_form->addRowColumns(__(CMB_NB_PREDEFINE_STYLE).":&nbsp;", $this->nb_define_style_bck->setWidth(50));
 		
@@ -237,10 +237,6 @@ class ConfigureCss extends Page {
 		$table_form->addRowColumns(__(CMB_CURRENT_PREDEFINE_STYLE).":&nbsp;", $this->current_style_display->setWidth(50));
 		
 		$this->current_style_val = $this->current_style_display->getValue();
-		if ($this->nb_define_style_bck->getValue() > NB_DEFINE_STYLE_BCK) {
-			$this->file_style_css = "styles.php.css?wspadmin_nb_define_style=".$this->nb_define_style_bck->getValue();
-			$this->file_angle_css = "angle.php.css?wspadmin_nb_define_style=".$this->nb_define_style_bck->getValue();
-		}
 		
 		for ($i=1; $i <= $this->nb_define_style_bck->getValue(); $i++) {
 			$this->array_round_box_1[] = '.AngleRond'.$i;
@@ -363,7 +359,7 @@ class ConfigureCss extends Page {
 		
 		$this->example_obj = new Object();
 		$this->example_obj->setId("idExamplesObject");
-		if (!$this->current_style_display->isChanged()) {
+		if (!$this->current_style_display->isChanged() || $btnValidate->isClicked()) {
 			$this->example_obj->add($this->createExamples());
 		}
 		
@@ -419,18 +415,18 @@ class ConfigureCss extends Page {
 				$data_config_file .= "define(\"DEFINE_STYLE_GRADIENT_".$i."\", ".($this->style_gradient->isChecked()?"true":"false").");\n";
 				$data_config_file .= "define(\"DEFINE_STYLE_OMBRE_COLOR_".$i."\", \"".str_replace("\"", "\\\"", $this->color_shadow->getValue())."\");\n";
 			} else {
-				$data_config_file .= "define(\"DEFINE_STYLE_BCK_".$i."_HEADER\", \"".(defined("DEFINE_STYLE_BCK_".$i."_HEADER")?constant("DEFINE_STYLE_BCK_".$i."_HEADER"):"")."\"); // If DEFINE_STYLE_BCK_PICTURE_1 is defined, DEFINE_STYLE_BCK_1_HEADER not use for Box object\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_BCK_".$i."_HEADER\", \"".(defined("DEFINE_STYLE_BCK_".$i."_HEADER")?constant("DEFINE_STYLE_BCK_".$i."_HEADER"):"#000000")."\"); // If DEFINE_STYLE_BCK_PICTURE_1 is defined, DEFINE_STYLE_BCK_1_HEADER not use for Box object\n";
 				$data_config_file .= "define(\"DEFINE_STYLE_BCK_PICTURE_".$i."\", \"".(defined("DEFINE_STYLE_BCK_PICTURE_".$i)?constant("DEFINE_STYLE_BCK_PICTURE_".$i):"")."\"); // ex : ../wsp/img/round_bgd/round_bgd.png (please use the default file wsp/img/round_bgd/round_bgd.png to create your own background)\n";
-				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_HEADER\", \"".(defined("DEFINE_STYLE_COLOR_".$i."_HEADER")?constant("DEFINE_STYLE_COLOR_".$i."_HEADER"):"")."\");\n";
-				$data_config_file .= "define(\"DEFINE_STYLE_BCK_".$i."\", \"".(defined("DEFINE_STYLE_BCK_".$i)?constant("DEFINE_STYLE_BCK_".$i):"")."\");\n";
-				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."\", \"".(defined("DEFINE_STYLE_COLOR_".$i)?constant("DEFINE_STYLE_COLOR_".$i):"")."\");\n";
-				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_LINK\", \"".(defined("DEFINE_STYLE_COLOR_".$i."_LINK")?constant("DEFINE_STYLE_COLOR_".$i."_LINK"):"")."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_HEADER\", \"".(defined("DEFINE_STYLE_COLOR_".$i."_HEADER")?constant("DEFINE_STYLE_COLOR_".$i."_HEADER"):"#BFBFBF")."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_BCK_".$i."\", \"".(defined("DEFINE_STYLE_BCK_".$i)?constant("DEFINE_STYLE_BCK_".$i):"#FFFFFF")."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."\", \"".(defined("DEFINE_STYLE_COLOR_".$i)?constant("DEFINE_STYLE_COLOR_".$i):"#000000")."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_LINK\", \"".(defined("DEFINE_STYLE_COLOR_".$i."_LINK")?constant("DEFINE_STYLE_COLOR_".$i."_LINK"):"#4D4D4D")."\");\n";
 				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_LINK_HOVER\", \"".(defined("")?constant(""):"")."\");\n";
-				$data_config_file .= "define(\"DEFINE_STYLE_BORDER_TABLE_".$i."\", \"".(defined("DEFINE_STYLE_BORDER_TABLE_".$i)?constant("DEFINE_STYLE_BORDER_TABLE_".$i):"")."\");\n";
-				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_HEADER_LINK\", \"".(defined("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK")?constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK"):"")."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_BORDER_TABLE_".$i."\", \"".(defined("DEFINE_STYLE_BORDER_TABLE_".$i)?constant("DEFINE_STYLE_BORDER_TABLE_".$i):"#000000")."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_HEADER_LINK\", \"".(defined("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK")?constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK"):"#C2C2C2")."\");\n";
 				$data_config_file .= "define(\"DEFINE_STYLE_COLOR_".$i."_HEADER_LINK_HOVER\", \"".(defined("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK_HOVER")?constant("DEFINE_STYLE_COLOR_".$i."_HEADER_LINK_HOVER"):"")."\");\n";
 				$data_config_file .= "define(\"DEFINE_STYLE_GRADIENT_".$i."\", ".(defined("DEFINE_STYLE_GRADIENT_".$i)?(constant("DEFINE_STYLE_GRADIENT_".$i)?"true":"false"):"false").");\n";
-				$data_config_file .= "define(\"DEFINE_STYLE_OMBRE_COLOR_".$i."\", \"".(defined("DEFINE_STYLE_OMBRE_COLOR_".$i)?constant("DEFINE_STYLE_OMBRE_COLOR_".$i):"")."\");\n";
+				$data_config_file .= "define(\"DEFINE_STYLE_OMBRE_COLOR_".$i."\", \"".(defined("DEFINE_STYLE_OMBRE_COLOR_".$i)?constant("DEFINE_STYLE_OMBRE_COLOR_".$i):"#000000")."\");\n";
 			}
 			$data_config_file .= "\n";
 		}
@@ -675,6 +671,8 @@ class ConfigureCss extends Page {
 		if ($this->isCss3Browser()) {
 			if ($this->getBrowserName() == "Firefox") {
 				$this->changeStyleSheetProperty($this->file_angle_css, array('.Css3GradientBoxTitle'.$this->current_style_val), "background", "-moz-linear-gradient(90deg, ".$this->background_1_header->getValue()." 70%, ".$this->border_table_1->getValue()." 100%);");
+			} else if ($this->getBrowserName() == "Chrome") {
+				$this->changeStyleSheetProperty($this->file_angle_css, array('.Css3GradientBoxTitle'.$this->current_style_val), "background-image", "-webkit-gradient(linear, left bottom, left top, color-stop(0.7,".$this->background_1_header->getValue()."), color-stop(1,".$this->border_table_1->getValue()."));");
 			} else {
 				$this->changeStyleSheetProperty($this->file_angle_css, array('.Css3GradientBoxTitle'.$this->current_style_val), "background", "-webkit-gradient(linear, left top, left bottom, from(".$this->background_1_header->getValue()."), to(".$this->border_table_1->getValue()."));");
 				$this->changeStyleSheetProperty($this->file_angle_css, array('.Css3GradientBoxTitle'.$this->current_style_val), "background-image", "-webkit-gradient(linear, left bottom, left top, color-stop(0.7,".$this->background_1_header->getValue()."), color-stop(1,".$this->border_table_1->getValue()."));");
@@ -825,28 +823,11 @@ class ConfigureCss extends Page {
 	
 	public function changeNbDefineStyleBck($sender) {
 		$this->current_style_display->setListItemsChange();
-		
-		if ($this->nb_define_style_bck->getValue() > NB_DEFINE_STYLE_BCK) {
-			$this->addObject(new JavaScript("loadDynamicCSS('".BASE_URL."combine-css/styles.php.css?wspadmin_nb_define_style=".$this->nb_define_style_bck->getValue()."');"));
-			$this->addObject(new JavaScript("loadDynamicCSS('".BASE_URL."combine-css/angle.php.css?wspadmin_nb_define_style=".$this->nb_define_style_bck->getValue()."');"));
-		}
 	}
 	
 	public function changeCurrentStyleBck($sender) {
 		$this->css_config_obj->add(); // tips to refresh all object
-		
-		if ($this->current_style_display->getValue() > NB_DEFINE_STYLE_BCK) {
-			$style_val_init = 1;
-			
-			if (!defined('DEFINE_STYLE_BCK_'.$this->current_style_display->getValue())) {
-				define('DEFINE_STYLE_BCK_'.$this->current_style_display->getValue(), constant('DEFINE_STYLE_BCK_'.$style_val_init));
-			}
-			if (!defined('DEFINE_STYLE_COLOR_'.$this->current_style_display->getValue())) {
-				define('DEFINE_STYLE_COLOR_'.$this->current_style_display->getValue(), constant('DEFINE_STYLE_COLOR_'.$style_val_init));
-			}
-		} else {
-			$style_val_init = $this->current_style_val;
-		}
+		$style_val_init = $this->current_style_val;
 		
 		$this->background_picture_1->setValue(str_replace("../img/", "img/", str_replace("../wsp/img/", "wsp/img/", constant("DEFINE_STYLE_BCK_PICTURE_".$style_val_init))));
 		$this->background_1_header->setValue(constant("DEFINE_STYLE_BCK_".$style_val_init."_HEADER"));

@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.11
  * @access      public
  * @since       1.0.17
  */
@@ -104,30 +104,36 @@ class MenuItem extends WebSitePhpObject {
 	 * @since 1.0.35
 	 */
 	public function render($ajax_render=false) {
-		$html = "\t<li";
-		if ($this->current) {
-			$html .= " class=\"current\"";
-		}
-		$html .= ">";
-		$html .= "<a ";
-		if ($this->menu_items != null && sizeof($this->menu_items) > 0) {
-			$html .= "class=\"sf-with-ul\" ";
-		} 
-		$html .= "href=\"".createHrefLink($this->link)."\" style=\"white-space: nowrap;\">";
-		if ($this->img != "") {
-			if (gettype($this->img) != "object") {
-				$this->img = new Picture($this->img);
-				$this->img->setAlign(Picture::ALIGN_ABSMIDDLE);
+		$html = "";
+		$item_link = createHrefLink($this->link);
+		
+		if ($item_link != "") {
+			$html = "\t<li";
+			if ($this->current) {
+				$html .= " class=\"current\"";
 			}
-			$html .= str_replace("\n", "", str_replace("\r", "", $this->img->render()))."&nbsp;";
+			$html .= ">";
+			$html .= "<a ";
+			if ($this->menu_items != null && sizeof($this->menu_items) > 0) {
+				$html .= "class=\"sf-with-ul\" ";
+			} 
+			$html .= "href=\"".$item_link."\" style=\"white-space: nowrap;\">";
+			if ($this->img != "") {
+				if (gettype($this->img) != "object") {
+					$this->img = new Picture($this->img);
+					$this->img->setAlign(Picture::ALIGN_ABSMIDDLE);
+				}
+				$html .= str_replace("\n", "", str_replace("\r", "", $this->img->render()))."&nbsp;";
+			}
+			$html .= $this->value."</a>";
+			
+			if ($this->menu_items != null && sizeof($this->menu_items) > 0) {
+				$html .= "\n".$this->menu_items->render();
+			}
+			
+			$html .= "</li>\n";
 		}
-		$html .= $this->value."</a>";
 		
-		if ($this->menu_items != null && sizeof($this->menu_items) > 0) {
-			$html .= "\n".$this->menu_items->render();
-		}
-		
-		$html .= "</li>\n";
 		$this->object_change = false;
 		return $html;
 	}

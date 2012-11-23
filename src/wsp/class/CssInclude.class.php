@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.11
  * @access      public
  * @since       1.0.23
  */
@@ -73,7 +73,7 @@ class CssInclude {
 	 * Constructor CssInclude
 	 */
 	function __construct() {
-		if (!isset($_SESSION['wspCssConfigFile'])) {
+		if (!isset($_SESSION['wspCssConfigFile']) || $GLOBALS['__AJAX_PAGE__'] == false) {
 			$_SESSION['wspCssConfigFile'] = "";
 		}
 	}

@@ -47,10 +47,11 @@
 					$server_browscap_version = $client->getBrowscapVersionNumber();
 				}
 			} else {
-				$http = new Http();
+				/*$http = new Http();
 				$http->setTimeout(2);
 				$http->execute("http://browsers.garykeith.com/versions/version-number.asp");
-				$server_browscap_version = $http->getResult();
+				$server_browscap_version = $http->getResult();*/
+				$server_browscap_version = "";
 			}
 			if (trim($server_browscap_version) != "") {
 				$_SESSION['server_browscap_version'] = $server_browscap_version;

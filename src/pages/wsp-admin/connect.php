@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.10
+ * @version     1.1.11
  * @access      public
  * @since       1.0.25
  */
@@ -148,7 +148,7 @@ class Connect extends Page {
 					$_SESSION['user_try_connect_wsp_admin'] = true;
 			}
 		}
-		$this->auth_obj->wspAdminConnect();
+		$this->auth_obj->connect();
 	}
 }
 ?>
