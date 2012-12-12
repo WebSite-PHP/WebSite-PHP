@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.11
+ * @version     1.1.12
  * @access      public
  * @since       1.0.25
  */
@@ -59,7 +59,7 @@ class ConfigureSmtp extends Page {
 		$table_form->addRowColumns(__(EDT_PORT).":&nbsp;", $this->edtPort->setLiveValidation($edtPortValidation->addValidateNumericality(true)->setFieldName(__(EDT_PORT))), "&nbsp;(465)");
 		
 		$this->edtName = new TextBox($form);
-		$this->edtName->setValue(SMTP_NAME);
+		$this->edtName->setValue(utf8encode(SMTP_NAME));
 		$edtNameValidation = new LiveValidation();
 		$table_form->addRowColumns(__(EDT_NAME).":&nbsp;", $this->edtName->setLiveValidation($edtNameValidation->addValidatePresence()->setFieldName(__(EDT_NAME))), "&nbsp;(Robert Francis)");
 		

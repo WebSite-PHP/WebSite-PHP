@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.12
  * @access      public
  * @since       1.0.18
  */
@@ -34,16 +34,16 @@ class ErrorDebug extends Page {
 		if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
 			find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0) {
 				if ($this->is_trace) {// standard msg "administrator is notified"
-					parent::$PAGE_TITLE = __(ERROR)." - ".SITE_NAME;
+					parent::$PAGE_TITLE = __(ERROR)." - ".__(SITE_NAME);
 					$box_title = __(ERROR);
 					$debug_msg = __(ERROR_DEBUG_MAIL_SENT);
 				} else {  // no trace in the debug information
-					parent::$PAGE_TITLE = "Debug error - ".SITE_NAME;
+					parent::$PAGE_TITLE = "Debug error - ".__(SITE_NAME);
 					$box_title = "Debug error";
 					$debug_msg = $_POST['debug'];
 				}
 		} else {
-			parent::$PAGE_TITLE = "Debug error - ".SITE_NAME;
+			parent::$PAGE_TITLE = "Debug error - ".__(SITE_NAME);
 			$box_title = "Debug error";
 			$debug_msg = $_POST['debug'];
 		}
@@ -62,7 +62,7 @@ class ErrorDebug extends Page {
 		
 		$obj_error_msg->add("<b>Consult <a href=\"http://www.php.net\" target=\"_blank\">PHP</a> or <a href=\"http://www.website-php.com\" target=\"_blank\">WebSite-PHP</a> documentations.</b>", "<br/>");
 		
-		$obj_error_msg->add("<br/><br/>", "Go back to the main page", new Link(BASE_URL, Link::TARGET_NONE, SITE_NAME));
+		$obj_error_msg->add("<br/><br/>", "Go back to the main page", new Link(BASE_URL, Link::TARGET_NONE, __(SITE_NAME)));
 		
 		$this->render = new ErrorTemplate($obj_error_msg, $box_title);
 		

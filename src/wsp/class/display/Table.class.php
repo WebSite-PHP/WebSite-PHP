@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.8
+ * @version     1.1.12
  * @access      public
  * @since       1.0.17
  */
@@ -327,7 +327,7 @@ class Table extends WebSitePhpObject {
 	 * @since 1.0.36
 	 */
 	public function setId($id) {
-		$this->id = $id;
+		$this->id = str_replace("-", "_", $id);
 		return $this;
 	}
 		
@@ -494,7 +494,6 @@ class Table extends WebSitePhpObject {
 			}
 		}
 		$this->from_sql_data_view_properties = $properties;
-		
 		$list_attribute = $sql->getListAttributeArray();
 		
 		// Define header
@@ -520,10 +519,35 @@ class Table extends WebSitePhpObject {
 				$row_table->setHeaderClass($this->class);
 				$is_table_defined_style = true;
 			}
+		} else if ($delete || $insert) {
+			$row_table = $this->rows[0];
+			$row_table->add();
 		}
 		
 		$key_attributes = $sql->getPrimaryKeysAttributes();
+		// check if all the fields of sql object are in the SQL attributes
+		$list_attribute_change = false;
+		$auto_hide_field_from = -1;
+		$all_list_attributes = $sql->getDbTableObject()->getDbTableAttributes();
+		for ($i=0; $i < sizeof($all_list_attributes); $i++) {
+			if (!in_array($all_list_attributes[$i], $list_attribute)) {
+				$tmp_list_attribute = $sql->getCustomFields();
+				$tmp_list_attribute .= ", `".$sql->getDbTableObject()->getDbTableName()."`.`".$all_list_attributes[$i]."`";
+				$sql->setCustomFields($tmp_list_attribute);
+				if ($auto_hide_field_from == -1) {
+					$auto_hide_field_from = sizeof($list_attribute);
+				}
+			}
+		}
+		if ($auto_hide_field_from != -1) {
+			$list_attribute = $sql->getListAttributeArray();
+			for ($i=$auto_hide_field_from; $i < sizeof($list_attribute); $i++) {
+				$properties[$list_attribute[$i]]["display"] = false;
+			}
+		}
 		$list_attribute_type = $sql->getListAttributeTypeArray();
+		$auto_increment_id = $sql->getDbTableObject()->getDbTableAutoIncrement();
+		$this->from_sql_data_view_properties = $properties;
 		
 		// create empty row (ack to keep correct order of the table)
 		$row_table = new RowTable();
@@ -553,8 +577,8 @@ class Table extends WebSitePhpObject {
 						continue;
 				}
 				
-				if (!in_array($list_attribute[$i], $key_attributes)) {
-					$input_obj = $this->createDbAttributeObject(null, $list_attribute, $list_attribute_type, $i, "");
+				if ($list_attribute[$i] != $auto_increment_id) {
+					$input_obj = $this->createDbAttributeObject(null, $list_attribute, $list_attribute_type, $i, "", $key_attributes);
 					$row_table->add($input_obj);
 				} else {
 					$row_table->add();
@@ -616,10 +640,13 @@ class Table extends WebSitePhpObject {
 					$key_str = strtolower(url_rewrite_format($key_str));
 				} catch (Exception $ex) {
 					if ($insert || $update || $delete) {
-						throw new NewException(get_class($this)."->loadFromSqlDataView() error: \$properties need to include primary key of the table if you want to use inser, update or delete feature", 0, getDebugBacktrace(1));
+						throw new NewException(get_class($this)."->loadFromSqlDataView() error: \$properties need to include primary key of the table if you want to use insert, update or delete feature", 0, getDebugBacktrace(1));
 					} else {
 						$key_str = $ind;
 					}
+				}
+				if ($key_str == "") {
+					throw new NewException(get_class($this)."->loadFromSqlDataView() error: The system can't create empty key for row (key is created by the attribute(s): ".implode(", ",$key_attributes).")", 0, getDebugBacktrace(1));
 				}
 			}
 			$this->from_sql_data_view_data_row_array[$key_str] = $row;
@@ -628,10 +655,7 @@ class Table extends WebSitePhpObject {
 				$deleted_ind = -1;
 				$ind--;
 			} else {
-				$row_table = $this->addRowLoadFromSqlDataView($row, $list_attribute, $list_attribute_type, $key_attributes, $key_str, $is_delete_action);
-				if ($this->is_advance_table) {
-					$row_table->setRowClass(($ind%2==0?"odd":"even"));
-				}
+				$this->addRowLoadFromSqlDataView($row, $list_attribute, $list_attribute_type, $key_attributes, $key_str, $is_delete_action, $ind);
 			}
 			$ind++;
 		}
@@ -646,10 +670,11 @@ class Table extends WebSitePhpObject {
 	 * @param mixed $key_attributes 
 	 * @param mixed $ind 
 	 * @param boolean $is_delete_action [default value: false]
-	 * @return mixed
+	 * @param double $line_nb [default value: 0]
+	 * @return boolean
 	 * @since 1.1.6
 	 */
-	private function addRowLoadFromSqlDataView($row, $list_attribute, $list_attribute_type, $key_attributes, $ind, $is_delete_action=false) {
+	private function addRowLoadFromSqlDataView($row, $list_attribute, $list_attribute_type, $key_attributes, $ind, $is_delete_action=false, $line_nb=0) {
 		if ($this->from_sql_data_view_delete) {
 			// create delete button if not already exists
 			$bnt_del_id = $this->id."_btndel__ind_".$ind;
@@ -693,7 +718,7 @@ class Table extends WebSitePhpObject {
 				$row_obj = new Object($edit_pic, trim($row_value)==""?"&nbsp;&nbsp;":$row_value);
 				$row_obj->setId($this->id."_".$list_attribute[$i]."_obj_".$ind)->setStyle("cursor:pointer;border:1px solid gray;");
 				
-				$input_obj = $this->createDbAttributeObject($row, $list_attribute, $list_attribute_type, $i, $ind);
+				$input_obj = $this->createDbAttributeObject($row, $list_attribute, $list_attribute_type, $i, $ind, $key_attributes);
 				if (get_class($input_obj) == "ComboBox") { // Get foreign key value
 					$row_obj->emptyObject();
 					$value = $input_obj->getText();
@@ -747,8 +772,10 @@ class Table extends WebSitePhpObject {
 		if ($is_table_defined_style) {
 			$row_table->setBorderPredefinedStyle($this->class);
 		}
+		if ($this->is_advance_table) {
+			$row_table->setRowClass(($ind%2==0?"odd":"even"));
+		}
 		$this->addRow($row_table);
-		return $row_table;
 	}
 	
 	/**
@@ -759,10 +786,11 @@ class Table extends WebSitePhpObject {
 	 * @param mixed $list_attribute_type 
 	 * @param mixed $i 
 	 * @param mixed $ind 
+	 * @param mixed $key_attributes 
 	 * @return mixed
 	 * @since 1.1.6
 	 */
-	private function createDbAttributeObject($row, $list_attribute, $list_attribute_type, $i, $ind) {
+	private function createDbAttributeObject($row, $list_attribute, $list_attribute_type, $i, $ind, $key_attributes) {
 		// get property cmb_obj (created by method loadFromSqlDataView)
 		if (isset($this->from_sql_data_view_properties[$list_attribute[$i]]['cmb_obj'])) {
 			$input_obj_tmp = $this->from_sql_data_view_properties[$list_attribute[$i]]['cmb_obj'];
@@ -780,6 +808,10 @@ class Table extends WebSitePhpObject {
 			$input_obj = new TextBox($this->table_form_object, $this->id."_input_".$list_attribute[$i]."_ind_".$ind);
 			if ($list_attribute_type[$i] == "integer" || $list_attribute_type[$i] == "double") {
 				$input_obj->setWidth(70);
+			}
+			if (in_array($list_attribute[$i], $key_attributes)) {
+				$lv = new LiveValidation();
+				$input_obj->setLiveValidation($lv->addValidatePresence());
 			}
 		}
 		
@@ -881,7 +913,9 @@ class Table extends WebSitePhpObject {
 					} else {
 						$row->setValue($attribute_name, $value);
 					}
+					DataBase::getInstance()->beginTransaction();
 					$it->save();
+					DataBase::getInstance()->commitTransaction();
 					
 					$object_id = "wsp_object_".$this->id."_".$attribute_name."_input_obj_".$input_ind;
 					$object_text_id = "wsp_object_".$this->id."_".$attribute_name."_obj_".$input_ind;
@@ -913,6 +947,7 @@ class Table extends WebSitePhpObject {
 		} else if ($sender_type == "btnadd" && $attribute_name == "") {
 			$error = false;
 			$objects_ok_array = array("TextBox", "ComboBox", "CheckBox", "Calendar");
+			$auto_increment_id = $this->sql_data_view_object->getDbTableObject()->getDbTableAutoIncrement();
 			
 			$reload_pics_array = array();
 			$already_add_by_db_attribute = array();
@@ -922,39 +957,48 @@ class Table extends WebSitePhpObject {
 				$object_id = $this->id."_input_".$list_attribute[$i]."_ind_";
 				$input_obj = $this->getPage()->getObjectId($object_id);
 				if (!in_array($list_attribute[$i], $already_add_by_db_attribute)) {
-					if (!in_array($list_attribute[$i], $key_attributes) && in_array(get_class($input_obj), $objects_ok_array)) {
-						$value = $input_obj->getValue();
-						
-						$search_pos = array_search($list_attribute[$i], $list_attribute);
-						if ($search_pos !== false && $value != "") {
-							settype($value, $list_attribute_type[$search_pos]);
+					if ((!in_array($list_attribute[$i], $key_attributes) || 
+						(in_array($list_attribute[$i], $key_attributes) && $list_attribute[$i] != null && $list_attribute[$i] != $auto_increment_id)) && 
+						in_array(get_class($input_obj), $objects_ok_array)) {
+							$value = $input_obj->getValue();
 							
-							if ("".$value != "".$input_obj->getValue() && get_class($input_obj) != "CheckBox") {
-								$error_dialog = new DialogBox(__(ERROR), "Can't convert ".$input_obj->getValue()." to ".$list_attribute_type[$search_pos]);
-								$this->getPage()->addObject($error_dialog->activateCloseButton());
-								$error = true;
-							}
-						}
-						if ($value == "") {
-							$value = null;
-						}
-						if (!$error) {
-							// get property db_attribute
-							if (isset($this->from_sql_data_view_properties[$list_attribute[$i]]["db_attribute"])) {
-								$db_attribute = $this->from_sql_data_view_properties[$list_attribute[$i]]["db_attribute"];
-								$row->setValue($db_attribute, $value);
-								$already_add_by_db_attribute[] = $db_attribute;
+							$search_pos = array_search($list_attribute[$i], $list_attribute);
+							if ($search_pos !== false && $value != "") {
+								settype($value, $list_attribute_type[$search_pos]);
 								
-								$row->enableSqlLoadMode();
-								$reload_pic = clone($this->from_sql_data_view_reload_pic);
-								$reload_pic->setTag($list_attribute[$i]);
-								$reload_pics_array[] = $reload_pic;
-								$row->setValue($list_attribute[$i], new Object($reload_pic, $value));
-								$row->disableSqlLoadMode();
-							} else {
-								$row->setValue($list_attribute[$i], $value);
+								if ("".$value != "".$input_obj->getValue() && get_class($input_obj) != "CheckBox") {
+									$error_dialog = new DialogBox(__(ERROR), "Can't convert ".$input_obj->getValue()." to ".$list_attribute_type[$search_pos]);
+									$this->getPage()->addObject($error_dialog->activateCloseButton());
+									$error = true;
+								}
 							}
-						}
+							if ($value == "") {
+								$value = null;
+							}
+							if (!$error) {
+								// get property db_attribute
+								if (isset($this->from_sql_data_view_properties[$list_attribute[$i]]["db_attribute"]) ||
+									in_array($list_attribute[$i], $key_attributes)) {
+										if (in_array($list_attribute[$i], $key_attributes)) {
+											$db_attribute = $list_attribute[$i];
+										} else {
+											$db_attribute = $this->from_sql_data_view_properties[$list_attribute[$i]]["db_attribute"];
+										}
+										$row->setValue($db_attribute, $value);
+										$already_add_by_db_attribute[] = $db_attribute;
+										
+										if (!in_array($list_attribute[$i], $key_attributes)) {
+											$row->enableSqlLoadMode();
+											$reload_pic = clone($this->from_sql_data_view_reload_pic);
+											$reload_pic->setTag($list_attribute[$i]);
+											$reload_pics_array[] = $reload_pic;
+											$row->setValue($list_attribute[$i], new Object($reload_pic, $value));
+											$row->disableSqlLoadMode();
+										}
+								} else {
+									$row->setValue($list_attribute[$i], $value);
+								}
+							}
 					} else {
 						// get property db_attribute
 						if (isset($this->from_sql_data_view_properties[$list_attribute[$i]]["db_attribute"])) {
@@ -972,11 +1016,12 @@ class Table extends WebSitePhpObject {
 				}
 			}
 			if (!$error) {
+				DataBase::getInstance()->beginTransaction();
 				$it->save();
-				$auto_increment_id = $this->sql_data_view_object->getDbTableObject()->getDbTableAutoIncrement();
 				if ($auto_increment_id != null && $auto_increment_id != "") {
 					$row->setValue($auto_increment_id, DataBase::getInstance()->getLastInsertId());
 				}
+				DataBase::getInstance()->commitTransaction();
 				
 				$key_str = "";
 				if (sizeof($key_attributes) == 0) {
@@ -1002,7 +1047,9 @@ class Table extends WebSitePhpObject {
 				
 				try {
 					$rowToDelete->delete();
+					DataBase::getInstance()->beginTransaction();
 					$it->save();
+					DataBase::getInstance()->commitTransaction();
 				} catch (Exception $e) {
 					$error_msg = $e->getMessage();
 					if (($pos=find($error_msg, ": ")) > 0) {

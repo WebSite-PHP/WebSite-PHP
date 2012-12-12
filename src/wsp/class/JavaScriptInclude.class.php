@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.12
  * @access      public
  * @since       1.0.23
  */
@@ -63,6 +63,7 @@ class JavaScriptInclude {
 	private $conditional_comment = array();
 	private $combine = array();
 	private $script = array();
+	private $is_for_ajax = array();
 	
 	private $array_put_js_to_begin = array();
 	private $array_put_js_to_end = array("wsp/js/jquery.jqDock.min.js", "wsp/js/jquery.dd.js");
@@ -101,6 +102,12 @@ class JavaScriptInclude {
 			$this->js_scripts[] = $js_url;
 			$this->conditional_comment[] = $conditional_comment;
 			$this->combine[] = $combine;
+			if ($GLOBALS['__AJAX_PAGE__'] == true && $GLOBALS['__AJAX_LOAD_PAGE__'] == false &&
+				$GLOBALS['__PAGE_IS_INIT__'] == true) {
+					$this->is_for_ajax[] = true;
+			} else {
+				$this->is_for_ajax[] = false;
+			}
 			if ($combine && $js_script != "") {
 				throw new NewException(get_class($this)."->add() error: you can't add script with combine mode", 0, getDebugBacktrace(1));
 			}
@@ -179,7 +186,17 @@ class JavaScriptInclude {
 		if ($sort) {
 			uasort($this->js_scripts, "JavaScriptIncludeComparator");
 		}
-		return $this->js_scripts;
+		if ($GLOBALS['__AJAX_PAGE__'] == true && $GLOBALS['__AJAX_LOAD_PAGE__'] == false) {
+			$js_script_ajax = array();
+			for ($i=0; $i < sizeof($this->js_scripts); $i++) {
+				if ($this->is_for_ajax[$i] == true) {
+					$js_script_ajax[] = $this->js_scripts[$i];
+				}
+			}
+			return $js_script_ajax;
+		} else {
+			return $this->js_scripts;
+		}
 	}
 	
 	/**

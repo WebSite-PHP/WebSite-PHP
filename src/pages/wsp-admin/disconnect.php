@@ -16,11 +16,12 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.12
  * @access      public
  * @since       1.0.25
  */
 
+require_once(dirname(__FILE__)."/../../wsp/config/config_admin.inc.php");
 define(GOOGLE_CODE_TRACKER_NOT_ACTIF, true);
 
 class Disconnect extends Page {
@@ -34,9 +35,9 @@ class Disconnect extends Page {
 		
 		$this->setUserRights("");
 		if (isset($_GET['referer'])) {
-			$this->redirect("connect.html?referer=".urlencode($_GET['referer']));
+			$this->redirect(WSP_ADMIN_URL."/connect.html?referer=".urlencode($_GET['referer']));
 		} else {
-			$this->redirect("connect.html");
+			$this->redirect(WSP_ADMIN_URL."/connect.html");
 		}
 	}
 }

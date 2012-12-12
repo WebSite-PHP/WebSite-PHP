@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.12
  * @access      public
  * @since       1.0.16
  */
@@ -156,6 +156,7 @@ class SmtpMail {
 		$this->smtp_object->SMTPAuth = SMTP_AUTH; // turn on SMTP authentication
 		$this->smtp_object->Host     = SMTP_HOST; // SMTP server
 		$this->smtp_object->Port     = SMTP_PORT;
+		$this->smtp_object->CharSet  = 'UTF-8';
 		
 		$this->smtp_object->Username = SMTP_USER; // SMTP username
 		$this->smtp_object->Password = SMTP_PASS; // SMTP password

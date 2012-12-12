@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.7
+ * @version     1.1.12
  * @access      public
  * @since       1.0.15
  */
@@ -123,7 +123,7 @@ class NewException extends Exception
     	}
     	
     	$str = "";
-		$str .= "<b>Message:</b> ".htmlentities(html_entity_decode($message))."<br/>";
+		$str .= "<b>Message:</b> ".$message."<br/>";
 		if (self::$trace !== false) {
 	        $str .= "<b>File:</b> ".$file."<br/>";
 	        $str .= "<b>Line:</b> ".$line."<br/>";
@@ -138,7 +138,7 @@ class NewException extends Exception
 			}
 		}
 		if ($trace != "") {
-        	$str .= "<b>Trace:</b><br/>".str_replace("\n", "<br/>", htmlentities($trace))."<br/>";
+        	$str .= "<b>Trace:</b><br/>".str_replace("\n", "<br/>", $trace)."<br/>";
         }
         
         return $str;
@@ -288,7 +288,7 @@ class NewException extends Exception
 					
 					header("Content-Type: text/html");
 					
-					echo "<html><head><title>Debug Error - ".SITE_NAME."</title>\n";
+					echo "<html><head><title>Debug Error - ".utf8encode(SITE_NAME)."</title>\n";
 					$jquery_style = "";
 					if (DEFINE_STYLE_JQUERY != "") {
 						$jquery_style = DEFINE_STYLE_JQUERY;
@@ -326,10 +326,10 @@ class NewException extends Exception
 						if (self::$trace !== false) { // standard msg "administrator is notified"
 							echo __(ERROR_DEBUG_MAIL_SENT);
 						} else { // no trace in the debug information
-							echo $debug_msg;
+							echo utf8encode($debug_msg);
 						}
 				} else {
-					echo $debug_msg;
+					echo utf8encode($debug_msg);
 				}
 				NewException::sendErrorByMail($debug_msg);
 				exit;
@@ -367,7 +367,7 @@ class NewException extends Exception
 					$caching_file->writeCache($debug_mail);
 					
 					try {
-						$mail = new SmtpMail(SEND_ERROR_BY_MAIL_TO, SEND_ERROR_BY_MAIL_TO, "ERROR on ".SITE_NAME." !!!", $debug_mail, SMTP_MAIL, SMTP_NAME);
+						$mail = new SmtpMail(SEND_ERROR_BY_MAIL_TO, __(SEND_ERROR_BY_MAIL_TO), "ERROR on ".__(SITE_NAME)." !!!", __($debug_mail), SMTP_MAIL, __(SMTP_NAME));
 						$mail->setPriority(SmtpMail::PRIORITY_HIGH);
 						if ($attachment_file != "" && is_file($attachment_file)) {
 							$mail->addAttachment($attachment_file, basename(str_replace(".cache", ".txt", $attachment_file)));

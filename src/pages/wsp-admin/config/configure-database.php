@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.11
+ * @version     1.1.12
  * @access      public
  * @since       1.0.25
  */
@@ -141,19 +141,19 @@ class ConfigureDatabase extends Page {
 		if ($bool) {
 			$this->objCreateDbClass->show();
 			
-			$this->edtHost->onChange("testConnexion")->setAjaxEvent()->disableAjaxWaitMessage();
+			/*$this->edtHost->onChange("testConnexion")->setAjaxEvent()->disableAjaxWaitMessage();
 			$this->edtPort->onChange("testConnexion")->setAjaxEvent()->disableAjaxWaitMessage();
 			$this->edtRoot->onChange("testConnexion")->setAjaxEvent()->disableAjaxWaitMessage();
 			$this->edtPassword->onChange("testConnexion")->setAjaxEvent()->disableAjaxWaitMessage();
-			$this->edtDatabase->onChange("testConnexion")->setAjaxEvent()->disableAjaxWaitMessage();	
+			$this->edtDatabase->onChange("testConnexion")->setAjaxEvent()->disableAjaxWaitMessage();*/	
 		} else {
 			$this->objCreateDbClass->hide();
 			
-			$this->edtHost->onChange("");
+			/*$this->edtHost->onChange("");
 			$this->edtPort->onChange("");
 			$this->edtRoot->onChange("");
 			$this->edtPassword->onChange("");
-			$this->edtDatabase->onChange("");
+			$this->edtDatabase->onChange("");*/
 		}
 	}
 	
@@ -392,7 +392,7 @@ class ".$class_name."DbTable extends DbTableObject {
 		\$this->setDbTableAttributes(array(".$attr."));
 		\$this->setDbTableAttributesType(array(".$attr_type."));
 		\$this->setDbTablePrimaryKeys(array(".$attr_key."));
-		\$this->setDbTableAutoIncrement('".$auto_increment_var."');
+		\$this->setDbTableAutoIncrement(".($auto_increment_var==""?"''":$class_name."DbTable::FIELD_".str_replace("-", "_", strtoupper($auto_increment_var))).");
 		\$this->setDbTableForeignKeys(".$attr_foreign_key.");
 	}
 }
@@ -480,6 +480,7 @@ class ".$class_name."WspObject {
 ".$private_var."
 	private \$is_synchronize_with_db = false;
 	private \$is_db_object = false;
+	private \$activate_htmlentities = false;
 	/**#@-*/
 
 	function __construct(".$construct_param.") {
@@ -505,6 +506,7 @@ $data .= "		}
 	 * @return ".$class_name."Obj
 	 */
 	public function load(".$key_param."=false) {
+		\$this->activate_htmlentities = \$activate_htmlentities;
 		\$sql = new SqlDataView(new ".$class_name."DbTable());
 		\$sql->setClause(".$load_clause.");
 		if (\$activate_htmlentities) {
@@ -538,6 +540,7 @@ $data .= "		}
 	 * @return ".$class_name."Obj
 	 */
 	public function loadClause(\$clause, \$activate_htmlentities=false) {
+		\$this->activate_htmlentities = \$activate_htmlentities;
 		\$sql = new SqlDataView(new ".$class_name."DbTable());
 		\$sql->setClause(\$clause);
 		if (\$activate_htmlentities) {
@@ -639,9 +642,17 @@ $data .= "		}
 	 * Method get".$this->getFormatValue($array_var[$i])."
 	 * @access public
 	 */
-	public function get".$this->getFormatValue($array_var[$i])."() {
-		return \$this->".$array_var[$i].";
-	}
+	public function get".$this->getFormatValue($array_var[$i])."() {\n";
+	/*if ($array_var_type[$i] == "string") {
+		$data .= "		if (\$this->activate_htmlentities) {
+			return \$this->".$array_var[$i].";
+		} else {
+			return utf8_encode(\$this->".$array_var[$i].");
+		}\n";
+	} else {*/
+		$data .= "		return \$this->".$array_var[$i].";\n";
+	//}
+	$data .= "	}
 
 	";
 	$data .= "/**

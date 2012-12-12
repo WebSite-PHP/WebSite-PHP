@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.8
+ * @version     1.1.12
  * @access      public
  * @since       1.0.17
  */
@@ -221,6 +221,13 @@ class DataBase {
 					
 						if (DEBUG) {
 							$queryStartTime = elog_time($queryStartTime);
+							for ($i=0; $i < sizeof($stmt_objects); $i++) {
+								if ($stmt_objects[$i] == null) {
+									$query = str_replace_first('`=?', "`=NULL", $query);
+								} else {
+									$query = str_replace_first('`=?', "`='".$stmt_objects[$i]."'", $query);
+								}
+					    	}
 							Page::getInstance($_GET['p'])->addLogDebug($query." [Execution Time: ".round($queryStartTime, 3)." Seconds]");
 						}
 						

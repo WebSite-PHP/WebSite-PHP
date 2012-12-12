@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 20/06/2011
- * @version     1.1.5
+ * @version     1.1.12
  * @access      public
  * @since       1.0.99
  */
@@ -163,8 +163,8 @@ class ImageRotator extends WebSitePhpObject {
 		$data .= "	<trackList>\n";
 		for ($i=0; $i < sizeof($this->array_img_src); $i++) {
 			$data .= "		<track>\n";
-			$data .= "			<title>".utf8_encode($this->array_img_text[$i])."</title>\n";
-			$data .= "			<creator>".SITE_NAME."</creator>\n";
+			$data .= "			<title>".utf8encode($this->array_img_text[$i])."</title>\n";
+			$data .= "			<creator>".utf8encode(SITE_NAME)."</creator>\n";
 			$data .= "			<location>".$this->array_img_src[$i]."</location>\n";
 			$data .= "			<info>".$this->array_img_link[$i]."</info>\n";
 			$data .= "		</track>\n";

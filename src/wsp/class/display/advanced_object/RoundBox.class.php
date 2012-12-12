@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.8
+ * @version     1.1.12
  * @access      public
  * @since       1.0.17
  */
@@ -385,7 +385,7 @@ class RoundBox extends WebSitePhpObject {
 					$html_content = "					".$this->content."\n";
 				}
 				if (find($html_content, "<a href=") > 0) {
-					$html .= "						".str_replace("<a href=\"", "<a class=\"box_style_".$this->style_content."\" href=\"", str_replace("<a href='", "<a class='box_style_".$this->style_content."' href='", $html_content))."\n";
+					$html .= "						".$html_content."\n";
 					$html .= $this->getJavascriptTagOpen();
 					$html .= "$('.box_style_".$this->style_content."').each(function() { if ($(this).parent().hasClass('ui-state-default') || (!$(this).parent().hasClass('ui-state-default') && $(this).parent().parent().hasClass('ui-state-default'))) { $(this).removeClass('box_style_".$this->style_content."'); } });\n";
 					$html .= $this->getJavascriptTagClose();

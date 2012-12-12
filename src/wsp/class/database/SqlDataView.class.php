@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.7
+ * @version     1.1.12
  * @access      public
  * @since       1.0.17
  */
@@ -484,7 +484,11 @@ class SqlDataView {
 	public function setCustomFields($field1, $field2=null, $field3=null, $field4=null, $field5=null) {
 		$args = func_get_args();
 		if (sizeof($args) > 0) {
-			$this->list_custom_attribute = implode(", ", $args);
+			if (is_array($args[0])) {
+				$this->list_custom_attribute = implode(", ", $args[0]);
+			} else {
+				$this->list_custom_attribute = implode(", ", $args);
+			}
 		} else {
 			$this->list_custom_attribute = "";
 		}
@@ -493,6 +497,16 @@ class SqlDataView {
 		$this->save_list_attribute_array = array();
 		
 		return $this;
+	}
+	
+	/**
+	 * Method getCustomFields
+	 * @access public
+	 * @return mixed
+	 * @since 1.1.12
+	 */
+	public function getCustomFields() {
+		return $this->list_custom_attribute;
 	}
 	
 	/**

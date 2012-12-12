@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.11
+ * @version     1.1.12
  * @access      public
  * @since       1.0.25
  */
@@ -140,7 +140,7 @@ class Connect extends Page {
 					$connect_mail .= "If it's not you or another member of your organisation, we recommand to ban this IP.<br/>";
 					
 					try {
-						$mail = new SmtpMail(SEND_ADMIN_CONNECT_BY_MAIL_TO, SEND_ADMIN_CONNECT_BY_MAIL_TO, "Admin connection on ".SITE_NAME." !!!", $connect_mail, SMTP_MAIL, SMTP_NAME);
+						$mail = new SmtpMail(SEND_ADMIN_CONNECT_BY_MAIL_TO, __(SEND_ADMIN_CONNECT_BY_MAIL_TO), "Admin connection on ".__(SITE_NAME)." !!!", __($connect_mail), SMTP_MAIL, __(SMTP_NAME));
 						$mail->setPriority(SmtpMail::PRIORITY_HIGH);
 						$mail->send();
 					} catch (Exception $e) {}

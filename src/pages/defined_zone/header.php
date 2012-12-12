@@ -6,7 +6,7 @@
  * Defined zone header: define the render of the zone header
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
+ * Copyright (c) 2009-2012 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.0.87
+ * @version     1.1.12
  * @access      public
  * @since       1.0.51
  */
@@ -26,7 +26,7 @@ class Header extends DefinedZone {
 		
 		// Header
 		$logo = new Picture("img/logo_128x400_".$_SESSION['lang'].".png", 128, 400);
-		$logo->setTitle(SITE_NAME);
+		$logo->setTitle(__(SITE_NAME));
 		$logo_link = new Link(BASE_URL.$_SESSION['lang']."/", Link::TARGET_NONE, $logo);
 		$img_obj = new Object($logo_link);
 		$img_obj->add("<br/><br/>");

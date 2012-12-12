@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.8
+ * @version     1.1.12
  * @access      public
  * @since       1.0.0
  */
@@ -264,19 +264,19 @@
 		<meta name="format-detection" content="telephone=no"/>
 		<meta name="format-detection" content="address=no"/>
 <?php } ?>
-		<title><?php echo html_entity_decode($current_page_title); ?></title>
+		<title><?php echo utf8encode(html_entity_decode($current_page_title)); ?></title>
 		
-		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta http-equiv="pragma" content="no-cache" />
 		<meta http-equiv="cache-control" content="public" />
 	
-		<meta name="description" content="<?php echo html_entity_decode($current_page_description); ?>" />
-		<meta name="keywords" content="<?php echo html_entity_decode($current_page_keywords); ?>" />
+		<meta name="description" content="<?php echo utf8encode(html_entity_decode($current_page_description)); ?>" />
+		<meta name="keywords" content="<?php echo utf8encode(html_entity_decode($current_page_keywords)); ?>" />
 		
 		<meta name="resource-type" content="document" />
 		<meta name="distribution" content="global" />
-		<meta name="author" content="<?php echo SITE_AUTHOR; ?>" />
-		<meta name="copyright" content="<?php echo SITE_NAME; ?> by <?php echo SITE_AUTHOR; ?>" />
+		<meta name="author" content="<?php echo utf8encode(SITE_AUTHOR); ?>" />
+		<meta name="copyright" content="<?php echo utf8encode(SITE_NAME); ?> by <?php echo utf8encode(SITE_AUTHOR); ?>" />
 		<meta name="lang" content="<?php echo $_SESSION['lang']; ?>" />
 		<meta name="Robots" content="<?php echo $current_page_meta_robots; ?>" />
 <?php if ($current_page_meta_googlebots != "") { ?>
@@ -299,20 +299,20 @@
 		
 		<base href="<?php echo BASE_URL; ?>" />
 
-		<meta property="og:title" content="<?php echo html_entity_decode($current_page_title); ?>"/>
-		<meta property="og:site_name" content="<?php echo SITE_NAME; ?>"/>
-		<meta property="og:description" content="<?php echo html_entity_decode($current_page_description); ?>"/>
+		<meta property="og:title" content="<?php echo utf8encode(html_entity_decode($current_page_title)); ?>"/>
+		<meta property="og:site_name" content="<?php echo utf8encode(SITE_NAME); ?>"/>
+		<meta property="og:description" content="<?php echo utf8encode(html_entity_decode($current_page_description)); ?>"/>
 		<meta property="og:url" content="<?php echo $page_object->getCurrentURL(); ?>"/>
 <?php 	if ($current_page_meta_opengraph_type != "" || $current_page_meta_opengraph_image != "") { 
 	 		if ($current_page_meta_opengraph_type != "") { ?>
-		<meta property="og:type" content="<?php echo $current_page_meta_opengraph_type; ?>"/>
+		<meta property="og:type" content="<?php echo utf8encode($current_page_meta_opengraph_type); ?>"/>
 <?php 		}
 	 		if ($current_page_meta_opengraph_image != "") { ?>
 		<meta property="og:image" content="<?php echo $current_page_meta_opengraph_image; ?>"/>
 <?php 		}
 		} ?>
-		<meta itemprop="name" content="<?php echo html_entity_decode($current_page_title); ?>">
-		<meta itemprop="description" content="<?php echo html_entity_decode($current_page_description); ?>">
+		<meta itemprop="name" content="<?php echo utf8encode(html_entity_decode($current_page_title)); ?>">
+		<meta itemprop="description" content="<?php echo utf8encode(html_entity_decode($current_page_description)); ?>">
 <?php 	if ($current_page_meta_opengraph_image != "") { ?>
 		<meta itemprop="image" content="<?php echo $current_page_meta_opengraph_image; ?>">
 <?php 	} ?>
@@ -470,8 +470,8 @@
 		
 		<script type="text/javascript">
 			function windowHeaderTitle() {
-<?php if (!in_array($_GET['l'], $GLOBALS['array_no_encoding'])) { ?> 
-				document.title = '<?php echo addslashes(str_replace("\n", "", str_replace("\r", "", str_replace("\t", "", html_entity_decode($current_page_title))))); ?>';
+<?php if (find($current_page_title, "&#") == 0) { ?> 
+				document.title = '<?php echo addslashes(str_replace("\n", "", str_replace("\r", "", str_replace("\t", "", utf8encode(html_entity_decode($current_page_title)))))); ?>';
 <?php } ?>
 			}
 		 	StkFunc(windowHeaderTitle);

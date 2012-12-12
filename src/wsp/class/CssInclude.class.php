@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.11
+ * @version     1.1.12
  * @access      public
  * @since       1.0.23
  */
@@ -64,6 +64,7 @@ class CssInclude {
 	private $combine = array();
 	private $config_file = "";
 	private $config_file_loaded = false;
+	private $is_for_ajax = array();
 	
 	private $array_put_css_to_begin = array();
 	private $array_put_css_to_end = array("wsp/css/angle.css.php");
@@ -105,6 +106,12 @@ class CssInclude {
 			$this->css_scripts[] = $css_url;
 			$this->conditional_comment[] = $conditional_comment;
 			$this->combine[] = $conbine;
+			if ($GLOBALS['__AJAX_PAGE__'] == true && $GLOBALS['__AJAX_LOAD_PAGE__'] == false &&
+				$GLOBALS['__PAGE_IS_INIT__'] == true) {
+					$this->is_for_ajax[] = true;
+			} else {
+				$this->is_for_ajax[] = false;
+			}
 		}
 	}
 	
@@ -165,7 +172,17 @@ class CssInclude {
 		if ($sort) {
 			uasort($this->css_scripts, "CssIncludeComparator");
 		}
-		return $this->css_scripts;
+		if ($GLOBALS['__AJAX_PAGE__'] == true && $GLOBALS['__AJAX_LOAD_PAGE__'] == false) {
+			$css_script_ajax = array();
+			for ($i=0; $i < sizeof($this->css_scripts); $i++) {
+				if ($this->is_for_ajax[$i] == true) {
+					$css_script_ajax[] = $this->css_scripts[$i];
+				}
+			}
+			return $css_script_ajax;
+		} else {
+			return $this->css_scripts;
+		}
 	}
 	
 	/**

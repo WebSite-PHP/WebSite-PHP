@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.12
  * @access      public
  * @since       1.0.84
  */
@@ -181,7 +181,7 @@ class ContactForm extends WebSitePhpObject {
 			$this->page_object->addObject($dialog->activateCloseButton());
 		} else {
 			$message = __(CONTACTFORM_NAME).": ".$this->getContactName()."<br/>".__(CONTACTFORM_EMAIL).": ".$this->getContactEmail()."<br/>".__(CONTACTFORM_SUBJECT).": ".$this->getContactSubject()."<br/><br/>".__(CONTACTFORM_MESSAGE).": <br/>".$this->getContactMessage();
-			$mail = new SmtpMail($this->mail_to, $this->mail_to_name, SITE_NAME." : ".$this->getContactSubject(), $message, $this->getContactEmail(), $this->getContactName());
+			$mail = new SmtpMail($this->mail_to, __($this->mail_to_name), __(SITE_NAME." : ".$this->getContactSubject()), __($message), $this->getContactEmail(), __($this->getContactName()));
 			if(!$mail->Send()) {
 				$dialog = new DialogBox(__(CONTACTFORM_MAIL)." ".__(ERROR), $mail->getErrorInfo());
 				$this->page_object->addObject($dialog->activateCloseButton());
@@ -190,7 +190,7 @@ class ContactForm extends WebSitePhpObject {
 					if ($this->send_wait_mail_message == "") {
 						$this->send_wait_mail_message = __(CONTACTFORM_SEND_WAIT_MAIL_MESSAGE, $this->getContactName(), SITE_NAME, $this->mail_to_name);
 					}
-					$wait_mail = new SmtpMail($this->getContactEmail(), $this->getContactName(), SITE_NAME, $this->send_wait_mail_message, $this->mail_to, $this->mail_to_name);
+					$wait_mail = new SmtpMail($this->getContactEmail(), __($this->getContactName()), __(SITE_NAME), __($this->send_wait_mail_message), $this->mail_to, __($this->mail_to_name));
 					$wait_mail->Send();
 				}
 				$dialog = new DialogBox(__(CONTACTFORM_MAIL), __(CONTACTFORM_MAIL_SENT));

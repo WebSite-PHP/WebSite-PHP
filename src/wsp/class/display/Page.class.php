@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.11
+ * @version     1.1.12
  * @access      public
  * @since       1.0.0
  */
@@ -1265,6 +1265,10 @@ class Page {
 	 * @since 1.0.33
 	 */
 	public function redirect($url) {
+		// check complete URL
+		if (strtoupper(substr($url, 0, 7)) != "HTTP://" && strtoupper(substr($url, 0, 8)) != "HTTPS://") {
+			$url = $this->getBaseLanguageURL().$url;
+		}
 		if ($GLOBALS['__AJAX_PAGE__'] == true) {
 			$this->addObject(new JavaScript("location.href='".$url."';"));
 		} else {

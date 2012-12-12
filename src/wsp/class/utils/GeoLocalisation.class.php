@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.1.12
  * @access      public
  * @since       1.0.16
  */
@@ -308,7 +308,7 @@ class GeoLocalisation {
   * @return	string
   */
   public function getCity() {
-  	return $this->_getInfoIp('City');
+  	return utf8_encode($this->_getInfoIp('City'));
   }
   
   /**
@@ -317,7 +317,7 @@ class GeoLocalisation {
   * @return	string
   */
   public function getCountry() {
-  	return $this->_getInfoIp('CountryName');
+  	return utf8_encode($this->_getInfoIp('CountryName'));
   }
   
   /**
@@ -335,7 +335,7 @@ class GeoLocalisation {
   * @return	string
   */
   public function getRegion() {
-  	return $this->_getInfoIp('RegionName');
+  	return utf8_encode($this->_getInfoIp('RegionName'));
   }
 
 }

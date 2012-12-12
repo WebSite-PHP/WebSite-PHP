@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.7
+ * @version     1.1.12
  * @access      public
  * @since       1.0.18
  */
@@ -28,7 +28,7 @@ class ErrorPage extends Page {
 	function __construct() {}
 	
 	public function Load() {
-		parent::$PAGE_TITLE = __(ERROR_PAGE)." - ".SITE_NAME;
+		parent::$PAGE_TITLE = __(ERROR_PAGE)." - ".__(SITE_NAME);
 		parent::$PAGE_META_ROBOTS = "noindex, nofollow";
 		
 		// check if URL is not bad, but could be a good URL
@@ -102,7 +102,7 @@ class ErrorPage extends Page {
 			if (in_array($_GET['error-redirect'], $array_code_error)) {
 				$_SESSION['calling_page'] = "";
 				$error_msg = constant("ERROR_".$_GET['error-redirect']."_MSG");
-				parent::$PAGE_TITLE = constant("ERROR_".$_GET['error-redirect']."_MSG")." - ".SITE_NAME;
+				parent::$PAGE_TITLE = constant("ERROR_".$_GET['error-redirect']."_MSG")." - ".__(SITE_NAME);
 				$error_msg_title = constant("ERROR_".$_GET['error-redirect']."_MSG");
 			} else {
 				if ($_SESSION['calling_page'] == "error-page") {
@@ -121,7 +121,7 @@ class ErrorPage extends Page {
 			
 			$error_msg = new Label($error_msg, true);
 			$obj_error_msg = new Object(new Picture("wsp/img/warning.png", 48, 48, 0, "absmidlle"), "<br/>", $error_msg->setColor("red"));
-			$obj_error_msg->add("<br/><br/>", __(MAIN_PAGE_GO_BACK), new Link(BASE_URL, Link::TARGET_NONE, SITE_NAME));
+			$obj_error_msg->add("<br/><br/>", __(MAIN_PAGE_GO_BACK), new Link(BASE_URL, Link::TARGET_NONE, __(SITE_NAME)));
 			
 			$this->render = new ErrorTemplate($obj_error_msg, $error_msg_title);
 			
@@ -256,7 +256,7 @@ class ErrorPage extends Page {
 						}
 						
 						try {
-							$mail = new SmtpMail(SEND_ERROR_BY_MAIL_TO, SEND_ERROR_BY_MAIL_TO, "ERROR on ".SITE_NAME." !!!", $debug_mail, SMTP_MAIL, SMTP_NAME);
+							$mail = new SmtpMail(SEND_ERROR_BY_MAIL_TO, __(SEND_ERROR_BY_MAIL_TO), "ERROR on ".__(SITE_NAME)." !!!", __($debug_mail), SMTP_MAIL, __(SMTP_NAME));
 							$mail->setPriority(SmtpMail::PRIORITY_HIGH);
 							$mail->send();
 						} catch (Exception $e) {}

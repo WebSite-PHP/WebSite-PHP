@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 02/02/2012
- * @version     1.1.5
+ * @version     1.1.12
  * @access      public
  * @since       1.0.103
  */
@@ -27,7 +27,7 @@ class ErrorUserBan extends Page {
 	function __construct() {}
 	
 	public function Load() {
-		parent::$PAGE_TITLE = __(ERROR_USER_BANNED)." - ".SITE_NAME;
+		parent::$PAGE_TITLE = __(ERROR_USER_BANNED)." - ".__(SITE_NAME);
 		parent::$PAGE_META_ROBOTS = "noindex, nofollow";
 		
 		$can_use_captacha = true;
@@ -54,7 +54,7 @@ class ErrorUserBan extends Page {
 			$form->setContent(new Object($this->captcha, "<br/>", $unblock_btn));
 			$obj_error_msg->add($this->captcha_error_obj, "<br/>", $form);
 		}
-		$obj_error_msg->add("<br/><br/>", __(MAIN_PAGE_GO_BACK), new Link(BASE_URL, Link::TARGET_NONE, SITE_NAME));
+		$obj_error_msg->add("<br/><br/>", __(MAIN_PAGE_GO_BACK), new Link(BASE_URL, Link::TARGET_NONE, __(SITE_NAME)));
 		
 		$this->render = new ErrorTemplate($obj_error_msg, __(ERROR_USER_BANNED));
 	}

@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.11
+ * @version     1.1.12
  * @access      public
  * @since       1.0.25
  */
@@ -69,19 +69,19 @@ class ConfigureSite extends Page {
 		$table_form->addRow();
 		
 		$this->edtName = new TextBox($this->form, "edtName");
-		$this->edtName->setValue(SITE_NAME)->setWidth(300);
+		$this->edtName->setValue(__(SITE_NAME))->setWidth(300);
 		$this->edtName->onChange("changeSiteName")->setAjaxEvent()->disableAjaxWaitMessage();
 		$edtValidation = new LiveValidation();
 		$table_form->addRowColumns(__(EDT_NAME).":&nbsp;", $this->edtName->setLiveValidation($edtValidation->addValidatePresence()->setFieldName(__(EDT_NAME))));
 		
 		$this->edtDesc = new Editor($this->form, "edtDesc");
-		$this->edtDesc->setValue(SITE_DESC);
+		$this->edtDesc->setValue(__(SITE_DESC));
 		$this->edtDesc->setToolbar(Editor::TOOLBAR_NONE)->setWidth(290)->setHeight(100);
 		$edtValidation = new LiveValidation();
 		$table_form->addRowColumns(__(EDT_DESC).":&nbsp;", $this->edtDesc->setLiveValidation($edtValidation->addValidatePresence()->setFieldName(__(EDT_DESC))));
 		
 		$this->edtKey = new TextBox($this->form, "edtKey");
-		$this->edtKey->setValue(SITE_KEYS)->setWidth(300);
+		$this->edtKey->setValue(__(SITE_KEYS))->setWidth(300);
 		$edtValidation = new LiveValidation();
 		$table_form->addRowColumns(__(EDT_KEY).":&nbsp;", $this->edtKey->setLiveValidation($edtValidation->addValidatePresence()->setFieldName(__(EDT_KEY))));
 		
@@ -92,7 +92,7 @@ class ConfigureSite extends Page {
 		$table_form->addRowColumns(__(CMB_RATING).":&nbsp;", $this->cmbRating);
 		
 		$this->edtAuthor = new TextBox($this->form, "edtAuthor");
-		$this->edtAuthor->setValue(SITE_AUTHOR);
+		$this->edtAuthor->setValue(__(SITE_AUTHOR));
 		$edtValidation = new LiveValidation();
 		$table_form->addRowColumns(__(EDT_AUTHOR).":&nbsp;", $this->edtAuthor->setLiveValidation($edtValidation->addValidatePresence()->setFieldName(__(EDT_AUTHOR))));
 		

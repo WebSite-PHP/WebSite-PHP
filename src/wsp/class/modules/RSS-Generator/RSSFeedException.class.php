@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 05/08/2011
- * @version     1.1.5
+ * @version     1.1.12
  * @access      public
  * @since       1.1.2
  */
@@ -104,13 +104,13 @@
 	public function getErrorMessage() 
 	{
 		$str .= "<b>Error</b><br/>";
-		$str .= "<br/><b>Message:</b> ".htmlentities($this->getMessage())."<br/>";
+		$str .= "<br/><b>Message:</b> ".$this->getMessage()."<br/>";
         $str .= "<b>File:</b> ".$this->getFile()."<br/>";
         $str .= "<b>Line:</b> ".$this->getLine()."<br/>";
         $str .= "<b>Class :</b> ".$this->_class."<br/>\n";
 		$str .= "<b>Method :</b> ".$this->_method."<br/><br/>\n";
 		if ($this->getTraceAsString() != "") {
-        	$str .= "<b>Trace:</b><br/>".str_replace("\n", "<br/>", htmlentities($this->getTraceAsString()))."<br/>";
+        	$str .= "<b>Trace:</b><br/>".str_replace("\n", "<br/>", $this->getTraceAsString())."<br/>";
         }
 		
 		return $str;

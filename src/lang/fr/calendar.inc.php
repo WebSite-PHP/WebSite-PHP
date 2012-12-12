@@ -6,7 +6,7 @@
 	define("__MAY__", "Mai");
 	define("__JUNE__", "Juin");
 	define("__JULY__", "Juillet");
-	define("__AUGUST__", "Aout");
+	define("__AUGUST__", "Août");
 	define("__SEPTEMBER__", "Septembre");
 	define("__OCTOBER__", "Octobre");
 	define("__NOVEMBER__", "Novembre");

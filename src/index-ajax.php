@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.11
+ * @version     1.1.12
  * @access      public
  * @since       1.0.0
  */
@@ -33,6 +33,9 @@
 	
 	session_name(formalize_to_variable(SITE_NAME)); 
 	@session_start();
+	
+	include_once("wsp/includes/execution_time.php");
+	$_SESSION['wspPageStartTime'] = slog_time();
 	
 	if (!isset($_GET['p'])) {
 		$_GET['p'] = "home"; 
@@ -92,15 +95,31 @@
 		// create current page ajax return
 		$__PAGE_IS_INIT__ = false; // desactivate change log
 		$array_ajax_object_render = array();
-		$save_scroll_position = "var wsp_save_hscroll = f_scrollLeft();";
-		$save_scroll_position .= "var wsp_save_vscroll = f_scrollTop();";
-		$array_ajax_object_render[0] = $save_scroll_position;
-		if ($__GEOLOC_ASK_USER_SHARE_POSITION__ == true && !$page_object->isCrawlerBot()) {
-			$array_ajax_object_render[1] = "launchGeoLocalisation(true);";
-		} else {
-			$array_ajax_object_render[1] = "launchGeoLocalisation(false);";
+		
+		$combine_js = "";
+		$array_js = JavaScriptInclude::getInstance()->get(true);
+		foreach ($array_js as $i => $script) {
+			if (JavaScriptInclude::getInstance()->getCombine($i)) {
+				if ($combine_js != "") { $combine_js .= ","; }
+				$combine_js .= str_replace(BASE_URL."wsp/js/", "", str_replace(BASE_URL."js/", "", $script));
+			} else {
+				$array_ajax_object_render[] = "loadDynamicJS('".$script."', -1);";
+			}
+		}
+		if ($combine_js != "") {
+			$array_ajax_object_render[] = "loadDynamicJS('".BASE_URL."combine-js/".str_replace("/", "|", $combine_js)."', -1);";
 		}
 		
+		$save_scroll_position = "var wsp_save_hscroll = f_scrollLeft();";
+		$save_scroll_position .= "var wsp_save_vscroll = f_scrollTop();";
+		$array_ajax_object_render[] = $save_scroll_position;
+		
+		if ($__GEOLOC_ASK_USER_SHARE_POSITION__ == true && !$page_object->isCrawlerBot()) {
+			$array_ajax_object_render[] = "launchGeoLocalisation(true);";
+		} else {
+			$array_ajax_object_render[] = "launchGeoLocalisation(false);";
+		}
+
 		$add_to_render = $page_object->getBeginAddedObjects();
 		for ($i=0; $i < sizeof($add_to_render); $i++) {
 			if (gettype($add_to_render[$i]) == "object") {
@@ -135,6 +154,26 @@
 				$add_to_render = $page_object->getEndAddedObjects();
 				$nb_end_added_object = $page_object->getNbEndAddedObjects();
 			}
+		}
+		
+		$combine_css = "";
+		$array_css = CssInclude::getInstance()->get(true);
+		foreach ($array_css as $i => $css) {
+			if (CssInclude::getInstance()->getCombine($i)) {
+				if ($combine_css != "") { $combine_css .= ","; }
+				$combine_css .= str_replace(".css.php", ".php.css", str_replace(BASE_URL."wsp/css/", "", str_replace(BASE_URL."css/", "", $css)));
+			} else {
+				if (find($css, ".css.php") > 0 && CssInclude::getInstance()->getCssConfigFile() != "") {
+					$css .= "?conf_file=".CssInclude::getInstance()->getCssConfigFile();
+				}
+				$array_ajax_object_render[] = "loadDynamicCSS('".$css."');";
+			}
+		}
+		if ($combine_css != "") {
+			if (find($combine_css, ".php.css") > 0 && CssInclude::getInstance()->getCssConfigFile() != "") {
+				$combine_css .= "?conf_file=".CssInclude::getInstance()->getCssConfigFile();
+			}
+			$array_ajax_object_render[] = "loadDynamicCSS('".BASE_URL."combine-css/".str_replace("/", "|", $combine_css)."');";
 		}
 		
 		if (DEBUG) {

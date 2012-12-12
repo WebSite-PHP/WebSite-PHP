@@ -69,7 +69,7 @@ if (method_exists($page_object, "Loaded")) {
 	$page_object->Loaded();
 }
 
-echo "<html><head><title>".$page_object->getPageTitle()." - ".SITE_NAME."</title>\n";
+echo "<html><head><title>".$page_object->getPageTitle()."</title>\n";
 $jquery_style = "";
 if (DEFINE_STYLE_JQUERY != "") {
 	$jquery_style = DEFINE_STYLE_JQUERY;

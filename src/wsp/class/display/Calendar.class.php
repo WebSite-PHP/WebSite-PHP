@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.11
+ * @version     1.1.12
  * @access      public
  * @since       1.0.93
  */
@@ -386,7 +386,7 @@ class Calendar extends TextBox {
 					$html .= "'".addslashes($this->monthNames[$i])."'";
 				}
 			} else {
-				$html .= "'".addslashes(__(__JANUARY__))."', '".addslashes(__(__FEBRUARY__))."', '".addslashes(__(__MARCH__))."', '".addslashes(__(__APRIL__))."', '".addslashes(__(__MAY__))."', '".addslashes(__(__JUNE__))."', '".addslashes(__(__JULY__))."', '".addslashes(__(__AUGUST__))."', '".addslashes(__(__SEPTEMBER__))."', '".addslashes(__(__OCTOBER__))."', '".addslashes(__(__NOVEMBER__))."', '".addslashes(__(__DECEMBER__))."']";
+				$html .= "'".addslashes(utf8encode(__(__JANUARY__)))."', '".addslashes(utf8encode(__(__FEBRUARY__)))."', '".addslashes(utf8encode(__(__MARCH__)))."', '".addslashes(utf8encode(__(__APRIL__)))."', '".addslashes(utf8encode(__(__MAY__)))."', '".addslashes(utf8encode(__(__JUNE__)))."', '".addslashes(utf8encode(__(__JULY__)))."', '".addslashes(utf8encode(__(__AUGUST__)))."', '".addslashes(utf8encode(__(__SEPTEMBER__)))."', '".addslashes(utf8encode(__(__OCTOBER__)))."', '".addslashes(utf8encode(__(__NOVEMBER__)))."', '".addslashes(utf8encode(__(__DECEMBER__)))."']";
 			}
 			$html .= ",dayNames: [";
 			if (sizeof($this->dayNames)> 0) {
@@ -395,7 +395,7 @@ class Calendar extends TextBox {
 					$html .= "'".addslashes($this->dayNames[$i])."'";
 				}
 			} else {
-				$html .= "'".addslashes(__(__SUNDAY__))."', '".addslashes(__(__MONDAY__))."', '".addslashes(__(__TUESDAY__))."', '".addslashes(__(__WEDNESDAY__))."', '".addslashes(__(__THURSDAY__))."', '".addslashes(__(__FRIDAY__))."', '".addslashes(__(__SATURDAY__))."']";
+				$html .= "'".addslashes(utf8encode(__(__SUNDAY__)))."', '".addslashes(utf8encode(__(__MONDAY__)))."', '".addslashes(utf8encode(__(__TUESDAY__)))."', '".addslashes(utf8encode(__(__WEDNESDAY__)))."', '".addslashes(utf8encode(__(__THURSDAY__)))."', '".addslashes(utf8encode(__(__FRIDAY__)))."', '".addslashes(utf8encode(__(__SATURDAY__)))."']";
 			}
 			$html .= ",monthNamesShort: [";
 			if (sizeof($this->monthNamesShort)> 0) {
@@ -404,7 +404,7 @@ class Calendar extends TextBox {
 					$html .= "'".addslashes($this->monthNamesShort[$i])."'";
 				}
 			} else {
-				$html .= "'".addslashes(substr(__(__JANUARY__), 0, 3))."', '".addslashes(substr(__(__FEBRUARY__), 0, 3))."', '".addslashes(substr(__(__MARCH__), 0, 3))."', '".addslashes(substr(__(__APRIL__), 0, 3))."', '".addslashes(substr(__(__MAY__), 0, 3))."', '".addslashes(substr(__(__JUNE__), 0, 3))."', '".addslashes(substr(__(__JULY__), 0, 3))."', '".addslashes(substr(__(__AUGUST__), 0, 3))."', '".addslashes(substr(__(__SEPTEMBER__), 0, 3))."', '".addslashes(substr(__(__OCTOBER__), 0, 3))."', '".addslashes(substr(__(__NOVEMBER__), 0, 3))."', '".addslashes(substr(__(__DECEMBER__), 0, 3))."']";
+				$html .= "'".addslashes(utf8encode(substr(__(__JANUARY__), 0, 3)))."', '".addslashes(utf8encode(substr(__(__FEBRUARY__), 0, 3)))."', '".addslashes(utf8encode(substr(__(__MARCH__), 0, 3)))."', '".addslashes(utf8encode(substr(__(__APRIL__), 0, 3)))."', '".addslashes(utf8encode(substr(__(__MAY__), 0, 3)))."', '".addslashes(utf8encode(substr(__(__JUNE__), 0, 3)))."', '".addslashes(utf8encode(substr(__(__JULY__), 0, 3)))."', '".addslashes(utf8encode(substr(__(__AUGUST__), 0, 3)))."', '".addslashes(utf8encode(substr(__(__SEPTEMBER__), 0, 3)))."', '".addslashes(utf8encode(substr(__(__OCTOBER__), 0, 3)))."', '".addslashes(utf8encode(substr(__(__NOVEMBER__), 0, 3)))."', '".addslashes(utf8encode(substr(__(__DECEMBER__), 0, 3)))."']";
 			}
 			$html .= ",dayNamesShort: [";
 			if (sizeof($this->dayNamesShort)> 0) {
@@ -413,7 +413,7 @@ class Calendar extends TextBox {
 					$html .= "'".addslashes($this->dayNamesShort[$i])."'";
 				}
 			} else {
-				$html .= "'".addslashes(substr(__(__SUNDAY__), 0, 3))."', '".addslashes(substr(__(__MONDAY__), 0, 3))."', '".addslashes(substr(__(__TUESDAY__), 0, 3))."', '".addslashes(substr(__(__WEDNESDAY__), 0, 3))."', '".addslashes(substr(__(__THURSDAY__), 0, 3))."', '".addslashes(substr(__(__FRIDAY__), 0, 3))."', '".addslashes(substr(__(__SATURDAY__), 0, 3))."']";
+				$html .= "'".addslashes(utf8encode(substr(__(__SUNDAY__), 0, 3)))."', '".addslashes(utf8encode(substr(__(__MONDAY__), 0, 3)))."', '".addslashes(utf8encode(substr(__(__TUESDAY__), 0, 3)))."', '".addslashes(utf8encode(substr(__(__WEDNESDAY__), 0, 3)))."', '".addslashes(utf8encode(substr(__(__THURSDAY__), 0, 3)))."', '".addslashes(utf8encode(substr(__(__FRIDAY__), 0, 3)))."', '".addslashes(utf8encode(substr(__(__SATURDAY__), 0, 3)))."']";
 			}
 			$html .= ",dayNamesMin: [";
 			if (sizeof($this->dayNamesMin)> 0) {
@@ -422,7 +422,7 @@ class Calendar extends TextBox {
 					$html .= "'".addslashes($this->dayNamesMin[$i])."'";
 				}
 			} else {
-				$html .= "'".addslashes(substr(__(__SUNDAY__), 0, 2))."', '".addslashes(substr(__(__MONDAY__), 0, 2))."', '".addslashes(substr(__(__TUESDAY__), 0, 2))."', '".addslashes(substr(__(__WEDNESDAY__), 0, 2))."', '".addslashes(substr(__(__THURSDAY__), 0, 2))."', '".addslashes(substr(__(__FRIDAY__), 0, 2))."', '".addslashes(substr(__(__SATURDAY__), 0, 2))."']";
+				$html .= "'".addslashes(utf8encode(substr(__(__SUNDAY__), 0, 2)))."', '".addslashes(utf8encode(substr(__(__MONDAY__), 0, 2)))."', '".addslashes(utf8encode(substr(__(__TUESDAY__), 0, 2)))."', '".addslashes(utf8encode(substr(__(__WEDNESDAY__), 0, 2)))."', '".addslashes(utf8encode(substr(__(__THURSDAY__), 0, 2)))."', '".addslashes(utf8encode(substr(__(__FRIDAY__), 0, 2)))."', '".addslashes(utf8encode(substr(__(__SATURDAY__), 0, 2)))."']";
 			}
 		}
 		$html .= "});\n";

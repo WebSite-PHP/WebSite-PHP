@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.1.12
  * @access      public
  * @since       1.0.17
  */
@@ -573,7 +573,7 @@ class RowTable extends WebSitePhpObject {
 	 * @since 1.0.85
 	 */
 	public function setId($id) {
-		$this->id = $id;
+		$this->id = str_replace("-", "_", $id);
 		return $this;
 	}
 	

@@ -15,30 +15,13 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.8
+ * @version     1.1.12
  * @access      public
  * @since       1.0.19
  */
 
-	// Array for special language which you need to convert your Unicode text to HTML before
-	// you can use http://www.unicodetools.com/unicode/convert-to-html.php
-	$GLOBALS['array_no_encoding'] = array("ru", "pl", "cn", "jp", "gr", "dz", "eg", "iq", 
-											"jo", "ma", "sa", "so", "sd", "sy", "tn", "il",
-											"ae", "kr");
 	function __() {
 		$args = func_get_args();
-		
-		// for special language please convert your Unicode text to HTML before
-		// you can use http://www.unicodetools.com/unicode/convert-to-html.php
-		$array_no_encoding = $GLOBALS['array_no_encoding'];
-		if (in_array($_GET['l'], $array_no_encoding)) {
-			$txt = array_shift($args);
-			for ($i=0; $i < sizeof($args); $i++) {
-	    		$txt = preg_replace('/%s/', $args[$i], $txt, 1);
-	    	}
-			return $txt;
-		}
-		
 		return translate($args);
 	}
 	
@@ -49,22 +32,12 @@
 			$args = func_get_args();
 		}
 		$txt = array_shift($args);
-		
-		$txt = str_replace("<", "{#OPEN_TAG#}", $txt);
-		$txt = str_replace(">", "{#CLOSE_TAG#}", $txt);
-		$txt = str_replace('"', "{#TEMP_QUOTE#}", $txt);
-		$txt = str_replace("'", "{#TEMP_SIMPLE_QUOTE#}", $txt);
-		
-		$txt = html_convert($txt);
-		
-		$txt = str_replace("{#OPEN_TAG#}", "<", $txt);
-		$txt = str_replace("{#CLOSE_TAG#}", ">", $txt);
-		$txt = str_replace("{#TEMP_QUOTE#}", '"', $txt);
-		$txt = str_replace("{#TEMP_SIMPLE_QUOTE#}", "'", $txt);
+		$txt = str_replace("�", "'", $txt);
 		
 		// convert %s by args
+		$txt = utf8encode($txt);
 		for ($i=0; $i < sizeof($args); $i++) {
-    		$txt = preg_replace('/%s/', $args[$i], $txt, 1);
+			$txt = preg_replace('/%s/', utf8encode($args[$i]), $txt, 1);
     	}
     	return $txt;
 	}
@@ -74,7 +47,28 @@
 		foreach($html_convert_table as $key => $val) {
 			$text = str_replace($key, $val, $text); 
 		}
-		return $text; 
+		return $text;
+	}
+	 
+	function is_utf8($string) {
+		return preg_match('%(?:
+	        [\xC2-\xDF][\x80-\xBF]             # non-overlong 2-byte
+	        |\xE0[\xA0-\xBF][\x80-\xBF]        # excluding overlongs
+	        |[\xE1-\xEC\xEE\xEF][\x80-\xBF]{2} # straight 3-byte
+	        |\xED[\x80-\x9F][\x80-\xBF]        # excluding surrogates
+	        |\xF0[\x90-\xBF][\x80-\xBF]{2}     # planes 1-3
+	        |[\xF1-\xF3][\x80-\xBF]{3}         # planes 4-15
+	        |\xF4[\x80-\x8F][\x80-\xBF]{2}     # plane 16
+	        )+%xs', 
+	    $string);
+	}
+	function utf8encode($text) {
+		if (($GLOBALS['__AJAX_LOAD_PAGE__'] == false || 
+			($GLOBALS['__AJAX_LOAD_PAGE__'] == true && find($_GET['mime'], "html") > 0)) && 
+			!is_utf8($text)) {
+				return utf8_encode($text);
+		}
+		return $text;
 	}
 	
 	function formatDate($date) {
@@ -87,7 +81,7 @@
 		}
 		list($date, $heure) = explode(" ", $date);
 		list($year, $month, $day) = explode("-", $date);
-		return $day." ".$GLOBALS['months'][$month-1]." ".$year;
+		return $day." ".utf8encode($GLOBALS['months'][$month-1])." ".$year;
 	}
 	function formatDateHeure($date) {
 		if (gettype($date) == "object") {
@@ -113,7 +107,7 @@
 	}
 	
 	function getMonth($month_number) {
-		return $GLOBALS['months'][$month_number];
+		return utf8encode($GLOBALS['months'][$month_number]);
 	}
 	
 	function convert12HourTo24Hour($hour) {
@@ -477,11 +471,6 @@
 			return rmdir($dir);
 		}
 		return false;
-	} 
-	
-	function alert($text) {
-		$page_object = Page::getInstance($_GET['p']);
-		$page_object->addObject(new DialogBox("Alert", $text));
 	}
 	
 	function delMaskedFiles($mask_filepath) {

@@ -2,6 +2,7 @@
 RewriteEngine on
 Options +FollowSymLinks
 Options -indexes
+AddDefaultCharset utf-8
 
 <IfModule mod_rewrite.c>
 	# Redirecting www
@@ -27,7 +28,7 @@ Options -indexes
 	# 
 	# Exemple 3: 
 	# Create an URL with 1 variable virtual folder (warning param2)
-	# RewriteRule ^([a-z]{2})/((?!(ajax|wsp\-admin)).+)/(.+)\.html$ index.php?p=my_page&l=$1&param1=$2&param2=$4&folder_level=1&%{QUERY_STRING} [L]
+	# RewriteRule ^([a-z]{2})/((?!(ajax|wsp\-admin)).+)/(.+)\.html$ index.php?p=my_page&l=$1&param1=$2&param2=$3&folder_level=1&%{QUERY_STRING} [L]
 	# 
 	# Warning: Create your rules only if the framework can't support your special URL => virtual folder (the framework manages the real folders)
 	#
@@ -66,13 +67,8 @@ Options -indexes
 	RewriteRule ^wsp/includes/execution_time\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
 	RewriteRule ^wsp/includes/html2text\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
 	RewriteRule ^wsp/includes/init\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
-	RewriteRule ^wsp/includes/loader_class\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
-	RewriteRule ^wsp/includes/loader_lang\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
-	RewriteRule ^wsp/includes/utils_ajax\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
-	RewriteRule ^wsp/includes/utils_image\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
-	RewriteRule ^wsp/includes/utils_openssl\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L]
-	RewriteRule ^wsp/includes/utils_regexp\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L]
-	RewriteRule ^wsp/includes/utils_session\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
+	RewriteRule ^wsp/includes/loader_(.*)\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
+	RewriteRule ^wsp/includes/utils_(.*)\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
 	RewriteRule ^wsp/includes/utils\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
 	RewriteRule ^wsp/includes/utils2\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
 	RewriteRule ^wsp/includes/wsp_user_ban\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L]
