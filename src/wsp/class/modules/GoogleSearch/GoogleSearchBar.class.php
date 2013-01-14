@@ -8,7 +8,7 @@
  * Class GoogleSearchBar
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.2.0
  * @access      public
  * @since       1.0.99
  */
@@ -189,20 +189,23 @@ class GoogleSearchBar extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$html = "<div id=\"cse-search-form\" style=\"width: 100%;\">Loading</div>
 				<script type=\"text/javascript\">\n";
-				if (GOOGLE_CODE_TRACKER != "" && find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0 && !defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
-					$html .= "	var _gaq = _gaq || []; _gaq.push(['_setAccount', '".GOOGLE_CODE_TRACKER."']);
-						_trackCseQuery = function(control, searcher, query) {
-					    var loc = document.location;
-					    var url = [
-					      loc.pathname,
-					      loc.search,
-					      loc.search ? '&' : '?',
-					      encodeURIComponent('search'),
-					      '=',
-					      encodeURIComponent(query)
-					    ];
-					    _gaq.push(['_trackPageview', url.join('')]);
-					  }\n";
+				if (GOOGLE_CODE_TRACKER != "" && 
+					find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+					find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+					!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
+						$html .= "	var _gaq = _gaq || []; _gaq.push(['_setAccount', '".GOOGLE_CODE_TRACKER."']);
+							_trackCseQuery = function(control, searcher, query) {
+						    var loc = document.location;
+						    var url = [
+						      loc.pathname,
+						      loc.search,
+						      loc.search ? '&' : '?',
+						      encodeURIComponent('search'),
+						      '=',
+						      encodeURIComponent(query)
+						    ];
+						    _gaq.push(['_trackPageview', url.join('')]);
+						  }\n";
 					}
 				  $html .= "	cse_search = function() {
 					this.customSearchControl = new google.search.CustomSearchControl('".$this->search_control_code."');\n";
@@ -213,8 +216,11 @@ class GoogleSearchBar extends WebSitePhpObject {
 				  	$html .= "		this.customSearchControl.setLinkTarget(".$this->link_target.");\n";
 				  }
 				    $html .= "		this.customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);\n";
-				  	if (GOOGLE_CODE_TRACKER != "" && find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0 && !defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
-				    	$html .= "            this.customSearchControl.setSearchStartingCallback(null, _trackCseQuery);\n";
+				  	if (GOOGLE_CODE_TRACKER != "" && 
+				  		find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+				  		find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+				  		!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
+				    		$html .= "            this.customSearchControl.setSearchStartingCallback(null, _trackCseQuery);\n";
 				  	}
 				  	if ($this->web_tab) {
 					    $html .= "		var searcher_opt = new google.search.SearcherOptions();

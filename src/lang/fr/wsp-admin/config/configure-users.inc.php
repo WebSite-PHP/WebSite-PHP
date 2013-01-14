@@ -9,12 +9,12 @@
 	define("ADD", "Ajouter");
 	define("SAVE", "Enregistrer");
 	define("CANCEL", "Annuler");
-	define("DEL_CONFIRM", "Etes-vous sûr de vouloir supprimer cet utilisateur ?");
+	define("DEL_CONFIRM", "Etes-vous sÃ»r de vouloir supprimer cet utilisateur ?");
 	
-	define("ADD_USER_OK", "Utilisateur %s ajouté");
-	define("ADD_USER_NOT_OK", "Erreur: Utilisateur %s non ajouté");
-	define("MODIF_USER_OK", "Utilisateur %s modifié");
-	define("MODIF_USER_NOT_OK", "Erreur: Utilisateur %s non modifié");
-	define("DEL_USER_OK", "Utilisateur %s supprimé");
-	define("DEL_USER_NOT_OK", "Erreur: Utilisateur %s non supprimé");
+	define("ADD_USER_OK", "Utilisateur %s ajoutÃ©");
+	define("ADD_USER_NOT_OK", "Erreur: Utilisateur %s non ajoutÃ©");
+	define("MODIF_USER_OK", "Utilisateur %s modifiÃ©");
+	define("MODIF_USER_NOT_OK", "Erreur: Utilisateur %s non modifiÃ©");
+	define("DEL_USER_OK", "Utilisateur %s supprimÃ©");
+	define("DEL_USER_NOT_OK", "Erreur: Utilisateur %s non supprimÃ©");
 ?>

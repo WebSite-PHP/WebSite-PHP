@@ -15,7 +15,11 @@
 	header("Content-type: text/css");
   
 	$zlib_OC_is_set = preg_match('/On|(^[0-9]+$)/i', ini_get('zlib.output_compression'));
-	if ($zlib_OC_is_set) { header("Content-Encoding: gzip"); }
+	if ($zlib_OC_is_set) {
+		if (@strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') === TRUE) {
+			header("Content-Encoding: gzip"); 
+		}
+	}
 	
 	$expires = 60*60*24*7; // 7 days
 	header("Pragma: public");
@@ -45,7 +49,7 @@
 			}
 			if (constant("DEFINE_STYLE_BCK_PICTURE_".$ind) == "" || $is_config_theme_page) {
 ?>
-/* définition des pixels d'angles */
+/* definition des pixels d'angles */
 .AngleRond<?php echo $i; ?> {
 	display:block;
 	overflow:hidden;

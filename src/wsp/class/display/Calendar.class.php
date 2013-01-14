@@ -7,7 +7,7 @@
  * Class Calendar
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.12
+ * @version     1.2.0
  * @access      public
  * @since       1.0.93
  */
@@ -126,7 +126,7 @@ class Calendar extends TextBox {
 		$this->value = parent::getValue();
 		if (get_class($this->value) == "DateTime") {
 			if (array_key_exists($this->dateFormat, $this->dateFormatConvertPhpFormat)) {
-				$this->value = $this->value->format($this->dateFormatConvertPhpFormat[$this->dateFormat]);
+				return $this->value->format($this->dateFormatConvertPhpFormat[$this->dateFormat]);
 			}
 		}
 		return $this->value;

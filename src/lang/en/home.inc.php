@@ -7,6 +7,6 @@
 	define("QUICKSTART", "Quick start");
 	define("TUTORIALS", "Tutorials");
 	define("CONNECT", "Administrator panel");
-	define("CONNECT_DEFAULT_PASSWD", "(login:admin, password: admin)");
+	define("CONNECT_DEFAULT_PASSWD", "(login:admin, password: admin)<br/>The password is saved in the file /pages/wsp-admin/.passwd");
 	define("FINALIZE_INSTALL", "To finalize installation, please connect to administrator panel");
 ?>

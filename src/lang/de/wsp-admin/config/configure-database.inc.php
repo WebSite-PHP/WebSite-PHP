@@ -4,19 +4,19 @@
 	define("EDT_ROOT", "Benutzername");
 	define("EDT_PASSWORD", "Passwort");
 	define("EDT_DATABASE", "Datenbankname");
-	define("BTN_VALIDATE", "Prüfen");
+	define("BTN_VALIDATE", "PrÃ¼fen");
 	
 	define("CONFIG_FILE", "Konfiguration");
 	define("CONFIG_FILE_OK", "Ihre Konfiguration wurde gespeichert !");
-	define("CONFIG_FILE_NOT_OK", "Fehler während des Speicherns, bitte überprüfen Sie Ihre Konfiguration !");
+	define("CONFIG_FILE_NOT_OK", "Fehler wÃ¤hrend des Speicherns, bitte Ã¼berprÃ¼fen Sie Ihre Konfiguration !");
 	
-	define("PRIMARY_KEY", "Primärschlüssel");
-	define("NO_PRIMARY_KEY", "Sie müssen einen Primärschlüssel, eine eindeutige ID in der Tabelle %s.%s angeben");
+	define("PRIMARY_KEY", "PrimÃ¤rschlÃ¼ssel");
+	define("NO_PRIMARY_KEY", "Sie mÃ¼ssen einen PrimÃ¤rschlÃ¼ssel, eine eindeutige ID in der Tabelle %s.%s angeben");
 	define("GENERATE_DATABASE_OBJECTS", "Generiere Datenbank Objekte");
 	define("GENERATE_OBJECTS", "Generiere Objekte");
 	define("GENERATE_DATABASE_OBJECTS_OK", "Generiere Datenbank Objekte %s abgeschlossen");
-	define("GENERATE_DATABASE_OBJECTS_ERROR", "Fehler während des generierens der Datenbank Objekte %s");
-	define("NO_DATABASE_SELECTED", "Keine Datenbank ausgewählt");
+	define("GENERATE_DATABASE_OBJECTS_ERROR", "Fehler wÃ¤hrend des generierens der Datenbank Objekte %s");
+	define("NO_DATABASE_SELECTED", "Keine Datenbank ausgewÃ¤hlt");
 	define("DATABASES", "Datenbanken");
 	define("DATABASE", "Datenbank");
 	define("TABLES", "Tabellen");

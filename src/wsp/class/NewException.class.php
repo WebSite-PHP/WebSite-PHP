@@ -6,7 +6,7 @@
  * Class NewException
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.12
+ * @version     1.2.0
  * @access      public
  * @since       1.0.15
  */
@@ -322,7 +322,8 @@ class NewException extends Exception
 			} else {
 				header('HTTP/1.1 500 Internal Server Error');
 				if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
-					find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0) {
+					find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+					find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0) {
 						if (self::$trace !== false) { // standard msg "administrator is notified"
 							echo __(ERROR_DEBUG_MAIL_SENT);
 						} else { // no trace in the debug information
@@ -346,7 +347,8 @@ class NewException extends Exception
 	 */
     public static function sendErrorByMail($debug_msg, $attachment_file="") {
     	if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
-			find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0) {
+			find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+			find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0) {
 				$caching_file = new CacheFile(dirname(__FILE__)."/../cache/error_send_by_mail.log", CacheFile::CACHE_TIME_2MIN);
 				if (($caching_file->readCache()) == false) {
 					$debug_mail = $debug_msg;

@@ -8,7 +8,7 @@
  * Class VideoHTML5
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 20/06/2011
- * @version     1.1.8
+ * @version     1.2.0
  * @access      public
  * @since       1.0.87
  */
@@ -328,10 +328,13 @@ class VideoHTML5 extends WebSitePhpObject {
 		$html .= "	VideoJS.setup(\"div-video-".md5($this->video_mp4)."\");\n";
 		if ($this->track_categ != "" || $this->onplay != "") {
 			$html .= "	$('#video-".md5($this->video_mp4)."').bind(\"play\", function(){\n";
-			if (GOOGLE_CODE_TRACKER != "" && find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0 && !defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
-				if ($this->track_categ != "") {
-					$html .= "_gaq.push(['_trackEvent', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."']);";
-				}
+			if (GOOGLE_CODE_TRACKER != "" && 
+				find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+				find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+				!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
+					if ($this->track_categ != "") {
+						$html .= "_gaq.push(['_trackEvent', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."']);";
+					}
 			}
 			if ($this->onplay != "") {
 				$html .= $this->onplay;

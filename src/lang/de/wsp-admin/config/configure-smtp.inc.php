@@ -6,12 +6,12 @@
 	define("CMB_AUTH", "Authentifikation");
 	define("EDT_USER", "Login");
 	define("EDT_PASS", "Passwort");
-	define("BTN_VALIDATE", "Prüfen");
+	define("BTN_VALIDATE", "PrÃ¼fen");
 	
 	define("ACTIVATE", "Aktivieren");
 	define("DESACTIVATE", "Deaktivieren");
 	
 	define("CONFIG_FILE", "Konfiguration");
 	define("CONFIG_FILE_OK", "Ihre Konfiguration wurde gespeichert !");
-	define("CONFIG_FILE_NOT_OK", "Fehler während des Speicherns, bitte überprüfen Sie Ihre Konfiguration !");
+	define("CONFIG_FILE_NOT_OK", "Fehler wÃ¤hrend des Speicherns, bitte Ã¼berprÃ¼fen Sie Ihre Konfiguration !");
 ?>

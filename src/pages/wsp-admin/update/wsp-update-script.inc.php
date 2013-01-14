@@ -9,7 +9,7 @@ if (isset($is_call_from_wsp_admin_update) && $is_call_from_wsp_admin_update == t
 	
 	// Update: delete non used lanaguages
 	if (!isset($array_lang_used) && !is_array($array_lang_used)) {
-		$array_lang_used = array('en', 'fr');
+		$array_lang_used = array('en', 'fr', 'de');
 	}
 	$array_lang_dir = scandir($base_dir."/lang");
 	for ($i=0; $i < sizeof($array_lang_dir); $i++) {
@@ -93,6 +93,7 @@ if (isset($is_call_from_wsp_admin_update) && $is_call_from_wsp_admin_update == t
 RewriteEngine on
 Options +FollowSymLinks
 Options -indexes
+AddDefaultCharset utf-8
 
 <IfModule mod_rewrite.c>
 	# Redirecting www
@@ -108,7 +109,8 @@ Options -indexes
 	# Zone to define your URL rewriting
 	# Exemple 1: 
 	# Create an URL with 1 virtual folder (myfolder)
-	# RewriteRule ^myfolder/(.+)\.html$ index.php?p=$1&l=en&folder_level=1&%{QUERY_STRING} [L] 
+	# RewriteRule ^myfolder/(.+)\.html$ index.php?p=$1&l=en&folder_level=1&%{QUERY_STRING} [L]
+	# In this case the first parameter is the language (ie: en, fr, de, ...) 
 	# RewriteRule ^([a-z]{2})/myfolder/(.+)\.html$ index.php?p=$2&l=$1&folder_level=1&%{QUERY_STRING} [L] 
 	# 
 	# Exemple 2: 
@@ -117,8 +119,9 @@ Options -indexes
 	# RewriteRule ^([a-z]{2})/myfolder/myfolder2/(.+)\.html$ index.php?p=$2&l=$1&folder_level=2&%{QUERY_STRING} [L] 
 	# 
 	# Exemple 3: 
-	# Create an URL with 1 variable virtual folder (warning param2)
-	# RewriteRule ^([a-z]{2})/((?!(ajax|wsp\-admin)).+)/(.+)\.html$ index.php?p=my_page&l=$1&param1=$2&param2=$4&folder_level=1&%{QUERY_STRING} [L]
+	# Create an URL with 1 variable virtual folder
+	# The 2nd parameter exclude the folders ajax (use by the ajax pages of the framework) and wsp-admin (admin part of WSP)
+	# RewriteRule ^([a-z]{2})/((?!(ajax|wsp\-admin)).+)/(.+)\.html$ index.php?p=my_page&l=$1&param1=$2&param2=$3&folder_level=1&%{QUERY_STRING} [L]
 	# 
 	# Warning: Create your rules only if the framework can't support your special URL => virtual folder (the framework manages the real folders)
 	#

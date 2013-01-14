@@ -7,7 +7,7 @@
  * Class Table
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.12
+ * @version     1.2.0
  * @access      public
  * @since       1.0.17
  */
@@ -441,7 +441,7 @@ class Table extends WebSitePhpObject {
 			throw new NewException(get_class($this)."->loadFromSqlDataView() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
 		}
 		
-		if (gettype($sql) != "object" && get_class($$sql) != "SqlDataView") {
+		if (gettype($sql) != "object" || get_class($sql) != "SqlDataView") {
 			throw new NewException(get_class($this)."->loadFromSqlDataView() error: \$sql is not SqlDataView object", 0, getDebugBacktrace(1));
 		}
 		
@@ -484,7 +484,7 @@ class Table extends WebSitePhpObject {
 					$stmt = DataBase::getInstance()->prepareStatement($query);
 					$row = DataBase::getInstance()->stmtBindAssoc($stmt, $row);
 					while ($stmt->fetch()) {
-						$cmb->addItem($row['id'], $row['value']);
+						$cmb->addItem(utf8encode($row['id']), utf8encode($row['value']));
 					}
 					
 					// add combo box in properties
@@ -715,7 +715,7 @@ class Table extends WebSitePhpObject {
 					$row_value = $row_value->render();
 				}
 				$edit_pic = new Picture("wsp/img/edit_16x16.png", 16, 16);
-				$row_obj = new Object($edit_pic, trim($row_value)==""?"&nbsp;&nbsp;":$row_value);
+				$row_obj = new Object($edit_pic, trim($row_value)==""?"&nbsp;&nbsp;":utf8encode($row_value));
 				$row_obj->setId($this->id."_".$list_attribute[$i]."_obj_".$ind)->setStyle("cursor:pointer;border:1px solid gray;");
 				
 				$input_obj = $this->createDbAttributeObject($row, $list_attribute, $list_attribute_type, $i, $ind, $key_attributes);
@@ -761,7 +761,7 @@ class Table extends WebSitePhpObject {
 				if (get_class($value) == "DateTime") {
 					$value = $value->format("Y-m-d");
 				}
-				$row_table->add($value);
+				$row_table->add(utf8encode($value));
 			}
 		}
 		if ($this->from_sql_data_view_delete) {
@@ -800,18 +800,54 @@ class Table extends WebSitePhpObject {
 			$register_objects[] = $input_obj;
 			$_SESSION['websitephp_register_object'] = $register_objects;
 			
-		} else if ($list_attribute_type[$i] == "datetime") {
-			$input_obj = new Calendar($this->table_form_object, $this->id."_input_".$list_attribute[$i]."_ind_".$ind);
-		} else if ($list_attribute_type[$i] == "boolean") {
-			$input_obj = new CheckBox($this->table_form_object, $this->id."_input_".$list_attribute[$i]."_ind_".$ind);
 		} else {
-			$input_obj = new TextBox($this->table_form_object, $this->id."_input_".$list_attribute[$i]."_ind_".$ind);
-			if ($list_attribute_type[$i] == "integer" || $list_attribute_type[$i] == "double") {
-				$input_obj->setWidth(70);
+			$wspobject = "TextBox";
+			$attribute_properties = array();
+			if (is_array($this->from_sql_data_view_properties[$list_attribute[$i]])) {
+				$attribute_properties = $this->from_sql_data_view_properties[$list_attribute[$i]];
 			}
-			if (in_array($list_attribute[$i], $key_attributes)) {
-				$lv = new LiveValidation();
-				$input_obj->setLiveValidation($lv->addValidatePresence());
+			if (isset($attribute_properties["wspobject"]) && $attribute_properties["wspobject"] != "") {
+				$wspobject = $attribute_properties["wspobject"];
+			} else {
+				if ($list_attribute_type[$i] == "datetime") {
+					$wspobject = "Calendar";
+				} else if ($list_attribute_type[$i] == "boolean") {
+					$wspobject = "CheckBox";
+				}
+			}
+			
+			if ($wspobject == "Calendar") {
+				$input_obj = new Calendar($this->table_form_object, $this->id."_input_".$list_attribute[$i]."_ind_".$ind);
+			} else if ($wspobject == "CheckBox") {
+				$input_obj = new CheckBox($this->table_form_object, $this->id."_input_".$list_attribute[$i]."_ind_".$ind);
+			} else if ($wspobject == "TextArea") {
+				$input_obj = new TextArea($this->table_form_object, $object_id);
+			} else if ($wspobject == "Editor") {
+				$input_obj = new Editor($this->table_form_object, $object_id);
+				if (isset($attribute_properties["editor_param"]) && $attribute_properties["editor_param"] != "") {
+					$input_obj->setToolbar($attribute_properties["editor_param"]);
+				}
+			} else if ($wspobject == "ComboBox") {
+				$input_obj = new ComboBox($this->table_form_object, $object_id);
+				if (isset($attribute_properties["combobox_values"])) {
+					if (is_array($attribute_properties["combobox_values"])) {
+						for ($j=0; $j < sizeof($attribute_properties["combobox_values"]); $j++) {
+							$input_obj->addItem($attribute_properties["combobox_values"][$j]['value'], 
+												$attribute_properties["combobox_values"][$j]['text']);
+						}
+					} else {
+						throw new NewException(get_class($this)."->loadFromSqlDataView() error: the property combobox_values need to be an array.", 0, getDebugBacktrace(1));
+					}
+				}
+			} else {
+				$input_obj = new TextBox($this->table_form_object, $this->id."_input_".$list_attribute[$i]."_ind_".$ind);
+				if ($list_attribute_type[$i] == "integer" || $list_attribute_type[$i] == "double") {
+					$input_obj->setWidth(70);
+				}
+				if (in_array($list_attribute[$i], $key_attributes)) {
+					$lv = new LiveValidation();
+					$input_obj->setLiveValidation($lv->addValidatePresence());
+				}
 			}
 		}
 		
@@ -849,7 +885,11 @@ class Table extends WebSitePhpObject {
 					$input_obj->setValue($field_value==true?"on":"off");
 				}
 			} else {
-				$input_obj->setValue($field_value);
+				if (gettype($field_value) == "object") {
+					$input_obj->setValue($field_value);
+				} else {
+					$input_obj->setValue(utf8encode($field_value));
+				}
 			}
 		}
 		return $input_obj;
@@ -864,6 +904,10 @@ class Table extends WebSitePhpObject {
 	public function onChangeTableFromSqlDataView($sender) {
 		if ($this->id == "") {
 			throw new NewException(get_class($this)."->onChangeTableFromSqlDataView() error: you must define an id to the Table (".get_class($this)."->setId()) or you don't call this method for the good table", 0, getDebugBacktrace(1));
+		}
+		
+		if ($this->sql_data_view_object == null) {
+			throw new NewException(get_class($this)."->onChangeTableFromSqlDataView() error: you need to use the method loadFromSqlDataView before.", 0, getDebugBacktrace(1));
 		}
 		
 		if (gettype($sender) == "object") {
@@ -946,7 +990,7 @@ class Table extends WebSitePhpObject {
 			}
 		} else if ($sender_type == "btnadd" && $attribute_name == "") {
 			$error = false;
-			$objects_ok_array = array("TextBox", "ComboBox", "CheckBox", "Calendar");
+			$objects_ok_array = array("TextBox", "ComboBox", "CheckBox", "Calendar", "TextArea", "Editor");
 			$auto_increment_id = $this->sql_data_view_object->getDbTableObject()->getDbTableAutoIncrement();
 			
 			$reload_pics_array = array();

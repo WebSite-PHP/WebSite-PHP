@@ -7,7 +7,7 @@
  * Class Button
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @version     1.2.0
  * @access      public
  * @since       1.0.17
  */
@@ -384,6 +384,7 @@ class Button extends WebSitePhpEventObject {
 			}
 			
 			// Create Button
+			$is_jquery_button = false;
 			if (!$this->is_link && $this->class != '') {
 				$html .= "<input type='button' name='".$this->getEventObjectName()."' id='".$this->id."' value=\"".str_replace('"', '\\"', $this->value)."\"";
 				if ($this->width > 0) {
@@ -457,16 +458,25 @@ class Button extends WebSitePhpEventObject {
 						$html .= " return false;";
 					}
 					$html .= " });\n";
-					if ($this->assign_enter_key) {
-						$html .= "	\$(\"#".$this->form_object->getId()."\").bind(\"keydown\", function(e) { if (e.keyCode == 13) { \$(\"#".$this->getId()."\").click(); return false; } });\n";
-					}
-					if ($this->width > 0) {
-						$html .= "	\$(\"#".$this->getId()."\").css('width', '".$this->width."px');\n";
-					}
 					$html .= $this->getJavascriptTagClose();
 				} else {
 					$html .= "</a>\n";
 				}
+			}
+			
+			if (!$is_jquery_button && ($this->primary_icon != "" || $this->secondary_icon != "")) {
+				throw new NewException("You can't use primary or secondary icon if you used the method setClass in the button ".$this->id.".", 0, getDebugBacktrace(1));
+			}
+			
+			if ($this->assign_enter_key || $this->width > 0) {
+				$html .= $this->getJavascriptTagOpen();
+				if ($this->assign_enter_key) {
+					$html .= "	\$(\"#".$this->form_object->getId()."\").bind(\"keydown\", function(e) { if (e.keyCode == 13) { \$(\"#".$this->getId()."\").click(); return false; } });\n";
+				}
+				if ($this->width > 0) {
+					$html .= "	\$(\"#".$this->getId()."\").css('width', '".$this->width."px');\n";
+				}
+				$html .= $this->getJavascriptTagClose();
 			}
 			if (!$ajax_render) {
 				$html .= "</div>\n";

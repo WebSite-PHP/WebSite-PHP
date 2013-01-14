@@ -6,7 +6,7 @@
  * WebSite-PHP file utils_image.inc.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.2.0
  * @access      public
  * @since       1.0.19
  */
@@ -151,7 +151,7 @@
 	function jpegReduction($InFile, $OutFile, $Width) {
 		$dim=getimagesize($InFile);
 		$image = ImageCreateFromJPEG($InFile);
-		$pixmaxi=$Width; //on fixe ici la taille maximum souhait�e.
+		$pixmaxi=$Width; //on fixe ici la taille maximum souhaitée.
 	
 		$haut=$dim[1];
 		$larg=$dim[0];
@@ -173,7 +173,7 @@
 	function jpegReductionHeight($InFile, $OutFile, $Height) {
 		$dim=getimagesize($InFile);
 		$image = ImageCreateFromJPEG($InFile);
-		$pixmaxi=$Height; //on fixe ici la taille maximum souhait�e.
+		$pixmaxi=$Height; //on fixe ici la taille maximum souhaitée.
 	
 		$haut=$dim[1];
 		$larg=$dim[0];
@@ -236,7 +236,7 @@
 	function pngReduction($InFile, $OutFile, $Width) {
 		$dim=getimagesize($InFile);
 		$image = imagecreatefrompng($InFile);
-		$pixmaxi=$Width; //on fixe ici la taille maximum souhait�e.
+		$pixmaxi=$Width; //on fixe ici la taille maximum souhaitée.
 	
 		$haut=$dim[1];
 		$larg=$dim[0];
@@ -258,7 +258,7 @@
 	function pngReductionHeight($InFile, $OutFile, $Height) {
 		$dim=getimagesize($InFile);
 		$image = imagecreatefrompng($InFile);
-		$pixmaxi=$Height; //on fixe ici la taille maximum souhait�e.
+		$pixmaxi=$Height; //on fixe ici la taille maximum souhaitée.
 	
 		$haut=$dim[1];
 		$larg=$dim[0];

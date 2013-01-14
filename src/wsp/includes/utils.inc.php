@@ -6,7 +6,7 @@
  * WebSite-PHP file utils.inc.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.12
+ * @version     1.2.0
  * @access      public
  * @since       1.0.19
  */
@@ -32,7 +32,14 @@
 			$args = func_get_args();
 		}
 		$txt = array_shift($args);
-		$txt = str_replace("�", "'", $txt);
+		
+		// Test if constant exists (constant without space)
+		if (!defined($txt) && find($txt, " ") == 0) {
+			if (!($key = getConstantName($txt))) {
+				// auto create constant in translation files
+				create_label_translation($txt);
+			}
+		}
 		
 		// convert %s by args
 		$txt = utf8encode($txt);
@@ -40,6 +47,64 @@
 			$txt = preg_replace('/%s/', utf8encode($args[$i]), $txt, 1);
     	}
     	return $txt;
+	}
+	
+	function getConstantName($constantValue) {
+		foreach(get_defined_constants() as $key => $value) {
+			if(constant($key)===$constantValue) {
+				return $key; 
+			}
+		}
+		return false;
+	}
+	
+	function create_label_translation($constantValue) {
+		$creation_message = "";
+		$base_dir = dirname(__FILE__)."/../..";
+		$array_lang_dir = scandir($base_dir."/lang");
+		for ($i=0; $i < sizeof($array_lang_dir); $i++) {
+			if (is_dir($base_dir."/lang/".$array_lang_dir[$i]) && $array_lang_dir[$i] != "" && 
+				$array_lang_dir[$i] != "." && $array_lang_dir[$i] != ".." && $array_lang_dir[$i] != ".svn" && 
+				strlen($array_lang_dir[$i]) == 2) {
+					$lang_file_path = str_replace("\\", "/", realpath($base_dir."/lang/".$array_lang_dir[$i]))."/".$_GET['p'].".inc.php";
+					
+					// Read File
+					$lang_file = new File($lang_file_path);
+					$lang_file_content = $lang_file->read();
+					$lang_file->close();
+					
+					// Create new content
+					if ($lang_file_content == "") {
+						$lang_file_content = "<?php\n";
+					}
+					$lang_file_content = str_replace("\r", "", $lang_file_content);
+					$lang_file_content = str_replace("?>", "", $lang_file_content);
+					$lang_file_content .= "	define(\"".$constantValue."\", \"".$constantValue."\"); // TODO: Label needs to be translated\n";
+					$lang_file_content .= "?>";
+					
+					// Write File
+					$lang_file = new File($lang_file_path, false, true);
+					if ($lang_file->write($lang_file_content) !== false) {
+						$creation_message .= "Information: Constant ".$constantValue." automatically created in the file ".$lang_file_path.".<br/>";
+					}
+					$lang_file->close();
+			}
+		}
+		if ($creation_message != "") {
+			$dialog = new DialogBox("Alert translation", $creation_message);
+			$dialog->activateCloseButton()->setWidth(600);
+			Page::getInstance($_GET['p'])->addObject($dialog);
+			
+			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
+				find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+				find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0) {
+					try {
+						$mail = new SmtpMail(SEND_ERROR_BY_MAIL_TO, __(SEND_ERROR_BY_MAIL_TO), "New label on ".__(SITE_NAME)." !!!", $creation_message, SMTP_MAIL, __(SMTP_NAME));
+						$mail->setPriority(SmtpMail::PRIORITY_HIGH);
+						$mail->send();
+					} catch (Exception $e) {}
+			}
+		}
 	}
 	
 	function html_convert($text) { 
@@ -153,6 +218,14 @@
 	    }
 	  }
 	  return 0;   //Sinon, retourner 0 pour dire que c'est pas trouve
+	}
+	
+	function str_replace_first($search, $replace, $subject) {
+		$pos = strpos($subject, $search);
+		if ($pos !== false) {
+			$subject = substr_replace($subject, $replace, $pos, strlen($search));
+		}
+		return $subject;
 	}
 	
 	function is_browser_ie() {

@@ -1,6 +1,27 @@
 <?php
+/**
+ * PHP file wsp\class\modules\PDF\font\makefont\makefont.php
+ */
+/**
+ * Class 
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2013 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 05/08/2011
+ * @version     1.2.0
+ * @access      public
+ * @since       1.2.0
+ */
+
 /*******************************************************************************
-* Utilitaire de génération de fichier de définition de police                  *
+* Utilitaire de gÃ©nÃ©ration de fichier de dÃ©finition de police                  *
 *                                                                              *
 * Version : 1.14                                                               *
 * Date :    03/08/2008                                                         *
@@ -291,9 +312,9 @@ function CheckTTF($file)
 }
 
 /*******************************************************************************
-* fontfile : chemin du fichier TTF (ou chaîne vide si pas d'incorporation)     *
+* fontfile : chemin du fichier TTF (ou chaÃ®ne vide si pas d'incorporation)     *
 * afmfile :  chemin du fichier AFM                                             *
-* enc :      encodage (ou chaîne vide si la police est symbolique)             *
+* enc :      encodage (ou chaÃ®ne vide si la police est symbolique)             *
 * patch :    patch optionnel pour l'encodage                                   *
 * type :     type de la police si fontfile est vide                            *
 *******************************************************************************/

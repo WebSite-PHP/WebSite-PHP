@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php/wsp-admin/connect.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.12
+ * @version     1.2.0
  * @access      public
  * @since       1.0.25
  */
@@ -24,11 +24,6 @@
 define(GOOGLE_CODE_TRACKER_NOT_ACTIF, true);
 
 class Connect extends Page {
-	private $auth_obj = null;
-	private $error_obj = null;
-	
-	private $obj_br_before = null;
-	private $mod_obj = null;
 	
 	function __construct() {
 		parent::__construct();
@@ -47,7 +42,7 @@ class Connect extends Page {
 		$this->render = new Table();
 		$this->render->setWidth("100%");
 		
-		$connect_box = new RoundBox(RoundBox::STYLE_SECOND, "connect_box", 400, 150);
+		$connect_box = new RoundBox(RoundBox::STYLE_SECOND, "connect_box", 420, 150);
 		$connect_box->setShadow(true);
 		$connect_box->setValign(RoundBox::VALIGN_CENTER);
 		
@@ -56,6 +51,7 @@ class Connect extends Page {
 		$admin_pic = new Picture("img/wsp-admin/admin_128.png", 128, 128);
 		
 		$this->auth_obj = new Authentication($this, "connect");
+		$this->auth_obj->setTableWidth(265);
 		$connect_table->addRowColumns($admin_pic, $this->auth_obj);
 		$connect_box->setContent($connect_table);
 		
@@ -99,10 +95,10 @@ class Connect extends Page {
 		    $this->mod_obj->add("<li>We recomand to install PHP lib GD2.</li>");
 			$nb_mod_error++;
 		}
-		if (!extension_loaded('curl')) {
+		/*if (!extension_loaded('curl')) {
 		    $this->mod_obj->add("<li>We recomand to install PHP lib curl. (To use GoogleWeather)</li>");
 			$nb_mod_error++;
-		}
+		}*/
 		$zlib_OC_is_set = preg_match('/On|(^[0-9]+$)/i', ini_get('zlib.output_compression'));
 		if (!$zlib_OC_is_set) { 
 			$this->mod_obj->add("<li>We recomand to configure php.ini with zlib.output_compression = On.</li>");
@@ -123,7 +119,8 @@ class Connect extends Page {
 	public function connect() {
 		if (!isset($_SESSION['user_try_connect_wsp_admin']) && $_SESSION['user_try_connect_wsp_admin'] != true) {
 			if (defined('SEND_ADMIN_CONNECT_BY_MAIL') && SEND_ADMIN_CONNECT_BY_MAIL == true &&
-				find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0) {
+				find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+				find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0) {
 					
 					$connect_mail .= "<b>User tried or is connected on administration :</b><br/>";
 					$connect_mail .= "URL : ".$this->getCurrentUrl()."<br/>";

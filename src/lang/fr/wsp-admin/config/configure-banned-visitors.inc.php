@@ -1,7 +1,7 @@
 <?php
-	define("LAST_ACCESS", "Dernier Accès");
+	define("LAST_ACCESS", "Dernier AccÃ¨s");
 	define("AUTHORIZE", "Autoriser");
-	define("DURATION", "Durée");
+	define("DURATION", "DurÃ©e");
 	define("NO_BANNED_VISITORS", "Pas de visteurs bannis");
 	define("BAN_IP", "Bannir IP");
 ?>

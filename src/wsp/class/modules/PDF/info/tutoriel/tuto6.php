@@ -1,4 +1,25 @@
 <?php
+/**
+ * PHP file wsp\class\modules\PDF\info\tutoriel\tuto6.php
+ */
+/**
+ * Class 
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2013 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 05/08/2011
+ * @version     1.2.0
+ * @access      public
+ * @since       1.2.0
+ */
+
 require('../fpdf.php');
 
 class PDF extends FPDF
@@ -8,6 +29,13 @@ var $I;
 var $U;
 var $HREF;
 
+	/**
+	 * Method PDF
+	 * @param string $orientation [default value: P]
+	 * @param string $unit [default value: mm]
+	 * @param string $format [default value: A4]
+	 * @since 1.2.0
+	 */
 function PDF($orientation='P',$unit='mm',$format='A4')
 {
 	//Appel au constructeur parent
@@ -78,7 +106,7 @@ function CloseTag($tag)
 
 function SetStyle($tag,$enable)
 {
-	//Modifie le style et sélectionne la police correspondante
+	//Modifie le style et sÃ©lectionne la police correspondante
 	$this->$tag+=($enable ? 1 : -1);
 	$style='';
 	foreach(array('B','I','U') as $s)
@@ -100,16 +128,16 @@ function PutLink($URL,$txt)
 }
 }
 
-$html='Vous pouvez maintenant imprimer facilement du texte mélangeant différents styles : <b>gras</b>,
-<i>italique</i>, <u>souligné</u>, ou <b><i><u>tous à la fois</u></i></b> !<br><br>Vous pouvez aussi
-insérer des liens sous forme textuelle, comme <a href="http://www.fpdf.org">www.fpdf.org</a>, ou bien
+$html='Vous pouvez maintenant imprimer facilement du texte mÃ©langeant diffÃ©rents styles : <b>gras</b>,
+<i>italique</i>, <u>soulignÃ©</u>, ou <b><i><u>tous Ã  la fois</u></i></b> !<br><br>Vous pouvez aussi
+insÃ©rer des liens sous forme textuelle, comme <a href="http://www.fpdf.org">www.fpdf.org</a>, ou bien
 sous forme d\'image : cliquez sur le logo.';
 
 $pdf=new PDF();
-//Première page
+//PremiÃ¨re page
 $pdf->AddPage();
 $pdf->SetFont('Arial','',20);
-$pdf->Write(5,'Pour découvrir les nouveautés de ce tutoriel, cliquez ');
+$pdf->Write(5,'Pour dÃ©couvrir les nouveautÃ©s de ce tutoriel, cliquez ');
 $pdf->SetFont('','U');
 $link=$pdf->AddLink();
 $pdf->Write(5,'ici',$link);

@@ -1,7 +1,7 @@
 <?php
 	define("__JANUARY__", "Januar");
 	define("__FEBRUARY__", "Februar");
-	define("__MARCH__", "März");
+	define("__MARCH__", "MÃ¤rz");
 	define("__APRIL__", "April");
 	define("__MAY__", "Mai");
 	define("__JUNE__", "Juni");

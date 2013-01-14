@@ -8,7 +8,7 @@
  * Class AuthenticationLDAP
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 22/11/2012
- * @version     1.1.11
+ * @version     1.2.0
  * @access      public
  * @since       1.1.11
  */
@@ -129,7 +129,7 @@ class AuthenticationLDAP extends Authentication {
 	 * @since 1.1.11
 	 */
 	public function connect($redirect=true, $redirect_url='REFERER') {
-		$ldap = @ldap_connect($this->ldap_host, $this->ldap_port);  // doit �tre un serveur LDAP valide !
+		$ldap = @ldap_connect($this->ldap_host, $this->ldap_port);  // doit être un serveur LDAP valide !
 		if ($ldap !== false) {
 			$r = @ldap_bind($ldap, $this->getLogin().$this->ldap_user_domain, $this->getPassword());
 			if ($r !== false) {

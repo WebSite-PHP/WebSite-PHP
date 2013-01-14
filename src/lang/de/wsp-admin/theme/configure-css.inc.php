@@ -21,7 +21,7 @@
 	define("EDT_COLOR_SHADOW", "Box Schatten Farbe %s");
 	define("EDT_STYLE_GRADIENT", "Aktiviere Box gradient %s");
 	define("EDT_STYLE_FONT", "Schriftstil");
-	define("EDT_FONT_SIZE", "Schriftgröße");
+	define("EDT_FONT_SIZE", "SchriftgrÃ¶ÃŸe");
 	define("EDT_STYLE_FONT_SERIF", "Serif");
 	define("EDT_STYLE_JQUERY", "jQuery Style");
 	define("CMB_NB_PREDEFINE_STYLE", "Nb vordefinierter Style");
@@ -32,10 +32,10 @@
 	define("TEXT_ON_BODY", "Beispiel Text auf der Seite");
 	define("LINK_ON_BODY", "Beispiel Link auf der Seite");
 	define("BODY_TEXT_LINK_NOTE", "Schauen Sie nach unten auf der Seite");
-	define("WARNING_CHANGE_PLEASE_SAVE", "Warnung, bitte speichern Sie das Formular bevor Sie dieses Feld ändern.");
+	define("WARNING_CHANGE_PLEASE_SAVE", "Warnung, bitte speichern Sie das Formular bevor Sie dieses Feld Ã¤ndern.");
 	
-	define("BTN_VALIDATE", "Prüfen");
+	define("BTN_VALIDATE", "PrÃ¼fen");
 	define("CONFIG_FILE", "Konfiguration");
 	define("CONFIG_FILE_OK", "Ihre Konfiguration wurde gespeichert !");
-	define("CONFIG_FILE_NOT_OK", "Fehler während der Speicherung der Konfigurationsdatei !");
+	define("CONFIG_FILE_NOT_OK", "Fehler wÃ¤hrend der Speicherung der Konfigurationsdatei !");
 ?>

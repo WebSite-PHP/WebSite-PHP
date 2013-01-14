@@ -8,10 +8,10 @@
 	define("EDT_PASS", "Mot de passe");
 	define("BTN_VALIDATE", "Valider");
 	
-	define("ACTIVATE", "Activé");
-	define("DESACTIVATE", "Desactivé");
+	define("ACTIVATE", "ActivÃ©");
+	define("DESACTIVATE", "DesactivÃ©");
 	
 	define("CONFIG_FILE", "Configuration");
-	define("CONFIG_FILE_OK", "Votre configuration a été enregistrée !");
+	define("CONFIG_FILE_OK", "Votre configuration a Ã©tÃ© enregistrÃ©e !");
 	define("CONFIG_FILE_NOT_OK", "Erreur lors de la sauvegarde du fichier de configuration !");
 ?>

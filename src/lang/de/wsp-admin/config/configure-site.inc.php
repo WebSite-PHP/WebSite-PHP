@@ -3,9 +3,9 @@
 	define("TAB_ADVANCE", "Erweitert");
 	
 	define("EDT_NAME", "Name");
-	define("WARNING_SITE_NAME_DISONNCET", "Warnung, wenn Sie den Namen der Website ändern werden Sie disconnected.");
+	define("WARNING_SITE_NAME_DISONNCET", "Warnung, wenn Sie den Namen der Website Ã¤ndern werden Sie disconnected.");
 	define("EDT_DESC", "Beschreibung");
-	define("EDT_KEY", "Schlüsselwörter");
+	define("EDT_KEY", "SchlÃ¼sselwÃ¶rter");
 	define("CMB_RATING", "Bewertung");
 	define("EDT_AUTHOR", "Author");
 	define("CMB_LANGUAGE", "Sprache");
@@ -13,9 +13,9 @@
 	define("EDT_SITE_IMAGE", "Seitenbild");
 	define("EDT_SITE_IPHONE_IMAGE_57PX", "Kleines Iphone Bild (57px)");
 	define("EDT_SITE_IPHONE_IMAGE_72PX", "Mittleres Iphone Bild (72px)");
-	define("EDT_SITE_IPHONE_IMAGE_114PX", "Großes Iphone Bild (114px)");
+	define("EDT_SITE_IPHONE_IMAGE_114PX", "GroÃŸes Iphone Bild (114px)");
 	define("EDT_GOOGLE_CODE_TRACKER", "Google Analytics Code");
-	define("EDT_GOOGLE_MAP_KEY", "Google Maps Schlüssel");
+	define("EDT_GOOGLE_MAP_KEY", "Google Maps SchlÃ¼ssel");
 	define("CMB_META_ROBOTS", "Robots");
 	define("CMB_META_GOOGLEBOTS", "Googlebots");
 	define("EDT_REVISIT_AFTER", "Wieder besuchen nach");
@@ -29,21 +29,21 @@
 	define("CMB_SEND_ERROR_BY_MAIL", "Sende Fehler an Mail");
 	define("EDT_SEND_ERROR_BY_MAIL_TO", "Fehler senden an E-Mail");
 	define("CMB_SEND_JS_ERROR_BY_MAIL", "Sende JavaScript Fehler per E-Mail");
-	define("SEND_ERROR_BY_MAIL_CMT", "Nicht für lokale URL (http://127.0.0.1/)");
+	define("SEND_ERROR_BY_MAIL_CMT", "Nicht fÃ¼r lokale URL (http://127.0.0.1/)");
 	define("EDT_SEND_BY_MAIL_FILE_EX", "Ausgeschlossene Dateien");
-	define("EDT_SEND_BY_MAIL_FILE_EX_CMT", "Nur Dateinamen (ohne Pfad)<br/>Regexp möglich (ex: /^(a-z)*.html$/)");
+	define("EDT_SEND_BY_MAIL_FILE_EX_CMT", "Nur Dateinamen (ohne Pfad)<br/>Regexp mÃ¶glich (ex: /^(a-z)*.html$/)");
 	define("SEND_BY_MAIL_FILE_EX_CMT", "Separator Kommas");
 	define("EDT_MAX_BAD_URL_BEFORE_BANNED", "Nb max URL bevor Besucher gebannt wird");
 	define("CMB_SEND_ADMIN_CONNECT_BY_MAIL", "Benachrichtigung bei Admin Verbindung");
 	define("EDT_SEND_ADMIN_CONNECT_BY_MAIL_TO", "E-Mail Benachrichtigung");
-	define("SEND_ADMIN_CONNECT_BY_MAIL_CMT", "Nicht für lokale URL (http://127.0.0.1/)");
+	define("SEND_ADMIN_CONNECT_BY_MAIL_CMT", "Nicht fÃ¼r lokale URL (http://127.0.0.1/)");
 	define("PLEASE_CONFIGURE_SMTP", "Bitte konfigurieren Sie 'Sende Mail konfigurieren' vorher");
 	define("EDT_FORCE_SERVER_NAME", "Erzwungener Servername");
 	define("PROBLEM_WITH_REDIRECT", "Wird benutzt wenn Sie Probleme mit der Weiterleitung haben"); 
 	define("EDT_DEFAULT_TIMEZONE", "Standard Zeitzone");
-	define("BTN_VALIDATE", "Prüfen"); 
+	define("BTN_VALIDATE", "PrÃ¼fen"); 
 	
 	define("CONFIG_FILE", "Konfiguration");
 	define("CONFIG_FILE_OK", "Ihre Konfiguration wurde gespeichert !");
-	define("CONFIG_FILE_NOT_OK", "Fehler während des Speicherns, bitte überprüfen Sie Ihre Konfiguration !");
+	define("CONFIG_FILE_NOT_OK", "Fehler wÃ¤hrend des Speicherns, bitte Ã¼berprÃ¼fen Sie Ihre Konfiguration !");
 ?>

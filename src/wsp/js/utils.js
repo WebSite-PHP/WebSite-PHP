@@ -47,19 +47,19 @@ function urldecode(str) {
     return decodeURIComponent((str + '').replace(/\+/g, '%20'));
 }
 function noaccent(chaine) {
-  temp = chaine.replace(/[ÀÁÂÃÄÅàáâãäå]/gi,"a")
-  temp = temp.replace(/[ÈÉÊËèéêë]/gi,"e")
-  temp = temp.replace(/[ÌÍÎÏìíîï]/gi,"i")
-  temp = temp.replace(/[ÒÓÔÕÖØòóôõöø]/gi,"o")
-  temp = temp.replace(/[ÙÚÛÜùúûü]/gi,"u")
-  temp = temp.replace(/[Çç]/gi,"c")
-  temp = temp.replace(/[ÿ]/gi,"y")
-  temp = temp.replace(/[Ññ]/gi,"n")
-  temp = myReplaceAll(temp, "œ", "oe")
+  temp = chaine.replace(/[Ã€ÃÃ‚ÃƒÃ„Ã…Ã Ã¡Ã¢Ã£Ã¤Ã¥]/gi,"a")
+  temp = temp.replace(/[ÃˆÃ‰ÃŠÃ‹Ã¨Ã©ÃªÃ«]/gi,"e")
+  temp = temp.replace(/[ÃŒÃÃÃÃ¬Ã­Ã®Ã¯]/gi,"i")
+  temp = temp.replace(/[Ã’Ã“Ã”Ã•Ã–Ã˜Ã²Ã³Ã´ÃµÃ¶Ã¸]/gi,"o")
+  temp = temp.replace(/[Ã™ÃšÃ›ÃœÃ¹ÃºÃ»Ã¼]/gi,"u")
+  temp = temp.replace(/[Ã‡Ã§]/gi,"c")
+  temp = temp.replace(/[Ã¿]/gi,"y")
+  temp = temp.replace(/[Ã‘Ã±]/gi,"n")
+  temp = myReplaceAll(temp, "Å“", "oe")
   return temp
 }
 
-// Fonction de stockage des scripts à charger 
+// Fonction de stockage des scripts Ã  charger 
 FuncOL = new Array(); 
 function StkFunc(Obj) { 
     FuncOL[FuncOL.length] = Obj; 
@@ -71,7 +71,7 @@ window.onload = function() {
         {FuncOL[i]();} 
 }
 
-// Fonction de stockage des scripts à charger lors d'un resize
+// Fonction de stockage des scripts Ã  charger lors d'un resize
 FuncOR = new Array(); 
 function StkFuncOR(Obj) { 
     FuncOR[FuncOR.length] = Obj; 
@@ -113,7 +113,7 @@ function addToFavorite(siteURL, siteNOM) {
 		/* Netscape 6+ ; Mozilla, FireFox et compagnie (K-Meleon ...) */
 		window.sidebar.addPanel(siteNOM,siteURL,"");
 	} else if (window.external) {
-		/* Internet Explorer 4+, et ses dérivés (Crazy Browser, Avent Browser ...) */
+		/* Internet Explorer 4+, et ses dÃ©rivÃ©s (Crazy Browser, Avent Browser ...) */
 		window.external.AddFavorite(siteURL,siteNOM);
 	} else if (document.all && (navigator.userAgent.indexOf('Win') < 0)) {
 		/* Internet Explorer Mac */

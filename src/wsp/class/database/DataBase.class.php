@@ -7,7 +7,7 @@
  * Class DataBase
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.12
+ * @version     1.2.0
  * @access      public
  * @since       1.0.17
  */
@@ -179,9 +179,10 @@ class DataBase {
 			
 			if (strtoupper(substr($query, 0, 5)) == "SHOW ") {
 				if ($stmt = $this->connection->query($query)) {
-					if (DEBUG) {
-						$queryStartTime = elog_time($queryStartTime);
-						Page::getInstance($_GET['p'])->addLogDebug($query." [Execution Time: ".round($queryStartTime, 3)." Seconds]");
+					if (DEBUG && ($GLOBALS['__AJAX_LOAD_PAGE__'] == false || 
+						($GLOBALS['__AJAX_LOAD_PAGE__'] == true && $_GET['mime'] == "text/html"))) {
+							$queryStartTime = elog_time($queryStartTime);
+							Page::getInstance($_GET['p'])->addLogDebug($query." [Execution Time: ".round($queryStartTime, 3)." Seconds]");
 					}
 					return $stmt;
 				} else {
@@ -219,16 +220,17 @@ class DataBase {
 							throw new NewException("Error DataBase::getInstance()->prepareStatement(): ".$stmt->error." - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, getDebugBacktrace(1));
 						}
 					
-						if (DEBUG) {
-							$queryStartTime = elog_time($queryStartTime);
-							for ($i=0; $i < sizeof($stmt_objects); $i++) {
-								if ($stmt_objects[$i] == null) {
-									$query = str_replace_first('`=?', "`=NULL", $query);
-								} else {
-									$query = str_replace_first('`=?', "`='".$stmt_objects[$i]."'", $query);
-								}
-					    	}
-							Page::getInstance($_GET['p'])->addLogDebug($query." [Execution Time: ".round($queryStartTime, 3)." Seconds]");
+						if (DEBUG && ($GLOBALS['__AJAX_LOAD_PAGE__'] == false || 
+							($GLOBALS['__AJAX_LOAD_PAGE__'] == true && $_GET['mime'] == "text/html"))) {
+								$queryStartTime = elog_time($queryStartTime);
+								for ($i=0; $i < sizeof($stmt_objects); $i++) {
+									if ($stmt_objects[$i] == null) {
+										$query = str_replace_first('?', "NULL", $query);
+									} else {
+										$query = str_replace_first('?', "'".str_replace("?", "&quest;", $stmt_objects[$i])."'", $query);
+									}
+						    	}
+								Page::getInstance($_GET['p'])->addLogDebug($query." [Execution Time: ".round($queryStartTime, 3)." Seconds]");
 						}
 						
 						return $stmt;

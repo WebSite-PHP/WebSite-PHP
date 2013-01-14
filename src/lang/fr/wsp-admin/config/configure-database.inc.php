@@ -7,18 +7,18 @@
 	define("BTN_VALIDATE", "Valider");
 	
 	define("CONFIG_FILE", "Configuration");
-	define("CONFIG_FILE_OK", "Votre configuration a été enregistrée !");
-	define("CONFIG_FILE_NOT_OK", "Erreur lors de la sauvegarde, s'il vous plaît vérifier votre configuration!");
+	define("CONFIG_FILE_OK", "Votre configuration a Ã©tÃ© enregistrÃ©e !");
+	define("CONFIG_FILE_NOT_OK", "Erreur lors de la sauvegarde, s'il vous plaÃ®t vÃ©rifier votre configuration!");
 	
-	define("PRIMARY_KEY", "Clé primaire");
-	define("NO_PRIMARY_KEY", "Vous devez spécifier une clé primaire ou une clé unique sur la table %s.%s");
-	define("GENERATE_DATABASE_OBJECTS", "Génération des objets de la base");
-	define("GENERATE_OBJECTS", "Générer les objets");
-	define("GENERATE_DATABASE_OBJECTS_OK", "Génération des objets de la base de données %s terminée");
-	define("GENERATE_DATABASE_OBJECTS_ERROR", "Une erreur est survenue lors de la génération des objets de la base de données %s");
-	define("NO_DATABASE_SELECTED", "Aucune base de données sélectionnée");
-	define("DATABASES", "Base de données");
-	define("DATABASE", "Base de donnée");
+	define("PRIMARY_KEY", "ClÃ© primaire");
+	define("NO_PRIMARY_KEY", "Vous devez spÃ©cifier une clÃ© primaire ou une clÃ© unique sur la table %s.%s");
+	define("GENERATE_DATABASE_OBJECTS", "GÃ©nÃ©ration des objets de la base");
+	define("GENERATE_OBJECTS", "GÃ©nÃ©rer les objets");
+	define("GENERATE_DATABASE_OBJECTS_OK", "GÃ©nÃ©ration des objets de la base de donnÃ©es %s terminÃ©e");
+	define("GENERATE_DATABASE_OBJECTS_ERROR", "Une erreur est survenue lors de la gÃ©nÃ©ration des objets de la base de donnÃ©es %s");
+	define("NO_DATABASE_SELECTED", "Aucune base de donnÃ©es sÃ©lectionnÃ©e");
+	define("DATABASES", "Base de donnÃ©es");
+	define("DATABASE", "Base de donnÃ©e");
 	define("TABLES", "Tables");
 	define("ALL_TABLES", "Toutes les tables");
 ?>

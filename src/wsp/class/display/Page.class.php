@@ -7,7 +7,7 @@
  * Class Page
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.12
+ * @version     1.2.0
  * @access      public
  * @since       1.0.0
  */
@@ -175,7 +175,7 @@ class Page {
 	private $callback_method_params = array();
 	private $array_callback_object = array("Button", "ComboBox", "TextBox", "Password", "ColorPicker", "CheckBox", 
 											"ContextMenuEvent", "DroppableEvent", "SortableEvent", "Object", "Picture", 
-											"Calendar", "AutoCompleteEvent", "Raty");
+											"Calendar", "AutoCompleteEvent", "Raty", "TextArea");
 	
 	private $create_object_to_get_css_js = false;
 	private $ended_added_object_loaded = false;

@@ -1,16 +1,42 @@
 <?php
+/**
+ * PHP file wsp\class\modules\PDF\info\tutoriel\tuto4.php
+ */
+/**
+ * Class 
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2013 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 05/08/2011
+ * @version     1.2.0
+ * @access      public
+ * @since       1.2.0
+ */
+
 require('../fpdf.php');
 
 class PDF extends FPDF
 {
 //Colonne courante
 var $col=0;
-//Ordonnée du début des colonnes
+//OrdonnÃ©e du dÃ©but des colonnes
 var $y0;
 
+	/**
+	 * Method Header
+	 * @return boolean
+	 * @since 1.2.0
+	 */
 function Header()
 {
-	//En-tête
+	//En-tÃªte
 	global $titre;
 
 	$this->SetFont('Arial','B',15);
@@ -22,7 +48,7 @@ function Header()
 	$this->SetLineWidth(1);
 	$this->Cell($w,9,$titre,1,1,'C',true);
 	$this->Ln(10);
-	//Sauvegarde de l'ordonnée
+	//Sauvegarde de l'ordonnÃ©e
 	$this->y0=$this->GetY();
 }
 
@@ -46,19 +72,19 @@ function SetCol($col)
 
 function AcceptPageBreak()
 {
-	//Méthode autorisant ou non le saut de page automatique
+	//MÃ©thode autorisant ou non le saut de page automatique
 	if($this->col<2)
 	{
-		//Passage à la colonne suivante
+		//Passage Ã  la colonne suivante
 		$this->SetCol($this->col+1);
-		//Ordonnée en haut
+		//OrdonnÃ©e en haut
 		$this->SetY($this->y0);
 		//On reste sur la page
 		return false;
 	}
 	else
 	{
-		//Retour en première colonne
+		//Retour en premiÃ¨re colonne
 		$this->SetCol(0);
 		//Saut de page
 		return true;
@@ -72,7 +98,7 @@ function TitreChapitre($num,$lib)
 	$this->SetFillColor(200,220,255);
 	$this->Cell(0,6,"Chapitre $num : $lib",0,1,'L',true);
 	$this->Ln(4);
-	//Sauvegarde de l'ordonnée
+	//Sauvegarde de l'ordonnÃ©e
 	$this->y0=$this->GetY();
 }
 
@@ -90,7 +116,7 @@ function CorpsChapitre($fichier)
 	//Mention
 	$this->SetFont('','I');
 	$this->Cell(0,5,'(fin de l\'extrait)');
-	//Retour en première colonne
+	//Retour en premiÃ¨re colonne
 	$this->SetCol(0);
 }
 
@@ -107,7 +133,7 @@ $pdf=new PDF();
 $titre='Vingt mille lieues sous les mers';
 $pdf->SetTitle($titre);
 $pdf->SetAuthor('Jules Verne');
-$pdf->AjouterChapitre(1,'UN ÉCUEIL FUYANT','20k_c1.txt');
+$pdf->AjouterChapitre(1,'UN Ã‰CUEIL FUYANT','20k_c1.txt');
 $pdf->AjouterChapitre(2,'LE POUR ET LE CONTRE','20k_c2.txt');
 $pdf->Output();
 ?>

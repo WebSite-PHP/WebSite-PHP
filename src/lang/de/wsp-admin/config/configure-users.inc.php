@@ -2,19 +2,19 @@
 	define("LOGIN", "Benutzername");
 	define("PASSWORD", "Passwort");
 	define("OLD_PASSWORD", "Altes Passwort");
-	define("CONFIRM_PASSWD", "Bestätigen");
+	define("CONFIRM_PASSWD", "BestÃ¤tigen");
 	define("RIGHTS", "Rechte");
-	define("DELETE", "Löschen");
+	define("DELETE", "LÃ¶schen");
 	define("MODIFY", "Bearbeiten");
-	define("ADD", "Benutzer hinzufügen");
+	define("ADD", "Benutzer hinzufÃ¼gen");
 	define("SAVE", "Speichern");
 	define("CANCEL", "Abbrechen");
-	define("DEL_CONFIRM", "Wollen Sie wirklich diesen Benutzer Löschen ?");
+	define("DEL_CONFIRM", "Wollen Sie wirklich diesen Benutzer LÃ¶schen ?");
 	
-	define("ADD_USER_OK", "Benutzer %s wurde hinzugefügt");
-	define("ADD_USER_NOT_OK", "Fehler: Benutzer %s wurde nicht hinzugefügt");
-	define("MODIF_USER_OK", "Benutzer %s wurde geändert");
-	define("MODIF_USER_NOT_OK", "Fehler: Benutzer %s wurde nicht geändert");
-	define("DEL_USER_OK", "Benutzer %s wurde gelöscht");
-	define("DEL_USER_NOT_OK", "Fehler: Benutzer %s wurde nicht gelöscht");
+	define("ADD_USER_OK", "Benutzer %s wurde hinzugefÃ¼gt");
+	define("ADD_USER_NOT_OK", "Fehler: Benutzer %s wurde nicht hinzugefÃ¼gt");
+	define("MODIF_USER_OK", "Benutzer %s wurde geÃ¤ndert");
+	define("MODIF_USER_NOT_OK", "Fehler: Benutzer %s wurde nicht geÃ¤ndert");
+	define("DEL_USER_OK", "Benutzer %s wurde gelÃ¶scht");
+	define("DEL_USER_NOT_OK", "Fehler: Benutzer %s wurde nicht gelÃ¶scht");
 ?>

@@ -1,10 +1,10 @@
 <?php
 /**
- * PHP file wsp\class\display\TextBox.class.php
+ * PHP file wsp\class\display\TextArea.class.php
  * @package display
  */
 /**
- * Class TextBox
+ * Class TextArea
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
  * Copyright (c) 2009-2013 WebSite-PHP.com
@@ -16,18 +16,13 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
+ * @copyright   WebSite-PHP.com 10/01/2013
  * @version     1.2.0
  * @access      public
- * @since       1.0.17
+ * @since       1.2.0
  */
 
-class TextBox extends WebSitePhpEventObject {
-	/**#@+
-	* @access protected
-	*/
-	protected $type = "text";
-	/**#@-*/
+class TextArea extends WebSitePhpEventObject {
 	
 	/**#@+
 	* @access private
@@ -35,9 +30,9 @@ class TextBox extends WebSitePhpEventObject {
 	private $value = "";
 	private $default_value = "";
 	private $width = "";
+	private $height = "";
 	private $style = "";
 	private $class = "";
-	private $length = 0;
 	private $disable = false;
 	private $has_focus = false;
 	private $force_empty = false;
@@ -68,20 +63,17 @@ class TextBox extends WebSitePhpEventObject {
 	private $onmouseout = "";
 	
 	private $encrypt_object = null;
-	
-	private $autocomplete_object = null;
 	/**#@-*/
 	
 	/**
-	 * Constructor TextBox
+	 * Constructor TextArea
 	 * @param mixed $page_or_form_object 
 	 * @param string $name 
 	 * @param string $id 
 	 * @param string $value 
 	 * @param string $width 
-	 * @param double $length [default value: 0]
 	 */
-	function __construct($page_or_form_object, $name='', $id='', $value='', $width='', $length=0) {
+	function __construct($page_or_form_object, $name='', $id='', $value='', $width='') {
 		parent::__construct();
 		
 		if (!isset($page_or_form_object) || gettype($page_or_form_object) != "object" || (!is_subclass_of($page_or_form_object, "Page") && get_class($page_or_form_object) != "Form")) {
@@ -118,15 +110,14 @@ class TextBox extends WebSitePhpEventObject {
 		$this->value = $value;
 		$this->default_value = $value;
 		$this->width = $width;
-		$this->length = $length;
 	}
 	
 	/**
 	 * Method setValue
 	 * @access public
 	 * @param mixed $value 
-	 * @return TextBox
-	 * @since 1.0.36
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function setValue($value) {
 		if ($this->strip_tags) {
@@ -147,8 +138,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method setDefaultValue
 	 * @access public
 	 * @param mixed $value 
-	 * @return TextBox
-	 * @since 1.0.36
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function setDefaultValue($value) {
 		$this->default_value = $value;
@@ -160,8 +151,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method setWidth
 	 * @access public
 	 * @param integer $width 
-	 * @return TextBox
-	 * @since 1.0.36
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function setWidth($width) {
 		$this->width = $width;
@@ -170,11 +161,24 @@ class TextBox extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method setHeight
+	 * @access public
+	 * @param integer $height 
+	 * @return TextArea
+	 * @since 1.2.0
+	 */
+	public function setHeight($height) {
+		$this->height = $height;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
 	 * Method setStyle
 	 * @access public
 	 * @param mixed $style 
-	 * @return TextBox
-	 * @since 1.0.36
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function setStyle($style) {
 		$this->style = $style;
@@ -186,8 +190,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method setClass
 	 * @access public
 	 * @param mixed $class 
-	 * @return TextBox
-	 * @since 1.0.36
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function setClass($class) {
 		$this->class = $class;
@@ -196,24 +200,11 @@ class TextBox extends WebSitePhpEventObject {
 	}
 	
 	/**
-	 * Method setLength
-	 * @access public
-	 * @param mixed $length 
-	 * @return TextBox
-	 * @since 1.0.36
-	 */
-	public function setLength($length) {
-		$this->length = $length;
-		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
-		return $this;
-	}
-	
-	/**
 	 * Method setName
 	 * @access public
 	 * @param mixed $name 
-	 * @return TextBox
-	 * @since 1.0.36
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function setName($name) {
 		$this->name = $name;
@@ -226,8 +217,8 @@ class TextBox extends WebSitePhpEventObject {
 	/**
 	 * Method setFocus
 	 * @access public
-	 * @return TextBox
-	 * @since 1.0.36
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function setFocus() {
 		$this->has_focus = true;
@@ -239,8 +230,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method setLiveValidation
 	 * @access public
 	 * @param mixed $live_validation_object 
-	 * @return TextBox
-	 * @since 1.0.36
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function setLiveValidation($live_validation_object) {
 		if (get_class($live_validation_object) != "LiveValidation") {
@@ -253,28 +244,11 @@ class TextBox extends WebSitePhpEventObject {
 	}
 	
 	/**
-	 * Method setAutoComplete
-	 * @access public
-	 * @param mixed $autocomplete_object 
-	 * @return TextBox
-	 * @since 1.0.36
-	 */
-	public function setAutoComplete($autocomplete_object) {
-		if (gettype($autocomplete_object) != "object" && get_class($autocomplete_object) != "AutoComplete") {
-			throw new NewException(get_class($this)."->setAutoComplete(): \$autocomplete_object must be a AutoComplete object", 0, getDebugBacktrace(1));
-		}
-		$this->autocomplete_object = $autocomplete_object;
-		
-		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
-		return $this;
-	}
-	
-	/**
 	 * Method setEncryptObject
 	 * @access public
 	 * @param mixed $encrypt_object 
-	 * @return TextBox
-	 * @since 1.0.67
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function setEncryptObject($encrypt_object) {
 		if ($encrypt_object == null) {
@@ -298,8 +272,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method setStripTags
 	 * @access public
 	 * @param string $allowable_tags 
-	 * @return TextBox
-	 * @since 1.1.2
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function setStripTags($allowable_tags='') {
 		$this->strip_tags = true;
@@ -311,7 +285,7 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method getEncryptObject
 	 * @access public
 	 * @return mixed
-	 * @since 1.0.67
+	 * @since 1.2.0
 	 */
 	public function getEncryptObject() {
 		return $this->encrypt_object;
@@ -321,7 +295,7 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method isEncrypted
 	 * @access public
 	 * @return mixed
-	 * @since 1.0.67
+	 * @since 1.2.0
 	 */
 	public function isEncrypted() {
 		return ($this->encrypt_object==null?false:true);
@@ -330,8 +304,8 @@ class TextBox extends WebSitePhpEventObject {
 	/**
 	 * Method enable
 	 * @access public
-	 * @return TextBox
-	 * @since 1.0.36
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function enable() {
 		$this->disable = false;
@@ -342,8 +316,8 @@ class TextBox extends WebSitePhpEventObject {
 	/**
 	 * Method disable
 	 * @access public
-	 * @return TextBox
-	 * @since 1.0.36
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function disable() {
 		$this->disable = true;
@@ -354,8 +328,8 @@ class TextBox extends WebSitePhpEventObject {
 	/**
 	 * Method clearable
 	 * @access public
-	 * @return TextBox
-	 * @since 1.1.7
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function clearable() {
 		$this->is_clearable = true;
@@ -370,7 +344,7 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method getValue
 	 * @access public
 	 * @return mixed
-	 * @since 1.0.36
+	 * @since 1.2.0
 	 */
 	public function getValue() {
 		$this->initSubmitValue(); // init value with submit value if not already do
@@ -381,7 +355,7 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method getDefaultValue
 	 * @access public
 	 * @return mixed
-	 * @since 1.0.36
+	 * @since 1.2.0
 	 */
 	public function getDefaultValue() {
 		return $this->default_value;
@@ -391,7 +365,7 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method getClass
 	 * @access public
 	 * @return mixed
-	 * @since 1.0.36
+	 * @since 1.2.0
 	 */
 	public function getClass() {
 		return $this->class;
@@ -406,8 +380,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * @param mixed $arg3 [default value: null]
 	 * @param mixed $arg4 [default value: null]
 	 * @param mixed $arg5 [default value: null]
-	 * @return TextBox
-	 * @since 1.0.36
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function onChange($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		$args = func_get_args();
@@ -420,9 +394,9 @@ class TextBox extends WebSitePhpEventObject {
 	/**
 	 * Method onChangeJs
 	 * @access public
-	 * @param string|JavaScript $js_function 
-	 * @return TextBox
-	 * @since 1.0.36
+	 * @param mixed $js_function 
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function onChangeJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
@@ -440,7 +414,7 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method isChanged
 	 * @access public
 	 * @return mixed
-	 * @since 1.0.36
+	 * @since 1.2.0
 	 */
 	public function isChanged() {
 		if ($this->callback_onchange == "") {
@@ -463,8 +437,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * @param mixed $arg3 [default value: null]
 	 * @param mixed $arg4 [default value: null]
 	 * @param mixed $arg5 [default value: null]
-	 * @return TextBox
-	 * @since 1.0.84
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function onClick($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		$args = func_get_args();
@@ -478,8 +452,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method onClickJs
 	 * @access public
 	 * @param mixed $js_function 
-	 * @return TextBox
-	 * @since 1.0.84
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function onClickJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
@@ -497,7 +471,7 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method isClicked
 	 * @access public
 	 * @return mixed
-	 * @since 1.0.85
+	 * @since 1.2.0
 	 */
 	public function isClicked() {
 		if ($this->callback_onclick == "") {
@@ -510,8 +484,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method onMouseOverJs
 	 * @access public
 	 * @param mixed $js_function 
-	 * @return TextBox
-	 * @since 1.0.95
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function onMouseOverJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
@@ -529,8 +503,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method onMouseOutJs
 	 * @access public
 	 * @param mixed $js_function 
-	 * @return TextBox
-	 * @since 1.0.95
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function onMouseOutJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
@@ -553,8 +527,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * @param mixed $arg3 [default value: null]
 	 * @param mixed $arg4 [default value: null]
 	 * @param mixed $arg5 [default value: null]
-	 * @return TextBox
-	 * @since 1.0.96
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function onBlur($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		$args = func_get_args();
@@ -568,8 +542,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method onBlurJs
 	 * @access public
 	 * @param mixed $js_function 
-	 * @return TextBox
-	 * @since 1.0.95
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function onBlurJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
@@ -592,8 +566,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * @param mixed $arg3 [default value: null]
 	 * @param mixed $arg4 [default value: null]
 	 * @param mixed $arg5 [default value: null]
-	 * @return TextBox
-	 * @since 1.0.96
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function onKeyPress($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		$args = func_get_args();
@@ -607,8 +581,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method onKeyPressJs
 	 * @access public
 	 * @param mixed $js_function 
-	 * @return TextBox
-	 * @since 1.0.96
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function onKeyPressJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
@@ -631,8 +605,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * @param mixed $arg3 [default value: null]
 	 * @param mixed $arg4 [default value: null]
 	 * @param mixed $arg5 [default value: null]
-	 * @return TextBox
-	 * @since 1.1.6
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function onKeyUp($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		$args = func_get_args();
@@ -646,8 +620,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method onKeyUpJs
 	 * @access public
 	 * @param mixed $js_function 
-	 * @return TextBox
-	 * @since 1.1.6
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function onKeyUpJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
@@ -664,8 +638,8 @@ class TextBox extends WebSitePhpEventObject {
 	/**
 	 * Method forceEmpty
 	 * @access public
-	 * @return TextBox
-	 * @since 1.0.85
+	 * @return TextArea
+	 * @since 1.2.0
 	 */
 	public function forceEmpty() {
 		$this->getValue(); // ack to be sure of the value of force empty
@@ -679,8 +653,8 @@ class TextBox extends WebSitePhpEventObject {
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
-	 * @return string html code of object TextBox
-	 * @since 1.0.36
+	 * @return string html code of object TextArea
+	 * @since 1.2.0
 	 */
 	public function render($ajax_render=false) {
 		$this->automaticAjaxEvent();
@@ -699,21 +673,9 @@ class TextBox extends WebSitePhpEventObject {
 				$html .= $this->getJavascriptTagClose();
 			}
 			
-			$html .= "<input ";
-			if ($this->type != "") {
-				if ($this->type == "text" || $this->type == "calendar") {
-					$html .= "type='text' ";
-				} else {
-					$html .= "type='".$this->type."' ";
-				}
-			}
-			if (get_class($this) == "Calendar") {
-				$tmp_value = $this->getValueStr();
-			} else {
-				$tmp_value = $this->getValue();
-			}
-			$html .= "name='".$this->getEventObjectName()."' id='".$this->id."' value=\"".str_replace('"', '\\"', $tmp_value)."\"";
-			if ($this->width != "" || $this->style != "") {
+			$html .= "<textarea ";
+			$html .= "name='".$this->getEventObjectName()."' id='".$this->id."'";
+			if ($this->width != "" || $this->height != "" || $this->style != "") {
 				$html .= " style='";
 				if ($this->width != "") {
 					$html .= "width:";
@@ -724,6 +686,15 @@ class TextBox extends WebSitePhpEventObject {
 					}
 					$html .= ";";
 				}
+				if ($this->height != "") {
+					$html .= "height:";
+					if (is_integer($this->height)) {
+						$html .= $this->height."px";
+					} else {
+						$html .= $this->height;
+					}
+					$html .= ";";
+				}
 				if ($this->style != "") {
 					$html .= $this->style.";";
 				}
@@ -731,9 +702,6 @@ class TextBox extends WebSitePhpEventObject {
 			}
 			if ($this->class != "") {
 				$html .= " class='".$this->class."'";
-			}
-			if ($this->length > 0) {
-				$html .= " length='".$this->length."'";
 			}
 			if ($this->disable) {
 				$html .= " disabled";
@@ -767,15 +735,12 @@ class TextBox extends WebSitePhpEventObject {
 			if ($this->onkeyup != "" || $this->callback_onkeyup != "") {
 				$html .= " onKeyUp=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeyup, $this->callback_onkeyup, "", true))."\"";
 			}
-			$html .= "/>\n";
+			$html .= ">";
+			
+			$html.=str_replace('"', '\\"', $this->getValue())."</textarea>";
 			
 			if ($this->live_validation != null) {
 				$html .= $this->live_validation->render();
-			}
-			if (find($this->class, "color {") > 0 && ($GLOBALS['__AJAX_PAGE__'] == true || $GLOBALS['__AJAX_LOAD_PAGE__'] == true)) {
-				$html .= $this->getJavascriptTagOpen();
-				$html .= "jscolor.init();\n";
-				$html .= $this->getJavascriptTagClose();
 			}
 			if ($this->has_focus || $this->is_clearable) {
 				$html .= $this->getJavascriptTagOpen();
@@ -789,13 +754,6 @@ class TextBox extends WebSitePhpEventObject {
 				$html .= "});\n";
 				$html .= $this->getJavascriptTagClose();
 			}
-			if ($this->autocomplete_object != null) {
-				if ($this->id == "") {
-					throw new NewException("Error : You must specified an id for this object to use autocomplete functionality", 0, getDebugBacktrace(1));
-				}
-				$this->autocomplete_object->setLinkObjectId($this->getId());
-				$html .= $this->autocomplete_object->render();
-			}
 		}
 		$this->object_change = false;
 		return $html;
@@ -804,8 +762,8 @@ class TextBox extends WebSitePhpEventObject {
 	/**
 	 * Method getAjaxRender
 	 * @access public
-	 * @return string javascript code to update initial html of object TextBox (call with AJAX)
-	 * @since 1.0.36
+	 * @return string javascript code to update initial html of object TextArea (call with AJAX)
+	 * @since 1.2.0
 	 */
 	public function getAjaxRender() {
 		$this->automaticAjaxEvent();
@@ -814,11 +772,7 @@ class TextBox extends WebSitePhpEventObject {
 		if ($this->object_change && !$this->is_new_object_after_init) {
 			if ($this->isChanged() || $this->getValue() != $this->default_value || ($this->force_empty && $this->getValue() == "")) {
 				$html .= "$('#".$this->id."').val(\"";
-				if (get_class($this) == "Calendar") {
-					$html .= str_replace('"', '\\"', $this->getValueStr());
-				} else {
-					$html .= str_replace('"', '\\"', $this->getValue());
-				}
+				$html .= str_replace('"', '\\"', $this->getValue());
 				$html .= "\");\n";
 			}
 			$html .= "$('#".$this->id."').css('width', \"";
@@ -830,9 +784,6 @@ class TextBox extends WebSitePhpEventObject {
 			$html .= "\");\n";
 			$html .= "$('#".$this->id."').attr('class', \"".$this->class."\");";
 			$html .= "$('#".$this->id."').attr('disabled', ".(($this->disable)?"true":"false").");\n";
-			if ($this->length > 0) {
-				$html .= "$('#".$this->id."').attr('maxLength', ".$this->length.");\n";
-			}
 			
 			if ($this->onchange != "" || $this->callback_onchange != "") {
 				$html .= "$('#".$this->id."').attr('onChange', '";

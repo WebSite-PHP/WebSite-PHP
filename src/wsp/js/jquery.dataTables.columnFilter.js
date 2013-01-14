@@ -387,7 +387,7 @@
             var r = '', j, iLen = aData.length;
 
             //clean the string
-            var localLabel = label.replace('%', 'Perc').replace("&", "AND").replace("$", "DOL").replace("£", "STERL").replace("@", "AT").replace(/\s/g, "_");
+            var localLabel = label.replace('%', 'Perc').replace("&", "AND").replace("$", "DOL").replace("Â£", "STERL").replace("@", "AT").replace(/\s/g, "_");
             localLabel = localLabel.replace(/[^a-zA-Z 0-9]+/g, '');
             //clean the string
 

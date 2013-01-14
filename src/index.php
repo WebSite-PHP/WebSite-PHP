@@ -6,7 +6,7 @@
  * Entry point of all HTML pages
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.12
+ * @version     1.2.0
  * @access      public
  * @since       1.0.0
  */
@@ -434,7 +434,8 @@
 		}
 		if (SEND_JS_ERROR_BY_MAIL) {
 			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
-				find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0) {
+				find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+				find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0) {
 					JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery.onerror.js", "", true);
 			}
 		}
@@ -489,7 +490,10 @@
 		</div>
 	</noscript>
 	<body>
-		<?php if (GOOGLE_CODE_TRACKER != "" && find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0 && !defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) { ?>
+		<?php if (GOOGLE_CODE_TRACKER != "" && 
+					find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+					find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+					!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) { ?>
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', '<?php echo GOOGLE_CODE_TRACKER; ?>']);
@@ -532,7 +536,8 @@
 		}
 		if (SEND_JS_ERROR_BY_MAIL) {
 			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
-				find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0) {
+				find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+				find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0) {
 		?>
 			$(document).jsErrorHandler();
 		<?php
@@ -558,7 +563,8 @@
 			echo str_replace("\n\n", "\n", str_replace("\r", "", str_replace("\t", "", $page_object->render())));
 			if (DEBUG) { $page_object->displayExecutionTime("End Render"); }
 		?>
-		<div align="center">
+		<!-- Please support the project: don't remove the WSP copyright -->
+		<div align="center" id="wsp-copyright">
 			<img src="http://www.website-php.com/img/logo_16x16.png" height="16" width="16" align="absmiddle"/> Site created with framework <a href="http://www.website-php.com" target="_blank">WebSite-PHP</a>
 		</div>
 		<script type="text/javascript">

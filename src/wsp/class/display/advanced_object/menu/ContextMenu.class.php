@@ -8,7 +8,7 @@
  * Class ContextMenu
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.7
+ * @version     1.2.0
  * @access      public
  * @since       1.0.17
  */
@@ -141,26 +141,29 @@ class ContextMenu extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$html = "";
 		if (!$ajax_render) {
-			$html = "<ul id=\"".$this->id."\" class=\"contextMenu\">\n";
+			$menu_html = "<ul id=\"".$this->id."\" class=\"contextMenu\">\n";
 			for ($i=0; $i < sizeof($this->array_item); $i++) {
-				$html .= "	<li";
+				$menu_html .= "	<li";
 				if ($this->array_item_icon[$i]!="" || $this->array_item_sep[$i]!=false) {
-					$html .= " class=\"";
+					$menu_html .= " class=\"";
 					if ($this->array_item_icon[$i]!="") {
-						$html .= $this->array_item_icon[$i];
+						$menu_html .= $this->array_item_icon[$i];
 					}
 					if ($this->array_item_sep[$i]!=false) {
 						if ($this->array_item_icon[$i]!="") {
-							$html .= " ";
+							$menu_html .= " ";
 						}
-						$html .= "separator";
+						$menu_html .= "separator";
 					}
-					$html .= "\"";
+					$menu_html .= "\"";
 				}
-				$html .= "><a href=\"#".$i;
-				$html .= "\">".$this->array_item[$i]."</a></li>\n";
+				$menu_html .= "><a href=\"#".$i;
+				$menu_html .= "\">".$this->array_item[$i]."</a></li>\n";
 			}
-			$html .= "</ul>\n";
+			$menu_html .= "</ul>\n";
+			if ($this->getPage()->isAjaxLoadPage()) {
+				$html .= $menu_html;
+			}
 			
 			$array_context_menu_displayed = array();
 			for ($i=0; $i < sizeof($this->array_item_fct); $i++) {
@@ -176,6 +179,10 @@ class ContextMenu extends WebSitePhpObject {
 				}
 			}
 			$html .= $this->getJavascriptTagOpen();
+			$html .= "$(document).ready( function() {\n";
+			if (!$this->getPage()->isAjaxLoadPage()) {
+				$html .= "$('body').append('".addslashes(str_replace("\r", "", str_replace("\n", "", $menu_html)))."');\n";
+			}
 			for ($i=0; $i < sizeof($this->array_item_fct); $i++) {
 				$html .= "contextMenuFct_".$this->id."_".$i." = function(el, pos) {\n";
 				if ($this->array_item_fct[$i] != "") {
@@ -221,6 +228,7 @@ class ContextMenu extends WebSitePhpObject {
 		}
 		
 		if (!$ajax_render) {
+			$html .= "});\n";
 			$html .= $this->getJavascriptTagClose();
 		}
 		$this->object_change = false;

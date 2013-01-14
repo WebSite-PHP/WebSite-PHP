@@ -14,27 +14,27 @@
 	
 	define("LANGUAGE", "Sprachen");
 	define("ENGLISH", "Englisch");
-	define("FRENCH", "Französisch");
+	define("FRENCH", "FranzÃ¶sisch");
 	define("GERMAN", "Deutsch");
 	
 	define("DISCONNECT", "Disconnect");
-	define("CHANGE_PASSWD", "Passwort ändern");
-	define("CHANGE_PASSWD_CONGRATULATION", "Herzlichen Glückwunsch, Ihr Passwort wurde geändert.");
-	define("CHANGE_PASSWD_ERROR", "Fehler, bitte überprüfen Sie ob Ihr neues Passwort leer ist oder Ihr altes Passwort korrekt ist.");
+	define("CHANGE_PASSWD", "Passwort Ã¤ndern");
+	define("CHANGE_PASSWD_CONGRATULATION", "Herzlichen GlÃ¼ckwunsch, Ihr Passwort wurde geÃ¤ndert.");
+	define("CHANGE_PASSWD_ERROR", "Fehler, bitte Ã¼berprÃ¼fen Sie ob Ihr neues Passwort leer ist oder Ihr altes Passwort korrekt ist.");
 	
-	define("NEW_WSP_VERSION", "Sie können <a href=\"javascript:void(0);\" onClick=\"%s\">Website-PHP auf die neuteste Version aktualisieren</a> (Version %s).");
+	define("NEW_WSP_VERSION", "Sie kÃ¶nnen <a href=\"javascript:void(0);\" onClick=\"%s\">Website-PHP auf die neuteste Version aktualisieren</a> (Version %s).");
 	define("NEW_WSP_VERSION_INSTALL_PHP_ZIP", "(Bitte installieren Sie <a href=\"http://www.php.net/manual/en/zip.installation.php\" target=\"_blank\">PHP-Zip</a> um das Framework automatisch zu aktualisieren)");
 	define("NEW_BROWSCAP_VERSION", "Browscap.ini ist nicht aktuell, <a href=\"javascript:void(0);\" onClick=\"%s\">klicken Sie hier zum aktualisieren</a> (Version %s).<br/>");
 	define("CURRENT_WSP_VERSION", "Aktuelle Version von Website-PHP: %s");
-	define("INSTALL_PHP_SOAP", "Installieren Sie PHP lib SOAP um über neue Versionen von <a href=\"http://www.website-php.com\" target=\"_blank\">WebSite-PHP</a> benachrichtig zu werden<br/>");
+	define("INSTALL_PHP_SOAP", "Installieren Sie PHP lib SOAP um Ã¼ber neue Versionen von <a href=\"http://www.website-php.com\" target=\"_blank\">WebSite-PHP</a> benachrichtig zu werden<br/>");
 	
 	define("UPDATE_FRAMEWORK", "Aktualisierung");
 	define("UPDATE_FRAMEWORK_WAITING", "Warten ...");
 	define("UPDATE_FRAMEWORK_COMPLETE", "Aktualisierung abgeschlossen");
-	define("UPDATE_FRAMEWORK_COMPLETE_OK", "Herzlichen Glückwunsch, %s ist aktuell");
+	define("UPDATE_FRAMEWORK_COMPLETE_OK", "Herzlichen GlÃ¼ckwunsch, %s ist aktuell");
 	define("UPDATE_FRAMEWORK_COMPLETE_NOT_OK", "Fehler, %s ist nicht aktuell");
 	define("UPDATE_FRAMEWORK_CONFIRM", "Sind Sie sicher, dass Sie %s aktualisieren wollen?");
-	define("UPDATE_FRAMEWORK_WSP_WARNING", "Bitte bedenken Sie, diese Aktualisierung auf die aktuelle Version kann sich auf Ihre Website auswirken. Wir empfehlen Ihnen, Ihre Seite zu speichern (CVS, SVN, ...) und diese Aktualisierung nicht im produktiven Betrieb auszuführen.");
+	define("UPDATE_FRAMEWORK_WSP_WARNING", "Bitte bedenken Sie, diese Aktualisierung auf die aktuelle Version kann sich auf Ihre Website auswirken. Wir empfehlen Ihnen, Ihre Seite zu speichern (CVS, SVN, ...) und diese Aktualisierung nicht im produktiven Betrieb auszufÃ¼hren.");
 	define("UPDATE_FRAMEWORK_YES", "Ja");
 	define("UPDATE_FRAMEWORK_NO", "Nein");
 	

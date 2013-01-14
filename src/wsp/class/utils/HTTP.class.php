@@ -7,7 +7,7 @@
  * Class HTTP
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 16/12/2011
- * @version     1.1.5
+ * @version     1.2.0
  * @access      public
  * @since       1.0.99
  */
@@ -640,12 +640,12 @@ class HTTP {
         if ($urlParsed['scheme'] == 'https')
         {
             $this->host = 'ssl://' . $urlParsed['host'];
-            $this->port = ($this->port != 0) ? $this->port : 443;
+            $this->port = ($urlParsed['port'] != 0 && $urlParsed['port'] != "") ? $urlParsed['port'] : 443;
         }
         else
         {
             $this->host = $urlParsed['host'];
-            $this->port = ($this->port != 0) ? $this->port : 80;
+            $this->port = ($urlParsed['port'] != 0 && $urlParsed['port'] != "") ? $urlParsed['port'] : 80;
         }
         
         // Finalize the target path

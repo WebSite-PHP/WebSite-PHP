@@ -7,7 +7,7 @@
  * Class Link
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.2.0
  * @access      public
  * @since       1.0.17
  */
@@ -55,6 +55,9 @@ class Link extends WebSitePhpObject {
 	private $track_categ = "";
 	private $track_action = "";
 	private $track_label = "";
+	
+	private $rel = "";
+	private $property = "";
 	/**#@-*/
 	
 	/**
@@ -140,6 +143,30 @@ class Link extends WebSitePhpObject {
 	 */
 	public function setNofollowLink() {
 		$this->nofollow = true;
+		return $this;
+	}
+	
+	/**
+	 * Method setRel
+	 * @access public
+	 * @param mixed $rel 
+	 * @return Link
+	 * @since 1.2.0
+	 */
+	public function setRel($rel) {
+		$this->rel = $rel;
+		return $this;
+	}
+	
+	/**
+	 * Method setProperty
+	 * @access public
+	 * @param mixed $property 
+	 * @return Link
+	 * @since 1.2.0
+	 */
+	public function setProperty($property) {
+		$this->property = $property;
 		return $this;
 	}
 		
@@ -341,6 +368,12 @@ class Link extends WebSitePhpObject {
 		}
 		if ($this->nofollow && !$this->is_lightbox) {
 			$html .= " rel=\"nofollow\"";
+		}
+		if ($this->rel != "") {
+			$html .= " rel=\"".$this->rel."\"";
+		}
+		if ($this->property != "") {
+			$html .= " property=\"".$this->property."\"";
 		}
 		
 		if ($this->onclick != "" && find($html, "javascript:void(0);\" onClick=\"", 1) == 0) {

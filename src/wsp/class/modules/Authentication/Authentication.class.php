@@ -8,7 +8,7 @@
  * Class Authentication
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 31/05/2011
- * @version     1.1.11
+ * @version     1.2.0
  * @access      public
  * @since       1.0.84
  */
@@ -45,6 +45,8 @@ class Authentication extends WebSitePhpObject {
 	private $encrypt=true;
 	private $button_class='';
 	private $table_style='';
+	private $input_width = 150;
+	private $table_width = "";
 	
 	protected $authentication_msg = true;
 	protected $color_ok = "#00FF33";
@@ -138,14 +140,46 @@ class Authentication extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method setTableWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return Authentication
+	 * @since 1.2.0
+	 */
+	public function setTableWidth($width) {
+		$this->table_width = $width;
+		if ($this->table_main != null) {
+			$this->table_main->setWidth($this->table_width);
+		}
+		return $this;
+	}
+	
+	/**
+	 * Method setInputWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return Authentication
+	 * @since 1.2.0
+	 */
+	public function setInputWidth($width) {
+		$this->input_width = $width;
+		if ($this->login != null) {
+			$this->login->setWidth($this->input_width);
+			$this->password->setWidth($this->input_width);
+		}
+		return $this;
+	}
+	
+	/**
 	 * Method createRender
 	 * @access private
 	 * @param boolean $first_time [default value: true]
 	 * @since 1.1.11
 	 */
 	private function createRender($first_time=true) {
-		$table_main = new Table();
-		$table_main->setClass($this->table_style);
+		$this->table_main = new Table();
+		$this->table_main->setClass($this->table_style);
+		$this->table_main->setWidth($this->table_width);
 		
 		if ($first_time) {
 			$this->form = new Form($this->page_object);
@@ -156,12 +190,12 @@ class Authentication extends WebSitePhpObject {
 			$this->login = new TextBox($this->form, "wsp_auth_login");
 			$login_validation = new LiveValidation();
 			$this->login->setLiveValidation($login_validation->addValidatePresence()->setFieldName(__(AUTHENTICATION_LOGIN)));
-			$this->login->setFocus()->setStripTags();
+			$this->login->setFocus()->setStripTags()->setWidth($this->input_width);
 			
 			$this->password = new Password($this->form, "wsp_auth_passwd");
 			$passwd_validation = new LiveValidation();
 			$this->password->setLiveValidation($passwd_validation->addValidatePresence()->setFieldName(__(AUTHENTICATION_PASSWD)));
-			$this->password->setStripTags();
+			$this->password->setStripTags()->setWidth($this->input_width);
 			
 			$this->connect_button = new Button($this->form, "wsp_auth_connect", "", __(AUTHENTICATION_CONNECT));
 			$this->hdnReferer = new Hidden($this->form, "wsp_auth_referer");
@@ -179,39 +213,39 @@ class Authentication extends WebSitePhpObject {
 		$this->connect_button->assignEnterKey()->onClick($this->connect_method)->setAjaxEvent();
 		
 		if ($this->style == Authentication::STYLE_2_LINES) {
-			$table_main->addRow($this->error_obj)->setColspan(2)->setAlign(RowTable::ALIGN_CENTER);
+			$this->table_main->addRow($this->error_obj)->setColspan(2)->setAlign(RowTable::ALIGN_CENTER);
 			
-			$table_main->addRowColumns(__(AUTHENTICATION_LOGIN).":&nbsp;", $this->login)->setColumnWidth(2, "100%")->setNowrap();
-			$table_main->addRowColumns(__(AUTHENTICATION_PASSWD).":&nbsp;", $this->password)->setNowrap();
-			$table_main->addRow();
-			$table_main->addRow($this->connect_button)->setColspan(2);
+			$this->table_main->addRowColumns(__(AUTHENTICATION_LOGIN).":&nbsp;", $this->login)->setColumnWidth(2, "100%")->setNowrap();
+			$this->table_main->addRowColumns(__(AUTHENTICATION_PASSWD).":&nbsp;", $this->password)->setNowrap();
+			$this->table_main->addRow();
+			$this->table_main->addRow($this->connect_button)->setColspan(2);
 		} else if ($this->style == Authentication::STYLE_2_LINES_NO_TEXT) {
-			$table_main->addRow($this->error_obj)->setAlign(RowTable::ALIGN_CENTER);
+			$this->table_main->addRow($this->error_obj)->setAlign(RowTable::ALIGN_CENTER);
 			
 			$this->login->setValue(__(AUTHENTICATION_LOGIN));
 			$this->login->onClickJs("\$('#".$this->login->getId()."').val('');");
 			$this->password->setValue(__(AUTHENTICATION_PASSWD));
 			$this->password->onClickJs("\$('#".$this->password->getId()."').val('');");
 			
-			$table_main->addRowColumns($this->login->setFocus())->setColumnWidth(2, "100%")->setNowrap();
-			$table_main->addRowColumns($this->password)->setNowrap();
-			$table_main->addRow();
-			$table_main->addRow($this->connect_button);
+			$this->table_main->addRowColumns($this->login->setFocus())->setColumnWidth(2, "100%")->setNowrap();
+			$this->table_main->addRowColumns($this->password)->setNowrap();
+			$this->table_main->addRow();
+			$this->table_main->addRow($this->connect_button);
 		} else if ($this->style == Authentication::STYLE_1_LINE) {
-			$table_main->addRow($this->error_obj)->setColspan(5)->setAlign(RowTable::ALIGN_CENTER);
+			$this->table_main->addRow($this->error_obj)->setColspan(5)->setAlign(RowTable::ALIGN_CENTER);
 			
-			$table_main->addRowColumns(new Object(__(AUTHENTICATION_LOGIN), ":<br/>", $this->login->setFocus()), "&nbsp;", 
+			$this->table_main->addRowColumns(new Object(__(AUTHENTICATION_LOGIN), ":<br/>", $this->login->setFocus()), "&nbsp;", 
 										new Object(__(AUTHENTICATION_PASSWD), ":<br/>", $this->password), "&nbsp;", 
 										$this->connect_button)->setNowrap();
 		} else if ($this->style == Authentication::STYLE_1_LINE_NO_TEXT) {
-			$table_main->addRow($this->error_obj)->setColspan(3)->setAlign(RowTable::ALIGN_CENTER);
+			$this->table_main->addRow($this->error_obj)->setColspan(3)->setAlign(RowTable::ALIGN_CENTER);
 			
 			$this->login->setValue(__(AUTHENTICATION_LOGIN));
 			$this->login->onClickJs("\$('#".$this->login->getId()."').val('');");
 			$this->password->setValue(__(AUTHENTICATION_PASSWD));
 			$this->password->onClickJs("\$('#".$this->password->getId()."').val('');");
 			
-			$table_main->addRowColumns($this->login->setFocus(), "&nbsp;", 
+			$this->table_main->addRowColumns($this->login->setFocus(), "&nbsp;", 
 										 $this->password, "&nbsp;", 
 										$this->connect_button)->setNowrap();
 		}
@@ -220,7 +254,7 @@ class Authentication extends WebSitePhpObject {
 			$this->hdnReferer->setValue(trim($_GET['referer']));
 		}
 		
-		$this->form->setContent(new Object($table_main, $this->hdnReferer));
+		$this->form->setContent(new Object($this->table_main, $this->hdnReferer));
 		$this->render = $this->form;
 	}
 	

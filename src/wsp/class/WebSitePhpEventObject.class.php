@@ -6,7 +6,7 @@
  * Class WebSitePhpEventObject
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.12
+ * @version     1.2.0
  * @access      public
  * @since       1.0.18
  */
@@ -305,7 +305,8 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 				if (gettype($array_args[$i]) == "object") {
 					if (get_class($array_args[$i]) == "TextBox" || get_class($array_args[$i]) == "ColorPicker" || 
 						get_class($array_args[$i]) == "Button" || get_class($array_args[$i]) == "Calendar" || 
-						get_class($array_args[$i]) == "CheckBox" || get_class($array_args[$i]) == "Hidden") {
+						get_class($array_args[$i]) == "CheckBox" || get_class($array_args[$i]) == "Hidden" || 
+						get_class($array_args[$i]) == "TextArea") {
 							$this->callback_args .= "\''+$('#".trim($array_args[$i]->getId())."').val()+'\'";
 					} else if (get_class($array_args[$i]) == "ComboBox") {
 						$this->callback_args .= "\''+$('#".trim($array_args[$i]->getEventObjectName())."').val()+'\'";
@@ -321,8 +322,9 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 				}
 			}
 			
-			if ($this->form_object == null || $this->form_object->getAction() == "") {
-				$callback = $str_function_tmp;
+			if ($this->form_object == null || ($this->form_object->getAction() == "" || 
+				($this->form_object->getAction() != "" && substr($this->form_object->getAction(), 0, strlen($_GET['p'])) == $_GET['p']))) {
+					$callback = $str_function_tmp;
 			} else {
 				if (find($str_function_tmp, "public_", 0, 0) > 0) {
 					$callback = get_class($page_object)."().".$str_function_tmp;
@@ -449,8 +451,9 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 			$html .= "							dialogbox_is_change = true;\n";
 			$html .= "						}\n";
 		}
-	    if (find(BASE_URL, "127.0.0.1/", 0, 0) == 0 && find(BASE_URL, "localhost/", 0, 0) == 0) {
-			$html .= "						eval(ajax_event_response[ajax_event_ind]);\n";
+	    if (find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+	    	find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0) {
+				$html .= "						eval(ajax_event_response[ajax_event_ind]);\n";
 		} else { // display ajax render error message when it's local execution (useful to debug)
 			$html .= "						try {\n";
 		    $html .= "							eval(ajax_event_response[ajax_event_ind]);\n";

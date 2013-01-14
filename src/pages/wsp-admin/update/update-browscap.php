@@ -8,7 +8,7 @@
  * URL: http://127.0.0.1/website-php-install/wsp-admin/update/update-browscap.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.11
+ * @version     1.2.0
  * @access      public
  * @since       1.1.4
  */
@@ -79,7 +79,11 @@ class UpdateBrowscap extends Page {
 			$browscap_file->write($data);
 		}
 		$browscap_file->close();
+		
 		unset($_SESSION['user_browscap_version']);
+		unset($_SESSION['browser_info']);
+		global $browscapIni;
+		unset($browscapIni);
 		
 		if ($data != "") {
 			return true;
