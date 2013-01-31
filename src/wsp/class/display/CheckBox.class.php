@@ -7,7 +7,7 @@
  * Class CheckBox
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.11
+ * @version     1.2.1
  * @access      public
  * @since       1.0.17
  */
@@ -111,6 +111,9 @@ class CheckBox extends WebSitePhpEventObject {
 	public function setValue($value) {
 		if ($value != "on" && $value != "off" && $value != "") {
 			throw new NewException("Object ".get_class($this)." don't accept the check value ".$value." (accepted values: `empty`, on, off)", 0, getDebugBacktrace(1));
+		}
+		if (!$this->getSubmitValueIsInit() && $GLOBALS['__PAGE_IS_INIT__'] == true) {
+			$this->setSubmitValueIsInit();
 		}
 		$this->checked = $value;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
@@ -213,7 +216,13 @@ class CheckBox extends WebSitePhpEventObject {
 	 * @since 1.0.36
 	 */
 	public function isChecked() {
-		return ($this->checked == "on" || $this->checked == true) ? true : false;
+		if (!$this->getSubmitValueIsInit() && $GLOBALS['__PAGE_IS_INIT__'] == true) {
+			$result = $this->initSubmitValue();
+			if (!$result) {
+				$this->setValue("");
+			}
+		}
+		return ($this->checked == "on" || $this->checked === true) ? true : false;
 	}
 
 	/**
@@ -361,7 +370,7 @@ class CheckBox extends WebSitePhpEventObject {
 			$html .= $this->getJavascriptTagClose();
 		}
 		
-		$html .= "<label for=\"".$this->getEventObjectName()."\"><input type=\"checkbox\" id=\"".$this->getEventObjectName()."\" name=\"".$this->getEventObjectName()."\"";
+		$html .= "<label for=\"".$this->getId()."\"><input type=\"checkbox\" id=\"".$this->getId()."\" name=\"".$this->getEventObjectName()."\"";
 		if ($this->checked == "on") {
 			$html .= " CHECKED";
 		}

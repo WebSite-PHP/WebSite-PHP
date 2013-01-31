@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.0
+ * @version     1.2.1
  * @access      public
  * @since       1.0.25
  */
@@ -666,7 +666,7 @@ $data .= "		}
 	public function set".$this->getFormatValue($array_var[$i])."(\$".$array_var[$i].") {\n";
 	if (in_array($array_var[$i], $array_var_key)) {
 		$data .= "		if (\$this->".$array_var[$i]." != \"\") {
-			throw new NewException(\"".$class_name."WspObject->set".$this->getFormatValue($array_var[$i])."(): you can change the value of the key ".$array_var[$i].".\", 0, getDebugBacktrace(1));
+			throw new NewException(\"".$class_name."WspObject->set".$this->getFormatValue($array_var[$i])."(): you can't change the value of the key ".$array_var[$i].".\", 0, getDebugBacktrace(1));
 		}\n";
 	}
 	if ($array_var_type[$i] == "datetime") {

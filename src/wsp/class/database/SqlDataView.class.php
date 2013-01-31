@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.0
+ * @version     1.2.1
  * @access      public
  * @since       1.0.17
  */
@@ -472,6 +472,7 @@ class SqlDataView {
 	
 	/**
 	 * Method setCustomFields
+	 * Note: Don't forget to prefix the fields if you use join and there is 2 fields with the same name
 	 * @access public
 	 * @param mixed $field1 
 	 * @param mixed $field2 [default value: null]

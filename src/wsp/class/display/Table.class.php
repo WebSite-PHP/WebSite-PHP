@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.0
+ * @version     1.2.1
  * @access      public
  * @since       1.0.17
  */
@@ -857,6 +857,15 @@ class Table extends WebSitePhpObject {
 			if (isset($attribute_properties["width"]) && method_exists($input_obj, "setWidth")) {
 				$input_obj->setWidth($attribute_properties["width"]);
 			}
+			if (isset($attribute_properties["height"]) && method_exists($input_obj, "setHeight")) {
+				$input_obj->setHeight($attribute_properties["height"]);
+			}
+			if (isset($attribute_properties["class"]) && method_exists($input_obj, "setClass")) {
+				$input_obj->setClass($attribute_properties["class"]);
+			}
+			if (isset($attribute_properties["style"]) && method_exists($input_obj, "setStyle")) {
+				$input_obj->setStyle($attribute_properties["style"]);
+			}
 			if (get_class($input_obj) != "Calendar") {
 				if (isset($attribute_properties["strip_tags"]) && $attribute_properties["strip_tags"] == true && 
 						method_exists($input_obj, "setStripTags")) {
@@ -911,7 +920,11 @@ class Table extends WebSitePhpObject {
 		}
 		
 		if (gettype($sender) == "object") {
-			$sender_id = $sender->getId();
+			if (get_class($sender) == "ComboBox") {
+				$sender_id = $sender->getName();
+			} else {
+				$sender_id = $sender->getId();
+			}
 		} else {
 			$sender_id = $sender;
 		}
@@ -942,7 +955,11 @@ class Table extends WebSitePhpObject {
 				$search_pos = array_search($attribute_name, $list_attribute);
 				if ($search_pos !== false) {
 					settype($value, $list_attribute_type[$search_pos]);
-					if ($value == "") {
+				}
+				if ($value == "") {
+					if (get_class($sender) == "CheckBox") {
+						$value = 0;
+					} else {
 						$value = null;
 					}
 				}
@@ -973,11 +990,11 @@ class Table extends WebSitePhpObject {
 						$row_obj->add($edit_pic, " ");
 					}
 					if (get_class($sender) == "ComboBox") {
-						$row_obj->add(($value==null?"&nbsp;&nbsp;":$sender->getText()));
+						$row_obj->add(($value===null?"&nbsp;&nbsp;":$sender->getText()));
 					} else if (get_class($sender) == "Calendar") {
-						$row_obj->add(($value==null?"&nbsp;&nbsp;":$sender->getValueStr()));
+						$row_obj->add(($value===null?"&nbsp;&nbsp;":$sender->getValueStr()));
 					} else {
-						$row_obj->add(($value==null?"&nbsp;&nbsp;":$value));
+						$row_obj->add(($value===null?"&nbsp;&nbsp;":$value));
 					}
 					$this->getPage()->addObject(new JavaScript("$('#".$object_text_id."').css('display', 'inline');$('#".$object_id."').hide();".($this->from_sql_data_view_add_button!=null?"$('#".$this->from_sql_data_view_add_button->getId()."').button({ disabled: false });":"")), false, true);
 				} catch (Exception $e) {
@@ -1017,7 +1034,11 @@ class Table extends WebSitePhpObject {
 								}
 							}
 							if ($value == "") {
-								$value = null;
+								if (get_class($input_obj) == "CheckBox") {
+									$value = 0;
+								} else {
+									$value = null;
+								}
 							}
 							if (!$error) {
 								// get property db_attribute

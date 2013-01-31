@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php-install/wsp-admin/config/configure-site.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.12
+ * @version     1.2.1
  * @access      public
  * @since       1.0.25
  */
@@ -216,6 +216,13 @@ class ConfigureSite extends Page {
 		$this->edtDefaultTimezone->setValue(DEFAULT_TIMEZONE);
 		$edtValidation = new LiveValidation();
 		$table_form2->addRowColumns(__(EDT_DEFAULT_TIMEZONE).":&nbsp;", $this->edtDefaultTimezone->setLiveValidation($edtValidation->addValidatePresence()->setFieldName(__(EDT_DEFAULT_TIMEZONE))));
+		
+		$table_form2->addRow();
+
+		$this->edtMaxSessionTime = new TextBox($this->form2, "edtMaxSessionTime");
+		$this->edtMaxSessionTime->setValue(MAX_SESSION_TIME)->setWidth(80);
+		$edtValidation = new LiveValidation();
+		$table_form2->addRowColumns(__(EDT_MAX_SESSION_TIME).":&nbsp;", new Object($this->edtMaxSessionTime->setLiveValidation($edtValidation->addValidatePresence()->addValidateNumericality(true)->setFieldName(__(EDT_MAX_SESSION_TIME))), "&nbsp;".__(SECONDS)));
 		
 		$table_form2->addRow();
 		
@@ -497,6 +504,7 @@ class ConfigureSite extends Page {
 		$data_config_file .= "\"); // Force site base url (problem with redirect), whithout http:// (ex: www.website-php.com)\n";
 		$data_config_file .= "\n";
 		$data_config_file .= "define(\"DEFAULT_TIMEZONE\", \"".$this->edtDefaultTimezone->getValue()."\");\n";
+		$data_config_file .= "define(\"MAX_SESSION_TIME\", ".$this->edtMaxSessionTime->getValue()."); // 30min. = 1800\n";
 		$data_config_file .= "?>";
 		
 		$config_file = new File(dirname(__FILE__)."/../../../wsp/config/config.inc.php", false, true);

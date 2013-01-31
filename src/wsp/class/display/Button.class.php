@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.0
+ * @version     1.2.1
  * @access      public
  * @since       1.0.17
  */
@@ -29,10 +29,12 @@ class Button extends WebSitePhpEventObject {
 	private $value = "";
 	private $default_value = "";
 	private $width = 0;
+	private $height = 0;
 	private $class = "";
 	protected $is_link = false;
 	private $assign_enter_key = false;
 	private $hide = false;
+	private $force_span_tag = false;
 	
 	private $primary_icon = "";
 	private $secondary_icon = "";
@@ -133,6 +135,19 @@ class Button extends WebSitePhpEventObject {
 	 */
 	public function setWidth($width) {
 		$this->width = $width;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method setHeight
+	 * @access public
+	 * @param integer $height 
+	 * @return Button
+	 * @since 1.2.1
+	 */
+	public function setHeight($height) {
+		$this->height = $height;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -345,6 +360,19 @@ class Button extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method forceSpanTag
+	 * @access public
+	 * @return Button
+	 * @since 1.2.1
+	 */
+	public function forceSpanTag() {
+		$this->force_span_tag = true;
+	
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -359,17 +387,31 @@ class Button extends WebSitePhpEventObject {
 			if ($this->value == "") { $this->value = "&nbsp;"; }
 			
 			if (!$ajax_render) {
-				$html .= "<div id=\"wsp_button_".$this->name."\"";
+				$html .= "<".($this->force_span_tag?"span":"div")." id=\"wsp_button_".$this->name."\"";
 				if (!$this->is_link && $this->class == '') { // round button
-					if ($this->width > 0) {
-						$html .= "style=\"width:".($this->width + 2)."px;height:30px;\"";
+					if ($this->width > 0 || $this->height > 0) {
+						$html .= "style=\"";
+						if ($this->width > 0) {
+							$html .= "width:".($this->width + 2)."px;";
+						}
+						if ($this->height > 0) {
+							$html .= "height:".$this->height."px;";
+						}
+						$html .= "\";";
 					}
-				} else if ($this->width > 0) {
-					$html .= "style=\"width:".$this->width."px;height:24px;\"";
+				} else if ($this->width > 0 || $this->height > 0) {
+					$html .= "style=\"";
+					if ($this->width > 0) {
+						$html .= "width:".$this->width."px;";
+					}
+					if ($this->height > 0) {
+						$html .= "height:".$this->height."px;";
+					}
+					$html .= "\";";
 				}
 				$html .= ">\n";
 				if ($this->hide) {
-					$html .= "</div>";
+					$html .= "</".($this->force_span_tag?"span":"div").">";
 					return $html;
 				}
 			} else if ($this->hide) { return ""; }
@@ -389,6 +431,9 @@ class Button extends WebSitePhpEventObject {
 				$html .= "<input type='button' name='".$this->getEventObjectName()."' id='".$this->id."' value=\"".str_replace('"', '\\"', $this->value)."\"";
 				if ($this->width > 0) {
 					$html .= " style='width:".$this->width."px;'";
+				}
+				if ($this->height > 0) {
+					$html .= " style='height:".$this->height."px;'";
 				}
 				$html .= " onClick=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick));
 				if ($this->is_ajax_event) {
@@ -468,7 +513,7 @@ class Button extends WebSitePhpEventObject {
 				throw new NewException("You can't use primary or secondary icon if you used the method setClass in the button ".$this->id.".", 0, getDebugBacktrace(1));
 			}
 			
-			if ($this->assign_enter_key || $this->width > 0) {
+			if ($this->assign_enter_key || $this->width > 0 || $this->height > 0) {
 				$html .= $this->getJavascriptTagOpen();
 				if ($this->assign_enter_key) {
 					$html .= "	\$(\"#".$this->form_object->getId()."\").bind(\"keydown\", function(e) { if (e.keyCode == 13) { \$(\"#".$this->getId()."\").click(); return false; } });\n";
@@ -476,10 +521,13 @@ class Button extends WebSitePhpEventObject {
 				if ($this->width > 0) {
 					$html .= "	\$(\"#".$this->getId()."\").css('width', '".$this->width."px');\n";
 				}
+				if ($this->height > 0) {
+					$html .= "	\$(\"#".$this->getId()."\").css('height', '".$this->height."px');\n";
+				}
 				$html .= $this->getJavascriptTagClose();
 			}
 			if (!$ajax_render) {
-				$html .= "</div>\n";
+				$html .= "</".($this->force_span_tag?"span":"div").">\n";
 			}
 		}
 		$this->object_change = false;

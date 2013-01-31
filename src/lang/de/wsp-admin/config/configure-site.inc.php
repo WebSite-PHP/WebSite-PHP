@@ -46,4 +46,5 @@
 	define("CONFIG_FILE", "Konfiguration");
 	define("CONFIG_FILE_OK", "Ihre Konfiguration wurde gespeichert !");
 	define("CONFIG_FILE_NOT_OK", "Fehler während des Speicherns, bitte überprüfen Sie Ihre Konfiguration !");
+	define("EDT_MAX_SESSION_TIME", "Max session time");
 ?>

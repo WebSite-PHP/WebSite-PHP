@@ -6,7 +6,7 @@
  * Defined zone template: define the render of the zone template
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,14 +15,15 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.2.1
  * @access      public
  * @since       1.0.51
  */
 
 class Template extends DefinedZone {
-	function __construct($page_object, $content) {
-		parent::__construct();
+	function __construct($content) {
+		// To get the Page object you can use:
+		// $page_object = $this->getPage();
 		
 		$this->render = new Table();
 		$this->render->setWidth("100%");

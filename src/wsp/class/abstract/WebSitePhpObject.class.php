@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP file wsp\class\WebSitePhpObject.class.php
+ * PHP file wsp\class\abstract\WebSitePhpObject.class.php
  */
 /**
  * Class WebSitePhpObject
@@ -20,7 +20,7 @@
  * @since       1.0.17
  */
 
-class WebSitePhpObject {
+abstract class WebSitePhpObject {
 	/**#@+
 	* @access protected
 	*/
@@ -256,6 +256,14 @@ class WebSitePhpObject {
 			$alert_box = new DialogBox("Ajax Error", "Warning: No Ajax render for object ".get_class($this), '');
 			return $alert_box->render(true);
 		}
+	}
+
+	public function getClass() {
+		return get_called_class();
+	}
+	
+	public function getType() {
+		return "object";
 	}
 }
 ?>

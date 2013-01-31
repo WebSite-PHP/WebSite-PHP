@@ -26,7 +26,18 @@
 		</MenuItems>
 	</MenuItem>
 	<MenuItem>
-		<Menu name="__(TEMPLATE)" url="$wsp_admin_url/admin.html?menu=template" icon_16="img/wsp-admin/template_16.gif" icon_64="img/wsp-admin/template_64.png" />
+		<Menu name="__(MANAGE)" url="$wsp_admin_url/admin.html?menu=manage" icon_16="img/wsp-admin/manage_16.png" icon_64="img/wsp-admin/manage_64.png" />
+		<MenuItems>
+			<MenuItem>
+				<Menu name="__(MANAGE_PAGES)" url="$wsp_admin_url/manage/manage-pages.html" icon_16="img/wsp-admin/page_16.png" icon_64="img/wsp-admin/page_64.png" />
+			</MenuItem>
+			<MenuItem>
+				<Menu name="__(MANAGE_TRANSLATIONS)" url="$wsp_admin_url/manage/manage-translations.html" icon_16="img/wsp-admin/translate_16.png" icon_64="img/wsp-admin/translate_64.png" />
+			</MenuItem>
+			<MenuItem>
+				<Menu name="__(MANAGE_TEMPLATES)" url="$wsp_admin_url/manage/manage-templates.html" icon_16="img/wsp-admin/template_16.gif" icon_64="img/wsp-admin/template_64.gif" />
+			</MenuItem>
+		</MenuItems>
 	</MenuItem>
 	<MenuItem>
 		<Menu name="__(THEME)" url="$wsp_admin_url/admin.html?menu=theme" icon_16="img/wsp-admin/theme_16.png" icon_64="img/wsp-admin/theme_64.png" />

@@ -17,12 +17,14 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.0
+ * @version     1.2.1
  * @access      public
  * @since       1.0.0
  */
 
-class Page {
+require_once(dirname(__FILE__)."/../abstract/display/AbstractPage.class.php");
+
+class Page extends AbstractPage {
 	/**#@+
 	* cache time
 	* @access public
@@ -799,41 +801,50 @@ class Page {
 					}
 					// check object's form rights (POST or GET) before load variable
 					// If this variable exists load it into the object
+					$find_in_form = false;
 					if ($form_object == null) { // no form associate to event object
 						if (isset($_POST[$name])) {
 							if ($name_hidden != "") {
 								$object->setValue(decryptRequestEncryptData($object, $name_hidden, "POST"));
+								$find_in_form = true;
 							} else {
 								$object->setValue(decryptRequestEncryptData($object, $name, "POST"));
+								$find_in_form = true;
 							}
 						} else if (isset($_GET[$name])) {
 							if ($name_hidden != "") {
 								$object->setValue(decryptRequestEncryptData($object, $name_hidden, "GET"));
+								$find_in_form = true;
 							} else {
 								$object->setValue(decryptRequestEncryptData($object, $name, "GET"));
+								$find_in_form = true;
 							}
 						}
 					} else if ($form_object->getMethod() == "POST") { // form rights is POST
 						if (isset($_POST[$name])) {
 							if ($name_hidden != "") {
 								$object->setValue(decryptRequestEncryptData($object, $name_hidden, "POST"));
+								$find_in_form = true;
 							} else {
 								$object->setValue(decryptRequestEncryptData($object, $name, "POST"));
+								$find_in_form = true;
 							}
 						}
 					} else { // form rights is GET
 						if (isset($_GET[$name])) {
 							if ($name_hidden != "") {
 								$object->setValue(decryptRequestEncryptData($object, $name_hidden, "GET"));
+								$find_in_form = true;
 							} else {
 								$object->setValue(decryptRequestEncryptData($object, $name, "GET"));
+								$find_in_form = true;
 							}
 						}
 					}
-					if (is_subclass_of($object, "WebSitePhpEventObject")) {
+					if ($find_in_form == true && is_subclass_of($object, "WebSitePhpEventObject")) {
 						$object->setSubmitValueIsInit();
 					}
-					//$this->addLogDebug("Page->loadAllVariables: ".$name." - ".$_REQUEST[$name]);
+					//$this->addLogDebug("Page->loadAllVariables: ".$name." - ".isset($_GET[$name])." - ".isset($_POST[$name]));
 				}
 			}
 		}
@@ -1180,7 +1191,7 @@ class Page {
 					$html_debug .= $this->log_debug_str[$i]."<br/>\n";
 				}
 				if ($html_debug != "") {
-					$html .= "<div style=\"background-color:white;color:black;padding:5px;margin:10px;border:1px solid black;\"><b>DEBUG Page ".$this->getPage().".php :</b><br/>".$html_debug."</div>";
+					$html .= "<div style=\"background-color:white;color:black;padding:5px;margin:10px;border:1px solid black;\" id=\"wsp-log-debug\"><b>DEBUG Page ".$this->getPage().".php :</b><br/>".$html_debug."</div>";
 				}
 			}
 			return str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $html)));
@@ -1210,8 +1221,13 @@ class Page {
 				if (!is_array($user_rights)) {
 					$user_rights = array($user_rights);
 				}
-				if (in_array($_SESSION['USER_RIGHTS'], $user_rights)) {
-					return true;
+				if (!is_array($_SESSION['USER_RIGHTS'])) {
+					$_SESSION['USER_RIGHTS'] = array($_SESSION['USER_RIGHTS']);
+				}
+				for ($i=0; $i < sizeof($_SESSION['USER_RIGHTS']); $i++) {
+					if (in_array($_SESSION['USER_RIGHTS'][$i], $user_rights)) {
+						return true;
+					}
 				}
 			}
 			return false;
@@ -1222,11 +1238,13 @@ class Page {
 	/**
 	 * Method setUserRights
 	 * @access public
-	 * @param string $rights 
+	 * @param string|array $rights 
+	 * @return Page
 	 * @since 1.0.4
 	 */
 	public function setUserRights($rights) {
 		$_SESSION['USER_RIGHTS'] = $rights;
+		return $this;
 	}
 	
 	/**
@@ -1340,6 +1358,18 @@ class Page {
 		} else {
 			return "http://".FORCE_SERVER_NAME.$_SERVER['REQUEST_URI'];
 		}
+	}
+	
+	/**
+	 * Method getCurrentURLWithoutParameters
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.1
+	 */
+	public function getCurrentURLWithoutParameters() {
+		$current_url = $this->getCurrentURL();
+		$current_dir = explode("?", $current_url);
+		return $current_dir[0];
 	}
 	
 	/**

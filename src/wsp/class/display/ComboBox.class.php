@@ -7,7 +7,7 @@
  * Class ComboBox
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.11
+ * @version     1.2.1
  * @access      public
  * @since       1.0.17
  */
@@ -191,7 +191,22 @@ class ComboBox extends WebSitePhpEventObject {
 	 */
 	public function addItem($value, $text, $selected=false, $img='', $group_name='') {
 		$this->item_value[] = html_entity_decode($value);
+		
+		if ($this->strip_tags) {
+			$text = strip_tags($text, $this->strip_tags_allowable);
+		}
+		if ($text == "") {
+			$text = "&nbsp;";
+		}
+		
+		$ind = 1;
+		$orig_text = $text;
+		while (array_search($text, $this->item_text) !== false) {
+			$text = $orig_text." (".$ind.")";
+			$ind++;
+		}
 		$this->item_text[] = $text;
+		
 		if ($img != "" && strtoupper(substr($img, 0, 7)) != "HTTP://" && strtoupper(substr($img, 0, 8)) != "HTTPS://") {
 			$this->item_img[] = BASE_URL.$img;
 		} else {
@@ -223,7 +238,7 @@ class ComboBox extends WebSitePhpEventObject {
 			
 			$this->item_value = array_values($this->item_value);
 			$this->item_text = array_values($this->item_text);
-			$this->item_text = array_values($this->item_text);
+			$this->item_img = array_values($this->item_img);
 			
 			if ($this->item_selected > sizeof($this->item_value)) {
 				$this->setSelectedIndex(sizeof($this->item_value)-1);
@@ -364,7 +379,7 @@ class ComboBox extends WebSitePhpEventObject {
 	 * @since 1.0.36
 	 */
 	public function getId() {
-		return $this->getName();
+		return $this->getEventObjectName();
 	}
 
 	/**

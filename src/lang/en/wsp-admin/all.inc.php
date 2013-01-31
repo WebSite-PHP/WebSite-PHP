@@ -1,16 +1,19 @@
 <?php
 	define("ADMIN", "Administrator"); 
 	define("CONFIG", "Configuration"); 
-	define("TEMPLATE", "Template"); 
+	define("MANAGE", "Manage"); 
 	define("THEME", "Theme"); 
 	
 	define("CONFIGURE_SITE", "Configure website");
 	define("CONFIGURE_DATABASE", "Configure database");
-	define("CONFIGURE_CSS", "Configure styles CSS");
+	define("CONFIGURE_CSS", "Configure styles");
 	define("CONFIGURE_SMTP", "Configure send mail");
 	define("CONFIGURE_USERS", "Configure users");
 	define("CONFIGURE_MODULES", "Configure modules");
 	define("CONFIGURE_BANNED_VISITORS", "Banned visitors");
+	define("MANAGE_PAGES", "Pages");
+	define("MANAGE_TRANSLATIONS", "Translations");
+	define("MANAGE_TEMPLATES", "Templates");
 	
 	define("LANGUAGE", "Languages");
 	define("ENGLISH", "English");

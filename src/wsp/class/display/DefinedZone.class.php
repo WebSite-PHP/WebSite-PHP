@@ -7,7 +7,7 @@
  * Class DefinedZone
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.2.1
  * @access      public
  * @since       1.0.17
  */
@@ -48,6 +48,33 @@ class DefinedZone extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method userHaveRights
+	 * @access public
+	 * @return boolean
+	 * @since 1.2.1
+	 */
+	public function userHaveRights() {
+		$user_rights = $this->USER_RIGHTS;
+		if (isset($user_rights) && $user_rights != "") {
+			if (isset($_SESSION['USER_RIGHTS']) && $_SESSION['USER_RIGHTS'] != "") {
+				if (!is_array($user_rights)) {
+					$user_rights = array($user_rights);
+				}
+				if (!is_array($_SESSION['USER_RIGHTS'])) {
+					$_SESSION['USER_RIGHTS'] = array($_SESSION['USER_RIGHTS']);
+				}
+				for ($i=0; $i < sizeof($_SESSION['USER_RIGHTS']); $i++) {
+					if (in_array($_SESSION['USER_RIGHTS'][$i], $user_rights)) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -58,7 +85,11 @@ class DefinedZone extends WebSitePhpObject {
 		if ($this->render == null) {
 			return translate(RENDER_OBJECT_NOT_SET);
 		} else {
-			return $this->render->render();
+			if ($this->userHaveRights()) {
+				return $this->render->render();
+			} else {
+				return new Object();
+			}
 		}
 	}
 }

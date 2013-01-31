@@ -8,7 +8,7 @@
  * Class TreeViewFolder
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.7
+ * @version     1.2.1
  * @access      public
  * @since       1.0.17
  */
@@ -135,6 +135,7 @@ class TreeViewFolder extends TreeViewItem {
 	/**
 	 * Method remove
 	 * @access public
+	 * @return mixed
 	 * @since 1.0.59
 	 */
 	public function remove() {
@@ -157,6 +158,7 @@ class TreeViewFolder extends TreeViewItem {
 		if ($is_dir_ok) {
 			$this->removeItem();
 		}
+		return $is_file_ok;
 	}
 	
 	/**

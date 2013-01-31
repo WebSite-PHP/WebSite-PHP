@@ -87,6 +87,7 @@ AddDefaultCharset utf-8
 	RewriteRule ^wsp/flash/(.*)$ wsp/flash/$1 [L] 
 	RewriteRule ^([a-z]{2})/flash/(.*)$ flash/$2 [L] 
 	RewriteRule ^flash/(.*)$ flash/$1 [L] 
+	RewriteRule ^wsp/cache/xml/(.*)$ wsp/cache/xml/$1 [L]
 	
 	# Rewrite Ajax URL
 	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4/$5/$6/$7&l=$1&folder_level=6&%{QUERY_STRING} [L] 

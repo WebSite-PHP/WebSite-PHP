@@ -1,0 +1,183 @@
+<?php
+/**
+ * PHP file wsp\includes\utils_label.inc.php
+ */
+/**
+ * WebSite-PHP file utils_label.inc.php
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2013 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 25/01/2013
+ * @version     1.2.1
+ * @access      public
+ * @since       1.2.1
+ */
+
+	function __() {
+		$args = func_get_args();
+		return translate($args);
+	}
+	
+	function translate($txt) {
+		if (is_array($txt)) {
+			$args = $txt;
+		} else {
+			$args = func_get_args();
+		}
+		$txt = array_shift($args);
+		
+		// Test if constant exists (constant without space)
+		if (!defined($txt) && find($txt, " ") == 0) {
+			if (!($key = getConstantName($txt))) {
+				// auto create constant in translation files
+				create_label_translation($txt);
+			}
+		}
+		
+		// Encode data
+		if ($GLOBALS['__AJAX_LOAD_PAGE__'] == true && 
+			(find($_GET['mime'], "xml") > 0 || find($_GET['mime'], "rss") > 0)) {
+				$txt = utf8decode($txt);
+		} else {
+			$txt = utf8encode($txt);
+		}
+		
+		// convert %s by args
+		for ($i=0; $i < sizeof($args); $i++) {
+			$txt = preg_replace('/%s/', utf8encode($args[$i]), $txt, 1);
+    	}
+    	return $txt;
+	}
+	
+	function getConstantName($constantValue) {
+		foreach(get_defined_constants() as $key => $value) {
+			if(constant($key)===$constantValue) {
+				return $key; 
+			}
+		}
+		return false;
+	}
+	
+	function create_label_translation($constantValue) {
+		$translate_file = $_GET['p'].".inc.php";
+		
+		// Check if translation needs to be writed in all.inc.php
+		$trace_array = explode("\n", getDebugBacktrace(2));
+		if (isset($trace_array[1])) {
+			if (find($trace_array[1], "wsp\includes\utils.inc.php") >0 ) { // call function __()
+				$trace = (isset($trace_array[4])?$trace_array[4]:"");
+			} else { // call function translate()
+				$trace = (isset($trace_array[1])?$trace_array[1]:"");
+			}
+			$trace = str_replace("\\", "/", $trace);
+			if (($pos = find($trace, SITE_DIRECTORY)) > 0) {
+				$trace_file = substr($trace, $pos, strlen($trace));
+				$page_label = str_replace("/pages/", "", substr($trace_file, 0, strlen($trace_file)-4));
+				if ($page_label != $_GET['p']) {
+					$translate_file = "all.inc.php";
+				}
+			}
+		}
+		
+		// Create new label in each languages
+		$creation_message = "";
+		$base_dir = dirname(__FILE__)."/../..";
+		$array_lang_dir = scandir($base_dir."/lang");
+		for ($i=0; $i < sizeof($array_lang_dir); $i++) {
+			if (is_dir($base_dir."/lang/".$array_lang_dir[$i]) && $array_lang_dir[$i] != "" && 
+				$array_lang_dir[$i] != "." && $array_lang_dir[$i] != ".." && $array_lang_dir[$i] != ".svn" && 
+				strlen($array_lang_dir[$i]) == 2) {
+					$lang_file_path = str_replace("\\", "/", realpath($base_dir."/lang/".$array_lang_dir[$i]))."/".$translate_file;
+					
+					// Read File
+					$lang_file_content = "";
+					if (file_exists($lang_file_path)) {
+						$lang_file = new File($lang_file_path);
+						$lang_file_content = $lang_file->read();
+						$lang_file->close();
+					}
+					
+					// Check if the label doesn't already exists for this language
+					$tmp_lang_file_content = str_replace("\"", "", str_replace("'", "", str_replace(" ", "", $lang_file_content)));
+					if (find($tmp_lang_file_content, "define(".$constantValue.",") == 0) {
+						// Create new label
+						if ($lang_file_content == "") {
+							$lang_file_content = "<?php\n";
+						}
+						$lang_file_content = str_replace("\r", "", $lang_file_content);
+						$lang_file_content = str_replace_last("?>", "", $lang_file_content);
+						$lang_file_content .= "	define(\"".$constantValue."\", \"".$constantValue."\"); // TODO: Label needs to be translated\n";
+						$lang_file_content .= "?>";
+						
+						// Write File
+						$lang_file = new File($lang_file_path, false, true);
+						if ($lang_file->write($lang_file_content) !== false) {
+							$creation_message .= "Information: Constant <font color='blue'>".$constantValue."</font> automatically <font color='green'>CREATED</font> in the file ".$lang_file_path.".<br/>";
+						}
+						$lang_file->close();
+						
+						// Check if this label doesn't exists in other language for the current page
+						if ($translate_file == "all.inc.php") {
+							$page_lang_file_path = str_replace("\\", "/", realpath($base_dir."/lang/".$array_lang_dir[$i]))."/".$_GET['p'].".inc.php";
+							if (file_exists($page_lang_file_path)) {
+								$lang_file = new File($page_lang_file_path);
+								$lang_file_content = $lang_file->read();
+								$lang_file->close();
+								
+								$tmp_lang_file_content = str_replace("\"", "", str_replace("'", "", str_replace(" ", "", $lang_file_content)));
+								if (find($tmp_lang_file_content, "define(".$constantValue.",") > 0) {
+									$label_found = false;
+									if (find($lang_file_content, "define(\"".$constantValue."\"") > 0) {
+										$lang_file_content = str_replace_first("define(\"".$constantValue."\"", "// TODO: Remove label (now in all.inc.php) -> define(\"".$constantValue."\"", $lang_file_content);
+										$label_found = true;
+									} else if (find($lang_file_content, "define('".$constantValue."'") > 0) {
+										$lang_file_content = str_replace_first("define('".$constantValue."'", "// TODO: Remove label (now in all.inc.php) -> define('".$constantValue."'", $lang_file_content);
+										$label_found = true;
+									}
+									
+									// Write File
+									if ($label_found) {
+										$lang_file = new File($page_lang_file_path, false, true);
+										if ($lang_file->write($lang_file_content) !== false) {
+											$creation_message .= "Information: Constant <font color='blue'>".$constantValue."</font> automatically <font color='red'>COMMENT</font> in the file ".$page_lang_file_path.".<br/>";
+										}
+										$lang_file->close();
+									}
+								}
+							}
+						}
+					}
+					
+			}
+		}
+		if ($creation_message != "") {
+			// Simulate the new label is loaded 
+			define($constantValue, $constantValue);
+			
+			// Inform the developer by DialogBox
+			if ($GLOBALS['__AJAX_LOAD_PAGE__'] == false || 
+				($GLOBALS['__AJAX_LOAD_PAGE__'] == true && find($_GET['mime'], "html") > 0)) {
+					$dialog = new DialogBox("Alert translation", $creation_message);
+					$dialog->activateCloseButton()->setWidth(600);
+					Page::getInstance($_GET['p'])->addObject($dialog);
+			}
+			// Inform the developer by mail
+			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
+				find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+				find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0) {
+					try {
+						$mail = new SmtpMail(SEND_ERROR_BY_MAIL_TO, __(SEND_ERROR_BY_MAIL_TO), "New label on ".__(SITE_NAME)." !!!", $creation_message, SMTP_MAIL, __(SMTP_NAME));
+						$mail->setPriority(SmtpMail::PRIORITY_HIGH);
+						$mail->send();
+					} catch (Exception $e) {}
+			}
+		}
+	}
+?>

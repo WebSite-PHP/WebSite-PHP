@@ -6,7 +6,7 @@
  * Entry point of all other pages (.pdf, .xml, .call, ...)
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.7
+ * @version     1.2.1
  * @access      public
  * @since       1.0.0
  */
@@ -36,6 +36,15 @@
 		session_id($_COOKIE['WSP_WS_SESSION']);
 	} else {
 		@session_start();
+		
+		if (!defined('MAX_SESSION_TIME')) {
+			define("MAX_SESSION_TIME", 1800); // 30 min.
+		}
+		if (isset($_SESSION['WSP_LAST_ACTIVITY']) && (time() - $_SESSION['WSP_LAST_ACTIVITY'] > MAX_SESSION_TIME)) {
+		    session_unset(); 
+		    session_destroy();
+		}
+		$_SESSION['WSP_LAST_ACTIVITY'] = time();
 	}
 	
 	include_once("wsp/includes/execution_time.php");
@@ -121,17 +130,7 @@
 				exit;
 			}
 		}
-		
-		if (!method_exists($page_object, "Load") && !method_exists($page_object, "InitializeComponent")) {
-			if ($_GET['mime'] == "text/html") {
-				throw new NewException('Function Load or InitializeComponent doesn\'t exists for the page '.$_GET['p'], 0, getDebugBacktrace(1));
-			} else {
-				header('HTTP/1.1 500 Internal Server Error');
-				echo 'Function Load or InitializeComponent doesn\'t exists for the page '.$_GET['p'];
-				exit;
-			}
-		}
-		
+				
 		$call_load_method = false;
 		if (CACHING_ALL_PAGES && substr($_GET['p'], 0, 6) != "error-") {
 			if (!$page_object->setCache()) {
@@ -142,12 +141,8 @@
 		}
 		
 		if ($call_load_method) {
-			if (method_exists($page_object, "InitializeComponent")) {
-				$page_object->InitializeComponent();
-			}
-			if (method_exists($page_object, "Load")) {
-				$page_object->Load();
-			}
+			$page_object->InitializeComponent();
+			$page_object->Load();
 		}
 		
 		// If page is not caching -> generate HTML
@@ -159,10 +154,8 @@
 			// execute callback method
 			$page_object->executeCallback();
 			
-			// call the display method
-			if (method_exists($page_object, "Loaded")) {
-				$page_object->Loaded();
-			}
+			// call the loaded method
+			$page_object->Loaded();
 			
 			if ($_GET['mime'] == "text/html") {
 				$idLoadPage = rand(0,999999);

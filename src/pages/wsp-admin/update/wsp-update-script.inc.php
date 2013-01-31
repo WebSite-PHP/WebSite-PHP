@@ -62,7 +62,14 @@ if (isset($is_call_from_wsp_admin_update) && $is_call_from_wsp_admin_update == t
 	unlink($base_dir."/pages/error/error-404.php");
 	unlink($base_dir."/pages/error/error-database.php");
 	
-	
+	// Update: version 1.2.1
+	rrmdir($base_dir."/pages/wsp-admin/template");
+	rrmdir($base_dir."/wsp/class/modules/ImageRotator");
+	rrmdir($base_dir."/lang/en/wsp-admin/template");
+	rrmdir($base_dir."/lang/fr/wsp-admin/template");
+	unlink($base_dir."/wsp/class/WebSitePhpEventObject.class.php");
+	unlink($base_dir."/wsp/class/WebSitePhpObject.class.php");
+		
 	// reset current CSS and JS cache
 	rrmdir($base_dir."/wsp/cache/css/");
 	rrmdir($base_dir."/wsp/cache/js/");

@@ -6,7 +6,7 @@
  * WebSite-PHP file loader_class.inc.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.5
+ * @version     1.2.1
  * @access      public
  * @since       0
  */
@@ -35,6 +35,8 @@
 		}
 	}
 
+	loadWspClass("wsp/class/abstract", true);
+	
 	// Load standard classes
 	loadWspClass("wsp/class");
 	

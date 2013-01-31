@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 31/05/2011
- * @version     1.2.0
+ * @version     1.2.1
  * @access      public
  * @since       1.0.84
  */
@@ -51,6 +51,10 @@ class Authentication extends WebSitePhpObject {
 	protected $authentication_msg = true;
 	protected $color_ok = "#00FF33";
 	protected $color_error = "red";
+	
+	private $is_ajax_event = true;
+	private $ajax_wait_message = "";
+	private $disable_ajax_wait_message = false;
 	/**#@-*/
 	
 	/**
@@ -210,7 +214,16 @@ class Authentication extends WebSitePhpObject {
 		if ($this->button_class != '') {
 			$this->connect_button->setClass($this->button_class);
 		}
-		$this->connect_button->assignEnterKey()->onClick($this->connect_method)->setAjaxEvent();
+		if ($this->ajax_wait_message != "") {
+			$this->connect_button->setAjaxWaitMessage($this->ajax_wait_message);
+		}
+		if ($this->disable_ajax_wait_message) {
+			$this->connect_button->disableAjaxWaitMessage();
+		}
+		$this->connect_button->assignEnterKey()->onClick($this->connect_method);
+		if ($this->is_ajax_event) {
+			$this->connect_button->setAjaxEvent();
+		}
 		
 		if ($this->style == Authentication::STYLE_2_LINES) {
 			$this->table_main->addRow($this->error_obj)->setColspan(2)->setAlign(RowTable::ALIGN_CENTER);
@@ -301,6 +314,52 @@ class Authentication extends WebSitePhpObject {
 		$this->authentication_msg = $display_msg;
 		$this->color_ok = $color_ok;
 		$this->color_error = $color_error;
+		return $this;
+	}
+	
+	/**
+	 * Method disableAjaxEvent
+	 * @access public
+	 * @return Authentication
+	 * @since 1.2.1
+	 */
+	public function disableAjaxEvent() {
+		$this->is_ajax_event = false;
+		
+		$this->createRender(false);
+		return $this;
+	}
+	
+	/**
+	 * Method setAjaxWaitMessage
+	 * @access public
+	 * @param mixed $message_or_object 
+	 * @return Authentication
+	 * @since 1.2.1
+	 */
+	public function setAjaxWaitMessage($message_or_object) {
+		if (gettype($message_or_object) == "object") {
+			if (get_class($message_or_object) != "Object") {
+				throw new NewException("Error ".get_class($this)."->setAjaxWaitMessage(): \$message_or_object must be an Object and not ".get_class($message_or_object).".", 0, getDebugBacktrace(1));
+			}
+			$message_or_object->hide();
+		}
+		$this->ajax_wait_message = $message_or_object;
+		
+		$this->createRender(false);
+		return $this;
+	}
+	
+	/**
+	 * Method disableAjaxWaitMessage
+	 * @access public
+	 * @return Authentication
+	 * @since 1.2.1
+	 */
+	public function disableAjaxWaitMessage() {
+		$this->disable_ajax_wait_message = true;
+		
+		$this->createRender(false);
 		return $this;
 	}
 	

@@ -8,7 +8,7 @@
  * Class TreeViewItem
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.7
+ * @version     1.2.1
  * @access      public
  * @since       1.0.17
  */
@@ -39,6 +39,7 @@ class TreeViewItem extends WebSitePhpObject {
 	
 	private $parent_treeview_item = null;
 	private $treeview_items = null;
+	private $array_object_ok = array("Button", "Link");
 	/**#@-*/
 	
 	/**
@@ -207,7 +208,16 @@ class TreeViewItem extends WebSitePhpObject {
 	 * @since 1.0.35
 	 */
 	public function setPrefixId($prefix_id) {
-		$this->id = $prefix_id."_".strtolower(str_replace(" ", "_", $this->value));
+		$value_id = $this->value;
+		if (gettype($this->value) == "object") {
+			if (in_array(get_class($this->value), $this->array_object_ok)) {
+				$value_id = $this->value->getValue();
+			} else {
+				throw new NewException("Error TreeViewItem: value need to be a string, ".implode(", ", $array_object_ok), 0, getDebugBacktrace(1));
+			}
+		}
+		
+		$this->id = $prefix_id."_".strtolower(str_replace(" ", "_", str_replace("-", "_", url_rewrite_format($value_id))));
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -347,9 +357,20 @@ class TreeViewItem extends WebSitePhpObject {
 					$html .= "folder";
 				}
 				$html .= "\">";
-	
-				$html .= "<a href=\"".str_replace("{#file}", $this->path, str_replace("{#filename}", basename($this->path), createHrefLink($this->link)))."\" id=\"".$this->getId()."_id\" style=\"white-space: nowrap;\">&nbsp;";
-				$html .= $this->value."</a>";
+				
+				if (gettype($this->value) != "object") {
+					$html .= "<a href=\"".str_replace("{#file}", $this->path, str_replace("{#filename}", basename($this->path), createHrefLink($this->link)))."\" id=\"".$this->getId()."_id\" style=\"white-space: nowrap;\">&nbsp;";
+					$html .= $this->value."</a>";
+				} else if (in_array(get_class($this->value), $this->array_object_ok)) {
+					if (get_class($this->value) == "Button") {
+						$this->value->forceSpanTag();
+					}
+					$html .= "<span id=\"".$this->getId()."_id\" style=\"white-space: nowrap;\">&nbsp;";
+					$html .= $this->value->render($ajax_render);
+					$html .= "</span>";
+				} else {
+					throw new NewException("Error TreeViewItem: value need to be a string, ".implode(", ", $array_object_ok), 0, getDebugBacktrace(1));
+				}
 				
 				$html .= "</span>";
 				
@@ -385,10 +406,37 @@ class TreeViewItem extends WebSitePhpObject {
 			$treeview_object = $this->getTreeViewObject();
 			$treeview_object->generateTreeViewIds();
 			
+			$old_value = $this->old_value;
+			$old_value_id = $this->old_value;
+			if (gettype($this->old_value) == "object") {
+				if (in_array(get_class($this->old_value), $this->array_object_ok)) {
+					if (get_class($this->old_value) == "Button") {
+						$this->old_value->forceSpanTag();
+					}
+					$old_value = $this->old_value->render($ajax_render);
+					$old_value_id = $this->old_value->getValue();
+				} else {
+					throw new NewException("Error TreeViewItem: value need to be a string, ".implode(", ", $array_object_ok), 0, getDebugBacktrace(1));
+				}
+			}
+			$value = $this->value;
+			$value_id = $this->value;
+			if (gettype($this->value) == "object") {
+				if (in_array(get_class($this->value), $this->array_object_ok)) {
+					if (get_class($this->value) == "Button") {
+						$this->value->forceSpanTag();
+					}
+					$value = $this->value->render($ajax_render);
+					$value_id = $this->value->getValue();
+				} else {
+					throw new NewException("Error TreeViewItem: value need to be a string, ".implode(", ", $array_object_ok), 0, getDebugBacktrace(1));
+				}
+			}
+			
 			$id = $this->getId();
-			if ($this->old_value != $this->value) {
-				$tmp_node_id = substr($id, strlen($id)-strlen($this->value), strlen($id));
-				$id = str_replace($tmp_node_id, strtolower(str_replace(" ", "_", $this->old_value)), $id);
+			if ($old_value_id != $value_id) {
+				$tmp_node_id = substr($id, strlen($id)-strlen($value_id), strlen($id));
+				$id = str_replace($tmp_node_id, strtolower(str_replace(" ", "_", str_replace("-", "_", url_rewrite_format($old_value_id)))), $id);
 			}
 			$html .= "$('#".$id."_id').parent(\"span\").parent(\"li\").removeClass(\"closed\")";
 			if ($this->is_close) {
@@ -396,8 +444,8 @@ class TreeViewItem extends WebSitePhpObject {
 			}
 			$html .= ";";
 			
-			if ($this->value != $this->old_value) {
-				$html .= "$('#".$id."_id').html(\"&nbsp;".str_replace("\n", "", str_replace("\r", "", addslashes($this->value)))."\");";
+			if ($value != $old_value) {
+				$html .= "$('#".$id."_id').html(\"&nbsp;".str_replace("\n", "", str_replace("\r", "", str_replace('"', '\"', addslashes($value))))."\");";
 				$html .= "$('#".$id."_id').attr(\"id\", \"".$this->getId()."_id\");";
 				$html .= "$('#".$id."').attr(\"id\", \"".$this->getId()."\");";
 				$html .= $this->generateHtmlChangeSubItemId($this, strlen($this->getId()), $id);

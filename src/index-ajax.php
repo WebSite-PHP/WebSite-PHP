@@ -6,7 +6,7 @@
  * Entry point of all AJAX requests
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.12
+ * @version     1.2.1
  * @access      public
  * @since       1.0.0
  */
@@ -33,6 +33,15 @@
 	
 	session_name(formalize_to_variable(SITE_NAME)); 
 	@session_start();
+	
+	if (!defined('MAX_SESSION_TIME')) {
+		define("MAX_SESSION_TIME", 1800); // 30 min.
+	}
+	if (isset($_SESSION['WSP_LAST_ACTIVITY']) && (time() - $_SESSION['WSP_LAST_ACTIVITY'] > MAX_SESSION_TIME)) {
+	    session_unset(); 
+	    session_destroy();
+	}
+	$_SESSION['WSP_LAST_ACTIVITY'] = time();
 	
 	include_once("wsp/includes/execution_time.php");
 	$_SESSION['wspPageStartTime'] = slog_time();
@@ -65,18 +74,8 @@
 		exit;
 	}
 	
-	if (!method_exists($page_object, "Load") && !method_exists($page_object, "InitializeComponent")) {
-		header('HTTP/1.1 500 Internal Server Error');
-		echo 'Function Load or InitializeComponent doesn\'t exists for the page '.$_GET['p'];
-		exit;
-	}
-	
-	if (method_exists($page_object, "InitializeComponent")) {
-		$page_object->InitializeComponent();
-	}
-	if (method_exists($page_object, "Load")) {
-		$page_object->Load();
-	}
+	$page_object->InitializeComponent();
+	$page_object->Load();
 	
 	// If page is not caching -> generate HTML
 	if (!$page_object->getPageIsCaching()) {
@@ -87,10 +86,8 @@
 		// execute callback method
 		$page_object->executeCallback();
 		
-		// call the display method
-		if (method_exists($page_object, "Loaded")) {
-			$page_object->Loaded();
-		}
+		// call the loaded method
+		$page_object->Loaded();
 		
 		// create current page ajax return
 		$__PAGE_IS_INIT__ = false; // desactivate change log

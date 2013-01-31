@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.0
+ * @version     1.2.1
  * @access      public
  * @since       1.0.17
  */
@@ -365,7 +365,7 @@ class Form extends WebSitePhpObject {
 	 * @return mixed
 	 * @since 1.2.0
 	 */
-	public function loadFromSqlDataView($sql, $properties=array()) {
+	public function loadFromSqlDataView($sql, $properties=array(), $hide_empty_fields=false) {
 		if (gettype($sql) != "object" || get_class($sql) != "SqlDataView") {
 			throw new NewException(get_class($this)."->loadFromSqlDataView() error: \$sql is not SqlDataView object", 0, getDebugBacktrace(1));
 		}
@@ -486,7 +486,7 @@ class Form extends WebSitePhpObject {
 			}
 			$row_table->add("&nbsp;");
 			
-			if (!in_array($list_attribute[$i], $key_attributes) && $is_update_ok) {
+			if ($list_attribute[$i] != $auto_increment_id && $is_update_ok) {
 				$row_value = $row->getValue($list_attribute[$i]);
 				if (gettype($row_value) == "object" && method_exists($row_value, "render")) {
 					$row_value = $row_value->render();
@@ -511,7 +511,16 @@ class Form extends WebSitePhpObject {
 				}
 				$row_table->add(utf8encode($value));
 			}
-			$this->table_from_sql_data_view->addRow($row_table);
+			if ($hide_empty_fields && $value == '') {
+				// Do not add the empty field
+			} else {
+				$this->table_from_sql_data_view->addRow($row_table);
+			}
+			if (isset($attribute_properties["row_id"]) && $attribute_properties["row_id"] != "") {
+				$row_table->setId($attribute_properties["row_id"]);
+			} else {
+				$row_table->setId($i);
+			}
 		}
 		return $it;
 	}
@@ -540,7 +549,7 @@ class Form extends WebSitePhpObject {
 			$_SESSION['websitephp_register_object'] = $register_objects;
 			
 		} else {
-			// remove register object when refresh the Form after an event (tu update the data)
+			// Get last register object when refresh the Form after an event (to update the data)
 			if ($this->from_sql_data_view_refresh) {
 				$input_obj = $this->getPage()->getObjectId($object_id);
 			} else {
@@ -600,6 +609,15 @@ class Form extends WebSitePhpObject {
 			$attribute_properties = $this->from_sql_data_view_properties[$list_attribute[$i]];
 			if (isset($attribute_properties["width"]) && method_exists($input_obj, "setWidth")) {
 				$input_obj->setWidth($attribute_properties["width"]);
+			}
+			if (isset($attribute_properties["height"]) && method_exists($input_obj, "setHeight")) {
+				$input_obj->setHeight($attribute_properties["height"]);
+			}
+			if (isset($attribute_properties["class"]) && method_exists($input_obj, "setClass")) {
+				$input_obj->setClass($attribute_properties["class"]);
+			}
+			if (isset($attribute_properties["style"]) && method_exists($input_obj, "setStyle")) {
+				$input_obj->setStyle($attribute_properties["style"]);
 			}
 			if (get_class($input_obj) != "Calendar") {
 				if (isset($attribute_properties["strip_tags"]) && $attribute_properties["strip_tags"] == true && 
@@ -689,7 +707,11 @@ class Form extends WebSitePhpObject {
 							}
 						}
 						if ($value == "") {
-							$value = null;
+							if (get_class($input_obj) == "CheckBox") {
+								$value = 0;
+							} else {
+								$value = null;
+							}
 						}
 						if (!$error) {
 							// get property db_attribute
@@ -712,7 +734,7 @@ class Form extends WebSitePhpObject {
 								$row->setValue($list_attribute[$i], $value);
 							}
 						}
-				} else {
+				} else if ($insert) {
 					// get property db_attribute
 					if (isset($this->from_sql_data_view_properties[$list_attribute[$i]]["db_attribute"])) {
 						$db_attribute = $this->from_sql_data_view_properties[$list_attribute[$i]]["db_attribute"];

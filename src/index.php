@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.0
+ * @version     1.2.1
  * @access      public
  * @since       1.0.0
  */
@@ -33,6 +33,15 @@
 	
 	session_name(formalize_to_variable(SITE_NAME));
 	@session_start();
+	
+	if (!defined('MAX_SESSION_TIME')) {
+		define("MAX_SESSION_TIME", 1800); // 30 min.
+	}
+	if (isset($_SESSION['WSP_LAST_ACTIVITY']) && (time() - $_SESSION['WSP_LAST_ACTIVITY'] > MAX_SESSION_TIME)) {
+	    session_unset(); 
+	    session_destroy();
+	}
+	$_SESSION['WSP_LAST_ACTIVITY'] = time();
 	
 	include_once("wsp/includes/execution_time.php");
 	$_SESSION['wspPageStartTime'] = slog_time();
@@ -82,11 +91,7 @@
 		}
 		$page_object = Page::getInstance("error-user-rights");
 	}
-	
-	if (!method_exists($page_object, "Load") && !method_exists($page_object, "InitializeComponent")) {
-		throw new NewException('Function Load or InitializeComponent doesn\'t exists for the page '.$_GET['p'], 0, getDebugBacktrace(1));
-	}
-	
+		
 	$call_load_method = false;
 	if (CACHING_ALL_PAGES && substr($_GET['p'], 0, 6) != "error-") {
 		if (!$page_object->setCache()) {
@@ -97,16 +102,13 @@
 	}
 	
 	if ($call_load_method) {
-		if (method_exists($page_object, "InitializeComponent")) {
-			if (DEBUG) { $page_object->addLogDebugExecutionTime("InitializeComponent ..."); }
-			$page_object->InitializeComponent();
-			if (DEBUG) { $page_object->addLogDebugExecutionTime("End InitializeComponent ..."); $page_object->addLogDebug(""); }
-		}
-		if (method_exists($page_object, "Load")) {
-			if (DEBUG) { $page_object->addLogDebugExecutionTime("Load ..."); }
-			$page_object->Load();
-			if (DEBUG) { $page_object->addLogDebugExecutionTime("End Load ..."); $page_object->addLogDebug(""); }
-		}
+		if (DEBUG) { $page_object->addLogDebugExecutionTime("InitializeComponent ..."); }
+		$page_object->InitializeComponent();
+		if (DEBUG) { $page_object->addLogDebugExecutionTime("End InitializeComponent ..."); $page_object->addLogDebug(""); }
+	
+		if (DEBUG) { $page_object->addLogDebugExecutionTime("Load ..."); }
+		$page_object->Load();
+		if (DEBUG) { $page_object->addLogDebugExecutionTime("End Load ..."); $page_object->addLogDebug(""); }
 	}
 	
 	// If page is not caching -> generate HTML
@@ -122,12 +124,10 @@
 		$page_object->executeCallback();
 		if (DEBUG) { $page_object->addLogDebugExecutionTime("End Callback"); $page_object->addLogDebug(""); }
 		
-		// call the display method
-		if (method_exists($page_object, "Loaded")) {
-			if (DEBUG) { $page_object->addLogDebugExecutionTime("Loaded ..."); }
-			$page_object->Loaded();
-			if (DEBUG) { $page_object->addLogDebugExecutionTime("End Loaded"); $page_object->addLogDebug(""); }
-		}
+		// call the loaded method
+		if (DEBUG) { $page_object->addLogDebugExecutionTime("Loaded ..."); }
+		$page_object->Loaded();
+		if (DEBUG) { $page_object->addLogDebugExecutionTime("End Loaded"); $page_object->addLogDebug(""); }
 		
 		if (DEBUG) { $page_object->addLogDebugExecutionTime("Page Header ..."); }
 		

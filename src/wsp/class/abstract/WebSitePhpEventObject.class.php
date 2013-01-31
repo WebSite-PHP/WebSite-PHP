@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP file wsp\class\WebSitePhpEventObject.class.php
+ * PHP file wsp\class\abstract\WebSitePhpEventObject.class.php
  */
 /**
  * Class WebSitePhpEventObject
@@ -22,7 +22,7 @@
 
 include_once("WebSitePhpObject.class.php");
 
-class WebSitePhpEventObject extends WebSitePhpObject {
+abstract class WebSitePhpEventObject extends WebSitePhpObject {
 	/**#@+
 	* @access protected
 	*/
@@ -145,6 +145,10 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 	public function setSubmitValueIsInit() {
 		$this->is_init_submit_value = true;
 		return $this;
+	}
+	
+	public function getSubmitValueIsInit() {
+		return $this->is_init_submit_value;
 	}
 		
 	/**
@@ -305,11 +309,14 @@ class WebSitePhpEventObject extends WebSitePhpObject {
 				if (gettype($array_args[$i]) == "object") {
 					if (get_class($array_args[$i]) == "TextBox" || get_class($array_args[$i]) == "ColorPicker" || 
 						get_class($array_args[$i]) == "Button" || get_class($array_args[$i]) == "Calendar" || 
-						get_class($array_args[$i]) == "CheckBox" || get_class($array_args[$i]) == "Hidden" || 
-						get_class($array_args[$i]) == "TextArea") {
+						get_class($array_args[$i]) == "Hidden") {
 							$this->callback_args .= "\''+$('#".trim($array_args[$i]->getId())."').val()+'\'";
 					} else if (get_class($array_args[$i]) == "ComboBox") {
 						$this->callback_args .= "\''+$('#".trim($array_args[$i]->getEventObjectName())."').val()+'\'";
+					} else if (get_class($array_args[$i]) == "CheckBox") {
+						$this->callback_args .= "\''+($('#".trim($array_args[$i]->getId())."').attr('checked')?'on':'off')+'\'";
+					} else if (get_class($array_args[$i]) == "TextArea") {
+						$this->callback_args .= "\''+$('#".trim($array_args[$i]->getId())."').text()+'\'";
 					} else if (get_class($array_args[$i]) == "Editor") {
 						$this->callback_args .= "\''+getEditorContent_".trim($array_args[$i]->getName())."()+'\'";
 					} else if (get_class($array_args[$i]) == "JavaScript") {

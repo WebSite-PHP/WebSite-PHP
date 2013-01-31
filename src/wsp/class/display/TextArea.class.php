@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 10/01/2013
- * @version     1.2.0
+ * @version     1.2.1
  * @access      public
  * @since       1.2.0
  */
@@ -771,8 +771,8 @@ class TextArea extends WebSitePhpEventObject {
 		$html = "";
 		if ($this->object_change && !$this->is_new_object_after_init) {
 			if ($this->isChanged() || $this->getValue() != $this->default_value || ($this->force_empty && $this->getValue() == "")) {
-				$html .= "$('#".$this->id."').val(\"";
-				$html .= str_replace('"', '\\"', $this->getValue());
+				$html .= "$('#".$this->id."').text(\"";
+				$html .= str_replace("\n", "\\n", str_replace("\r", "\\r", str_replace('"', '\\"', str_replace("\\", "\\\\", $this->getValue()))));
 				$html .= "\");\n";
 			}
 			$html .= "$('#".$this->id."').css('width', \"";

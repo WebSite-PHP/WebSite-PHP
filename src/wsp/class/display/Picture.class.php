@@ -7,7 +7,7 @@
  * Class Picture
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.11
+ * @version     1.2.1
  * @access      public
  * @since       1.0.17
  */
@@ -253,6 +253,11 @@ class Picture extends WebSitePhpEventObject {
 	public function addLightbox($lightbox_name='', $pic_link='', $max_width='', $max_height='') {
 		$this->is_lightbox = true;
 		$this->lightbox_name = $lightbox_name;
+		if ($pic_link != "") {
+			if (strtoupper(substr($pic_link, 0, 7)) != "HTTP://" && strtoupper(substr($pic_link, 0, 8)) != "HTTPS://") {
+				$pic_link = BASE_URL.$pic_link;
+			}
+		}
 		$this->pic_link = $pic_link;
 		$this->lightbox_max_width = $max_width;
 		$this->lightbox_max_height = $max_height;

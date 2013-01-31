@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php-install/home.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,7 +16,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.1
+ * @version     1.2.1
  * @access      public
  * @since       1.0.51
  */
@@ -25,10 +25,6 @@ include(dirname(__FILE__)."/../wsp/config/config_admin.inc.php");
 require_once(WSP_ADMIN_URL."/includes/utils-users.inc.php");
 
 class Home extends Page {
-	function __construct() {
-		parent::__construct();
-	}
-	
 	public function Load() {
 		parent::$PAGE_TITLE = __(HOME_PAGE_TITLE);
 		
@@ -76,7 +72,7 @@ class Home extends Page {
 		$welcome_box->setContent($welcome_obj);
 		
 		// Footer
-		$this->render= new Template($this, $welcome_box);
+		$this->render= new Template($welcome_box);
 	}
 }
 ?>

@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.0
+ * @version     1.2.1
  * @access      public
  * @since       1.2.0
  */
@@ -63,8 +63,8 @@
 			"\xF3" => "o", "\xF4" => "o", "\xF5" => "o", "\xF6" => "o", 
 			"\xF7" => "_", "\xF8" => "o", "\xF9" => "u", "\xFA" => "u", 
 			"\xFB" => "u", "\xFC" => "u", "\xFD" => "y", "\xFE" => "_", 
-			"\xFF" => "y", "&" => "_", "\"" => "_", "!" => "_",
-			"&" => "_", "#" => "_", "$" => "_", "%" => "_");
+			"\xFF" => "y", "&" => "_", "\"" => "_", "!" => "_", "\r" => "_",
+			"&" => "_", "#" => "_", "$" => "_", "%" => "_", "\n" => "_");
 			
 		$car = strtr($car, $string);
 		$car = stripslashes($car);
