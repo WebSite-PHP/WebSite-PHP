@@ -3,7 +3,8 @@
   position: relative;
   height: 27px;
   cursor: pointer;
-  overflow: hidden; }
+  overflow: hidden;
+  margin-bottom: 2px; }
   .iPhoneCheckContainer input {
     position: absolute;
     top: 5px;
@@ -46,7 +47,8 @@ label.iPhoneCheckLabelOff {
   background: url('../wsp/img/iphone-style-checkboxes/off.png?1284697268') no-repeat right 0;
   text-shadow: 0px 0px 2px rgba(255, 255, 255, 0.6);
   text-align: right;
-  right: 0; }
+  right: 0;
+  padding-top: 5px; }
   label.iPhoneCheckLabelOff span {
     padding-right: 8px; }
 

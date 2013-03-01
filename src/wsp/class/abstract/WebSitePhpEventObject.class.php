@@ -1,9 +1,10 @@
 <?php
 /**
  * PHP file wsp\class\abstract\WebSitePhpEventObject.class.php
+ * @package abstract
  */
 /**
- * Class WebSitePhpEventObject
+ * Abstract Class WebSitePhpEventObject
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
  * Copyright (c) 2009-2013 WebSite-PHP.com
@@ -12,10 +13,11 @@
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  * 
+ * @package abstract
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.0
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.2
  * @access      public
  * @since       1.0.18
  */
@@ -217,11 +219,11 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 	 * @return WebSitePhpEventObject
 	 * @since 1.0.35
 	 */
-	public function setAjaxEvent() {
-		$this->is_ajax_event = true;
+	public function setAjaxEvent($bool=true) {
+		$this->is_ajax_event = $bool;
 		return $this;
 	}
-	
+    
 	/**
 	 * Method setAjaxWaitMessage
 	 * @access public
@@ -296,13 +298,11 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 			$action_page = str_replace(".html", "", $action_page[0]);
 			$page_object = Page::getInstance($action_page);
 		}
-		
 		$str_function_tmp = $str_function;
 		$pos = strpos($str_function_tmp, "(");
 		if ($pos > 0) {
 			$str_function_tmp = substr($str_function_tmp, 0, $pos);
 		}
-		
 		if (method_exists($page_object, $str_function_tmp)) {
 			for ($i=0; $i < sizeof($array_args); $i++) {
 				if ($this->callback_args != "") { $this->callback_args .= ","; }
@@ -310,13 +310,13 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 					if (get_class($array_args[$i]) == "TextBox" || get_class($array_args[$i]) == "ColorPicker" || 
 						get_class($array_args[$i]) == "Button" || get_class($array_args[$i]) == "Calendar" || 
 						get_class($array_args[$i]) == "Hidden") {
-							$this->callback_args .= "\''+$('#".trim($array_args[$i]->getId())."').val()+'\'";
+							$this->callback_args .= "\''+($('#".trim($array_args[$i]->getId())."').val()==null?'':$('#".trim($array_args[$i]->getId())."').val())+'\'";
 					} else if (get_class($array_args[$i]) == "ComboBox") {
-						$this->callback_args .= "\''+$('#".trim($array_args[$i]->getEventObjectName())."').val()+'\'";
+						$this->callback_args .= "\''+($('#".trim($array_args[$i]->getEventObjectName())."').val()==null?'':$('#".trim($array_args[$i]->getEventObjectName())."').val())+'\'";
 					} else if (get_class($array_args[$i]) == "CheckBox") {
 						$this->callback_args .= "\''+($('#".trim($array_args[$i]->getId())."').attr('checked')?'on':'off')+'\'";
 					} else if (get_class($array_args[$i]) == "TextArea") {
-						$this->callback_args .= "\''+$('#".trim($array_args[$i]->getId())."').text()+'\'";
+						$this->callback_args .= "\''+($('#".trim($array_args[$i]->getId())."').text()==null?'':$('#".trim($array_args[$i]->getId())."').text())+'\'";
 					} else if (get_class($array_args[$i]) == "Editor") {
 						$this->callback_args .= "\''+getEditorContent_".trim($array_args[$i]->getName())."()+'\'";
 					} else if (get_class($array_args[$i]) == "JavaScript") {

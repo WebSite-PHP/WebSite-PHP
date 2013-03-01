@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.1
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.2
  * @access      public
  * @since       1.0.0
  */
@@ -93,6 +93,15 @@
 			$_GET['mime'] = "text/".$_GET['mime'];
 		}
 		header("Content-Type: ".$_GET['mime']);
+		
+		/*if ($_GET['mime'] == "text/html") {
+			$zlib_OC_is_set = preg_match('/On|(^[0-9]+$)/i', ini_get('zlib.output_compression'));
+			if ($zlib_OC_is_set) {
+				if (@strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE) {
+					header("Content-Encoding: gzip"); 
+				}
+			}
+		}*/
 	}
 	
 	if ($isWSDL) {

@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.1
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.2
  * @access      public
  * @since       1.0.17
  */
@@ -34,6 +34,7 @@ class CheckBox extends WebSitePhpEventObject {
 	private $checked = "";
 	private $default_value = "";
 	private $on_off_style = false;
+	private $disable = false;
 	
 	private $is_changed = false;
 	private $onchange = "";
@@ -170,6 +171,30 @@ class CheckBox extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method disable
+	 * @access public
+	 * @return CheckBox
+	 * @since 1.2.2
+	 */
+	public function disable() {
+		$this->disable = true;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method enable
+	 * @access public
+	 * @return CheckBox
+	 * @since 1.2.2
+	 */
+	public function enable() {
+		$this->disable = false;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
 	 * Method getName
 	 * @access public
 	 * @return mixed
@@ -177,6 +202,16 @@ class CheckBox extends WebSitePhpEventObject {
 	 */
 	public function getName() {
 		return $this->name;
+	}
+	
+	/**
+	 * Method getText
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.2
+	 */
+	public function getText() {
+		return $this->text;
 	}
 		
 	/**
@@ -377,10 +412,13 @@ class CheckBox extends WebSitePhpEventObject {
 		if ($this->onchange != "" || $this->callback_onchange != "") {
 			$html .= " onChange=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onchange, $this->callback_onchange))."\"";
 		}
-		$html .= "/> ".$this->text."</label>\n";
+		if ($this->disable) {
+			$html .=' disabled';
+		}    
+		$html .= "/>".$this->text."</label>\n";
 		if ($this->on_off_style) {
 			$html .= $this->getJavascriptTagOpen();
-			$html .= "$(document).ready(function() { $('#".$this->getEventObjectName()."').iphoneStyle(); });\n";
+			$html .= "$(document).ready(function() { $('#".$this->getId()."').iphoneStyle(); });\n";
 			$html .= $this->getJavascriptTagClose();
 		}
 		$this->object_change = false;
@@ -404,6 +442,7 @@ class CheckBox extends WebSitePhpEventObject {
 			}
 			$html .= ");\n";
 			$html .= "$('#".$this->getEventObjectName()."').attr('onChange', '".addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onchange, $this->callback_onchange)))."');\n";
+			$html .= "$('#".$this->getEventObjectName()."').attr('disabled', ".(($this->disable)?"true":"false").");\n";
 		}
 		return $html;
 	}

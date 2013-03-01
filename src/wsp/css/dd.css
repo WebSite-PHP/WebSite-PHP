@@ -1,174 +1,85 @@
-/************** Skin 1 *********************/
-.dd {
-	/*display:inline-block !important;*/
-	text-align:left;
-	background-color:#fff;
-	font-family:Arial, Helvetica, sans-serif;
-	font-size:12px;
-	float:left;
-	margin-bottom: 6px;
-}
-.dd .ddTitle {
-	background:#f2f2f2;
-	border:1px solid #c3c3c3;
-	padding:3px;
-	text-indent:0;
-	cursor:default;
-	overflow:hidden;
-	height:16px;
-}
-.dd .ddTitle span.arrow {
-	background:url('../wsp/img/dd/dd_arrow.gif') no-repeat 0 0; float:right; display:inline-block;width:16px; height:16px; cursor:pointer; 
-}
+.borderRadius{-moz-border-radius:5px; border-radius:5px; }
+.borderRadiusTp{-moz-border-radius:5px 5px 0 0; border-radius:5px 5px 0 0;}
+.borderRadiusBtm{-moz-border-radius:0 0 5px 5px ; border-radius:0 0 5px 5px;}
 
-.dd .ddTitle span.ddTitleText {text-indent:1px; overflow:hidden; line-height:16px; color: #444444; }
-.dd .ddTitle span.ddTitleText img{text-align:left; padding:0 2px 0 0; width: 16px; height: 16px; }
-.dd .ddTitle img.selected {
-	padding:0 3px 0 0;
-	vertical-align:top;
-}
-.dd .ddChild {
-	position:absolute;
-	border:1px solid #c3c3c3;
-	border-top:none;
-	display:none;
-	margin:0;
-	width:auto;
-	overflow:auto;
-	overflow-x:hidden !important;
-	background-color:#ffffff;
-}
-.dd .ddChild .opta a, .dd .ddChild .opta a:visited {padding-left:10px}
-.dd .ddChild a {
-	display:block;
-	padding:2px 0 2px 3px;
-	text-decoration:none;
-	color:#000;
-	overflow:hidden;
-	white-space:nowrap;
-	cursor:pointer;
-}
-.dd .ddChild a:hover {
-	background-color:#66CCFF;
-	color:#000;
-}
-.dd .ddChild a img {
-	border:0;
-	padding:0 2px 0 0;
-	vertical-align:middle;
-}
-.dd .ddChild a.selected {
-	background-color:#66CCFF;
-	
-}
-.hidden {display:none;}
+.ddcommon {position:relative;display:-moz-inline-stack; zoom:1; display:inline-block; *display:inline; cursor:default;margin:2px 5px 2px 0px;}
+.ddcommon ul{padding:0;margin:0;}
+.ddcommon ul li{list-style-type:none;}
+.borderRadiusTp ul li:last-child{-moz-border-radius:0 0 5px 5px ; border-radius:0 0 5px 5px;border-bottom:0 none #c3c3c3; }
+.borderRadiusBtm ul li:first-child{-moz-border-radius:5px 5px 0 0; border-radius:5px 5px 0 0 ;border-bottom:1 solid #c3c3c3; }
 
-.dd .borderTop{border-top:1px solid #c3c3c3 !important;}
-.dd .noBorderTop{border-top:none 0  !important}
+.ddcommon .disabled img, .ddcommon .disabled span, .ddcommon.disabledAll{
+opacity: .5; /* standard: ff gt 1.5, opera, safari */
+-ms-filter:"alpha(opacity=50)"; /* ie 8 */
+filter:alpha(opacity=50); /* ie lt 7 */
+-khtml-opacity:.5; /* safari 1.x */
+-moz-opacity:.5; /* ff lt 1.5, netscape */
+color:#999999;
+}
+.ddcommon .clear{clear:both}
+//.ddcommon .shadow{-moz-box-shadow:5px 5px 5px -5px #888888;-webkit-box-shadow:5px 5px 5px -5px #888888;box-shadow: 5px 5px 5px -5px #888888;}
+.ddcommon input.text{color:#7e7e7e;padding:0 0 0 0; position:absolute; background:#fff; display:block; width:98%; height:98%; left:2px; top:0; border:none;}
+.ddOutOfVision{position:relative; display:-moz-inline-stack; display:inline-block; zoom:1; *display:inline;}
+.borderRadius .shadow{-moz-box-shadow:5px 5px 5px -5px #888888;-webkit-box-shadow:5px 5px 5px -5px #888888;box-shadow: 5px 5px 5px -5px #888888;}
+.borderRadiusBtm .shadow{-moz-box-shadow:-5px -5px 5px -5px #888888;-webkit-box-shadow:-5px -5px 5px -5px #888888;box-shadow: -5px -5px 5px -5px #888888}
+.borderRadiusTp .border, .borderRadius .border{-moz-border-radius:0 0 5px 5px ; border-radius:0 0 5px 5px;}
+.borderRadiusBtm .border{-moz-border-radius:5px 5px 0 0; border-radius:5px 5px 0 0;}
+img.fnone{float:none !important}
+.ddcommon .divider{width:0; height:100%; position:absolute;}
+.ddcommon .arrow{display:inline-block; position:absolute; top:50%; right:4px;}
+.ddcommon .arrow:hover{background-position:0 100%;}
+.ddcommon .ddTitle{padding:0; position:relative; display:inline-block; width:100%;text-align:left;}
+.ddcommon .ddTitle .ddTitleText{display:block;}
+.ddcommon .ddTitle .ddTitleText .ddTitleText{padding:0;}
+.ddcommon .ddTitle .description{display:block;}
+.ddcommon .ddTitle .ddTitleText img{position:relative; vertical-align:middle; float:left}
+.ddcommon .ddChild{position:absolute;display:none;width:100%;overflow-y:auto; overflow-x:hidden; zoom:1; z-index:9999;text-align:left;}
+.ddcommon .ddChild li{clear:both;}
+.ddcommon .ddChild li .description{display:block;}
+.ddcommon .ddChild li img{border:0 none; position:relative;vertical-align:middle;float:left}
+.ddcommon .ddChild li.optgroup{padding:0;}
+.ddcommon .ddChild li.optgroup .optgroupTitle{padding:0 5px; font-weight:bold; font-style:italic}
+.ddcommon .ddChild li.optgroup ul li{padding:5px 5px 5px 15px}
+.ddcommon .noBorderTop{border-top:none 0  !important; padding:0; margin:0;}
 
-/************** Skin 2 *********************/
-.dd2 {
-	/*display:inline-block !important;*/
-	text-align:left;
-	background-color:#fff;
-	font-family:Arial, Helvetica, sans-serif;
-	font-size:12px;
-	float:left;
-}
-.dd2 .ddTitle {
-	background:transparent url('../wsp/img/dd/msDropDown.gif') no-repeat;
-	padding:0 3px;
-	text-indent:0;
-	cursor:default;
-	overflow:hidden;
-	height:36px;
-}
-.dd2 .ddTitle span.arrow {
-	background:transparent url('../wsp/img/dd/icon-arrow.gif') no-repeat 0 0; float:right; display:inline-block;width:27px; height:27px; cursor:pointer; top:5px; position:relative; right:2px;
-}
+/*************** default theme **********************/
+.dd{border:1px solid #c3c3c3;bottom:2px;}
+.dd .divider{border-left:1px solid #c3c3c3; border-right:1px solid #fff;; right:24px;}
+.dd .arrow{width:16px;height:16px; margin-top:-8px; background:url(../wsp/img/dd/dd_arrow.gif) no-repeat;}
+.dd .arrow:hover{background-position:0 100%;}
+.dd .ddTitle{color:#000;background:#e2e2e4 url(../wsp/img/dd/title-bg.gif) repeat-x left top;}
+.dd .ddTitle .ddTitleText{height:18px;padding:6px 20px 5px 5px;}
+.dd .ddTitle .ddTitleText .ddTitleText{padding:0;}
+.dd .ddTitle .description{font-size:12px; color:#666}
+.dd .ddTitle .ddTitleText img{padding-right:5px;margin-top: -3px;}
+.dd .ddChild{border:1px solid #c3c3c3; background-color:#fff; left:-1px;}
+.dd .ddChild li{padding: 8px 5px 8px 5px; background-color:#fff; border-bottom:1px solid #c3c3c3;}
+.dd .ddChild li .description{color:#666;}
+.dd .ddChild li .ddlabel{color:#333;}
+.dd .ddChild li.hover{background-color:#f2f2f2}
+.dd .ddChild li img{padding:0 6px 0 0;margin-top: -3px;}
+.dd .ddChild li.optgroup{padding:0;}
+.dd .ddChild li.optgroup .optgroupTitle{padding:0 5px; font-weight:bold; font-style:italic}
+.dd .ddChild li.optgroup ul li{padding:5px 5px 5px 15px}
+.dd .ddChild li.selected{background-color:#66CCFF; color:#000;}
 
-.dd2 .ddTitle span.ddTitleText {text-indent:1px; overflow:hidden; line-height:33px; font-family:Georgia, "Times New Roman", Times, serif; font-size:16px; font-weight:bold; color:#fff; _position:relative; _top:4px}
-.dd2 .ddTitle span.ddTitleText img{text-align:left; padding:0 2px 0 0;}
-.dd2 .ddTitle img.selected {
-	padding:0 2px 0 0;
-	vertical-align:top;
-}
-.dd2 .ddChild {
-	position:absolute;
-	border:1px solid #c3c3c3;
-	border-top:none;
-	display:none;
-	margin:0;
-	width:auto;
-	overflow:auto;
-	overflow-x:hidden !important;
-	background-color:#ffffff;
-	font-size:14px;
-}
-.dd2 .ddChild .opta a, .dd2 .ddChild .opta a:visited {padding-left:10px}
-.dd2 .ddChild a {
-	display:block;
-	padding:3px 0 3px 3px;
-	text-decoration:none;
-	color:#000;
-	overflow:hidden;
-	white-space:nowrap;
-	cursor:pointer;
-}
-.dd2 .ddChild a:hover {
-	background-color:#66CCFF;
-}
-.dd2 .ddChild a img {
-	border:0;
-	padding:0 2px 0 0;
-	vertical-align:middle;
-}
-.dd2 .ddChild a.selected {
-	background-color:#66CCFF;	
-}
-
-.dd2 .borderTop{border-top:1px solid #c3c3c3  !important;}
-.dd2 .noBorderTop{border-top:none 0  !important}
-
-/************* use sprite *****************/
-.dd .ddChild a.sprite, .dd .ddChild a.sprite:visited {
-	background-image:url('../wsp/img/dd/sprite.gif');
-	background-repeat:no-repeat;
-	padding-left:24px;
-}
-
-.dd .ddChild a.calendar, .dd .ddChild a.calendar:visited {
-	background-position:0 -404px;
-}
-.dd .ddChild a.shoppingcart, .dd .ddChild a.shoppingcart:visited {
-	background-position:0 -330px;
-}
-.dd .ddChild a.cd, .dd .ddChild a.cd:visited {
-	background-position:0 -439px;
-}
-.dd .ddChild a.email, .dd .ddChild a.email:visited {
-	background-position:0 -256px;
-}
-.dd .ddChild a.faq, .dd .ddChild a.faq:visited {
-	background-position:0 -183px;
-}
-.dd .ddChild a.games,
-.dd .ddChild a.games:visited {
-	background-position:0 -365px;
-}
-.dd .ddChild a.music, .dd .ddChild a.music:visited {
-	background-position:0 -146px;
-}
-.dd .ddChild a.phone, .dd .ddChild a.phone:visited {
-	background-position:0 -109px;
-}
-.dd .ddChild a.graph, .dd .ddChild a.graph:visited {
-	background-position:0 -73px;
-}
-.dd .ddChild a.secured, .dd .ddChild a.secured:visited {
-	background-position:0 -37px;
-}
-.dd .ddChild a.video, .dd .ddChild a.video:visited {
-	background-position:0 0;
-}
-/*******************************/
+.blue{border:1px solid #ddd;}
+.blue .divider{display:none}
+.blue .arrow{width:27px;height:27px; margin-top:-14px; background:url(../wsp/img/dd/dd_arrow_blue.gif) no-repeat;}
+.blue .arrow:hover{background-position:0 100%;}
+.blue .ddTitle{color:#fff;background:#10bbe6 url(../wsp/img/dd/title-bg_blue.gif) repeat-x left top;}
+.blue .ddTitle .ddTitleText{padding:10px 20px 10px 5px; font-weight:bold; font-size:16px;}
+.blue .ddTitle .ddTitleText .ddTitleText{padding:0;}
+.blue .ddTitle .description{font-size:12px; color:#666}
+.blue .ddTitle .ddTitleText img{padding-right:5px;}
+.blue .ddChild{border:1px solid #c3c3c3; background-color:#fff; left:-1px;}
+.blue .ddChild li{padding:5px; background-color:#fff; border-bottom:1px solid #c3c3c3;}
+.blue .ddChild li .description{color:#666;}
+.blue .ddChild li .ddlabel{color:#333;}
+.blue .ddChild li.hover{background-color:#66CCFF;}
+.blue .ddChild li img{padding:0 6px 0 0;}
+.blue .ddChild li.optgroup{padding:0;}
+.blue .ddChild li.optgroup .optgroupTitle{padding:0 5px; font-weight:bold; font-style:italic}
+.blue .ddChild li.optgroup ul li{padding:5px 5px 5px 15px}
+.blue .ddChild li.selected{background-color:#0d97ba;}
+.blue .ddChild li.selected .ddlabel{color:#fff;}

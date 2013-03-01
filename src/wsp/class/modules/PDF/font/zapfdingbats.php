@@ -1,4 +1,25 @@
 <?php
+/**
+ * PHP file wsp\class\modules\PDF\font\zapfdingbats.php
+ */
+/**
+ * Class 
+ *
+ * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
+ * Copyright (c) 2009-2013 WebSite-PHP.com
+ * PHP versions >= 5.2
+ *
+ * Licensed under The MIT License
+ * Redistributions of files must retain the above copyright notice.
+ * 
+ * @author      Emilien MOREL <admin@website-php.com>
+ * @link        http://www.website-php.com
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.2
+ * @access      public
+ * @since       1.2.2
+ */
+
 $fpdf_charwidths['zapfdingbats']=array(
 	chr(0)=>0,chr(1)=>0,chr(2)=>0,chr(3)=>0,chr(4)=>0,chr(5)=>0,chr(6)=>0,chr(7)=>0,chr(8)=>0,chr(9)=>0,chr(10)=>0,chr(11)=>0,chr(12)=>0,chr(13)=>0,chr(14)=>0,chr(15)=>0,chr(16)=>0,chr(17)=>0,chr(18)=>0,chr(19)=>0,chr(20)=>0,chr(21)=>0,
 	chr(22)=>0,chr(23)=>0,chr(24)=>0,chr(25)=>0,chr(26)=>0,chr(27)=>0,chr(28)=>0,chr(29)=>0,chr(30)=>0,chr(31)=>0,' '=>278,'!'=>974,'"'=>961,'#'=>974,'$'=>980,'%'=>719,'&'=>789,'\''=>790,'('=>791,')'=>690,'*'=>960,'+'=>939,

@@ -22,6 +22,8 @@
 
 require_once(dirname(__FILE__)."/../../wsp/class/abstract/WebSitePhpObject.class.php");
 require_once(dirname(__FILE__)."/../../wsp/class/display/advanced_object/Box.class.php");
+require_once(dirname(__FILE__)."/../../wsp/class/display/DefinedZone.class.php");
+require_once(dirname(__FILE__)."/../../wsp/class/display/Label.class.php");
 require_once(dirname(__FILE__)."/../../wsp/class/display/Link.class.php");
 require_once(dirname(__FILE__)."/../../wsp/class/display/Object.class.php");
 require_once(dirname(__FILE__)."/../../wsp/class/display/Page.class.php");

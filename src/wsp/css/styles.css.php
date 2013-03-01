@@ -15,12 +15,12 @@
 	header("Content-type: text/css");
 	header("Cache-control: public");
   
-	$zlib_OC_is_set = preg_match('/On|(^[0-9]+$)/i', ini_get('zlib.output_compression'));
+	/*$zlib_OC_is_set = preg_match('/On|(^[0-9]+$)/i', ini_get('zlib.output_compression'));
 	if ($zlib_OC_is_set) {
-		if (@strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') === TRUE) {
+		if (@strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE) {
 			header("Content-Encoding: gzip"); 
 		}
-	}
+	}*/
 	
 	$expires = 60*60*24*7; // 7 days
 	header("Pragma: public");
@@ -88,6 +88,10 @@ form {
 	margin: 0 0 0 0;
 	font-size: <?php echo $style_font_size_value; ?>;
 	font-family: <?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
+}
+.dd {
+	font-size: <?php echo $style_font_size_value; ?> !important;
+	font-family: <?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?> !important;
 }
 blockquote {
 	display: block;
@@ -411,7 +415,8 @@ input[type="url"],
 input[type="search"],
 input[type="tel"],
 input[type="color"],
-.uneditable-input {
+input[class~="color"],
+.uneditable-input{
   display: inline-block;
   height: 20px;
   padding: 4px 6px;
@@ -423,6 +428,26 @@ input[type="color"],
   -webkit-border-radius: 4px;
      -moz-border-radius: 4px;
           border-radius: 4px;
+}
+
+.divclearable {
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
+  margin-bottom:6px;
+}
+
+.divclearable input[type="text"]:focus,
+.divclearable input[class~="color"]:focus {
+  border-color: transparent;
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
+}
+
+.divclearable input[type="text"],
+.divclearable input[class~="color"] {
+  margin-bottom:0px;
 }
 
 textarea,
@@ -440,6 +465,7 @@ input[type="url"],
 input[type="search"],
 input[type="tel"],
 input[type="color"],
+input[class~="color"],
 .uneditable-input {
   background-color: #ffffff;
   border: 1px solid #cccccc;
@@ -467,6 +493,7 @@ input[type="url"]:focus,
 input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="color"]:focus,
+input[class~="color"]:focus,
 .uneditable-input:focus {
   border-color: rgba(82, 168, 236, 0.8);
   outline: 0;
@@ -480,7 +507,7 @@ input[type="color"]:focus,
 
 input[type="radio"],
 input[type="checkbox"] {
-  margin: 3px 3px 3px 4px;
+  margin: 5px 3px 0px 10px;
   margin-top: 1px \9;
   *margin-top: 0;
   line-height: normal;

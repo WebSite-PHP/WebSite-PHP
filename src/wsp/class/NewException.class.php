@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.0
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.2
  * @access      public
  * @since       1.0.15
  */
@@ -254,37 +254,61 @@ class NewException extends Exception
 						$debug_page->Loaded();
 					}
 					
+					$http_type = "";
 					$split_request_uri = explode("\?", $_SERVER['REQUEST_URI']);
 					if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
 						if ($_SERVER['SERVER_PORT'] == 443) {
-							$my_site_base_url = "https://".str_replace("//", "/", $_SERVER['SERVER_NAME'].substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
+							$http_type = "https://";
+							$current_url = str_replace("//", "/", $_SERVER['SERVER_NAME'].substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
 						} else {
 							$port = "";
 							if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
 								$port = ":".$_SERVER['SERVER_PORT'];
 							}
-							$my_site_base_url = "http://".str_replace("//", "/", $_SERVER['SERVER_NAME'].$port.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
+							$http_type = "http://";
+							$current_url = str_replace("//", "/", $_SERVER['SERVER_NAME'].$port.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
 						}
 					} else {
-						$my_site_base_url = "http://".str_replace("//", "/", FORCE_SERVER_NAME.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
+						$http_type = "http://";
+						$current_url = str_replace("//", "/", FORCE_SERVER_NAME.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
 					}
-					if (isset($_GET['folder_level']) && $_GET['folder_level'] > 0) { // when URL rewriting with folders
-						if ($my_site_base_url[strlen($my_site_base_url) - 1] == "/") {
-							$my_site_base_url = substr($my_site_base_url, 0, strlen($my_site_base_url) - 1);
+					
+					// define the base URL of the website
+					$my_base_url = "";
+					$array_cwd = explode('/',  str_replace('\\', '/', getcwd()));
+					$wsp_folder_name = $array_cwd[sizeof($array_cwd)-1];
+					
+					// Detect base URL with the root folder of wsp
+					$array_current_url = explode('/', $current_url);
+					for ($i=sizeof($array_current_url)-2; $i >= 0; $i--) {
+						if ($array_current_url[$i] == $wsp_folder_name) {
+							$my_base_url = $http_type;
+							for ($j=0; $j <= $i; $j++) {
+								$my_base_url .= $array_current_url[$j]."/";
+							}
+							break;
 						}
-						for ($i=0; $i < $_GET['folder_level']; $i++) {
-							$pos = strrpos($my_site_base_url, "/");
-							if ($pos != false && $my_site_base_url[$pos-1] != "/") {
-								$my_site_base_url = substr($my_site_base_url, 0, $pos);
+					}
+					if ($my_base_url == "") {
+						if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
+							// If not find root folder then test if there is an alias
+							$array_script_name = explode('/', $_SERVER['SCRIPT_NAME']);
+							unset($array_script_name[sizeof($array_script_name)-1]);
+							$alias_path = implode('/', $array_script_name);
+							if ($alias_path != "") { // Alias detected
+								$my_base_url = $http_type.$array_current_url[0].$alias_path."/";
+							} else { // No Alias detected
+								$my_base_url = $http_type.$array_current_url[0]."/";
+							}
+						} else {
+							if (strtoupper(substr(FORCE_SERVER_NAME, 0, 7)) == "HTTP://" || strtoupper(substr(FORCE_SERVER_NAME, 0, 8)) == "HTTPS://") {
+								$my_base_url = FORCE_SERVER_NAME."/";
 							} else {
-								break;
+								$my_base_url = $http_type.FORCE_SERVER_NAME."/";
 							}
 						}
-						$my_site_base_url .= "/";
 					}
-					if ($my_site_base_url[strlen($my_site_base_url) - 4] == "/") {
-						$my_site_base_url = substr($my_site_base_url, 0, strlen($my_site_base_url) - 3);
-					}
+					$my_site_base_url = $my_base_url;
 					
 					header("Content-Type: text/html");
 					

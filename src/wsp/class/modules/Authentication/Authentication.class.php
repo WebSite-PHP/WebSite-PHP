@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 31/05/2011
- * @version     1.2.1
+ * @version     1.2.2
  * @access      public
  * @since       1.0.84
  */
@@ -55,6 +55,15 @@ class Authentication extends WebSitePhpObject {
 	private $is_ajax_event = true;
 	private $ajax_wait_message = "";
 	private $disable_ajax_wait_message = false;
+	private $prefill_login_passwd = true;
+    private $custom_field_array = array();
+    private $custom_label_array = array();
+    
+    private $login_validation = null;
+    private $passwd_validation = null;
+    private $login_label = "";
+    private $password_label = "";
+    private $button_label = "";
 	/**#@-*/
 	
 	/**
@@ -85,6 +94,10 @@ class Authentication extends WebSitePhpObject {
 		$this->encrypt = $encrypt;
 		$this->button_class = $button_class;
 		$this->table_style = $table_style;
+		
+		$this->login_label = __(AUTHENTICATION_LOGIN);
+		$this->password_label = __(AUTHENTICATION_PASSWD);
+		$this->button_label = __(AUTHENTICATION_CONNECT);
 		
 		$this->createRender();
 	}
@@ -120,10 +133,11 @@ class Authentication extends WebSitePhpObject {
 	/**
 	 * Method setButtonClass
 	 * @access public
+	 * @param mixed $button_class 
 	 * @return Authentication
 	 * @since 1.1.11
 	 */
-	public function setButtonClass() {
+	public function setButtonClass($button_class) {
 		$this->button_class = $button_class;
 		
 		$this->createRender(false);
@@ -133,10 +147,11 @@ class Authentication extends WebSitePhpObject {
 	/**
 	 * Method setTableStyle
 	 * @access public
+	 * @param mixed $table_style 
 	 * @return Authentication
 	 * @since 1.1.11
 	 */
-	public function setTableStyle() {
+	public function setTableStyle($table_style) {
 		$this->table_style = $table_style;
 		
 		$this->createRender(false);
@@ -192,16 +207,16 @@ class Authentication extends WebSitePhpObject {
 			$this->error_obj->setId("wsp_auth_IdErrorMsg");
 			
 			$this->login = new TextBox($this->form, "wsp_auth_login");
-			$login_validation = new LiveValidation();
-			$this->login->setLiveValidation($login_validation->addValidatePresence()->setFieldName(__(AUTHENTICATION_LOGIN)));
+			$this->login_validation = new LiveValidation();
+			$this->login->setLiveValidation($this->login_validation->addValidatePresence()->setFieldName($this->login_label));
 			$this->login->setFocus()->setStripTags()->setWidth($this->input_width);
 			
 			$this->password = new Password($this->form, "wsp_auth_passwd");
-			$passwd_validation = new LiveValidation();
-			$this->password->setLiveValidation($passwd_validation->addValidatePresence()->setFieldName(__(AUTHENTICATION_PASSWD)));
+			$this->passwd_validation = new LiveValidation();
+			$this->password->setLiveValidation($this->passwd_validation->addValidatePresence()->setFieldName($this->password_label));
 			$this->password->setStripTags()->setWidth($this->input_width);
 			
-			$this->connect_button = new Button($this->form, "wsp_auth_connect", "", __(AUTHENTICATION_CONNECT));
+			$this->connect_button = new Button($this->form, "wsp_auth_connect", "", $this->button_label);
 			$this->hdnReferer = new Hidden($this->form, "wsp_auth_referer");
 		}
 		
@@ -221,46 +236,49 @@ class Authentication extends WebSitePhpObject {
 			$this->connect_button->disableAjaxWaitMessage();
 		}
 		$this->connect_button->assignEnterKey()->onClick($this->connect_method);
-		if ($this->is_ajax_event) {
-			$this->connect_button->setAjaxEvent();
-		}
+		$this->connect_button->setAjaxEvent($this->is_ajax_event);
 		
 		if ($this->style == Authentication::STYLE_2_LINES) {
 			$this->table_main->addRow($this->error_obj)->setColspan(2)->setAlign(RowTable::ALIGN_CENTER);
 			
-			$this->table_main->addRowColumns(__(AUTHENTICATION_LOGIN).":&nbsp;", $this->login)->setColumnWidth(2, "100%")->setNowrap();
-			$this->table_main->addRowColumns(__(AUTHENTICATION_PASSWD).":&nbsp;", $this->password)->setNowrap();
+			$this->table_main->addRowColumns($this->login_label.":&nbsp;", $this->login)->setColumnWidth(2, "100%")->setNowrap();
+			$this->table_main->addRowColumns($this->password_label.":&nbsp;", $this->password)->setNowrap();
+            for ($i=0; $i < sizeof($this->custom_field_array); $i++) {
+               $this->table_main->addRowColumns($this->custom_label_array[$i].":&nbsp;", $this->custom_field_array[$i])->setNowrap();
+            }
 			$this->table_main->addRow();
 			$this->table_main->addRow($this->connect_button)->setColspan(2);
 		} else if ($this->style == Authentication::STYLE_2_LINES_NO_TEXT) {
 			$this->table_main->addRow($this->error_obj)->setAlign(RowTable::ALIGN_CENTER);
 			
-			$this->login->setValue(__(AUTHENTICATION_LOGIN));
-			$this->login->onClickJs("\$('#".$this->login->getId()."').val('');");
-			$this->password->setValue(__(AUTHENTICATION_PASSWD));
-			$this->password->onClickJs("\$('#".$this->password->getId()."').val('');");
-			
 			$this->table_main->addRowColumns($this->login->setFocus())->setColumnWidth(2, "100%")->setNowrap();
 			$this->table_main->addRowColumns($this->password)->setNowrap();
+            for ($i=0; $i < sizeof($this->custom_field_array); $i++) {
+               $this->table_main->addRowColumns($this->custom_field_array[$i])->setNowrap();
+            }
 			$this->table_main->addRow();
 			$this->table_main->addRow($this->connect_button);
 		} else if ($this->style == Authentication::STYLE_1_LINE) {
 			$this->table_main->addRow($this->error_obj)->setColspan(5)->setAlign(RowTable::ALIGN_CENTER);
 			
-			$this->table_main->addRowColumns(new Object(__(AUTHENTICATION_LOGIN), ":<br/>", $this->login->setFocus()), "&nbsp;", 
-										new Object(__(AUTHENTICATION_PASSWD), ":<br/>", $this->password), "&nbsp;", 
-										$this->connect_button)->setNowrap();
+			$row = new RowTable();
+			$row->add(new Object($this->login_label, ":&nbsp;", $this->login->setFocus()))->add("&nbsp;") 
+						->add(new Object($this->password_label, ":&nbsp;", $this->password))->add("&nbsp;");
+			for ($i=0; $i < sizeof($this->custom_field_array); $i++) {
+               $row->add(new Object($this->custom_label_array[$i], ":&nbsp;"))->add($this->custom_field_array[$i])->add("&nbsp;");
+            }
+            $row->add($this->connect_button)->setNowrap();
+            $this->table_main->addRow($row);
 		} else if ($this->style == Authentication::STYLE_1_LINE_NO_TEXT) {
 			$this->table_main->addRow($this->error_obj)->setColspan(3)->setAlign(RowTable::ALIGN_CENTER);
 			
-			$this->login->setValue(__(AUTHENTICATION_LOGIN));
-			$this->login->onClickJs("\$('#".$this->login->getId()."').val('');");
-			$this->password->setValue(__(AUTHENTICATION_PASSWD));
-			$this->password->onClickJs("\$('#".$this->password->getId()."').val('');");
-			
-			$this->table_main->addRowColumns($this->login->setFocus(), "&nbsp;", 
-										 $this->password, "&nbsp;", 
-										$this->connect_button)->setNowrap();
+			$row = new RowTable();
+            $row->add($this->login->setFocus())->add("&nbsp;")->add($this->password)->add("&nbsp;");
+            for ($i=0; $i < sizeof($this->custom_field_array); $i++) {
+               $row->add($this->custom_field_array[$i])->add("&nbsp;");
+            }
+			$row->add($this->connect_button)->setNowrap();
+            $this->table_main->addRow($row);
 		}
 		
 		if (isset($_GET['referer'])) {
@@ -271,6 +289,24 @@ class Authentication extends WebSitePhpObject {
 		$this->render = $this->form;
 	}
 	
+	/**
+	 * Method addCustomField
+	 * @access public
+	 * @param mixed $field_obj 
+	 * @param string $label 
+	 * @return Authentication
+	 * @since 1.2.2
+	 */
+    public function addCustomField($field_obj, $label='') {
+        if (gettype($field_obj) != "object" || (!is_subclass_of($field_obj, "WebSitePhpObject") && !is_subclass_of($field_obj, "WebSitePhpEventObject"))) {
+            throw new NewException(get_class($this)."->addCustomField() error, \$field_obj need to be a WebSitePHPObject object", 0, getDebugBacktrace(1));
+        }
+        $this->custom_field_array[] = $field_obj;
+        $this->custom_label_array[] = $label;
+        $this->createRender(false);
+        return $this;
+    }
+    
 	/**
 	 * Method getLogin
 	 * @access public
@@ -300,6 +336,16 @@ class Authentication extends WebSitePhpObject {
 	public function getReferer() {
 		return $this->hdnReferer->getValue();
 	}
+    
+	/**
+	 * Method getForm
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.2
+	 */
+    public function getForm() {
+        return $this->form;
+    }
 	
 	/**
 	 * Method setAuthentificationMessage
@@ -314,6 +360,89 @@ class Authentication extends WebSitePhpObject {
 		$this->authentication_msg = $display_msg;
 		$this->color_ok = $color_ok;
 		$this->color_error = $color_error;
+		return $this;
+	}
+	
+	/**
+	 * Method setLoginLiveValidation
+	 * @access public
+	 * @param mixed $live_validation_object 
+	 * @return Authentication
+	 * @since 1.2.2
+	 */
+	public function setLoginLiveValidation($live_validation_object) {
+		if (get_class($live_validation_object) != "LiveValidation") {
+			throw new NewException("setLoginLiveValidation(): \$live_validation_object must be a valid LiveValidation object", 0, getDebugBacktrace(1));
+		}
+		$this->login_validation = $live_validation_object;
+		if ($this->login_validation->getFieldName() == "") {
+			$this->login_validation->setFieldName($this->login_label);
+		}
+		$this->login->setLiveValidation($this->login_validation);
+		return $this;
+	}
+	
+	/**
+	 * Method setPasswordLiveValidation
+	 * @access public
+	 * @param mixed $live_validation_object 
+	 * @return Authentication
+	 * @since 1.2.2
+	 */
+	public function setPasswordLiveValidation($live_validation_object) {
+		if (get_class($live_validation_object) != "LiveValidation") {
+			throw new NewException("setPasswordLiveValidation(): \$live_validation_object must be a valid LiveValidation object", 0, getDebugBacktrace(1));
+		}
+		$this->passwd_validation = $live_validation_object;
+		if ($this->passwd_validation->getFieldName() == "") {
+			$this->passwd_validation->setFieldName($this->password_label);
+		}
+		$this->password->setLiveValidation($this->passwd_validation);
+		return $this;
+	}
+	
+	/**
+	 * Method setLoginLabel
+	 * @access public
+	 * @param mixed $label 
+	 * @return Authentication
+	 * @since 1.2.2
+	 */
+	public function setLoginLabel($label) {
+		$this->login_label = $label;
+		if ($this->login_validation != null) {
+			$this->login_validation->setFieldName($label);
+		}
+		$this->createRender(false);
+		return $this;
+	}
+	
+	/**
+	 * Method setPasswordLabel
+	 * @access public
+	 * @param mixed $label 
+	 * @return Authentication
+	 * @since 1.2.2
+	 */
+	public function setPasswordLabel($label) {
+		$this->password_label = $label;
+		if ($this->passwd_validation != null) {
+			$this->passwd_validation->setFieldName($label);
+		}
+		$this->createRender(false);
+		return $this;
+	}
+	
+	/**
+	 * Method setButtonLabel
+	 * @access public
+	 * @param mixed $label 
+	 * @return Authentication
+	 * @since 1.2.2
+	 */
+	public function setButtonLabel($label) {
+		$this->button_label = $label;
+		$this->createRender(false);
 		return $this;
 	}
 	
@@ -358,6 +487,19 @@ class Authentication extends WebSitePhpObject {
 	 */
 	public function disableAjaxWaitMessage() {
 		$this->disable_ajax_wait_message = true;
+		
+		$this->createRender(false);
+		return $this;
+	}
+	
+	/**
+	 * Method disablePrefillLoginPassword
+	 * @access public
+	 * @return Authentication
+	 * @since 1.2.2
+	 */
+	public function disablePrefillLoginPassword() {
+		$this->prefill_login_passwd = false;
 		
 		$this->createRender(false);
 		return $this;
@@ -430,7 +572,13 @@ class Authentication extends WebSitePhpObject {
 	 * @since 1.0.84
 	 */
 	public function render($ajax_render=false) {
-		return $this->render->render();
+		if ($this->prefill_login_passwd) {
+			$this->login->setValue($this->login_label);
+			$this->login->onClickJs("if (\$('#".$this->login->getId()."').val() == '".addslashes($this->login_label)."') { \$('#".$this->login->getId()."').val(''); }");
+			$this->password->setValue($this->password_label);
+			$this->password->onClickJs("if (\$('#".$this->password->getId()."').val() == '".addslashes($this->password_label)."') { \$('#".$this->password->getId()."').val(''); }");
+		}
+        return $this->render->render();
 	}
 }
 ?>

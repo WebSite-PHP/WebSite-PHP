@@ -15,8 +15,8 @@ class ManagePages extends Page {
 		$content->add($construction_page);
 		
 		// Search all php files in the folder pages with the synstax "class * extends Page"
-		$code_editor_obj = new Object();
-		$code_editor_obj->setWidth(700);
+		$code_editor_table = new Table();
+		$code_editor_table->setDefaultValign(RowTable::VALIGN_TOP);
 		
 		$form = new Form($this);
 		
@@ -69,18 +69,18 @@ class ManagePages extends Page {
 		$tree->setTreeViewItems($root_items);
 		
 		$tree_obj = new Object($tree);
-		$tree_obj->setAlign(Object::ALIGN_LEFT)->setMaxHeight(200)->setWidth(713)->setStyle("overflow:auto;");
-		$code_editor_obj->add($tree_obj);
+		$tree_obj->setAlign(Object::ALIGN_LEFT)->setWidth(250)->setMaxHeight(500)->setStyle("overflow:auto;");
 		
 		$this->code_editor = new TextArea($form);
-		$this->code_editor->setWidth(700)->setHeight(400);
-		$code_editor_obj->add($this->code_editor);
+		$this->code_editor->setWidth(600)->setHeight(500)->noWrap();
+		$code_editor_table->addRowColumns($tree_obj, $this->code_editor);
 		
 		$this->btn_save = new Button($form);
 		$this->btn_save->setValue(__(BTN_SAVE))->onClick("save")->setAjaxEvent();
-		$code_editor_obj->add($this->btn_save);
+		$code_editor_table->addRow($this->btn_save)->setColspan(2);
+		$code_editor_table->addRow();
 		
-		$form->setContent($code_editor_obj);
+		$form->setContent($code_editor_table);
 		
 		// Create a link to the labels of this page
 		// TODO
@@ -88,7 +88,7 @@ class ManagePages extends Page {
 		$this->render = new AdminTemplateForm($this, $content->add($form));
 		
 		if (!$this->isAjaxPage()) {
-			$this->loadFile("home.php");
+			$this->loadFile(null, "home.php");
 		}
 	}
 	

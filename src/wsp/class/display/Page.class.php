@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.1
+ * @copyright   WebSite-PHP.com 14/02/2013
+ * @version     1.2.2
  * @access      public
  * @since       1.0.0
  */
@@ -978,7 +978,7 @@ class Page extends AbstractPage {
 		if ($this->callback_method != "" && !$this->callback_method_called) {
 			$this->callback_method_called = true;
 			for ($i=0; $i < sizeof($this->callback_method_params); $i++) {
-				if ($this->callback_method_params[$i] != "" && gettype($this->callback_method_params[$i]) == "string") {
+			    if ($this->callback_method_params[$i] != "" && gettype($this->callback_method_params[$i]) == "string") {
 					// remove quote
 					$this->callback_method_params[$i] = trim($this->callback_method_params[$i]);
 					if (substr($this->callback_method_params[$i], 0, 1) == "'") {
@@ -989,10 +989,12 @@ class Page extends AbstractPage {
 					}
 					
 					// search if string is linked with object
-					$param_object = $this->getObjectId($this->callback_method_params[$i]);
-					if ($param_object != null) {
-						$this->callback_method_params[$i] = $param_object;
-					}
+					if ($this->callback_method_params[$i] != "") {
+    					$param_object = $this->getObjectId($this->callback_method_params[$i]);
+    					if ($param_object != null) {
+    						$this->callback_method_params[$i] = $param_object;
+    					}
+                    }
 				}
 			}
 			if (call_user_func_array(array($this, $this->callback_method), $this->callback_method_params) === false) {
@@ -1014,9 +1016,9 @@ class Page extends AbstractPage {
 			$callback_params = "";
 		} else {
 			$pos = find($callback_value, "(", 0, 0);
-			$pos2 = find($callback_value, ")", 0, 0);
-			$callback_params = ",".substr($callback_value, $pos, $pos2-$pos-1);
-			$callback_method = substr($callback_value, 0, $pos-1);
+			$pos2 = strrpos($callback_value, ")");
+			$callback_params = ",".substr($callback_value, $pos, $pos2-$pos);
+            $callback_method = substr($callback_value, 0, $pos-1);
 		}
 		
  		return array($callback_method, explodeFunky(",", $callback_params));
@@ -1191,7 +1193,9 @@ class Page extends AbstractPage {
 					$html_debug .= $this->log_debug_str[$i]."<br/>\n";
 				}
 				if ($html_debug != "") {
-					$html .= "<div style=\"background-color:white;color:black;padding:5px;margin:10px;border:1px solid black;\" id=\"wsp-log-debug\"><b>DEBUG Page ".$this->getPage().".php :</b><br/>".$html_debug."</div>";
+					$html .= "<div style=\"background-color:white;color:black;padding:5px;margin:10px;border:1px solid black;margin-bottom:0px;\" id=\"wsp-log-debug-title\"><img src='wsp/img/drag_arrow_16x16.png' align='absmiddle'/> <b>DEBUG Page ".$this->getPage().".php:</b></div>";
+					$html .= "<div style=\"background-color:white;color:black;padding:5px;margin:10px;border:1px solid black;margin-top:0px;\" id=\"wsp-log-debug\">".$html_debug."</div>";
+					$html .= "<script type='text/javascript'>function loagDebugZoneFollowDrag() { \$('#wsp-log-debug').css('top', \$('#wsp-log-debug-title').position().top+\$('#wsp-log-debug-title').height()+20);\$('#wsp-log-debug').css('left', \$('#wsp-log-debug-title').position().left);} \$('#wsp-log-debug-title').draggable({start: function( event, ui ) {\$('#wsp-log-debug').css('position', 'absolute');\$('#wsp-log-debug-title').css('width', \$('#wsp-log-debug').css('width'))}, drag: function( event, ui ) {loagDebugZoneFollowDrag();}, stop: function( event, ui ) {loagDebugZoneFollowDrag();}});\$('#wsp-log-debug').resizable({start: function( event, ui ){\$('#wsp-log-debug').css('overflow', 'auto');}, resize: function( event, ui ) {\$('#wsp-log-debug-title').css('width', \$('#wsp-log-debug').css('width'));}});</script>";
 				}
 			}
 			return str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $html)));
@@ -1254,7 +1258,7 @@ class Page extends AbstractPage {
 	 * @since 1.0.93
 	 */
 	public function getUserRights() {
-		return $_SESSION['USER_RIGHTS'];
+		return (sizeof($_SESSION['USER_RIGHTS']) == 1?$_SESSION['USER_RIGHTS'][0]:$_SESSION['USER_RIGHTS']);
 	}
 	
 	/**

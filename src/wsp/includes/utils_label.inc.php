@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 25/01/2013
- * @version     1.2.1
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.2
  * @access      public
  * @since       1.2.1
  */
@@ -71,7 +71,7 @@
 		// Check if translation needs to be writed in all.inc.php
 		$trace_array = explode("\n", getDebugBacktrace(2));
 		if (isset($trace_array[1])) {
-			if (find($trace_array[1], "wsp\includes\utils.inc.php") >0 ) { // call function __()
+			if (find($trace_array[1], "wsp\includes\utils_label.inc.php") >0 ) { // call function __()
 				$trace = (isset($trace_array[4])?$trace_array[4]:"");
 			} else { // call function translate()
 				$trace = (isset($trace_array[1])?$trace_array[1]:"");
@@ -105,8 +105,7 @@
 					}
 					
 					// Check if the label doesn't already exists for this language
-					$tmp_lang_file_content = str_replace("\"", "", str_replace("'", "", str_replace(" ", "", $lang_file_content)));
-					if (find($tmp_lang_file_content, "define(".$constantValue.",") == 0) {
+					if (!label_exists($lang_file_content, $constantValue)) {
 						// Create new label
 						if ($lang_file_content == "") {
 							$lang_file_content = "<?php\n";
@@ -131,8 +130,7 @@
 								$lang_file_content = $lang_file->read();
 								$lang_file->close();
 								
-								$tmp_lang_file_content = str_replace("\"", "", str_replace("'", "", str_replace(" ", "", $lang_file_content)));
-								if (find($tmp_lang_file_content, "define(".$constantValue.",") > 0) {
+								if (!label_exists($lang_file_content, $constantValue)) {
 									$label_found = false;
 									if (find($lang_file_content, "define(\"".$constantValue."\"") > 0) {
 										$lang_file_content = str_replace_first("define(\"".$constantValue."\"", "// TODO: Remove label (now in all.inc.php) -> define(\"".$constantValue."\"", $lang_file_content);
@@ -179,5 +177,36 @@
 					} catch (Exception $e) {}
 			}
 		}
+	}
+	
+	// Check if the label exists in the specified content and is not comment
+	function label_exists($labels_content, $constantValue) {
+		$label_exists = false;
+		if (trim($labels_content) != "") {
+			$labels_content = str_replace("\"", "", str_replace("'", "", str_replace(" ", "", $labels_content)));
+			$pos = find($labels_content, "define(".$constantValue.",");
+			if ($pos > 0) {
+				$label_exists = true;
+				
+				$content_begin = substr($labels_content, 0, $pos);
+				$pos2 = strrpos($content_begin, "\n")+$pos2+1;
+				$content_end = substr($labels_content, $pos, strlen($labels_content));
+				$pos3 = strpos($content_end, "\n")+$pos;
+				if ($pos3 == 0) { $pos3 = strlen($labels_content); }
+				$constantLine = substr($labels_content, $pos2, $pos3-$pos2);
+				//echo $constantValue.": ".str_replace("\n", "<br/>", htmlentities($constantLine))."<br/>";
+				
+				$pos4 = find($constantLine, "define(".$constantValue.",");
+				if ($pos4 > 0) {
+					$pos5 = $pos4 - strlen("define(".$constantValue.",");
+					$beforeConstant = substr($constantLine, 0, $pos5);
+					if (find($beforeConstant, "//") > 0 || (find($beforeConstant, "/*") > 0 && find($beforeConstant, "*/") == 0)) {
+						$label_exists = false;
+					}
+					//echo $constantValue.": ".str_replace("\n", "<br/>", htmlentities($beforeConstant))."<br/>";
+				}
+			}
+		}
+		return $label_exists;
 	}
 ?>

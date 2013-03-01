@@ -43,6 +43,13 @@
 	}
 	$_SESSION['WSP_LAST_ACTIVITY'] = time();
 	
+	/*$zlib_OC_is_set = preg_match('/On|(^[0-9]+$)/i', ini_get('zlib.output_compression'));
+	if ($zlib_OC_is_set) {
+		if (@strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE) {
+			header("Content-Encoding: gzip"); 
+		}
+	}*/
+	
 	include_once("wsp/includes/execution_time.php");
 	$_SESSION['wspPageStartTime'] = slog_time();
 	

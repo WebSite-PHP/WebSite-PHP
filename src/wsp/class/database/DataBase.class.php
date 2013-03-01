@@ -16,8 +16,8 @@
  * @package database
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.1
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.2
  * @access      public
  * @since       1.0.17
  */
@@ -244,6 +244,17 @@ class DataBase {
 		} else {
 			throw new NewException("Error DataBase::getInstance()->prepareStatement(): Not connect to database", 0, getDebugBacktrace(1));
 		}
+	}
+	
+	/**
+	 * Method setUTF8QueryCharset
+	 * @access public
+	 * @return DataBase
+	 * @since 1.2.2
+	 */
+	public function setUTF8QueryCharset() {
+		$this->prepareStatement("SET NAMES UTF8");
+		return $this;
 	}
 	
 	/**

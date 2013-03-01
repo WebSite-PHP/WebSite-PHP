@@ -1,111 +1,500 @@
-/*
-VideoJS TubeCSS Skin (http://videojs.com)
-Version 2.0.0
-*/
-
-.tube-css .vjs-controls {
-  opacity: 1; color: #000;
-  height: 24px;
-  bottom: 0;
-  background-color: #ccc;
-  background: #fcfcfc -webkit-gradient(linear, left top, left bottom, from(#fcfcfc), to(#d0d0d0)) left top;
-  background: #fcfcfc -moz-linear-gradient(top,  #fcfcfc,  #d0d0d0) left top;
+.tubecss .vjs-controls
+{
+	background: linear-gradient(top,rgba(51,51,51,0.8) 0,rgba(0,0,0,1) 100%);
+	background: -moz-linear-gradient(top,rgba(51,51,51,0.8) 0,rgba(0,0,0,1) 100%);
+	background: -ms-linear-gradient(top,rgba(51,51,51,0.8) 0,rgba(0,0,0,1) 100%);
+	background: -o-linear-gradient(top,rgba(51,51,51,0.8) 0,rgba(0,0,0,1) 100%);
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,rgba(51,51,51,0.8)),color-stop(100%,rgba(0,0,0,1)));
+	background: -webkit-linear-gradient(top,rgba(51,51,51,0.8) 0,rgba(0,0,0,1) 100%);
+	border-top: 1px solid #404040;
+	bottom: 0;
+	color: #fff;
+	display: block;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#cc333333',endColorstr='#000000',GradientType=0);
+	height: 2.6em;
+	left: 0;
+	margin: 0;
+	opacity: .85;
+	padding: 0;
+	position: absolute;
+	right: 0;
 }
-
-.tube-css .vjs-controls > div {
-  height: 23px; margin: 0; background: none; top: 0;
-  border: 1px solid #b1b1b1; border-left-color: #eee;
-  border-radius: 0; -webkit-border-radius: 0; -moz-border-radius: 0;
-  box-shadow: none; -webkit-box-shadow: none; -moz-box-shadow: none;
+.tubecss .vjs-control
+{
+	float: left;
+	height: 2.6em;
+	margin: 0;
+	padding: 0;
+	position: relative;
+	text-align: center;
+	width: 2.6em;
 }
-
-/* Placement of Control Items */
-.tube-css .vjs-controls > div.vjs-play-control       { width: 25px; left: 0; }
-.tube-css .vjs-controls > div.vjs-progress-control   { left: 102px; right: 83px; }
-.tube-css .vjs-controls > div.vjs-time-control       { width: 75px; left: 27px; }
-.tube-css .vjs-controls > div.vjs-volume-control     { width: 50px; right: 30px; }
-.tube-css .vjs-controls > div.vjs-fullscreen-control { width: 30px; right: 0; }
-
-/* Removing borders on time & progress to join them */
-.tube-css .vjs-controls > div.vjs-progress-control { border-left: none; }
-.tube-css .vjs-controls > div.vjs-time-control { border-right: none; }
-
-
-/* Play/Pause
--------------------------------------------------------------------------------- */
-.tube-css .vjs-play-control { margin-left: 0; border-left-color: #b1b1b1; }
-.tube-css.vjs-paused  .vjs-play-control span { border-left-color: #333; border-top-width: 7px; border-left-width: 13px; border-bottom-width: 7px; margin: 5px 0 0 7px; }
-.tube-css.vjs-playing .vjs-play-control span { height: 14px; margin: 5px auto 0; border-left: 4px solid #333; border-right: 4px solid #333; }
-.tube-css.vjs-paused  .vjs-play-control:hover span { border-left-color: #CF1A1A; }
-.tube-css.vjs-playing .vjs-play-control:hover span { border-left-color: #CF1A1A; border-right-color: #CF1A1A; }
-
-/* Time Display
--------------------------------------------------------------------------------- */
-.tube-css .vjs-controls .vjs-time-control { font-size: 11px; }
-.tube-css .vjs-controls .vjs-time-control span { line-height: 25px; /* Centering vertically */ }
-
-/* Progress
--------------------------------------------------------------------------------- */
-.tube-css .vjs-progress-holder {
-  margin-right: 10px;
-  background-color: #b1b1b1;
-  background: #b1b1b1 -webkit-gradient(linear, left top, left bottom, from(#b1b1b1), to(#cacaca)) left top;
-  background: #b1b1b1 -moz-linear-gradient(top,  #b1b1b1,  #cacaca) left top;
-  border-color: #CACACA; border-bottom-color: #eaeaea;
-  border-radius: 0; -webkit-border-radius: 0; -moz-border-radius: 0;
+.tubecss .vjs-control:focus
+{
+	outline: 0;
 }
-.tube-css .vjs-progress-control .vjs-load-progress { background: #C89191; border-radius: 0; -webkit-border-radius: 0; -moz-border-radius: 0; }
-.tube-css .vjs-progress-control .vjs-play-progress { background: #f33; background: -webkit-gradient(linear, left top, left bottom, from(#f33), to(#CF1A1A)); background: -moz-linear-gradient(top,  #f33,  #CF1A1A); -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; }
-
-/* Volume
--------------------------------------------------------------------------------- */
-.tube-css .vjs-volume-control div { padding: 3px 0 0 0; }
-.tube-css .vjs-volume-control div span { border-bottom-color: #ccc; }
-/* Volume icon color */
-.tube-css .vjs-volume-control div span.vjs-volume-level-on { border-color: #333; }
-/* Volume icon hovering color */
-.tube-css .vjs-volume-control:hover div span.vjs-volume-level-on { border-color: #CF1A1A; }
-
-/* Fullscreen
--------------------------------------------------------------------------------- */
-.tube-css .vjs-fullscreen-control div { margin: 4px 0 0 8px; }
-/* Fullscreen icon color */
-.tube-css .vjs-fullscreen-control div span:nth-child(3), .tube-css .vjs-fullscreen-control div span:nth-child(4), .tube-css.vjs-fullscreen .vjs-fullscreen-control div span:nth-child(1), .tube-css.vjs-fullscreen .vjs-fullscreen-control div span:nth-child(2) {
-  border-bottom-color: #333;
+.tubecss .vjs-control-text
+{
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
 }
-.tube-css .vjs-fullscreen-control div span:nth-child(1), .tube-css .vjs-fullscreen-control div span:nth-child(2), .tube-css.vjs-fullscreen .vjs-fullscreen-control div span:nth-child(3), .tube-css.vjs-fullscreen .vjs-fullscreen-control div span:nth-child(4) {
-  border-top-color: #333;
+.tubecss .vjs-play-control
+{
+	border-left: 1px solid #333;
+	border-right: 1px solid #222;
+	cursor: pointer!important;
+	width: 5em;
 }
-/* Fullscreen icon hovering color */
-.tube-css .vjs-fullscreen-control:hover div span:nth-child(3), .tube-css .vjs-fullscreen-control:hover div span:nth-child(4), .tube-css.vjs-fullscreen .vjs-fullscreen-control:hover div span:nth-child(1), .tube-css.vjs-fullscreen .vjs-fullscreen-control:hover div span:nth-child(2) {
-  border-bottom-color: #CF1A1A;
+.tubecss.vjs-paused .vjs-play-control div
+{
+	background: url('../wsp/img/video/tubesprite.png');
+	height: 17px;
+	margin: .5em auto 0;
+	width: 15px;
 }
-.tube-css .vjs-fullscreen-control:hover div span:nth-child(1), .tube-css .vjs-fullscreen-control:hover div span:nth-child(2), .tube-css.vjs-fullscreen .vjs-fullscreen-control:hover div span:nth-child(3), .tube-css.vjs-fullscreen .vjs-fullscreen-control:hover div span:nth-child(4) {
-  border-top-color: #CF1A1A;
+.tubecss.vjs-paused .vjs-play-control div:hover
+{
+	background: url('../wsp/img/video/tubesprite.png') 0 -75px;
 }
-
-/* Big Play Button (at start)
----------------------------------------------------------*/
-.tube-css div.vjs-big-play-button { 
-  width: 84px; height: 58px; margin: -29px 0 0 -42px;
-  border: 2px solid #ccc; opacity: 0.9;
-  border-radius: 10px; -webkit-border-radius: 10px; -moz-border-radius: 10px;
-
-  /* CSS Background Gradients */
-  /* Default */ background-color: #333;
-  /* Webkit  */ background: #000 -webkit-gradient(linear, left top, left bottom, from(#000), to(#333)) left 29px;
-  /* Firefox */ background: #000 -moz-linear-gradient(top,  #000,  #333) left 29px;
-
-  /* CSS Shadows */
-  box-shadow: none; -webkit-box-shadow: none; -moz-box-shadow: none;
+.tubecss.vjs-playing .vjs-play-control div
+{
+	background: url('../wsp/img/video/tubesprite.png') -25px 0;
+	height: 17px;
+	margin: .5em auto 0;
+	width: 15px;
 }
-.tube-css div.vjs-big-play-button:hover {
-  opacity: 1;
+.tubecss.vjs-playing .vjs-play-control div:hover
+{
+	background: url('../wsp/img/video/tubesprite.png') -25px -75px;
 }
-.tube-css div.vjs-big-play-button span {
-  margin: 11px 0 0 26px;
-  /* Drawing the play triangle with borders - http://www.infimum.dk/HTML/slantinfo.html */
-  border-left: 36px solid #fff; /* Width & Color of play icon */
-  /* Height of play icon is total top & bottom border widths. Color is transparent. */
-  border-top: 18px solid rgba(0,0,0,0); border-bottom: 18px solid rgba(0,0,0,0);
+.tubecss .vjs-rewind-control
+{
+	cursor: pointer!important;
+	width: 5em;
+}
+.tubecss .vjs-rewind-control div
+{
+	background: url('../wsp/img/video/tubesprite.png');
+	height: 16px;
+	margin: .5em auto 0;
+	width: 19px;
+}
+.tubecss .vjs-mute-control
+{
+	border-left: 1px solid #333;
+	cursor: pointer!important;
+	float: left;
+	width: 3.8em;
+}
+.tubecss .vjs-mute-control div
+{
+	background: url('../wsp/img/video/tubesprite.png') -75px -25px;
+	height: 16px;
+	margin: .5em auto 0;
+	width: 22px;
+}
+.tubecss .vjs-mute-control.vjs-vol-0 div
+{
+	background: url('../wsp/img/video/tubesprite.png') 0 -25px;
+}
+.tubecss .vjs-mute-control.vjs-vol-1 div
+{
+	background: url('../wsp/img/video/tubesprite.png') -25px -25px;
+}
+.tubecss .vjs-mute-control.vjs-vol-2 div
+{
+	background: url('../wsp/img/video/tubesprite.png') -50px -25px;
+}
+.tubecss .vjs-mute-control div:hover
+{
+	background: url('../wsp/img/video/tubesprite.png') -75px -100px;
+}
+.tubecss .vjs-mute-control.vjs-vol-0 div:hover
+{
+	background: url('../wsp/img/video/tubesprite.png') 0 -100px;
+}
+.tubecss .vjs-mute-control.vjs-vol-1 div:hover
+{
+	background: url('../wsp/img/video/tubesprite.png') -25px -100px;
+}
+.tubecss .vjs-mute-control.vjs-vol-2 div:hover
+{
+	background: url('../wsp/img/video/tubesprite.png') -50px -100px;
+}
+.tubecss .vjs-volume-control
+{
+	border-right: 1px solid #222;
+	left: 9em;
+	padding-right: 8px;
+	position: absolute;
+	top: -0.1em;
+	width: 6em;
+}
+.tubecss .vjs-volume-bar
+{
+	background: #111;
+	border-bottom: 1px solid #333;
+	border-radius: .3em;
+	cursor: pointer!important;
+	height: .6em;
+	margin: 1em auto 0;
+	moz-border-radius: .3em;
+	position: relative;
+	webkit-border-radius: .3em;
+	width: 6em;
+}
+.tubecss .vjs-volume-level
+{
+	background: #c61003;
+	background: linear-gradient(top,#c61003 0,#840400 100%);
+	background: -moz-linear-gradient(top,#c61003 0,#840400 100%);
+	background: -ms-linear-gradient(top,#c61003 0,#840400 100%);
+	background: -o-linear-gradient(top,#c61003 0,#840400 100%);
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#c61003),color-stop(100%,#840400));
+	background: -webkit-linear-gradient(top,#c61003 0,#840400 100%);
+	border-radius: .3em;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c61003',endColorstr='#840400',GradientType=0);
+	height: .6em;
+	left: 0;
+	moz-border-radius: .3em;
+	position: absolute;
+	top: 0;
+	webkit-border-radius: .3em;
+}
+.tubecss .vjs-volume-handle
+{
+	background: #696969;
+	border: 0;
+	border-radius: .3em;
+	border-top: 1px solid #888;
+	height: 1.2em;
+	left: 0;
+	moz-border-radius: .3em;
+	position: absolute;
+	top: -0.3em;
+	webkit-border-radius: .3em;
+	width: .5em;
+}
+.tubecss div.vjs-progress-control
+{
+	background: #111;
+	border-bottom: 1px solid #1f1f1f;
+	border-top: 1px solid #222;
+	height: 1em;
+	left: 0;
+	moz-opacity: .80;
+	opacity: .80;
+	position: absolute;
+	right: 0;
+	top: -1.3em;
+	width: auto;
+}
+.tubecss .vjs-progress-holder
+{
+	background: #000;
+	border-radius: 0;
+	cursor: pointer!important;
+	height: 1.0em;
+	margin: 0;
+	moz-border-radius: 0;
+	opacity: .90;
+	padding: 0;
+	position: relative;
+	webkit-border-radius: 0;
+}
+.tubecss .vjs-progress-holder .vjs-play-progress,.tubecss .vjs-progress-holder .vjs-load-progress
+{
+	border-radius: 0;
+	display: block;
+	height: 1.0em;
+	left: 0;
+	margin: 0;
+	moz-border-radius: 0;
+	padding: 0;
+	position: absolute;
+	top: 0;
+	webkit-border-radius: 0;
+}
+.tubecss .vjs-play-progress
+{
+	background: #ff0505;
+	background: linear-gradient(top,#ff0505 0,#9b0000 100%);
+	background: -moz-linear-gradient(top,#ff0505 0,#9b0000 100%);
+	background: -ms-linear-gradient(top,#ff0505 0,#9b0000 100%);
+	background: -o-linear-gradient(top,#ff0505 0,#9b0000 100%);
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#ff0505),color-stop(100%,#9b0000));
+	background: -webkit-linear-gradient(top,#ff0505 0,#9b0000 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0505',endColorstr='#9b0000',GradientType=0);
+}
+.tubecss .vjs-load-progress
+{
+	background: #999;
+}
+.tubecss div.vjs-seek-handle
+{
+	background: url('../wsp/img/video/tubesprite.png') 0 -50px;
+	border-radius: .8em;
+	box-shadow: 0 2px 4px 0 #000;
+	height: 16px;
+	left: 0;
+	margin-top: -0.3em;
+	moz-border-radius: .8em;
+	moz-box-shadow: 0 2px 4px 0 #000;
+	position: absolute;
+	top: 0;
+	webkit-border-radius: .8em;
+	webkit-box-shadow: 0 2px 4px 0 #000;
+	width: 16px;
+}
+.tubecss div.vjs-seek-handle:hover
+{
+	background: url('../wsp/img/video/tubesprite.png') -188px -50px;
+}
+.tubecss .vjs-time-controls
+{
+	background: transparent;
+	border-bottom: 0;
+	border-top: 0;
+	font-family: Helvetica,Arial,sans-serif;
+	font-size: 1em;
+	font-weight: normal;
+	height: 100%;
+	line-height: 1.0em;
+	position: absolute;
+	right: 0;
+	top: .0em;
+	width: 4em;
+}
+.tubecss .vjs-current-time
+{
+	border-left: 1px solid #333;
+	left: 15.9em;
+	line-height: 2.4em;
+}
+.tubecss .vjs-duration
+{
+	border-right: 1px solid #222;
+	color: #999;
+	display: inline;
+	left: 20.2em;
+	line-height: 2.4em;
+	padding-left: 2px;
+	text-align: left;
+	width: 39.5em;
+}
+.tubecss .vjs-remaining-time
+{
+	display: none;
+	right: 0;
+}
+.tubecss .vjs-time-divider
+{
+	color: #999;
+	display: inline;
+	left: 19.5em;
+	line-height: 1.6em;
+	position: absolute;
+	top: .5em;
+}
+.tubecss .vjs-secondary-controls
+{
+	float: right;
+}
+.tubecss .vjs-fullscreen-control
+{
+	border-left: 1px solid #333;
+	border-right: 1px solid #222;
+	cursor: pointer!important;
+	float: right;
+	width: 3.8em;
+}
+.tubecss .vjs-fullscreen-control div
+{
+	background: url('../wsp/img/video/tubesprite.png') -50px 0;
+	height: 16px;
+	margin: .5em auto 0;
+	width: 16px;
+}
+.tubecss .vjs-fullscreen-control div:hover
+{
+	background: url('../wsp/img/video/tubesprite.png') -50px -75px;
+}
+.tubecss.vjs-fullscreen .vjs-fullscreen-control div
+{
+	background: url('../wsp/img/video/tubesprite.png') -75px 0;
+}
+.tubecss.vjs-fullscreen .vjs-fullscreen-control div:hover
+{
+	background: url('../wsp/img/video/tubesprite.png') -75px -75px;
+}
+.tubecss .vjs-big-play-button
+{
+	background: #454545;
+	background: linear-gradient(top,#454545 0,#232323 50%,#161616 50%,#3f3f3f 100%);
+	background: -moz-linear-gradient(top,#454545 0,#232323 50%,#161616 50%,#3f3f3f 100%);
+	background: -ms-linear-gradient(top,#454545 0,#232323 50%,#161616 50%,#3f3f3f 100%);
+	background: -o-linear-gradient(top,#454545 0,#232323 50%,#161616 50%,#3f3f3f 100%);
+	background: -webkit-gradient(linear,0% 0,0% 100%,color-stop(0%,#454545),color-stop(50%,#232323),color-stop(50%,#161616),color-stop(100%,#3f3f3f));
+	background: -webkit-linear-gradient(top,#454545 0,#232323 50%,#161616 50%,#3f3f3f 100%);
+	border: .3em solid #fff;
+	border-radius: 25px;
+	box-shadow: 4px 4px 8px #000;
+	cursor: pointer!important;
+	display: block;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#454545',endColorstr='#3f3f3f',GradientType=0);
+	height: 8.0em;
+	left: 50%;
+	margin: -43px 0 0 -43px;
+	moz-border-radius: 25px;
+	moz-box-shadow: 4px 4px 8px #000;
+	opacity: .95;
+	position: absolute;
+	text-align: center;
+	top: 50%;
+	vertical-align: center;
+	webkit-border-radius: 25px;
+	webkit-box-shadow: 4px 4px 8px #000;
+	width: 8.0em;
+	z-index: 2;
+}
+.tubecss div.vjs-big-play-button:hover
+{
+	box-shadow: 0 0 80px #fff;
+	moz-box-shadow: 0 0 80px #fff;
+	webkit-box-shadow: 0 0 80px #fff;
+}
+.tubecss div.vjs-big-play-button span
+{
+	background: url('../wsp/img/video/tubesprite.png') -100px 0;
+	display: block;
+	height: 42px;
+	left: 50%;
+	margin: -20px 0 0 -15px;
+	position: absolute;
+	top: 50%;
+	width: 35px;
+}
+.tubecss .vjs-default-skin div.vjs-loading-spinner-fallback
+{
+	background: url('../wsp/img/loading.gif');
+	display: none;
+	height: 30px;
+	left: 50%;
+	margin: -15px 0 0 -15px;
+	position: absolute;
+	top: 50%;
+	width: 30px;
+}
+.tubecss .vjs-menu-button
+{
+	background: #4d4d4d;
+	background: linear-gradient(top,#4d4d4d 0,#3f3f3f 50%,#333 50%,#252525 100%);
+	background: -moz-linear-gradient(top,#4d4d4d 0,#3f3f3f 50%,#333 50%,#252525 100%);
+	background: -ms-linear-gradient(top,#4d4d4d 0,#3f3f3f 50%,#333 50%,#252525 100%);
+	background: -o-linear-gradient(top,#4d4d4d 0,#3f3f3f 50%,#333 50%,#252525 100%);
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#4d4d4d),color-stop(50%,#3f3f3f),color-stop(50%,#333),color-stop(100%,#252525));
+	background: -webkit-linear-gradient(top,#4d4d4d 0,#3f3f3f 50%,#333 50%,#252525 100%);
+	border: 1px solid #111;
+	border-radius: .3em;
+	cursor: pointer!important;
+	float: right;
+	height: 2em;
+	margin: .2em .5em 0 0;
+	moz-border-radius: .3em;
+	padding: 0;
+	webkit-border-radius: .3em;
+	width: 3em;
+}
+.tubecss .vjs-menu-button div
+{
+	background: url('../wsp/img/video/video-js.png') 0 -75px no-repeat;
+	height: 16px;
+	margin: .2em auto 0;
+	padding: 0;
+	width: 16px;
+}
+.tubecss .vjs-menu-button ul
+{
+	background-color: #111;
+	border: 2px solid #333;
+	border-radius: .5em;
+	bottom: 2em;
+	box-shadow: 0 2px 4px 0 #000;
+	display: none;
+	left: -3.5em;
+	margin: 0;
+	max-height: 15em;
+	moz-border-radius: .7em;
+	moz-box-shadow: 0 2px 4px 0 #000;
+	opacity: .8;
+	overflow: auto;
+	padding: 0;
+	position: absolute;
+	webkit-border-radius: 1em;
+	webkit-box-shadow: 0 2px 4px 0 #000;
+	width: 10em;
+}
+.tubecss .vjs-menu-button:focus ul,.tubecss .vjs-menu-button:hover ul
+{
+	display: block;
+	list-style: none;
+}
+.tubecss .vjs-menu-button ul li
+{
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 1.2em;
+	line-height: 1.4em;
+	list-style: none;
+	margin: 0;
+	padding: .3em 0 .3em 20px;
+	text-align: left;
+}
+.tubecss .vjs-menu-button ul li.vjs-selected
+{
+	background: url('../wsp/img/video/video-js.png') -125px -50px no-repeat;
+	text-decoration: underline;
+}
+.tubecss .vjs-menu-button ul li:focus,.tubecss .vjs-menu-button ul li:hover,.tubecss .vjs-menu-button ul li.vjs-selected:focus,.tubecss .vjs-menu-button ul li.vjs-selected:hover
+{
+	background-color: #ccc;
+	color: #111;
+	outline: 0;
+}
+.tubecss .vjs-menu-button ul li.vjs-menu-title
+{
+	background: #4d4d4d;
+	background: linear-gradient(top,#4d4d4d 0,#3f3f3f 50%,#333 50%,#252525 100%);
+	background: -moz-linear-gradient(top,#4d4d4d 0,#3f3f3f 50%,#333 50%,#252525 100%);
+	background: -ms-linear-gradient(top,#4d4d4d 0,#3f3f3f 50%,#333 50%,#252525 100%);
+	background: -o-linear-gradient(top,#4d4d4d 0,#3f3f3f 50%,#333 50%,#252525 100%);
+	background: -webkit-gradient(linear,left top,left bottom,color-stop(0%,#4d4d4d),color-stop(50%,#3f3f3f),color-stop(50%,#333),color-stop(100%,#252525));
+	background: -webkit-linear-gradient(top,#4d4d4d 0,#3f3f3f 50%,#333 50%,#252525 100%);
+	color: #fff;
+	cursor: default;
+	font-size: 1em;
+	font-weight: bold;
+	line-height: 2em;
+	margin: 0 0 .3em 0;
+	padding: 0;
+	text-align: center;
+	text-transform: uppercase;
+}
+.tubecss .vjs-captions-button div
+{
+	background-position: -25px -75px;
+}
+.tubecss .vjs-chapters-button div
+{
+	background-position: -100px -75px;
+}
+.tubecss .vjs-chapters-button ul
+{
+	left: -8.5em;
+	width: 20em;
 }

@@ -206,7 +206,11 @@
 	                return true;
 	            var iMin = document.getElementById(sFromId).value * 1;
 	            var iMax = document.getElementById(sToId).value * 1;
-	            var iValue = aData[_fnColumnIndex(index)] == "-" ? 0 : aData[_fnColumnIndex(index)] * 1;
+	            var iValue = aData[_fnColumnIndex(index)];
+	            if (iValue != null) {
+	            	iValue = strip_tags(iValue, '<img><a><input>');
+	            }
+	            iValue = iValue == "-" ? 0 : iValue * 1;
 	            if (iMin == "" && iMax == "") {
 	                return true;
 	            }
@@ -278,7 +282,7 @@
 	            try {
 	                if (aData[_fnColumnIndex(index)] == null || aData[_fnColumnIndex(index)] == "")
 	                    return false;
-	                dCellDate = $.datepicker.parseDate($.datepicker.regional[""].dateFormat, aData[_fnColumnIndex(index)]);
+	                dCellDate = $.datepicker.parseDate($.datepicker.regional[""].dateFormat, strip_tags(aData[_fnColumnIndex(index)], '<img><a><input>'));
 	            } catch (ex) {
 	                return false;
 	            }

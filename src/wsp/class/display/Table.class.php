@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.1
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.2
  * @access      public
  * @since       1.0.17
  */
@@ -464,6 +464,22 @@ class Table extends WebSitePhpObject {
 		$this->from_sql_data_view_update = $update;
 		$this->from_sql_data_view_delete = $delete;
 		
+		$list_attribute = $sql->getListAttributeArray();
+		// Add properties to apply on all fields
+		if (isset($properties[ModelViewMapper::PROPERTIES_ALL]) && is_array($properties[ModelViewMapper::PROPERTIES_ALL])) {
+			$apply_all_array = $properties[ModelViewMapper::PROPERTIES_ALL];
+			foreach ($apply_all_array as $property_name => $property_value) {
+				for ($i=0; $i < sizeof($list_attribute); $i++) {
+					$property[$property_name] = $property_value;
+					if (isset($properties[$list_attribute[$i]])) {
+						$properties[$list_attribute[$i]] = array_merge($properties[$list_attribute[$i]], $property);
+					} else {
+						$properties[$list_attribute[$i]] = $property;
+					}
+				}
+			}
+		}
+		
 		// check foreign keys
 		$db_table_foreign_keys = $sql->getDbTableObject()->getDbTableForeignKeys();
 		foreach ($db_table_foreign_keys as $fk_attribute => $value) {
@@ -494,7 +510,6 @@ class Table extends WebSitePhpObject {
 			}
 		}
 		$this->from_sql_data_view_properties = $properties;
-		$list_attribute = $sql->getListAttributeArray();
 		
 		// Define header
 		$is_table_defined_style = false;
@@ -674,7 +689,7 @@ class Table extends WebSitePhpObject {
 	 * @return boolean
 	 * @since 1.1.6
 	 */
-	private function addRowLoadFromSqlDataView($row, $list_attribute, $list_attribute_type, $key_attributes, $ind, $is_delete_action=false, $line_nb=0) {
+	private function addRowLoadFromSqlDataView($row, $list_attribute, $list_attribute_type, $key_attributes, $ind, $is_delete_action=false, $line_nb=null) {
 		if ($this->from_sql_data_view_delete) {
 			// create delete button if not already exists
 			$bnt_del_id = $this->id."_btndel__ind_".$ind;
@@ -773,7 +788,13 @@ class Table extends WebSitePhpObject {
 			$row_table->setBorderPredefinedStyle($this->class);
 		}
 		if ($this->is_advance_table) {
-			$row_table->setRowClass(($ind%2==0?"odd":"even"));
+			if (isset($line_nb) && $line_nb !== null) {
+				$row_table->setRowClass(($line_nb%2==0?"odd":"even"));
+			} else if (is_numeric($ind)) {
+				$row_table->setRowClass(($ind%2==0?"odd":"even"));
+			} else {
+				$row_table->setRowClass("even");
+			}
 		}
 		$this->addRow($row_table);
 	}
@@ -865,6 +886,13 @@ class Table extends WebSitePhpObject {
 			}
 			if (isset($attribute_properties["style"]) && method_exists($input_obj, "setStyle")) {
 				$input_obj->setStyle($attribute_properties["style"]);
+			}
+			if (isset($attribute_properties["disable"])) {
+				if ($attribute_properties["disable"] == true && method_exists($input_obj, "disable")) {
+					$input_obj->disable();
+				} else if ($attribute_properties["disable"] == false && method_exists($input_obj, "enable")) {
+					$input_obj->enable();
+				}
 			}
 			if (get_class($input_obj) != "Calendar") {
 				if (isset($attribute_properties["strip_tags"]) && $attribute_properties["strip_tags"] == true && 
@@ -1532,6 +1560,28 @@ class Table extends WebSitePhpObject {
 					$html .= "	".$this->rows[$i]->render();
 				}
 			}
+            if ($this->is_advance_table && $this->is_column_filter && 
+                $this->column_filter_position == Table::COL_FILTER_POSITION_BOTTOM && sizeof($this->rows) > 0) {
+                    $html .= "<tfoot><tr>";
+                    $row = $this->rows[0]->getRowColumnsArray();
+                    for ($i=0; $i < sizeof($row); $i++) {
+                        if (gettype($row[$i]['content_object']) == "object" && method_exists($row[$i]['content_object'], "render")) {
+                            if ($row[$i]['content_object'] != null) {
+                                $html_content = $row[$i]['content_object']->render();
+                            } else {
+                                $html_content = "&nbsp;";
+                            }
+                        } else {
+                            if ($row[$i]['content_object'] != "") {
+                                $html_content = $row[$i]['content_object'];
+                            } else {
+                                $html_content = "&nbsp;";
+                            }
+                        }
+                        $html .= "<th>".$html_content."</th>";
+                    }
+                    $html .= "</tr></tfoot>";
+            }
 			$html .= "</table>\n";
 			if (!$ajax_render && $this->is_advance_table && $this->width != "") {
 				$html .= "</div>";

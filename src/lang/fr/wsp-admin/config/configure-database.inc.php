@@ -12,7 +12,7 @@
 	
 	define("PRIMARY_KEY", "Clé primaire");
 	define("NO_PRIMARY_KEY", "Vous devez spécifier une clé primaire ou une clé unique sur la table %s.%s");
-	define("GENERATE_DATABASE_OBJECTS", "Génération des objets de la base");
+	define("GENERATE_DATABASE_OBJECTS", "<b>Génération des objets de la base</b><br/>Permet de générer des classes PHP en fonction du modèle de la base de données.<br/>Pour comprendre comment utiliser ces classes: <a href=\"http://www.website-php.com/fr/tutorials/database-tutorial.html\" target=\"_blank\">http://www.website-php.com/fr/tutorials/database-tutorial.html</a>");
 	define("GENERATE_OBJECTS", "Générer les objets");
 	define("GENERATE_DATABASE_OBJECTS_OK", "Génération des objets de la base de données %s terminée");
 	define("GENERATE_DATABASE_OBJECTS_ERROR", "Une erreur est survenue lors de la génération des objets de la base de données %s");

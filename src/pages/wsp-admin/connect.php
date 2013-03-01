@@ -74,15 +74,31 @@ class Connect extends Page {
 		$nb_mod_error = 0;
 		$nb_mod = 3;
 		if (strtolower(substr($_SERVER['SERVER_SOFTWARE'], 0, 6)) == "apache") {
-			if(!in_array("mod_expires", apache_get_modules())) {
+			$mod_expires = false;
+			$mod_headers = false;
+			$mod_deflate = false;
+			if (function_exists('apache_get_modules')) {
+				$mod_expires = in_array("mod_expires", apache_get_modules());
+				$mod_headers = in_array("mod_headers", apache_get_modules());
+				$mod_deflate = in_array("mod_deflate", apache_get_modules());
+			} else {
+				ob_start();
+				phpinfo(INFO_MODULES);
+				$contents = ob_get_contents();
+				ob_end_clean();
+				$mod_rewrite = (strpos($contents, 'mod_expires') !== false);
+				$mod_rewrite = (strpos($contents, 'mod_headers') !== false);
+				$mod_rewrite = (strpos($contents, 'mod_deflate') !== false);
+			}
+			if(!$mod_expires) {
 				$this->mod_obj->add("<li>We recomand to activate the apache mod_expires module.</li>");
 				$nb_mod_error++;
 			}
-			if(!in_array("mod_headers", apache_get_modules())) {
+			if(!$mod_headers) {
 				$this->mod_obj->add("<li>We recomand to activate the apache mod_headers module.</li>");
 				$nb_mod_error++;
 			}
-			if(!in_array("mod_deflate", apache_get_modules())) {
+			if(!$mod_deflate) {
 				$this->mod_obj->add("<li>We recomand to activate the apache mod_deflate module.</li>");
 				$nb_mod_error++;
 			}

@@ -16,25 +16,13 @@ function trim(str) {
 	var str2 = "" + str;
 	return str2.replace(/(^\s*)|(\s*$)/g,''); 
 }
-function strip_tags(html){
-	//PROCESS STRING
-	if(arguments.length < 3) {
-		html=html.replace(/<\/?(?!\!)[^>]*>/gi, '');
-	} else {
-		var allowed = arguments[1];
-		var specified = eval("["+arguments[2]+"]");
-		if(allowed){
-			var regex='</?(?!(' + specified.join('|') + '))\b[^>]*>';
-			html=html.replace(new RegExp(regex, 'gi'), '');
-		} else{
-			var regex='</?(' + specified.join('|') + ')\b[^>]*>';
-			html=html.replace(new RegExp(regex, 'gi'), '');
-		}
-	}
-	//CHANGE NAME TO CLEAN JUST BECAUSE 
-	var clean_string = html;
-	//RETURN THE CLEAN STRING
-	return trim(clean_string);
+function strip_tags(input, allowed){
+	allowed = (((allowed || "") + "").toLowerCase().match(/<[a-z][a-z0-9]*>/g) || []).join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
+  var tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi,
+    commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
+  return trim(input.replace(commentsAndPhpTags, '').replace(tags, function ($0, $1) {
+    return allowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
+  }));
 }
 function urlencode(str) {
 	var ret = str;

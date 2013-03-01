@@ -18,8 +18,8 @@
  * @subpackage Video
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 20/06/2011
- * @version     1.2.0
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.2
  * @access      public
  * @since       1.0.87
  */
@@ -27,8 +27,6 @@
 class VideoHTML5 extends WebSitePhpObject {
 	const STYLE_NONE = "";
 	const STYLE_TUBE = "tube";
-	const STYLE_VIM = "vim";
-	const STYLE_HU = "hu";
 	
 	/**#@+
 	* @access private
@@ -49,6 +47,7 @@ class VideoHTML5 extends WebSitePhpObject {
 	private $track_categ = "";
 	private $track_action = "";
 	private $track_label = "";
+	private $display_download_link = false;
 	/**#@-*/
 	
 	/**
@@ -67,7 +66,7 @@ class VideoHTML5 extends WebSitePhpObject {
 		$this->height = $height;
 		
 		$this->addJavaScript(BASE_URL."wsp/js/video.js", "", true);
-		$this->addCss(BASE_URL."wsp/css/video/video-js.css", "", true);
+		$this->addCss(BASE_URL."wsp/css/video/video-js.css");
 	}
 	
 	/**
@@ -86,6 +85,54 @@ class VideoHTML5 extends WebSitePhpObject {
 		
 		$this->video_mp4 = $video_mp4;
 		$this->video_webm = $video_webm;
+		$this->video_ogg = $video_ogg;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method setMP4Video
+	 * @access public
+	 * @param mixed $video_mp4 
+	 * @return VideoHTML5
+	 * @since 1.2.2
+	 */
+	public function setMP4Video($video_mp4) {
+		if ($video_mp4 == "") {
+			throw new NewException("VideoHTML5->setMp4Video() error: MP4 video is mandatory", 0, getDebugBacktrace(1));
+		}
+		$this->video_mp4 = $video_mp4;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method setWebMVideo
+	 * @access public
+	 * @param mixed $video_webm 
+	 * @return VideoHTML5
+	 * @since 1.2.2
+	 */
+	public function setWebMVideo($video_webm) {
+		if ($video_webm == "") {
+			throw new NewException("VideoHTML5->setWebMVideo() error: WebM video is mandatory", 0, getDebugBacktrace(1));
+		}
+		$this->video_webm = $video_webm;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method setOggVideo
+	 * @access public
+	 * @param mixed $video_ogg 
+	 * @return VideoHTML5
+	 * @since 1.2.2
+	 */
+	public function setOggVideo($video_ogg) {
+		if ($video_ogg == "") {
+			throw new NewException("VideoHTML5->setOggVideo() error: Ogg video is mandatory", 0, getDebugBacktrace(1));
+		}
 		$this->video_ogg = $video_ogg;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
@@ -113,6 +160,7 @@ class VideoHTML5 extends WebSitePhpObject {
 	 */
 	public function setStyle($style) {
 		$this->style = $style;
+		$this->addCss(BASE_URL."wsp/css/video/video-".$this->style.".css", "", true);
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -246,6 +294,17 @@ class VideoHTML5 extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method showDownloadLinks
+	 * @access public
+	 * @return VideoHTML5
+	 * @since 1.2.2
+	 */
+	public function showDownloadLinks() {
+		$this->display_download_link = true;
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -261,10 +320,6 @@ class VideoHTML5 extends WebSitePhpObject {
 		}
 		if ($this->snapshot == "") {
 			throw new NewException("You must specified a snapshot (please call method setSnapshot)", 0, getDebugBacktrace(1));
-		}
-		
-		if ($this->style != "") {
-			$this->addCss(BASE_URL."wsp/css/video/video-".$this->style.".css", "", true);
 		}
 		
 		if (strtoupper(substr($this->snapshot, 0, 7)) != "HTTP://" && strtoupper(substr($this->snapshot, 0, 8)) != "HTTPS://") {
@@ -285,12 +340,11 @@ class VideoHTML5 extends WebSitePhpObject {
 		}
 		
 		$html = "";
-		$html .= "<div class=\"video-js-box";
+		$html .= "  <video id=\"video-".md5($this->video_mp4)."\" class=\"video-js";
 		if ($this->style != "") {
-			$html .= " ".$this->style."-css";
+			$html .= " ".$this->style."css";
 		}
-		$html .= "\" id=\"div-video-".md5($this->video_mp4)."\" width=\"".$this->width."\" style=\"text-align:center;\">\n";
-		$html .= "  <video id=\"video-".md5($this->video_mp4)."\" class=\"video-js\" width=\"".$this->width."\" height=\"".$this->height."\" controls poster=\"".$this->snapshot."\"".($this->autoplay?" autoplay=\"true\"":"").($this->autobuffering?"preload=\"auto\"":"").">\n";
+		$html .= "\" width=\"".$this->width."\" height=\"".$this->height."\" controls poster=\"".$this->snapshot."\"".($this->autoplay?" autoplay=\"true\"":"").($this->autobuffering?" preload=\"auto\"":"").">\n";
 		if ($this->video_mp4 != "") {
 			$html .= "    <source src=\"".$this->video_mp4."\" type='video/mp4' />\n";
 		}
@@ -311,21 +365,22 @@ class VideoHTML5 extends WebSitePhpObject {
 			$html .= "    </object>\n";
 		}
 		$html .= "  </video>\n";
-		$html .= "  <p class=\"vjs-no-video\"><strong>".__(MOD_VID_DOWNLOAD_VIDEO).":</strong>\n";
-		if ($this->video_mp4 != "") {
-			$html .= "    <a href=\"".$this->video_mp4."\">MP4</a>,\n";
+		if ($this->display_download_link) {
+			$html .= "  <p class=\"vjs-no-video\"><strong>".__(MOD_VID_DOWNLOAD_VIDEO).":</strong>\n";
+			if ($this->video_mp4 != "") {
+				$html .= "    <a href=\"".$this->video_mp4."\">MP4</a>,\n";
+			}
+			if ($this->video_webm != "") {
+				$html .= "    <a href=\"".$this->video_webm."\">WebM</a>,\n";
+			}
+			if ($this->video_ogg != "") {
+				$html .= "    <a href=\"".$this->video_ogg."\">Ogg</a><br>\n";
+			}
+			$html .= "  </p>\n";
 		}
-		if ($this->video_webm != "") {
-			$html .= "    <a href=\"".$this->video_webm."\">WebM</a>,\n";
-		}
-		if ($this->video_ogg != "") {
-			$html .= "    <a href=\"".$this->video_ogg."\">Ogg</a><br>\n";
-		}
-		$html .= "  </p>\n";
-		$html .= "</div>\n";
 		
 		$html .= $this->getJavascriptTagOpen();
-		$html .= "	VideoJS.setup(\"div-video-".md5($this->video_mp4)."\");\n";
+		$html .= "	_V_(\"video-".md5($this->video_mp4)."\");\n";
 		if ($this->track_categ != "" || $this->onplay != "") {
 			$html .= "	$('#video-".md5($this->video_mp4)."').bind(\"play\", function(){\n";
 			if (GOOGLE_CODE_TRACKER != "" && 

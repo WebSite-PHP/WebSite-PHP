@@ -16,13 +16,23 @@
  * @package database
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 29/01/2013
- * @version     1.2.1
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.2
  * @access      public
  * @since       1.2.1
  */
 
 class ModelViewMapper {
+	
+	/**#@+
+	* Properties to apply to all fields
+	* Example: $properties = array(ModelViewMapper::PROPERTIES_ALL => 
+	* 							array("update" => false), ...);
+	* @access public
+	* @var string
+	*/
+	const PROPERTIES_ALL = "properties_apply_to_all";
+	/**#@-*/
 	
 	/**#@+
 	* @access private
@@ -76,6 +86,21 @@ class ModelViewMapper {
 		$list_attribute = $this->database_object->getDbTableAttributes();
 		$list_attribute_type = $this->database_object->getDbTableAttributesType();
 		$auto_increment_id = $this->database_object->getDbTableAutoIncrement();
+		
+		// Add properties to apply on all fields
+		if (isset($properties[ModelViewMapper::PROPERTIES_ALL]) && is_array($properties[ModelViewMapper::PROPERTIES_ALL])) {
+			$apply_all_array = $properties[ModelViewMapper::PROPERTIES_ALL];
+			foreach ($apply_all_array as $property_name => $property_value) {
+				for ($i=0; $i < sizeof($list_attribute); $i++) {
+					$property[$property_name] = $property_value;
+					if (isset($properties[$list_attribute[$i]])) {
+						$properties[$list_attribute[$i]] = array_merge($properties[$list_attribute[$i]], $property);
+					} else {
+						$properties[$list_attribute[$i]] = $property;
+					}
+				}
+			}
+		}
 		
 		// check foreign keys
 		$db_table_foreign_keys = $this->database_object->getDbTableForeignKeys();
@@ -196,6 +221,13 @@ class ModelViewMapper {
 				}
 				if (isset($attribute_properties["style"]) && method_exists($field, "setStyle")) {
 					$field->setStyle($attribute_properties["style"]);
+				}
+				if (isset($attribute_properties["disable"])) {
+					if ($attribute_properties["disable"] == true && method_exists($field, "disable")) {
+						$field->disable();
+					} else if ($attribute_properties["disable"] == false && method_exists($field, "enable")) {
+						$field->enable();
+					}
 				}
 				if (get_class($field) != "Calendar") {
 					if (isset($attribute_properties["strip_tags"]) && $attribute_properties["strip_tags"] == true && 

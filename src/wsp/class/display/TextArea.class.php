@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/01/2013
- * @version     1.2.1
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.2
  * @access      public
  * @since       1.2.0
  */
@@ -38,6 +38,7 @@ class TextArea extends WebSitePhpEventObject {
 	private $force_empty = false;
 	private $strip_tags = false;
 	private $strip_tags_allowable = "";
+	private $no_wrap = false;
 	
 	private $live_validation = null;
 	private $is_clearable = false;
@@ -337,6 +338,17 @@ class TextArea extends WebSitePhpEventObject {
 		$this->addCss(BASE_URL."wsp/css/jquery.clearable.css", "", true);
 		$this->addJavaScript(BASE_URL."wsp/js/jquery.clearable.js", "", true);
 		
+		return $this;
+	}
+	
+	/**
+	 * Method noWrap
+	 * @access public
+	 * @return TextArea
+	 * @since 1.2.2
+	 */
+	public function noWrap() {
+		$this->no_wrap = true;
 		return $this;
 	}
 
@@ -695,6 +707,9 @@ class TextArea extends WebSitePhpEventObject {
 					}
 					$html .= ";";
 				}
+				if ($this->no_wrap) {
+					$html .= "white-space: nowrap;";
+				}
 				if ($this->style != "") {
 					$html .= $this->style.";";
 				}
@@ -775,13 +790,27 @@ class TextArea extends WebSitePhpEventObject {
 				$html .= str_replace("\n", "\\n", str_replace("\r", "\\r", str_replace('"', '\\"', str_replace("\\", "\\\\", $this->getValue()))));
 				$html .= "\");\n";
 			}
-			$html .= "$('#".$this->id."').css('width', \"";
-			if (is_integer($this->width)) {
-				$html .= $this->width."px";
-			} else {
-				$html .= $this->width;
+			if ($this->width != "") {
+				$html .= "$('#".$this->id."').css('width', \"";
+				if (is_integer($this->width)) {
+					$html .= $this->width."px";
+				} else {
+					$html .= $this->width;
+				}
+				$html .= "\");\n";
 			}
-			$html .= "\");\n";
+			if ($this->height != "") {
+				$html .= "$('#".$this->id."').css('height', \"";
+				if (is_integer($this->height)) {
+					$html .= $this->height."px";
+				} else {
+					$html .= $this->height;
+				}
+				$html .= "\");\n";
+			}
+			if ($this->no_wrap) {
+				$html .= "$('#".$this->id."').css('white-space', \"nowrap\");\n";
+			}
 			$html .= "$('#".$this->id."').attr('class', \"".$this->class."\");";
 			$html .= "$('#".$this->id."').attr('disabled', ".(($this->disable)?"true":"false").");\n";
 			

@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.0
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.2
  * @access      public
  * @since       1.1.0
  */
@@ -28,7 +28,17 @@
 	}
 	
 	if (strtolower(substr($_SERVER['SERVER_SOFTWARE'], 0, 6)) == "apache") {
-		if(!in_array("mod_rewrite", apache_get_modules())) {
+		$mod_rewrite = false;
+		if (function_exists('apache_get_modules')) {
+			$mod_rewrite = in_array("mod_rewrite", apache_get_modules());
+		} else {
+			ob_start();
+			phpinfo(INFO_MODULES);
+			$contents = ob_get_contents();
+			ob_end_clean();
+			$mod_rewrite = (strpos($contents, 'mod_rewrite') !== false);
+		}
+		if (!$mod_rewrite) {
 			echo "Please change your Apache configuration to be compatible with <a href='http://www.website-php.com' target='_blank'>WebSite-PHP</a>:<br/>- You must activate the apache module mod_rewrite!<br/><a href='http://httpd.apache.org/docs/current/en/mod/mod_rewrite.html' target='_blank'>http://httpd.apache.org/docs/current/en/mod/mod_rewrite.html</a>\n";
 			exit;
 		}

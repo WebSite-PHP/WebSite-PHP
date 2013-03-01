@@ -69,7 +69,10 @@ if (isset($is_call_from_wsp_admin_update) && $is_call_from_wsp_admin_update == t
 	rrmdir($base_dir."/lang/fr/wsp-admin/template");
 	unlink($base_dir."/wsp/class/WebSitePhpEventObject.class.php");
 	unlink($base_dir."/wsp/class/WebSitePhpObject.class.php");
-		
+	
+	// Update: version 1.2.2
+	unlink($base_dir."/wsp/class/database/DbTableObject.class.php");
+	
 	// reset current CSS and JS cache
 	rrmdir($base_dir."/wsp/cache/css/");
 	rrmdir($base_dir."/wsp/cache/js/");
@@ -116,19 +119,19 @@ AddDefaultCharset utf-8
 	# Zone to define your URL rewriting
 	# Exemple 1: 
 	# Create an URL with 1 virtual folder (myfolder)
-	# RewriteRule ^myfolder/(.+)\.html$ index.php?p=$1&l=en&folder_level=1&%{QUERY_STRING} [L]
+	# RewriteRule ^myfolder/(.+)\.html$ index.php?p=$1&l=en&%{QUERY_STRING} [L]
 	# In this case the first parameter is the language (ie: en, fr, de, ...) 
-	# RewriteRule ^([a-z]{2})/myfolder/(.+)\.html$ index.php?p=$2&l=$1&folder_level=1&%{QUERY_STRING} [L] 
+	# RewriteRule ^([a-z]{2})/myfolder/(.+)\.html$ index.php?p=$2&l=$1&%{QUERY_STRING} [L] 
 	# 
 	# Exemple 2: 
 	# Create an URL with 2 virtuals folders (myfolder and myfolder2)
-	# RewriteRule ^myfolder/myfolder2/(.+)\.html$ index.php?p=$1&l=en&folder_level=2&%{QUERY_STRING} [L] 
-	# RewriteRule ^([a-z]{2})/myfolder/myfolder2/(.+)\.html$ index.php?p=$2&l=$1&folder_level=2&%{QUERY_STRING} [L] 
+	# RewriteRule ^myfolder/myfolder2/(.+)\.html$ index.php?p=$1&l=en&%{QUERY_STRING} [L] 
+	# RewriteRule ^([a-z]{2})/myfolder/myfolder2/(.+)\.html$ index.php?p=$2&l=$1&%{QUERY_STRING} [L] 
 	# 
 	# Exemple 3: 
 	# Create an URL with 1 variable virtual folder
 	# The 2nd parameter exclude the folders ajax (use by the ajax pages of the framework) and wsp-admin (admin part of WSP)
-	# RewriteRule ^([a-z]{2})/((?!(ajax|wsp\-admin)).+)/(.+)\.html$ index.php?p=my_page&l=$1&param1=$2&param2=$3&folder_level=1&%{QUERY_STRING} [L]
+	# RewriteRule ^([a-z]{2})/((?!(ajax|wsp\-admin)).+)/(.+)\.html$ index.php?p=my_page&l=$1&param1=$2&param2=$3&%{QUERY_STRING} [L]
 	# 
 	# Warning: Create your rules only if the framework can't support your special URL => virtual folder (the framework manages the real folders)
 	#

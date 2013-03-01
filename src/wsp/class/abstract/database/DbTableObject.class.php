@@ -1,28 +1,30 @@
 <?php
 /**
- * PHP file wsp\class\database\DbTableObject.class.php
- * @package database
+ * PHP file wsp\class\abstract\database\DbTableObject.class.php
+ * @package abstract
+ * @subpackage database
  */
 /**
- * Class DbTableObject
+ * Abstract Class DbTableObject
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
  * Redistributions of files must retain the above copyright notice.
  * 
- * @package database
+ * @package abstract
+ * @subpackage database
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.6
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.2
  * @access      public
  * @since       1.0.17
  */
 
-class DbTableObject {
+abstract class DbTableObject {
 	/**#@+
 	* @access private
 	*/

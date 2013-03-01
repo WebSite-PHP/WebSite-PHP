@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.1
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.2
  * @access      public
  * @since       1.0.17
  */
@@ -173,6 +173,9 @@ class ComboBox extends WebSitePhpEventObject {
 	 * @since 1.0.36
 	 */
 	public function setOption($option) {
+		if ($option == "mainCSS:'dd2'") {
+			$option = "mainCSS:'blue'";
+		}
 		$this->option = $option;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
@@ -528,6 +531,9 @@ class ComboBox extends WebSitePhpEventObject {
 		$this->automaticAjaxEvent();
 		
 		$html = "<select id=\"".$this->getEventObjectName()."\" name=\"".$this->getEventObjectName()."\" onChange=\"onChangeComboBox_".$this->getEventObjectName()."();\"";
+		if ($this->disable) {
+			$html .= " disabled";
+		}
 		if ($this->width != "" && $this->width > 0) {
 			$html .= " style=\"width:".($this->width + 4)."px;\"";
 		}
@@ -564,17 +570,14 @@ class ComboBox extends WebSitePhpEventObject {
 		
 		$html .= $this->getJavascriptTagOpen();
 		if ($this->is_ajax_event) {
-			if ($this->form_object == null) {
+			/*if ($this->form_object == null) {
 				throw new NewException("Unable to activate action to this ".get_class($this)." : Attribut page_or_form_object must be a Form object", 0, getDebugBacktrace(1));
-			}
+			}*/ // Now we can do Ajax on ComboBox without a Form object
 			$html .= $this->getAjaxEventFunctionRender();
 		}
 		
 		$html .= "	$(document).ready(function(){ $(\"#".$this->getEventObjectName()."\").msDropDown({";
 		$html .= $this->option."}); ";
-		if ($this->disable) {
-			$html .= "$(\"#".$this->getEventObjectName()."\").msDropDown().data('dd').disabled(true);";
-		}
 		$html .= "});\n";
 		$html .= $this->htmlOnChangeFct();
 		$html .= $this->getJavascriptTagClose();
@@ -621,6 +624,7 @@ class ComboBox extends WebSitePhpEventObject {
 			$html .= "$('#Cmb_SelectedIndex_".$this->getEventObjectName()."').val('".$this->getSelectedIndex()."');\n";
 			$html .= $this->htmlOnChangeFct();
 			
+			$refresh_selected_index = false;
 			if ($this->list_items_change) {
 				$is_opt_group = false;
 				for ($i=0; $i < sizeof($this->item_value); $i++) {
@@ -658,21 +662,27 @@ class ComboBox extends WebSitePhpEventObject {
 					$html .= "new_option.appendChild(document.createTextNode('".addslashes($this->item_text[$i])."'));\n";
 					$html .= "new_option.title = '".addslashes($this->item_img[$i])."';\n";
 					if ($i == $this->item_selected) {
-						$html .= "new_option.selected = true;\n";
+						$refresh_selected_index = true;
 					}
 					$html .= "cmb_parent_node.appendChild(new_option);\n";
 				}
 				if ($last_group_name != "") {
 					$html .= "document.getElementById('".$this->getEventObjectName()."').appendChild(cmb_parent_node);\n";
 				}
-				$html .= "if(document.getElementById('".$this->getEventObjectName()."').refresh!=undefined) {\n";
-				$html .= "	document.getElementById('".$this->getEventObjectName()."').refresh();\n";
-				$html .= "}\n";
-						
+				$html .= "var refreshed_cmb = $('#".$this->getEventObjectName()."').clone();\n";
+				$html .= "$('#".$this->getEventObjectName()."').remove();\n";
+				$html .= "refreshed_cmb.appendTo($('#".$this->getEventObjectName()."_msddHolder').parent());\n";
+				$html .= "$('#".$this->getEventObjectName()."_msdd').remove();\n";
+				$html .= "$('#".$this->getEventObjectName()."_msddHolder').remove();\n";
 			} else if ($this->is_changed) {
-				$html .= "document.getElementById('".$this->getEventObjectName()."').options[".$this->item_selected."].selected = true;\n";
+				$refresh_selected_index = true;
 			}
-			$html .= "$(\"#".$this->getEventObjectName()."\").msDropDown().data('dd').disabled(".($this->disable?"true":"false").");";
+			$rand_id = rand(0, 999999999);
+			$html .= "var wsp_cmb_".$rand_id." = $(\"#".$this->getEventObjectName()."\").msDropDown().data('dd');\n";
+			$html .= "wsp_cmb_".$rand_id.".set('disabled', ".($this->disable?"true":"false").");\n";
+			if ($refresh_selected_index) {
+				$html .= "wsp_cmb_".$rand_id.".set('selectedIndex', ".$this->item_selected.");\n";
+			}
 		}
 		return $html;
 	}

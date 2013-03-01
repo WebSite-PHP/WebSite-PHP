@@ -18,19 +18,19 @@ AddDefaultCharset utf-8
 	# Zone to define your URL rewriting
 	# Exemple 1: 
 	# Create an URL with 1 virtual folder (myfolder)
-	# RewriteRule ^myfolder/(.+)\.html$ index.php?p=$1&l=en&folder_level=1&%{QUERY_STRING} [L]
+	# RewriteRule ^myfolder/(.+)\.html$ index.php?p=$1&l=en&%{QUERY_STRING} [L]
 	# In this case the first parameter is the language (ie: en, fr, de, ...) 
-	# RewriteRule ^([a-z]{2})/myfolder/(.+)\.html$ index.php?p=$2&l=$1&folder_level=1&%{QUERY_STRING} [L] 
+	# RewriteRule ^([a-z]{2})/myfolder/(.+)\.html$ index.php?p=$2&l=$1&%{QUERY_STRING} [L] 
 	# 
 	# Exemple 2: 
 	# Create an URL with 2 virtuals folders (myfolder and myfolder2)
-	# RewriteRule ^myfolder/myfolder2/(.+)\.html$ index.php?p=$1&l=en&folder_level=2&%{QUERY_STRING} [L] 
-	# RewriteRule ^([a-z]{2})/myfolder/myfolder2/(.+)\.html$ index.php?p=$2&l=$1&folder_level=2&%{QUERY_STRING} [L] 
+	# RewriteRule ^myfolder/myfolder2/(.+)\.html$ index.php?p=$1&l=en&%{QUERY_STRING} [L] 
+	# RewriteRule ^([a-z]{2})/myfolder/myfolder2/(.+)\.html$ index.php?p=$2&l=$1&%{QUERY_STRING} [L] 
 	# 
 	# Exemple 3: 
 	# Create an URL with 1 variable virtual folder
 	# The 2nd parameter exclude the folders ajax (use by the ajax pages of the framework) and wsp-admin (admin part of WSP)
-	# RewriteRule ^([a-z]{2})/((?!(ajax|wsp\-admin)).+)/(.+)\.html$ index.php?p=my_page&l=$1&param1=$2&param2=$3&folder_level=1&%{QUERY_STRING} [L]
+	# RewriteRule ^([a-z]{2})/((?!(ajax|wsp\-admin)).+)/(.+)\.html$ index.php?p=my_page&l=$1&param1=$2&param2=$3&%{QUERY_STRING} [L]
 	# 
 	# Warning: Create your rules only if the framework can't support your special URL => virtual folder (the framework manages the real folders)
 	#
@@ -64,16 +64,16 @@ AddDefaultCharset utf-8
 	RewriteRule ^combine-css/wsp/(.*) wsp/$1&%{QUERY_STRING} [L] 
 	
 	# Banned files/folders of the FrameWork
-	RewriteRule ^wsp/class/(.*)\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
-	RewriteRule ^wsp/config/(.*)\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L]
-	RewriteRule ^wsp/includes/execution_time\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
-	RewriteRule ^wsp/includes/html2text\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
-	RewriteRule ^wsp/includes/init\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
-	RewriteRule ^wsp/includes/loader_(.*)\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
-	RewriteRule ^wsp/includes/utils_(.*)\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
-	RewriteRule ^wsp/includes/utils\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
-	RewriteRule ^wsp/includes/utils2\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L] 
-	RewriteRule ^wsp/includes/wsp_user_ban\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true&folder_level=2 [L]
+	RewriteRule ^wsp/class/(.*)\.php$ index.php?p=error-page&error-redirect=404&banned_url=true [L] 
+	RewriteRule ^wsp/config/(.*)\.php$ index.php?p=error-page&error-redirect=404&banned_url=true [L]
+	RewriteRule ^wsp/includes/execution_time\.php$ index.php?p=error-page&error-redirect=404&banned_url=true [L] 
+	RewriteRule ^wsp/includes/html2text\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true [L] 
+	RewriteRule ^wsp/includes/init\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true [L] 
+	RewriteRule ^wsp/includes/loader_(.*)\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true [L] 
+	RewriteRule ^wsp/includes/utils_(.*)\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true [L] 
+	RewriteRule ^wsp/includes/utils\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true [L] 
+	RewriteRule ^wsp/includes/utils2\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true [L] 
+	RewriteRule ^wsp/includes/wsp_user_ban\.inc\.php$ index.php?p=error-page&error-redirect=404&banned_url=true [L]
 	
 	# FrameWork Folders
 	RewriteRule ^js/(.*)$ js/$1 [L] 
@@ -90,49 +90,49 @@ AddDefaultCharset utf-8
 	RewriteRule ^wsp/cache/xml/(.*)$ wsp/cache/xml/$1 [L]
 	
 	# Rewrite Ajax URL
-	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4/$5/$6/$7&l=$1&folder_level=6&%{QUERY_STRING} [L] 
-	RewriteRule ^ajax/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2/$3/$5/$6/$7&folder_level=6&%{QUERY_STRING} [L] 
-	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4/$5/$6&l=$1&folder_level=5&%{QUERY_STRING} [L] 
-	RewriteRule ^ajax/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2/$3/$5/$6&folder_level=5&%{QUERY_STRING} [L] 
-	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4/$5&l=$1&folder_level=4&%{QUERY_STRING} [L] 
-	RewriteRule ^ajax/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2/$3/$5&folder_level=4&%{QUERY_STRING} [L] 
-	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4&l=$1&folder_level=3&%{QUERY_STRING} [L] 
-	RewriteRule ^ajax/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2/$3&folder_level=3&%{QUERY_STRING} [L] 
-	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3&l=$1&folder_level=2&%{QUERY_STRING} [L] 
-	RewriteRule ^ajax/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2&folder_level=2&%{QUERY_STRING} [L] 
-	RewriteRule ^([a-z]{2})/ajax/(.+)\.html$ index-ajax.php?p=$2&l=$1&folder_level=1&%{QUERY_STRING} [L] 
-	RewriteRule ^ajax/(.+)\.html$ index-ajax.php?p=$1&folder_level=1&%{QUERY_STRING} [L] 
-	RewriteRule ^([a-z]{2})/ajax/$ index-ajax.php?p=home&l=$1&folder_level=1&%{QUERY_STRING} [L] 
-	RewriteRule ^ajax/$ index-ajax.php?p=home&folder_level=1&%{QUERY_STRING} [L] 
+	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4/$5/$6/$7&l=$1&%{QUERY_STRING} [L] 
+	RewriteRule ^ajax/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2/$3/$5/$6/$7&%{QUERY_STRING} [L] 
+	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4/$5/$6&l=$1&%{QUERY_STRING} [L] 
+	RewriteRule ^ajax/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2/$3/$5/$6&%{QUERY_STRING} [L] 
+	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4/$5&l=$1&%{QUERY_STRING} [L] 
+	RewriteRule ^ajax/(.+)/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2/$3/$5&%{QUERY_STRING} [L] 
+	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3/$4&l=$1&%{QUERY_STRING} [L] 
+	RewriteRule ^ajax/(.+)/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2/$3&%{QUERY_STRING} [L] 
+	RewriteRule ^([a-z]{2})/ajax/(.+)/(.+)\.html$ index-ajax.php?p=$2/$3&l=$1&%{QUERY_STRING} [L] 
+	RewriteRule ^ajax/(.+)/(.+)\.html$ index-ajax.php?p=$1/$2&%{QUERY_STRING} [L] 
+	RewriteRule ^([a-z]{2})/ajax/(.+)\.html$ index-ajax.php?p=$2&l=$1&%{QUERY_STRING} [L] 
+	RewriteRule ^ajax/(.+)\.html$ index-ajax.php?p=$1&%{QUERY_STRING} [L] 
+	RewriteRule ^([a-z]{2})/ajax/$ index-ajax.php?p=home&l=$1&%{QUERY_STRING} [L] 
+	RewriteRule ^ajax/$ index-ajax.php?p=home&%{QUERY_STRING} [L] 
 
 	# Rewrite URL subfolder (ex: wsp-admin, ...)
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$2/$3/$4/$5/$6/$7&l=$1&folder_level=5&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$1$2/$3/$4/$5/$6/$7&folder_level=5&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)/$ index.php?p=$2/$3/$4/$5/$6/home&l=$1&folder_level=5&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$2/$3/$4/$5/$6&l=$1&folder_level=4&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$1$2/$3/$4/$5/$6&folder_level=4&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/$ index.php?p=$2/$3/$4/$5/home&l=$1&folder_level=4&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$2/$3/$4/$5&l=$1&folder_level=3&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$1$2/$3/$4/$5&folder_level=3&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/$ index.php?p=$2/$3/$4/home&l=$1&folder_level=3&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)\.html$ index.php?p=$2/$3/$4&l=$1&folder_level=2&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)\.html$ index.php?p=$1$2/$3/$4&folder_level=2&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/$ index.php?p=$2/$3/home&l=$1&folder_level=2&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/(.+)\.html$ index.php?p=$2/$3&l=$1&folder_level=1&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})(.+)/(.+)\.html$ index.php?p=$1$2/$3&folder_level=1&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/$ index.php?p=$2/home&l=$1&folder_level=1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$2/$3/$4/$5/$6/$7&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$1$2/$3/$4/$5/$6/$7&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)/$ index.php?p=$2/$3/$4/$5/$6/home&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$2/$3/$4/$5/$6&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$1$2/$3/$4/$5/$6&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/$ index.php?p=$2/$3/$4/$5/home&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$2/$3/$4/$5&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)\.html$ index.php?p=$1$2/$3/$4/$5&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/$ index.php?p=$2/$3/$4/home&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)\.html$ index.php?p=$2/$3/$4&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)\.html$ index.php?p=$1$2/$3/$4&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/$ index.php?p=$2/$3/home&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)\.html$ index.php?p=$2/$3&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)\.html$ index.php?p=$1$2/$3&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/$ index.php?p=$2/home&l=$1&%{QUERY_STRING} [L]
 
 	# Rewrite Special URL subfolder (ex: xml, rss, sitemap, ...)
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4/$5/$6/$7&mime=$6&l=$1&folder_level=5&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4/$5/$6/$7&mime=$6&folder_level=5&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4/$5/$6&mime=$6&l=$1&folder_level=4&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4/$5/$6&mime=$6&folder_level=4&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4/$5&mime=$6&l=$1&folder_level=3&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4/$5&mime=$6&folder_level=3&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4&mime=$5&l=$1&folder_level=2&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4&mime=$5&folder_level=2&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3&mime=$4&l=$1&folder_level=1&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3&mime=$4&folder_level=1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4/$5/$6/$7&mime=$6&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4/$5/$6/$7&mime=$6&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4/$5/$6&mime=$6&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4/$5/$6&mime=$6&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4/$5&mime=$6&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4/$5&mime=$6&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4&mime=$5&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4&mime=$5&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3&mime=$4&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3&mime=$4&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})/(.+)\.([^php]+)$ load-page.php?p=$2&l=$1&mime=$3&%{QUERY_STRING} [L]
 	
 	# Rewrite URL home.html, index.html and index.php

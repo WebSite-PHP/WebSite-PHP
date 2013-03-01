@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.1
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.2
  * @access      public
  * @since       1.0.17
  */
@@ -380,6 +380,22 @@ class Form extends WebSitePhpObject {
 			throw new NewException(get_class($this)."->loadFromSqlDataView() error: \$properties need to be an array", 0, getDebugBacktrace(1));
 		}
 		
+		$list_attribute = $sql->getListAttributeArray();
+		// Add properties to apply on all fields
+		if (isset($properties[ModelViewMapper::PROPERTIES_ALL]) && is_array($properties[ModelViewMapper::PROPERTIES_ALL])) {
+			$apply_all_array = $properties[ModelViewMapper::PROPERTIES_ALL];
+			foreach ($apply_all_array as $property_name => $property_value) {
+				for ($i=0; $i < sizeof($list_attribute); $i++) {
+					$property[$property_name] = $property_value;
+					if (isset($properties[$list_attribute[$i]])) {
+						$properties[$list_attribute[$i]] = array_merge($properties[$list_attribute[$i]], $property);
+					} else {
+						$properties[$list_attribute[$i]] = $property;
+					}
+				}
+			}
+		}
+		
 		// check foreign keys
 		$db_table_foreign_keys = $sql->getDbTableObject()->getDbTableForeignKeys();
 		foreach ($db_table_foreign_keys as $fk_attribute => $value) {
@@ -410,7 +426,6 @@ class Form extends WebSitePhpObject {
 			}
 		}
 		$this->from_sql_data_view_properties = $properties;
-		$list_attribute = $sql->getListAttributeArray();
 		
 		$key_attributes = $sql->getPrimaryKeysAttributes();
 		// check if all the fields of sql object are in the SQL attributes
@@ -618,6 +633,13 @@ class Form extends WebSitePhpObject {
 			}
 			if (isset($attribute_properties["style"]) && method_exists($input_obj, "setStyle")) {
 				$input_obj->setStyle($attribute_properties["style"]);
+			}
+			if (isset($attribute_properties["disable"])) {
+				if ($attribute_properties["disable"] == true && method_exists($input_obj, "disable")) {
+					$input_obj->disable();
+				} else if ($attribute_properties["disable"] == false && method_exists($input_obj, "enable")) {
+					$input_obj->enable();
+				}
 			}
 			if (get_class($input_obj) != "Calendar") {
 				if (isset($attribute_properties["strip_tags"]) && $attribute_properties["strip_tags"] == true && 

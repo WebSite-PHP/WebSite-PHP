@@ -18,8 +18,8 @@
  * @subpackage Authentication
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/11/2012
- * @version     1.2.0
+ * @copyright   WebSite-PHP.com 23/11/2012
+ * @version     1.2.2
  * @access      public
  * @since       1.1.11
  */
@@ -85,6 +85,18 @@ class AuthenticationLDAP extends Authentication {
 		$this->ldap_user_domain = $ldap_user_domain;
 		return $this;
 	}
+	
+	/**
+	 * Method setLDAPDN
+	 * @access public
+	 * @param mixed $ldap_dn 
+	 * @return AuthenticationLDAP
+	 * @since 1.2.2
+	 */
+	public function setLDAPDN($ldap_dn) {
+        $this->ldap_dn = $ldap_dn;
+        return $this;
+    }
 	
 	/**
 	 * Method setDefaultUserRights

@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.1
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.2
  * @access      public
  * @since       1.0.19
  */
@@ -71,26 +71,25 @@
 	
 	function extractJavaScriptFromHtml($html) {
 		$javascript = "";
-		$pos = find($html, "<script", 0, 0);
+		$pos = find($html, "<script type=", 0, 0);
 		while ($pos > 0) {
 			$pos2 = find($html, ">", 0, $pos);
 			$pos3 = find($html, "</script>", 0, $pos2);
 			if ($pos3 == 0) {
 				break;
 			}
-			$pos2 = $pos2 + 1;
 			$pos4 = $pos3 - 9;
 			
-			$html_before = substr($html, 0, $pos-7)."\n";
-			$html_after = substr($html, $pos3, strlen($html)-$pos3);
+			$html_before = substr($html, 0, $pos-13)."\n";
+			$html_after = substr($html, $pos3, strlen($html));
 			$javascript .= substr($html, $pos2, $pos4-$pos2)."\n";
 			
 			$html = $html_before.$html_after;
-			$pos = find($html, "<script", 0, 0);
+			$pos = find($html, "<script type=", 0, 0);
 		}
 		$javascript = str_replace("//<![CDATA[", "", $javascript);
 		$javascript = str_replace("//]]>", "", $javascript);
-		$javascript = str_replace("\r\n\r\n", "\r\n", $javascript);
+		$javascript = str_replace("\r", "", $javascript);
 		$javascript = str_replace("\n\n", "\n", $javascript);
 		
 		return array($html, $javascript);

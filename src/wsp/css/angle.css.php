@@ -14,12 +14,12 @@
 	
 	header("Content-type: text/css");
   
-	$zlib_OC_is_set = preg_match('/On|(^[0-9]+$)/i', ini_get('zlib.output_compression'));
+	/*$zlib_OC_is_set = preg_match('/On|(^[0-9]+$)/i', ini_get('zlib.output_compression'));
 	if ($zlib_OC_is_set) {
-		if (@strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') === TRUE) {
+		if (@strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE) {
 			header("Content-Encoding: gzip"); 
 		}
-	}
+	}*/
 	
 	$expires = 60*60*24*7; // 7 days
 	header("Pragma: public");
@@ -213,5 +213,5 @@
 ?>
 
 .BoxOverFlowHidden {
-	overflow: hidden;
+	//overflow: hidden;
 }
