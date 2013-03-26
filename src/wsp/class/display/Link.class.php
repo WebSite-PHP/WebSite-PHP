@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.0.17
  */
@@ -41,6 +41,7 @@ class Link extends WebSitePhpObject {
 	/**#@+
 	* @access private
 	*/
+	private $id = "";
 	private $link = "";
 	private $target = "";
 	private $content = null;
@@ -58,6 +59,7 @@ class Link extends WebSitePhpObject {
 	
 	private $rel = "";
 	private $property = "";
+	private $style = "";
 	/**#@-*/
 	
 	/**
@@ -77,6 +79,31 @@ class Link extends WebSitePhpObject {
 		$this->target = $target;
 		$this->content = $content;
 		$this->tagH = "";
+	}
+	
+	/**
+	 * Method setLink
+	 * @access public
+	 * @param mixed $link 
+	 * @return Link
+	 * @since 1.2.3
+	 */
+	public function setLink($link) {
+		$this->link = $link;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method setId
+	 * @access public
+	 * @param mixed $id 
+	 * @return Link
+	 * @since 1.2.3
+	 */
+	public function setId($id) {
+		$this->id = $id;
+		return $this;
 	}
 	
 	/**
@@ -169,6 +196,18 @@ class Link extends WebSitePhpObject {
 		$this->property = $property;
 		return $this;
 	}
+	
+	/**
+	 * Method setStyle
+	 * @access public
+	 * @param mixed $style 
+	 * @return Link
+	 * @since 1.2.3
+	 */
+	public function setStyle($style) {
+		$this->style = $style;
+		return $this;
+	}
 		
 	/**
 	 * Method addLightbox
@@ -210,6 +249,16 @@ class Link extends WebSitePhpObject {
 	 */
 	public function getTarget() {
 		return $this->target;
+	}
+	
+	/**
+	 * Method getId
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.3
+	 */
+	public function getId() {
+		return $this->id;
 	}
 	
 	/**
@@ -352,6 +401,9 @@ class Link extends WebSitePhpObject {
 		}
 		
 		$html .= "<a href=\"".createHrefLink($this->link, $this->target, $this->onclick)."\"";
+		if ($this->id != "") {
+			$html .= " id=\"".$this->id."\"";
+		}
 		if ($this->is_lightbox) {
 			$html .= " rel=\"lightbox";
 			if ($this->lightbox_name != "") {
@@ -359,12 +411,17 @@ class Link extends WebSitePhpObject {
 			}
 			$html .= "\"";
 		}
-		if ($this->tagH != "") {
+		if ($this->tagH != "" || $this->style != "") {
+			$html .= " style=\"";
 			if ($this->tagH == "h1" && !$this->tagH_bold) {
-				$html .= " style=\"font-weight:normal;\"";
+				$html .= "font-weight:normal;";
 			} else if ($this->tagH != "h1" && $this->tagH_bold) {
-				$html .= " style=\"font-weight:bold;\"";
+				$html .= "font-weight:bold;";
 			}
+			if ($this->style != "") {
+				$html .= $this->style;
+			}
+			$html .= "\"";
 		}
 		if ($this->nofollow && !$this->is_lightbox) {
 			$html .= " rel=\"nofollow\"";
@@ -381,11 +438,22 @@ class Link extends WebSitePhpObject {
 		}
 		$html .= ">";
 		if (gettype($this->content) == "object" && method_exists($this->content, "render")) {
+			$html_content = "";
 			if (get_class($this->content) == "Object") {
-				$html .= str_replace(">\n <br/>", "><br/>", str_replace(">\n <BR/>", "><BR/>", str_replace(">\n <br />", "><br />", str_replace(">\n <BR />", "><BR />", $this->content->render()))));
+				$html_content = str_replace(">\n <br/>", "><br/>", str_replace(">\n <BR/>", "><BR/>", str_replace(">\n <br />", "><br />", str_replace(">\n <BR />", "><BR />", $this->content->render()))));
 			} else {
-				$html .= $this->content->render();
+				$html_content = $this->content->render();
 			}
+			// Revove carriage return on the end of the string before writing </a> 
+			$ind_security = 0;
+			while ($html_content[strlen($html_content)-1] == "\n" || $html_content[strlen($html_content)-1] == "\r") {
+				$html_content = substr($html_content, 0, strlen($html_content)-1);
+				$ind_security++;
+				if ($ind_security > 10) {
+					break;
+				}
+			}
+			$html .= $html_content;
 		} else {
 			$html .= $this->content;
 		}
@@ -407,6 +475,53 @@ class Link extends WebSitePhpObject {
 			}
 		}
 		$this->object_change = false;
+		return $html;
+	}
+	
+	
+	/**
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object Link (call with AJAX)
+	 * @since 1.2.3
+	 */
+	public function getAjaxRender() {
+		$html = "";
+		if ($this->object_change && !$this->is_new_object_after_init) {
+			if ($this->id == "") {
+				throw new NewException("Error Link: You must specified an id (setId())", 0, getDebugBacktrace(1));
+			}
+			
+			$html .= "$('#".$this->getId()."').attr('href', \"".$this->link."\");\n";
+			$html .= "$('#".$this->getId()."').attr('target', \"".$this->target."\");\n";
+			
+			$html_content = "";
+			if (gettype($this->content) == "object" && method_exists($this->content, "render")) {
+				if (get_class($this->content) == "Object") {
+					$html_content = str_replace(">\n <br/>", "><br/>", str_replace(">\n <BR/>", "><BR/>", str_replace(">\n <br />", "><br />", str_replace(">\n <BR />", "><BR />", $this->content->render()))));
+				} else {
+					$html_content = $this->content->render();
+				}
+				// Revove carriage return on the end of the string before writing </a> 
+				$ind_security = 0;
+				while ($html_content[strlen($html_content)-1] == "\n" || $html_content[strlen($html_content)-1] == "\r") {
+					$html_content = substr($html_content, 0, strlen($html_content)-1);
+					$ind_security++;
+					if ($ind_security > 10) {
+						break;
+					}
+				}
+			} else {
+				$html_content = $this->content;
+			}
+			$html .= "$('#".$this->getId()."').html('".addslashes($html_content)."');\n";
+			
+			if ($this->style != "") {
+				$html .= "$('#".$this->getId()."').attr('style', \"".$this->style."\");\n";
+			}
+			
+			$this->object_change = false;
+		}
 		return $html;
 	}
 }

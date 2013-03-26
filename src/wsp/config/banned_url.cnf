@@ -306,3 +306,9 @@
 /_vti_bin/owssvr.dll
 /admin/file_manager.php/login.php
 /admin/categories.php/login.php
+/PMA3/scripts/setup.php
+/PMA2009/scripts/setup.php
+/PMA2/scripts/setup.php
+/Admin/scripts/setup.php
+/Admin/phpmyadmin/scripts/setup.php
+/Admin/phpMyAdmin/scripts/setup.php

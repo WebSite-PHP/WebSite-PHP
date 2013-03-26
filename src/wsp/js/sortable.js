@@ -6,6 +6,7 @@ var sortableObjectMoveFrom = Array();
 var sortableObjectMoveTo = Array();
 var sortableObjectToMove = Array();
 var sortableObjectNewPosition = Array();
+var sortableObjectOldPosition = "";
 var sortableObjectSerialize = Array();
 var sortableIsStarting = false;
 
@@ -48,10 +49,14 @@ saveSerializeSortableObject = function(sortable_id) {
 	//if (debug_sortable_js) { window.console.log('save object ' + sortable_id + ': ' + sortableObjectSerialize[sortable_id]); }
 };
 
-sortableEventStart = function(sortable_id) {
+sortableEventStart = function(sortable_id, ui) {
 	if (!sortableIsStarting) { 
 		if (debug_sortable_js) { window.console.log('starting [' + sortable_id + ']'); }
 		sortableIsStarting = sortable_id;
+		
+		var serial = $('#' + sortable_id).sortable('serialize');
+		var position = extractSortableObject(serial, ui.item[0].id);
+		sortableObjectOldPosition = position;
 	}
 	return true;
 }
@@ -64,8 +69,8 @@ sortableEventStop = function(sortable_id, ui) {
 		sortableIsStarting = false;
 		var sortable_id = lastMovedSortableId;
 		if (sortableObjectMoveFrom[sortable_id] != null && sortableObjectToMove[sortable_id] != null && sortableObjectNewPosition[sortable_id] != null) {
-			if (debug_sortable_js) { window.console.log('Move ' + sortableObjectToMove[sortable_id] + ' from ' + sortableObjectMoveFrom[sortable_id] + ' to ' + sortableObjectMoveTo[sortable_id] + ' [position:' + sortableObjectNewPosition[sortable_id] + ']'); }
-			eval('move_' + sortable_id + '_ObjectEvent("' + sortableObjectToMove[sortable_id] + '","' + sortableObjectMoveFrom[sortable_id] + '","' + sortableObjectMoveTo[sortable_id] + '",' + sortableObjectNewPosition[sortable_id] + ');');
+			if (debug_sortable_js) { window.console.log('Move ' + sortableObjectToMove[sortable_id] + ' from ' + sortableObjectMoveFrom[sortable_id] + ' to ' + sortableObjectMoveTo[sortable_id] + ' [position:' + sortableObjectNewPosition[sortable_id] + ', oldPosition:' + sortableObjectOldPosition + ']'); }
+			eval('move_' + sortable_id + '_ObjectEvent("' + sortableObjectToMove[sortable_id] + '","' + sortableObjectMoveFrom[sortable_id] + '","' + sortableObjectMoveTo[sortable_id] + '",' + sortableObjectNewPosition[sortable_id] + ',' + sortableObjectOldPosition + ');');
 
 			saveSerializeSortableObject(sortableObjectMoveFrom[sortable_id]);
 			saveSerializeSortableObject(sortableObjectMoveTo[sortable_id]);

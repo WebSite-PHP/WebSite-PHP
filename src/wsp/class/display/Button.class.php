@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.0.17
  */
@@ -35,6 +35,7 @@ class Button extends WebSitePhpEventObject {
 	private $assign_enter_key = false;
 	private $hide = false;
 	private $force_span_tag = false;
+	private $disable = false;
 	
 	private $primary_icon = "";
 	private $secondary_icon = "";
@@ -373,6 +374,30 @@ class Button extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method enable
+	 * @access public
+	 * @return Button
+	 * @since 1.2.3
+	 */
+	public function enable() {
+		$this->disable = false;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method disable
+	 * @access public
+	 * @return Button
+	 * @since 1.2.3
+	 */
+	public function disable() {
+		$this->disable = true;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -435,6 +460,9 @@ class Button extends WebSitePhpEventObject {
 				if ($this->height > 0) {
 					$html .= " style='height:".$this->height."px;'";
 				}
+				if ($this->disable) {
+					$html .= " disabled";
+				}
 				$html .= " onClick=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick));
 				if ($this->is_ajax_event) {
 					$html .= "return false;";
@@ -462,23 +490,40 @@ class Button extends WebSitePhpEventObject {
 					}
 					
 					$html .= "<button";
+					if ($this->id != "") {
+						$html .= " id=\"".$this->id."\"";
+					}
+					if ($this->disable) {
+						$html .= " disabled";
+					}
+					$html .= ">";
 					$is_jquery_button = true;
 				} else {
 					$html .= "<a ";
-					$html .= "href=\"javascript:void(0);\" onClick=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick));
-					if ($this->is_ajax_event) {
-						$html .= "return false;";
+					$html .= "href=\"javascript:void(0);\"";
+					if (!$this->disable) {
+						$html .= " onClick=\"";
+						$html .= str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick));
+						if ($this->is_ajax_event) {
+							$html .= "return false;";
+						}
+						$html .= "\"";
+					} else {
+						$html .= " style=\"cursor:not-allowed;\"";
 					}
-					$html .= "\"";
 					if ($this->class != "") {
 						$html .= " class=\"".$this->class."\"";
 					}
+					if ($this->id != "") {
+						$html .= " id=\"".$this->id."\"";
+					}
+					$html .= ">";
 				}
-				if ($this->id != "") {
-					$html .= " id=\"".$this->id."\"";
+				if (gettype($this->value) == "object" && method_exists($this->value, "render")) {
+					$html .= $this->value->render();
+				} else {
+					$html .= $this->value;
 				}
-				$html .= ">";
-				$html .= $this->value;
 				if (!$this->is_link) { // round button
 					$html .= "</button>\n";
 					

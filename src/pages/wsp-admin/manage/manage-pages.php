@@ -2,34 +2,38 @@
 require_once(dirname(__FILE__)."/../includes/admin-template-form.inc.php");
 
 class ManagePages extends Page {
-	protected $USER_RIGHTS = Page::RIGHTS_ADMINISTRATOR;
-	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/connect.html";
+	protected $USER_RIGHTS = array(Page::RIGHTS_ADMINISTRATOR, Page::RIGHTS_DEVELOPER);
+	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/admin.html";
+	
+	private $array_files_label = array();
 	
 	public function Load() {
 		parent::$PAGE_TITLE = __(MANAGE_PAGES);
 		
 		$content = new Object();
 		
-		$construction_page = new Object(__(PAGE_IN_CONSTRUCTION));
-		$construction_page->setClass("warning");
-		$content->add($construction_page);
-		
 		// Search all php files in the folder pages with the synstax "class * extends Page"
 		$code_editor_table = new Table();
 		$code_editor_table->setDefaultValign(RowTable::VALIGN_TOP);
 		
 		$form = new Form($this);
+		$this->hdn_old_file = new Hidden($this);
+		$content->add($this->hdn_old_file);
 		
 		$tree = new TreeView("wsp_files");
-		$array_path = explode("/", SITE_DIRECTORY);
+		$array_path = explode("/", $this->getRootWspDirectory());
 		$root = new TreeViewFolder($array_path[sizeof($array_path)-1]);
 		$tree_page_items = new TreeViewItems();
 		
-		$dir = SITE_DIRECTORY."/pages/";
+		$dir = $this->getRootWspDirectory()."/pages/";
 		$array_files = $this->loadFiles($dir);
 		foreach ($array_files as $key => $value) {
 			$tree_page_type = new TreeViewFolder($key);
-			$tree_page_type->collapse();
+			if ($key == "Page classes") {
+				$tree_page_type->expand();
+			} else {
+				$tree_page_type->collapse();
+			}
 			$tree_page_items->add($tree_page_type);
 			$tree_items = new TreeViewItems();
 			
@@ -56,8 +60,11 @@ class ManagePages extends Page {
 					}
 				}
 				$file_link = new Button($this);
-				$file_link->setValue($file_name)->setIsLink();
-				$file_link->onClick("loadFile", $file)->setAjaxEvent();
+				$file_name_label = new Label($file_name);
+				$file_name_label->setId("file_label_".str_replace("/", "_slashsep_", str_replace(".", "_", str_replace("-", "_", $file))));
+				$this->array_files_label[$file] = $file_name_label;
+				$file_link->setValue($file_name_label)->setIsLink();
+				$file_link->onClick("loadFile", $file, $this->hdn_old_file)->setAjaxEvent();
 				$tree_file = new TreeViewFile($file_link);
 				$parent_tree_items->add($tree_file);
 			}
@@ -69,15 +76,22 @@ class ManagePages extends Page {
 		$tree->setTreeViewItems($root_items);
 		
 		$tree_obj = new Object($tree);
-		$tree_obj->setAlign(Object::ALIGN_LEFT)->setWidth(250)->setMaxHeight(500)->setStyle("overflow:auto;");
+		$tree_obj->setAlign(Object::ALIGN_LEFT)->setWidth(220)->setHeight(630)->setMaxHeight(630);
 		
 		$this->code_editor = new TextArea($form);
-		$this->code_editor->setWidth(600)->setHeight(500)->noWrap();
+		$this->code_editor->setWidth(600)->setHeight(620)->allowTabulation()->activateSourceCodeEdit("php")->noWrap();
 		$code_editor_table->addRowColumns($tree_obj, $this->code_editor);
 		
 		$this->btn_save = new Button($form);
-		$this->btn_save->setValue(__(BTN_SAVE))->onClick("save")->setAjaxEvent();
-		$code_editor_table->addRow($this->btn_save)->setColspan(2);
+		$this->btn_save->setValue(__(BTN_SAVE))->setAjaxEvent()->hide();
+		$this->btn_save->forceSpanTag();
+		
+		if (Page::getInstance("wsp-admin/manage/manage-translations")->userHaveRights()) {
+			$this->tranlate_links_obj = new Object(__(MANAGE_TRANSLATIONS).": ");
+			$this->tranlate_links_obj->setId("tranlate_links_obj");
+		}
+		
+		$code_editor_table->addRow(new Object($this->tranlate_links_obj, "&nbsp;", $this->btn_save))->setColspan(2);
 		$code_editor_table->addRow();
 		
 		$form->setContent($code_editor_table);
@@ -87,8 +101,10 @@ class ManagePages extends Page {
 		
 		$this->render = new AdminTemplateForm($this, $content->add($form));
 		
-		if (!$this->isAjaxPage()) {
-			$this->loadFile(null, "home.php");
+		if (isset($_GET['file'])) {
+			$this->loadFile(null, $_GET['file'], "");
+		} else if (!$this->isAjaxPage()) {
+			$this->loadFile(null, "home.php", "");
 		}
 	}
 	
@@ -135,23 +151,56 @@ class ManagePages extends Page {
 		return $array_files;
 	}
 	
-	public function loadFile($sender, $file) {
+	public function loadFile($sender, $file, $old_file) {
+		if (isset($this->array_files_label[$old_file])) {
+			$this->array_files_label[$old_file]->setColor(DEFINE_STYLE_LINK_COLOR);
+		}
+		if (isset($this->array_files_label[$file])) {
+			$this->array_files_label[$file]->setColor("red");
+		}
+		$this->hdn_old_file->setValue($file);
+		
+		if ($this->tranlate_links_obj != null) {
+			$is_translation = false;
+			$dir = $this->getRootWspDirectory()."/lang/";
+			$array_lang_dir = scandir($dir, 0);
+			for ($i=0; $i < sizeof($array_lang_dir); $i++) {
+				if (is_dir($dir.$array_lang_dir[$i]) && $array_lang_dir[$i] != "" && 
+					$array_lang_dir[$i] != "." && $array_lang_dir[$i] != ".." && $array_lang_dir[$i] != ".svn" && 
+					strlen($array_lang_dir[$i]) == 2) {
+						$translation_file = str_replace(".php", ".inc.php", $file);
+						if (file_exists($dir.$array_lang_dir[$i]."/".$translation_file)) {
+							$lang_link = $this->getBaseLanguageURL()."wsp-admin/manage/manage-translations.html?language=".$array_lang_dir[$i]."&file=".$translation_file;
+							$language_link = new Link($lang_link, Link::TARGET_NONE, new Picture("wsp/img/lang/".$array_lang_dir[$i].".png", 24, 24, 0, Picture::ALIGN_ABSMIDDLE));
+							$this->tranlate_links_obj->add($language_link);
+							$is_translation = true;
+						}
+				}
+			}
+			if (!$is_translation) {
+				$this->tranlate_links_obj->emptyObject();
+			}
+		}
+		
 		$code = "";
-		$dir = SITE_DIRECTORY."/pages/";
+		$dir = $this->getRootWspDirectory()."/pages/";
 		if (is_file($dir.$file)) {
 			$f = new File($dir.$file);
 			$code = $f->read();
 			$f->close();
 		}
 		$this->code_editor->setValue($code);
+		$this->btn_save->onClick("save", $file)->show();
 	}
 	
-	public function save($sender) {
-		$dir = SITE_DIRECTORY."/pages/";
-		if (is_file($dir.$this->cmb_files->getValue())) {
-			$f = new File($dir.$this->cmb_files->getValue(), false, true);
+	public function save($sender, $file) {
+		$dir = $this->getRootWspDirectory()."/pages/";
+		if (is_file($dir.$file)) {
+			$f = new File($dir.$file, false, true);
 			$code = $f->write($this->code_editor->getValue());
 			$f->close();
+			
+			alert(__(FILE_SAVED, $file));
 		}
 	}
 }

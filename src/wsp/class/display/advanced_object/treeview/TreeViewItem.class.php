@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.0.17
  */
@@ -164,6 +164,26 @@ class TreeViewItem extends WebSitePhpObject {
 		$this->is_close = false;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
     	return $this;
+	}
+	
+	/**
+	 * Method isCollapse
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.3
+	 */
+	public function isCollapse() {
+		return $this->is_close;
+	}
+	
+	/**
+	 * Method isExpand
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.3
+	 */
+	public function isExpand() {
+		return !$this->is_close;
 	}
 	
 	/**

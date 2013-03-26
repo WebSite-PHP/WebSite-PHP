@@ -58,4 +58,6 @@
 	define("JAVASCRIPT_NOT_ACTIVATE", "JavaScript is turned off in your web browser. Turn it on to take full advantage of this site, then refresh the page.");
 	
 	define("TABLE_CONFIME_DEL_ROW", "Are you sure you want to delete this row ?");
+	
+	define('WSP_BTN_UPLOAD_FILE', 'Choose a file');
 ?>

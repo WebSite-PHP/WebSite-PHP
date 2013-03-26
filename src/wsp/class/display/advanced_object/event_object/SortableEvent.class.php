@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.0.17
  */
@@ -122,6 +122,7 @@ class SortableEvent extends WebSitePhpEventObject {
 		$args = func_get_args();
 		$str_function = array_shift($args);
 		$this->callback_onsort = $this->loadCallbackMethod($str_function, $args);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $wsp_object = $this->getPage()->getObjectId($this->sortable_id); if ($wsp_object != null) { $wsp_object->forceAjaxRender(); } }
 		return $this;
 	}
 	
@@ -140,6 +141,7 @@ class SortableEvent extends WebSitePhpEventObject {
 			$js_function = $js_function->render();
 		}
 		$this->onsort = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $wsp_object = $this->getPage()->getObjectId($this->sortable_id); if ($wsp_object != null) { $wsp_object->forceAjaxRender(); } }
 		return $this;
 	}
 	
@@ -158,6 +160,7 @@ class SortableEvent extends WebSitePhpEventObject {
 			$js_function = $js_function->render();
 		}
 		$this->onsortstart = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $wsp_object = $this->getPage()->getObjectId($this->sortable_id); if ($wsp_object != null) { $wsp_object->forceAjaxRender(); } }
 		return $this;
 	}
 	
@@ -176,6 +179,7 @@ class SortableEvent extends WebSitePhpEventObject {
 			$js_function = $js_function->render();
 		}
 		$this->onsortchange = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $wsp_object = $this->getPage()->getObjectId($this->sortable_id); if ($wsp_object != null) { $wsp_object->forceAjaxRender(); } }
 		return $this;
 	}
 	
@@ -194,6 +198,7 @@ class SortableEvent extends WebSitePhpEventObject {
 			$js_function = $js_function->render();
 		}
 		$this->onsortupdate = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $wsp_object = $this->getPage()->getObjectId($this->sortable_id); if ($wsp_object != null) { $wsp_object->forceAjaxRender(); } }
 		return $this;
 	}
 	
@@ -212,6 +217,7 @@ class SortableEvent extends WebSitePhpEventObject {
 			$js_function = $js_function->render();
 		}
 		$this->onsortstop = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $wsp_object = $this->getPage()->getObjectId($this->sortable_id); if ($wsp_object != null) { $wsp_object->forceAjaxRender(); } }
 		return $this;
 	}
 	
@@ -230,6 +236,7 @@ class SortableEvent extends WebSitePhpEventObject {
 			$js_function = $js_function->render();
 		}
 		$this->onsortremove = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $wsp_object = $this->getPage()->getObjectId($this->sortable_id); if ($wsp_object != null) { $wsp_object->forceAjaxRender(); } }
 		return $this;
 	}
 	
@@ -248,6 +255,7 @@ class SortableEvent extends WebSitePhpEventObject {
 			$js_function = $js_function->render();
 		}
 		$this->onsortover = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $wsp_object = $this->getPage()->getObjectId($this->sortable_id); if ($wsp_object != null) { $wsp_object->forceAjaxRender(); } }
 		return $this;
 	}
 	
@@ -266,6 +274,7 @@ class SortableEvent extends WebSitePhpEventObject {
 			$js_function = $js_function->render();
 		}
 		$this->onsortout = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $wsp_object = $this->getPage()->getObjectId($this->sortable_id); if ($wsp_object != null) { $wsp_object->forceAjaxRender(); } }
 		return $this;
 	}
 	
@@ -278,6 +287,21 @@ class SortableEvent extends WebSitePhpEventObject {
 	public function isSorted() {
 		if ($this->callback_onsort == "") {
 			throw new NewException(get_class($this)."->isSorted(): this method can be used only if an onSort event is defined on this ".get_class($this).".", 0, getDebugBacktrace(1));
+		}
+		if (!$this->is_sorted) {
+			if ($this->form_object == null) {
+				if (isset($_POST["Callback_".$this->getEventObjectName()]) && $_POST["Callback_".$this->getEventObjectName()] != "") {
+					$this->is_sorted = true;
+				} else if (isset($_GET["Callback_".$this->getEventObjectName()]) && $_GET["Callback_".$this->getEventObjectName()] != "") {
+					$this->is_sorted = true;
+				}
+			} else {
+				if ($this->form_object->getMethod() == "POST" && isset($_POST["Callback_".$this->getEventObjectName()]) && $_POST["Callback_".$this->getEventObjectName()] != "") {
+					$this->is_sorted = true;
+				} else if (isset($_GET["Callback_".$this->getEventObjectName()]) && $_GET["Callback_".$this->getEventObjectName()] != "") {
+					$this->is_sorted = true;
+				}
+			}
 		}
 		return $this->is_sorted;
 	}
@@ -326,18 +350,20 @@ class SortableEvent extends WebSitePhpEventObject {
 		$this->automaticAjaxEvent();
 		
 		$html = "";
-		if ($this->callback_onsort != "") {
-			$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
-		}
-		
-		$html .= $this->getJavascriptTagOpen();
-		if ($this->is_ajax_event) {
-			$html .= $this->getAjaxEventFunctionRender();
+		if (!$ajax_render) {
+			if ($this->callback_onsort != "") {
+				$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
+			}
+			
+			$html .= $this->getJavascriptTagOpen();
+			if ($this->is_ajax_event) {
+				$html .= $this->getAjaxEventFunctionRender();
+			}
 		}
 		
 		if ($this->onsort != "" || $this->callback_onsort != "") {
 			$html .= "	$(document).ready(function(){ saveSerializeSortableObject('".$this->sortable_id."'); });\n";
-			$html .= "	$('#".$this->sortable_id."').bind('sortstart', function(event, ui) { ".$this->onsortstart."return sortableEventStart('".$this->sortable_id."'); });\n";
+			$html .= "	$('#".$this->sortable_id."').bind('sortstart', function(event, ui) { ".$this->onsortstart."return sortableEventStart('".$this->sortable_id."', ui); });\n";
 			$html .= "	$('#".$this->sortable_id."').bind('sortstop', function(event, ui) { ".$this->onsortstop."return sortableEventStop('".$this->sortable_id."', ui); });\n";
 			$html .= "	$('#".$this->sortable_id."').bind('sortupdate', function(event, ui) { ".$this->onsortupdate."return sortableEventUpdate('".$this->sortable_id."', ui); });\n";
 			$html .= "	$('#".$this->sortable_id."').bind('sortchange', function(event, ui) { ".$this->onsortchange."return sortableEventChangeSaveObject('".$this->sortable_id."', ui); });\n";
@@ -345,13 +371,34 @@ class SortableEvent extends WebSitePhpEventObject {
 			$html .= "	$('#".$this->sortable_id."').bind('sortover', function(event, ui) { ".$this->onsortover.";return sortableEventOver('".$this->sortable_id."', ui, '".$this->over_style."'); });\n";
 			$html .= "	$('#".$this->sortable_id."').bind('sortout', function(event, ui) { ".$this->onsortout.";return sortableEventOut('".$this->sortable_id."', ui, '".$this->over_style."'); });\n";
 			
-			$html .= "	move_".$this->sortable_id."_ObjectEvent = function(moved_object, from_object, to_object, position) {\n";
-			$html .= $this->getObjectEventValidationRender($this->onsort, $this->callback_onsort, "' + moved_object + ',' + from_object + ',' + to_object + ',' + position + '");
+			$html .= "	move_".$this->sortable_id."_ObjectEvent = function(moved_object, from_object, to_object, position, old_position) {\n";
+			$html .= $this->getObjectEventValidationRender($this->onsort, $this->callback_onsort, "' + moved_object + ',' + from_object + ',' + to_object + ',' + position + ',' + old_position + '");
 			$html .= "	};\n";
 		}
-		$html .= $this->getJavascriptTagClose();
+		
+		if (!$ajax_render) {
+			$html .= $this->getJavascriptTagClose();
+		}
 		
 		$this->object_change = false;
+		return $html;
+	}
+	
+	/**
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object SortableEvent (call with AJAX)
+	 * @since 1.2.3
+	 */
+	public function getAjaxRender() {
+		$this->automaticAjaxEvent();
+		
+		$html = "";
+		if ($this->object_change && !$this->is_new_object_after_init) {
+			$html = $this->render(true);
+			
+			$this->object_change = false;
+		}
 		return $html;
 	}
 }

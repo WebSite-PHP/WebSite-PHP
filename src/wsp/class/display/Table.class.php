@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.0.17
  */
@@ -1466,6 +1466,16 @@ class Table extends WebSitePhpObject {
 	public function setTitle($title) {
 		$this->advance_table_title = $title;
 		return $this;
+	}
+	
+	/**
+	 * Method isEmpty
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.3
+	 */
+	public function isEmpty() {
+		return (sizeof($this->rows) == 0 || ($this->rows[0]->isHeader() && sizeof($this->rows) == 1));
 	}
 	
 	/**

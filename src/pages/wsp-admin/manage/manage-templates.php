@@ -3,7 +3,7 @@ require_once(dirname(__FILE__)."/../includes/admin-template-form.inc.php");
 
 class ManageTemplates extends Page {
 	protected $USER_RIGHTS = Page::RIGHTS_ADMINISTRATOR;
-	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/connect.html";
+	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/admin.html";
 	
 	public function Load() {
 		parent::$PAGE_TITLE = __(MANAGE_TEMPLATES);

@@ -505,9 +505,15 @@ input[class~="color"]:focus,
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
 }
 
-input[type="radio"],
 input[type="checkbox"] {
   margin: 5px 3px 0px 10px;
+  margin-top: 1px \9;
+  *margin-top: 0;
+  line-height: normal;
+}
+
+input[type="radio"] {
+  margin: 0px 3px 0px 10px;
   margin-top: 1px \9;
   *margin-top: 0;
   line-height: normal;
@@ -566,4 +572,27 @@ textarea:-ms-input-placeholder {
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder {
   color: #999999;
+}
+
+.UploadFileInput {
+    display: none;
+}
+
+.UploadFile .button {
+	display: inline-block;
+    text-align:center;
+    color:#000;
+    font-weight: bold;
+    background-color: #CECECE;
+	border: 1px solid #666;
+    height: 24px;
+	padding: 4px 4px 0px 4px;
+    margin-bottom:5px;
+	margin-left: 6px;
+	cursor: pointer;
+	vertical-align: top;
+  font-size: <?php echo $style_font_size_value; ?>;
+  -webkit-border-radius: 4px;
+     -moz-border-radius: 4px;
+          border-radius: 4px;
 }

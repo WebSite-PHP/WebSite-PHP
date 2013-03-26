@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.0.17
  */
@@ -57,6 +57,8 @@ class Form extends WebSitePhpObject {
 	private $from_sql_data_view_delete = false;
 	private $from_sql_data_view_properties = array();
 	private $table_from_sql_data_view = null;
+	
+	private $enctype_multipart = false;
 	/**#@-*/
 	
 	/**
@@ -215,6 +217,17 @@ class Form extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method setEnctypeMultipart
+	 * @access public
+	 * @return Form
+	 * @since 1.2.3
+	 */
+	public function setEnctypeMultipart() {
+		$this->enctype_multipart = true;
+		return $this;
+	}
+	
+	/**
 	 * Method getEncryptObject
 	 * @access public
 	 * @return mixed
@@ -324,6 +337,16 @@ class Form extends WebSitePhpObject {
 		}
 		$this->onsubmitjs = $js_function;
 		return $this;
+	}
+	
+	/**
+	 * Method getOnSubmitJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.3
+	 */
+	public function getOnSubmitJs() {
+		return $this->onsubmitjs;
 	}
 	
 	/**
@@ -871,6 +894,8 @@ class Form extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		$html = "";
+		
+		// Generate HTML
 		if ($this->page_object != null) {
 			if ($this->submit_dialog_box != null) {
 				$html .= $this->getJavascriptTagOpen();
@@ -920,6 +945,9 @@ class Form extends WebSitePhpObject {
 					$html .= "submitForm".$this->getId()."AfterDialogBox".$this->submit_dialog_box->getDialogBoxLevel()."(".$this->dialog_box_display_delay.");";
 				}
 				$html .= "\" ";
+			}
+			if ($this->enctype_multipart) {
+				 $html .= " enctype=\"multipart/form-data\"";
 			}
 			$html .= ">\n";
 			if ($this->table_from_sql_data_view != null) {

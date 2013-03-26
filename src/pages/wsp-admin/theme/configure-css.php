@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php-install/wsp-admin/theme/configure-css.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2013 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.11
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.3
  * @access      public
  * @since       1.0.25
  */
@@ -25,7 +25,7 @@ require_once(dirname(__FILE__)."/../includes/admin-template-form.inc.php");
 
 class ConfigureCss extends Page {
 	protected $USER_RIGHTS = Page::RIGHTS_ADMINISTRATOR;
-	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/connect.html";
+	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/admin.html";
 	
 	private $array_font = array('body', 'form', 'blockquote', 'p', 'h1', 'h2,h3,h4,h5,h6', 'a,.link', 'a:hover,.link:hover', 'td');
 	private $array_round_box_1 = array();
@@ -176,7 +176,7 @@ class ConfigureCss extends Page {
 		$this->style_font->addItem("Cardo", "Cardo", (DEFINE_STYLE_FONT=="Cardo"?true:false));
 		$this->style_font->addItem("Comic Sans MS", "Comic Sans MS", (DEFINE_STYLE_FONT=="Comic Sans MS"?true:false)); 
 		$this->style_font->addItem("Courier", "Courier", (DEFINE_STYLE_FONT=="Courier"?true:false));
-		$this->style_font->addItem("Courier New ", "Courier New ", (DEFINE_STYLE_FONT=="Courier New "?true:false));
+		$this->style_font->addItem("Courier New", "Courier New", (DEFINE_STYLE_FONT=="Courier New"?true:false));
 		$this->style_font->addItem("Crimson Text", "Crimson Text", (DEFINE_STYLE_FONT=="Crimson Text"?true:false));
 		$this->style_font->addItem("Droid Sans", "Droid Sans", (DEFINE_STYLE_FONT=="Droid Sans"?true:false));
 		$this->style_font->addItem("Droid Sans Mono", "Droid Sans Mono", (DEFINE_STYLE_FONT=="Droid Sans Mono"?true:false));
@@ -184,12 +184,10 @@ class ConfigureCss extends Page {
 		$this->style_font->addItem("IM Fell", "IM Fell", (DEFINE_STYLE_FONT=="IM Fell"?true:false));
 		$this->style_font->addItem("Impact", "Impact", (DEFINE_STYLE_FONT=="Impact"?true:false));
 		$this->style_font->addItem("Inconsolata", "Inconsolata", (DEFINE_STYLE_FONT=="Inconsolata"?true:false));
-		$this->style_font->addItem("Josefin Sans Std Light", "Josefin Sans Std Light", (DEFINE_STYLE_FONT=="Josefin Sans Std Light"?true:false));
 		$this->style_font->addItem("Lobster", "Lobster", (DEFINE_STYLE_FONT=="Lobster"?true:false));
 		$this->style_font->addItem("Molengo", "Molengo", (DEFINE_STYLE_FONT=="Molengo"?true:false));
-		$this->style_font->addItem("Monaco ", "Monaco ", (DEFINE_STYLE_FONT=="Monaco "?true:false));
+		$this->style_font->addItem("Monaco", "Monaco", (DEFINE_STYLE_FONT=="Monaco"?true:false));
 		$this->style_font->addItem("Nobile", "Nobile", (DEFINE_STYLE_FONT=="Nobile"?true:false));
-		$this->style_font->addItem("OFL Sorts Mill Goudy TT", "OFL Sorts Mill Goudy TT", (DEFINE_STYLE_FONT=="OFL Sorts Mill Goudy TT"?true:false));
 		$this->style_font->addItem("Old Standard TT", "Old Standard TT", (DEFINE_STYLE_FONT=="Old Standard TT"?true:false));
 		$this->style_font->addItem("Reenie Beanie", "Reenie Beanie", (DEFINE_STYLE_FONT=="Reenie Beanie"?true:false));
 		$this->style_font->addItem("Tangerine", "Tangerine", (DEFINE_STYLE_FONT=="Tangerine"?true:false));

@@ -23,7 +23,7 @@
 	define("CMB_CACHING_ALL_PAGES", "Cacher toutes les pages");
 	define("EDT_CACHE_TIME", "Temps de cache");
 	define("SECONDS", "secondes");
-	define("CMB_JQUERY_LOAD_LOCAL", "Jquery local");
+	define("CMB_JQUERY_LOAD_LOCAL", "JQuery local");
 	define("CMB_JS_COMPRESSION_TYPE", "Type de compression");
 	define("CMB_DEBUG", "Debug");
 	define("CMB_SEND_ERROR_BY_MAIL", "Envoyer erreur par mail");
@@ -47,4 +47,6 @@
 	define("CONFIG_FILE_OK", "Votre configuration a été enregistrée !");
 	define("CONFIG_FILE_NOT_OK", "Erreur lors de la sauvegarde, s'il vous plaît vérifier votre configuration!");
 	define("EDT_MAX_SESSION_TIME", "Temps de session max.");
+	define("CMB_JQUERY_VERSION", "JQuery version");
+	define("CMB_JQUERY_UI_VERSION", "JQuery UI version");
 ?>

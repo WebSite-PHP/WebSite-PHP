@@ -58,4 +58,6 @@
 	define("JAVASCRIPT_NOT_ACTIVATE", "JavaScript ist in Ihrem Webbrowser ausgeschaltet. Schalten Sie es ein um den vollen Funktionsumfang dieser Seite nutzen zu können, dann aktualisieren Sie die Seite.");
 	
 	define("TABLE_CONFIME_DEL_ROW", "Sind Sie sicher, dass Sie diese Zeile löschen?");
+	
+	define('WSP_BTN_UPLOAD_FILE', 'Wählen Sie eine Datei');
 ?>

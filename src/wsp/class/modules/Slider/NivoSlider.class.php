@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.2.1
  */
@@ -53,6 +53,7 @@ class NivoSlider extends WebSitePhpObject {
 	private $id = "";
 	private $width = '';
 	private $height = '';
+	private $style = '';
 	
 	private $rotate_time = '';
 	private $transition = 'random';
@@ -121,6 +122,42 @@ class NivoSlider extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method setWidth
+	 * @access public
+	 * @param integer $width 
+	 * @return NivoSlider
+	 * @since 1.2.3
+	 */
+	public function setWidth($width) {
+		$this->width = $width;
+		return $this;
+	}
+	
+	/**
+	 * Method setHeight
+	 * @access public
+	 * @param integer $height 
+	 * @return NivoSlider
+	 * @since 1.2.3
+	 */
+	public function setHeight($height) {
+		$this->height = $height;
+		return $this;
+	}
+	
+	/**
+	 * Method setStyle
+	 * @access public
+	 * @param mixed $style 
+	 * @return NivoSlider
+	 * @since 1.2.3
+	 */
+	public function setStyle($style) {
+		$this->style = $style;
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -130,7 +167,21 @@ class NivoSlider extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$control_nav_thumbs = false;
 		$html = "<div class=\"slider-wrapper theme-".$this->theme."\">\n";
-        $html .= "<div id=\"slider-".$this->id."\" class=\"nivoSlider\">\n";
+        $html .= "<div id=\"slider-".$this->id."\" class=\"nivoSlider\"";
+        if ($this->width != "" || $this->height != "" || $this->style != "") {
+        	$html .= " style=\"";
+        	if ($this->width != "") {
+        		$html .= "width:".$this->width."px;";
+        	}
+        	if ($this->height != "") {
+        		$html .= "height:".$this->height."px;";
+        	}
+        	if ($this->style != "") {
+        		$html .= $this->style;
+        	}
+        	$html .= "\"";
+        }
+        $html .= ">\n";
 		for ($i=0; $i < sizeof($this->array_img_src); $i++) {
 			$item_link = createHrefLink($this->array_img_link[$i]);
 			if ($item_link != "") {

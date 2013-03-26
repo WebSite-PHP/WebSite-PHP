@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.0.17
  */
@@ -97,7 +97,6 @@ class Object extends WebSitePhpEventObject {
 	private $draggable = false;
 	private $draggable_revert = false;
 	private $draggable_event = null;
-	private $draggable_sortable = false;
 	private $draggable_params = "";
 	
 	private $droppable = false;
@@ -108,6 +107,7 @@ class Object extends WebSitePhpEventObject {
 	private $sortable = false;
 	private $sortable_event = null;
 	private $sortable_params = "";
+	private $sortable_disable_selection = false;
 	
 	private $onclick = "";
 	private $callback_onclick = "";
@@ -397,12 +397,11 @@ class Object extends WebSitePhpEventObject {
 	 * @param boolean $bool if object can be move [default value: true]
 	 * @param boolean $revert if object revert first place when dropped [default value: false]
 	 * @param DraggableEvent $draggable_event [default value: null]
-	 * @param boolean $sortable_zone [default value: false]
 	 * @param string $draggable_params 
 	 * @return Object
 	 * @since 1.0.36
 	 */
-	public function setDraggable($bool=true, $revert=false, $draggable_event=null, $sortable_zone=false, $draggable_params="") {
+	public function setDraggable($bool=true, $revert=false, $draggable_event=null, $draggable_params="") {
 		if ($this->id == "") {
 			throw new NewException("Error Object->setDraggable(): You must specified an id (setId())", 0, getDebugBacktrace(1));
 		}
@@ -418,7 +417,6 @@ class Object extends WebSitePhpEventObject {
 				throw new NewException("Error Object->setDraggable(): You must specified an id for this object", 0, getDebugBacktrace(1));
 			}
 		}
-		$this->draggable_sortable = $sortable_zone;
 		$this->draggable_params = $draggable_params;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
@@ -481,15 +479,17 @@ class Object extends WebSitePhpEventObject {
 	 * @param boolean $bool if object can be sort [default value: true]
 	 * @param SortableEvent $sortable_event [default value: null]
 	 * @param string $sortable_params 
+	 * @param boolean $disable_selection [default value: false]
 	 * @return Object
 	 * @since 1.0.36
 	 */
-	public function setSortable($bool=true, $sortable_event=null, $sortable_params="") {
+	public function setSortable($bool=true, $sortable_event=null, $sortable_params="", $disable_selection=false) {
 		if ($this->id == "") {
 			throw new NewException("Error Object->setSortable(): You must specified an id (setId())", 0, getDebugBacktrace(1));
 		}
 		$this->sortable = $bool;
 		$this->sortable_params = $sortable_params;
+		$this->sortable_disable_selection = $disabled_selection;
 		if ($sortable_event != null) {
 			if (get_class($sortable_event) != "SortableEvent") {
 				throw new NewException("Error Object->setDraggable(): $sortable_event is not a SortableEvent object", 0, getDebugBacktrace(1));
@@ -942,7 +942,7 @@ class Object extends WebSitePhpEventObject {
 				$html .= "min-height: 24px;height: expression(this.scrollHeight < 22 ? '24px' : 'auto');";
 			}
 			if ($this->max_height != "") {
-				$html .= "max-height: ".$this->max_height."px;overflow:auto;height: expression(this.scrollHeight > ".$this->max_height." ? '".$this->max_height."px' : 'auto');";
+				$html .= "max-height: ".$this->max_height."px;overflow:auto;".(is_browser_ie()?"overflow-x:scroll;":"")."height: expression(this.scrollHeight > ".$this->max_height." ? '".$this->max_height."px' : 'auto');";
 			}
 			if ($this->droppable || $this->sortable) {
 				$html .= "min-width: 24px;width: expression(this.scrollWidth < 26 ? '26px' : 'auto');";
@@ -955,7 +955,7 @@ class Object extends WebSitePhpEventObject {
 		 	if ($this->draggable || $this->droppable || $this->sortable || $this->class != "") {
 				$html .= " class=\"";
 				$class_exists = false;
-		 		if ($this->draggable && !$this->draggable_sortable) {
+		 		if ($this->draggable) {
 					$html .= "draggable";
 					$class_exists = true;
 				}
@@ -1047,78 +1047,7 @@ class Object extends WebSitePhpEventObject {
 			}
 		}
 		
-		if ($this->context_menu != null) {
-			$html .= $this->context_menu->render($ajax_render);
-		}
-		
-		if ($this->draggable && !$this->draggable_sortable) {
-			$html .= "\n".$this->getJavascriptTagOpen();
-			$html .= "$(document).ready( function() {\n";
-			$html .= "$(\"#".$this->getId()."\").draggable({opacity: 0.8, scroll: true";
-			if ($this->draggable_revert) {
-				$html .= ", revert: true";
-			}
-			if ($this->draggable_params != "") {
-				$html .= ", ".$this->draggable_params;
-			}
-			$html .= "}).resizable();\n";
-			$html .= "$(\"#".$this->getId()."\").find('.ui-resizable-e').remove();\n";
-			$html .= "$(\"#".$this->getId()."\").find('.ui-resizable-s').remove();\n";
-			$html .= "$(\"#".$this->getId()."\").find('.ui-resizable-se').remove();\n";
-			$html .= "});\n";
-			$html .= $this->getJavascriptTagClose();
-			
-			if ($this->draggable_event != null) {
-				$html .= $this->draggable_event->render($ajax_render);
-			}
-		} else if ($this->draggable_sortable) {
-			$html .= "\n".$this->getJavascriptTagOpen();
-			$html .= "$(document).ready( function() {\n";
-			$html .= "$(\"#".$this->getId()."\").disableSelection();\n";
-			$html .= "});\n";
-			$html .= $this->getJavascriptTagClose();
-		}
-		
-		if ($this->droppable) {
-			$html .= "\n".$this->getJavascriptTagOpen();
-			$html .= "$(document).ready( function() {\n";
-			$html .= "$(\"#".$this->getId()."\").droppable({ greedy: true";
-			if ($this->droppable_style != "") {
-				$html .= ", hoverClass: '".$this->droppable_style."'";
-			} 
-			if ($this->droppable_params != "") {
-				$html .= ", ".$this->droppable_params;
-			}
-			$html .= "});\n";
-			$html .= "$(\"#".$this->getId()."\").css('display', 'block');\n";
-			$html .= "});\n";
-			$html .= $this->getJavascriptTagClose();
-			
-			if ($this->droppable_event != null) {
-				$html .= $this->droppable_event->render($ajax_render);
-			}
-		}
-		
-		if ($this->sortable) {
-			$html .= "\n".$this->getJavascriptTagOpen();
-			$html .= "$(document).ready( function() {\n";
-			// remove since include jquery 1.6.2 (wsp 1.0.90)
-			//$html .= "$('#".$this->getId()."').mousedown(function(e) { e.stopPropagation(); return false; });\n"; // ack for IE
-			$html .= "$('#".$this->getId()."').sortable({connectWith: '.sortable'";
-			if ($this->sortable_params != "") {
-				$html .= ", ".$this->sortable_params;
-			}
-			$html .= "}).disableSelection();\n";
-			if (!$this->droppable) {
-				$html .= "$(\"#".$this->getId()."\").css('display', 'block');\n";
-			}
-			$html .= "});\n";
-			$html .= $this->getJavascriptTagClose();
-			
-			if ($this->sortable_event != null) {
-				$html .= $this->sortable_event->render($ajax_render);
-			}
-		}
+		$html .= $this->generateObjectJavascript($ajax_render);
 		
 		if ($this->callback_onclick != "" || $this->callback_ondblclick != "") {
 			$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
@@ -1150,6 +1079,111 @@ class Object extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method generateObjectJavascript
+	 * @access private
+	 * @param mixed $ajax_render 
+	 * @return mixed
+	 * @since 1.2.3
+	 */
+	private function generateObjectJavascript($ajax_render) {
+		$html = "";
+		if ($this->context_menu != null) {
+			$html .= $this->context_menu->render($ajax_render);
+		}
+		
+		if ($this->draggable) {
+			if ($this->sortable) {
+				throw new NewException(get_class($this)." error: You can't define draggable properties on sortable Object.", 0, getDebugBacktrace(1));
+			}
+			
+			if (!$ajax_render) {
+				$html .= "\n".$this->getJavascriptTagOpen();
+			}
+			$html .= "$(document).ready( function() {\n";
+			$html .= "$(\"#".$this->getId()."\").draggable({opacity: 0.8, scroll: true";
+			if ($this->draggable_revert) {
+				$html .= ", revert: true";
+			}
+			if ($this->draggable_params != "") {
+				$html .= ", ".$this->draggable_params;
+			}
+			$html .= "}).resizable();\n";
+			$html .= "$(\"#".$this->getId()."\").find('.ui-resizable-e').remove();\n";
+			$html .= "$(\"#".$this->getId()."\").find('.ui-resizable-s').remove();\n";
+			$html .= "$(\"#".$this->getId()."\").find('.ui-resizable-se').remove();\n";
+			$html .= "});\n";
+			
+			if (!$ajax_render) {
+				$html .= $this->getJavascriptTagClose();
+			}
+			
+			if ($this->draggable_event != null) {
+				$html .= $this->draggable_event->render($ajax_render);
+			}
+		}
+		
+		if ($this->droppable) {
+			if (!$ajax_render) {
+				$html .= "\n".$this->getJavascriptTagOpen();
+			}
+			
+			$html .= "$(document).ready( function() {\n";
+			$html .= "$(\"#".$this->getId()."\").droppable({ greedy: true";
+			if ($this->droppable_style != "") {
+				$html .= ", hoverClass: '".$this->droppable_style."'";
+			} 
+			if ($this->droppable_params != "") {
+				$html .= ", ".$this->droppable_params;
+			}
+			$html .= "});\n";
+			$html .= "$(\"#".$this->getId()."\").css('display', 'block');\n";
+			$html .= "});\n";
+			
+			if (!$ajax_render) {
+				$html .= $this->getJavascriptTagClose();
+			}
+			
+			if ($this->droppable_event != null) {
+				$html .= $this->droppable_event->render($ajax_render);
+			}
+		}
+		
+		if ($this->sortable) {
+			if (!$ajax_render) {
+				$html .= "\n".$this->getJavascriptTagOpen();
+			}
+			
+			$html .= "$(document).ready( function() {\n";
+			// remove since include jquery 1.6.2 (wsp 1.0.90)
+			//$html .= "$('#".$this->getId()."').mousedown(function(e) { e.stopPropagation(); return false; });\n"; // ack for IE
+			$html .= "$('#".$this->getId()."').sortable({connectWith: '.sortable'";
+			if ($this->sortable_params != "") {
+				$html .= ", ".$this->sortable_params;
+			}
+			$html .= "})";
+			if ($this->sortable_disable_selection) {
+				$html .= ".disableSelection()";
+			}
+			$html .= ";\n";
+			
+			if (!$this->droppable) {
+				$html .= "$(\"#".$this->getId()."\").css('display', 'block');\n";
+			}
+			$html .= "});\n";
+			
+			if (!$ajax_render) {
+				$html .= $this->getJavascriptTagClose();
+			}
+			
+			if ($this->sortable_event != null) {
+				$html .= $this->sortable_event->render($ajax_render);
+			}
+		}
+		
+		return $html;
+	}
+	
+	/**
 	 * Method getAjaxRender
 	 * @access public
 	 * @return string javascript code to update initial html of object Object (call with AJAX)
@@ -1175,10 +1209,18 @@ class Object extends WebSitePhpEventObject {
 					$content .= $this->objects[$i];
 				}
 			}
+			
 			// Extract JavaScript from HTML
 			$array_ajax_render = extract_javascript($content);
 			for ($i=1; $i < sizeof($array_ajax_render); $i++) {
 				new JavaScript($array_ajax_render[$i], true);
+			}
+			
+			// Add current object javascript
+			$js = $this->generateObjectJavascript(true);
+			Logger::getInstance()->info($js);
+			if ($js != "") {
+				$this->getPage()->addObject(new JavaScript($js), false, true);
 			}
 			
 			$html .= "$('#".$this->getId()."').html(\"".str_replace("\n", "", str_replace("\r", "", addslashes($array_ajax_render[0])))."\");\n";
@@ -1236,8 +1278,29 @@ class Object extends WebSitePhpEventObject {
 				$html .= $this->style;
 			}
 			$html .= "\");\n";
-			if ($this->class != "") {
-				$html .= "$('#".$this->getId()."').attr('class', '".$this->class."');\n";
+			if ($this->draggable || $this->droppable || $this->sortable || $this->class != "") {
+				$html .= "$('#".$this->getId()."').attr('class', '";
+				$class_exists = false;
+		 		if ($this->draggable) {
+					$html .= "draggable";
+					$class_exists = true;
+				}
+		 		if ($this->droppable) {
+		 			if ($class_exists) { $html .= " "; }
+					$html .= "droppable";
+					$class_exists = true;
+				}
+		 		if ($this->sortable) {
+		 			if ($class_exists) { $html .= " "; }
+					$html .= "sortable";
+					$class_exists = true;
+				}
+				if ($this->class != "") {
+					if ($class_exists) { $html .= " "; }
+					$html .= $this->class;
+					$class_exists = true;
+				}
+				$html .= "');\n";
 			}
 			
 			$this->object_change = false;

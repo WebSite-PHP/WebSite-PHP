@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.0.17
  */
@@ -260,14 +260,18 @@ class Captcha extends WebSitePhpObject {
 				$html .= "<a tabindex=\"-1\" style=\"border-style: none\" href=\"#\" title=\"Refresh Captcha Image\" onclick=\"$('#captcha_img_".$this->name."').attr('src', '".BASE_URL."wsp/includes/securimage/securimage_show.php?width=".$this->width."&height=".$this->height."&sid=' + Math.random()); return false\"><img src=\"".BASE_URL."wsp/includes/securimage/images/refresh.gif\" alt=\"Reload Captcha Image\" border=\"0\" onclick=\"this.blur()\" align=\"bottom\" /></a>\n";
   			}
   			$html .= "<br />\n";
-			$html .= "<strong>".__(CAPTCHA_CODE)."</strong> <input type=\"text\" name=\"".$this->getEventObjectName()."\" id=\"".$this->getEventObjectName()."\" size=\"8\" value=\"".$this->value."\" style=\"width: ".($this->width - 100)."px\" />\n";
+			$html .= "<strong>".__(CAPTCHA_CODE)."</strong> ";
+			$html .= "<input type=\"text\" name=\"".$this->getEventObjectName()."\" id=\"".$this->getEventObjectName()."\" size=\"8\" value=\"".$this->value."\" style=\"width: ".($this->width - 100)."px\"";
+			$html .= " onFocus=\"this.select()\""; // select text on focus
+			$html .= " onBlur=\"\$(this).val(\$(this).val());\""; // unselect text when lost focus
+			$html .= " />\n";
 			$html .= "</div>\n";
 			if (!$ajax_render) {
 				$html .= "</div>\n";
 			}
 			if ($this->has_focus) {
 				$html .= $this->getJavascriptTagOpen();
-				$html .= "\$('#".$this->getEventObjectName()."').focus();\n";
+				$html .= "\$('#".$this->getEventObjectName()."').focus().select();\n"; // select text on focus
 				$html .= $this->getJavascriptTagClose();
 			}
 		}
@@ -289,7 +293,7 @@ class Captcha extends WebSitePhpObject {
 		$html .= "$('#wsp_captcha_".$this->name."').css('width', \"".$this->width."px\");\n";
 		$html .= "$('#captcha_img_".$this->name."').attr('src', '".BASE_URL."wsp/includes/securimage/securimage_show.php?width=".$this->width."&height=".$this->height."&sid=' + Math.random());\n";
 		if ($this->has_focus) {
-			$html .= "\$('#".$this->getEventObjectName()."').focus();\n";
+			$html .= "\$('#".$this->getEventObjectName()."').focus().select();\n"; // select text on focus
 		}
 		return $html;
 	}

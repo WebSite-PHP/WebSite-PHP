@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.1.9
  */
@@ -33,6 +33,8 @@ class PhotoGallery extends WebSitePhpObject {
 	private $picture_ext = array();
 	private $folder_pic = "wsp/img/folder_image_128x128.png";
 	private $thumbnail_folder = "";
+	private $subfolder = true;
+	private $nb_col = 4;
 	/**#@-*/
 	
 	/**
@@ -100,6 +102,29 @@ class PhotoGallery extends WebSitePhpObject {
 		$this->thumbnail_folder = $thumbnail_folder;
 		return $this;
 	}
+
+	/**
+	 * Method disableSubFolder
+	 * @access public
+	 * @return PhotoGallery
+	 * @since 1.2.3
+	 */
+	public function disableSubFolder() {
+		$this->subfolder = false;
+		return $this;
+	}
+	
+	/**
+	 * Method setTableNbColumns
+	 * @access public
+	 * @param mixed $nb_columns 
+	 * @return PhotoGallery
+	 * @since 1.2.3
+	 */
+	public function setTableNbColumns($nb_columns) {
+		$this->nb_col = $nb_columns;
+		return $this;
+	}
 	
 	/**
 	 * Method render
@@ -111,10 +136,14 @@ class PhotoGallery extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$gallery_table = new Table();
 		$gallery_table->setId("PhotoGalleryTable".rand(0, 999999))->activatePagination();
-		$header = $gallery_table->addRowColumns("", "", "", "");
+		$header = new RowTable();
+		for ($i=0; $i < $this->nb_col; $i++) {
+			$header->add();
+		}
         $gallery_table->addRow($header->setHeaderClass(0));
         
 		$ind = 0;
+		$last_ind = -1;
 		$gallery_row = null;
 		$files = scandir($this->path, 1);
 		for($i=0; $i < sizeof($files); $i++) {
@@ -126,34 +155,38 @@ class PhotoGallery extends WebSitePhpObject {
 				$myExt = $getExt[$fExt]; 
 				             
 				if ((is_dir($this->path.$file) || $this->in_arrayi($myExt, $this->picture_ext)) && $file != $this->thumbnail_folder) {
-					if ($ind % 4 == 0) {
+					if ($ind != $last_ind && $ind % $this->nb_col == 0) {
 						if ($gallery_row != null) {
 							$gallery_table->addRow($gallery_row);
 						}
 						$gallery_row = new RowTable();
 						$gallery_row->setWidth("25%");
+						$last_ind = $ind;
 					}
 					if (is_dir($this->path.$file)) {
-						$folder_pic = new Picture($this->folder_pic, 128, 128, 0, Picture::ALIGN_ABSMIDDLE, $file);
-						$url = $this->getPage()->getCurrentURL();
-						if (($pos = find($url, "gallery_event=")) > 0) {
-							$pos2 = find($url, "&", 0, $pos);
-							if ($pos2 == 0) {
-								$url = substr($url, 0, $pos-1);
-							} else {
-								$url1 = substr($url, 0, $pos-1);
-								$url2 = substr($url, $pos2, strlen($url));
-								$url = $url1.$url2;
+						if ($this->subfolder) {
+							$folder_pic = new Picture($this->folder_pic, 128, 128, 0, Picture::ALIGN_ABSMIDDLE, $file);
+							$url = $this->getPage()->getCurrentURL();
+							if (($pos = find($url, "gallery_event=")) > 0) {
+								$pos2 = find($url, "&", 0, $pos);
+								if ($pos2 == 0) {
+									$url = substr($url, 0, $pos-1);
+								} else {
+									$url1 = substr($url, 0, $pos-1);
+									$url2 = substr($url, $pos2, strlen($url));
+									$url = $url1.$url2;
+								}
 							}
+							if (find($url, "?") > 0) {
+								$url = $url."&";
+							} else {
+								$url = $url."?";
+							}
+							$url = $url."gallery_event=".urlencode(str_replace($this->original_path, "", $this->path.$file));
+							$folder_link = new Link($url, Link::TARGET_NONE, new Object($folder_pic, "<br/>", $file));
+							$gallery_row->add($folder_link);
+							$ind++;
 						}
-						if (find($url, "?") > 0) {
-							$url = $url."&";
-						} else {
-							$url = $url."?";
-						}
-						$url = $url."gallery_event=".urlencode(str_replace($this->original_path, "", $this->path.$file));
-						$folder_link = new Link($url, Link::TARGET_NONE, new Object($folder_pic, "<br/>", $file));
-						$gallery_row->add($folder_link);
 					} else {
 						if ($this->in_arrayi($myExt, $this->picture_ext)) {
 							$pic_file = str_replace(str_replace("\\", "/", realpath(SITE_DIRECTORY))."/", "", str_replace("\\", "/", realpath($this->path))."/".$file);
@@ -195,14 +228,14 @@ class PhotoGallery extends WebSitePhpObject {
 							$pic = new Picture($pic_thumbnail, 128, 128, 0, Picture::ALIGN_ABSMIDDLE, $pic_name);
 							$pic->addLightbox("Lightbox".$gallery_table->getId(), $pic_file_lower_ext, "$(window).width()-($(window).width()*0.2)", "$(window).height()-($(window).height()*0.2)");
 							$gallery_row->add(new Object($pic, "<br/>", $pic_name));
+							$ind++;
 						}
 					}
-					$ind++;
 				}
 			}
 		}
 		if ($gallery_row != null) {
-			while ($ind % 4 != 0) {
+			while ($ind % $this->nb_col != 0) {
 				$gallery_row->add();
 				$ind++;
 			}

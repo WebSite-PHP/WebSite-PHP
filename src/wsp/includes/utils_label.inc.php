@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.2.1
  */
@@ -112,7 +112,7 @@
 						}
 						$lang_file_content = str_replace("\r", "", $lang_file_content);
 						$lang_file_content = str_replace_last("?>", "", $lang_file_content);
-						$lang_file_content .= "	define(\"".$constantValue."\", \"".$constantValue."\"); // TODO: Label needs to be translated\n";
+						$lang_file_content .= "	define('".addslashes($constantValue)."', '".addslashes($constantValue)."'); // TODO: Label needs to be translated\n";
 						$lang_file_content .= "?>";
 						
 						// Write File

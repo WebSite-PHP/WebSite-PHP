@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.1
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.3
  * @access      public
  * @since       1.0.0
  */
@@ -324,9 +324,13 @@
 		<meta itemprop="image" content="<?php echo $current_page_meta_opengraph_image; ?>">
 <?php 	} ?>
 		
-<?php 	if (defined('DEFINE_STYLE_FONT') && DEFINE_STYLE_FONT != "") { ?>
+<?php 	if (defined('DEFINE_STYLE_FONT') && DEFINE_STYLE_FONT != "") {
+			$default_font_array = array("Arial", "Times New Roman", "Verdana", "Comic Sans MS", "Courier", "Courier New", "Impact", "Monaco");
+			if (!in_array(DEFINE_STYLE_FONT, $default_font_array)) {  
+?>
 		<link href='http://fonts.googleapis.com/css?family=<?php echo str_replace(" ", "+", DEFINE_STYLE_FONT); ?>' rel='stylesheet' type='text/css'>
-<?php 	} 
+<?php 		}
+		}
 		CssInclude::getInstance()->add(BASE_URL."wsp/css/styles.css.php", "", true);
 		
 		// jQuery
@@ -567,7 +571,7 @@
 			
 			// call current page page
 			if (DEBUG) { $page_object->addLogDebugExecutionTime("Render ..."); }
-			echo str_replace("\n\n", "\n", str_replace("\r", "", str_replace("\t", "", $page_object->render())));
+			echo str_replace("\n\n", "\n", str_replace("\r", "", str_replace("{#wsp_tab}", "\t", str_replace("\t", "", $page_object->render()))));
 			if (DEBUG) { $page_object->displayExecutionTime("End Render"); }
 		?>
 		<!-- Please support the project: don't remove the WSP copyright -->

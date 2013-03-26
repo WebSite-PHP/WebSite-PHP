@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 31/05/2011
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.0.84
  */
@@ -575,8 +575,10 @@ class Authentication extends WebSitePhpObject {
 		if ($this->prefill_login_passwd) {
 			$this->login->setValue($this->login_label);
 			$this->login->onClickJs("if (\$('#".$this->login->getId()."').val() == '".addslashes($this->login_label)."') { \$('#".$this->login->getId()."').val(''); }");
+			$this->login->onBlurJs("if (\$('#".$this->login->getId()."').val() == '') { \$('#".$this->login->getId()."').val('".addslashes($this->login_label)."'); }");
 			$this->password->setValue($this->password_label);
 			$this->password->onClickJs("if (\$('#".$this->password->getId()."').val() == '".addslashes($this->password_label)."') { \$('#".$this->password->getId()."').val(''); }");
+			$this->password->onBlurJs("if (\$('#".$this->password->getId()."').val() == '') { \$('#".$this->password->getId()."').val('".addslashes($this->password_label)."'); }");
 		}
         return $this->render->render();
 	}

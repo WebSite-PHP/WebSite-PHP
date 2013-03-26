@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.0.17
  */
@@ -76,6 +76,7 @@ class DraggableEvent extends WebSitePhpObject {
 			$js_function = $js_function->render();
 		}
 		$this->ondragstart = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $wsp_object = $this->getPage()->getObjectId($this->draggable_id); if ($wsp_object != null) { $wsp_object->forceAjaxRender(); } }
 		return $this;
 	}
 	
@@ -104,6 +105,7 @@ class DraggableEvent extends WebSitePhpObject {
 			$js_function = $js_function->render();
 		}
 		$this->ondragend = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $wsp_object = $this->getPage()->getObjectId($this->draggable_id); if ($wsp_object != null) { $wsp_object->forceAjaxRender(); } }
 		return $this;
 	}
 	

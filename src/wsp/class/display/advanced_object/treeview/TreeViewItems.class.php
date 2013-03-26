@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.0.17
  */
@@ -152,6 +152,17 @@ class TreeViewItems extends WebSitePhpObject {
 		}
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
+	}
+	
+
+	/**
+	 * Method getTreeViewItemParent
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.3
+	 */
+	public function getTreeViewItemParent() {
+		return $this->parent_treeview_item;
 	}
 	
 	/**

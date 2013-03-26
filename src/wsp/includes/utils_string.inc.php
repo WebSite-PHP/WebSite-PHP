@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.2.1
  */
@@ -168,9 +168,15 @@
 	
 	// return the difference of open and close characters
 	function balanceChars($str, $open, $close) {
-	    $openCount = substr_count($str, $open);
-	    $closeCount = substr_count($str, $close);
-	    $retval = $openCount - $closeCount;
+		if (trim($open) != "") { $str = str_replace("\\".$open, "", $str); }
+		if (trim($close) != "") { $str = str_replace("\\".$close, "", $str); }
+		if ($open == $close) {
+			$retval = substr_count($str, $open);
+		} else {
+	    	$openCount = substr_count($str, $open);
+	    	$closeCount = substr_count($str, $close);
+	    	$retval = $openCount - $closeCount;
+		}
 	    return $retval;
 	}
 	
@@ -183,7 +189,7 @@
 	    foreach ($parts as $part) {
 	        $hold[] = $part;
 	        $balance += balanceChars($part, $open, $close);
-	        if ($balance < 1) {
+	        if ($balance % 2 == 0) {
 	            $retval[] = implode($delimiter, $hold);
 	            $hold = array();
 	            $balance = 0;

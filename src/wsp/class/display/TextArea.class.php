@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.2.0
  */
@@ -39,6 +39,7 @@ class TextArea extends WebSitePhpEventObject {
 	private $strip_tags = false;
 	private $strip_tags_allowable = "";
 	private $no_wrap = false;
+	private $insert_tab = false;
 	
 	private $live_validation = null;
 	private $is_clearable = false;
@@ -60,10 +61,18 @@ class TextArea extends WebSitePhpEventObject {
 	private $callback_onkeyup = "";
 	private $onkeyup = "";
 	
+	private $callback_onkeydown = "";
+	private $onkeydown = "";
+	
 	private $onmouseover = "";
 	private $onmouseout = "";
 	
 	private $encrypt_object = null;
+	
+	private $activate_code_edit = false;
+	private $code_syntax = "all";
+	private $fit_to_content = false;
+	private $max_auto_height = -1;
 	/**#@-*/
 	
 	/**
@@ -170,6 +179,20 @@ class TextArea extends WebSitePhpEventObject {
 	 */
 	public function setHeight($height) {
 		$this->height = $height;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method setAutoHeight
+	 * @access public
+	 * @param double $max_height [default value: -1]
+	 * @return TextArea
+	 * @since 1.2.3
+	 */
+	public function setAutoHeight($max_height=-1) {
+		$this->fit_to_content = true;
+		$this->max_auto_height = $max_height;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -520,7 +543,7 @@ class TextArea extends WebSitePhpEventObject {
 	 */
 	public function onMouseOutJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
+			throw new NewException(get_class($this)."->onMouseOutJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -559,7 +582,7 @@ class TextArea extends WebSitePhpEventObject {
 	 */
 	public function onBlurJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
+			throw new NewException(get_class($this)."->onBlurJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -598,7 +621,7 @@ class TextArea extends WebSitePhpEventObject {
 	 */
 	public function onKeyPressJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
+			throw new NewException(get_class($this)."->onKeyPressJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
@@ -637,12 +660,51 @@ class TextArea extends WebSitePhpEventObject {
 	 */
 	public function onKeyUpJs($js_function) {
 		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
-			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
+			throw new NewException(get_class($this)."->onKeyUpJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
 		if (get_class($js_function) == "JavaScript") {
 			$js_function = $js_function->render();
 		}
 		$this->onkeyup = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method onKeyDown
+	 * @access public
+	 * @param mixed $str_function 
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return TextArea
+	 * @since 1.2.3
+	 */
+	public function onKeyDown($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
+		$args = func_get_args();
+		$str_function = array_shift($args);
+		$this->callback_onkeydown = $this->loadCallbackMethod($str_function, $args);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method onKeyDownJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return TextArea
+	 * @since 1.2.3
+	 */
+	public function onKeyDownJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onKeyDownJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onkeydown = trim($js_function);
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -662,6 +724,31 @@ class TextArea extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method allowTabulation
+	 * @access public
+	 * @return TextArea
+	 * @since 1.2.3
+	 */
+	public function allowTabulation() {
+		$this->insert_tab = true;
+		return $this;
+	}
+	
+	/**
+	 * Method activateSourceCodeEdit
+	 * @access public
+	 * @param string $syntax [default value: all]
+	 * @return TextArea
+	 * @since 1.2.3
+	 */
+	public function activateSourceCodeEdit($syntax='all') {
+		$this->activate_code_edit = true;
+		$this->code_syntax = $syntax;
+		$this->addJavaScript(BASE_URL."wsp/js/edit_area/edit_area_full.js");
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -673,7 +760,7 @@ class TextArea extends WebSitePhpEventObject {
 		
 		$html = "";
 		if ($this->class_name != "") {
-			if ($this->callback_onchange != "" || $this->callback_onclick != "" || $this->callback_onblur != "" || $this->callback_onkeypress != "" || $this->callback_onkeyup != "") {
+			if ($this->callback_onchange != "" || $this->callback_onclick != "" || $this->callback_onblur != "" || $this->callback_onkeypress != "" || $this->callback_onkeyup != "" || $this->callback_onkeydown != "") {
 				$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
 			}
 			if ($this->is_ajax_event) {
@@ -682,6 +769,101 @@ class TextArea extends WebSitePhpEventObject {
 				}
 				$html .= $this->getJavascriptTagOpen();
 				$html .= $this->getAjaxEventFunctionRender();
+				$html .= $this->getJavascriptTagClose();
+			}
+			
+			if ($this->insert_tab) {
+				$html .= $this->getJavascriptTagOpen();
+				$html .= "var gsTab = \"    \"; // select tab char : tab or spaces
+function insertTab(e) {
+    var key = e.keyCode ? e.keyCode : e.charCode ? e.charCode : e.which;
+
+    if (key == 9 && !e.ctrlKey && !e.altKey) {
+        var isFF = !(e.preventDefault == undefined); // verify if or not firefox
+        var o = ((isFF) ? e.target : e.srcElement);
+        var iTop = o.scrollTop; // for anti-scroll in firefox
+        if (!e.shiftKey ) {
+            (isFF) ? setIndentFF(o,e,true) : setIndentIE(o,e,true) ;
+        } else {
+            (isFF) ? setIndentFF(o,e,false) : setIndentIE(o,e,false) ;
+        }
+        e.returnValue = false;
+        if (isFF) { e.preventDefault();}
+        o.focus();
+        o.scrollTop = iTop;
+        return false;
+    }
+    return true;
+}
+function setIndentFF(o,e,bAdd) {
+    var sFull = o.value, sSel = '', sNew = '', iStart, iEnd;
+    iStart = o.selectionStart;
+    iEnd = o.selectionEnd;
+    sSel = sFull.substring(iStart, iEnd);
+    if (sSel.length) { 
+        iStart = sFull.lastIndexOf(gsReturn, iStart) + 1;
+        sSel = sFull.substring(iStart, iEnd);
+        sNew = bAdd ? getTabAddedStr(sSel) : getTabDeletedStr(sSel); 
+        o.value = sFull.substring(0, iStart) + sNew + sFull.substring(iEnd);
+        o.setSelectionRange(iStart, iStart + sNew.length);
+    } else if (bAdd) {
+        o.value = sFull.substring(0, iStart) + gsTab + sFull.substring(iEnd);
+        o.setSelectionRange(iStart + gsTab.length, iStart + gsTab.length);
+    }
+}
+function setIndentIE(o,e,bAdd) {
+    var rng, sFull, sSel, iStart, iEnd, sNew, iStartRes;
+    rng = document.selection.createRange();
+    sFull = o.value;
+    sSel = rng.text;
+    if (sSel.length) { 
+        iStartRes = getSelStartIE(o); // sel start first point
+        iStart = sFull.lastIndexOf(gsReturn,iStartRes)+1; // new sel start point
+        rng.moveStart(\"character\",iStart - iStartRes);
+        rng.moveEnd(\"character\",-1); // tric pour IE
+        rng.select();
+        sSel = rng.text;
+        sNew = bAdd ? getTabAddedStr(sSel) : getTabDeletedStr(sSel); 
+        rng.text = sNew;
+        rng.collapse(false);
+        rng.moveStart(\"character\", -sNew.length + sNew.split(gsReturn).length -1);
+        rng.moveEnd(\"character\",1); // tric pour IE
+        rng.select();
+    } else if (bAdd) {
+        rng.text = gsTab;
+        rng.select();
+    }
+}
+function getTabDeletedStr(sTmp) {
+    var aSel = sTmp.split(gsReturn);
+    // tab = 4 spaces
+    var aRex = Array(/^\\t/,/^ {4}/,/^ {1,3}\\t*/);
+    for (var i=0, sLine; i<aSel.length; i++) {
+        sLine = aSel[i];
+        for (var j=0; j<3; j++) {
+            if (sLine.match(aRex[j])) {
+                aSel[i] = sLine.replace(aRex[j],'');
+                break;
+            }
+        }
+    }
+    return aSel.join(gsReturn);
+}
+function getTabAddedStr(sTmp) {
+    aSel = sTmp.split(gsReturn);
+    for (var i=0; i<aSel.length; i++) {
+        aSel[i] = gsTab + aSel[i];
+    }
+    return aSel.join(gsReturn); 
+}
+function getSelStartIE(textarea) {
+    var r = document.selection.createRange ();
+    var lensel = r.text.length;
+    // Move selection start to 0 position.
+    r.moveStart ('character', -textarea.value.length);
+    // The caret position is selection length
+    return r.text.length-lensel;
+}";
 				$html .= $this->getJavascriptTagClose();
 			}
 			
@@ -707,9 +889,6 @@ class TextArea extends WebSitePhpEventObject {
 					}
 					$html .= ";";
 				}
-				if ($this->no_wrap) {
-					$html .= "white-space: nowrap;";
-				}
 				if ($this->style != "") {
 					$html .= $this->style.";";
 				}
@@ -717,6 +896,9 @@ class TextArea extends WebSitePhpEventObject {
 			}
 			if ($this->class != "") {
 				$html .= " class='".$this->class."'";
+			}
+			if ($this->no_wrap) {
+				$html .= " wrap=\"off\"";
 			}
 			if ($this->disable) {
 				$html .= " disabled";
@@ -742,30 +924,66 @@ class TextArea extends WebSitePhpEventObject {
 				if ($this->live_validation != null && $this->form_object != null && $this->callback_onblur != "") {
 					$html .= "if (LiveValidationForm_".$this->form_object->getName()."_".$this->getId()."() == false) { return false; }";
 				}
-				$html .= str_replace("\n", "", $this->getObjectEventValidationRender($this->onblur, $this->callback_onblur))."\"";
+				$html .= str_replace("\n", "", $this->getObjectEventValidationRender($this->onblur, $this->callback_onblur));
+				//$html .= "\$(this).val(\$(this).val());";  // unselect text when lost focus
+				$html .= "\"";
 			}
 			if ($this->onkeypress != "" || $this->callback_onkeypress != "") {
 				$html .= " onKeyPress=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeypress, $this->callback_onkeypress, "", true))."\"";
 			}
-			if ($this->onkeyup != "" || $this->callback_onkeyup != "") {
-				$html .= " onKeyUp=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeyup, $this->callback_onkeyup, "", true))."\"";
+			if ($this->onkeyup != "" || $this->callback_onkeyup != "" || $this->fit_to_content) {
+				$html .= " onKeyUp=\"";
+				if ($this->fit_to_content) {
+					$html .= "TextAreaFitToContent('".$this->getId()."'".($this->max_auto_height!=-1?", ".$this->max_auto_height:"").");\n";
+				}
+				if ($this->onkeyup != "" || $this->callback_onkeyup != "") {
+					$html .= str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeyup, $this->callback_onkeyup, "", true));
+				}
+				$html .= "\"";
 			}
+			if ($this->onkeydown != "" || $this->callback_onkeydown != "" || $this->insert_tab) {
+				$html .= " onKeyDown=\"";
+				if ($this->insert_tab) {
+					$html .= "insertTab(event);";
+				}
+				if ($this->onkeydown != "" || $this->callback_onkeydown != "") {
+					$html .= str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeydown, $this->callback_onkeydown, "", true));
+				}
+				$html .= "\"";
+			}
+			//$html .= " onFocus=\"this.select()\""; // select text on focus
 			$html .= ">";
 			
-			$html.=str_replace('"', '\\"', $this->getValue())."</textarea>";
+			$html .= str_replace("\t", "{#wsp_tab}", str_replace("\n", "\r\n", str_replace("\r", "", str_replace('&', '&amp;', $this->getValue()))))."</textarea>";
 			
 			if ($this->live_validation != null) {
 				$html .= $this->live_validation->render();
 			}
-			if ($this->has_focus || $this->is_clearable) {
+			if ($this->has_focus || $this->is_clearable || $this->activate_code_edit || $this->fit_to_content) {
 				$html .= $this->getJavascriptTagOpen();
 				$html .= "\$(document).ready(function() { ";
 				if ($this->is_clearable) {
-					$html .= "\$('#".$this->getId()."').clearable(); ";
+					$html .= "\$('#".$this->getId()."').clearable();\n";
 				}
 				if ($this->has_focus) {
-					$html .= "\$('#".$this->getId()."').focus(); ";
-				} 
+					$html .= "\$('#".$this->getId()."').focus()\n";//.select();\n"; // select text on focus
+				}
+				if ($this->fit_to_content) {
+					$html .= "TextAreaFitToContent('".$this->getId()."'".($this->max_auto_height!=-1?", ".$this->max_auto_height:"").");\n";
+				}
+				if ($this->activate_code_edit) {
+					$html .= "editAreaLoader.init({
+						id: \"".$this->getId()."\"	
+						,start_highlight: true
+						,allow_toggle: true
+						,word_wrap: ".($this->no_wrap?"false":"true")."
+						,language: \"".$this->getPage()->getLanguage()."\"
+						,syntax: \"".($this->code_syntax=='all'?"html":$this->code_syntax)."\"\n";
+					if ($this->code_syntax == 'all') {	
+						$html .= "	,toolbar: \"search, go_to_line, fullscreen, |, undo, redo, |, select_font, |, syntax_selection, |, change_smooth_selection, highlight, reset_highlight, word_wrap, |, help\"\n";
+					}
+					$html .= "});\n";
+				}
 				$html .= "});\n";
 				$html .= $this->getJavascriptTagClose();
 			}
@@ -785,9 +1003,11 @@ class TextArea extends WebSitePhpEventObject {
 		
 		$html = "";
 		if ($this->object_change && !$this->is_new_object_after_init) {
+			$html .= "$('#frame_".$this->id."').remove();\n";
+			$html .= "$('#EditAreaArroundInfos_".$this->id."').remove();\n";
 			if ($this->isChanged() || $this->getValue() != $this->default_value || ($this->force_empty && $this->getValue() == "")) {
 				$html .= "$('#".$this->id."').text(\"";
-				$html .= str_replace("\n", "\\n", str_replace("\r", "\\r", str_replace('"', '\\"', str_replace("\\", "\\\\", $this->getValue()))));
+				$html .= str_replace("\t", "{#wsp_tab}", str_replace("\n", "\\r\\n", str_replace("\r", "", str_replace('"', '\\"', str_replace("\\", "\\\\", $this->getValue())))));
 				$html .= "\");\n";
 			}
 			if ($this->width != "") {
@@ -808,9 +1028,7 @@ class TextArea extends WebSitePhpEventObject {
 				}
 				$html .= "\");\n";
 			}
-			if ($this->no_wrap) {
-				$html .= "$('#".$this->id."').css('white-space', \"nowrap\");\n";
-			}
+			$html .= "$('#".$this->id."').attr('wrap', \"".($this->no_wrap?"off":"on")."\");\n";
 			$html .= "$('#".$this->id."').attr('class', \"".$this->class."\");";
 			$html .= "$('#".$this->id."').attr('disabled', ".(($this->disable)?"true":"false").");\n";
 			
@@ -837,17 +1055,56 @@ class TextArea extends WebSitePhpEventObject {
 				if ($this->live_validation != null && $this->form_object != null && $this->callback_onblur != "") {
 					$html .= "if (LiveValidationForm_".$this->form_object->getName()."_".$this->getId()."() == false) { return false; }";
 				}
-				$html .= addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onblur, $this->callback_onblur)))."');\n";
+				$html .= addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onblur, $this->callback_onblur)))."');";
+				//$html .= "\$(this).val(\$(this).val());"; // unselect text when lost focus
+				$html .= "\n";
 			}
 			if ($this->onkeypress != "" || $this->callback_onkeypress != "") {
 				$html .= "$('#".$this->id."').attr('onKeyPress', '".addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeypress, $this->callback_onkeypress, "", true)))."');\n";
 			}
-			if ($this->onkeyup != "" || $this->callback_onkeyup != "") {
-				$html .= "$('#".$this->id."').attr('onKeyUp', '".addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeyup, $this->callback_onkeyup, "", true)))."');\n";
+			if ($this->onkeyup != "" || $this->callback_onkeyup != "" || $this->fit_to_content) {
+				$html .= "$('#".$this->id."').attr('onKeyUp', '";
+				if ($this->fit_to_content) {
+					$html .= "TextAreaFitToContent('".$this->getId()."'".($this->max_auto_height!=-1?", ".$this->max_auto_height:"").");\n";
+				}
+				if ($this->onkeyup != "" || $this->callback_onkeyup != "") {
+					$html .= addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeyup, $this->callback_onkeyup, "", true)));
+				}
+				$html .= "');\n";
+			}
+			if ($this->onkeydown != "" || $this->callback_onkeydown != "" || $this->insert_tab) {
+				$html .= "$('#".$this->id."').attr('onKeyDown', '";
+				if ($this->insert_tab) {
+					$html .= "insertTab(event);";
+				}
+				if ($this->onkeydown != "" || $this->callback_onkeydown != "") {
+					$html .= addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeydown, $this->callback_onkeydown, "", true)));
+				}
+				$html .= "');\n";
 			}
 			
 			if ($this->has_focus) {
-				$html .= "\$('#".$this->getId()."').focus();\n";
+				$html .= "\$('#".$this->getId()."').focus()\n";//.select();\n"; // select text on focus
+			}
+		
+			if ($this->activate_code_edit) {
+				$html .= "editAreaLoader.init({
+					id: \"".$this->getId()."\"	
+					,start_highlight: true
+					,allow_toggle: true
+					,word_wrap: ".($this->no_wrap?"false":"true")."
+					,language: \"".$this->getPage()->getLanguage()."\"
+					,syntax: \"".($this->code_syntax=='all'?"html":$this->code_syntax)."\"\n";
+				if ($this->code_syntax == 'all') {	
+					$html .= "	,toolbar: \"search, go_to_line, fullscreen, |, undo, redo, |, select_font, |, syntax_selection, |, change_smooth_selection, highlight, reset_highlight, word_wrap, |, help, toggle_autocompletion\"\n";
+				}
+				if ($this->width != "" && is_integer($this->width)) {
+					$html .= "	,min_width: ".$this->width."\n";
+				}
+				if ($this->height != "" && is_integer($this->height)) {
+					$html .= "	,min_height: ".$this->height."\n";
+				}
+				$html .= "});\n";
 			}
 		}
 		return $html;

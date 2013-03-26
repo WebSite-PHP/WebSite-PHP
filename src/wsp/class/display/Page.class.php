@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 14/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.0.0
  */
@@ -120,6 +120,8 @@ class Page extends AbstractPage {
 	*/
 	const RIGHTS_ADMINISTRATOR = "administrator";
 	const RIGHTS_MODERATOR = "moderator";
+	const RIGHTS_TRANSLATOR = "translator";
+	const RIGHTS_DEVELOPER = "developer";
 	const RIGHTS_AUTH_USER = "auth_user";
 	const RIGHTS_GUEST = "guest";
 	/**#@-*/
@@ -177,7 +179,7 @@ class Page extends AbstractPage {
 	private $callback_method_params = array();
 	private $array_callback_object = array("Button", "ComboBox", "TextBox", "Password", "ColorPicker", "CheckBox", 
 											"ContextMenuEvent", "DroppableEvent", "SortableEvent", "Object", "Picture", 
-											"Calendar", "AutoCompleteEvent", "Raty", "TextArea");
+											"Calendar", "AutoCompleteEvent", "Raty", "TextArea", "RadioButtonGroup");
 	
 	private $create_object_to_get_css_js = false;
 	private $ended_added_object_loaded = false;
@@ -988,12 +990,33 @@ class Page extends AbstractPage {
 						$this->callback_method_params[$i] = substr($this->callback_method_params[$i], 0, strlen($this->callback_method_params[$i])-1);
 					}
 					
-					// search if string is linked with object
 					if ($this->callback_method_params[$i] != "") {
-    					$param_object = $this->getObjectId($this->callback_method_params[$i]);
-    					if ($param_object != null) {
-    						$this->callback_method_params[$i] = $param_object;
-    					}
+						// Check if it's a Form parameter (encode in json), in this case we create an array with all the object of the Form
+						$is_json = false;
+						$tmp_callback_param = json_decode($this->callback_method_params[$i]);
+						if ($tmp_callback_param != false && is_array($tmp_callback_param) && sizeof($tmp_callback_param) >= 1) {
+							if ($tmp_callback_param[0] == "WSP_Callback_JSON") {
+								$tmp_array_callback_params = array();
+								for ($j=1; $j < sizeof($tmp_callback_param); $j++) {
+									$tmp_array_callback_params[$tmp_callback_param[$j]] = $tmp_callback_param[$j+1];
+									$j++;
+								}
+								$this->callback_method_params[$i] = $tmp_array_callback_params;
+								$is_json = true;
+							}
+						}
+						
+						// Convert special caracters
+	                    $this->callback_method_params[$i] = str_replace("{#wsp_callback_amp}", "&", $this->callback_method_params[$i]);
+						$this->callback_method_params[$i] = str_replace("{#wsp_callback_quote}", "'", $this->callback_method_params[$i]);
+						
+						if (!$is_json) {
+							// Search if string is linked with object
+	    					$param_object = $this->getObjectId($this->callback_method_params[$i]);
+	    					if ($param_object != null) {
+	    						$this->callback_method_params[$i] = $param_object;
+	    					}
+						}
                     }
 				}
 			}
@@ -1021,7 +1044,9 @@ class Page extends AbstractPage {
             $callback_method = substr($callback_value, 0, $pos-1);
 		}
 		
- 		return array($callback_method, explodeFunky(",", $callback_params));
+		// Extract parameters
+		$array_callback_params = explodeFunky(",", $callback_params);
+		return array($callback_method, $array_callback_params);
 	}
 	
 	/**
@@ -1351,17 +1376,18 @@ class Page extends AbstractPage {
 	public function getCurrentURL() {
 		if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
 			if ($_SERVER['SERVER_PORT'] == 443) {
-				return "https://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
+				$url = "https://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
 			} else {
 				$port = "";
 				if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
 					$port = ":".$_SERVER['SERVER_PORT'];
 				}
-				return "http://".$_SERVER['SERVER_NAME'].$port.$_SERVER['REQUEST_URI'];
+				$url = "http://".$_SERVER['SERVER_NAME'].$port.$_SERVER['REQUEST_URI'];
 			}
 		} else {
-			return "http://".FORCE_SERVER_NAME.$_SERVER['REQUEST_URI'];
+			$url = "http://".FORCE_SERVER_NAME.$_SERVER['REQUEST_URI'];
 		}
+		return str_replace($this->getBaseLanguageURL()."ajax/", $this->getBaseLanguageURL(), $url);
 	}
 	
 	/**
@@ -1406,6 +1432,16 @@ class Page extends AbstractPage {
 	 */
 	public function getBaseLanguageURL() {
 		return BASE_URL.$_SESSION['lang']."/";
+	}
+	
+	/**
+	 * Method getRootWspDirectory
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.3
+	 */
+	public function getRootWspDirectory() {
+		return SITE_DIRECTORY;
 	}
 	
 	/**

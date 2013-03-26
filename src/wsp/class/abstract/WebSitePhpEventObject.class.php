@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.0.18
  */
@@ -307,22 +307,28 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 			for ($i=0; $i < sizeof($array_args); $i++) {
 				if ($this->callback_args != "") { $this->callback_args .= ","; }
 				if (gettype($array_args[$i]) == "object") {
-					if (get_class($array_args[$i]) == "TextBox" || get_class($array_args[$i]) == "ColorPicker" || 
-						get_class($array_args[$i]) == "Button" || get_class($array_args[$i]) == "Calendar" || 
-						get_class($array_args[$i]) == "Hidden") {
-							$this->callback_args .= "\''+($('#".trim($array_args[$i]->getId())."').val()==null?'':$('#".trim($array_args[$i]->getId())."').val())+'\'";
-					} else if (get_class($array_args[$i]) == "ComboBox") {
-						$this->callback_args .= "\''+($('#".trim($array_args[$i]->getEventObjectName())."').val()==null?'':$('#".trim($array_args[$i]->getEventObjectName())."').val())+'\'";
-					} else if (get_class($array_args[$i]) == "CheckBox") {
-						$this->callback_args .= "\''+($('#".trim($array_args[$i]->getId())."').attr('checked')?'on':'off')+'\'";
-					} else if (get_class($array_args[$i]) == "TextArea") {
-						$this->callback_args .= "\''+($('#".trim($array_args[$i]->getId())."').text()==null?'':$('#".trim($array_args[$i]->getId())."').text())+'\'";
-					} else if (get_class($array_args[$i]) == "Editor") {
-						$this->callback_args .= "\''+getEditorContent_".trim($array_args[$i]->getName())."()+'\'";
+					if (get_class($array_args[$i]) == "Form") {
+						$array_form_object = $array_args[$i]->getFormObjects();
+						$array_callback_args = "new Array('WSP_Callback_JSON'";
+						for ($j=0; $j < sizeof($array_form_object); $j++) {
+							if (get_class($array_form_object[$j]) != "Button") {
+								$callback_arg_js = $this->getJavaScriptCallbackArgValue($array_form_object[$j], false);
+								if ($callback_arg_js !== false) {
+									$array_callback_args .= ",'".addslashes($array_form_object[$j]->getId())."',".$callback_arg_js;
+								}
+							}
+						}
+						$array_callback_args .= ")";
+						$this->callback_args .= "\''+addslashes(json_encode(".$array_callback_args."))+'\'";
 					} else if (get_class($array_args[$i]) == "JavaScript") {
 						$this->callback_args .= trim($array_args[$i]->render());
 					} else {
-						throw new NewException(get_class($array_args[$i])." is not a valid argument for the method ".$str_function_tmp.".", 0, getDebugBacktrace(1));
+						$callback_arg_js = $this->getJavaScriptCallbackArgValue($array_args[$i]);
+						if ($callback_arg_js !== false) {
+							$this->callback_args .= $callback_arg_js;
+						} else {
+							throw new NewException(get_class($array_args[$i])." is not a valid argument for the method ".$str_function_tmp.".", 0, getDebugBacktrace(1));
+						}
 					}
 				} else {
 					$this->callback_args .= "\'".addslashes($array_args[$i])."\'";
@@ -352,6 +358,30 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 		
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $callback;
+	}
+	
+	private function getJavaScriptCallbackArgValue($arg, $quote=true) {
+		$quote_begin = "myReplaceAll(myReplaceAll(";
+		$quote_end = ", '&', '{#wsp_callback_amp}'), '\'', '{#wsp_callback_quote}')";
+		if ($quote) {
+			$quote_begin = "\''+".$quote_begin;
+			$quote_end = $quote_end."+'\'";
+		}
+		
+		$callback_arg_js = false;
+		if (get_class($arg) == "TextBox" || get_class($arg) == "ColorPicker" || 
+			get_class($arg) == "Button" || get_class($arg) == "Calendar" || 
+			get_class($arg) == "Hidden" || get_class($arg) == "RadioButtonGroup" || 
+			get_class($arg) == "TextArea") {
+				$callback_arg_js = $quote_begin."(\$('#".trim($arg->getId())."').val()==null?'':\$('#".trim($arg->getId())."').val())".$quote_end;
+		} else if (get_class($arg) == "ComboBox") {
+			$callback_arg_js = $quote_begin."(\$('#".trim($arg->getEventObjectName())."').val()==null?'':\$('#".trim($arg->getEventObjectName())."').val())".$quote_end;
+		} else if (get_class($arg) == "CheckBox") {
+			$callback_arg_js = $quote_begin."(\$('#".trim($arg->getId())."').attr('checked')?'on':'off')".$quote_end;
+		} else if (get_class($arg) == "Editor") {
+			$callback_arg_js = $quote_begin."getEditorContent_".trim($arg->getName())."()".$quote_end;
+		}
+		return $callback_arg_js;
 	}
 	
 	/**
@@ -590,8 +620,10 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 	protected function getObjectEventValidationRender($on_event, $callback, $params='', $abort_last_request=false) {
 		if ($callback != "" && $this->form_object == null && 
 			(isset($_GET['dialogbox_level']) || isset($_GET['tabs_object_id']))) {
-				if (get_class($this) == "Button" && $this->is_link || get_class($this) == "Picture") {
-					// it's ok for this case
+				if (get_class($this) == "Button" && $this->is_link || get_class($this) == "Picture" || 
+					get_class($this) == "SortableEvent" || get_class($this) == "ContextMenuEvent" || 
+					get_class($this) == "DroppableEvent") {
+						// it's ok for these cases
 				} else {
 					throw new NewException("Object ".get_class($this)." must link to a Form Object when he have a callback method in a DialogBox or a Tabs", 0, getDebugBacktrace(1));
 				}

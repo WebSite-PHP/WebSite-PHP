@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.0.17
  */
@@ -121,6 +121,7 @@ class Label extends WebSitePhpObject {
 	 */
 	public function setLabel($label) {
 		$this->label = $label;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 	
@@ -185,29 +186,31 @@ class Label extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$html = "";
 		
-		if ($this->id != "" || $this->font_size != "" || $this->font_family != "" || $this->color != "") {
-			$html .= "<label id=\"".$this->id."\"";
-			if ($this->font_size != "" || $this->font_family != "" || $this->color != "" || $this->style != "") {
-				$html .= " style=\"";
-				if ($this->font_size != "") {
-					if (is_integer($this->font_size)) {
-						$html .= "font-size:".$this->font_size."pt;";
-					} else {
-						$html .= "font-size:".$this->font_size.";";
+		if (!$this->is_ajax_event) {
+			if ($this->id != "" || $this->font_size != "" || $this->font_family != "" || $this->color != "") {
+				$html .= "<label id=\"".$this->id."\"";
+				if ($this->font_size != "" || $this->font_family != "" || $this->color != "" || $this->style != "") {
+					$html .= " style=\"";
+					if ($this->font_size != "") {
+						if (is_numeric($this->font_size)) {
+							$html .= "font-size:".$this->font_size."pt;";
+						} else {
+							$html .= "font-size:".$this->font_size.";";
+						}
 					}
+					if ($this->font_family != "") {
+						$html .= "font-family:".$this->font_family.";";
+					}
+					if ($this->color != "") {
+						$html .= "color:".$this->color.";";
+					}
+					if ($this->style != "") {
+						$html .= $this->style;
+					}
+					$html .= "\"";
 				}
-				if ($this->font_family != "") {
-					$html .= "font-family:".$this->font_family.";";
-				}
-				if ($this->color != "") {
-					$html .= "color:".$this->color.";";
-				}
-				if ($this->style != "") {
-					$html .= $this->style;
-				}
-				$html .= "\"";
+				$html .= ">";
 			}
-			$html .= ">";
 		}
 		
 		if ($this->bold) {
@@ -232,11 +235,50 @@ class Label extends WebSitePhpObject {
 			$html .= "</b>";
 		}
 		
-		if ($this->id != "" || $this->font_size != "" || $this->font_family != "" || $this->color != "") {
-			$html .= "</label>";
+		if (!$this->is_ajax_event) {
+			if ($this->id != "" || $this->font_size != "" || $this->font_family != "" || $this->color != "") {
+				$html .= "</label>";
+			}
 		}
 		
 		$this->object_change = false;
+		return $html;
+	}
+	
+	/**
+	 * Method getAjaxRender
+	 * @access public
+	 * @return string javascript code to update initial html of object Label (call with AJAX)
+	 * @since 1.2.3
+	 */
+	public function getAjaxRender() {
+		$html = "";
+		if ($this->object_change && !$this->is_new_object_after_init) {
+			if ($this->id == "") {
+				throw new NewException("To use Ajax render with ".get_class($this)." you must define an id (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
+			}
+			
+			$html .= "$('#".$this->id."').html('".str_replace("\n", "", str_replace("\r", "", addslashes($this->render(true))))."');\n";
+			if ($this->style != "") {
+				$html .= "$('#".$this->id."').attr('style', '".addslashes($this->style)."');\n";
+			}
+			if ($this->font_size != "") {
+				$html .= "$('#".$this->id."').css('font-size', ";
+				if (is_numeric($this->font_size)) {
+					$html .= "'".$this->font_size."pt'";
+				} else {
+					$html .= "'".addslashes($this->font_size)."'";
+				}
+				$html .= ");\n";
+			}
+			if ($this->font_family != "") {
+				$html .= "$('#".$this->id."').css('font-family', '".addslashes($this->font_family)."');\n";
+			}
+			if ($this->color != "") {
+				$html .= "$('#".$this->id."').css('color', '".addslashes($this->color)."');\n";
+			}
+		}
+		
 		return $html;
 	}
 	

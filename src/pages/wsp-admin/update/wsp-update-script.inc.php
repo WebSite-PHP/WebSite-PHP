@@ -73,6 +73,9 @@ if (isset($is_call_from_wsp_admin_update) && $is_call_from_wsp_admin_update == t
 	// Update: version 1.2.2
 	unlink($base_dir."/wsp/class/database/DbTableObject.class.php");
 	
+	// Update: version 1.2.3
+	unlink($base_dir."/wsp/class/display/RadioButton.class.php");
+	
 	// reset current CSS and JS cache
 	rrmdir($base_dir."/wsp/cache/css/");
 	rrmdir($base_dir."/wsp/cache/js/");

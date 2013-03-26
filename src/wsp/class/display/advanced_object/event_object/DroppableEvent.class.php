@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.0.17
  */
@@ -109,6 +109,7 @@ class DroppableEvent extends WebSitePhpEventObject {
 		$args = func_get_args();
 		$str_function = array_shift($args);
 		$this->callback_ondrop = $this->loadCallbackMethod($str_function, $args);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $wsp_object = $this->getPage()->getObjectId($this->droppable_id); if ($wsp_object != null) { $wsp_object->forceAjaxRender(); } }
 		return $this;
 	}
 	
@@ -127,6 +128,7 @@ class DroppableEvent extends WebSitePhpEventObject {
 			$js_function = $js_function->render();
 		}
 		$this->ondrop = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $wsp_object = $this->getPage()->getObjectId($this->droppable_id); if ($wsp_object != null) { $wsp_object->forceAjaxRender(); } }
 		return $this;
 	}
 	
@@ -187,11 +189,15 @@ class DroppableEvent extends WebSitePhpEventObject {
 		$this->automaticAjaxEvent();
 		
 		$html = "";
-		if ($this->callback_ondrop != "") {
-			$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
+		if (!$ajax_render) {
+			if ($this->callback_ondrop != "") {
+				$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
+			}
 		}
 		
-		$html .= $this->getJavascriptTagOpen();
+		if (!$ajax_render) {
+			$html .= $this->getJavascriptTagOpen();
+		}
 		if ($this->is_ajax_event) {
 			$html .= $this->getAjaxEventFunctionRender();
 		}
@@ -204,7 +210,9 @@ class DroppableEvent extends WebSitePhpEventObject {
 			$html .= "		return false;\n";
 			$html .= "	});\n";
 		}
-		$html .= $this->getJavascriptTagClose();
+		if (!$ajax_render) {
+			$html .= $this->getJavascriptTagClose();
+		}
 		
 		$this->object_change = false;
 		return $html;

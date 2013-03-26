@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.0.17
  */
@@ -759,7 +759,9 @@ class TextBox extends WebSitePhpEventObject {
 				if ($this->live_validation != null && $this->form_object != null && $this->callback_onblur != "") {
 					$html .= "if (LiveValidationForm_".$this->form_object->getName()."_".$this->getId()."() == false) { return false; }";
 				}
-				$html .= str_replace("\n", "", $this->getObjectEventValidationRender($this->onblur, $this->callback_onblur))."\"";
+				$html .= str_replace("\n", "", $this->getObjectEventValidationRender($this->onblur, $this->callback_onblur));
+				$html .= "\$(this).val(\$(this).val());"; // unselect text when lost focus
+				$html .= "\"";
 			}
 			if ($this->onkeypress != "" || $this->callback_onkeypress != "") {
 				$html .= " onKeyPress=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeypress, $this->callback_onkeypress, "", true))."\"";
@@ -767,6 +769,7 @@ class TextBox extends WebSitePhpEventObject {
 			if ($this->onkeyup != "" || $this->callback_onkeyup != "") {
 				$html .= " onKeyUp=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeyup, $this->callback_onkeyup, "", true))."\"";
 			}
+			$html .= " onFocus=\"this.select()\""; // select text on focus
 			$html .= "/>\n";
 			
 			if ($this->live_validation != null) {
@@ -784,7 +787,7 @@ class TextBox extends WebSitePhpEventObject {
 					$html .= "\$('#".$this->getId()."').clearable(); ";
 				}
 				if ($this->has_focus) {
-					$html .= "\$('#".$this->getId()."').focus(); ";
+					$html .= "\$('#".$this->getId()."').focus().select(); "; // select text on focus
 				} 
 				$html .= "});\n";
 				$html .= $this->getJavascriptTagClose();
@@ -857,7 +860,8 @@ class TextBox extends WebSitePhpEventObject {
 				if ($this->live_validation != null && $this->form_object != null && $this->callback_onblur != "") {
 					$html .= "if (LiveValidationForm_".$this->form_object->getName()."_".$this->getId()."() == false) { return false; }";
 				}
-				$html .= addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onblur, $this->callback_onblur)))."');\n";
+				$html .= addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onblur, $this->callback_onblur)))."');";
+				$html .= "\$(this).val(\$(this).val());\n"; // unselect text when lost focus
 			}
 			if ($this->onkeypress != "" || $this->callback_onkeypress != "") {
 				$html .= "$('#".$this->id."').attr('onKeyPress', '".addslashes(str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeypress, $this->callback_onkeypress, "", true)))."');\n";
@@ -867,7 +871,7 @@ class TextBox extends WebSitePhpEventObject {
 			}
 			
 			if ($this->has_focus) {
-				$html .= "\$('#".$this->getId()."').focus();\n";
+				$html .= "\$('#".$this->getId()."').focus().select();\n"; // select text on focus
 			}
 		}
 		return $html;

@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 23/11/2012
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.1.11
  */
@@ -130,6 +130,18 @@ class AuthenticationLDAP extends Authentication {
 	 */
 	public function getLDAPUserInfo() {
 		return $this->ldap_user_info;
+	}
+	
+	/**
+	 * Method enableSubtreeSearch
+	 * @access public
+	 * @return AuthenticationLDAP
+	 * @since 1.2.3
+	 */
+	public function enableSubtreeSearch() {
+		ldap_set_option($connect, LDAP_OPT_PROTOCOL_VERSION, 3);
+		ldap_set_option($connect, LDAP_OPT_REFERRALS, 0);
+		return $this;
 	}
 	
 	/**

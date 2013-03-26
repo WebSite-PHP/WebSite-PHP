@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @version     1.2.3
  * @access      public
  * @since       1.0.0
  */
@@ -179,7 +179,7 @@
 <?php 
 				// call current page page
 				list($html_current_page, $javascript_current_page) = extractJavaScriptFromHtml(str_replace("\r", "", str_replace("\t", "", $page_object->render())));
-				echo str_replace("\n\n", "\n", $html_current_page);
+				echo str_replace("\n\n", "\n", str_replace("{#wsp_tab}", "\t", $html_current_page));
 				
 				$ind_load_js = rand(0, 99999999);
 ?>

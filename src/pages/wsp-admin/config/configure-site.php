@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.1
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.3
  * @access      public
  * @since       1.0.25
  */
@@ -25,7 +25,7 @@ require_once(dirname(__FILE__)."/../includes/admin-template-form.inc.php");
 
 class ConfigureSite extends Page {
 	protected $USER_RIGHTS = Page::RIGHTS_ADMINISTRATOR;
-	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/connect.html";
+	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/admin.html";
 	
 	private $edtName = null;
 	private $edtDesc = null;
@@ -211,7 +211,38 @@ class ConfigureSite extends Page {
 		
 		$table_form2 = new Table();
 		$table_form2->addRow();
-
+		
+		$this->cmbJQueryVersion = new ComboBox($this->form2, "cmbJQueryVersion");
+		$this->cmbJQueryVersion->setWidth(143);
+		$table_form2->addRowColumns(__(CMB_JQUERY_VERSION).":&nbsp;", $this->cmbJQueryVersion);
+		
+		$this->cmbJQueryUIVersion = new ComboBox($this->form2, "cmbJQueryUIVersion");
+		$this->cmbJQueryUIVersion->setWidth(143);
+		$table_form2->addRowColumns(__(CMB_JQUERY_UI_VERSION).":&nbsp;", $this->cmbJQueryUIVersion);
+		
+		$jquery_dir = SITE_DIRECTORY."/wsp/js/jquery/";
+		$files = scandir($jquery_dir, 0);
+		for($i=0; $i < sizeof($files); $i++) {
+			$file = $files[$i];
+			if (is_file($jquery_dir.$file)) {
+				$version = str_replace("jquery-", "", str_replace(".min.js", "", $file));
+				if (is_numeric(str_replace(".", "", $version))) {
+					$this->cmbJQueryVersion->addItem($version, $version, (JQUERY_VERSION==$version)?true:false);
+				} else if (substr($version, 0, 3) == "ui-" && substr($version, strlen($version)-7, strlen($version)) == ".custom") {
+					$version = str_replace("ui-", "", str_replace(".custom", "", $version));
+					$this->cmbJQueryUIVersion->addItem($version, $version, (JQUERY_UI_VERSION==$version)?true:false);
+				}
+			}
+		}
+		
+		$this->cmbJqueryLocal = new ComboBox($this->form2, "cmbJqueryLocal");
+		$this->cmbJqueryLocal->addItem("true", "true", (JQUERY_LOAD_LOCAL==true)?true:false);
+		$this->cmbJqueryLocal->addItem("false", "false", (JQUERY_LOAD_LOCAL==false)?true:false);
+		$this->cmbJqueryLocal->setWidth(143);
+		$table_form2->addRowColumns(__(CMB_JQUERY_LOAD_LOCAL).":&nbsp;", $this->cmbJqueryLocal);
+		
+		$table_form2->addRow();
+		
 		$this->edtDefaultTimezone = new TextBox($this->form2, "edtDefaultTimezone");
 		$this->edtDefaultTimezone->setValue(DEFAULT_TIMEZONE);
 		$edtValidation = new LiveValidation();
@@ -241,14 +272,6 @@ class ConfigureSite extends Page {
 		}
 		$edtValidation = new LiveValidation();
 		$table_form2->addRowColumns(__(EDT_CACHE_TIME).":&nbsp;", new Object($this->edtCacheTime->setLiveValidation($edtValidation->addValidatePresence()->addValidateNumericality(true)->setFieldName(__(EDT_CACHE_TIME))), "&nbsp;".__(SECONDS)));
-		
-		$table_form2->addRow();
-		
-		$this->cmbJqueryLocal = new ComboBox($this->form2, "cmbJqueryLocal");
-		$this->cmbJqueryLocal->addItem("true", "true", (JQUERY_LOAD_LOCAL==true)?true:false);
-		$this->cmbJqueryLocal->addItem("false", "false", (JQUERY_LOAD_LOCAL==false)?true:false);
-		$this->cmbJqueryLocal->setWidth(143);
-		$table_form2->addRowColumns(__(CMB_JQUERY_LOAD_LOCAL).":&nbsp;", $this->cmbJqueryLocal);
 		
 		/*$this->cmbJsCompression = new ComboBox($this->form);
 		$this->cmbJsCompression->addItem("NONE", "NONE", (JS_COMPRESSION_TYPE=="NONE")?true:false);
@@ -463,8 +486,8 @@ class ConfigureSite extends Page {
 		$data_config_file .= "); // 12 heures = 60*60*12\n";
 		$data_config_file .= "\n";
 		$data_config_file .= "define(\"JQUERY_LOAD_LOCAL\", ".$this->cmbJqueryLocal->getValue()."); // if false load jquery from google else load from local\n";
-		$data_config_file .= "define(\"JQUERY_VERSION\", \"1.6.2\");\n";
-		$data_config_file .= "define(\"JQUERY_UI_VERSION\", \"1.8.14\");\n";
+		$data_config_file .= "define(\"JQUERY_VERSION\", \"".$this->cmbJQueryVersion->getValue()."\");\n";
+		$data_config_file .= "define(\"JQUERY_UI_VERSION\", \"".$this->cmbJQueryUIVersion->getValue()."\");\n";
 		//$data_config_file .= "define(\"JS_COMPRESSION_TYPE\", \"".$this->cmbJsCompression->getValue()."\"); // type of Javascript compression (GOOGLE_WS, LOCAL, NONE)\n";
 		$data_config_file .= "define(\"JS_COMPRESSION_TYPE\", \"NONE\"); // Javascript compression (GOOGLE_WS, LOCAL, NONE (recommand))\n";
 		$data_config_file .= "\n";

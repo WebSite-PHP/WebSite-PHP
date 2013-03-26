@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.1
+ * @copyright   WebSite-PHP.com 18/02/2013
+ * @version     1.2.3
  * @access      public
  * @since       1.0.25
  */
@@ -25,7 +25,7 @@ require_once(dirname(__FILE__)."/../includes/admin-template-form.inc.php");
 
 class ConfigureDatabase extends Page {
 	protected $USER_RIGHTS = Page::RIGHTS_ADMINISTRATOR;
-	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/connect.html";
+	protected $USER_NO_RIGHTS_REDIRECT = "wsp-admin/admin.html";
 	
 	private $edtHost = null;
 	private $edtPort = null;
