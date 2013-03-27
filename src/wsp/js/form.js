@@ -37,7 +37,8 @@ revertLastFormChangeObjectToDefaultValue = function(class_name, id, form_id) {
 	    		obj.options[j].defaultSelected = false;
 	    	}
 		}
-		document.getElementById(id).refresh();
+		var wsp_cmb = $("#" + obj.id).msDropDown().data('dd');
+		wsp_cmb.set('selectedIndex', $('#' + form_id + '_LastChangeObjectValue').val());
 	} else if (class_name == "CheckBox" || class_name == "RadioButton") {
 		$('#' + id).attr('checked', $('#' + form_id + '_LastChangeObjectValue').val());
 		obj.defaultChecked = $('#' + id).attr('checked');

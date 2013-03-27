@@ -482,23 +482,32 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
         $html .= "				isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;\n";
 		$html .= "				if (ajax_event_response != \"\") {\n";
 		$html .= "					var dialogbox_is_change = false;\n";
+		if (find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) > 0 || 
+	    	find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) > 0 || 
+	    	DEBUG == true) {
+				$html .= "					var alert_local_eval_error = true;\n";
+	    }
 		$html .= "					for (var ajax_event_ind=0; ajax_event_ind < ajax_event_response.length; ajax_event_ind++) {\n";
 		if (!$this->disable_ajax_wait_message) {
 			$html .= "						if (ajax_event_response[ajax_event_ind] != null && ajax_event_response[ajax_event_ind].indexOf('wspDialogBox".$modalbox_indice."' + ' = ') != -1) {\n";
 			$html .= "							dialogbox_is_change = true;\n";
 			$html .= "						}\n";
 		}
-	    if (find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
-	    	find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0) {
-				$html .= "						eval(ajax_event_response[ajax_event_ind]);\n";
-		} else { // display ajax render error message when it's local execution (useful to debug)
-			$html .= "						try {\n";
-		    $html .= "							eval(ajax_event_response[ajax_event_ind]);\n";
-		    $html .= "						} catch (e) {\n";
-		    $html .= "							console.log('Js error: ' + e.message + '\\nCode: ' + ajax_event_response[ajax_event_ind]);\n";
-			$html .= "						}\n";
-		}
-	    $html .= "					}\n";
+    	$html .= "						try {\n";
+	    $html .= "							eval(ajax_event_response[ajax_event_ind]);\n";
+	    $html .= "						} catch (e) {\n";
+	    $html .= "							console.log('Js error: ' + e.message + '\\nCode: ' + ajax_event_response[ajax_event_ind]);\n";
+	    // display ajax render error message when it's local or debug execution (useful to debug)
+	    if (find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) > 0 || 
+    		find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) > 0 || 
+    		DEBUG == true) {
+	    		$html .= "							if (alert_local_eval_error) {\n";
+	    		$html .= "								alert('An error appeared during Ajax event, please check the console of your browser to see the error(s).');";
+	    		$html .= "								alert_local_eval_error = false;\n";
+	    		$html .= "							}\n";
+    	}
+		$html .= "						}\n";
+		$html .= "					}\n";
 	    if (!$this->disable_ajax_wait_message) {
 	    	if (gettype($this->ajax_wait_message) == "object") {
 				$html .= "					$('#".$this->ajax_wait_message->getId()."').css('display', 'none');\n";

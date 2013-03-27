@@ -1218,7 +1218,6 @@ class Object extends WebSitePhpEventObject {
 			
 			// Add current object javascript
 			$js = $this->generateObjectJavascript(true);
-			Logger::getInstance()->info($js);
 			if ($js != "") {
 				$this->getPage()->addObject(new JavaScript($js), false, true);
 			}

@@ -1293,14 +1293,27 @@ class Page extends AbstractPage {
 	 * @since 1.0.67
 	 */
 	public function getUserNoRightsRedirect() {
+		$url_to_referer = $this->getCurrentURL();
+		if (find($this->getCurrentURL(), "referer=") > 0) {
+			$pos = find($this->getCurrentURL(), "referer=");
+			$pos2 = find($this->getCurrentURL(), "&", $pos);
+			if ($pos2 == 0) {
+				$pos2 = strlen($this->getCurrentURL());
+			} else {
+				$pos2--;
+			}
+			$url_to_referer = urldecode(substr($this->getCurrentURL(), $pos, $pos2-$pos));
+		}
+		
 		if (find($this->USER_NO_RIGHTS_REDIRECT, "referer=") == 0) {
 			if (find($this->USER_NO_RIGHTS_REDIRECT, "?") > 0) {
 				$this->USER_NO_RIGHTS_REDIRECT .= "&";
 			} else {
 				$this->USER_NO_RIGHTS_REDIRECT .= "?";
 			}
-			$this->USER_NO_RIGHTS_REDIRECT .= "referer=".urlencode($this->getCurrentURL());
+			$this->USER_NO_RIGHTS_REDIRECT .= "referer=".urlencode($url_to_referer);
 		}
+		
 		return $this->USER_NO_RIGHTS_REDIRECT;
 	}
 

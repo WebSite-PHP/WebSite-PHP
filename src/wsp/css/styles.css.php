@@ -596,3 +596,8 @@ textarea::-webkit-input-placeholder {
      -moz-border-radius: 4px;
           border-radius: 4px;
 }
+
+.ui-widget div {
+	font-family: <?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
+	font-size: <?php echo $style_font_size_value; ?>;
+}
