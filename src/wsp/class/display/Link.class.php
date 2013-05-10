@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.5
  * @access      public
  * @since       1.0.17
  */
@@ -60,6 +60,8 @@ class Link extends WebSitePhpObject {
 	private $rel = "";
 	private $property = "";
 	private $style = "";
+	private $tooltip_obj = null;
+	private $tooltip_title = "";
 	/**#@-*/
 	
 	/**
@@ -299,6 +301,33 @@ class Link extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method tooltip
+	 * @access public
+	 * @param mixed $tooltip_obj 
+	 * @param mixed $title 
+	 * @return Link
+	 * @since 1.2.5
+	 */
+	public function tooltip($tooltip_obj, $title) {
+		if (get_class($tooltip_obj) != "ToolTip") {
+			throw new NewException("Error Picture->tooltip(): \$tooltip_obj is not a ToolTip object", 0, getDebugBacktrace(1));
+		}
+		if ($this->id == "") {
+			throw new NewException(get_class($this)."->tooltip() error: You must define an id to the Link object.", 0, getDebugBacktrace(1));
+		}
+		
+		$this->tooltip_obj = $tooltip_obj;
+		
+		if (gettype($title) == "object" && method_exists($title, "render")) {
+			$title = $title->render();
+		}
+		$this->tooltip_title = $title;
+		
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
 	 * Method getOnClickJs
 	 * @access public
 	 * @return mixed
@@ -436,6 +465,9 @@ class Link extends WebSitePhpObject {
 		if ($this->onclick != "" && find($html, "javascript:void(0);\" onClick=\"", 1) == 0) {
 			$html .= " onClick=\"".$this->onclick."\"";
 		}
+		if ($this->tooltip_obj != null) {
+			$html .= " oldtitle=\"".str_replace("'", "&#39;", str_replace("\"", "&quot;", str_replace("\n", "", str_replace("\r", "", $this->tooltip_title))))."\" data-hasqtip=\"true\"";
+		}
 		$html .= ">";
 		if (gettype($this->content) == "object" && method_exists($this->content, "render")) {
 			$html_content = "";
@@ -473,6 +505,12 @@ class Link extends WebSitePhpObject {
 				$html .= $this->getJavascriptTagClose();
 				self::$array_lightbox[$this->lightbox_name] = true;
 			}
+		}
+		if ($this->tooltip_obj != null) {
+			$this->tooltip_obj->setId($this->getId());
+			$html .= $this->getJavascriptTagOpen();
+			$html .= $this->tooltip_obj->render();
+			$html .= $this->getJavascriptTagClose();
 		}
 		$this->object_change = false;
 		return $html;

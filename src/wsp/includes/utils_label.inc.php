@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.5
  * @access      public
  * @since       1.2.1
  */
@@ -71,7 +71,8 @@
 		// Check if translation needs to be writed in all.inc.php
 		$trace_array = explode("\n", getDebugBacktrace(2));
 		if (isset($trace_array[1])) {
-			if (find($trace_array[1], "wsp\includes\utils_label.inc.php") >0 ) { // call function __()
+			$trace_array[1] = str_replace("\\", "/", $trace_array[1]);
+			if (find($trace_array[1], "wsp/includes/utils_label.inc.php") > 0) { // call function __()
 				$trace = (isset($trace_array[4])?$trace_array[4]:"");
 			} else { // call function translate()
 				$trace = (isset($trace_array[1])?$trace_array[1]:"");

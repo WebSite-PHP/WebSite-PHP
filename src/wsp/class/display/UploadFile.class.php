@@ -16,13 +16,13 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 25/03/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.5
  * @access      public
  * @since       1.2.3
  */
 
-class UploadFile extends WebSitePhpObject {
+class UploadFile extends WebSitePhpEventObject {
 	/**#@+
 	* @access private
 	*/
@@ -36,6 +36,11 @@ class UploadFile extends WebSitePhpObject {
 	private $button_value = "";
 	private $class = "";
 	private $width = "";
+	
+	private $is_changed = false;
+	private $onchange = "";
+	private $callback_onchange = "";
+	private $callback_onchange_params = array();
 	/**#@-*/
 	
 	/**
@@ -81,8 +86,22 @@ class UploadFile extends WebSitePhpObject {
 		}
 		
 		$this->button_value = __(WSP_BTN_UPLOAD_FILE);
+		
+		JavaScriptInclude::getInstance()->addToEnd(BASE_URL."wsp/js/jquery.upload.js", "", true);
 	}
 	
+	/**
+	 * Method setValue
+	 * @access public
+	 * @param mixed $value 
+	 * @return UploadFile
+	 * @since 1.2.5
+	 */
+	public function setValue($value) {
+		// This method exists only for technical reason  
+		return $this;
+	}
+		
 	/**
 	 * Method getName
 	 * @access public
@@ -326,6 +345,73 @@ class UploadFile extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method onChange
+	 * @access public
+	 * @param mixed $str_function 
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return UploadFile
+	 * @since 1.2.5
+	 */
+	public function onChange($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
+		if (!$this->is_ajax_event) {
+			throw new NewException(get_class($this)."->onChange(): onChange function is available only for UploadFile with ajax event. Please call the function ".get_class($this)."->setAjaxEvent().", 0, getDebugBacktrace(1));
+		}
+		
+		$args = func_get_args();
+		$this->callback_onchange_params = $args;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method onChangeJs
+	 * @access public
+	 * @param mixed $js_function 
+	 * @return UploadFile
+	 * @since 1.2.5
+	 */
+	public function onChangeJs($js_function) {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
+		}
+		if (get_class($js_function) == "JavaScript") {
+			$js_function = $js_function->render();
+		}
+		$this->onchange = trim($js_function);
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/* Intern management of UploadFile */
+	/**
+	 * Method setChange
+	 * @access public
+	 * @return UploadFile
+	 * @since 1.2.5
+	 */
+	public function setChange() {
+		if ($GLOBALS['__LOAD_VARIABLES__']) {
+			$GLOBALS['__WSP_OBJECT_UPLOADFILE_CHANGED__'] = true;
+			$this->is_changed = true; 
+		}
+		return $this;
+	}
+	
+	/**
+	 * Method isChanged
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.5
+	 */
+	public function isChanged() {
+		return $this->is_changed;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -335,16 +421,43 @@ class UploadFile extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$html = "";
 		
-		// TODO: to remove when UploadFile will be compatible with ajax event
+		// check if the UploadFile is linked to a Form with Ajax button
 		if ($this->form_object != null) {
 			$array_form_object = $this->form_object->getFormObjects();
 			for ($i=0; $i < sizeof($array_form_object); $i++) {
 				if (get_class($array_form_object[$i]) == "Button") {
-					if ($array_form_object[$i]->isAjaxEvent() || $this->getPage()->isAjaxLoadPage()) {
-						throw new NewException("UploadFile is not yet compatible with Ajax event.", 0, getDebugBacktrace(1));
+					if ($array_form_object[$i]->isAjaxEvent()) {
+						throw new NewException(get_class($this)." error: You cannot use ajax event on a Button if you include ".get_class($this)." in a Form object.", 0, getDebugBacktrace(1));
+						break;
 					}
 				}
 			}
+		}
+		
+		// check if the UploadFile is used in AjaxLoadPage (Tabs, DialogBox)
+		if ($this->getPage()->isAjaxLoadPage()) {
+			// In this case UploadFile need to be sublit with ajax event
+			if (!$this->is_ajax_event) {
+				throw new NewException(get_class($this)." error: You need to use ".get_class($this)." with ajax event (".get_class($this)."->setAjaxEvent()) when loaded in AjaxLoadPage (Tabs, DialogBox).", 0, getDebugBacktrace(1));
+			}
+			if ($this->form_object != null) {
+				throw new NewException(get_class($this)." error: You cannot use ".get_class($this)." in a Form object when loaded in AjaxLoadPage (Tabs, DialogBox).", 0, getDebugBacktrace(1));
+			}
+		}
+		
+		if (sizeof($this->callback_onchange_params) > 0) {
+			$args = $this->callback_onchange_params;
+			$str_function = array_shift($args);
+			$this->callback_onchange = $this->loadCallbackMethod($str_function, $args);
+		}
+		
+		if ($this->callback_onchange != "") {
+			$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";
+		}
+		if ($this->is_ajax_event) {
+			$html .= $this->getJavascriptTagOpen();
+			$html .= $this->getAjaxEventFunctionRender();
+			$html .= $this->getJavascriptTagClose();
 		}
 		
 		// Generate HTML
@@ -362,13 +475,16 @@ class UploadFile extends WebSitePhpObject {
 		$html .= "</span>";
 		
 		$html .= $this->getJavascriptTagOpen();
-		$html .= "\$('#UploadFile_Button_".$this->id."').click(function(event){";
-		$html .= "	\$('#".$this->id."').click()";
-		$html .= "});";
-		$html .= "\$('#".$this->id."').change(function(){";
-		$html .= "	var current_file = myReplaceAll(\$(this).val(), '\\\\', '/').split('/');";
-		$html .= "	current_file = current_file[current_file.length-1];";
-		$html .= "	\$('#UploadFile_Path_".$this->id."').val(current_file);";
+		$html .= "\$('#UploadFile_Button_".$this->id."').click(function(event){\n";
+		$html .= "	\$('#".$this->id."').click()\n";
+		$html .= "});\n";
+		$html .= "\$('#".$this->id."').change(function(){\n";
+		$html .= "	var current_file = myReplaceAll(\$(this).val(), '\\\\', '/').split('/');\n";
+		$html .= "	current_file = current_file[current_file.length-1];\n";
+		$html .= "	\$('#UploadFile_Path_".$this->id."').val(current_file);\n";
+		if ($this->onchange != "" || $this->callback_onchange != "") {
+			$html .= "	".str_replace("\n", "", $this->getObjectEventValidationRender($this->onchange, $this->callback_onchange))."\n";
+		}
 		$html .= "});";
 		$html .= $this->getJavascriptTagClose();
 		

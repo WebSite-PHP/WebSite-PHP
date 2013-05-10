@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.5
  * @access      public
  * @since       1.0.0
  */
@@ -30,6 +30,7 @@
 	$__LOAD_VARIABLES__ = false;
 	$__DEBUG_PAGE_IS_PRINTING__ = false;
 	$__GEOLOC_ASK_USER_SHARE_POSITION__ = false;
+	$__WSP_OBJECT_UPLOADFILE_CHANGED__ = false;
 	
 	session_name(formalize_to_variable(SITE_NAME)); 
 	@session_start();
@@ -246,8 +247,16 @@
 			exit;
 	    }
 	    
+	    // Convert special caracters
+	    $json_ajax_render = str_replace("\n\n", "\n", str_replace("\r", "", str_replace("{#wsp_tab}", "\\t", str_replace("\t", "", $json_ajax_render))));
+	    
+	    // convert caracters '<' and '>' if there is a UploadFile event
+    	if ($__WSP_OBJECT_UPLOADFILE_CHANGED__) {
+    		$json_ajax_render = str_replace("<", "{#wsp_lt}", str_replace(">", "{#wsp_gt}", $json_ajax_render));
+    	}
+	    
 	    // Write Ajax result (JSON encoding)
-		echo str_replace("\n\n", "\n", str_replace("\r", "", str_replace("{#wsp_tab}", "\\t", str_replace("\t", "", $json_ajax_render))));
+		echo $json_ajax_render;
 	// End If page is not caching
 	} else {
 		// call current page page cache

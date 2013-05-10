@@ -18,8 +18,8 @@
  * @subpackage advanced_object.autocomplete
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.5
  * @access      public
  * @since       1.0.17
  */

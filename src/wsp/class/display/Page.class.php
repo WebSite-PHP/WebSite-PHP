@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 14/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.5
  * @access      public
  * @since       1.0.0
  */
@@ -179,7 +179,8 @@ class Page extends AbstractPage {
 	private $callback_method_params = array();
 	private $array_callback_object = array("Button", "ComboBox", "TextBox", "Password", "ColorPicker", "CheckBox", 
 											"ContextMenuEvent", "DroppableEvent", "SortableEvent", "Object", "Picture", 
-											"Calendar", "AutoCompleteEvent", "Raty", "TextArea", "RadioButtonGroup");
+											"Calendar", "AutoCompleteEvent", "Raty", "TextArea", "RadioButtonGroup", 
+											"UploadFile");
 	
 	private $create_object_to_get_css_js = false;
 	private $ended_added_object_loaded = false;
@@ -935,6 +936,8 @@ class Page extends AbstractPage {
 								$object->setDrop();
 							} else if (get_class($object) == "SortableEvent") {
 								$object->setSort();
+							} else if (get_class($object) == "UploadFile") {
+								$object->setChange();
 							} else {
 								$object->setValue($object->getValue());
 							}
@@ -983,11 +986,19 @@ class Page extends AbstractPage {
 			    if ($this->callback_method_params[$i] != "" && gettype($this->callback_method_params[$i]) == "string") {
 					// remove quote
 					$this->callback_method_params[$i] = trim($this->callback_method_params[$i]);
-					if (substr($this->callback_method_params[$i], 0, 1) == "'") {
-						$this->callback_method_params[$i] = substr($this->callback_method_params[$i], 1);
+					if (substr($this->callback_method_params[$i], 0, 1) == "'" || substr($this->callback_method_params[$i], 0, 2) == "\\'") {
+						if (substr($this->callback_method_params[$i], 0, 2) == "\\'") {
+							$this->callback_method_params[$i] = substr($this->callback_method_params[$i], 2);
+						} else {
+							$this->callback_method_params[$i] = substr($this->callback_method_params[$i], 1);
+						}
 					}
-					if (substr($this->callback_method_params[$i], strlen($this->callback_method_params[$i])-1, 1) == "'") {
-						$this->callback_method_params[$i] = substr($this->callback_method_params[$i], 0, strlen($this->callback_method_params[$i])-1);
+					if (substr($this->callback_method_params[$i], strlen($this->callback_method_params[$i])-1, 1) == "'" || substr($this->callback_method_params[$i], strlen($this->callback_method_params[$i])-2, 2) == "\\'") {
+						if (substr($this->callback_method_params[$i], strlen($this->callback_method_params[$i])-2, 2) == "\\'") {
+							$this->callback_method_params[$i] = substr($this->callback_method_params[$i], 0, strlen($this->callback_method_params[$i])-2);
+						} else {
+							$this->callback_method_params[$i] = substr($this->callback_method_params[$i], 0, strlen($this->callback_method_params[$i])-1);
+						}
 					}
 					
 					if ($this->callback_method_params[$i] != "") {
@@ -1484,7 +1495,11 @@ class Page extends AbstractPage {
 	 * @since 1.0.89
 	 */
 	public function getRemoteIP() {
-		return $_SERVER["REMOTE_ADDR"];
+		if (isset($_SERVER["HTTP_X_FORWARDED_FOR"]) && $_SERVER["HTTP_X_FORWARDED_FOR"] != "") {
+			return $_SERVER["HTTP_X_FORWARDED_FOR"];
+		} else {
+			return $_SERVER["REMOTE_ADDR"];
+		}
 	}
 	
 	/**

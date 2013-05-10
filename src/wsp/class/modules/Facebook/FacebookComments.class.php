@@ -18,8 +18,8 @@
  * @subpackage Facebook
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.5
  * @access      public
  * @since       1.0.86
  */
@@ -54,11 +54,25 @@ class FacebookComments extends WebSitePhpObject {
 		parent::__construct();
 		
 		if ($url_to_comment == "") {
-			$port = "";
-			if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
-				$port = ":".$_SERVER['SERVER_PORT'];
+			$http_type = "";
+			$split_request_uri = explode("\?", $_SERVER['REQUEST_URI']);
+			if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
+				if ($_SERVER['SERVER_PORT'] == 443) {
+					$http_type = "https://";
+					$current_url = str_replace("//", "/", $_SERVER['SERVER_NAME'].substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
+				} else {
+					$port = "";
+					if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
+						$port = ":".$_SERVER['SERVER_PORT'];
+					}
+					$http_type = "http://";
+					$current_url = str_replace("//", "/", $_SERVER['SERVER_NAME'].$port.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
+				}
+			} else {
+				$http_type = "http://";
+				$current_url = str_replace("//", "/", FORCE_SERVER_NAME.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
 			}
-			$this->url_to_comment = "http://".$_SERVER['SERVER_NAME'].$port.$_SERVER['REQUEST_URI'];
+			$this->url_to_comment = $current_url;
 		} else {
 			$this->url_to_comment = $url_to_comment;
 		}
@@ -111,7 +125,8 @@ class FacebookComments extends WebSitePhpObject {
 	 * @since 1.0.86
 	 */
 	public function render($ajax_render=false) {
-		$html = "<div id=\"fb-root\"></div><script src=\"http://connect.facebook.net/en_US/all.js#xfbml=1\"></script><fb:comments href=\"".$this->url_to_comment."\" num_posts=\"".$this->number_post."\" width=\"".$this->width."\" colorscheme=\"".$this->style."\"></fb:comments>";
+		$html = "<style type='text/css'>.fb_iframe_widget iframe { position: relative;! }</style>";
+		$html .= "<div id=\"fb-root\"></div><script src=\"http://connect.facebook.net/en_US/all.js#xfbml=1\"></script><fb:comments href=\"".$this->url_to_comment."\" num_posts=\"".$this->number_post."\" width=\"".$this->width."\" colorscheme=\"".$this->style."\"></fb:comments>";
 		
 		return $html;
 	}

@@ -18,8 +18,8 @@
  * @subpackage advanced_object.google
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.5
  * @access      public
  * @since       1.0.17
  */
@@ -72,8 +72,14 @@ class Adsense extends WebSitePhpObject {
 			find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
 			!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
 				$adsense_html .= "	window.google_analytics_uacct=\"".GOOGLE_CODE_TRACKER."\";\n";
-				if (SUBDOMAIN_URL != "") { 
-					$adsense_html .= "	google_analytics_domain_name=\"".str_replace(SUBDOMAIN_URL, "", $_SERVER['SERVER_NAME'])."\";\n";
+				if (SUBDOMAIN_URL != "") {
+					$adsense_html .= "	google_analytics_domain_name=\"";
+					if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
+						$adsense_html .= str_replace(SUBDOMAIN_URL.".", ".", $_SERVER['SERVER_NAME']);
+					} else {
+						$adsense_html .= str_replace(SUBDOMAIN_URL.".", ".", FORCE_SERVER_NAME);
+					}
+					$adsense_html .= "\";\n";
 				} else {
 					$adsense_html .= "	google_analytics_domain_name=\"none\";\n";
 				}

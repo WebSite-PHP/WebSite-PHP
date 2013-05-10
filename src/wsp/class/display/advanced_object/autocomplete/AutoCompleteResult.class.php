@@ -18,8 +18,8 @@
  * @subpackage advanced_object.autocomplete
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.5
  * @access      public
  * @since       1.0.17
  */
@@ -73,7 +73,7 @@ class AutoCompleteResult extends WebSitePhpObject {
 		$html = "[";
 		for ($i=0; $i < sizeof($this->array_result_id); $i++) {
 			if ($i > 0) { $html .= ", "; }
-			$html .= '{ "id": "'.$this->array_result_id[$i].'", "label": "'.$this->array_result_label[$i].'", "value": "'.$this->array_result_value[$i].'", "icon": "'.$this->array_result_icon[$i].'" }';
+			$html .= '{ "id": "'.$this->array_result_id[$i].'", "label": "'.str_replace("\"", "\\\"", $this->array_result_label[$i]).'", "value": "'.str_replace("\"", "\\\"", $this->array_result_value[$i]).'", "icon": "'.$this->array_result_icon[$i].'" }';
 		}
 		if ($i == 0) { $html .= "{}"; }
 		$html .= "]";

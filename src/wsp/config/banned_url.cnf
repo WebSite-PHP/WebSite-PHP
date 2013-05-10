@@ -312,3 +312,4 @@
 /Admin/scripts/setup.php
 /Admin/phpmyadmin/scripts/setup.php
 /Admin/phpMyAdmin/scripts/setup.php
+/config/config_admin.php

@@ -16,8 +16,8 @@
  * @package database
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.5
  * @access      public
  * @since       1.2.1
  */
@@ -94,7 +94,10 @@ class ModelViewMapper {
 				for ($i=0; $i < sizeof($list_attribute); $i++) {
 					$property[$property_name] = $property_value;
 					if (isset($properties[$list_attribute[$i]])) {
-						$properties[$list_attribute[$i]] = array_merge($properties[$list_attribute[$i]], $property);
+					    // Handle child override of global property
+                        if (!isset($properties[$list_attribute[$i]][$property_name])) {
+                            $properties[$list_attribute[$i]] = array_merge($properties[$list_attribute[$i]], $property);
+                        }
 					} else {
 						$properties[$list_attribute[$i]] = $property;
 					}
@@ -150,7 +153,7 @@ class ModelViewMapper {
 			$value = call_user_func_array(array($this->database_model_object, $method), array());
 			
 			if ($attribute != $auto_increment_id && $is_update_ok) {
-				// get property cmb_obj
+			    // get property cmb_obj
 				if (isset($attribute_properties['cmb_obj'])) {
 					$field = $attribute_properties['cmb_obj'];
 				} else {

@@ -18,8 +18,8 @@
  * @subpackage advanced_object.language
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.5
  * @access      public
  * @since       1.0.93
  */
@@ -29,6 +29,7 @@ class LanguageComboBox extends WebSitePhpObject {
 	* @access private
 	*/
 	private $cmb_language = null;
+	private $url_parameters = true;
 	/**#@-*/
 	
 	/**
@@ -36,11 +37,13 @@ class LanguageComboBox extends WebSitePhpObject {
 	 * @param mixed $page_or_form_object 
 	 * @param string $name 
 	 * @param string $width 
+	 * @param boolean $url_parameters [default value: true]
 	 */
-	function __construct($page_or_form_object, $name='', $width='') {
+	function __construct($page_or_form_object, $name='', $width='', $url_parameters=true) {
 		parent::__construct();
 		
 		$this->cmb_language = new ComboBox($page_or_form_object, $name, $width);
+		$this->url_parameters = $url_parameters;
 	}
 	
 	/**
@@ -52,7 +55,11 @@ class LanguageComboBox extends WebSitePhpObject {
 	 * @since 1.0.93
 	 */
 	public function addLanguage($language_code, $language_text) {
-		$lang_link = BASE_URL.$language_code."/".str_replace($this->getPage()->getBaseLanguageURL(), "", $this->getPage()->getCurrentURL());
+		if ($this->url_parameters) {
+			$lang_link = BASE_URL.$language_code."/".str_replace($this->getPage()->getBaseLanguageURL(), "", $this->getPage()->getCurrentURL());
+		} else {
+			$lang_link = BASE_URL.$language_code."/".str_replace($this->getPage()->getBaseLanguageURL(), "", $this->getPage()->getCurrentURLWithoutParameters());
+		}
 		$this->cmb_language->addItem($lang_link, $language_text, ($this->getPage()->getLanguage()==$language_code)?true:false, BASE_URL."wsp/img/lang/".$language_code.".png");
 		$this->cmb_language->onChangeJs("location.href=$('#".$this->cmb_language->getEventObjectName()."').val();");
 		return $this;
@@ -67,6 +74,17 @@ class LanguageComboBox extends WebSitePhpObject {
 	 */
 	public function setWidth($width) {
 		$this->cmb_language->setWidth($width);
+		return $this;
+	}
+	
+	/**
+	 * Method disableUrlParameters
+	 * @access public
+	 * @return LanguageComboBox
+	 * @since 1.2.5
+	 */
+	public function disableUrlParameters() {
+		$this->url_parameters = false;
 		return $this;
 	}
 	

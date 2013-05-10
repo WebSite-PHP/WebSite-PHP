@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.5
  * @access      public
  * @since       1.0.0
  */
@@ -511,7 +511,11 @@
 		  window.google_analytics_uacct = "<?php echo GOOGLE_CODE_TRACKER; ?>";
 		  <?php 
 			if (SUBDOMAIN_URL != "") { 
-				echo "_gaq.push(['_setDomainName', '".str_replace("http://".SUBDOMAIN_URL, "", "http://".$_SERVER['SERVER_NAME'])."']);\n";
+				if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
+					echo "_gaq.push(['_setDomainName', '".str_replace("http://".SUBDOMAIN_URL.".", ".", "http://".$_SERVER['SERVER_NAME'])."']);\n";
+				} else {
+					echo "_gaq.push(['_setDomainName', '".str_replace(SUBDOMAIN_URL.".", ".", FORCE_SERVER_NAME)."']);\n";
+				}
 			} else {
 				echo "_gaq.push(['_setDomainName', 'none']);\n";
 			}

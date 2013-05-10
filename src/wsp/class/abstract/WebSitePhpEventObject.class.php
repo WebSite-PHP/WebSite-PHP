@@ -16,8 +16,8 @@
  * @package abstract
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.5
  * @access      public
  * @since       1.0.18
  */
@@ -435,13 +435,20 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 		if ($this->form_object != null) {
 			$html .= "		".$this->encryptObjectData($this->form_object, "isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;".($loading_modalbox==null?"":$loading_modalbox->close()->render()));
 		}
-		$html .= "		lastAjaxRequest".get_class($this)."_".$this->getEventObjectName()."[lastAjaxRequest".get_class($this)."_".$this->getEventObjectName().".length] = $.ajax({ type: '";
-		if ($this->form_object != null) {
-			$html .= $this->form_object->getMethod();
+		
+		if (get_class($this) == "UploadFile") {
+			$html .= "$('#".$this->getId()."').upload('";
 		} else {
-			$html .= "POST";
+			$html .= "		lastAjaxRequest".get_class($this)."_".$this->getEventObjectName()."[lastAjaxRequest".get_class($this)."_".$this->getEventObjectName().".length] = $.ajax({ type: '";
+			if ($this->form_object != null) {
+				$html .= $this->form_object->getMethod();
+			} else {
+				$html .= "POST";
+			}
+			$html .= "', url: '";
 		}
-		$html .= "', url: '".BASE_URL.LANGUAGE_URL."/ajax/";
+		
+		$html .= BASE_URL.LANGUAGE_URL."/ajax/";
 		if ($this->form_object == null) {
 			$html .= $this->getPage()->getPage().".html";
 			if (PARAMS_URL != "") {
@@ -466,19 +473,26 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 			}
 		}
 		$html .= "',\n";
-		if ($this->form_object != null) {
-			$html .= "			data: ";
-			if ($this->form_object->isEncrypted()) {
-				$html .= "encrypt_data";
-			} else {
-        		$html .= "$('#".$this->form_object->getId()."').serialize() + '&Callback_".$this->getEventObjectName()."=' + callback_value";
-			}
-			$html .= ",\n";
+		
+		if (get_class($this) == "UploadFile") {
+			$html .= "			$('#Callback_".$this->getEventObjectName()."').serialize(),\n";
 		} else {
-			$html .= "			data: 'Callback_".$this->getEventObjectName()."=' + callback_value,\n";
+			if ($this->form_object != null) {
+				$html .= "			data: ";
+				if ($this->form_object->isEncrypted()) {
+					$html .= "encrypt_data";
+				} else {
+	        		$html .= "$('#".$this->form_object->getId()."').serialize() + '&Callback_".$this->getEventObjectName()."=' + callback_value";
+				}
+				$html .= ",\n";
+			} else {
+				$html .= "			data: 'Callback_".$this->getEventObjectName()."=' + callback_value,\n";
+			}
+	        $html .= "			dataType: 'json',\n";
+	        $html .= "			success: ";
 		}
-        $html .= "			dataType: 'json',\n";
-        $html .= "			success: function(ajax_event_response) {\n";
+        
+        $html .= "function(ajax_event_response) {\n";
         $html .= "				isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;\n";
 		$html .= "				if (ajax_event_response != \"\") {\n";
 		$html .= "					var dialogbox_is_change = false;\n";
@@ -493,7 +507,10 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 			$html .= "							dialogbox_is_change = true;\n";
 			$html .= "						}\n";
 		}
-    	$html .= "						try {\n";
+		if (get_class($this) == "UploadFile") {
+			$html .= "						ajax_event_response[ajax_event_ind] = myReplaceAll(myReplaceAll(ajax_event_response[ajax_event_ind], '{#wsp_lt}', '<'), '{#wsp_gt}', '>');\n";
+		}
+		$html .= "						try {\n";
 	    $html .= "							eval(ajax_event_response[ajax_event_ind]);\n";
 	    $html .= "						} catch (e) {\n";
 	    $html .= "							console.log('Js error: ' + e.message + '\\nCode: ' + ajax_event_response[ajax_event_ind]);\n";
@@ -530,26 +547,34 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 	    	$html .= "				restoreEncryptedObject".get_class($this)."_".$this->getEventObjectName()."();\n";
 	    }
 	    $html .= "			},\n";
-	    $html .= "			error: function(transport) {\n";
-	    $html .= "				isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;\n";
-	    $html .= "				if (!abort_last_request || (abort_last_request && trim(transport.statusText) != 'abort')) {\n";
-	    if (gettype($this->ajax_wait_message) == "object") {
-			$html .= "					$('#".$this->ajax_wait_message->getId()."').css('display', 'none');\n";
-		} else {
-	    	$html .= "					".$loading_modalbox->close()->render()."\n";
-		}
-		$html .= "					if (trim(transport.responseText) == '') {\n";
-	    $html .= "						".$error_unknow_alert->render();
-	    $html .= "					} else {\n";
-	    $html .= "						".$error_alert->render();
-	    $html .= "					}\n";
-		$html .= "				}\n";
-	    $html .= "				$('#Callback_".$this->getEventObjectName()."').val('');\n";
-	    if ($this->is_ajax_event) {
-	    	$html .= "				restoreEncryptedObject".get_class($this)."_".$this->getEventObjectName()."();\n";
+	    
+	    if (get_class($this) == "UploadFile") {
+	    	$html .= "			'json');";
+	    } else {
+		    $html .= "			error: function(transport) {\n";
+		    $html .= "				isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;\n";
+		    $html .= "				if (!abort_last_request || (abort_last_request && trim(transport.statusText) != 'abort')) {\n";
+		    if (gettype($this->ajax_wait_message) == "object") {
+				$html .= "					$('#".$this->ajax_wait_message->getId()."').css('display', 'none');\n";
+			} else {
+		    	$html .= "					".$loading_modalbox->close()->render()."\n";
+			}
+			$html .= "					if (trim(transport.responseText) == '') {\n";
+		    $html .= "						".$error_unknow_alert->render();
+		    $html .= "					} else {\n";
+		    $html .= "						".$error_alert->render();
+		    $html .= "					}\n";
+			$html .= "				}\n";
+		    $html .= "				$('#Callback_".$this->getEventObjectName()."').val('');\n";
+		    if ($this->is_ajax_event) {
+		    	$html .= "				restoreEncryptedObject".get_class($this)."_".$this->getEventObjectName()."();\n";
+		    }
+		    $html .= "			}\n";
 	    }
-	    $html .= "			}\n";
-		$html .= "		});\n";
+	    
+	    if (get_class($this) != "UploadFile") {
+			$html .= "		});\n";
+	    }
 		$html .= "	};\n";
 		
 		if ($this->is_ajax_event) {
@@ -631,7 +656,7 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 			(isset($_GET['dialogbox_level']) || isset($_GET['tabs_object_id']))) {
 				if (get_class($this) == "Button" && $this->is_link || get_class($this) == "Picture" || 
 					get_class($this) == "SortableEvent" || get_class($this) == "ContextMenuEvent" || 
-					get_class($this) == "DroppableEvent") {
+					get_class($this) == "DroppableEvent" || get_class($this) == "UploadFile") {
 						// it's ok for these cases
 				} else {
 					throw new NewException("Object ".get_class($this)." must link to a Form Object when he have a callback method in a DialogBox or a Tabs", 0, getDebugBacktrace(1));

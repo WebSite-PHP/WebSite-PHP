@@ -16,8 +16,8 @@
  * @package database
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.5
  * @access      public
  * @since       1.0.17
  */
@@ -452,7 +452,7 @@ class SqlDataView {
 				}
 				$i=0;
 				foreach ($row as $key => $value) {
-					if (isset($attributes_type[$i]) && $attributes_type[$i] == "datetime") {
+					if (isset($attributes_type[$i]) && $attributes_type[$i] == "datetime" && $value != "") {
 						$value = new DateTime($value);
 					}
 					$data_row->setValue($key, $value);

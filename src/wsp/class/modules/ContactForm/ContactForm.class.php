@@ -18,8 +18,8 @@
  * @subpackage ContactForm
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.5
  * @access      public
  * @since       1.0.84
  */
@@ -180,22 +180,27 @@ class ContactForm extends WebSitePhpObject {
 			$dialog = new DialogBox(__(ERROR), __(ERROR_CAPTCHA));
 			$this->page_object->addObject($dialog->activateCloseButton());
 		} else {
-			$message = __(CONTACTFORM_NAME).": ".utf8_encode($this->getContactName())."<br/>".__(CONTACTFORM_EMAIL).": ".$this->getContactEmail()."<br/>".__(CONTACTFORM_SUBJECT).": ".utf8_encode($this->getContactSubject())."<br/><br/>".__(CONTACTFORM_MESSAGE).": <br/>".utf8_encode($this->getContactMessage());
-			$mail = new SmtpMail($this->mail_to, __($this->mail_to_name), __(SITE_NAME)." : ".utf8_encode($this->getContactSubject()), $message, $this->getContactEmail(), utf8_encode($this->getContactName()));
-			if(!$mail->Send()) {
-				$dialog = new DialogBox(__(CONTACTFORM_MAIL)." ".__(ERROR), $mail->getErrorInfo());
-				$this->page_object->addObject($dialog->activateCloseButton());
-			} else {
-				if ($this->send_wait_mail) {
-					if ($this->send_wait_mail_message == "") {
-						$this->send_wait_mail_message = __(CONTACTFORM_SEND_WAIT_MAIL_MESSAGE, $this->getContactName(), SITE_NAME, $this->mail_to_name);
+			try {
+				$message = __(CONTACTFORM_NAME).": ".utf8encode($this->getContactName())."<br/>".__(CONTACTFORM_EMAIL).": ".$this->getContactEmail()."<br/>".__(CONTACTFORM_SUBJECT).": ".utf8encode($this->getContactSubject())."<br/><br/>".__(CONTACTFORM_MESSAGE).": <br/>".utf8encode($this->getContactMessage());
+				$mail = new SmtpMail($this->mail_to, __($this->mail_to_name), __(SITE_NAME)." : ".utf8encode($this->getContactSubject()), $message, $this->getContactEmail(), utf8encode($this->getContactName()));
+				if(!$mail->Send()) {
+					$dialog = new DialogBox(__(CONTACTFORM_MAIL)." ".__(ERROR), $mail->getErrorInfo());
+					$this->page_object->addObject($dialog->activateCloseButton());
+				} else {
+					if ($this->send_wait_mail) {
+						if ($this->send_wait_mail_message == "") {
+							$this->send_wait_mail_message = __(CONTACTFORM_SEND_WAIT_MAIL_MESSAGE, $this->getContactName(), SITE_NAME, $this->mail_to_name);
+						}
+						$wait_mail = new SmtpMail($this->getContactEmail(), utf8encode($this->getContactName()), __(SITE_NAME), utf8encode($this->send_wait_mail_message), $this->mail_to, utf8encode($this->mail_to_name));
+						$wait_mail->Send();
 					}
-					$wait_mail = new SmtpMail($this->getContactEmail(), utf8_encode($this->getContactName()), __(SITE_NAME), utf8_encode($this->send_wait_mail_message), $this->mail_to, utf8_encode($this->mail_to_name));
-					$wait_mail->Send();
+					$dialog = new DialogBox(__(CONTACTFORM_MAIL), __(CONTACTFORM_MAIL_SENT));
+					$this->page_object->addObject($dialog->activateCloseButton());
+					$this->page_object->forceObjectsDefaultValues();
 				}
-				$dialog = new DialogBox(__(CONTACTFORM_MAIL), __(CONTACTFORM_MAIL_SENT));
+			} catch (Exception $ex) {
+				$dialog = new DialogBox(__(ERROR), __(ERROR).": ".$ex->getMessage());
 				$this->page_object->addObject($dialog->activateCloseButton());
-				$this->page_object->forceObjectsDefaultValues();
 			}
 		}
 	}
