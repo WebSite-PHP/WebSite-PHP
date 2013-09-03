@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.6
  * @access      public
  * @since       1.0.17
  */
@@ -489,7 +489,7 @@ class Object extends WebSitePhpEventObject {
 		}
 		$this->sortable = $bool;
 		$this->sortable_params = $sortable_params;
-		$this->sortable_disable_selection = $disabled_selection;
+		$this->sortable_disable_selection = $disable_selection;
 		if ($sortable_event != null) {
 			if (get_class($sortable_event) != "SortableEvent") {
 				throw new NewException("Error Object->setDraggable(): $sortable_event is not a SortableEvent object", 0, getDebugBacktrace(1));

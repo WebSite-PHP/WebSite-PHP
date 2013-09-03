@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.5
+ * @version     1.2.6
  * @access      public
  * @since       1.0.0
  */
@@ -40,6 +40,8 @@ class Page extends AbstractPage {
 	const CACHE_TIME_3HOURS = 10800;
 	const CACHE_TIME_4HOURS = 14400;
 	const CACHE_TIME_6HOURS = 21600;
+	const CACHE_TIME_8HOURS = 28800;
+	const CACHE_TIME_10HOURS = 36000;
 	const CACHE_TIME_12HOURS = 43200;
 	const CACHE_TIME_1DAY = 86400;
 	const CACHE_TIME_2DAYS = 172800;
@@ -866,8 +868,9 @@ class Page extends AbstractPage {
 		foreach ($this->objects as $class_name => $object_array) {
 			if ($class_name != "Form") {
 				foreach ($object_array as $object) {
-					if (get_class($object) != "Button") {
-						$object->setValue($object->getDefaultValue());
+					if (get_class($object) != "Button" && 
+						method_exists($object, "setValue") && method_exists($object, "getDefaultValue")) {
+							$object->setValue($object->getDefaultValue());
 					}
 				}
 			}
@@ -1634,8 +1637,19 @@ class Page extends AbstractPage {
 		} else {
 			$is_crawler = (trim($this->browser['crawler'])=="true")?true:false;
 		}
-		if (!$is_crawler && find($this->getBrowserUserAgent(), "facebookexternalhit") > 0) {
-			$is_crawler = true;
+		if (!$is_crawler) {
+			if (file_exists(dirname(__FILE__)."/../../config/crawlers.cnf")) {
+				$custom_crawlers = file_get_contents(dirname(__FILE__)."/../../config/crawlers.cnf");
+				$array_custom_crawlers = explode("\n", str_replace("\r", "", $custom_crawlers));
+				for ($i=0; $i < sizeof($array_custom_crawlers); $i++) {
+					if ($array_custom_crawlers[$i][0] == "#" || trim($array_custom_crawlers[$i]) == "") {
+						continue;
+					} else if (find($this->getBrowserUserAgent(), $array_custom_crawlers[$i]) > 0) {
+						$is_crawler = true;
+						break;
+					}
+				}
+			}
 		}
 		return $is_crawler;
 	}

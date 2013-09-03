@@ -18,8 +18,8 @@
  * @subpackage advanced_object
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.6
  * @access      public
  * @since       1.0.17
  */
@@ -34,6 +34,7 @@ class LiveValidation extends WebSitePhpObject {
 	private $field_name = "";
 	
 	private $validate_js = "";
+	private $valid_init = false;
 	/**#@-*/
 
 	/**
@@ -245,6 +246,17 @@ class LiveValidation extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method activeValidationOnInit
+	 * @access public
+	 * @return LiveValidation
+	 * @since 1.2.6
+	 */
+	public function activeValidationOnInit() {
+		$this->valid_init = true;
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -273,6 +285,9 @@ class LiveValidation extends WebSitePhpObject {
 		}
 		$html .= ");\n";
 		$html .= "	LV_".$id.$this->validate_js.";\n";
+		if ($this->valid_init) {
+			$html .= "	LV_".$id.".validate();\n";
+		}
 		
 		if (method_exists($this->object, "getFormObject")) {
 			$form_object = $this->object->getFormObject();

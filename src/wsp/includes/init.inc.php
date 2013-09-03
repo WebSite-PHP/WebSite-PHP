@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.5
+ * @version     1.2.6
  * @access      public
  * @since       1.1.0
  */
@@ -39,7 +39,7 @@
 			$mod_rewrite = (strpos($contents, 'mod_rewrite') !== false);
 		}
 		if (!$mod_rewrite) {
-			echo "Please change your Apache configuration to be compatible with <a href='http://www.website-php.com' target='_blank'>WebSite-PHP</a>:<br/>- You must activate the apache module mod_rewrite!<br/><a href='http://httpd.apache.org/docs/current/en/mod/mod_rewrite.html' target='_blank'>http://httpd.apache.org/docs/current/en/mod/mod_rewrite.html</a>\n";
+			echo "Please change your Apache configuration to be compatible with <a href='http://www.website-php.com' target='_blank'>WebSite-PHP</a>:<br/>- You must activate the apache module mod_rewrite!<br/>(Uncomment in Apache httpd.conf file the line with LoadModule rewrite_module modules/mod_rewrite.so)<br/><a href='http://httpd.apache.org/docs/current/en/mod/mod_rewrite.html' target='_blank'>http://httpd.apache.org/docs/current/en/mod/mod_rewrite.html</a>\n";
 			exit;
 		}
 	}

@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.6
  * @access      public
  * @since       1.0.17
  */
@@ -44,7 +44,7 @@ class TextBox extends WebSitePhpEventObject {
 	private $strip_tags = false;
 	private $strip_tags_allowable = "";
 	
-	private $live_validation = null;
+	protected $live_validation = null;
 	private $is_clearable = false;
 	
 	private $is_changed = false;
@@ -435,6 +435,16 @@ class TextBox extends WebSitePhpEventObject {
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
+
+	/**
+	 * Method getOnChangeJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.6
+	 */
+	public function getOnChangeJs() {
+		return $this->onchange;
+	}
 	
 	/**
 	 * Method isChanged
@@ -492,6 +502,16 @@ class TextBox extends WebSitePhpEventObject {
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
+
+	/**
+	 * Method getOnClickJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.6
+	 */
+	public function getOnClickJs() {
+		return $this->onclick;
+	}
 	
 	/**
 	 * Method isClicked
@@ -543,6 +563,16 @@ class TextBox extends WebSitePhpEventObject {
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
+
+	/**
+	 * Method getOnMouseOutJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.6
+	 */
+	public function getOnMouseOutJs() {
+		return $this->onmouseout;
+	}
 	
 	/**
 	 * Method onBlur
@@ -581,6 +611,16 @@ class TextBox extends WebSitePhpEventObject {
 		$this->onblur = trim($js_function);
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
+	}
+
+	/**
+	 * Method getOnBlurJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.6
+	 */
+	public function getOnBlurJs() {
+		return $this->onblur;
 	}
 	
 	/**
@@ -621,6 +661,16 @@ class TextBox extends WebSitePhpEventObject {
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
+
+	/**
+	 * Method getOnKeyPressJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.6
+	 */
+	public function getOnKeyPressJs() {
+		return $this->onkeypress;
+	}
 	
 	/**
 	 * Method onKeyUp
@@ -659,6 +709,16 @@ class TextBox extends WebSitePhpEventObject {
 		$this->onkeyup = trim($js_function);
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
+	}
+
+	/**
+	 * Method getOnKeyUpJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.6
+	 */
+	public function getOnKeyUpJs() {
+		return $this->onkeyup;
 	}
 	
 	/**

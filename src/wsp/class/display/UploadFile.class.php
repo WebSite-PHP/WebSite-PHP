@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.5
+ * @version     1.2.6
  * @access      public
  * @since       1.2.3
  */
@@ -461,27 +461,42 @@ class UploadFile extends WebSitePhpEventObject {
 		}
 		
 		// Generate HTML
-		$html .= "<span class=\"UploadFile\">";
-		$html .= "<input type=\"text\" id=\"UploadFile_Path_".$this->id."\"";
-		if ($this->width != "") {
-			$html .= " width=\"".$this->width."\"";
+		if (!is_browser_ie()) {
+			$html .= "<span class=\"UploadFile\">";
+			$html .= "<input type=\"text\" id=\"UploadFile_Path_".$this->id."\"";
+			if ($this->width != "") {
+				$html .= " width=\"".$this->width."\"";
+			}
+			$html .= " disabled/>";
+			$html .= "<label id=\"UploadFile_Button_".$this->id."\" class=\"button";
+			if ($this->class != "") {
+				$html .= " ".$this->class;
+			}
+			$html .= "\">".$this->button_value."</label><input type='file' name='".$this->getEventObjectName()."' id='".$this->id."' class='UploadFileInput'/>";
+			$html .= "</span>";
+		} else {
+			$html .= "<input type='file' name='".$this->getEventObjectName()."' id='".$this->id."'";
+			if ($this->width != "") {
+				$html .= " width=\"".$this->width."\"";
+			}
+			if ($this->class != "") {
+				$html .= " class='".$this->class."'";
+			}
+			$html .= "'/>";
 		}
-		$html .= " disabled/>";
-		$html .= "<label id=\"UploadFile_Button_".$this->id."\" class=\"button";
-		if ($this->class != "") {
-			$html .= " ".$this->class."'";
-		}
-		$html .= "\">".$this->button_value."</label><input type='file' name='".$this->getEventObjectName()."' id='".$this->id."' class='UploadFileInput'/>";
-		$html .= "</span>";
 		
 		$html .= $this->getJavascriptTagOpen();
-		$html .= "\$('#UploadFile_Button_".$this->id."').click(function(event){\n";
-		$html .= "	\$('#".$this->id."').click()\n";
-		$html .= "});\n";
+		if (!is_browser_ie()) {
+			$html .= "\$('#UploadFile_Button_".$this->id."').click(function(event){\n";
+			$html .= "	\$('#".$this->id."').click()\n";
+			$html .= "});\n";
+		}
 		$html .= "\$('#".$this->id."').change(function(){\n";
-		$html .= "	var current_file = myReplaceAll(\$(this).val(), '\\\\', '/').split('/');\n";
-		$html .= "	current_file = current_file[current_file.length-1];\n";
-		$html .= "	\$('#UploadFile_Path_".$this->id."').val(current_file);\n";
+		if (!is_browser_ie()) {
+			$html .= "	var current_file = myReplaceAll(\$(this).val(), '\\\\', '/').split('/');\n";
+			$html .= "	current_file = current_file[current_file.length-1];\n";
+			$html .= "	\$('#UploadFile_Path_".$this->id."').val(current_file);\n";
+		}
 		if ($this->onchange != "" || $this->callback_onchange != "") {
 			$html .= "	".str_replace("\n", "", $this->getObjectEventValidationRender($this->onchange, $this->callback_onchange))."\n";
 		}

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.5
+ * @version     1.2.6
  * @access      public
  * @since       1.2.1
  */
@@ -209,6 +209,8 @@ class ModelViewMapper {
 					} else {
 						$field->setValue("off");
 					}
+				} else if (get_class($field) == "Calendar") {
+					$field->setValue($value);
 				} else {
 					$field->setValue(utf8encode($value));
 				}

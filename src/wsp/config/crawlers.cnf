@@ -1,0 +1,15 @@
+# In this config file, you can specify the list of crawler not recognized by default by WSP
+
+#Facebook
+facebookexternalhit
+
+#Ads crawler
+grapeshot.co.uk
+proximic.com/info/spider.php
+
+#Chinese search engine
+soso.com/webspider.htm
+#Backlinks search engine
+semrush.com/bot.html
+#Alexa crawler
+ia_archiver

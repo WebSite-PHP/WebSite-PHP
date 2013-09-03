@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.6
  * @access      public
  * @since       1.0.93
  */
@@ -177,6 +177,26 @@ class Calendar extends TextBox {
 		$this->dateFormat = $dateFormat;
 		return $this;
 	}
+    
+	/**
+	 * Method getDateFormat
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.6
+	 */
+    public function getDateFormat() {
+        return $this->dateFormat;
+    }
+    
+	/**
+	 * Method getConvertedDateFormat
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.6
+	 */
+    public function getConvertedDateFormat() {
+        return $this->dateFormatConvertPhpFormat[$this->dateFormat];
+    }
 	
 	/**
 	 * Method showButtonPanel
@@ -325,6 +345,9 @@ class Calendar extends TextBox {
 	 * @since 1.0.93
 	 */
 	public function render($ajax_render=false) {
+		if ($this->live_validation != null) {
+			parent::onChangeJs(parent::getOnChangeJs()."LV_".$this->getId().".validate();");
+		}
 		$html = parent::render($ajax_render);
 		
 		$html .= $this->getJavascriptTagOpen();

@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.5
+ * @version     1.2.6
  * @access      public
  * @since       1.0.86
  */
@@ -54,25 +54,7 @@ class FacebookComments extends WebSitePhpObject {
 		parent::__construct();
 		
 		if ($url_to_comment == "") {
-			$http_type = "";
-			$split_request_uri = explode("\?", $_SERVER['REQUEST_URI']);
-			if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
-				if ($_SERVER['SERVER_PORT'] == 443) {
-					$http_type = "https://";
-					$current_url = str_replace("//", "/", $_SERVER['SERVER_NAME'].substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
-				} else {
-					$port = "";
-					if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
-						$port = ":".$_SERVER['SERVER_PORT'];
-					}
-					$http_type = "http://";
-					$current_url = str_replace("//", "/", $_SERVER['SERVER_NAME'].$port.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
-				}
-			} else {
-				$http_type = "http://";
-				$current_url = str_replace("//", "/", FORCE_SERVER_NAME.substr($split_request_uri[0], 0, strrpos($split_request_uri[0], "/"))."/");
-			}
-			$this->url_to_comment = $current_url;
+			$this->url_to_comment = $this->getPage()->getCurrentURLWithoutParameters();
 		} else {
 			$this->url_to_comment = $url_to_comment;
 		}

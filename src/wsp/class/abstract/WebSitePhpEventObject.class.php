@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.5
+ * @version     1.2.6
  * @access      public
  * @since       1.0.18
  */
@@ -288,16 +288,25 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 	protected function loadCallbackMethod($str_function, $array_args=array()) {
 		$callback = "";
 		$this->callback_args = "";
-		$str_function = trim($str_function);
 		
-		if ($this->form_object == null || $this->form_object->getAction() == "") {
-			$page_object = $this->page_object;
-		} else {
-			$action_page = $this->form_object->getAction();
-			$action_page = explode('?', $action_page);
-			$action_page = str_replace(".html", "", $action_page[0]);
-			$page_object = Page::getInstance($action_page);
-		}
+		// TODO: add the posibility to do a callback to another object
+		/*if (is_array($str_function)) {
+			if (gettype($str_function[0]) == "object" || sizeof($str_function) != 2) {
+				throw new NewException(get_class($this)."->loadCallbackMethod() error: \$str_function can be an array, but you need to define like it: array(\$this, \"methodToCall\").", 0, getDebugBacktrace(1));
+			}
+			$page_object = $str_function[0];
+			$str_function = trim($str_function[1]);
+		} else {*/
+			$str_function = trim($str_function);
+			if ($this->form_object == null || $this->form_object->getAction() == "") {
+				$page_object = $this->page_object;
+			} else {
+				$action_page = $this->form_object->getAction();
+				$action_page = explode('?', $action_page);
+				$action_page = str_replace(".html", "", $action_page[0]);
+				$page_object = Page::getInstance($action_page);
+			}
+		//}
 		$str_function_tmp = $str_function;
 		$pos = strpos($str_function_tmp, "(");
 		if ($pos > 0) {
@@ -751,7 +760,7 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 				$html .= $encrypt_html;
 				$html .= "$('#".$this->form_object->getId()."').submit();\n";
 			} else if ($callback != "") {
-				$html .= "location.href='".$this->generateCurrentUrlWithCallback()."';\n";
+				$html .= "location.href='".$this->getPage()->getBaseURL()."/".$this->generateCurrentUrlWithCallback()."';\n";
 			}
 		}
 		return $html;

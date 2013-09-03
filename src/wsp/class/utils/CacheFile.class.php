@@ -16,8 +16,8 @@
  * @package utils
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.6
  * @access      public
  * @since       1.0.64
  */
@@ -38,6 +38,8 @@ class CacheFile {
 	const CACHE_TIME_3HOURS = 10800;
 	const CACHE_TIME_4HOURS = 14400;
 	const CACHE_TIME_6HOURS = 21600;
+	const CACHE_TIME_8HOURS = 28800;
+	const CACHE_TIME_10HOURS = 36000;
 	const CACHE_TIME_12HOURS = 43200;
 	const CACHE_TIME_1DAY = 86400;
 	const CACHE_TIME_2DAYS = 172800;

@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.5
+ * @version     1.2.6
  * @access      public
  * @since       1.0.84
  */
@@ -189,7 +189,7 @@ class ContactForm extends WebSitePhpObject {
 				} else {
 					if ($this->send_wait_mail) {
 						if ($this->send_wait_mail_message == "") {
-							$this->send_wait_mail_message = __(CONTACTFORM_SEND_WAIT_MAIL_MESSAGE, $this->getContactName(), SITE_NAME, $this->mail_to_name);
+							$this->send_wait_mail_message = __(CONTACTFORM_SEND_WAIT_MAIL_MESSAGE, $this->getContactName(), __(SITE_NAME), $this->mail_to_name);
 						}
 						$wait_mail = new SmtpMail($this->getContactEmail(), utf8encode($this->getContactName()), __(SITE_NAME), utf8encode($this->send_wait_mail_message), $this->mail_to, utf8encode($this->mail_to_name));
 						$wait_mail->Send();

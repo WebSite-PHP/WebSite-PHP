@@ -16,8 +16,8 @@
  * @package database
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.2
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.6
  * @access      public
  * @since       1.0.17
  */
@@ -85,7 +85,7 @@ class DataRow {
 				$value = str_replace("&rsquo;", "'", $value);
 				$value = str_replace("&acute;", "'", $value);
 			} 
-			return utf8decode($value);
+			return utf8encode($value);
 		} else {
 			return $this->row[$attribute];
 		}

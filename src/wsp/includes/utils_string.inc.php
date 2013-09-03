@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 11/04/2013
+ * @version     1.2.6
  * @access      public
  * @since       1.2.1
  */
@@ -87,15 +87,15 @@
 	function convert12HourTo24Hour($hour) {
 		$array_hour = explode(':', $hour);
 		if (find($array_hour[1], "PM") > 0) {
-			$hour = str_replace(" PM", "", $hour);
 			if (intval($array_hour[0]) != 12) {
 				$hour = (intval($array_hour[0])+12).":".$array_hour[1];
 			}
+			$hour = str_replace(" PM", "", $hour);
 		} else if (find($array_hour[1], "AM") > 0) {
-			$hour = str_replace(" AM", "", $hour);
 			if (intval($array_hour[0]) == 12) {
 				$hour = "00:".$array_hour[1];
 			}
+			$hour = str_replace(" AM", "", $hour);
 		}
 		return $hour;
 	}
