@@ -17,14 +17,14 @@ Location: /display/Link.class.php
 Class Link
 
 
-WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.5
+*version:* 1.2.7
 
-*copyright:* WebSite-PHP.com 26/05/2011
+*copyright:* WebSite-PHP.com 17/01/2014
 
 *link:* 
 
@@ -82,7 +82,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																										
+																																																																																														
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpObject ===
@@ -95,8 +95,12 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method addJavaScript
 			* `WebSitePhpObject::displayJavascriptTag()`
 		Method displayJavascriptTag
+			* `WebSitePhpObject::forceAjaxRender()`
+		
 			* `WebSitePhpObject::getAjaxRender()`
 		Method getAjaxRender
+			* `WebSitePhpObject::getClass()`
+		
 			* `WebSitePhpObject::getCssArray()`
 		Method getCssArray
 			* `WebSitePhpObject::getJavaScriptArray()`
@@ -113,6 +117,8 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method getRegisterObjects
 			* `WebSitePhpObject::getTag()`
 		Method getTag
+			* `WebSitePhpObject::getType()`
+		
 			* `WebSitePhpObject::isEventObject()`
 		Method isEventObject
 			* `WebSitePhpObject::isJavascriptObject()`
@@ -173,6 +179,50 @@ Method addLightbox
 
 
 *since:* 1.0.35
+
+*access:* public
+
+
+
+= Link::getAjaxRender =
+
+*getAjaxRender(*
+* );*
+
+
+Overrides WebSitePhpObject::getAjaxRender() (Method getAjaxRender)
+	
+
+	
+*Returns*
+		javascript code to update initial html of object Link (call with AJAX)
+
+*Remarks*
+
+Method getAjaxRender
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= Link::getId =
+
+*getId(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getId
+
+
+*since:* 1.2.3
 
 *access:* public
 
@@ -334,6 +384,74 @@ Method setContent
 
 
 
+= Link::setId =
+
+*setId(*
+*mixed*
+_$id_* );*
+
+
+	
+
+	
+*Parameters*
+			_$id_ 
+		
+*Remarks*
+
+Method setId
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= Link::setItemProp =
+
+*setItemProp(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method setItemProp
+
+
+*since:* 1.2.7
+
+*access:* public
+
+
+
+= Link::setLink =
+
+*setLink(*
+*mixed*
+_$link_* );*
+
+
+	
+
+	
+*Parameters*
+			_$link_ 
+		
+*Remarks*
+
+Method setLink
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
 = Link::setNofollowLink =
 
 *setNofollowLink(*
@@ -349,6 +467,78 @@ Method setNofollowLink
 
 
 *since:* 1.0.67
+
+*access:* public
+
+
+
+= Link::setProperty =
+
+*setProperty(*
+*mixed*
+_$property_* );*
+
+
+	
+
+	
+*Parameters*
+			_$property_ 
+		
+*Remarks*
+
+Method setProperty
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= Link::setRel =
+
+*setRel(*
+*mixed*
+_$rel_* );*
+
+
+	
+
+	
+*Parameters*
+			_$rel_ 
+		
+*Remarks*
+
+Method setRel
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= Link::setStyle =
+
+*setStyle(*
+*mixed*
+_$style_* );*
+
+
+	
+
+	
+*Parameters*
+			_$style_ 
+		
+*Remarks*
+
+Method setStyle
+
+
+*since:* 1.2.3
 
 *access:* public
 
@@ -451,6 +641,32 @@ Method setTrackEvent
 
 
 *since:* 1.0.96
+
+*access:* public
+
+
+
+= Link::tooltip =
+
+*tooltip(*
+*mixed*
+_$tooltip_obj_, *mixed*
+_$title_* );*
+
+
+	
+
+	
+*Parameters*
+			_$tooltip_obj_ 
+			_$title_ 
+		
+*Remarks*
+
+Method tooltip
+
+
+*since:* 1.2.5
 
 *access:* public
 

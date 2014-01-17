@@ -1,10 +1,16 @@
-#labels Class,WebSite-PHP,Authentication,WebSitePhpObject,Authentication
+#labels Class,WebSite-PHP,Authentication,WebSitePhpObject,Authentication,AuthenticationLDAP
 = Class Authentication =
 
 WebSitePhpObject
    |
    --Authentication
 
+
+Classes extended from Authentication:
+ 		AuthenticationLDAP
+	    |
+	    --Class AuthenticationLDAP
+	
 
 
 Location: /modules/Authentication/Authentication.class.php
@@ -17,14 +23,14 @@ Location: /modules/Authentication/Authentication.class.php
 Class Authentication
 
 
-WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.6
+*version:* 1.2.7
 
-*copyright:* WebSite-PHP.com 31/05/2011
+*copyright:* WebSite-PHP.com 17/01/2014
 
 *link:* 
 
@@ -35,6 +41,15 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 ----
 == Class Variable Summary ==
+											* `$authentication_msg` = ` true`
+		
+		
+					* `$color_error` = ` 'red'`
+		
+		
+					* `$color_ok` = ` '#00FF33'`
+		
+		
 		
 ----
 == Class Constant Summary ==
@@ -79,7 +94,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																														
+																																																																																																						
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpObject ===
@@ -92,8 +107,12 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method addJavaScript
 			* `WebSitePhpObject::displayJavascriptTag()`
 		Method displayJavascriptTag
+			* `WebSitePhpObject::forceAjaxRender()`
+		
 			* `WebSitePhpObject::getAjaxRender()`
 		Method getAjaxRender
+			* `WebSitePhpObject::getClass()`
+		
 			* `WebSitePhpObject::getCssArray()`
 		Method getCssArray
 			* `WebSitePhpObject::getJavaScriptArray()`
@@ -110,6 +129,8 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method getRegisterObjects
 			* `WebSitePhpObject::getTag()`
 		Method getTag
+			* `WebSitePhpObject::getType()`
+		
 			* `WebSitePhpObject::isEventObject()`
 		Method isEventObject
 			* `WebSitePhpObject::isJavascriptObject()`
@@ -138,7 +159,10 @@ _$button_class_ = ''], [*string*
 _$table_style_ = '']* );*
 
 
-Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
+	Overridden in child classes as:
+		AuthenticationLDAP::__construct()
+		  Constructor AuthenticationLDAP
+	Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
 	
 
 	
@@ -154,6 +178,141 @@ Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
 
 Constructor Authentication
 
+
+
+
+= Authentication::addCustomField =
+
+*addCustomField(*
+*mixed*
+_$field_obj_, [*string*
+_$label_ = '']* );*
+
+
+	
+
+	
+*Parameters*
+			_$field_obj_ 
+			_$label_ 
+		
+*Remarks*
+
+Method addCustomField
+
+
+*since:* 1.2.2
+
+*access:* public
+
+
+
+= Authentication::connect =
+
+*connect(*
+[*boolean*
+_$redirect_ = true], [*string*
+_$redirect_url_ = 'REFERER']* );*
+
+
+	Overridden in child classes as:
+		AuthenticationLDAP::connect()
+		  Method connect
+		
+
+	
+*Parameters*
+			_$redirect_ [default value: true]
+			_$redirect_url_ [default value: REFERER]
+		
+*Remarks*
+
+Method connect
+
+
+*since:* 1.1.11
+
+*access:* public
+
+
+
+= Authentication::disableAjaxEvent =
+
+*disableAjaxEvent(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method disableAjaxEvent
+
+
+*since:* 1.2.1
+
+*access:* public
+
+
+
+= Authentication::disableAjaxWaitMessage =
+
+*disableAjaxWaitMessage(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method disableAjaxWaitMessage
+
+
+*since:* 1.2.1
+
+*access:* public
+
+
+
+= Authentication::disablePrefillLoginPassword =
+
+*disablePrefillLoginPassword(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method disablePrefillLoginPassword
+
+
+*since:* 1.2.2
+
+*access:* public
+
+
+
+= Authentication::getForm =
+
+*getForm(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getForm
+
+
+*since:* 1.2.2
+
+*access:* public
 
 
 
@@ -242,6 +401,30 @@ Method render
 
 
 
+= Authentication::setAjaxWaitMessage =
+
+*setAjaxWaitMessage(*
+*mixed*
+_$message_or_object_* );*
+
+
+	
+
+	
+*Parameters*
+			_$message_or_object_ 
+		
+*Remarks*
+
+Method setAjaxWaitMessage
+
+
+*since:* 1.2.1
+
+*access:* public
+
+
+
 = Authentication::setAuthentificationMessage =
 
 *setAuthentificationMessage(*
@@ -270,35 +453,316 @@ Method setAuthentificationMessage
 
 
 
-= Authentication::wspAdminConnect =
+= Authentication::setButtonClass =
 
-*wspAdminConnect(*
-[*boolean*
-_$redirect_ = true], [*string*
-_$redirect_url_ = 'REFERER']* );*
+*setButtonClass(*
+*mixed*
+_$button_class_* );*
 
 
 	
 
 	
 *Parameters*
-			_$redirect_ [default value: true]
-			_$redirect_url_ [default value: REFERER]
+			_$button_class_ 
 		
 *Remarks*
 
-Method wspAdminConnect
+Method setButtonClass
 
 
-*since:* 1.0.84
+*since:* 1.1.11
 
 *access:* public
+
+
+
+= Authentication::setButtonLabel =
+
+*setButtonLabel(*
+*mixed*
+_$label_* );*
+
+
+	
+
+	
+*Parameters*
+			_$label_ 
+		
+*Remarks*
+
+Method setButtonLabel
+
+
+*since:* 1.2.2
+
+*access:* public
+
+
+
+= Authentication::setEncrypt =
+
+*setEncrypt(*
+[*boolean*
+_$encrypt_ = true]* );*
+
+
+	
+
+	
+*Parameters*
+			_$encrypt_ [default value: true]
+		
+*Remarks*
+
+Method setEncrypt
+
+
+*since:* 1.1.11
+
+*access:* public
+
+
+
+= Authentication::setInputWidth =
+
+*setInputWidth(*
+*integer*
+_$width_* );*
+
+
+	
+
+	
+*Parameters*
+			_$width_ 
+		
+*Remarks*
+
+Method setInputWidth
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= Authentication::setLoginLabel =
+
+*setLoginLabel(*
+*mixed*
+_$label_* );*
+
+
+	
+
+	
+*Parameters*
+			_$label_ 
+		
+*Remarks*
+
+Method setLoginLabel
+
+
+*since:* 1.2.2
+
+*access:* public
+
+
+
+= Authentication::setLoginLiveValidation =
+
+*setLoginLiveValidation(*
+*mixed*
+_$live_validation_object_* );*
+
+
+	
+
+	
+*Parameters*
+			_$live_validation_object_ 
+		
+*Remarks*
+
+Method setLoginLiveValidation
+
+
+*since:* 1.2.2
+
+*access:* public
+
+
+
+= Authentication::setPasswordLabel =
+
+*setPasswordLabel(*
+*mixed*
+_$label_* );*
+
+
+	
+
+	
+*Parameters*
+			_$label_ 
+		
+*Remarks*
+
+Method setPasswordLabel
+
+
+*since:* 1.2.2
+
+*access:* public
+
+
+
+= Authentication::setPasswordLiveValidation =
+
+*setPasswordLiveValidation(*
+*mixed*
+_$live_validation_object_* );*
+
+
+	
+
+	
+*Parameters*
+			_$live_validation_object_ 
+		
+*Remarks*
+
+Method setPasswordLiveValidation
+
+
+*since:* 1.2.2
+
+*access:* public
+
+
+
+= Authentication::setStyle =
+
+*setStyle(*
+[*mixed*
+_$style_ = Authentication::STYLE_2_LINES]* );*
+
+
+	
+
+	
+*Parameters*
+			_$style_ [default value: Authentication::STYLE_2_LINES]
+		
+*Remarks*
+
+Method setStyle
+
+
+*since:* 1.1.11
+
+*access:* public
+
+
+
+= Authentication::setTableStyle =
+
+*setTableStyle(*
+*mixed*
+_$table_style_* );*
+
+
+	
+
+	
+*Parameters*
+			_$table_style_ 
+		
+*Remarks*
+
+Method setTableStyle
+
+
+*since:* 1.1.11
+
+*access:* public
+
+
+
+= Authentication::setTableWidth =
+
+*setTableWidth(*
+*integer*
+_$width_* );*
+
+
+	
+
+	
+*Parameters*
+			_$width_ 
+		
+*Remarks*
+
+Method setTableWidth
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= Authentication::userIsAuthentificated =
+
+*userIsAuthentificated(*
+*mixed*
+_$strUserRights_, *mixed*
+_$redirect_, *mixed*
+_$redirect_url_* );*
+
+
+	
+
+	
+*Parameters*
+			_$strUserRights_ 
+			_$redirect_ 
+			_$redirect_url_ 
+		
+*Remarks*
+
+Method userIsAuthentificated
+
+
+*since:* 1.1.11
+
+*access:* protected
 
 
 
 ----
 
 == Variable Detail ==
+* `$authentication_msg` = ` true` (line 51)
+* *Data type:* `mixed`
+*access:* protected
+
+
+* `$color_error` = ` 'red'` (line 53)
+* *Data type:* `mixed`
+*access:* protected
+
+
+* `$color_ok` = ` '#00FF33'` (line 52)
+* *Data type:* `mixed`
+*access:* protected
+
+
 
 ----
 == Class Constant Detail ==

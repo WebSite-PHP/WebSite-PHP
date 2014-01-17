@@ -1,20 +1,22 @@
-#labels Class,WebSite-PHP,SwfObject,WebSitePhpObject,SwfObject
-= Class SwfObject =
+#labels Class,WebSite-PHP,Logger,WebSitePhpObject,JavaScript,Logger
+= Class Logger =
 
 WebSitePhpObject
    |
-   --SwfObject
+   --JavaScript
+      |
+      --Logger
 
 
 
-Location: /display/advanced_object/SwfObject.class.php
+Location: /utils/Logger.class.php
 
 ----
 
 
 *Remarks*
 
-Class SwfObject
+Class Logger
 
 
 WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
@@ -28,7 +30,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *link:* 
 
-*since:* 1.0.17
+*since:* 1.1.12
 
 *access:* public
 
@@ -67,9 +69,24 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																						
+								* `static mixed getInstance()`
+		Method getInstance
+														* `mixed getInstance()`
+		Method getInstance
+						
 == Inherited Method Summary == 
 
+=== Inherited From Class JavaScript ===
+
+			* `JavaScript::__construct()`
+		Constructor JavaScript
+			* `JavaScript::displayFormURL()`
+		Method displayFormURL
+			* `JavaScript::getAjaxRender()`
+		Method getAjaxRender
+			* `JavaScript::render()`
+		Method render
+	
 === Inherited From Class WebSitePhpObject ===
 
 			* `WebSitePhpObject::__construct()`
@@ -119,137 +136,89 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 == Method Detail ==
 
 
+= static Logger::getInstance =
 
-= SwfObject::__construct =
+*static getInstance(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getInstance
+
+
+*since:* 1.1.12
+
+*access:* public
+
+
+
+
+= Logger::__construct =
 
 *__construct(*
-*string*
-_$id_, *string*
-_$swf_file_, *integer*
-_$width_, *integer*
-_$height_, [*string*
-_$optional_text_ = '']* );*
+* );*
 
 
-Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
+Overrides JavaScript::__construct() (Constructor JavaScript)
 	
 
 	
-*Parameters*
-			_$id_ 
-			_$swf_file_ 
-			_$width_ 
-			_$height_ 
-			_$optional_text_ 
-		
 *Remarks*
 
-Constructor SwfObject
+Constructor Logger
 
 
 
 
-= SwfObject::addParam =
+= Logger::error =
 
-*addParam(*
-*string*
-_$name_, *string*
-_$value_* );*
+*error(*
+**
+_$msg_* );*
 
 
 	
 
 	
 *Parameters*
-			_$name_ 
-			_$value_ 
-		
-*Remarks*
-
-Method addParam
-
-
-*since:* 1.0.59
-
-*access:* public
+			_$msg_ 
+		*access:* public
 
 
 
-= SwfObject::addVariable =
+= Logger::info =
 
-*addVariable(*
-*string*
-_$name_, *string*
-_$value_* );*
+*info(*
+**
+_$msg_* );*
 
 
 	
 
 	
 *Parameters*
-			_$name_ 
-			_$value_ 
-		
-*Remarks*
-
-Method addVariable
-
-
-*since:* 1.0.59
-
-*access:* public
+			_$msg_ 
+		*access:* public
 
 
 
-= SwfObject::render =
+= Logger::warn =
 
-*render(*
-[*boolean*
-_$ajax_render_ = false]* );*
-
-
-Overrides WebSitePhpObject::render() (Method render)
-	
-
-	
-*Parameters*
-			_$ajax_render_ [default value: false]
-		
-*Returns*
-		html code of object SwfObject
-
-*Remarks*
-
-Method render
-
-
-*since:* 1.0.35
-
-*access:* public
-
-
-
-= SwfObject::setOptionalText =
-
-*setOptionalText(*
-*string*
-_$text_* );*
+*warn(*
+**
+_$msg_* );*
 
 
 	
 
 	
 *Parameters*
-			_$text_ 
-		
-*Remarks*
-
-Method setOptionalText
-
-
-*since:* 1.0.35
-
-*access:* public
+			_$msg_ 
+		*access:* public
 
 
 

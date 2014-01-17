@@ -1,0 +1,112 @@
+#labels Class,WebSite-PHP,AbstractPage,Page
+= Class AbstractPage =
+
+
+
+
+Classes extended from AbstractPage:
+ 		Page
+	    |
+	    --Abstract Class AbstractPage
+	
+
+
+Location: /abstract/display/AbstractPage.class.php
+
+----
+
+
+*Remarks*
+
+Abstract Class AbstractPage
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+*author:* Emilien MOREL <>
+
+*version:* 1.2.7
+
+*copyright:* WebSite-PHP.com 17/01/2014
+
+*link:* 
+
+*abstract:* 
+
+*since:* 1.2.2
+
+*access:* public
+
+
+----
+== Class Variable Summary ==
+		
+----
+== Class Constant Summary ==
+
+	
+----
+== Inherited Class Constant Summary ==
+
+
+----
+== Inherited Class Variable Summary ==
+
+
+----
+== Method Summary == 
+
+														
+== Inherited Method Summary == 
+
+----
+== Method Detail ==
+
+
+
+= AbstractPage::InitializeComponent =
+
+*InitializeComponent(*
+* );*
+
+
+	
+
+	*access:* public
+
+
+
+= AbstractPage::Load =
+
+*Load(*
+* );*
+
+
+	
+
+	*access:* public
+
+
+
+= AbstractPage::Loaded =
+
+*Loaded(*
+* );*
+
+
+	
+
+	*access:* public
+
+
+
+----
+
+== Variable Detail ==
+
+----
+== Class Constant Detail ==
+
+
+----

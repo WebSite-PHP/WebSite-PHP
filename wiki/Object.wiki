@@ -19,14 +19,14 @@ Location: /display/Object.class.php
 Class Object
 
 
-WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.8
+*version:* 1.2.7
 
-*copyright:* WebSite-PHP.com 26/05/2011
+*copyright:* WebSite-PHP.com 17/01/2014
 
 *link:* 
 
@@ -171,6 +171,8 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method getName
 			* `WebSitePhpEventObject::getObjectEventValidationRender()`
 		Method getObjectEventValidationRender
+			* `WebSitePhpEventObject::getSubmitValueIsInit()`
+		
 			* `WebSitePhpEventObject::initSubmitValue()`
 		Method initSubmitValue  Internal method used by an object like ComboBox or TextBox to init it with submitted value (if not already done).
 			* `WebSitePhpEventObject::isAjaxEvent()`
@@ -198,8 +200,12 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method addJavaScript
 			* `WebSitePhpObject::displayJavascriptTag()`
 		Method displayJavascriptTag
+			* `WebSitePhpObject::forceAjaxRender()`
+		
 			* `WebSitePhpObject::getAjaxRender()`
 		Method getAjaxRender
+			* `WebSitePhpObject::getClass()`
+		
 			* `WebSitePhpObject::getCssArray()`
 		Method getCssArray
 			* `WebSitePhpObject::getJavaScriptArray()`
@@ -216,6 +222,8 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method getRegisterObjects
 			* `WebSitePhpObject::getTag()`
 		Method getTag
+			* `WebSitePhpObject::getType()`
+		
 			* `WebSitePhpObject::isEventObject()`
 		Method isEventObject
 			* `WebSitePhpObject::isJavascriptObject()`
@@ -840,8 +848,7 @@ Method setContextMenu
 [*boolean*
 _$bool_ = true], [*boolean*
 _$revert_ = false], [*DraggableEvent*
-_$draggable_event_ = null], [*boolean*
-_$sortable_zone_ = false], [*string*
+_$draggable_event_ = null], [*string*
 _$draggable_params_ = &quot;&quot;]* );*
 
 
@@ -852,7 +859,6 @@ _$draggable_params_ = &quot;&quot;]* );*
 			_$bool_ if object can be move [default value: true]
 			_$revert_ if object revert first place when dropped [default value: false]
 			_$draggable_event_ [default value: null]
-			_$sortable_zone_ [default value: false]
 			_$draggable_params_ 
 		
 *Remarks*
@@ -976,7 +982,8 @@ Method setId
 
 *setItemProp(*
 *mixed*
-_$itemprop_* );*
+_$itemprop_, [*string*
+_$itemprop_content_ = '']* );*
 
 
 	
@@ -984,6 +991,7 @@ _$itemprop_* );*
 	
 *Parameters*
 			_$itemprop_ 
+			_$itemprop_content_ 
 		
 *Remarks*
 
@@ -1098,7 +1106,8 @@ Method setProperty
 [*boolean*
 _$bool_ = true], [*SortableEvent*
 _$sortable_event_ = null], [*string*
-_$sortable_params_ = &quot;&quot;]* );*
+_$sortable_params_ = &quot;&quot;], [*boolean*
+_$disable_selection_ = false]* );*
 
 
 	
@@ -1108,6 +1117,7 @@ _$sortable_params_ = &quot;&quot;]* );*
 			_$bool_ if object can be sort [default value: true]
 			_$sortable_event_ [default value: null]
 			_$sortable_params_ 
+			_$disable_selection_ [default value: false]
 		
 *Remarks*
 

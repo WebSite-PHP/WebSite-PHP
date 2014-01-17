@@ -1,22 +1,22 @@
-#labels Class,WebSite-PHP,Button,WebSitePhpObject,WebSitePhpEventObject,Button
-= Class Button =
+#labels Class,WebSite-PHP,TextArea,WebSitePhpObject,WebSitePhpEventObject,TextArea
+= Class TextArea =
 
 WebSitePhpObject
    |
    --WebSitePhpEventObject
       |
-      --Button
+      --TextArea
 
 
 
-Location: /display/Button.class.php
+Location: /display/TextArea.class.php
 
 ----
 
 
 *Remarks*
 
-Class Button
+Class TextArea
 
 
 WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
@@ -30,16 +30,13 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *link:* 
 
-*since:* 1.0.17
+*since:* 1.2.0
 
 *access:* public
 
 
 ----
 == Class Variable Summary ==
-							* `$is_link` = ` false`
-		
-		
 		
 ----
 == Class Constant Summary ==
@@ -106,7 +103,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																																																																		
+																																																																																																																																																																														
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpEventObject ===
@@ -198,17 +195,15 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 
 
-= Button::__construct =
+= TextArea::__construct =
 
 *__construct(*
-*Page|Form*
+*mixed*
 _$page_or_form_object_, [*string*
 _$name_ = ''], [*string*
 _$id_ = ''], [*string*
-_$value_ = ''], [*double*
-_$width_ = 0], [*boolean*
-_$is_link_ = false], [*string*
-_$class_ = '']* );*
+_$value_ = ''], [*string*
+_$width_ = '']* );*
 
 
 Overrides WebSitePhpEventObject::__construct() (Constructor WebSitePhpEventObject)
@@ -220,20 +215,42 @@ Overrides WebSitePhpEventObject::__construct() (Constructor WebSitePhpEventObjec
 			_$name_ 
 			_$id_ 
 			_$value_ 
-			_$width_ [default value: 0]
-			_$is_link_ [default value: false]
-			_$class_ 
+			_$width_ 
 		
 *Remarks*
 
-Constructor Button
+Constructor TextArea
 
 
 
 
-= Button::assignEnterKey =
+= TextArea::activateSourceCodeEdit =
 
-*assignEnterKey(*
+*activateSourceCodeEdit(*
+[*string*
+_$syntax_ = 'all']* );*
+
+
+	
+
+	
+*Parameters*
+			_$syntax_ [default value: all]
+		
+*Remarks*
+
+Method activateSourceCodeEdit
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= TextArea::allowTabulation =
+
+*allowTabulation(*
 * );*
 
 
@@ -242,16 +259,36 @@ Constructor Button
 	
 *Remarks*
 
-Method assignEnterKey
+Method allowTabulation
 
 
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::disable =
+= TextArea::clearable =
+
+*clearable(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method clearable
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= TextArea::disable =
 
 *disable(*
 * );*
@@ -265,13 +302,13 @@ Method assignEnterKey
 Method disable
 
 
-*since:* 1.2.3
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::enable =
+= TextArea::enable =
 
 *enable(*
 * );*
@@ -285,15 +322,15 @@ Method disable
 Method enable
 
 
-*since:* 1.2.3
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::forceSpanTag =
+= TextArea::forceEmpty =
 
-*forceSpanTag(*
+*forceEmpty(*
 * );*
 
 
@@ -302,16 +339,16 @@ Method enable
 	
 *Remarks*
 
-Method forceSpanTag
+Method forceEmpty
 
 
-*since:* 1.2.1
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::getAjaxRender =
+= TextArea::getAjaxRender =
 
 *getAjaxRender(*
 * );*
@@ -322,20 +359,41 @@ Overrides WebSitePhpObject::getAjaxRender() (Method getAjaxRender)
 
 	
 *Returns*
-		javascript code to update initial html of object Button (call with AJAX)
+		javascript code to update initial html of object TextArea (call with AJAX)
 
 *Remarks*
 
 Method getAjaxRender
 
 
-*since:* 1.0.36
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::getDefaultValue =
+= TextArea::getClass =
+
+*getClass(*
+* );*
+
+
+Overrides WebSitePhpObject::getClass() (parent method not documented)
+	
+
+	
+*Remarks*
+
+Method getClass
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= TextArea::getDefaultValue =
 
 *getDefaultValue(*
 * );*
@@ -349,15 +407,15 @@ Method getAjaxRender
 Method getDefaultValue
 
 
-*since:* 1.0.36
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::getOnClickJs =
+= TextArea::getEncryptObject =
 
-*getOnClickJs(*
+*getEncryptObject(*
 * );*
 
 
@@ -366,16 +424,16 @@ Method getDefaultValue
 	
 *Remarks*
 
-Method getOnClickJs
+Method getEncryptObject
 
 
-*since:* 1.0.36
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::getValue =
+= TextArea::getValue =
 
 *getValue(*
 * );*
@@ -389,15 +447,15 @@ Method getOnClickJs
 Method getValue
 
 
-*since:* 1.0.36
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::hide =
+= TextArea::isChanged =
 
-*hide(*
+*isChanged(*
 * );*
 
 
@@ -406,16 +464,16 @@ Method getValue
 	
 *Remarks*
 
-Method hide
+Method isChanged
 
 
-*since:* 1.0.85
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::isClicked =
+= TextArea::isClicked =
 
 *isClicked(*
 * );*
@@ -429,16 +487,172 @@ Method hide
 Method isClicked
 
 
-*since:* 1.0.36
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::onClick =
+= TextArea::isEncrypted =
+
+*isEncrypted(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method isEncrypted
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= TextArea::noWrap =
+
+*noWrap(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method noWrap
+
+
+*since:* 1.2.2
+
+*access:* public
+
+
+
+= TextArea::onBlur =
+
+*onBlur(*
+*mixed*
+_$str_function_, [*mixed*
+_$arg1_ = null], [*mixed*
+_$arg2_ = null], [*mixed*
+_$arg3_ = null], [*mixed*
+_$arg4_ = null], [*mixed*
+_$arg5_ = null]* );*
+
+
+	
+
+	
+*Parameters*
+			_$str_function_ 
+			_$arg1_ [default value: null]
+			_$arg2_ [default value: null]
+			_$arg3_ [default value: null]
+			_$arg4_ [default value: null]
+			_$arg5_ [default value: null]
+		
+*Remarks*
+
+Method onBlur
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= TextArea::onBlurJs =
+
+*onBlurJs(*
+*mixed*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onBlurJs
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= TextArea::onChange =
+
+*onChange(*
+*mixed*
+_$str_function_, [*mixed*
+_$arg1_ = null], [*mixed*
+_$arg2_ = null], [*mixed*
+_$arg3_ = null], [*mixed*
+_$arg4_ = null], [*mixed*
+_$arg5_ = null]* );*
+
+
+	
+
+	
+*Parameters*
+			_$str_function_ 
+			_$arg1_ [default value: null]
+			_$arg2_ [default value: null]
+			_$arg3_ [default value: null]
+			_$arg4_ [default value: null]
+			_$arg5_ [default value: null]
+		
+*Remarks*
+
+Method onChange
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= TextArea::onChangeJs =
+
+*onChangeJs(*
+*mixed*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onChangeJs
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= TextArea::onClick =
 
 *onClick(*
-*string*
+*mixed*
 _$str_function_, [*mixed*
 _$arg1_ = null], [*mixed*
 _$arg2_ = null], [*mixed*
@@ -463,16 +677,16 @@ _$arg5_ = null]* );*
 Method onClick
 
 
-*since:* 1.0.36
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::onClickJs =
+= TextArea::onClickJs =
 
 *onClickJs(*
-*string|JavaScript*
+*mixed*
 _$js_function_* );*
 
 
@@ -487,13 +701,235 @@ _$js_function_* );*
 Method onClickJs
 
 
-*since:* 1.0.36
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::render =
+= TextArea::onKeyDown =
+
+*onKeyDown(*
+*mixed*
+_$str_function_, [*mixed*
+_$arg1_ = null], [*mixed*
+_$arg2_ = null], [*mixed*
+_$arg3_ = null], [*mixed*
+_$arg4_ = null], [*mixed*
+_$arg5_ = null]* );*
+
+
+	
+
+	
+*Parameters*
+			_$str_function_ 
+			_$arg1_ [default value: null]
+			_$arg2_ [default value: null]
+			_$arg3_ [default value: null]
+			_$arg4_ [default value: null]
+			_$arg5_ [default value: null]
+		
+*Remarks*
+
+Method onKeyDown
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= TextArea::onKeyDownJs =
+
+*onKeyDownJs(*
+*mixed*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onKeyDownJs
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= TextArea::onKeyPress =
+
+*onKeyPress(*
+*mixed*
+_$str_function_, [*mixed*
+_$arg1_ = null], [*mixed*
+_$arg2_ = null], [*mixed*
+_$arg3_ = null], [*mixed*
+_$arg4_ = null], [*mixed*
+_$arg5_ = null]* );*
+
+
+	
+
+	
+*Parameters*
+			_$str_function_ 
+			_$arg1_ [default value: null]
+			_$arg2_ [default value: null]
+			_$arg3_ [default value: null]
+			_$arg4_ [default value: null]
+			_$arg5_ [default value: null]
+		
+*Remarks*
+
+Method onKeyPress
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= TextArea::onKeyPressJs =
+
+*onKeyPressJs(*
+*mixed*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onKeyPressJs
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= TextArea::onKeyUp =
+
+*onKeyUp(*
+*mixed*
+_$str_function_, [*mixed*
+_$arg1_ = null], [*mixed*
+_$arg2_ = null], [*mixed*
+_$arg3_ = null], [*mixed*
+_$arg4_ = null], [*mixed*
+_$arg5_ = null]* );*
+
+
+	
+
+	
+*Parameters*
+			_$str_function_ 
+			_$arg1_ [default value: null]
+			_$arg2_ [default value: null]
+			_$arg3_ [default value: null]
+			_$arg4_ [default value: null]
+			_$arg5_ [default value: null]
+		
+*Remarks*
+
+Method onKeyUp
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= TextArea::onKeyUpJs =
+
+*onKeyUpJs(*
+*mixed*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onKeyUpJs
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= TextArea::onMouseOutJs =
+
+*onMouseOutJs(*
+*mixed*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onMouseOutJs
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= TextArea::onMouseOverJs =
+
+*onMouseOverJs(*
+*mixed*
+_$js_function_* );*
+
+
+	
+
+	
+*Parameters*
+			_$js_function_ 
+		
+*Remarks*
+
+Method onMouseOverJs
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= TextArea::render =
 
 *render(*
 [*boolean*
@@ -508,23 +944,47 @@ Overrides WebSitePhpObject::render() (Method render)
 			_$ajax_render_ [default value: false]
 		
 *Returns*
-		html code of object Button
+		html code of object TextArea
 
 *Remarks*
 
 Method render
 
 
-*since:* 1.0.36
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::setClass =
+= TextArea::setAutoHeight =
+
+*setAutoHeight(*
+[*double*
+_$max_height_ = -1]* );*
+
+
+	
+
+	
+*Parameters*
+			_$max_height_ [default value: -1]
+		
+*Remarks*
+
+Method setAutoHeight
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= TextArea::setClass =
 
 *setClass(*
-*string*
+*mixed*
 _$class_* );*
 
 
@@ -539,16 +999,16 @@ _$class_* );*
 Method setClass
 
 
-*since:* 1.0.36
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::setDefaultValue =
+= TextArea::setDefaultValue =
 
 *setDefaultValue(*
-*string*
+*mixed*
 _$value_* );*
 
 
@@ -563,13 +1023,57 @@ _$value_* );*
 Method setDefaultValue
 
 
-*since:* 1.0.36
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::setHeight =
+= TextArea::setEncryptObject =
+
+*setEncryptObject(*
+*mixed*
+_$encrypt_object_* );*
+
+
+	
+
+	
+*Parameters*
+			_$encrypt_object_ 
+		
+*Remarks*
+
+Method setEncryptObject
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= TextArea::setFocus =
+
+*setFocus(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method setFocus
+
+
+*since:* 1.2.0
+
+*access:* public
+
+
+
+= TextArea::setHeight =
 
 *setHeight(*
 *integer*
@@ -587,40 +1091,40 @@ _$height_* );*
 Method setHeight
 
 
-*since:* 1.2.1
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::setIsLink =
+= TextArea::setLiveValidation =
 
-*setIsLink(*
-[*boolean*
-_$is_link_ = true]* );*
+*setLiveValidation(*
+*mixed*
+_$live_validation_object_* );*
 
 
 	
 
 	
 *Parameters*
-			_$is_link_ [default value: true]
+			_$live_validation_object_ 
 		
 *Remarks*
 
-Method setIsLink
+Method setLiveValidation
 
 
-*since:* 1.0.36
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::setName =
+= TextArea::setName =
 
 *setName(*
-*string*
+*mixed*
 _$name_* );*
 
 
@@ -635,64 +1139,64 @@ _$name_* );*
 Method setName
 
 
-*since:* 1.0.36
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::setPrimaryIcon =
+= TextArea::setStripTags =
 
-*setPrimaryIcon(*
-*mixed*
-_$icon_16px_* );*
+*setStripTags(*
+[*string*
+_$allowable_tags_ = '']* );*
 
 
 	
 
 	
 *Parameters*
-			_$icon_16px_ 
+			_$allowable_tags_ 
 		
 *Remarks*
 
-Method setPrimaryIcon
+Method setStripTags
 
 
-*since:* 1.0.96
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::setSecondaryIcon =
+= TextArea::setStyle =
 
-*setSecondaryIcon(*
+*setStyle(*
 *mixed*
-_$icon_16px_* );*
+_$style_* );*
 
 
 	
 
 	
 *Parameters*
-			_$icon_16px_ 
+			_$style_ 
 		
 *Remarks*
 
-Method setSecondaryIcon
+Method setStyle
 
 
-*since:* 1.0.96
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::setValue =
+= TextArea::setValue =
 
 *setValue(*
-*string*
+*mixed*
 _$value_* );*
 
 
@@ -707,13 +1211,13 @@ _$value_* );*
 Method setValue
 
 
-*since:* 1.0.36
+*since:* 1.2.0
 
 *access:* public
 
 
 
-= Button::setWidth =
+= TextArea::setWidth =
 
 *setWidth(*
 *integer*
@@ -731,27 +1235,7 @@ _$width_* );*
 Method setWidth
 
 
-*since:* 1.0.36
-
-*access:* public
-
-
-
-= Button::show =
-
-*show(*
-* );*
-
-
-	
-
-	
-*Remarks*
-
-Method show
-
-
-*since:* 1.0.85
+*since:* 1.2.0
 
 *access:* public
 
@@ -760,11 +1244,6 @@ Method show
 ----
 
 == Variable Detail ==
-* `$is_link` = ` false` (line 34)
-* *Data type:* `mixed`
-*access:* protected
-
-
 
 ----
 == Class Constant Detail ==

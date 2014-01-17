@@ -21,14 +21,14 @@ Location: /display/Calendar.class.php
 Class TextBox
 
 
-WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.7
+*version:* 1.2.7
 
-*copyright:* WebSite-PHP.com 26/05/2011
+*copyright:* WebSite-PHP.com 17/01/2014
 
 
 ----
@@ -64,6 +64,15 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 			* `ANIMATION_SLIDESHOW` = ` 'slideDown'`
 		
 		Calendar Animation
+			* `DATE_FORMAT_ENGLISH` = ` 'mm-dd-yy'`
+		
+		Calendar Date Format
+			* `DATE_FORMAT_FRENCH` = ` 'dd/mm/yy'`
+		
+		Calendar Date Format
+			* `DATE_FORMAT_GERMAN` = ` 'dd.mm.yy'`
+		
+		Calendar Date Format
 	
 ----
 == Inherited Class Constant Summary ==
@@ -74,6 +83,9 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 === Inherited From Class TextBox ===
 
+			* `TextBox::$live_validation` = ` null`
+		
+		
 			* `TextBox::$type` = ` 'text'`
 		
 		
@@ -133,7 +145,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																																						
+																																																																																						
 == Inherited Method Summary == 
 
 === Inherited From Class TextBox ===
@@ -156,6 +168,18 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method getDefaultValue
 			* `TextBox::getEncryptObject()`
 		Method getEncryptObject
+			* `TextBox::getOnBlurJs()`
+		Method getOnBlurJs
+			* `TextBox::getOnChangeJs()`
+		Method getOnChangeJs
+			* `TextBox::getOnClickJs()`
+		Method getOnClickJs
+			* `TextBox::getOnKeyPressJs()`
+		Method getOnKeyPressJs
+			* `TextBox::getOnKeyUpJs()`
+		Method getOnKeyUpJs
+			* `TextBox::getOnMouseOutJs()`
+		Method getOnMouseOutJs
 			* `TextBox::getValue()`
 		Method getValue
 			* `TextBox::isChanged()`
@@ -235,6 +259,8 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method getName
 			* `WebSitePhpEventObject::getObjectEventValidationRender()`
 		Method getObjectEventValidationRender
+			* `WebSitePhpEventObject::getSubmitValueIsInit()`
+		
 			* `WebSitePhpEventObject::initSubmitValue()`
 		Method initSubmitValue  Internal method used by an object like ComboBox or TextBox to init it with submitted value (if not already done).
 			* `WebSitePhpEventObject::isAjaxEvent()`
@@ -262,8 +288,12 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method addJavaScript
 			* `WebSitePhpObject::displayJavascriptTag()`
 		Method displayJavascriptTag
+			* `WebSitePhpObject::forceAjaxRender()`
+		
 			* `WebSitePhpObject::getAjaxRender()`
 		Method getAjaxRender
+			* `WebSitePhpObject::getClass()`
+		
 			* `WebSitePhpObject::getCssArray()`
 		Method getCssArray
 			* `WebSitePhpObject::getJavaScriptArray()`
@@ -280,6 +310,8 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method getRegisterObjects
 			* `WebSitePhpObject::getTag()`
 		Method getTag
+			* `WebSitePhpObject::getType()`
+		
 			* `WebSitePhpObject::isEventObject()`
 		Method isEventObject
 			* `WebSitePhpObject::isJavascriptObject()`
@@ -360,6 +392,46 @@ Method changeYear
 
 
 *since:* 1.0.93
+
+*access:* public
+
+
+
+= Calendar::getConvertedDateFormat =
+
+*getConvertedDateFormat(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getConvertedDateFormat
+
+
+*since:* 1.2.6
+
+*access:* public
+
+
+
+= Calendar::getDateFormat =
+
+*getDateFormat(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getDateFormat
+
+
+*since:* 1.2.6
 
 *access:* public
 
@@ -503,6 +575,34 @@ Method setDateFormat
 
 
 
+= Calendar::setDayNames =
+
+*setDayNames(*
+[*mixed*
+_$dayNames_ = array()], [**
+_$dayNamesShort_ = array()], [**
+_$dayNamesMin_ = array()]* );*
+
+
+	
+
+	
+*Parameters*
+			_$dayNames_ [default value: array(]
+			_$dayNamesShort_ 
+			_$dayNamesMin_ 
+		
+*Remarks*
+
+Method setDayNames
+
+
+*since:* 1.1.11
+
+*access:* public
+
+
+
 = Calendar::setFirstDay =
 
 *setFirstDay(*
@@ -570,6 +670,32 @@ Method setMinDate
 
 
 *since:* 1.0.93
+
+*access:* public
+
+
+
+= Calendar::setMonthNames =
+
+*setMonthNames(*
+[*mixed*
+_$monthNames_ = array()], [**
+_$monthNamesShort_ = array()]* );*
+
+
+	
+
+	
+*Parameters*
+			_$monthNames_ [default value: array(]
+			_$monthNamesShort_ 
+		
+*Remarks*
+
+Method setMonthNames
+
+
+*since:* 1.1.11
 
 *access:* public
 
@@ -784,6 +910,39 @@ Calendar Animation
 *Remarks*
 
 Calendar Animation
+
+
+*access:* public
+
+
+* `DATE_FORMAT_ENGLISH` = ` 'mm-dd-yy'` (line 49)
+
+
+*Remarks*
+
+Calendar Date Format
+
+
+*access:* public
+
+
+* `DATE_FORMAT_FRENCH` = ` 'dd/mm/yy'` (line 50)
+
+
+*Remarks*
+
+Calendar Date Format
+
+
+*access:* public
+
+
+* `DATE_FORMAT_GERMAN` = ` 'dd.mm.yy'` (line 51)
+
+
+*Remarks*
+
+Calendar Date Format
 
 
 *access:* public

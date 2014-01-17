@@ -33,7 +33,7 @@ http://ipinfodb.com/ip_location_api.php
 					* `$showTimezone` = ` false`
 		
 		
-					* `$version` = ` 'v2'`
+					* `$version` = ` 'v3'`
 		
 		
 					* `$_geolocation` = ` ''`
@@ -462,7 +462,7 @@ Method showTimezone
 *access:* protected
 
 
-* `$version` = ` 'v2'` (line 37)
+* `$version` = ` 'v3'` (line 37)
 * *Data type:* `mixed`
 *access:* protected
 

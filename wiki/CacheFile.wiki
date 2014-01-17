@@ -15,14 +15,14 @@ Location: /utils/CacheFile.class.php
 Class CacheFile
 
 
-WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.8
+*version:* 1.2.7
 
-*copyright:* WebSite-PHP.com 26/05/2011
+*copyright:* WebSite-PHP.com 17/01/2014
 
 *link:* 
 
@@ -118,6 +118,12 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 			* `CACHE_TIME_7DAYS` = ` 604800`
 		
 		cache time
+			* `CACHE_TIME_8HOURS` = ` 28800`
+		
+		cache time
+			* `CACHE_TIME_10HOURS` = ` 36000`
+		
+		cache time
 			* `CACHE_TIME_10MIN` = ` 600`
 		
 		cache time
@@ -145,7 +151,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																										
+																														
 == Inherited Method Summary == 
 
 ----
@@ -160,7 +166,8 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 _$filename_, [*integer*
 _$cache_time_ = 0], [*boolean*
 _$binary_ = false], [*boolean*
-_$cache_reset_on_midnight_ = false], [*boolean*
+_$cache_reset_on_midnight_ = false], [*string*
+_$cache_timezone_ = ''], [*boolean*
 _$debug_ = true]* );*
 
 
@@ -172,6 +179,7 @@ _$debug_ = true]* );*
 			_$cache_time_ cache time in seconds [default value: 0]
 			_$binary_ [default value: false]
 			_$cache_reset_on_midnight_ [default value: false]
+			_$cache_timezone_ 
 			_$debug_ [default value: true]
 		
 *Remarks*
@@ -249,6 +257,26 @@ Method halt
 
 
 
+= CacheFile::isCached =
+
+*isCached(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method isCached
+
+
+*since:* 1.1.9
+
+*access:* public
+
+
+
 = CacheFile::readCache =
 
 *readCache(*
@@ -299,35 +327,35 @@ Method writeCache
 ----
 
 == Variable Detail ==
-* `$binary` = `` (line 59)
+* `$binary` = `` (line 61)
 * *Data type:* `mixed`
 
-* `$cache_time` = `` (line 61)
+* `$cache_time` = `` (line 63)
 * *Data type:* `mixed`
 
-* `$debug` = `true` (line 64)
+* `$debug` = `true` (line 66)
 * *Data type:* `mixed`
 
-* `$exists` = ` false` (line 62)
+* `$exists` = ` false` (line 64)
 * *Data type:* `mixed`
 
-* `$file` = `` (line 57)
+* `$file` = `` (line 59)
 * *Data type:* `mixed`
 
-* `$filename` = `` (line 58)
+* `$filename` = `` (line 60)
 * *Data type:* `mixed`
 
-* `$name` = `` (line 60)
+* `$name` = `` (line 62)
 * *Data type:* `mixed`
 
-* `$read_current_cache` = ` false` (line 63)
+* `$read_current_cache` = ` false` (line 65)
 * *Data type:* `mixed`
 
 
 ----
 == Class Constant Detail ==
 
-* `CACHE_TIME_1DAY` = ` 86400` (line 42)
+* `CACHE_TIME_1DAY` = ` 86400` (line 44)
 
 
 *Remarks*
@@ -360,7 +388,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_1MONTH` = ` 2678400` (line 48)
+* `CACHE_TIME_1MONTH` = ` 2678400` (line 50)
 
 
 *Remarks*
@@ -371,7 +399,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_1YEAR` = ` 31536000` (line 53)
+* `CACHE_TIME_1YEAR` = ` 31536000` (line 55)
 
 
 *Remarks*
@@ -382,7 +410,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_2DAYS` = ` 172800` (line 43)
+* `CACHE_TIME_2DAYS` = ` 172800` (line 45)
 
 
 *Remarks*
@@ -415,7 +443,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_2MONTHS` = ` 5270400` (line 49)
+* `CACHE_TIME_2MONTHS` = ` 5270400` (line 51)
 
 
 *Remarks*
@@ -426,7 +454,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_2YEARS` = ` 63072000` (line 54)
+* `CACHE_TIME_2YEARS` = ` 63072000` (line 56)
 
 
 *Remarks*
@@ -437,7 +465,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_3DAYS` = ` 259200` (line 44)
+* `CACHE_TIME_3DAYS` = ` 259200` (line 46)
 
 
 *Remarks*
@@ -459,7 +487,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_3MONTHS` = ` 8035200` (line 50)
+* `CACHE_TIME_3MONTHS` = ` 8035200` (line 52)
 
 
 *Remarks*
@@ -470,7 +498,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_4DAYS` = ` 345600` (line 45)
+* `CACHE_TIME_4DAYS` = ` 345600` (line 47)
 
 
 *Remarks*
@@ -492,7 +520,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_4MONTHS` = ` 10713600` (line 51)
+* `CACHE_TIME_4MONTHS` = ` 10713600` (line 53)
 
 
 *Remarks*
@@ -514,7 +542,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_6MONTHS` = ` 15724800` (line 52)
+* `CACHE_TIME_6MONTHS` = ` 15724800` (line 54)
 
 
 *Remarks*
@@ -525,7 +553,29 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_7DAYS` = ` 604800` (line 46)
+* `CACHE_TIME_7DAYS` = ` 604800` (line 48)
+
+
+*Remarks*
+
+cache time
+
+
+*access:* public
+
+
+* `CACHE_TIME_8HOURS` = ` 28800` (line 41)
+
+
+*Remarks*
+
+cache time
+
+
+*access:* public
+
+
+* `CACHE_TIME_10HOURS` = ` 36000` (line 42)
 
 
 *Remarks*
@@ -547,7 +597,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_12HOURS` = ` 43200` (line 41)
+* `CACHE_TIME_12HOURS` = ` 43200` (line 43)
 
 
 *Remarks*
@@ -558,7 +608,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_14DAYS` = ` 1209600` (line 47)
+* `CACHE_TIME_14DAYS` = ` 1209600` (line 49)
 
 
 *Remarks*

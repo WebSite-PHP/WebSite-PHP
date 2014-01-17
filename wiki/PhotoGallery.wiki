@@ -1,34 +1,34 @@
-#labels Class,WebSite-PHP,Map,WebSitePhpObject,Map
-= Class Map =
+#labels Class,WebSite-PHP,PhotoGallery,WebSitePhpObject,PhotoGallery
+= Class PhotoGallery =
 
 WebSitePhpObject
    |
-   --Map
+   --PhotoGallery
 
 
 
-Location: /display/advanced_object/google/Map.class.php
+Location: /modules/PhotoGallery/PhotoGallery.class.php
 
 ----
 
 
 *Remarks*
 
-Class Map
+Class PhotoGallery
 
 
-WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.5
+*version:* 1.2.7
 
-*copyright:* WebSite-PHP.com 26/05/2011
+*copyright:* WebSite-PHP.com 17/01/2014
 
 *link:* 
 
-*since:* 1.0.17
+*since:* 1.1.9
 
 *access:* public
 
@@ -67,7 +67,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																						
+																														
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpObject ===
@@ -80,8 +80,12 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method addJavaScript
 			* `WebSitePhpObject::displayJavascriptTag()`
 		Method displayJavascriptTag
+			* `WebSitePhpObject::forceAjaxRender()`
+		
 			* `WebSitePhpObject::getAjaxRender()`
 		Method getAjaxRender
+			* `WebSitePhpObject::getClass()`
+		
 			* `WebSitePhpObject::getCssArray()`
 		Method getCssArray
 			* `WebSitePhpObject::getJavaScriptArray()`
@@ -98,6 +102,8 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method getRegisterObjects
 			* `WebSitePhpObject::getTag()`
 		Method getTag
+			* `WebSitePhpObject::getType()`
+		
 			* `WebSitePhpObject::isEventObject()`
 		Method isEventObject
 			* `WebSitePhpObject::isJavascriptObject()`
@@ -114,16 +120,13 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 
 
-= Map::__construct =
+= PhotoGallery::__construct =
 
 *__construct(*
-[*string*
-_$id_ = 'map_canvas'], [*double*
-_$zoom_ = 13], [*double*
-_$width_ = 400], [*double*
-_$height_ = 300], [*double*
-_$default_latitude_ = 48.85667], [*double*
-_$default_longitude_ = 2.35099]* );*
+*mixed*
+_$path_, [*string*
+_$picture_ext_ = 'jpg,jpeg,png,gif'], [*string*
+_$folder_pic_ = 'wsp/img/folder_image_128x128.png']* );*
 
 
 Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
@@ -131,83 +134,38 @@ Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
 
 	
 *Parameters*
-			_$id_ [default value: map_canvas]
-			_$zoom_ [default value: 13]
-			_$width_ [default value: 400]
-			_$height_ [default value: 300]
-			_$default_latitude_ [default value: 48.85667]
-			_$default_longitude_ [default value: 2.35099]
+			_$path_ 
+			_$picture_ext_ [default value: jpg,jpeg,png,gif]
+			_$folder_pic_ [default value: wsp/img/folder_image_128x128.png]
 		
 *Remarks*
 
-Constructor Map
+Constructor PhotoGallery
 
 
 
 
-= Map::addLatitudeLongitudeMarker =
+= PhotoGallery::disableSubFolder =
 
-*addLatitudeLongitudeMarker(*
-*mixed*
-_$latitude_, *mixed*
-_$longitude_, [*string*
-_$text_ = ''], [*string*
-_$icon_url_32_ = ''], [*boolean*
-_$define_as_center_ = true]* );*
+*disableSubFolder(*
+* );*
 
 
 	
 
 	
-*Parameters*
-			_$latitude_ 
-			_$longitude_ 
-			_$text_ 
-			_$icon_url_32_ 
-			_$define_as_center_ [default value: true]
-		
 *Remarks*
 
-Method addLatitudeLongitudeMarker
+Method disableSubFolder
 
 
-*since:* 1.0.81
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Map::addMarker =
-
-*addMarker(*
-*mixed*
-_$address_, [*string*
-_$text_ = ''], [*string*
-_$icon_url_32_ = ''], [*boolean*
-_$define_as_center_ = true]* );*
-
-
-	
-
-	
-*Parameters*
-			_$address_ 
-			_$text_ 
-			_$icon_url_32_ 
-			_$define_as_center_ [default value: true]
-		
-*Remarks*
-
-Method addMarker
-
-
-*since:* 1.0.35
-
-*access:* public
-
-
-
-= Map::render =
+= PhotoGallery::render =
 
 *render(*
 [*boolean*
@@ -221,135 +179,108 @@ Overrides WebSitePhpObject::render() (Method render)
 *Parameters*
 			_$ajax_render_ [default value: false]
 		
-*Returns*
-		html code of object Map
-
 *Remarks*
 
 Method render
 
 
-*since:* 1.0.35
+*since:* 1.1.9
 
 *access:* public
 
 
 
-= Map::setDefaultLatitude =
+= PhotoGallery::setFolderPic =
 
-*setDefaultLatitude(*
+*setFolderPic(*
 *mixed*
-_$default_latitude_* );*
+_$folder_pic_* );*
 
 
 	
 
 	
 *Parameters*
-			_$default_latitude_ 
+			_$folder_pic_ 
 		
 *Remarks*
 
-Method setDefaultLatitude
+Method setFolderPic
 
 
-*since:* 1.0.35
+*since:* 1.1.9
 
 *access:* public
 
 
 
-= Map::setDefaultLongitude =
+= PhotoGallery::setPictureExt =
 
-*setDefaultLongitude(*
+*setPictureExt(*
 *mixed*
-_$default_longitude_* );*
+_$picture_ext_* );*
 
 
 	
 
 	
 *Parameters*
-			_$default_longitude_ 
+			_$picture_ext_ 
 		
 *Remarks*
 
-Method setDefaultLongitude
+Method setPictureExt
 
 
-*since:* 1.0.35
+*since:* 1.1.9
 
 *access:* public
 
 
 
-= Map::setHeight =
+= PhotoGallery::setTableNbColumns =
 
-*setHeight(*
-*integer*
-_$height_* );*
-
-
-	
-
-	
-*Parameters*
-			_$height_ 
-		
-*Remarks*
-
-Method setHeight
-
-
-*since:* 1.0.35
-
-*access:* public
-
-
-
-= Map::setWidth =
-
-*setWidth(*
-*integer*
-_$width_* );*
-
-
-	
-
-	
-*Parameters*
-			_$width_ 
-		
-*Remarks*
-
-Method setWidth
-
-
-*since:* 1.0.35
-
-*access:* public
-
-
-
-= Map::setZoom =
-
-*setZoom(*
+*setTableNbColumns(*
 *mixed*
-_$zoom_* );*
+_$nb_columns_* );*
 
 
 	
 
 	
 *Parameters*
-			_$zoom_ 
+			_$nb_columns_ 
 		
 *Remarks*
 
-Method setZoom
+Method setTableNbColumns
 
 
-*since:* 1.0.35
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= PhotoGallery::setThumbnailFolder =
+
+*setThumbnailFolder(*
+*mixed*
+_$thumbnail_folder_* );*
+
+
+	
+
+	
+*Parameters*
+			_$thumbnail_folder_ 
+		
+*Remarks*
+
+Method setThumbnailFolder
+
+
+*since:* 1.1.9
 
 *access:* public
 

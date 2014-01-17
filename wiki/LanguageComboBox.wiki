@@ -17,14 +17,14 @@ Location: /display/advanced_object/language/LanguageComboBox.class.php
 Class LanguageComboBox
 
 
-WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.7
+*version:* 1.2.7
 
-*copyright:* WebSite-PHP.com 05/09/2011
+*copyright:* WebSite-PHP.com 17/01/2014
 
 *link:* 
 
@@ -67,7 +67,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																						
+																										
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpObject ===
@@ -80,8 +80,12 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method addJavaScript
 			* `WebSitePhpObject::displayJavascriptTag()`
 		Method displayJavascriptTag
+			* `WebSitePhpObject::forceAjaxRender()`
+		
 			* `WebSitePhpObject::getAjaxRender()`
 		Method getAjaxRender
+			* `WebSitePhpObject::getClass()`
+		
 			* `WebSitePhpObject::getCssArray()`
 		Method getCssArray
 			* `WebSitePhpObject::getJavaScriptArray()`
@@ -98,6 +102,8 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method getRegisterObjects
 			* `WebSitePhpObject::getTag()`
 		Method getTag
+			* `WebSitePhpObject::getType()`
+		
 			* `WebSitePhpObject::isEventObject()`
 		Method isEventObject
 			* `WebSitePhpObject::isJavascriptObject()`
@@ -120,7 +126,8 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 *mixed*
 _$page_or_form_object_, [*string*
 _$name_ = ''], [*string*
-_$width_ = '']* );*
+_$width_ = ''], [*boolean*
+_$url_parameters_ = true]* );*
 
 
 Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
@@ -131,6 +138,7 @@ Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
 			_$page_or_form_object_ 
 			_$name_ 
 			_$width_ 
+			_$url_parameters_ [default value: true]
 		
 *Remarks*
 
@@ -160,6 +168,26 @@ Method addLanguage
 
 
 *since:* 1.0.93
+
+*access:* public
+
+
+
+= LanguageComboBox::disableUrlParameters =
+
+*disableUrlParameters(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method disableUrlParameters
+
+
+*since:* 1.2.5
 
 *access:* public
 

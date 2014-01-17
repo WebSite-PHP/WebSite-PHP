@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,WebSitePhpEventObject,WebSitePhpObject,WebSitePhpEventObject,AutoCompleteEvent,ContextMenuEvent,DroppableEvent,SortableEvent,Button,CheckBox,ComboBox,Editor,Hidden,Object,Picture,TextBox,Raty
+#labels Class,WebSite-PHP,WebSitePhpEventObject,WebSitePhpObject,WebSitePhpEventObject,AutoCompleteEvent,ContextMenuEvent,DroppableEvent,SortableEvent,Button,CheckBox,ComboBox,Editor,Hidden,Object,Picture,RadioButtonGroup,TextArea,TextBox,UploadFile,Raty
 = Class WebSitePhpEventObject =
 
 WebSitePhpObject
@@ -40,33 +40,44 @@ Classes extended from WebSitePhpEventObject:
 		Picture
 	    |
 	    --Class Picture
+		RadioButtonGroup
+	    |
+	    --Class RadioButtonGroup
+		TextArea
+	    |
+	    --Class TextArea
 		TextBox
 	    |
 	    --Class TextBox
+		UploadFile
+	    |
+	    --Class UploadFile
 		Raty
 	    |
 	    --Class Raty
 	
 
 
-Location: /WebSitePhpEventObject.class.php
+Location: /abstract/WebSitePhpEventObject.class.php
 
 ----
 
 
 *Remarks*
 
-Class WebSitePhpObject
+Abstract Class WebSitePhpObject
 
 
-WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.5
+*version:* 1.2.7
 
-*copyright:* WebSite-PHP.com 26/05/2011
+*copyright:* WebSite-PHP.com 17/01/2014
+
+*abstract:* 
 
 
 ----
@@ -133,7 +144,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																																						
+																																																																										
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpObject ===
@@ -146,8 +157,12 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method addJavaScript
 			* `WebSitePhpObject::displayJavascriptTag()`
 		Method displayJavascriptTag
+			* `WebSitePhpObject::forceAjaxRender()`
+		
 			* `WebSitePhpObject::getAjaxRender()`
 		Method getAjaxRender
+			* `WebSitePhpObject::getClass()`
+		
 			* `WebSitePhpObject::getCssArray()`
 		Method getCssArray
 			* `WebSitePhpObject::getJavaScriptArray()`
@@ -164,6 +179,8 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method getRegisterObjects
 			* `WebSitePhpObject::getTag()`
 		Method getTag
+			* `WebSitePhpObject::getType()`
+		
 			* `WebSitePhpObject::isEventObject()`
 		Method isEventObject
 			* `WebSitePhpObject::isJavascriptObject()`
@@ -209,6 +226,10 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		  Constructor Object
 		Picture::__construct()
 		  Constructor Picture
+		RadioButtonGroup::__construct()
+		  Constructor RadioButtonGroup
+		TextArea::__construct()
+		  Constructor TextArea
 		TextBox::__construct()
 		  Constructor TextBox
 		ColorPicker::__construct()
@@ -217,6 +238,8 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		  Constructor Calendar
 		Password::__construct()
 		  Constructor Password
+		UploadFile::__construct()
+		  Constructor UploadFile
 		Raty::__construct()
 		  Constructor Raty
 	Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
@@ -303,6 +326,10 @@ Method getAjaxEventFunctionRender
 		  Method getEventObjectName
 		Hidden::getEventObjectName()
 		  Method getEventObjectName
+		RadioButtonGroup::getEventObjectName()
+		  Method getEventObjectName
+		UploadFile::getEventObjectName()
+		  Method getEventObjectName
 		
 
 	
@@ -329,6 +356,10 @@ Method getEventObjectName
 		Editor::getFormObject()
 		  Method getFormObject
 		Hidden::getFormObject()
+		  Method getFormObject
+		RadioButtonGroup::getFormObject()
+		  Method getFormObject
+		UploadFile::getFormObject()
 		  Method getFormObject
 		
 
@@ -363,6 +394,10 @@ Method getFormObject
 		  Method getId
 		Picture::getId()
 		  Method getId
+		RadioButtonGroup::getId()
+		  Method getId
+		UploadFile::getId()
+		  Method getId
 		
 
 	
@@ -393,6 +428,10 @@ Method getId
 		Editor::getName()
 		  Method getName
 		Hidden::getName()
+		  Method getName
+		RadioButtonGroup::getName()
+		  Method getName
+		UploadFile::getName()
 		  Method getName
 	Overrides WebSitePhpObject::getName() (Method getName)
 	
@@ -436,6 +475,18 @@ Method getObjectEventValidationRender
 *since:* 1.0.35
 
 *access:* protected
+
+
+
+= WebSitePhpEventObject::getSubmitValueIsInit =
+
+*getSubmitValueIsInit(*
+* );*
+
+
+	
+
+	*access:* public
 
 
 
@@ -555,12 +606,16 @@ Method onFormIsChangedJs
 = WebSitePhpEventObject::setAjaxEvent =
 
 *setAjaxEvent(*
-* );*
+[**
+_$bool_ = true]* );*
 
 
 	
 
 	
+*Parameters*
+			_$bool_ 
+		
 *Remarks*
 
 Method setAjaxEvent
@@ -622,52 +677,52 @@ Internal method to set when an object have already the submitted value
 ----
 
 == Variable Detail ==
-* `$ajax_wait_message` = ` ''` (line 37)
+* `$ajax_wait_message` = ` ''` (line 39)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `$class_name` = ` ''` (line 29)
+* `$class_name` = ` ''` (line 31)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `$disable_ajax_wait_message` = ` false` (line 38)
+* `$disable_ajax_wait_message` = ` false` (line 40)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `$form_object` = ` null` (line 31)
+* `$form_object` = ` null` (line 33)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `$id` = ` ''` (line 34)
+* `$id` = ` ''` (line 36)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `$is_ajax_event` = ` false` (line 36)
+* `$is_ajax_event` = ` false` (line 38)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `$name` = ` ''` (line 33)
+* `$name` = ` ''` (line 35)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `$on_form_is_changed_js` = ` ''` (line 39)
+* `$on_form_is_changed_js` = ` ''` (line 41)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `$on_form_is_changed_revert` = ` false` (line 40)
+* `$on_form_is_changed_revert` = ` false` (line 42)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `$page_object` = ` null` (line 30)
+* `$page_object` = ` null` (line 32)
 * *Data type:* `mixed`
 *access:* protected
 

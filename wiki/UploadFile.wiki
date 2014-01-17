@@ -1,22 +1,22 @@
-#labels Class,WebSite-PHP,Button,WebSitePhpObject,WebSitePhpEventObject,Button
-= Class Button =
+#labels Class,WebSite-PHP,UploadFile,WebSitePhpObject,WebSitePhpEventObject,UploadFile
+= Class UploadFile =
 
 WebSitePhpObject
    |
    --WebSitePhpEventObject
       |
-      --Button
+      --UploadFile
 
 
 
-Location: /display/Button.class.php
+Location: /display/UploadFile.class.php
 
 ----
 
 
 *Remarks*
 
-Class Button
+Class UploadFile
 
 
 WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
@@ -30,14 +30,20 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *link:* 
 
-*since:* 1.0.17
+*since:* 1.2.3
 
 *access:* public
 
 
 ----
 == Class Variable Summary ==
-							* `$is_link` = ` false`
+											* `$class_name` = ` ''`
+		
+		
+					* `$form_object` = ` null`
+		
+		
+					* `$page_object` = ` null`
 		
 		
 		
@@ -57,13 +63,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 			* `WebSitePhpEventObject::$ajax_wait_message` = ` ''`
 		
 		
-			* `WebSitePhpEventObject::$class_name` = ` ''`
-		
-		
 			* `WebSitePhpEventObject::$disable_ajax_wait_message` = ` false`
-		
-		
-			* `WebSitePhpEventObject::$form_object` = ` null`
 		
 		
 			* `WebSitePhpEventObject::$id` = ` ''`
@@ -79,9 +79,6 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		
 		
 			* `WebSitePhpEventObject::$on_form_is_changed_revert` = ` false`
-		
-		
-			* `WebSitePhpEventObject::$page_object` = ` null`
 		
 		
 		
@@ -106,7 +103,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																																																																		
+																																																																																																						
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpEventObject ===
@@ -198,17 +195,13 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 
 
-= Button::__construct =
+= UploadFile::__construct =
 
 *__construct(*
-*Page|Form*
+*mixed*
 _$page_or_form_object_, [*string*
 _$name_ = ''], [*string*
-_$id_ = ''], [*string*
-_$value_ = ''], [*double*
-_$width_ = 0], [*boolean*
-_$is_link_ = false], [*string*
-_$class_ = '']* );*
+_$id_ = '']* );*
 
 
 Overrides WebSitePhpEventObject::__construct() (Constructor WebSitePhpEventObject)
@@ -219,21 +212,17 @@ Overrides WebSitePhpEventObject::__construct() (Constructor WebSitePhpEventObjec
 			_$page_or_form_object_ 
 			_$name_ 
 			_$id_ 
-			_$value_ 
-			_$width_ [default value: 0]
-			_$is_link_ [default value: false]
-			_$class_ 
 		
 *Remarks*
 
-Constructor Button
+Constructor UploadFile
 
 
 
 
-= Button::assignEnterKey =
+= UploadFile::checkFileSize =
 
-*assignEnterKey(*
+*checkFileSize(*
 * );*
 
 
@@ -242,27 +231,7 @@ Constructor Button
 	
 *Remarks*
 
-Method assignEnterKey
-
-
-*since:* 1.0.36
-
-*access:* public
-
-
-
-= Button::disable =
-
-*disable(*
-* );*
-
-
-	
-
-	
-*Remarks*
-
-Method disable
+Method checkFileSize
 
 
 *since:* 1.2.3
@@ -271,9 +240,9 @@ Method disable
 
 
 
-= Button::enable =
+= UploadFile::checkMimeType =
 
-*enable(*
+*checkMimeType(*
 * );*
 
 
@@ -282,7 +251,7 @@ Method disable
 	
 *Remarks*
 
-Method enable
+Method checkMimeType
 
 
 *since:* 1.2.3
@@ -291,9 +260,30 @@ Method enable
 
 
 
-= Button::forceSpanTag =
+= UploadFile::getEventObjectName =
 
-*forceSpanTag(*
+*getEventObjectName(*
+* );*
+
+
+Overrides WebSitePhpEventObject::getEventObjectName() (Method getEventObjectName)
+	
+
+	
+*Remarks*
+
+Method getEventObjectName
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= UploadFile::getFileContent =
+
+*getFileContent(*
 * );*
 
 
@@ -302,42 +292,18 @@ Method enable
 	
 *Remarks*
 
-Method forceSpanTag
+Method getFileContent
 
 
-*since:* 1.2.1
-
-*access:* public
-
-
-
-= Button::getAjaxRender =
-
-*getAjaxRender(*
-* );*
-
-
-Overrides WebSitePhpObject::getAjaxRender() (Method getAjaxRender)
-	
-
-	
-*Returns*
-		javascript code to update initial html of object Button (call with AJAX)
-
-*Remarks*
-
-Method getAjaxRender
-
-
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::getDefaultValue =
+= UploadFile::getFileMimeType =
 
-*getDefaultValue(*
+*getFileMimeType(*
 * );*
 
 
@@ -346,18 +312,18 @@ Method getAjaxRender
 	
 *Remarks*
 
-Method getDefaultValue
+Method getFileMimeType
 
 
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::getOnClickJs =
+= UploadFile::getFileName =
 
-*getOnClickJs(*
+*getFileName(*
 * );*
 
 
@@ -366,18 +332,18 @@ Method getDefaultValue
 	
 *Remarks*
 
-Method getOnClickJs
+Method getFileName
 
 
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::getValue =
+= UploadFile::getFilePath =
 
-*getValue(*
+*getFilePath(*
 * );*
 
 
@@ -386,18 +352,18 @@ Method getOnClickJs
 	
 *Remarks*
 
-Method getValue
+Method getFilePath
 
 
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::hide =
+= UploadFile::getFileSize =
 
-*hide(*
+*getFileSize(*
 * );*
 
 
@@ -406,18 +372,81 @@ Method getValue
 	
 *Remarks*
 
-Method hide
+Method getFileSize
 
 
-*since:* 1.0.85
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::isClicked =
+= UploadFile::getFormObject =
 
-*isClicked(*
+*getFormObject(*
+* );*
+
+
+Overrides WebSitePhpEventObject::getFormObject() (Method getFormObject)
+	
+
+	
+*Remarks*
+
+Method getFormObject
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= UploadFile::getId =
+
+*getId(*
+* );*
+
+
+Overrides WebSitePhpEventObject::getId() (Method getId)
+	
+
+	
+*Remarks*
+
+Method getId
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= UploadFile::getName =
+
+*getName(*
+* );*
+
+
+Overrides WebSitePhpEventObject::getName() (Method getName)
+	
+
+	
+*Remarks*
+
+Method getName
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= UploadFile::isChanged =
+
+*isChanged(*
 * );*
 
 
@@ -426,19 +455,63 @@ Method hide
 	
 *Remarks*
 
-Method isClicked
+Method isChanged
 
 
-*since:* 1.0.36
+*since:* 1.2.5
 
 *access:* public
 
 
 
-= Button::onClick =
+= UploadFile::isEmptyFile =
 
-*onClick(*
-*string*
+*isEmptyFile(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method isEmptyFile
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= UploadFile::moveFile =
+
+*moveFile(*
+*mixed*
+_$destination_path_* );*
+
+
+	
+
+	
+*Parameters*
+			_$destination_path_ 
+		
+*Remarks*
+
+Method moveFile
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= UploadFile::onChange =
+
+*onChange(*
+*mixed*
 _$str_function_, [*mixed*
 _$arg1_ = null], [*mixed*
 _$arg2_ = null], [*mixed*
@@ -460,19 +533,19 @@ _$arg5_ = null]* );*
 		
 *Remarks*
 
-Method onClick
+Method onChange
 
 
-*since:* 1.0.36
+*since:* 1.2.5
 
 *access:* public
 
 
 
-= Button::onClickJs =
+= UploadFile::onChangeJs =
 
-*onClickJs(*
-*string|JavaScript*
+*onChangeJs(*
+*mixed*
 _$js_function_* );*
 
 
@@ -484,16 +557,16 @@ _$js_function_* );*
 		
 *Remarks*
 
-Method onClickJs
+Method onChangeJs
 
 
-*since:* 1.0.36
+*since:* 1.2.5
 
 *access:* public
 
 
 
-= Button::render =
+= UploadFile::render =
 
 *render(*
 [*boolean*
@@ -508,23 +581,91 @@ Overrides WebSitePhpObject::render() (Method render)
 			_$ajax_render_ [default value: false]
 		
 *Returns*
-		html code of object Button
+		html code of object UploadFile
 
 *Remarks*
 
 Method render
 
 
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::setClass =
+= UploadFile::setAuthorizedMimeTypes =
+
+*setAuthorizedMimeTypes(*
+*mixed*
+_$mime_types_* );*
+
+
+	
+
+	
+*Parameters*
+			_$mime_types_ 
+		
+*Remarks*
+
+Method setAuthorizedMimeTypes
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= UploadFile::setButtonValue =
+
+*setButtonValue(*
+*mixed*
+_$button_value_* );*
+
+
+	
+
+	
+*Parameters*
+			_$button_value_ 
+		
+*Remarks*
+
+Method setButtonValue
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= UploadFile::setChange =
+
+*setChange(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method setChange
+
+
+*since:* 1.2.5
+
+*access:* public
+
+
+
+= UploadFile::setClass =
 
 *setClass(*
-*string*
+*mixed*
 _$class_* );*
 
 
@@ -539,160 +680,40 @@ _$class_* );*
 Method setClass
 
 
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::setDefaultValue =
+= UploadFile::setFileSizeLimit =
 
-*setDefaultValue(*
-*string*
-_$value_* );*
-
-
-	
-
-	
-*Parameters*
-			_$value_ 
-		
-*Remarks*
-
-Method setDefaultValue
-
-
-*since:* 1.0.36
-
-*access:* public
-
-
-
-= Button::setHeight =
-
-*setHeight(*
-*integer*
-_$height_* );*
-
-
-	
-
-	
-*Parameters*
-			_$height_ 
-		
-*Remarks*
-
-Method setHeight
-
-
-*since:* 1.2.1
-
-*access:* public
-
-
-
-= Button::setIsLink =
-
-*setIsLink(*
-[*boolean*
-_$is_link_ = true]* );*
-
-
-	
-
-	
-*Parameters*
-			_$is_link_ [default value: true]
-		
-*Remarks*
-
-Method setIsLink
-
-
-*since:* 1.0.36
-
-*access:* public
-
-
-
-= Button::setName =
-
-*setName(*
-*string*
-_$name_* );*
-
-
-	
-
-	
-*Parameters*
-			_$name_ 
-		
-*Remarks*
-
-Method setName
-
-
-*since:* 1.0.36
-
-*access:* public
-
-
-
-= Button::setPrimaryIcon =
-
-*setPrimaryIcon(*
+*setFileSizeLimit(*
 *mixed*
-_$icon_16px_* );*
+_$bytes_size_* );*
 
 
 	
 
 	
 *Parameters*
-			_$icon_16px_ 
+			_$bytes_size_ 
 		
 *Remarks*
 
-Method setPrimaryIcon
+Method setFileSizeLimit
 
 
-*since:* 1.0.96
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::setSecondaryIcon =
-
-*setSecondaryIcon(*
-*mixed*
-_$icon_16px_* );*
-
-
-	
-
-	
-*Parameters*
-			_$icon_16px_ 
-		
-*Remarks*
-
-Method setSecondaryIcon
-
-
-*since:* 1.0.96
-
-*access:* public
-
-
-
-= Button::setValue =
+= UploadFile::setValue =
 
 *setValue(*
-*string*
+*mixed*
 _$value_* );*
 
 
@@ -707,13 +728,13 @@ _$value_* );*
 Method setValue
 
 
-*since:* 1.0.36
+*since:* 1.2.5
 
 *access:* public
 
 
 
-= Button::setWidth =
+= UploadFile::setWidth =
 
 *setWidth(*
 *integer*
@@ -731,27 +752,7 @@ _$width_* );*
 Method setWidth
 
 
-*since:* 1.0.36
-
-*access:* public
-
-
-
-= Button::show =
-
-*show(*
-* );*
-
-
-	
-
-	
-*Remarks*
-
-Method show
-
-
-*since:* 1.0.85
+*since:* 1.2.3
 
 *access:* public
 
@@ -760,8 +761,18 @@ Method show
 ----
 
 == Variable Detail ==
-* `$is_link` = ` false` (line 34)
-* *Data type:* `mixed`
+* `$class_name` = ` ''` (line 29)
+* *Data type:* `mixed`*Overrides:* Array
+*access:* protected
+
+
+* `$form_object` = ` null` (line 31)
+* *Data type:* `mixed`*Overrides:* Array
+*access:* protected
+
+
+* `$page_object` = ` null` (line 30)
+* *Data type:* `mixed`*Overrides:* Array
 *access:* protected
 
 

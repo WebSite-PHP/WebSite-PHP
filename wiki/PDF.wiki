@@ -390,6 +390,14 @@ Overrides FPDF::Header() (parent method not documented)
 	
 
 	
+*Remarks*
+
+Method Header
+
+
+*since:* 1.2.0
+
+
 
 ----
 

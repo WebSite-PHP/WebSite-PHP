@@ -1,10 +1,16 @@
-#labels Class,WebSite-PHP,JavaScript,WebSitePhpObject,JavaScript
+#labels Class,WebSite-PHP,JavaScript,WebSitePhpObject,JavaScript,Logger
 = Class JavaScript =
 
 WebSitePhpObject
    |
    --JavaScript
 
+
+Classes extended from JavaScript:
+ 		Logger
+	    |
+	    --Class Logger
+	
 
 
 Location: /display/JavaScript.class.php
@@ -17,14 +23,14 @@ Location: /display/JavaScript.class.php
 Class JavaScript
 
 
-WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.5
+*version:* 1.2.7
 
-*copyright:* WebSite-PHP.com 26/05/2011
+*copyright:* WebSite-PHP.com 17/01/2014
 
 *link:* 
 
@@ -80,8 +86,12 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method addJavaScript
 			* `WebSitePhpObject::displayJavascriptTag()`
 		Method displayJavascriptTag
+			* `WebSitePhpObject::forceAjaxRender()`
+		
 			* `WebSitePhpObject::getAjaxRender()`
 		Method getAjaxRender
+			* `WebSitePhpObject::getClass()`
+		
 			* `WebSitePhpObject::getCssArray()`
 		Method getCssArray
 			* `WebSitePhpObject::getJavaScriptArray()`
@@ -98,6 +108,8 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method getRegisterObjects
 			* `WebSitePhpObject::getTag()`
 		Method getTag
+			* `WebSitePhpObject::getType()`
+		
 			* `WebSitePhpObject::isEventObject()`
 		Method isEventObject
 			* `WebSitePhpObject::isJavascriptObject()`
@@ -122,7 +134,10 @@ _$code_javascript_, [*boolean*
 _$add_js_to_page_ = false]* );*
 
 
-Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
+	Overridden in child classes as:
+		Logger::__construct()
+		  Constructor Logger
+	Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
 	
 
 	

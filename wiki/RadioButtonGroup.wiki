@@ -1,22 +1,22 @@
-#labels Class,WebSite-PHP,Button,WebSitePhpObject,WebSitePhpEventObject,Button
-= Class Button =
+#labels Class,WebSite-PHP,RadioButtonGroup,WebSitePhpObject,WebSitePhpEventObject,RadioButtonGroup
+= Class RadioButtonGroup =
 
 WebSitePhpObject
    |
    --WebSitePhpEventObject
       |
-      --Button
+      --RadioButtonGroup
 
 
 
-Location: /display/Button.class.php
+Location: /display/RadioButtonGroup.class.php
 
 ----
 
 
 *Remarks*
 
-Class Button
+Class RadioButtonGroup
 
 
 WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
@@ -30,14 +30,26 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *link:* 
 
-*since:* 1.0.17
+*since:* 1.2.3
 
 *access:* public
 
 
 ----
 == Class Variable Summary ==
-							* `$is_link` = ` false`
+															* `$class_name` = ` ''`
+		
+		
+					* `$form_object` = ` null`
+		
+		
+					* `$name` = ` ''`
+		
+		
+					* `$page_object` = ` null`
+		
+		
+					* `$value` = ` ''`
 		
 		
 		
@@ -57,13 +69,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 			* `WebSitePhpEventObject::$ajax_wait_message` = ` ''`
 		
 		
-			* `WebSitePhpEventObject::$class_name` = ` ''`
-		
-		
 			* `WebSitePhpEventObject::$disable_ajax_wait_message` = ` false`
-		
-		
-			* `WebSitePhpEventObject::$form_object` = ` null`
 		
 		
 			* `WebSitePhpEventObject::$id` = ` ''`
@@ -72,16 +78,10 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 			* `WebSitePhpEventObject::$is_ajax_event` = ` false`
 		
 		
-			* `WebSitePhpEventObject::$name` = ` ''`
-		
-		
 			* `WebSitePhpEventObject::$on_form_is_changed_js` = ` ''`
 		
 		
 			* `WebSitePhpEventObject::$on_form_is_changed_revert` = ` false`
-		
-		
-			* `WebSitePhpEventObject::$page_object` = ` null`
 		
 		
 		
@@ -106,7 +106,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																																																																		
+																																																																										
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpEventObject ===
@@ -198,17 +198,12 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 
 
-= Button::__construct =
+= RadioButtonGroup::__construct =
 
 *__construct(*
-*Page|Form*
+*mixed*
 _$page_or_form_object_, [*string*
-_$name_ = ''], [*string*
-_$id_ = ''], [*string*
-_$value_ = ''], [*double*
-_$width_ = 0], [*boolean*
-_$is_link_ = false], [*string*
-_$class_ = '']* );*
+_$name_ = '']* );*
 
 
 Overrides WebSitePhpEventObject::__construct() (Constructor WebSitePhpEventObject)
@@ -218,40 +213,43 @@ Overrides WebSitePhpEventObject::__construct() (Constructor WebSitePhpEventObjec
 *Parameters*
 			_$page_or_form_object_ 
 			_$name_ 
-			_$id_ 
-			_$value_ 
-			_$width_ [default value: 0]
-			_$is_link_ [default value: false]
-			_$class_ 
 		
 *Remarks*
 
-Constructor Button
+Constructor RadioButtonGroup
 
 
 
 
-= Button::assignEnterKey =
+= RadioButtonGroup::addRadioButton =
 
-*assignEnterKey(*
-* );*
+*addRadioButton(*
+*mixed*
+_$value_, [*string*
+_$text_ = ''], [*boolean*
+_$selected_ = false]* );*
 
 
 	
 
 	
+*Parameters*
+			_$value_ 
+			_$text_ 
+			_$selected_ [default value: false]
+		
 *Remarks*
 
-Method assignEnterKey
+Method addRadioButton
 
 
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::disable =
+= RadioButtonGroup::disable =
 
 *disable(*
 * );*
@@ -271,7 +269,7 @@ Method disable
 
 
 
-= Button::enable =
+= RadioButtonGroup::enable =
 
 *enable(*
 * );*
@@ -291,27 +289,7 @@ Method enable
 
 
 
-= Button::forceSpanTag =
-
-*forceSpanTag(*
-* );*
-
-
-	
-
-	
-*Remarks*
-
-Method forceSpanTag
-
-
-*since:* 1.2.1
-
-*access:* public
-
-
-
-= Button::getAjaxRender =
+= RadioButtonGroup::getAjaxRender =
 
 *getAjaxRender(*
 * );*
@@ -322,20 +300,20 @@ Overrides WebSitePhpObject::getAjaxRender() (Method getAjaxRender)
 
 	
 *Returns*
-		javascript code to update initial html of object Button (call with AJAX)
+		javascript code to update initial html of object RadioButtonGroup (call with AJAX)
 
 *Remarks*
 
 Method getAjaxRender
 
 
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::getDefaultValue =
+= RadioButtonGroup::getDefaultValue =
 
 *getDefaultValue(*
 * );*
@@ -349,33 +327,101 @@ Method getAjaxRender
 Method getDefaultValue
 
 
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::getOnClickJs =
+= RadioButtonGroup::getEventObjectName =
 
-*getOnClickJs(*
+*getEventObjectName(*
 * );*
 
 
+Overrides WebSitePhpEventObject::getEventObjectName() (Method getEventObjectName)
 	
 
 	
 *Remarks*
 
-Method getOnClickJs
+Method getEventObjectName
 
 
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::getValue =
+= RadioButtonGroup::getFormObject =
+
+*getFormObject(*
+* );*
+
+
+Overrides WebSitePhpEventObject::getFormObject() (Method getFormObject)
+	
+
+	
+*Remarks*
+
+Method getFormObject
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= RadioButtonGroup::getId =
+
+*getId(*
+*mixed*
+_$radio_value_* );*
+
+
+Overrides WebSitePhpEventObject::getId() (Method getId)
+	
+
+	
+*Parameters*
+			_$radio_value_ 
+		
+*Remarks*
+
+Method getId
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= RadioButtonGroup::getName =
+
+*getName(*
+* );*
+
+
+Overrides WebSitePhpEventObject::getName() (Method getName)
+	
+
+	
+*Remarks*
+
+Method getName
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
+= RadioButtonGroup::getValue =
 
 *getValue(*
 * );*
@@ -389,15 +435,15 @@ Method getOnClickJs
 Method getValue
 
 
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::hide =
+= RadioButtonGroup::isChanged =
 
-*hide(*
+*isChanged(*
 * );*
 
 
@@ -406,39 +452,19 @@ Method getValue
 	
 *Remarks*
 
-Method hide
+Method isChanged
 
 
-*since:* 1.0.85
-
-*access:* public
-
-
-
-= Button::isClicked =
-
-*isClicked(*
-* );*
-
-
-	
-
-	
-*Remarks*
-
-Method isClicked
-
-
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::onClick =
+= RadioButtonGroup::onChange =
 
-*onClick(*
-*string*
+*onChange(*
+*mixed*
 _$str_function_, [*mixed*
 _$arg1_ = null], [*mixed*
 _$arg2_ = null], [*mixed*
@@ -460,19 +486,19 @@ _$arg5_ = null]* );*
 		
 *Remarks*
 
-Method onClick
+Method onChange
 
 
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::onClickJs =
+= RadioButtonGroup::onChangeJs =
 
-*onClickJs(*
-*string|JavaScript*
+*onChangeJs(*
+*mixed*
 _$js_function_* );*
 
 
@@ -484,16 +510,16 @@ _$js_function_* );*
 		
 *Remarks*
 
-Method onClickJs
+Method onChangeJs
 
 
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::render =
+= RadioButtonGroup::render =
 
 *render(*
 [*boolean*
@@ -508,47 +534,23 @@ Overrides WebSitePhpObject::render() (Method render)
 			_$ajax_render_ [default value: false]
 		
 *Returns*
-		html code of object Button
+		html code of object RadioButtonGroup
 
 *Remarks*
 
 Method render
 
 
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::setClass =
-
-*setClass(*
-*string*
-_$class_* );*
-
-
-	
-
-	
-*Parameters*
-			_$class_ 
-		
-*Remarks*
-
-Method setClass
-
-
-*since:* 1.0.36
-
-*access:* public
-
-
-
-= Button::setDefaultValue =
+= RadioButtonGroup::setDefaultValue =
 
 *setDefaultValue(*
-*string*
+*mixed*
 _$value_* );*
 
 
@@ -563,64 +565,16 @@ _$value_* );*
 Method setDefaultValue
 
 
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::setHeight =
-
-*setHeight(*
-*integer*
-_$height_* );*
-
-
-	
-
-	
-*Parameters*
-			_$height_ 
-		
-*Remarks*
-
-Method setHeight
-
-
-*since:* 1.2.1
-
-*access:* public
-
-
-
-= Button::setIsLink =
-
-*setIsLink(*
-[*boolean*
-_$is_link_ = true]* );*
-
-
-	
-
-	
-*Parameters*
-			_$is_link_ [default value: true]
-		
-*Remarks*
-
-Method setIsLink
-
-
-*since:* 1.0.36
-
-*access:* public
-
-
-
-= Button::setName =
+= RadioButtonGroup::setName =
 
 *setName(*
-*string*
+*mixed*
 _$name_* );*
 
 
@@ -635,64 +589,16 @@ _$name_* );*
 Method setName
 
 
-*since:* 1.0.36
+*since:* 1.2.3
 
 *access:* public
 
 
 
-= Button::setPrimaryIcon =
-
-*setPrimaryIcon(*
-*mixed*
-_$icon_16px_* );*
-
-
-	
-
-	
-*Parameters*
-			_$icon_16px_ 
-		
-*Remarks*
-
-Method setPrimaryIcon
-
-
-*since:* 1.0.96
-
-*access:* public
-
-
-
-= Button::setSecondaryIcon =
-
-*setSecondaryIcon(*
-*mixed*
-_$icon_16px_* );*
-
-
-	
-
-	
-*Parameters*
-			_$icon_16px_ 
-		
-*Remarks*
-
-Method setSecondaryIcon
-
-
-*since:* 1.0.96
-
-*access:* public
-
-
-
-= Button::setValue =
+= RadioButtonGroup::setValue =
 
 *setValue(*
-*string*
+*mixed*
 _$value_* );*
 
 
@@ -707,51 +613,7 @@ _$value_* );*
 Method setValue
 
 
-*since:* 1.0.36
-
-*access:* public
-
-
-
-= Button::setWidth =
-
-*setWidth(*
-*integer*
-_$width_* );*
-
-
-	
-
-	
-*Parameters*
-			_$width_ 
-		
-*Remarks*
-
-Method setWidth
-
-
-*since:* 1.0.36
-
-*access:* public
-
-
-
-= Button::show =
-
-*show(*
-* );*
-
-
-	
-
-	
-*Remarks*
-
-Method show
-
-
-*since:* 1.0.85
+*since:* 1.2.3
 
 *access:* public
 
@@ -760,7 +622,27 @@ Method show
 ----
 
 == Variable Detail ==
-* `$is_link` = ` false` (line 34)
+* `$class_name` = ` ''` (line 29)
+* *Data type:* `mixed`*Overrides:* Array
+*access:* protected
+
+
+* `$form_object` = ` null` (line 31)
+* *Data type:* `mixed`*Overrides:* Array
+*access:* protected
+
+
+* `$name` = ` ''` (line 32)
+* *Data type:* `mixed`*Overrides:* Array
+*access:* protected
+
+
+* `$page_object` = ` null` (line 30)
+* *Data type:* `mixed`*Overrides:* Array
+*access:* protected
+
+
+* `$value` = ` ''` (line 33)
 * *Data type:* `mixed`
 *access:* protected
 

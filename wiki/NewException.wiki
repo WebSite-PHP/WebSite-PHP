@@ -246,7 +246,9 @@ Method redirectOnError
 *static sendErrorByMail(*
 *mixed*
 _$debug_msg_, [*string*
-_$attachment_file_ = &quot;&quot;]* );*
+_$attachment_file_ = &quot;&quot;], [*string*
+_$error_log_file_ = &quot;error_send_by_mail.log&quot;], [*mixed*
+_$cache_time_ = CacheFile::CACHE_TIME_2MIN]* );*
 
 
 	
@@ -255,6 +257,8 @@ _$attachment_file_ = &quot;&quot;]* );*
 *Parameters*
 			_$debug_msg_ 
 			_$attachment_file_ 
+			_$error_log_file_ [default value: error_send_by_mail.log]
+			_$cache_time_ [default value: CacheFile::CACHE_TIME_2MIN]
 		
 *Remarks*
 

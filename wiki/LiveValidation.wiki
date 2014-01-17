@@ -17,14 +17,14 @@ Location: /display/advanced_object/LiveValidation.class.php
 Class LiveValidation
 
 
-WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.5
+*version:* 1.2.7
 
-*copyright:* WebSite-PHP.com 26/05/2011
+*copyright:* WebSite-PHP.com 17/01/2014
 
 *link:* 
 
@@ -67,7 +67,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																														
+																																																																										
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpObject ===
@@ -80,8 +80,12 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method addJavaScript
 			* `WebSitePhpObject::displayJavascriptTag()`
 		Method displayJavascriptTag
+			* `WebSitePhpObject::forceAjaxRender()`
+		
 			* `WebSitePhpObject::getAjaxRender()`
 		Method getAjaxRender
+			* `WebSitePhpObject::getClass()`
+		
 			* `WebSitePhpObject::getCssArray()`
 		Method getCssArray
 			* `WebSitePhpObject::getJavaScriptArray()`
@@ -98,6 +102,8 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method getRegisterObjects
 			* `WebSitePhpObject::getTag()`
 		Method getTag
+			* `WebSitePhpObject::getType()`
+		
 			* `WebSitePhpObject::isEventObject()`
 		Method isEventObject
 			* `WebSitePhpObject::isJavascriptObject()`
@@ -135,6 +141,26 @@ Constructor LiveValidation
 
 
 
+= LiveValidation::activeValidationOnInit =
+
+*activeValidationOnInit(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method activeValidationOnInit
+
+
+*since:* 1.2.6
+
+*access:* public
+
+
+
 = LiveValidation::addValidateAcceptance =
 
 *addValidateAcceptance(*
@@ -150,6 +176,30 @@ Method addValidateAcceptance
 
 
 *since:* 1.0.35
+
+*access:* public
+
+
+
+= LiveValidation::addValidateCalendar =
+
+*addValidateCalendar(*
+*mixed*
+_$calendar_format_* );*
+
+
+	
+
+	
+*Parameters*
+			_$calendar_format_ 
+		
+*Remarks*
+
+Method addValidateCalendar
+
+
+*since:* 1.2.7
 
 *access:* public
 
@@ -352,6 +402,26 @@ Method addValidatePresence
 
 
 *since:* 1.0.35
+
+*access:* public
+
+
+
+= LiveValidation::getFieldName =
+
+*getFieldName(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getFieldName
+
+
+*since:* 1.2.2
 
 *access:* public
 

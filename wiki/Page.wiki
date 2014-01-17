@@ -1,7 +1,9 @@
-#labels Class,WebSite-PHP,Page
+#labels Class,WebSite-PHP,Page,AbstractPage,Page
 = Class Page =
 
-
+AbstractPage
+   |
+   --Page
 
 
 
@@ -12,23 +14,17 @@ Location: /display/Page.class.php
 
 *Remarks*
 
-Class Page
+Abstract Class AbstractPage
 
 
-WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.8
+*version:* 1.2.7
 
-*copyright:* WebSite-PHP.com 26/05/2011
-
-*link:* 
-
-*since:* 1.0.0
-
-*access:* public
+*copyright:* WebSite-PHP.com 17/01/2014
 
 
 ----
@@ -137,6 +133,12 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		
 		cache time
 			* `CACHE_TIME_7DAYS` = ` 604800`
+		
+		cache time
+			* `CACHE_TIME_8HOURS` = ` 28800`
+		
+		cache time
+			* `CACHE_TIME_10HOURS` = ` 36000`
 		
 		cache time
 			* `CACHE_TIME_10MIN` = ` 600`
@@ -283,6 +285,24 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 			* `OPENGRAPH_TYPE_WEBSITE` = ` 'website'`
 		
 		Open Graph Theme (http://ogp.me/#types)
+			* `RIGHTS_ADMINISTRATOR` = ` 'administrator'`
+		
+		Page Rights
+			* `RIGHTS_AUTH_USER` = ` 'auth_user'`
+		
+		Page Rights
+			* `RIGHTS_DEVELOPER` = ` 'developer'`
+		
+		Page Rights
+			* `RIGHTS_GUEST` = ` 'guest'`
+		
+		Page Rights
+			* `RIGHTS_MODERATOR` = ` 'moderator'`
+		
+		Page Rights
+			* `RIGHTS_TRANSLATOR` = ` 'translator'`
+		
+		Page Rights
 	
 ----
 == Inherited Class Constant Summary ==
@@ -295,13 +315,22 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																												* `static Page getInstance()`
+																																																																						* `static Page getInstance()`
 		Method getInstance
-																																																																																																																																																																						* `Page getInstance()`
+																																																																																																																																																																																						* `Page getInstance()`
 		Method getInstance
-																																																																																																										
+																																																																																																																
 == Inherited Method Summary == 
 
+=== Inherited From Class AbstractPage ===
+
+			* `AbstractPage::InitializeComponent()`
+		
+			* `AbstractPage::Load()`
+		
+			* `AbstractPage::Loaded()`
+		
+	
 ----
 == Method Detail ==
 
@@ -454,6 +483,38 @@ Method addObject
 *since:* 1.0.18
 
 *access:* public
+
+
+
+= Page::__construct =
+
+*__construct(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Constructor Page
+
+
+
+
+= Page::__destruct =
+
+*__destruct(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Destructor Page
+
 
 
 
@@ -781,6 +842,26 @@ Method getBrowserVersion
 
 
 
+= Page::getCacheDirectory =
+
+*getCacheDirectory(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getCacheDirectory
+
+
+*since:* 1.2.7
+
+*access:* public
+
+
+
 = Page::getCacheFileName =
 
 *getCacheFileName(*
@@ -798,6 +879,26 @@ Method getCacheFileName
 *since:* 1.0.73
 
 *access:* protected
+
+
+
+= Page::getCacheTime =
+
+*getCacheTime(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getCacheTime
+
+
+*since:* 1.2.7
+
+*access:* public
 
 
 
@@ -856,6 +957,26 @@ Method getCurrentURLDirectory
 
 
 *since:* 1.0.3
+
+*access:* public
+
+
+
+= Page::getCurrentURLWithoutParameters =
+
+*getCurrentURLWithoutParameters(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getCurrentURLWithoutParameters
+
+
+*since:* 1.2.1
 
 *access:* public
 
@@ -960,6 +1081,26 @@ Method getLanguage
 
 
 *since:* 1.0.2
+
+*access:* public
+
+
+
+= Page::getLanguageLocale =
+
+*getLanguageLocale(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getLanguageLocale
+
+
+*since:* 1.2.7
 
 *access:* public
 
@@ -1417,6 +1558,26 @@ Method getRenderObject
 
 
 
+= Page::getRootWspDirectory =
+
+*getRootWspDirectory(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getRootWspDirectory
+
+
+*since:* 1.2.3
+
+*access:* public
+
+
+
 = Page::getSubDomainURL =
 
 *getSubDomainURL(*
@@ -1667,6 +1828,26 @@ Method isCss3Browser
 
 
 
+= Page::isLocalhostURL =
+
+*isLocalhostURL(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method isLocalhostURL
+
+
+*since:* 1.2.7
+
+*access:* public
+
+
+
 = Page::isMobileDevice =
 
 *isMobileDevice(*
@@ -1707,6 +1888,26 @@ Method isMobileMetaTag
 
 
 
+= Page::isMobileWebAppMetaTag =
+
+*isMobileWebAppMetaTag(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method isMobileWebAppMetaTag
+
+
+*since:* 1.2.7
+
+*access:* public
+
+
+
 = Page::loadAllVariables =
 
 *loadAllVariables(*
@@ -1727,38 +1928,6 @@ Load all GET and POST Varaibles after submit a form
 *since:* 1.0.22
 
 *access:* public
-
-
-
-= Page::__construct =
-
-*__construct(*
-* );*
-
-
-	
-
-	
-*Remarks*
-
-Constructor Page
-
-
-
-
-= Page::__destruct =
-
-*__destruct(*
-* );*
-
-
-	
-
-	
-*Remarks*
-
-Destructor Page
-
 
 
 
@@ -1901,7 +2070,8 @@ Method setCacheFileName
 *setCacheTime(*
 *integer*
 _$cache_time_, [*boolean*
-_$reset_on_midnight_ = false]* );*
+_$reset_on_midnight_ = false], [*string*
+_$cache_timezone_id_ = '']* );*
 
 
 	
@@ -1910,6 +2080,7 @@ _$reset_on_midnight_ = false]* );*
 *Parameters*
 			_$cache_time_ time in seconds
 			_$reset_on_midnight_ true if the cache is replace after midnight [default value: false]
+			_$cache_timezone_id_ if $reset_on_midnight is true, then the time zone id can be defined to detect the change of the day [default value: '']
 		
 *Remarks*
 
@@ -1941,6 +2112,30 @@ Method setMobileMetaTag
 
 
 *since:* 1.1.4
+
+*access:* public
+
+
+
+= Page::setMobileWebAppMetaTag =
+
+*setMobileWebAppMetaTag(*
+[*boolean*
+_$bool_ = true]* );*
+
+
+	
+
+	
+*Parameters*
+			_$bool_ [default value: true]
+		
+*Remarks*
+
+Method setMobileWebAppMetaTag
+
+
+*since:* 1.2.7
 
 *access:* public
 
@@ -1999,7 +2194,7 @@ Method setTimeout
 = Page::setUserRights =
 
 *setUserRights(*
-*string*
+*string|array*
 _$rights_* );*
 
 
@@ -2043,77 +2238,77 @@ Method userHaveRights
 ----
 
 == Variable Detail ==
-* `static $PAGE_DESCRIPTION` = ` ''` (line 121)
+* `static $PAGE_DESCRIPTION` = ` ''` (line 138)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `static $PAGE_KEYWORDS` = ` ''` (line 120)
+* `static $PAGE_KEYWORDS` = ` ''` (line 137)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `static $PAGE_META_GOOGLEBOTS` = ` ''` (line 123)
+* `static $PAGE_META_GOOGLEBOTS` = ` ''` (line 140)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `static $PAGE_META_IPHONE_IMAGE_57PX` = ` ''` (line 128)
+* `static $PAGE_META_IPHONE_IMAGE_57PX` = ` ''` (line 145)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `static $PAGE_META_IPHONE_IMAGE_72PX` = ` ''` (line 129)
+* `static $PAGE_META_IPHONE_IMAGE_72PX` = ` ''` (line 146)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `static $PAGE_META_IPHONE_IMAGE_114PX` = ` ''` (line 130)
+* `static $PAGE_META_IPHONE_IMAGE_114PX` = ` ''` (line 147)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `static $PAGE_META_OPENGRAPH_IMAGE` = ` ''` (line 127)
+* `static $PAGE_META_OPENGRAPH_IMAGE` = ` ''` (line 144)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `static $PAGE_META_OPENGRAPH_TYPE` = ` ''` (line 126)
+* `static $PAGE_META_OPENGRAPH_TYPE` = ` ''` (line 143)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `static $PAGE_META_REVISIT_AFTER` = ` ''` (line 124)
+* `static $PAGE_META_REVISIT_AFTER` = ` ''` (line 141)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `static $PAGE_META_ROBOTS` = ` ''` (line 122)
+* `static $PAGE_META_ROBOTS` = ` ''` (line 139)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `static $PAGE_TITLE` = ` ''` (line 119)
+* `static $PAGE_TITLE` = ` ''` (line 136)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `$PAGE_CACHING` = ` false` (line 134)
+* `$PAGE_CACHING` = ` false` (line 151)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `$render` = ` null` (line 117)
+* `$render` = ` null` (line 134)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `$USER_NO_RIGHTS_REDIRECT` = ` ''` (line 133)
+* `$USER_NO_RIGHTS_REDIRECT` = ` ''` (line 150)
 * *Data type:* `mixed`
 *access:* protected
 
 
-* `$USER_RIGHTS` = ` ''` (line 132)
+* `$USER_RIGHTS` = ` ''` (line 149)
 * *Data type:* `mixed`
 *access:* protected
 
@@ -2122,7 +2317,7 @@ Method userHaveRights
 ----
 == Class Constant Detail ==
 
-* `CACHE_TIME_1DAY` = ` 86400` (line 42)
+* `CACHE_TIME_1DAY` = ` 86400` (line 46)
 
 
 *Remarks*
@@ -2133,7 +2328,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_1HOUR` = ` 3600` (line 36)
+* `CACHE_TIME_1HOUR` = ` 3600` (line 38)
 
 
 *Remarks*
@@ -2144,7 +2339,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_1MIN` = ` 60` (line 31)
+* `CACHE_TIME_1MIN` = ` 60` (line 33)
 
 
 *Remarks*
@@ -2155,7 +2350,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_1MONTH` = ` 2678400` (line 48)
+* `CACHE_TIME_1MONTH` = ` 2678400` (line 52)
 
 
 *Remarks*
@@ -2166,7 +2361,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_1YEAR` = ` 31536000` (line 53)
+* `CACHE_TIME_1YEAR` = ` 31536000` (line 57)
 
 
 *Remarks*
@@ -2177,7 +2372,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_2DAYS` = ` 172800` (line 43)
+* `CACHE_TIME_2DAYS` = ` 172800` (line 47)
 
 
 *Remarks*
@@ -2188,7 +2383,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_2HOURS` = ` 7200` (line 37)
+* `CACHE_TIME_2HOURS` = ` 7200` (line 39)
 
 
 *Remarks*
@@ -2199,7 +2394,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_2MIN` = ` 120` (line 32)
+* `CACHE_TIME_2MIN` = ` 120` (line 34)
 
 
 *Remarks*
@@ -2210,7 +2405,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_2MONTHS` = ` 5270400` (line 49)
+* `CACHE_TIME_2MONTHS` = ` 5270400` (line 53)
 
 
 *Remarks*
@@ -2221,7 +2416,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_2YEARS` = ` 63072000` (line 54)
+* `CACHE_TIME_2YEARS` = ` 63072000` (line 58)
 
 
 *Remarks*
@@ -2232,7 +2427,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_3DAYS` = ` 259200` (line 44)
+* `CACHE_TIME_3DAYS` = ` 259200` (line 48)
 
 
 *Remarks*
@@ -2243,7 +2438,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_3HOURS` = ` 10800` (line 38)
+* `CACHE_TIME_3HOURS` = ` 10800` (line 40)
 
 
 *Remarks*
@@ -2254,7 +2449,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_3MONTHS` = ` 8035200` (line 50)
+* `CACHE_TIME_3MONTHS` = ` 8035200` (line 54)
 
 
 *Remarks*
@@ -2265,7 +2460,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_4DAYS` = ` 345600` (line 45)
+* `CACHE_TIME_4DAYS` = ` 345600` (line 49)
 
 
 *Remarks*
@@ -2276,7 +2471,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_4HOURS` = ` 14400` (line 39)
+* `CACHE_TIME_4HOURS` = ` 14400` (line 41)
 
 
 *Remarks*
@@ -2287,7 +2482,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_4MONTHS` = ` 10713600` (line 51)
+* `CACHE_TIME_4MONTHS` = ` 10713600` (line 55)
 
 
 *Remarks*
@@ -2298,7 +2493,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_6HOURS` = ` 21600` (line 40)
+* `CACHE_TIME_6HOURS` = ` 21600` (line 42)
 
 
 *Remarks*
@@ -2309,7 +2504,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_6MONTHS` = ` 15724800` (line 52)
+* `CACHE_TIME_6MONTHS` = ` 15724800` (line 56)
 
 
 *Remarks*
@@ -2320,7 +2515,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_7DAYS` = ` 604800` (line 46)
+* `CACHE_TIME_7DAYS` = ` 604800` (line 50)
 
 
 *Remarks*
@@ -2331,7 +2526,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_10MIN` = ` 600` (line 33)
+* `CACHE_TIME_8HOURS` = ` 28800` (line 43)
 
 
 *Remarks*
@@ -2342,7 +2537,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_12HOURS` = ` 43200` (line 41)
+* `CACHE_TIME_10HOURS` = ` 36000` (line 44)
 
 
 *Remarks*
@@ -2353,7 +2548,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_14DAYS` = ` 1209600` (line 47)
+* `CACHE_TIME_10MIN` = ` 600` (line 35)
 
 
 *Remarks*
@@ -2364,7 +2559,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_20MIN` = ` 1200` (line 34)
+* `CACHE_TIME_12HOURS` = ` 43200` (line 45)
 
 
 *Remarks*
@@ -2375,7 +2570,7 @@ cache time
 *access:* public
 
 
-* `CACHE_TIME_30MIN` = ` 1800` (line 35)
+* `CACHE_TIME_14DAYS` = ` 1209600` (line 51)
 
 
 *Remarks*
@@ -2386,7 +2581,29 @@ cache time
 *access:* public
 
 
-* `META_ROBOTS_INDEX_FOLLOW` = ` 'index, follow'` (line 62)
+* `CACHE_TIME_20MIN` = ` 1200` (line 36)
+
+
+*Remarks*
+
+cache time
+
+
+*access:* public
+
+
+* `CACHE_TIME_30MIN` = ` 1800` (line 37)
+
+
+*Remarks*
+
+cache time
+
+
+*access:* public
+
+
+* `META_ROBOTS_INDEX_FOLLOW` = ` 'index, follow'` (line 66)
 
 
 *Remarks*
@@ -2397,7 +2614,7 @@ meta robots
 *access:* public
 
 
-* `META_ROBOTS_INDEX_NOFOLLOW` = ` 'index, nofollow'` (line 64)
+* `META_ROBOTS_INDEX_NOFOLLOW` = ` 'index, nofollow'` (line 68)
 
 
 *Remarks*
@@ -2408,7 +2625,7 @@ meta robots
 *access:* public
 
 
-* `META_ROBOTS_NOINDEX_FOLLOW` = ` 'noindex, follow'` (line 65)
+* `META_ROBOTS_NOINDEX_FOLLOW` = ` 'noindex, follow'` (line 69)
 
 
 *Remarks*
@@ -2419,7 +2636,7 @@ meta robots
 *access:* public
 
 
-* `META_ROBOTS_NOINDEX_NOFOLLOW` = ` 'noindex, nofollow'` (line 63)
+* `META_ROBOTS_NOINDEX_NOFOLLOW` = ` 'noindex, nofollow'` (line 67)
 
 
 *Remarks*
@@ -2430,7 +2647,7 @@ meta robots
 *access:* public
 
 
-* `OPENGRAPH_TYPE_ACTIVITY` = ` 'activity'` (line 73)
+* `OPENGRAPH_TYPE_ACTIVITY` = ` 'activity'` (line 77)
 
 
 *Remarks*
@@ -2441,7 +2658,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_ACTOR` = ` 'actor'` (line 88)
+* `OPENGRAPH_TYPE_ACTOR` = ` 'actor'` (line 92)
 
 
 *Remarks*
@@ -2452,7 +2669,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_ALBUM` = ` 'album'` (line 100)
+* `OPENGRAPH_TYPE_ALBUM` = ` 'album'` (line 104)
 
 
 *Remarks*
@@ -2463,7 +2680,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_ARTICLE` = ` 'article'` (line 109)
+* `OPENGRAPH_TYPE_ARTICLE` = ` 'article'` (line 113)
 
 
 *Remarks*
@@ -2474,7 +2691,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_ATHLETE` = ` 'athlete'` (line 89)
+* `OPENGRAPH_TYPE_ATHLETE` = ` 'athlete'` (line 93)
 
 
 *Remarks*
@@ -2485,7 +2702,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_AUTHOR` = ` 'author'` (line 90)
+* `OPENGRAPH_TYPE_AUTHOR` = ` 'author'` (line 94)
 
 
 *Remarks*
@@ -2496,7 +2713,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_BAND` = ` 'band'` (line 83)
+* `OPENGRAPH_TYPE_BAND` = ` 'band'` (line 87)
 
 
 *Remarks*
@@ -2507,7 +2724,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_BAR` = ` 'bar'` (line 75)
+* `OPENGRAPH_TYPE_BAR` = ` 'bar'` (line 79)
 
 
 *Remarks*
@@ -2518,7 +2735,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_BLOG` = ` 'blog'` (line 110)
+* `OPENGRAPH_TYPE_BLOG` = ` 'blog'` (line 114)
 
 
 *Remarks*
@@ -2529,7 +2746,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_BOOK` = ` 'book'` (line 101)
+* `OPENGRAPH_TYPE_BOOK` = ` 'book'` (line 105)
 
 
 *Remarks*
@@ -2540,7 +2757,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_CAFE` = ` 'cafe'` (line 77)
+* `OPENGRAPH_TYPE_CAFE` = ` 'cafe'` (line 81)
 
 
 *Remarks*
@@ -2551,7 +2768,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_CAUSE` = ` 'cause'` (line 80)
+* `OPENGRAPH_TYPE_CAUSE` = ` 'cause'` (line 84)
 
 
 *Remarks*
@@ -2562,7 +2779,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_CITY` = ` 'city'` (line 96)
+* `OPENGRAPH_TYPE_CITY` = ` 'city'` (line 100)
 
 
 *Remarks*
@@ -2573,7 +2790,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_COMPANY` = ` 'company'` (line 76)
+* `OPENGRAPH_TYPE_COMPANY` = ` 'company'` (line 80)
 
 
 *Remarks*
@@ -2584,7 +2801,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_COUNTRY` = ` 'country'` (line 97)
+* `OPENGRAPH_TYPE_COUNTRY` = ` 'country'` (line 101)
 
 
 *Remarks*
@@ -2595,7 +2812,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_DIRECTOR` = ` 'director'` (line 91)
+* `OPENGRAPH_TYPE_DIRECTOR` = ` 'director'` (line 95)
 
 
 *Remarks*
@@ -2606,7 +2823,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_DRINK` = ` 'drink'` (line 102)
+* `OPENGRAPH_TYPE_DRINK` = ` 'drink'` (line 106)
 
 
 *Remarks*
@@ -2617,7 +2834,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_FOOD` = ` 'food'` (line 103)
+* `OPENGRAPH_TYPE_FOOD` = ` 'food'` (line 107)
 
 
 *Remarks*
@@ -2628,7 +2845,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_GAME` = ` 'game'` (line 104)
+* `OPENGRAPH_TYPE_GAME` = ` 'game'` (line 108)
 
 
 *Remarks*
@@ -2639,7 +2856,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_GOVERNMENT` = ` 'government'` (line 84)
+* `OPENGRAPH_TYPE_GOVERNMENT` = ` 'government'` (line 88)
 
 
 *Remarks*
@@ -2650,7 +2867,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_HOTEL` = ` 'hotel'` (line 78)
+* `OPENGRAPH_TYPE_HOTEL` = ` 'hotel'` (line 82)
 
 
 *Remarks*
@@ -2661,7 +2878,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_LANDMARK` = ` 'landmark'` (line 98)
+* `OPENGRAPH_TYPE_LANDMARK` = ` 'landmark'` (line 102)
 
 
 *Remarks*
@@ -2672,7 +2889,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_MOVIE` = ` 'movie'` (line 105)
+* `OPENGRAPH_TYPE_MOVIE` = ` 'movie'` (line 109)
 
 
 *Remarks*
@@ -2683,7 +2900,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_MUSICIAN` = ` 'musician'` (line 92)
+* `OPENGRAPH_TYPE_MUSICIAN` = ` 'musician'` (line 96)
 
 
 *Remarks*
@@ -2694,7 +2911,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_NON_PROFIT` = ` 'non_profit'` (line 85)
+* `OPENGRAPH_TYPE_NON_PROFIT` = ` 'non_profit'` (line 89)
 
 
 *Remarks*
@@ -2705,7 +2922,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_POLITICIAN` = ` 'politician'` (line 93)
+* `OPENGRAPH_TYPE_POLITICIAN` = ` 'politician'` (line 97)
 
 
 *Remarks*
@@ -2716,7 +2933,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_PRODUCT` = ` 'product'` (line 106)
+* `OPENGRAPH_TYPE_PRODUCT` = ` 'product'` (line 110)
 
 
 *Remarks*
@@ -2727,7 +2944,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_PROFILE` = ` 'profile'` (line 94)
+* `OPENGRAPH_TYPE_PROFILE` = ` 'profile'` (line 98)
 
 
 *Remarks*
@@ -2738,7 +2955,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_PUBLIC_FIGURE` = ` 'public_figure'` (line 95)
+* `OPENGRAPH_TYPE_PUBLIC_FIGURE` = ` 'public_figure'` (line 99)
 
 
 *Remarks*
@@ -2749,7 +2966,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_RESTAURANT` = ` 'restaurant'` (line 79)
+* `OPENGRAPH_TYPE_RESTAURANT` = ` 'restaurant'` (line 83)
 
 
 *Remarks*
@@ -2760,7 +2977,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_SCHOOL` = ` 'school'` (line 86)
+* `OPENGRAPH_TYPE_SCHOOL` = ` 'school'` (line 90)
 
 
 *Remarks*
@@ -2771,7 +2988,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_SONG` = ` 'song'` (line 107)
+* `OPENGRAPH_TYPE_SONG` = ` 'song'` (line 111)
 
 
 *Remarks*
@@ -2782,7 +2999,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_SPORT` = ` 'sport'` (line 74)
+* `OPENGRAPH_TYPE_SPORT` = ` 'sport'` (line 78)
 
 
 *Remarks*
@@ -2793,7 +3010,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_SPORTS_LEAGUE` = ` 'sports_league'` (line 81)
+* `OPENGRAPH_TYPE_SPORTS_LEAGUE` = ` 'sports_league'` (line 85)
 
 
 *Remarks*
@@ -2804,7 +3021,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_SPORTS_TEAM` = ` 'sports_team'` (line 82)
+* `OPENGRAPH_TYPE_SPORTS_TEAM` = ` 'sports_team'` (line 86)
 
 
 *Remarks*
@@ -2815,7 +3032,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_STATE_PROVINCE` = ` 'state_province'` (line 99)
+* `OPENGRAPH_TYPE_STATE_PROVINCE` = ` 'state_province'` (line 103)
 
 
 *Remarks*
@@ -2826,7 +3043,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_TV_SHOW` = ` 'tv_show'` (line 108)
+* `OPENGRAPH_TYPE_TV_SHOW` = ` 'tv_show'` (line 112)
 
 
 *Remarks*
@@ -2837,7 +3054,7 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_UNIVERSITY` = ` 'university'` (line 87)
+* `OPENGRAPH_TYPE_UNIVERSITY` = ` 'university'` (line 91)
 
 
 *Remarks*
@@ -2848,12 +3065,78 @@ Open Graph Theme (http://ogp.me/#types)
 *access:* public
 
 
-* `OPENGRAPH_TYPE_WEBSITE` = ` 'website'` (line 111)
+* `OPENGRAPH_TYPE_WEBSITE` = ` 'website'` (line 115)
 
 
 *Remarks*
 
 Open Graph Theme (http://ogp.me/#types)
+
+
+*access:* public
+
+
+* `RIGHTS_ADMINISTRATOR` = ` 'administrator'` (line 123)
+
+
+*Remarks*
+
+Page Rights
+
+
+*access:* public
+
+
+* `RIGHTS_AUTH_USER` = ` 'auth_user'` (line 127)
+
+
+*Remarks*
+
+Page Rights
+
+
+*access:* public
+
+
+* `RIGHTS_DEVELOPER` = ` 'developer'` (line 126)
+
+
+*Remarks*
+
+Page Rights
+
+
+*access:* public
+
+
+* `RIGHTS_GUEST` = ` 'guest'` (line 128)
+
+
+*Remarks*
+
+Page Rights
+
+
+*access:* public
+
+
+* `RIGHTS_MODERATOR` = ` 'moderator'` (line 124)
+
+
+*Remarks*
+
+Page Rights
+
+
+*access:* public
+
+
+* `RIGHTS_TRANSLATOR` = ` 'translator'` (line 125)
+
+
+*Remarks*
+
+Page Rights
 
 
 *access:* public

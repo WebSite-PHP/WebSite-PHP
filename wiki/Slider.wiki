@@ -1,20 +1,20 @@
-#labels Class,WebSite-PHP,VideoHTML5,WebSitePhpObject,VideoHTML5
-= Class VideoHTML5 =
+#labels Class,WebSite-PHP,Slider,WebSitePhpObject,Slider
+= Class Slider =
 
 WebSitePhpObject
    |
-   --VideoHTML5
+   --Slider
 
 
 
-Location: /modules/Video/VideoHTML5.class.php
+Location: /display/advanced_object/Slider.class.php
 
 ----
 
 
 *Remarks*
 
-Class VideoHTML5
+Class Slider
 
 
 WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
@@ -28,7 +28,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *link:* 
 
-*since:* 1.0.87
+*since:* 1.2.7
 
 *access:* public
 
@@ -39,12 +39,12 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Class Constant Summary ==
 
-			* `STYLE_NONE` = ` ''`
+			* `HORIZONTAL_SLIDER` = ` ''`
 		
+		Slider style
+			* `VERTICAL_SLIDER` = ` 'vertical'`
 		
-			* `STYLE_TUBE` = ` 'tube'`
-		
-		
+		Slider style
 	
 ----
 == Inherited Class Constant Summary ==
@@ -73,7 +73,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																																										
+																																																										
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpObject ===
@@ -126,12 +126,15 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 
 
-= VideoHTML5::__construct =
+= Slider::__construct =
 
 *__construct(*
-*integer*
-_$width_, *integer*
-_$height_* );*
+[*double*
+_$value_ = 0], [*double*
+_$min_value_ = 0], [*double*
+_$max_value_ = 100], [*string*
+_$id_ = 'slider'], [*mixed*
+_$orientation_ = Slider::HORIZONTAL_SLIDER]* );*
 
 
 Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
@@ -139,19 +142,42 @@ Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
 
 	
 *Parameters*
-			_$width_ 
-			_$height_ 
+			_$value_ [default value: 0]
+			_$min_value_ [default value: 0]
+			_$max_value_ [default value: 100]
+			_$id_ [default value: slider]
+			_$orientation_ [default value: Slider::HORIZONTAL_SLIDER]
 		
 *Remarks*
 
-Constructor VideoHTML5
+Constructor Slider
 
 
 
 
-= VideoHTML5::activeAutostart =
+= Slider::displayText =
 
-*activeAutostart(*
+*displayText(*
+[**
+_$title_ = ''], [**
+_$text_pattern_ = '{#value}€'], [**
+_$text_pattern_range_max_ = '{#value}€']* );*
+
+
+	
+
+	
+*Parameters*
+			_$title_ 
+			_$text_pattern_ 
+			_$text_pattern_range_max_ 
+		*access:* public
+
+
+
+= Slider::getId =
+
+*getId(*
 * );*
 
 
@@ -160,78 +186,18 @@ Constructor VideoHTML5
 	
 *Remarks*
 
-Method activeAutostart
+Method getId
 
 
-*since:* 1.0.87
-
-*access:* public
-
-
-
-= VideoHTML5::getOnEndedJs =
-
-*getOnEndedJs(*
-* );*
-
-
-	
-
-	
-*Remarks*
-
-Method getOnEndedJs
-
-
-*since:* 1.0.99
+*since:* 1.2.7
 
 *access:* public
 
 
 
-= VideoHTML5::getOnPauseJs =
+= Slider::onChangeJs =
 
-*getOnPauseJs(*
-* );*
-
-
-	
-
-	
-*Remarks*
-
-Method getOnPauseJs
-
-
-*since:* 1.0.99
-
-*access:* public
-
-
-
-= VideoHTML5::getOnPlayJs =
-
-*getOnPlayJs(*
-* );*
-
-
-	
-
-	
-*Remarks*
-
-Method getOnPlayJs
-
-
-*since:* 1.0.99
-
-*access:* public
-
-
-
-= VideoHTML5::onEndedJs =
-
-*onEndedJs(*
+*onChangeJs(*
 *mixed*
 _$js_function_* );*
 
@@ -244,18 +210,18 @@ _$js_function_* );*
 		
 *Remarks*
 
-Method onEndedJs
+Method onChangeJs
 
 
-*since:* 1.0.99
+*since:* 1.2.7
 
 *access:* public
 
 
 
-= VideoHTML5::onPauseJs =
+= Slider::onSlideJs =
 
-*onPauseJs(*
+*onSlideJs(*
 *mixed*
 _$js_function_* );*
 
@@ -268,40 +234,16 @@ _$js_function_* );*
 		
 *Remarks*
 
-Method onPauseJs
+Method onSlideJs
 
 
-*since:* 1.0.99
-
-*access:* public
-
-
-
-= VideoHTML5::onPlayJs =
-
-*onPlayJs(*
-*mixed*
-_$js_function_* );*
-
-
-	
-
-	
-*Parameters*
-			_$js_function_ 
-		
-*Remarks*
-
-Method onPlayJs
-
-
-*since:* 1.0.99
+*since:* 1.2.7
 
 *access:* public
 
 
 
-= VideoHTML5::render =
+= Slider::render =
 
 *render(*
 [*boolean*
@@ -316,234 +258,208 @@ Overrides WebSitePhpObject::render() (Method render)
 			_$ajax_render_ [default value: false]
 		
 *Returns*
-		html code of object VideoHTML5
+		html code of object Slider
 
 *Remarks*
 
 Method render
 
 
-*since:* 1.0.87
+*since:* 1.2.7
 
 *access:* public
 
 
 
-= VideoHTML5::setAutoBuffering =
+= Slider::setBackgroundColor =
 
-*setAutoBuffering(*
+*setBackgroundColor(*
 *mixed*
-_$autobuffering_* );*
+_$background_color_* );*
 
 
 	
 
 	
 *Parameters*
-			_$autobuffering_ 
+			_$background_color_ 
 		
 *Remarks*
 
-Method setAutoBuffering
+Method setBackgroundColor
 
 
-*since:* 1.0.87
+*since:* 1.2.7
 
 *access:* public
 
 
 
-= VideoHTML5::setMP4Video =
+= Slider::setCursorColor =
 
-*setMP4Video(*
+*setCursorColor(*
 *mixed*
-_$video_mp4_* );*
+_$cursur_color_* );*
 
 
 	
 
 	
 *Parameters*
-			_$video_mp4_ 
+			_$cursur_color_ 
 		
 *Remarks*
 
-Method setMP4Video
+Method setCursorColor
 
 
-*since:* 1.2.2
+*since:* 1.2.7
 
 *access:* public
 
 
 
-= VideoHTML5::setOggVideo =
+= Slider::setId =
 
-*setOggVideo(*
+*setId(*
 *mixed*
-_$video_ogg_* );*
+_$id_* );*
 
 
 	
 
 	
 *Parameters*
-			_$video_ogg_ 
+			_$id_ 
 		
 *Remarks*
 
-Method setOggVideo
+Method setId
 
 
-*since:* 1.2.2
+*since:* 1.2.7
 
 *access:* public
 
 
 
-= VideoHTML5::setSnapshot =
+= Slider::setMaxValue =
 
-*setSnapshot(*
+*setMaxValue(*
 *mixed*
-_$snapshot_* );*
+_$max_value_* );*
 
 
 	
 
 	
 *Parameters*
-			_$snapshot_ 
+			_$max_value_ 
 		
 *Remarks*
 
-Method setSnapshot
+Method setMaxValue
 
 
-*since:* 1.0.87
+*since:* 1.2.7
 
 *access:* public
 
 
 
-= VideoHTML5::setStyle =
+= Slider::setMinValue =
 
-*setStyle(*
+*setMinValue(*
 *mixed*
-_$style_* );*
+_$min_value_* );*
 
 
 	
 
 	
 *Parameters*
-			_$style_ 
+			_$min_value_ 
 		
 *Remarks*
 
-Method setStyle
+Method setMinValue
 
 
-*since:* 1.0.87
+*since:* 1.2.7
 
 *access:* public
 
 
 
-= VideoHTML5::setTrackEvent =
+= Slider::setRangeValues =
 
-*setTrackEvent(*
+*setRangeValues(*
 *mixed*
-_$category_, *mixed*
-_$action_, [*string*
-_$label_ = '']* );*
+_$min_rangle_value_, *mixed*
+_$max_rangle_value_* );*
 
 
 	
 
 	
 *Parameters*
-			_$category_ 
-			_$action_ 
-			_$label_ 
+			_$min_rangle_value_ 
+			_$max_rangle_value_ 
 		
 *Remarks*
 
-Method setTrackEvent
+Method setRangeValues
 
 
-*since:* 1.0.99
+*since:* 1.2.7
 
 *access:* public
 
 
 
-= VideoHTML5::setVideo =
+= Slider::setStep =
 
-*setVideo(*
+*setStep(*
 *mixed*
-_$video_mp4_, [*string*
-_$video_webm_ = ''], [*string*
-_$video_ogg_ = '']* );*
+_$step_* );*
 
 
 	
 
 	
 *Parameters*
-			_$video_mp4_ 
-			_$video_webm_ 
-			_$video_ogg_ 
+			_$step_ 
 		
 *Remarks*
 
-Method setVideo
+Method setStep
 
 
-*since:* 1.0.87
+*since:* 1.2.7
 
 *access:* public
 
 
 
-= VideoHTML5::setWebMVideo =
+= Slider::setValue =
 
-*setWebMVideo(*
+*setValue(*
 *mixed*
-_$video_webm_* );*
+_$value_* );*
 
 
 	
 
 	
 *Parameters*
-			_$video_webm_ 
+			_$value_ 
 		
 *Remarks*
 
-Method setWebMVideo
+Method setValue
 
 
-*since:* 1.2.2
-
-*access:* public
-
-
-
-= VideoHTML5::showDownloadLinks =
-
-*showDownloadLinks(*
-* );*
-
-
-	
-
-	
-*Remarks*
-
-Method showDownloadLinks
-
-
-*since:* 1.2.2
+*since:* 1.2.7
 
 *access:* public
 
@@ -556,10 +472,26 @@ Method showDownloadLinks
 ----
 == Class Constant Detail ==
 
-* `STYLE_NONE` = ` ''` (line 28)
+* `HORIZONTAL_SLIDER` = ` ''` (line 33)
 
 
-* `STYLE_TUBE` = ` 'tube'` (line 29)
+*Remarks*
+
+Slider style
+
+
+*access:* public
+
+
+* `VERTICAL_SLIDER` = ` 'vertical'` (line 34)
+
+
+*Remarks*
+
+Slider style
+
+
+*access:* public
 
 
 

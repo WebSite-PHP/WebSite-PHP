@@ -31,14 +31,14 @@ Location: /display/TextBox.class.php
 Class TextBox
 
 
-WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.1.7
+*version:* 1.2.7
 
-*copyright:* WebSite-PHP.com 26/05/2011
+*copyright:* WebSite-PHP.com 17/01/2014
 
 *link:* 
 
@@ -49,7 +49,10 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 ----
 == Class Variable Summary ==
-							* `$type` = ` 'text'`
+									* `$live_validation` = ` null`
+		
+		
+					* `$type` = ` 'text'`
 		
 		
 		
@@ -118,7 +121,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																																																																																																																										
+																																																																																																																																																																																		
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpEventObject ===
@@ -141,6 +144,8 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method getName
 			* `WebSitePhpEventObject::getObjectEventValidationRender()`
 		Method getObjectEventValidationRender
+			* `WebSitePhpEventObject::getSubmitValueIsInit()`
+		
 			* `WebSitePhpEventObject::initSubmitValue()`
 		Method initSubmitValue  Internal method used by an object like ComboBox or TextBox to init it with submitted value (if not already done).
 			* `WebSitePhpEventObject::isAjaxEvent()`
@@ -168,8 +173,12 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method addJavaScript
 			* `WebSitePhpObject::displayJavascriptTag()`
 		Method displayJavascriptTag
+			* `WebSitePhpObject::forceAjaxRender()`
+		
 			* `WebSitePhpObject::getAjaxRender()`
 		Method getAjaxRender
+			* `WebSitePhpObject::getClass()`
+		
 			* `WebSitePhpObject::getCssArray()`
 		Method getCssArray
 			* `WebSitePhpObject::getJavaScriptArray()`
@@ -186,6 +195,8 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 		Method getRegisterObjects
 			* `WebSitePhpObject::getTag()`
 		Method getTag
+			* `WebSitePhpObject::getType()`
+		
 			* `WebSitePhpObject::isEventObject()`
 		Method isEventObject
 			* `WebSitePhpObject::isJavascriptObject()`
@@ -350,6 +361,7 @@ Method getAjaxRender
 * );*
 
 
+Overrides WebSitePhpObject::getClass() (parent method not documented)
 	
 
 	
@@ -399,6 +411,126 @@ Method getEncryptObject
 
 
 *since:* 1.0.67
+
+*access:* public
+
+
+
+= TextBox::getOnBlurJs =
+
+*getOnBlurJs(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getOnBlurJs
+
+
+*since:* 1.2.6
+
+*access:* public
+
+
+
+= TextBox::getOnChangeJs =
+
+*getOnChangeJs(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getOnChangeJs
+
+
+*since:* 1.2.6
+
+*access:* public
+
+
+
+= TextBox::getOnClickJs =
+
+*getOnClickJs(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getOnClickJs
+
+
+*since:* 1.2.6
+
+*access:* public
+
+
+
+= TextBox::getOnKeyPressJs =
+
+*getOnKeyPressJs(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getOnKeyPressJs
+
+
+*since:* 1.2.6
+
+*access:* public
+
+
+
+= TextBox::getOnKeyUpJs =
+
+*getOnKeyUpJs(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getOnKeyUpJs
+
+
+*since:* 1.2.6
+
+*access:* public
+
+
+
+= TextBox::getOnMouseOutJs =
+
+*getOnMouseOutJs(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getOnMouseOutJs
+
+
+*since:* 1.2.6
 
 *access:* public
 
@@ -1146,6 +1278,11 @@ Method setWidth
 ----
 
 == Variable Detail ==
+* `$live_validation` = ` null` (line 47)
+* *Data type:* `mixed`
+*access:* protected
+
+
 * `$type` = ` 'text'` (line 29)
 * *Data type:* `mixed`
 *access:* protected
