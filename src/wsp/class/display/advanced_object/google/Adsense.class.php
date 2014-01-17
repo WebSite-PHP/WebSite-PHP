@@ -8,7 +8,7 @@
  * Class Adsense
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage advanced_object.google
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.6
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.0.17
  */
@@ -32,6 +32,7 @@ class Adsense extends WebSitePhpObject {
 	private $google_ad_slot = "";
 	private $google_ad_width = 0;
 	private $google_ad_height = 0;
+	private $is_async = true;
 	/**#@-*/
 	
 	/**
@@ -55,6 +56,15 @@ class Adsense extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method disableAsynchronous
+	 * @access public
+	 * @since 1.2.7
+	 */
+	public function disableAsynchronous() {
+		$this->is_async = false;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -62,50 +72,45 @@ class Adsense extends WebSitePhpObject {
 	 * @since 1.0.35
 	 */
 	public function render($ajax_render=false) {
-		$adsense_html = $this->getJavascriptTagOpen();
-		$adsense_html .= "	google_ad_client=\"".$this->google_ad_client."\";\n";
-		$adsense_html .= "	google_ad_slot=\"".$this->google_ad_slot."\";\n";
-		$adsense_html .= "	google_ad_width=".$this->google_ad_width.";\n";
-		$adsense_html .= "	google_ad_height=".$this->google_ad_height.";\n";
-		if (GOOGLE_CODE_TRACKER != "" && 
-			find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
-			find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
-			!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
-				$adsense_html .= "	window.google_analytics_uacct=\"".GOOGLE_CODE_TRACKER."\";\n";
-				if (SUBDOMAIN_URL != "") {
-					$adsense_html .= "	google_analytics_domain_name=\"";
-					if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
-						$adsense_html .= str_replace(SUBDOMAIN_URL.".", ".", $_SERVER['SERVER_NAME']);
+		if ($this->is_async) {
+			$adsense_html = "<script async src=\"//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js\"></script>\n";
+			$adsense_html .= "<ins class=\"adsbygoogle\"\n";
+			$adsense_html .= "     style=\"display:inline-block;width:".$this->google_ad_width."px;height:".$this->google_ad_height."px\"\n";
+			$adsense_html .= "     data-ad-client=\"".$this->google_ad_client."\"\n";
+			$adsense_html .= "     data-ad-slot=\"".$this->google_ad_slot."\"\n";
+			if (GOOGLE_CODE_TRACKER != "" && $this->getPage()->getRemoteIP() != "127.0.0.1" &&
+				!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
+					$adsense_html .= "     data-analytics-uacct=\"".GOOGLE_CODE_TRACKER."\"\n";
+			}
+			$adsense_html .= "></ins>\n";
+			$adsense_html .= "<script>\n";
+			$adsense_html .= "(adsbygoogle = window.adsbygoogle || []).push({});\n";
+			$adsense_html .= "</script>\n";
+		} else {
+			$adsense_html = $this->getJavascriptTagOpen();
+			$adsense_html .= "	google_ad_client=\"".$this->google_ad_client."\";\n";
+			$adsense_html .= "	google_ad_slot=\"".$this->google_ad_slot."\";\n";
+			$adsense_html .= "	google_ad_width=".$this->google_ad_width.";\n";
+			$adsense_html .= "	google_ad_height=".$this->google_ad_height.";\n";
+			if (GOOGLE_CODE_TRACKER != "" && $this->getPage()->getRemoteIP() != "127.0.0.1" && 
+				!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
+					$adsense_html .= "	window.google_analytics_uacct=\"".GOOGLE_CODE_TRACKER."\";\n";
+					if (SUBDOMAIN_URL != "") {
+						$adsense_html .= "	google_analytics_domain_name=\"";
+						if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
+							$adsense_html .= str_replace(SUBDOMAIN_URL.".", ".", $_SERVER['SERVER_NAME']);
+						} else {
+							$adsense_html .= str_replace(SUBDOMAIN_URL.".", ".", FORCE_SERVER_NAME);
+						}
+						$adsense_html .= "\";\n";
 					} else {
-						$adsense_html .= str_replace(SUBDOMAIN_URL.".", ".", FORCE_SERVER_NAME);
+						$adsense_html .= "	google_analytics_domain_name=\"none\";\n";
 					}
-					$adsense_html .= "\";\n";
-				} else {
-					$adsense_html .= "	google_analytics_domain_name=\"none\";\n";
-				}
+			}
+			$adsense_html .= $this->getJavascriptTagClose();
+			$adsense_html .= "<script src=\"http://pagead2.googlesyndication.com/pagead/show_ads.js\"></script>\n";
 		}
-		$adsense_html .= $this->getJavascriptTagClose();
-		$adsense_html .= "<script src=\"http://pagead2.googlesyndication.com/pagead/show_ads.js\"></script>\n";
-		
-		//if (is_browser_ie() && get_browser_ie_version() >= 9) {
-			$html = $adsense_html;
-		/*} else {
-			// loading optimisation for other browser
-			$rand_val = rand(100000000, 9999999999);
-			$html = "<div id=\"adsense_".$rand_val."_".$this->google_ad_client."_".$this->google_ad_slot."_".$this->google_ad_width."x".$this->google_ad_height."\" style=\"width:".$this->google_ad_width."px;height".$this->google_ad_height."px;\"></div>\n";
-			
-			$ad_html = "<div id=\"ad_data_".$rand_val."_".$this->google_ad_client."_".$this->google_ad_slot."_".$this->google_ad_width."x".$this->google_ad_height."\" style=\"display:none;\">\n";
-			$ad_html .= $adsense_html;
-			$ad_html .= "</div>";
-			$ad_html .= $this->getJavascriptTagOpen();
-			$ad_html .= "	$(document).ready(function() {\n";
-			$ad_html .= "		document.getElementById('adsense_".$rand_val."_".$this->google_ad_client."_".$this->google_ad_slot."_".$this->google_ad_width."x".$this->google_ad_height."').appendChild(document.getElementById('ad_data_".$rand_val."_".$this->google_ad_client."_".$this->google_ad_slot."_".$this->google_ad_width."x".$this->google_ad_height."'));\n";
-			$ad_html .= "		document.getElementById('ad_data_".$rand_val."_".$this->google_ad_client."_".$this->google_ad_slot."_".$this->google_ad_width."x".$this->google_ad_height."').style.display = '';\n";
-			$ad_html .= "	});\n";
-			$ad_html .= $this->getJavascriptTagClose();
-			
-			$this->getPage()->addObject(new Object($ad_html), false, true);
-		}*/
+		$html = $adsense_html;
 		
 		$this->object_change = false;
 		return $html;

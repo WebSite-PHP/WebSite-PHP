@@ -7,7 +7,7 @@
  * Class Object
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.6
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.0.17
  */
@@ -84,6 +84,7 @@ class Object extends WebSitePhpEventObject {
 	private $class = "";
 	
 	private $itemprop = "";
+	private $itemprop_content = "";
 	private $itemtype = "";
 	private $typeof = "";
 	private $xmlns = "";
@@ -755,14 +756,16 @@ class Object extends WebSitePhpEventObject {
 	 * Method setItemProp
 	 * @access public
 	 * @param mixed $itemprop 
+	 * @param string $itemprop_content 
 	 * @return Object
 	 * @since 1.0.103
 	 */
-	public function setItemProp($itemprop) {
+	public function setItemProp($itemprop, $itemprop_content='') {
 		if (!$this->force_div_tag && !$this->force_span_tag) {
 			$this->forceSpanTag();
 		}
 		$this->itemprop = $itemprop;
+		$this->itemprop_content = $itemprop_content;
 		
 		return $this;
 	}
@@ -880,6 +883,9 @@ class Object extends WebSitePhpEventObject {
 			}
 			if ($this->itemprop != "") {
 				$html .= "itemprop=\"".$this->itemprop."\" ";
+				if ($this->itemprop_content != "") {
+					$html .= "content=\"".$this->itemprop_content."\" ";
+				}
 			}
 			if ($this->itemtype != "") {
 				$html .= "itemscope itemtype=\"".$this->itemtype."\" ";

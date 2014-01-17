@@ -7,7 +7,7 @@
  * Class DataBase
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package database
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.6
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.0.17
  */
@@ -177,7 +177,7 @@ class DataBase {
 				$query = stripslashes($query);
 			}
 			
-			if (strtoupper(substr($query, 0, 5)) == "SHOW ") {
+			if (strtoupper(substr($query, 0, 5)) == "SHOW " || strtoupper(substr($query, 0, 5)) == "DROP ") {
 				if ($stmt = $this->connection->query($query)) {
 					if (DEBUG && ($GLOBALS['__AJAX_LOAD_PAGE__'] == false || 
 						($GLOBALS['__AJAX_LOAD_PAGE__'] == true && $_GET['mime'] == "text/html"))) {
@@ -186,7 +186,7 @@ class DataBase {
 					}
 					return $stmt;
 				} else {
-					throw new NewException("Error DataBase::getInstance()->prepareStatement(): ".$this->connection->error." - SHOW Query: ".$query, 0, getDebugBacktrace(1));
+					throw new NewException("Error DataBase::getInstance()->prepareStatement(): ".$this->connection->error." - Query: ".$query, 0, getDebugBacktrace(1));
 				}
 			} else {
 				if ($stmt = $this->connection->prepare($query)) {

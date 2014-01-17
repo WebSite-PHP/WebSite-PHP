@@ -172,9 +172,9 @@ class ConfigureSite extends Page {
 		$this->edtGoogleTracker->setValue(GOOGLE_CODE_TRACKER);
 		$table_form->addRowColumns(__(EDT_GOOGLE_CODE_TRACKER).":&nbsp;", $this->edtGoogleTracker);
 		
-		$this->edtGoogleMapKey = new TextBox($this->form, "edtGoogleMapKey");
+		/*$this->edtGoogleMapKey = new TextBox($this->form, "edtGoogleMapKey");
 		$this->edtGoogleMapKey->setValue(GOOGLE_MAP_KEY);
-		$table_form->addRowColumns(__(EDT_GOOGLE_MAP_KEY).":&nbsp;", $this->edtGoogleMapKey);
+		$table_form->addRowColumns(__(EDT_GOOGLE_MAP_KEY).":&nbsp;", $this->edtGoogleMapKey);*/
 		
 		$table_form->addRow();
 		
@@ -470,7 +470,8 @@ class ConfigureSite extends Page {
 		$data_config_file .= "define(\"SITE_META_IPHONE_IMAGE_114PX\", \"".$this->edtSiteIphoneImage114->getValue()."\");\n";
 		$data_config_file .= "\n";
 		$data_config_file .= "define(\"GOOGLE_CODE_TRACKER\", \"".$this->edtGoogleTracker->getValue()."\");\n";
-		$data_config_file .= "define(\"GOOGLE_MAP_KEY\", \"".$this->edtGoogleMapKey->getValue()."\");\n";
+		//$data_config_file .= "define(\"GOOGLE_MAP_KEY\", \"".$this->edtGoogleMapKey->getValue()."\");\n";
+		$data_config_file .= "define(\"GOOGLE_MAP_KEY\", \"".GOOGLE_MAP_KEY."\"); // Deprecated (We recommand to use MapLeafLet)\n";
 		$data_config_file .= "\n";
 		$data_config_file .= "define(\"SITE_META_ROBOTS\", \"".$this->cmbMetaRobots->getValue()."\");\n";
 		$data_config_file .= "define(\"SITE_META_GOOGLEBOTS\", \"".$this->cmbMetaGooglebot->getValue()."\");\n";

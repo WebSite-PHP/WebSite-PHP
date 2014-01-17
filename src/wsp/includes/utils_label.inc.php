@@ -6,7 +6,7 @@
  * WebSite-PHP file utils_label.inc.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -14,11 +14,13 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.6
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.2.1
  */
+
+	$WSP_AUTO_CREATE_CONSTANT = true;
 
 	function __() {
 		$args = func_get_args();
@@ -117,11 +119,13 @@
 						$lang_file_content .= "?>";
 						
 						// Write File
-						$lang_file = new File($lang_file_path, false, true);
-						if ($lang_file->write($lang_file_content) !== false) {
-							$creation_message .= "Information: Constant <font color='blue'>".$constantValue."</font> automatically <font color='green'>CREATED</font> in the file ".$lang_file_path.".<br/>";
+						if ($WSP_AUTO_CREATE_CONSTANT) {
+							$lang_file = new File($lang_file_path, false, true);
+							if ($lang_file->write($lang_file_content) !== false) {
+								$creation_message .= "Information: Constant <font color='blue'>".$constantValue."</font> automatically <font color='green'>CREATED</font> in the file ".$lang_file_path.".<br/>";
+							}
+							$lang_file->close();
 						}
-						$lang_file->close();
 						
 						// Check if this label doesn't exists in other language for the current page
 						if ($translate_file == "all.inc.php") {
@@ -142,7 +146,7 @@
 									}
 									
 									// Write File
-									if ($label_found) {
+									if ($label_found && $WSP_AUTO_CREATE_CONSTANT) {
 										$lang_file = new File($page_lang_file_path, false, true);
 										if ($lang_file->write($lang_file_content) !== false) {
 											$creation_message .= "Information: Constant <font color='blue'>".$constantValue."</font> automatically <font color='red'>COMMENT</font> in the file ".$page_lang_file_path.".<br/>";
@@ -168,9 +172,7 @@
 					Page::getInstance($_GET['p'])->addObject($dialog);
 			}
 			// Inform the developer by mail
-			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
-				find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
-				find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0) {
+			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true && getRemoteIp() != "127.0.0.1") {
 					try {
 						$mail = new SmtpMail(SEND_ERROR_BY_MAIL_TO, __(SEND_ERROR_BY_MAIL_TO), "New label on ".__(SITE_NAME)." !!!", $creation_message, SMTP_MAIL, __(SMTP_NAME));
 						$mail->setPriority(SmtpMail::PRIORITY_HIGH);

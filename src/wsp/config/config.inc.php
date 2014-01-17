@@ -13,7 +13,7 @@ define("SITE_META_IPHONE_IMAGE_72PX", "");
 define("SITE_META_IPHONE_IMAGE_114PX", "");
 
 define("GOOGLE_CODE_TRACKER", "");
-define("GOOGLE_MAP_KEY", "");
+define("GOOGLE_MAP_KEY", ""); // Deprecated (We recommand to use MapLeafLet)
 
 define("SITE_META_ROBOTS", "index, follow");
 define("SITE_META_GOOGLEBOTS", "");

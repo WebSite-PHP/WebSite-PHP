@@ -6,7 +6,7 @@
  * WebSite-PHP file utils2.inc.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -14,14 +14,14 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.2.0
  */
 
-	function url_rewrite_format($car){
-		if (function_exists("is_utf8") && is_utf8($car)) {
+	function url_rewrite_format($car, $disable_utf8decode=false){
+		if (!$disable_utf8decode && function_exists("is_utf8") && is_utf8($car)) {
 			$car = utf8_decode($car);
 		}
 		$car=html_entity_decode($car);
@@ -64,7 +64,21 @@
 			"\xF7" => "_", "\xF8" => "o", "\xF9" => "u", "\xFA" => "u", 
 			"\xFB" => "u", "\xFC" => "u", "\xFD" => "y", "\xFE" => "_", 
 			"\xFF" => "y", "&" => "_", "\"" => "_", "!" => "_", "\r" => "_",
-			"&" => "_", "#" => "_", "$" => "_", "%" => "_", "\n" => "_");
+			"&" => "_", "#" => "_", "$" => "_", "%" => "_", "\n" => "_",
+			/* Russian charaters */
+			"А"=>"a", "Б"=>"b", "В"=>"v", "Г"=>"g", "Д"=>"d",
+		    "Е"=>"e", "Ё"=>"yo", "Ж"=>"zh", "З"=>"z", "И"=>"i", 
+		    "Й"=>"j", "К"=>"k", "Л"=>"l", "М"=>"m", "Н"=>"n", 
+		    "О"=>"o", "П"=>"p", "Р"=>"r", "С"=>"s", "Т"=>"t", 
+		    "У"=>"u", "Ф"=>"f", "Х"=>"kh", "Ц"=>"ts", "Ч"=>"ch", 
+		    "Ш"=>"sh", "Щ"=>"sch", "Ъ"=>"", "Ы"=>"y", "Ь"=>"", 
+		    "Э"=>"e", "Ю"=>"yu", "Я"=>"ya", "а"=>"a", "б"=>"b", 
+		    "в"=>"v", "г"=>"g", "д"=>"d", "е"=>"e", "ё"=>"yo", 
+		    "ж"=>"zh", "з"=>"z", "и"=>"i", "й"=>"j", "к"=>"k", 
+		    "л"=>"l", "м"=>"m", "н"=>"n", "о"=>"o", "п"=>"p", 
+		    "р"=>"r", "с"=>"s", "т"=>"t", "у"=>"u", "ф"=>"f", 
+		    "х"=>"kh", "ц"=>"ts", "ч"=>"ch", "ш"=>"sh", "щ"=>"sch", 
+		    "ъ"=>"", "ы"=>"y", "ь"=>"", "э"=>"e", "ю"=>"yu", "я"=>"ya");
 			
 		$car = strtr($car, $string);
 		$car = stripslashes($car);

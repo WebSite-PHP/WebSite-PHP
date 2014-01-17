@@ -7,7 +7,7 @@
  * Class CacheFile
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package utils
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.6
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.0.64
  */
@@ -71,9 +71,10 @@ class CacheFile {
 	 * @param integer $cache_time cache time in seconds [default value: 0]
 	 * @param boolean $binary [default value: false]
 	 * @param boolean $cache_reset_on_midnight [default value: false]
+	 * @param string $cache_timezone 
 	 * @param boolean $debug [default value: true]
 	 */
-	function __construct($filename, $cache_time=0, $binary=false, $cache_reset_on_midnight=false, $debug=true){
+	function __construct($filename, $cache_time=0, $binary=false, $cache_reset_on_midnight=false, $cache_timezone='', $debug=true){
 		$this->debug = $debug;
 		$filename = str_replace("\\", "/", $filename);
 		
@@ -108,9 +109,28 @@ class CacheFile {
 		// cache is always to define time
 		if ($cache_file_existe > time() - $this->cache_time) {
 			$this->read_current_cache = true;
+				
+			// if cache_reset_on_midnight is true and the caching file has not the same date like today
+			$date_cachefile = date("Ymd", $cache_file_existe);
+			$date_timezone = date("Ymd");
+			if ($cache_timezone == "") {
+				$cache_timezone = date_default_timezone_get();
+			}
+			if ($cache_timezone != "") {
+				// Compute date of the defined timezone to check if the day change
+				$offset_server = SERVER_TIMEZONE_OFFSET_SECONDES;
+				$tmp_date = new DateTime(null, new DateTimeZone($cache_timezone));
+				$offset_timezone = $tmp_date->getOffset();
+				if (is_numeric($offset_timezone) && is_numeric($offset_server)) {
+					$diff_time = $offset_timezone - $offset_server;
+					// compute dates with diff timezone
+					$date_cachefile = date("Ymd", $cache_file_existe + $diff_time);
+					$date_timezone = date("Ymd", time() + $diff_time);
+				}
+			}
 			
 			// if cache_reset_on_midnight is true and the caching file has not the same date like today
-			if ($cache_reset_on_midnight && date("Ymd", $cache_file_existe) != date("Ymd")) {
+			if ($cache_reset_on_midnight && $date_cachefile != $date_timezone) {
 				$this->read_current_cache = false;
 			}
 		}

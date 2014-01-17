@@ -115,11 +115,11 @@ class Connect extends Page {
 		    $this->mod_obj->add("<li>We recomand to install PHP lib curl. (To use GoogleWeather)</li>");
 			$nb_mod_error++;
 		}*/
-		$zlib_OC_is_set = preg_match('/On|(^[0-9]+$)/i', ini_get('zlib.output_compression'));
+		/*$zlib_OC_is_set = preg_match('/On|(^[0-9]+$)/i', ini_get('zlib.output_compression'));
 		if (!$zlib_OC_is_set) { 
 			$this->mod_obj->add("<li>We recomand to configure php.ini with zlib.output_compression = On.</li>");
 			$nb_mod_error++;
-		}
+		}*/
 		if ($nb_mod_error > 0) {
 			$this->mod_obj->setClass("warning");
 		} else {
@@ -134,9 +134,7 @@ class Connect extends Page {
 	
 	public function connect() {
 		if (!isset($_SESSION['user_try_connect_wsp_admin']) && $_SESSION['user_try_connect_wsp_admin'] != true) {
-			if (defined('SEND_ADMIN_CONNECT_BY_MAIL') && SEND_ADMIN_CONNECT_BY_MAIL == true &&
-				find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
-				find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0) {
+			if (defined('SEND_ADMIN_CONNECT_BY_MAIL') && SEND_ADMIN_CONNECT_BY_MAIL == true && $this->getRemoteIP() != "127.0.0.1") {
 					
 					$connect_mail .= "<b>User tried or is connected on administration :</b><br/>";
 					$connect_mail .= "URL : ".$this->getCurrentUrl()."<br/>";

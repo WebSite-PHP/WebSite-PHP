@@ -6,7 +6,7 @@
  * WebSite-PHP file utils.inc.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.0.19
  */
@@ -55,6 +55,14 @@
 		}
 		return false;
 	}
+    
+    function getRemoteIp() {
+    	if (isset($_SERVER["HTTP_X_FORWARDED_FOR"]) && $_SERVER["HTTP_X_FORWARDED_FOR"] != "") {
+    		return $_SERVER["HTTP_X_FORWARDED_FOR"];
+    	} else {
+    		return $_SERVER["REMOTE_ADDR"];
+    	}
+    }
 	
 	function error_handler($code, $message, $file, $line) {
 		if (0 == error_reporting() || $code == 0) {
@@ -98,17 +106,26 @@
 	function createHrefLink($str_or_object_link, $target='', $onclick='') {
 		$html = "";
 		if ($str_or_object_link != "") {
-			if (gettype($str_or_object_link) != "object" && strtoupper(substr($str_or_object_link, 0, 11)) != "JAVASCRIPT:") {
+			if (gettype($str_or_object_link) != "object" && strtoupper(substr($str_or_object_link, 0, 11)) != "JAVASCRIPT:" && strtoupper(substr($str_or_object_link, 0, 1)) != "#") {
 				$tmp_link = new Link($str_or_object_link, $target);
 				if (!$tmp_link->getUserHaveRights()) {
 					return "";
 				}
 				$html .= $tmp_link->getLink();
 				if ($tmp_link->getTarget() != "") {
-					$html .= "\" target=\"".$tmp_link->getTarget()."";
+					$html .= "\" target=\"".$tmp_link->getTarget();
+				}
+				if ($onclick != "") {
+					$html .= "\" onClick=\"".$onclick;
 				}
 			} else if (gettype($str_or_object_link) != "object" && strtoupper(substr($str_or_object_link, 0, 11)) == "JAVASCRIPT:") {
 				$html .= "javascript:void(0);\" onClick=\"".str_replace("javascript:", "", str_replace("javascript:void(0);", "", $str_or_object_link)).$onclick;
+			} else if (gettype($str_or_object_link) != "object" && strtoupper(substr($str_or_object_link, 0, 1)) == "#") {
+				$cur_page = Page::getInstance($_GET['p']);
+				$html .= $cur_page->getCurrentURL().$str_or_object_link;
+				if ($onclick != "") {
+					$html .= "\" onClick=\"".$onclick;
+				}
 			} else {
 				if (get_class($str_or_object_link) == "Link") {
 					if (!$str_or_object_link->getUserHaveRights()) {

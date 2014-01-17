@@ -7,7 +7,7 @@
  * Class GeoLocalisation
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package utils
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.6
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.0.16
  */
@@ -34,7 +34,7 @@ class GeoLocalisation {
 	protected $showTimezone = false;
 	
 	protected $service = 'api.ipinfodb.com';
-	protected $version = 'v2';
+	protected $version = 'v3';
 	protected $apiKey = '';
 
 	/**
@@ -166,9 +166,9 @@ class GeoLocalisation {
 	 * @since 1.0.35
 	 */
 	public function getGeoLocation(){
-		if (!isset($_SESSION['ipinfodb_geolocalisation']) && (!isset($_SESSION['google_geolocalisation']) && $this->_ip==$this->getRemoteIP()) || $this->_ip!=$this->getRemoteIP()) {
+		if ($this->apiKey != "" && ((!isset($_SESSION['ipinfodb_geolocalisation']) && (!isset($_SESSION['google_geolocalisation']) && $this->_ip==$this->getRemoteIP()) || $this->_ip!=$this->getRemoteIP()))) {
 	  		if(preg_match('/^(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)(?:[.](?:25[0-5]|2[0-4]\d|1\d\d|[1-9]\d|\d)){3}$/', $this->_ip)){
-	  			$service_url = 'http://' . $this->service . '/' . $this->version . '/' . 'ip_query.php?key=' . $this->apiKey . '&ip=' . $this->_ip;
+	  			$service_url = 'http://' . $this->service . '/' . $this->version . '/ip-city/?key=' . $this->apiKey . '&format=xml&ip=' . $this->_ip;
 	  			if (extension_loaded('curl')) {
 	  				$xml = $this->getPageFromUrlWithCurl($service_url);
 	  				if ($xml == false) {
@@ -193,8 +193,8 @@ class GeoLocalisation {
 			
 			$this->_geolocation = $result;
 			if ($this->_ip==$this->getRemoteIP()) {
-	    	$_SESSION['ipinfodb_geolocalisation'] = $this->_geolocation;
-	    }
+		    	$_SESSION['ipinfodb_geolocalisation'] = $this->_geolocation;
+		    }
   	} else {
   		if (isset($_SESSION['google_geolocalisation']) && $this->_ip==$this->getRemoteIP()) {
 	  		$this->_geolocation = $_SESSION['google_geolocalisation'];
@@ -298,7 +298,7 @@ class GeoLocalisation {
   * @return	string
   */
   public function getLatitude() {
-  	return $this->_getInfoIp('Latitude');
+  	return $this->_getInfoIp('latitude');
   }
   
   /**
@@ -307,7 +307,7 @@ class GeoLocalisation {
   * @return	string
   */
   public function getLongitude() {
-  	return $this->_getInfoIp('Longitude');
+  	return $this->_getInfoIp('longitude');
   }
   
   /**
@@ -316,7 +316,7 @@ class GeoLocalisation {
   * @return	string
   */
   public function getCity() {
-  	return utf8_encode($this->_getInfoIp('City'));
+  	return utf8_encode($this->_getInfoIp('cityName'));
   }
   
   /**
@@ -325,7 +325,7 @@ class GeoLocalisation {
   * @return	string
   */
   public function getCountry() {
-  	return utf8_encode($this->_getInfoIp('CountryName'));
+  	return utf8_encode($this->_getInfoIp('countryName'));
   }
   
   /**
@@ -334,7 +334,7 @@ class GeoLocalisation {
   * @return	string
   */
   public function getCountryCode() {
-  	return $this->_getInfoIp('CountryCode');
+  	return $this->_getInfoIp('countryCode');
   }
   
   /**
@@ -343,7 +343,7 @@ class GeoLocalisation {
   * @return	string
   */
   public function getRegion() {
-  	return utf8_encode($this->_getInfoIp('RegionName'));
+  	return utf8_encode($this->_getInfoIp('regionName'));
   }
 
 }

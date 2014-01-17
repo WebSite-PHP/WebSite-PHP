@@ -7,7 +7,7 @@
  * Class Page
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.6
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.0.0
  */
@@ -165,6 +165,7 @@ class Page extends AbstractPage {
 	private $cache_file_name = "";
 	private $cache_file_name_orig = "";
 	private $cache_time = 0;
+	private $cache_timezone = "";
 	private $cache_reset_on_midnight = false;
 	
 	private $is_browser_ie_6 = false;
@@ -189,6 +190,7 @@ class Page extends AbstractPage {
 	private $array_decrypted_form = array();
 	
 	private $is_mobile_meta_tag = false;
+	private $is_mobile_webapp_meta_tag = false;
 	/**#@-*/
 	
 	/**
@@ -280,7 +282,24 @@ class Page extends AbstractPage {
 				$render_current_cache = true;
 				
 				// if cache_reset_on_midnight is true and the caching file has not the same date like today
-				if ($this->cache_reset_on_midnight && date("Ymd", $cache_file_existe) != date("Ymd")) {
+				$date_cachefile = date("Ymd", $cache_file_existe);
+				$date_timezone = date("Ymd");
+				if ($this->cache_timezone == "") {
+					$this->cache_timezone = date_default_timezone_get();
+				}
+				if ($this->cache_timezone != "") {
+					// Compute date of the defined timezone to check if the day change
+					$offset_server = SERVER_TIMEZONE_OFFSET_SECONDES;
+					$tmp_date = new DateTime(null, new DateTimeZone($this->cache_timezone));
+					$offset_timezone = $tmp_date->getOffset();
+					if (is_numeric($offset_timezone) && is_numeric($offset_server)) {
+						$diff_time = $offset_timezone - $offset_server;
+						// compute dates with diff timezone
+						$date_cachefile = date("Ymd", $cache_file_existe + $diff_time);
+						$date_timezone = date("Ymd", time() + $diff_time);
+					}
+				}
+				if ($this->cache_reset_on_midnight && $date_cachefile != $date_timezone) {
 					$render_current_cache = false;
 				}
 			}
@@ -308,7 +327,7 @@ class Page extends AbstractPage {
 	 */
 	protected function setCacheFileName($file_name) {
 		if (trim($file_name) != "") {
-			$cache_directory = SITE_DIRECTORY."/wsp/cache";
+			$cache_directory = $this->getCacheDirectory();
 			if (!is_dir($cache_directory)) {
 				mkdir($cache_directory);
 			}
@@ -340,7 +359,7 @@ class Page extends AbstractPage {
 			$cache_file_name_orig = $this->cache_file_name_orig;
 		}
 		if ($cache_file_name_orig != "") {
-			$cache_directory = SITE_DIRECTORY."/wsp/cache";
+			$cache_directory = $this->getCacheDirectory();
 			if ($_SESSION['lang'] != "") {
 				$cache_directory = $cache_directory."/".$_SESSION['lang'];
 			}
@@ -419,11 +438,23 @@ class Page extends AbstractPage {
 	 * @access protected
 	 * @param integer $cache_time time in seconds
 	 * @param boolean $reset_on_midnight true if the cache is replace after midnight [default value: false]
+	 * @param string $cache_timezone_id if $reset_on_midnight is true, then the time zone id can be defined to detect the change of the day [default value: '']
 	 * @since 1.0.3
 	 */
-	protected function setCacheTime($cache_time, $reset_on_midnight=false) {
+	protected function setCacheTime($cache_time, $reset_on_midnight=false, $cache_timezone_id='') {
 		$this->cache_time = $cache_time;
 		$this->cache_reset_on_midnight = $reset_on_midnight;
+		$this->cache_timezone = $cache_timezone_id;
+	}
+	
+	/**
+	 * Method getCacheTime
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.7
+	 */
+	public function getCacheTime() {
+		return $this->cache_time;
 	}
 	
 	/**
@@ -1393,6 +1424,20 @@ class Page extends AbstractPage {
 	public function getLanguage() {
 		return $_SESSION['lang'];
 	}
+
+	/**
+	 * Method getLanguageLocale
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.7
+	 */
+	public function getLanguageLocale() {
+		$language_locale = "en_US";
+		if ($this->getLanguage() != "en") {
+			$facebook_language = strtolower($this->getLanguage())."_".strtoupper($this->getLanguage());
+		}
+		return $language_locale;
+	}
 	
 	/**
 	 * Method getCurrentURL
@@ -1462,6 +1507,19 @@ class Page extends AbstractPage {
 	}
 	
 	/**
+	 * Method isLocalhostURL
+	 * @access public
+	 * @return boolean
+	 * @since 1.2.7
+	 */
+	public function isLocalhostURL() {
+		if (getRemoteIp() == "127.0.0.1") {
+				return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * Method getRootWspDirectory
 	 * @access public
 	 * @return mixed
@@ -1498,11 +1556,7 @@ class Page extends AbstractPage {
 	 * @since 1.0.89
 	 */
 	public function getRemoteIP() {
-		if (isset($_SERVER["HTTP_X_FORWARDED_FOR"]) && $_SERVER["HTTP_X_FORWARDED_FOR"] != "") {
-			return $_SERVER["HTTP_X_FORWARDED_FOR"];
-		} else {
-			return $_SERVER["REMOTE_ADDR"];
-		}
+		return getRemoteIp();
 	}
 	
 	/**
@@ -1611,6 +1665,9 @@ class Page extends AbstractPage {
 	 * @since 1.0.35
 	 */
 	public function isMobileDevice() {
+		if (find($this->getBrowserUserAgent(), " Mobile ") > 0) {
+			return true;
+		}
 		if ($this->browser == null) {
 			$this->browser = $this->getBrowserInfo();
 		}
@@ -1757,6 +1814,46 @@ class Page extends AbstractPage {
 	 */
 	public function isMobileMetaTag() {
 		return $this->is_mobile_meta_tag;
+	}
+	
+	/**
+	 * Method setMobileWebAppMetaTag
+	 * @access public
+	 * @param boolean $bool [default value: true]
+	 * @return Page
+	 * @since 1.2.7
+	 */
+	public function setMobileWebAppMetaTag($bool=true) {
+		$this->is_mobile_webapp_meta_tag = $bool;
+		return $this;
+	}
+	
+	/**
+	 * Method isMobileWebAppMetaTag
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.7
+	 */
+	public function isMobileWebAppMetaTag() {
+		return $this->is_mobile_webapp_meta_tag;
+	}
+	
+	/**
+	 * Method getCacheDirectory
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.7
+	 */
+	public function getCacheDirectory() {
+		$cache_directory = SITE_DIRECTORY."/wsp/cache";
+		if (defined("CACHE_DIRECTORY") && CACHE_DIRECTORY != "") {
+			if (is_dir(CACHE_DIRECTORY)) {
+				$cache_directory = CACHE_DIRECTORY;
+			} else if (is_dir(SITE_DIRECTORY.CACHE_DIRECTORY)) {
+				$cache_directory = SITE_DIRECTORY.CACHE_DIRECTORY;
+			}
+		}
+		return $cache_directory;
 	}
 }
 ?>

@@ -8,7 +8,7 @@
  * Class NivoSlider
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage Slider
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.2.1
  */
@@ -54,6 +54,7 @@ class NivoSlider extends WebSitePhpObject {
 	private $width = '';
 	private $height = '';
 	private $style = '';
+	private $pic_list_height = '';
 	
 	private $rotate_time = '';
 	private $transition = 'random';
@@ -126,7 +127,7 @@ class NivoSlider extends WebSitePhpObject {
 	 * @access public
 	 * @param integer $width 
 	 * @return NivoSlider
-	 * @since 1.2.3
+	 * @since 1.2.7
 	 */
 	public function setWidth($width) {
 		$this->width = $width;
@@ -138,7 +139,7 @@ class NivoSlider extends WebSitePhpObject {
 	 * @access public
 	 * @param integer $height 
 	 * @return NivoSlider
-	 * @since 1.2.3
+	 * @since 1.2.7
 	 */
 	public function setHeight($height) {
 		$this->height = $height;
@@ -150,10 +151,22 @@ class NivoSlider extends WebSitePhpObject {
 	 * @access public
 	 * @param mixed $style 
 	 * @return NivoSlider
-	 * @since 1.2.3
+	 * @since 1.2.7
 	 */
 	public function setStyle($style) {
 		$this->style = $style;
+		return $this;
+	}
+	
+	/**
+	 * Method setPictureListHeight
+	 * @access public
+	 * @param integer $height 
+	 * @return NivoSlider
+	 * @since 1.2.7
+	 */
+	public function setPictureListHeight($height) {
+		$this->pic_list_height = trim(str_replace("px", "", $height));
 		return $this;
 	}
 	
@@ -224,6 +237,9 @@ class NivoSlider extends WebSitePhpObject {
         	$html .= ", controlNavThumbs:true";
         }
         $html .= " });\n";
+		if ($this->pic_list_height != "") {
+			$html .= " $('.nivo-thumbs-enabled').css('height', '".$this->pic_list_height."px').css('overflow', 'auto');\n";
+		}
 		$html .= "});\n";
 		$html .= $this->getJavascriptTagClose();
 		

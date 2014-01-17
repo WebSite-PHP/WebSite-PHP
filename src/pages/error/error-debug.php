@@ -31,9 +31,7 @@ class ErrorDebug extends Page {
 	}
 	
 	public function Load() {
-		if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
-			find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
-			find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0) {
+		if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true && $this->getRemoteIP() != "127.0.0.1") {
 				if ($this->is_trace) {// standard msg "administrator is notified"
 					parent::$PAGE_TITLE = __(ERROR)." - ".__(SITE_NAME);
 					$box_title = __(ERROR);
@@ -52,7 +50,7 @@ class ErrorDebug extends Page {
 		$error_title_table = new Table();
 		$error_title_table->addRowColumns(new Picture("wsp/img/warning.png", 48, 48, 0, "absmidlle"), "&nbsp;", new Label(__(ERROR), true));
 		$obj_error_msg = new Object($error_title_table, "<br/>");
-		$debug_obj = new Object($debug_msg);
+		$debug_obj = new Object(utf8encode($debug_msg));
 		$debug_obj->setAlign(Object::ALIGN_LEFT);
 		$debug_obj->setWidth("80%");
 		$obj_error_msg->add($debug_obj, "<br/><br/>");

@@ -8,7 +8,7 @@
  * Class GoogleSearchBar
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage GoogleSearch
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.0.99
  */
@@ -189,9 +189,7 @@ class GoogleSearchBar extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$html = "<div id=\"cse-search-form\" style=\"width: 100%;\">Loading</div>
 				<script type=\"text/javascript\">\n";
-				if (GOOGLE_CODE_TRACKER != "" && 
-					find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
-					find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+				if (GOOGLE_CODE_TRACKER != "" && $this->getPage()->getRemoteIP() != "127.0.0.1" && 
 					!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
 						$html .= "	var _gaq = _gaq || []; _gaq.push(['_setAccount', '".GOOGLE_CODE_TRACKER."']);
 							_trackCseQuery = function(control, searcher, query) {
@@ -216,9 +214,7 @@ class GoogleSearchBar extends WebSitePhpObject {
 				  	$html .= "		this.customSearchControl.setLinkTarget(".$this->link_target.");\n";
 				  }
 				    $html .= "		this.customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);\n";
-				  	if (GOOGLE_CODE_TRACKER != "" && 
-				  		find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
-				  		find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
+				  	if (GOOGLE_CODE_TRACKER != "" && $this->getPage()->getRemoteIP() != "127.0.0.1" && 
 				  		!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
 				    		$html .= "            this.customSearchControl.setSearchStartingCallback(null, _trackCseQuery);\n";
 				  	}

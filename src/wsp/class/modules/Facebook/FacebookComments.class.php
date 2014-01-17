@@ -8,7 +8,7 @@
  * Class FacebookComments
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage Facebook
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.6
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.0.86
  */
@@ -107,8 +107,16 @@ class FacebookComments extends WebSitePhpObject {
 	 * @since 1.0.86
 	 */
 	public function render($ajax_render=false) {
-		$html = "<style type='text/css'>.fb_iframe_widget iframe { position: relative;! }</style>";
-		$html .= "<div id=\"fb-root\"></div><script src=\"http://connect.facebook.net/en_US/all.js#xfbml=1\"></script><fb:comments href=\"".$this->url_to_comment."\" num_posts=\"".$this->number_post."\" width=\"".$this->width."\" colorscheme=\"".$this->style."\"></fb:comments>";
+		$facebook_language = $this->getPage()->getLanguageLocale();
+		$html = "<div id=\"fb-root\"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = \"//connect.facebook.net/".$facebook_language."/all.js#xfbml=1\";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div class=\"fb-comments\" data-href=\"".$this->url_to_comment."\" data-numposts=\"".$this->number_post."\" data-width=\"".$this->width."\" data-colorscheme=\"".$this->style."\" style=\"border:none; overflow:hidden;background-color:".($this->style=="dark"?"black":"white")."; width:".$this->width."px;\"></div>";
 		
 		return $html;
 	}

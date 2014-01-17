@@ -7,7 +7,7 @@
  * Abstract Class WebSitePhpEventObject
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package abstract
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.6
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.0.18
  */
@@ -505,10 +505,8 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
         $html .= "				isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;\n";
 		$html .= "				if (ajax_event_response != \"\") {\n";
 		$html .= "					var dialogbox_is_change = false;\n";
-		if (find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) > 0 || 
-	    	find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) > 0 || 
-	    	DEBUG == true) {
-				$html .= "					var alert_local_eval_error = true;\n";
+		if ($this->getPage()->getRemoteIP() == "127.0.0.1" || DEBUG == true) {
+			$html .= "					var alert_local_eval_error = true;\n";
 	    }
 		$html .= "					for (var ajax_event_ind=0; ajax_event_ind < ajax_event_response.length; ajax_event_ind++) {\n";
 		if (!$this->disable_ajax_wait_message) {
@@ -524,13 +522,11 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 	    $html .= "						} catch (e) {\n";
 	    $html .= "							console.log('Js error: ' + e.message + '\\nCode: ' + ajax_event_response[ajax_event_ind]);\n";
 	    // display ajax render error message when it's local or debug execution (useful to debug)
-	    if (find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) > 0 || 
-    		find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) > 0 || 
-    		DEBUG == true) {
-	    		$html .= "							if (alert_local_eval_error) {\n";
-	    		$html .= "								alert('An error appeared during Ajax event, please check the console of your browser to see the error(s).');";
-	    		$html .= "								alert_local_eval_error = false;\n";
-	    		$html .= "							}\n";
+	    if ($this->getPage()->getRemoteIP() == "127.0.0.1" || DEBUG == true) {
+    		$html .= "							if (alert_local_eval_error) {\n";
+    		$html .= "								alert('An error appeared during Ajax event, please check the console of your browser to see the error(s).');";
+    		$html .= "								alert_local_eval_error = false;\n";
+    		$html .= "							}\n";
     	}
 		$html .= "						}\n";
 		$html .= "					}\n";

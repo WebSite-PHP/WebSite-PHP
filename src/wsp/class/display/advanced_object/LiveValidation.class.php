@@ -8,7 +8,7 @@
  * Class LiveValidation
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage advanced_object
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.6
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.0.17
  */
@@ -232,6 +232,29 @@ class LiveValidation extends WebSitePhpObject {
 		// Pass a function that checks if a number is divisible by one that you pass it in args object
 		// In this case, 5 is passed, so should return true and validation will pass
 		// Validate.Custom( 55, { against: function(value,args){ return !(value % args.divisibleBy) }, args: {divisibleBy: 5} } );
+		return $this;
+	}
+	
+	/**
+	 * Method addValidateCalendar
+	 * @access public
+	 * @param mixed $calendar_format 
+	 * @return LiveValidation
+	 * @since 1.2.7
+	 */
+	public function addValidateCalendar($calendar_format) {
+		$dateFormatRegex = array("dd/mm/yy" => "/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/]\d{4}$/",
+        							"mm-dd-yy" => "/^(0?[1-9]|1[012])[\-](0?[1-9]|[12][0-9]|3[01])[\-]\d{4}$/",
+        							"dd.mm.yy" => "/^(0?[1-9]|[12][0-9]|3[01])[\.](0?[1-9]|1[012])[\.]\d{4}$/");
+		if (!isset($dateFormatRegex[$calendar_format])) {
+			$ok_format = "";
+			foreach ($dateFormatRegex as $key => $value) {
+				if ($ok_format != "") { $ok_format .= ", "; }
+				$ok_format .= $key;
+			}
+			throw new NewException("LiveValidation->addValidateCalendar() error: \$calendar_format not recognized. Valid format: ".$ok_format.".", 0, getDebugBacktrace(1));
+		}
+		$this->addValidateFormat($dateFormatRegex[$calendar_format]);
 		return $this;
 	}
 	

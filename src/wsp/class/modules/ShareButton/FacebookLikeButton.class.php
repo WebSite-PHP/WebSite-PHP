@@ -8,7 +8,7 @@
  * Class FacebookLikeButton
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage ShareButton
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.0.103
  */
@@ -102,16 +102,7 @@ class FacebookLikeButton extends WebSitePhpObject {
 		$html .= "  var js, fjs = d.getElementsByTagName(s)[0];\n";
 		$html .= "  if (d.getElementById(id)) return;\n";
 		$html .= "  js = d.createElement(s); js.id = id;\n";
-		$facebook_language = "en_US";
-		if ($_SESSION['lang'] == "fr") {
-			$facebook_language = "fr_FR";
-		} else if ($_SESSION['lang'] == "de") {
-			$facebook_language = "de_DE";
-		} else if ($_SESSION['lang'] == "it") {
-			$facebook_language = "it_IT";
-		} else if ($_SESSION['lang'] == "es") {
-			$facebook_language = "es_ES";
-		}
+		$facebook_language = $this->getPage()->getLanguageLocale();
 		$html .= "  js.src = \"//connect.facebook.net/".$facebook_language."/all.js#xfbml=1\";\n";
 		$html .= "  fjs.parentNode.insertBefore(js, fjs);\n";
 		$html .= "}(document, 'script', 'facebook-jssdk'));</script>\n";

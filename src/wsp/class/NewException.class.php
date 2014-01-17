@@ -6,7 +6,7 @@
  * Class NewException
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.0.15
  */
@@ -367,13 +367,15 @@ class NewException extends Exception
 	 * @access static
 	 * @param mixed $debug_msg 
 	 * @param string $attachment_file 
+	 * @param string $error_log_file [default value: error_send_by_mail.log]
+	 * @param mixed $cache_time [default value: CacheFile::CACHE_TIME_2MIN]
 	 * @since 1.0.100
 	 */
-    public static function sendErrorByMail($debug_msg, $attachment_file="") {
+    public static function sendErrorByMail($debug_msg, $attachment_file="", $error_log_file="error_send_by_mail.log", $cache_time=CacheFile::CACHE_TIME_2MIN) {
     	if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
 			find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
 			find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0) {
-				$caching_file = new CacheFile(dirname(__FILE__)."/../cache/error_send_by_mail.log", CacheFile::CACHE_TIME_2MIN);
+				$caching_file = new CacheFile(dirname(__FILE__)."/../cache/".$error_log_file, $cache_time);
 				if (($caching_file->readCache()) == false) {
 					$debug_mail = $debug_msg;
 					$page_object = Page::getInstance($_GET['p']);

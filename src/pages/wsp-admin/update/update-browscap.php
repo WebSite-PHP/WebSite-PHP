@@ -36,9 +36,9 @@ class UpdateBrowscap extends Page {
 		unset($_SESSION['user_browscap_version']);
 		
 		if ($this->updateFileFromUrl(dirname(__FILE__)."/../../../wsp/includes/browscap/lite_php_browscap.ini", 
-									"http://browsers.garykeith.com/stream.asp?Lite_PHP_BrowsCapINI") && 
+									"http://www.browscap.org/stream?q=Lite_PHP_BrowsCapINI") && 
 			$this->updateFileFromUrl(dirname(__FILE__)."/../../../wsp/includes/browscap/php_browscap.ini", 
-									"http://browsers.garykeith.com/stream.asp?PHP_BrowsCapINI")) {
+									"http://www.browscap.org/stream?q=PHP_BrowsCapINI")) {
 			$congratulation_pic = new Picture("img/wsp-admin/button_ok_64.png", 64, 64);
 			$this->render = new Object($congratulation_pic, "<br/>", __(UPDATE_FRAMEWORK_COMPLETE_OK, "Browscap.ini"));
 		} else {

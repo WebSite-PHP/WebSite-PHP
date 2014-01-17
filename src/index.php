@@ -271,6 +271,9 @@
 		<meta name="format-detection" content="telephone=no"/>
 		<meta name="format-detection" content="address=no"/>
 <?php } ?>
+<?php if ($page_object->isMobileWebAppMetaTag()) { ?>
+		<meta name="apple-mobile-web-app-capable" content="yes">
+<?php } ?>
 		<title><?php echo utf8encode(html_entity_decode($current_page_title)); ?></title>
 		
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -295,7 +298,7 @@
 		<meta name="expires" content="never" />
 		<link rel="icon" type="image/ico" href="<?php echo BASE_URL; ?>favicon.ico" />
 <?php 	if ($current_page_meta_iphone_image_57px != "") { ?>
-		<link rel="apple-touch-icon" href="<?php echo $current_page_meta_iphone_image_57px; ?>" />
+		<link rel="apple-touch-icon" sizes="57x57" href="<?php echo $current_page_meta_iphone_image_57px; ?>" />
 <?php 	} ?>
 <?php 	if ($current_page_meta_iphone_image_72px != "") { ?>
 		<link rel="apple-touch-icon" sizes="72x72" href="<?php echo $current_page_meta_iphone_image_72px; ?>" />
@@ -444,10 +447,8 @@
 			define(SEND_JS_ERROR_BY_MAIL, false);
 		}
 		if (SEND_JS_ERROR_BY_MAIL) {
-			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
-				find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
-				find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0) {
-					JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery.onerror.js", "", true);
+			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true && $page_object->getRemoteIP() != "127.0.0.1") {
+				JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery.onerror.js", "", true);
 			}
 		}
 		
@@ -501,10 +502,7 @@
 		</div>
 	</noscript>
 	<body>
-		<?php if (GOOGLE_CODE_TRACKER != "" && 
-					find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
-					find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
-					!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) { ?>
+		<?php if (GOOGLE_CODE_TRACKER != "" && $page_object->getRemoteIP() != "127.0.0.1" && !defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) { ?>
 		<script type="text/javascript">
 		  var _gaq = _gaq || [];
 		  _gaq.push(['_setAccount', '<?php echo GOOGLE_CODE_TRACKER; ?>']);
@@ -526,7 +524,8 @@
 		
 		  (function() {
 		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    //ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
 		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 		  })();
 		</script>
@@ -550,9 +549,7 @@
 		<?php
 		}
 		if (SEND_JS_ERROR_BY_MAIL) {
-			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
-				find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
-				find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0) {
+			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true && $page_object->getRemoteIP() != "127.0.0.1") {
 		?>
 			$(document).jsErrorHandler();
 		<?php

@@ -161,9 +161,7 @@ class ErrorPage extends Page {
 			}
 			
 			// send error by mail
-			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
-				find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
-				find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0) {
+			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true && $this->getRemoteIP() != "127.0.0.1") {
 					$send_error_mail = true;
 					
 					// Check if we have enougth information to send a mail

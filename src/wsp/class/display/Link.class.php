@@ -7,7 +7,7 @@
  * Class Link
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.6
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.0.17
  */
@@ -62,6 +62,7 @@ class Link extends WebSitePhpObject {
 	private $style = "";
 	private $tooltip_obj = null;
 	private $tooltip_title = "";
+	private $itemprop = false;
 	/**#@-*/
 	
 	/**
@@ -73,10 +74,9 @@ class Link extends WebSitePhpObject {
 	function __construct($link, $target='', $content=null) {
 		parent::__construct();
 		
-		if (!isset($link)) {
+		/*if (!isset($link)) {
 			throw new NewException("1 argument for ".get_class($this)."::__construct() is mandatory", 0, getDebugBacktrace(1));
-		}
-		
+		}*/
 		$this->link = $link;
 		$this->target = $target;
 		$this->content = $content;
@@ -328,6 +328,17 @@ class Link extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method setItemProp
+	 * @access public
+	 * @return Link
+	 * @since 1.2.7
+	 */
+	public function setItemProp() {
+		$this->itemprop = true;
+		return $this;
+	}
+	
+	/**
 	 * Method getOnClickJs
 	 * @access public
 	 * @return mixed
@@ -360,7 +371,7 @@ class Link extends WebSitePhpObject {
 		} else {
 			$tmp_link = $this->link;
 		}
-		if (strtoupper(substr($tmp_link, 0, 11)) != "JAVASCRIPT:" && strtoupper(substr($tmp_link, 0, 7)) != "MAILTO:" &&
+		if (($tmp_link != null || empty($this->link)) && strtoupper(substr($tmp_link, 0, 11)) != "JAVASCRIPT:" && strtoupper(substr($tmp_link, 0, 7)) != "MAILTO:" &&
 			strtoupper(substr($tmp_link, 0, 6)) != "FTP://" && strtoupper(substr($tmp_link, 0, 1)) != "#" &&
 			get_class($this->link) != "DialogBox" && get_class($this->link) != "JavaScript") {
 				
@@ -429,7 +440,10 @@ class Link extends WebSitePhpObject {
 			$this->onclick = "_gaq.push(['_trackEvent', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."']);".$this->onclick;
 		}
 		
-		$html .= "<a href=\"".createHrefLink($this->link, $this->target, $this->onclick)."\"";
+		$html .= "<a";
+		if ($this->link != null) {
+			$html .= " href=\"".createHrefLink($this->link, $this->target, $this->onclick)."\"";
+		}
 		if ($this->id != "") {
 			$html .= " id=\"".$this->id."\"";
 		}
@@ -452,10 +466,10 @@ class Link extends WebSitePhpObject {
 			}
 			$html .= "\"";
 		}
-		if ($this->nofollow && !$this->is_lightbox) {
+		if ($this->nofollow && !$this->is_lightbox && $this->rel != "") {
 			$html .= " rel=\"nofollow\"";
 		}
-		if ($this->rel != "") {
+		if ($this->rel != "" && !$this->is_lightbox && !$this->nofollow) {
 			$html .= " rel=\"".$this->rel."\"";
 		}
 		if ($this->property != "") {
@@ -467,6 +481,9 @@ class Link extends WebSitePhpObject {
 		}
 		if ($this->tooltip_obj != null) {
 			$html .= " oldtitle=\"".str_replace("'", "&#39;", str_replace("\"", "&quot;", str_replace("\n", "", str_replace("\r", "", $this->tooltip_title))))."\" data-hasqtip=\"true\"";
+		}
+		if ($this->itemprop) {
+			$html .= " itemprop=\"url\"";
 		}
 		$html .= ">";
 		if (gettype($this->content) == "object" && method_exists($this->content, "render")) {

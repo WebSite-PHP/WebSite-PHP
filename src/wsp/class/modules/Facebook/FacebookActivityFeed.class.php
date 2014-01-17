@@ -8,7 +8,7 @@
  * Class FacebookActivityFeed
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage Facebook
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.7
  * @access      public
  * @since       1.0.86
  */
@@ -180,7 +180,15 @@ class FacebookActivityFeed extends WebSitePhpObject {
 	 * @since 1.0.86
 	 */
 	public function render($ajax_render=false) {
-		$html = "<iframe src=\"http://www.facebook.com/plugins/activity.php?site=".$this->domain."&amp;width=".$this->width."&amp;height=".$this->height."&amp;header=".($this->header?"true":"false")."&amp;colorscheme=".$this->style."&amp;font=".$this->font."&amp;border_color=".$this->border_color."&amp;recommendations=".($this->show_recommandations?"true":"false")."\" scrolling=\"no\" frameborder=\"0\" style=\"border:none; overflow:hidden;background-color:".($this->style=="dark"?"black":"white")."; width:".$this->width."px; height:".$this->height."px;\" allowTransparency=\"true\"></iframe>";
+		$html = "<div id=\"fb-root\"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = \"//connect.facebook.net/fr_FR/all.js#xfbml=1\";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div class=\"fb-activity\" data-site=\"".$this->domain."\" data-action=\"likes, recommends\" data-width=\"".$this->width."\" data-height=\"".$this->height."\" data-colorscheme=\"".$this->style."\" data-header=\"".($this->header?"true":"false")."\" style=\"border:none; overflow:hidden;background-color:".($this->style=="dark"?"black":"white")."; width:".$this->width."px; height:".$this->height."px;\"></div>";
 		
 		return $html;
 	}
