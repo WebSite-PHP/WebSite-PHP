@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.0.0
  */
@@ -96,6 +96,9 @@
 		
 		// call the loaded method
 		$page_object->Loaded();
+				
+		// Get CDN server URL (or base URL if not exists)
+		$cdn_server_url = $page_object->getCDNServerURL();
 		
 		// create current page ajax return
 		$__PAGE_IS_INIT__ = false; // desactivate change log
@@ -108,11 +111,11 @@
 				if ($combine_js != "") { $combine_js .= ","; }
 				$combine_js .= str_replace(BASE_URL."wsp/js/", "", str_replace(BASE_URL."js/", "", $script));
 			} else {
-				$array_ajax_object_render[] = "loadDynamicJS('".$script."', -1);";
+				$array_ajax_object_render[] = "loadDynamicJS('".str_replace(BASE_URL, $cdn_server_url, $script)."', -1);";
 			}
 		}
 		if ($combine_js != "") {
-			$array_ajax_object_render[] = "loadDynamicJS('".BASE_URL."combine-js/".str_replace("/", "|", $combine_js)."', -1);";
+			$array_ajax_object_render[] = "loadDynamicJS('".$cdn_server_url."combine-js/".str_replace("/", "|", $combine_js)."', -1);";
 		}
 		
 		$save_scroll_position = "var wsp_save_hscroll = f_scrollLeft();";
@@ -128,7 +131,7 @@
 		$add_to_render = $page_object->getBeginAddedObjects();
 		for ($i=0; $i < sizeof($add_to_render); $i++) {
 			if (gettype($add_to_render[$i]) == "object") {
-				$ajax_render = str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $add_to_render[$i]->getAjaxRender())));
+				$ajax_render = str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#CDN_BASE_URL#}", $page_object->getCDNServerURL(), str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $add_to_render[$i]->getAjaxRender()))));
 				if ($ajax_render != "") {
 					$array_ajax_object_render[] = $ajax_render;
 				}
@@ -139,7 +142,7 @@
 		for ($i=0; $i < sizeof($register_objects); $i++) {
 			$object = $register_objects[$i];
 			if ($object->isObjectChange() && get_class($object) != "DialogBox" && get_class($object) != "JavaScript") {
-				$ajax_render = str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $object->getAjaxRender())));
+				$ajax_render = str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#CDN_BASE_URL#}", $page_object->getCDNServerURL(), str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $object->getAjaxRender()))));
 				if ($ajax_render != "") {
 					$array_ajax_object_render[] = $ajax_render;
 				}
@@ -150,7 +153,7 @@
 		$add_to_render = $page_object->getEndAddedObjects();
 		for ($i=0; $i < sizeof($add_to_render); $i++) {
 			if (gettype($add_to_render[$i]) == "object") {
-				$ajax_render = str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $add_to_render[$i]->getAjaxRender())));
+				$ajax_render = str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#CDN_BASE_URL#}", $page_object->getCDNServerURL(), str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $add_to_render[$i]->getAjaxRender()))));
 				if ($ajax_render != "") {
 					$array_ajax_object_render[] = $ajax_render;
 				}
@@ -171,14 +174,14 @@
 				if (find($css, ".css.php") > 0 && CssInclude::getInstance()->getCssConfigFile() != "") {
 					$css .= "?conf_file=".CssInclude::getInstance()->getCssConfigFile();
 				}
-				$array_ajax_object_render[] = "loadDynamicCSS('".$css."');";
+				$array_ajax_object_render[] = "loadDynamicCSS('".str_replace(BASE_URL, $cdn_server_url, $css)."');";
 			}
 		}
 		if ($combine_css != "") {
 			if (find($combine_css, ".php.css") > 0 && CssInclude::getInstance()->getCssConfigFile() != "") {
 				$combine_css .= "?conf_file=".CssInclude::getInstance()->getCssConfigFile();
 			}
-			$array_ajax_object_render[] = "loadDynamicCSS('".BASE_URL."combine-css/".str_replace("/", "|", $combine_css)."');";
+			$array_ajax_object_render[] = "loadDynamicCSS('".$cdn_server_url."combine-css/".str_replace("/", "|", $combine_css)."');";
 		}
 		
 		if (DEBUG) {
@@ -191,7 +194,7 @@
 				$debug_dialogbox = new DialogBox("DEBUG Page ".$page_object->getPage().".php", $html_debug);
 				$debug_dialogbox->setAlign(DialogBox::ALIGN_LEFT)->setWidth(700);
 				$debug_dialogbox = new JavaScript($debug_dialogbox, true);
-				$array_ajax_object_render[] = str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $debug_dialogbox->getAjaxRender())));
+				$array_ajax_object_render[] = str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#CDN_BASE_URL#}", $page_object->getCDNServerURL(), str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $debug_dialogbox->getAjaxRender()))));
 			}
 		}
 		

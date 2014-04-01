@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.0.15
  */
@@ -372,10 +372,8 @@ class NewException extends Exception
 	 * @since 1.0.100
 	 */
     public static function sendErrorByMail($debug_msg, $attachment_file="", $error_log_file="error_send_by_mail.log", $cache_time=CacheFile::CACHE_TIME_2MIN) {
-    	if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true &&
-			find(BASE_URL, "127.0.0.1".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0 && 
-			find(BASE_URL, "localhost".($_SERVER['SERVER_PORT']!=80?":".$_SERVER['SERVER_PORT']:"")."/", 0, 0) == 0) {
-				$caching_file = new CacheFile(dirname(__FILE__)."/../cache/".$error_log_file, $cache_time);
+    	if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true && getRemoteIP() != "127.0.0.1") {
+    			$caching_file = new CacheFile(dirname(__FILE__)."/../cache/".$error_log_file, $cache_time);
 				if (($caching_file->readCache()) == false) {
 					$debug_mail = $debug_msg;
 					$page_object = Page::getInstance($_GET['p']);
@@ -401,6 +399,7 @@ class NewException extends Exception
 							$mail->addAttachment($attachment_file, basename(str_replace(".cache", ".txt", $attachment_file)));
 						}
 						if (($send_result = $mail->send()) != true) {
+							$caching_file->writeCache("Error when sent mail: ".$send_result."\nMail: ".$debug_mail);
 							//echo $send_result;
 						}
 					} catch (Exception $e) {

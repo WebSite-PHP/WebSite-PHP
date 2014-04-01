@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.0.17
  */
@@ -223,7 +223,11 @@ class Label extends WebSitePhpObject {
 			$html .= "<u>";
 		}
 		
-		$html .= $this->label;
+		if (gettype($this->label) == "object" && method_exists($this->label, "render")) {
+			$html .= $this->label->render();
+		} else {
+			$html .= $this->label;
+		}
 		
 		if ($this->italic) {
 			$html .= "</i>";

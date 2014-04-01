@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.2.7
  */
@@ -444,8 +444,8 @@ class MapLeafLet extends WebSitePhpObject {
 		for ($i=0; $i < sizeof($this->location_icon); $i++) {
 			$html .= "	var icon_".$this->id."_".$i." = \"".$this->location_icon[$i]."\";\n";
 		}
-		$html .= "	var icon_".$this->id."_default = \"".BASE_URL."wsp/img/leaflet/marker-icon-32.png\";\n";
-		$html .= "	L.Icon.Default.imagePath = \"".BASE_URL."wsp/img/leaflet\";\n";
+		$html .= "	var icon_".$this->id."_default = \"".$this->getPage()->getCDNServerURL()."wsp/img/leaflet/marker-icon-32.png\";\n";
+		$html .= "	L.Icon.Default.imagePath = \"".$this->getPage()->getCDNServerURL()."wsp/img/leaflet\";\n";
 		
 		$html .= "	initializeMap_".$this->id." = function(center_latitude, center_longitude, zoom) {\n";
 		if ($this->geosearch_tool == MapLeafLet::GEOSEARCH_GOOGLE) {

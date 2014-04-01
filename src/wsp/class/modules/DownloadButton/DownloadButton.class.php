@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.0.17
  */
@@ -172,9 +172,11 @@ class DownloadButton extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$html = "";
 		
-		$html .= "<a href=\"".$this->link."\"";
+		$html .= "<a ";
 		if ($this->track_categ != "") {
-			$html .= " onclick=\"_gaq.push(['_trackEvent', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."']);\"";
+			$html .= "href=\"javascript:void(0);\" onclick=\"ga('send', 'event', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."', {'hitCallback': function(){window.location.href = '".$this->link."';}});\"";
+		} else {
+			$html .= "href=\"".$this->link."\"";
 		}
 		$html .= ">\n";
 		$html .= "	<div style=\"width:".$this->download_image_width."px;height:".$this->download_image_height."px;background:url('".BASE_URL.$this->download_image."') no-repeat;position:relative;\">\n";

@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.0.87
  */
@@ -380,13 +380,14 @@ class VideoHTML5 extends WebSitePhpObject {
 		}
 		
 		$html .= $this->getJavascriptTagOpen();
-		$html .= "	_V_(\"video-".md5($this->video_mp4)."\");\n";
+		$html .= "	_V_(\"video-".md5($this->video_mp4)."\").ready(function() {\n";
+		$html .= "	var video_".md5($this->video_mp4)." = this;\n";
 		if ($this->track_categ != "" || $this->onplay != "") {
-			$html .= "	$('#video-".md5($this->video_mp4)."').bind(\"play\", function(){\n";
+			$html .= "	video_".md5($this->video_mp4).".addEvent(\"play\", function(){\n";
 			if (GOOGLE_CODE_TRACKER != "" && $this->getPage()->getRemoteIP() != "127.0.0.1" && 
 				!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
 					if ($this->track_categ != "") {
-						$html .= "_gaq.push(['_trackEvent', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."']);";
+						$html .= "ga('send', 'event', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."');";
 					}
 			}
 			if ($this->onplay != "") {
@@ -395,15 +396,16 @@ class VideoHTML5 extends WebSitePhpObject {
 			$html .= "  });\n";
 		}
 		if ($this->onpause != "") {
-			$html .= "	$('#video-".md5($this->video_mp4)."').bind(\"pause\", function(){\n";
+			$html .= "	video_".md5($this->video_mp4).".addEvent(\"pause\", function(){\n";
 			$html .= $this->onpause;
 			$html .= "  });\n";
 		}
 		if ($this->onended != "") {
-			$html .= "	$('#video-".md5($this->video_mp4)."').bind(\"ended\", function(){\n";
+			$html .= "	video_".md5($this->video_mp4).".addEvent(\"ended\", function(){\n";
 			$html .= $this->onended;
 			$html .= "  });\n";
 		}
+		$html .= "	});\n";
 		$html .= $this->getJavascriptTagClose();
 		
 		

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.0.17
  */
@@ -1036,7 +1036,7 @@ class Object extends WebSitePhpEventObject {
 					}
 				}
 				if (!$this->disable_ajax_wait_message) {
-					$html .= "#position:absolute;#top:50%;display:table-cell;vertical-align:middle;\"><img src=\"".BASE_URL."wsp/img/loading.gif\" width=\"32\" height=\"32\"/>";
+					$html .= "#position:absolute;#top:50%;display:table-cell;vertical-align:middle;\"><img src=\"".$this->getPage()->getCDNServerURL()."wsp/img/loading.gif\" width=\"32\" height=\"32\"/>";
 				} else {
 					$html .= "\">";
 				}
@@ -1076,7 +1076,7 @@ class Object extends WebSitePhpEventObject {
 			$html .= $this->getJavascriptTagOpen();
 			$html .= "var oldContentHtml = ''; if (trim($('#".$this->getId()."').html().replace(/<div[^>]*>(.*?)<\/div>/gi, '')) != '') { oldContentHtml = $('#".$this->getId()."').html(); }\n";
 			$html .= "$('#".$this->getId()."').load('".$loaded_url."', { 'oldContentHtml': oldContentHtml }, ";
-            $html .= "function (response, status, xhr) { if (status == 'error' && response != '') { $('#".$this->getId()."').html('<table><tr><td><img src=\'".BASE_URL."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + response); } } );";
+            $html .= "function (response, status, xhr) { if (status == 'error' && response != '') { $('#".$this->getId()."').html('<table><tr><td><img src=\'".$this->getPage()->getCDNServerURL()."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + response); } } );";
 			$html .= $this->getJavascriptTagClose();
 		}
 		

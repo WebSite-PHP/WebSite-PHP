@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.1.0
  */
@@ -232,9 +232,10 @@
 	require_once(dirname(__FILE__)."/../class/NewException.class.php");
 	set_exception_handler(array("NewException", "printStaticException"));
 	
+	include_once("wsp/includes/html2text.inc.php");
+	
 	include_once("wsp/includes/loader_class.inc.php");
 	include_once("wsp/includes/wsp_user_ban.inc.php");
 	
-	include_once("wsp/includes/html2text.inc.php");
 	include_once("wsp/includes/securimage/securimage.php");
 ?>

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.0.17
  */
@@ -257,7 +257,7 @@ class Captcha extends WebSitePhpObject {
 			}
   			$html .= "<br /><br />\n";
   			if ($this->refresh) {
-				$html .= "<a tabindex=\"-1\" style=\"border-style: none\" href=\"#\" title=\"Refresh Captcha Image\" onclick=\"$('#captcha_img_".$this->name."').attr('src', '".BASE_URL."wsp/includes/securimage/securimage_show.php?width=".$this->width."&height=".$this->height."&sid=' + Math.random()); return false\"><img src=\"".BASE_URL."wsp/includes/securimage/images/refresh.gif\" alt=\"Reload Captcha Image\" border=\"0\" onclick=\"this.blur()\" align=\"bottom\" /></a>\n";
+				$html .= "<a tabindex=\"-1\" style=\"border-style: none\" href=\"#\" title=\"Refresh Captcha Image\" onclick=\"$('#captcha_img_".$this->name."').attr('src', '".BASE_URL."wsp/includes/securimage/securimage_show.php?width=".$this->width."&height=".$this->height."&sid=' + Math.random()); return false\"><img src=\"".$this->getPage()->getCDNServerURL()."wsp/includes/securimage/images/refresh.gif\" alt=\"Reload Captcha Image\" border=\"0\" onclick=\"this.blur()\" align=\"bottom\" /></a>\n";
   			}
   			$html .= "<br />\n";
 			$html .= "<strong>".__(CAPTCHA_CODE)."</strong> ";

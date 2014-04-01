@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.0.19
  */
@@ -74,6 +74,10 @@
 	$base_wsp = realpath($base_root."/wsp/");
 	$base_lang = realpath($base_root."/lang/");
 	
+	if (isset($_GET['conf_file'])) {
+		$_GET['conf_file'] = str_replace("|", "/", $_GET['conf_file']);
+	}
+	
 	// Determine last modification date of the files
 	$lastmodified = 0;
 	foreach ($elements as $element) {
@@ -127,10 +131,15 @@
 			$is_config_theme_page = true;
 		}
 	}
+	include_once("../includes/utils.inc.php");
+	include_once("../includes/utils_string.inc.php");
 	
 	// Send Etag hash
 	$hash = $lastmodified . '-' . md5($_GET['files']);
 	if (isset($_GET['conf_file']) && file_exists("../config/".$_GET['conf_file'])) {
+		if (find($_GET['conf_file'], "..") > 0) { // no config file with relative path (security check)
+			exit;
+		}
 		$hash .= '-' . md5($_GET['conf_file']);
 	}
 	header ("Etag: \"" . $hash . "\"");
@@ -208,6 +217,14 @@
 		}
 		if (strrpos($_SERVER['REQUEST_URI'], "combine-css/") > 0) {
 			$my_site_base_url_merge_css = substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], "combine-css/"));
+		}
+		if (getRemoteIP() != "127.0.0.1" && defined("CDN_SERVER") && 
+			(CDN_SERVER != "" && CDN_SERVER != "http://")) {
+				$cdn_server_url = CDN_SERVER;
+				if ($cdn_server_url[strlen($cdn_server_url)-1] != "/") {
+					$cdn_server_url .= "/";
+				}
+				$my_site_base_url_merge_css = $cdn_server_url;
 		}
 	
 		// Get contents of the files

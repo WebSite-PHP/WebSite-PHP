@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php-install/wsp-admin/config/configure-site.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.8
  * @access      public
  * @since       1.0.25
  */
@@ -384,6 +384,15 @@ class ConfigureSite extends Page {
 		
 		$table_form2->addRow();
 		
+		$this->edtCdnServer = new TextBox($this->form2, "edtCdnServer");
+		if (!defined("CDN_SERVER") || CDN_SERVER == "") {
+			$this->edtCdnServer->setValue("http://");
+		} else {
+			$this->edtCdnServer->setValue(CDN_SERVER);
+		}
+		$table_form2->addRowColumns(__(EDT_CDN_SERVER).":&nbsp;",$this->edtCdnServer->setWidth(300));
+		$table_form2->addRowColumns("&nbsp;", __(CDN_SERVER_CMT));
+		
 		$this->edtForceServerName = new TextBox($this->form2, "edtForceServerName");
 		if (FORCE_SERVER_NAME == "") {
 			$this->edtForceServerName->setValue("http://");
@@ -520,6 +529,12 @@ class ConfigureSite extends Page {
 		$data_config_file .= "define(\"SEND_ADMIN_CONNECT_BY_MAIL\", ".$this->cmbSendAdminConnectByMail->getValue()."); // send wsp-admin connection notice, if not local URL (http://127.0.0.1/)\n";
 		$data_config_file .= "define(\"SEND_ADMIN_CONNECT_BY_MAIL_TO\", \"".$this->edtSendAdminConnectByMailTo->getValue()."\"); // send wsp-admin connection notice to this email\n";
 		$data_config_file .= "\n";
+		
+		$data_config_file .= "define(\"CDN_SERVER\", \"";
+		if ($this->edtCdnServer->getValue() != "http://") {
+			$data_config_file .= $this->edtCdnServer->getValue();
+		}
+		$data_config_file .= "\"); // CDN server URL (used to increase picture, JS and CSS loading time)\n";
 		
 		$data_config_file .= "define(\"FORCE_SERVER_NAME\", \"";
 		if ($this->edtForceServerName->getValue() != "http://") {

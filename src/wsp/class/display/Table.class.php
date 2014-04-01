@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.0.17
  */
@@ -1011,7 +1011,7 @@ class Table extends WebSitePhpObject {
 					$row_obj = $this->getPage()->getObjectId($object_text_id);
 					$row_obj->emptyObject();
 					if ($is_db_attribute) {
-						$this->from_sql_data_view_reload_pic->onClickJs("$('#".$object_id."').html('<img src=\'".BASE_URL."wsp/img/loading.gif\' height=\'16\' width=\'16\'/>');");
+						$this->from_sql_data_view_reload_pic->onClickJs("$('#".$object_id."').html('<img src=\'".$this->getPage()->getCDNServerURL()."wsp/img/loading.gif\' height=\'16\' width=\'16\'/>');");
 						$row_obj->add($this->from_sql_data_view_reload_pic, " ");
 					} else {
 						$edit_pic = new Picture("wsp/img/edit_16x16.png", 16, 16);
@@ -1128,7 +1128,7 @@ class Table extends WebSitePhpObject {
 				}
 				
 				for ($i=0; $i < sizeof($reload_pics_array); $i++) {
-					$reload_pics_array[$i]->onClickJs("$('#wsp_object_".$this->id."_".$reload_pics_array[$i]->getTag()."_input_obj_".$key_str."').html('<img src=\'".BASE_URL."wsp/img/loading.gif\' height=\'16\' width=\'16\'/>');");
+					$reload_pics_array[$i]->onClickJs("$('#wsp_object_".$this->id."_".$reload_pics_array[$i]->getTag()."_input_obj_".$key_str."').html('<img src=\'".$this->getPage()->getCDNServerURL()."wsp/img/loading.gif\' height=\'16\' width=\'16\'/>');");
 				}
 				
 				$this->addRowLoadFromSqlDataView($row, $list_attribute, $list_attribute_type, $key_attributes, $key_str);

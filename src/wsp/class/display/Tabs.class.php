@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.0.17
  */
@@ -311,7 +311,7 @@ class Tabs extends WebSitePhpObject {
 					$html .= str_replace("\"", "'", str_replace("\n", "", str_replace("\r", "", $this->array_tabs_loading_content[$i])));
 				}
 			} else {
-				$html .= "<div align='center' style='#position:absolute;#top:50%;display:table-cell;vertical-align:middle;'><img src='".BASE_URL."wsp/img/loading.gif' width='32' height='32' /></div>";
+				$html .= "<div align='center' style='#position:absolute;#top:50%;display:table-cell;vertical-align:middle;'><img src='".$this->getPage()->getCDNServerURL()."wsp/img/loading.gif' width='32' height='32' /></div>";
 			}
 			$html .= "\"); }\n";
 			if ($this->array_tabs_select_js[$i] != "") {
@@ -356,7 +356,7 @@ class Tabs extends WebSitePhpObject {
 				$html .= "			cache: true,\n";
 			} 
 			$html .= "			success: function() {},\n";
-			$html .= "			error: function (xhr, status, index, anchor) { if (status == 'error' && xhr.responseText != '') { \$(anchor.hash).html('<table><tr><td><img src=\'".BASE_URL."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + xhr.responseText); } }\n";
+			$html .= "			error: function (xhr, status, index, anchor) { if (status == 'error' && xhr.responseText != '') { \$(anchor.hash).html('<table><tr><td><img src=\'".$this->getPage()->getCDNServerURL()."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + xhr.responseText); } }\n";
 			$html .= "		}\n";
 		}
 		$html .= "});\n";

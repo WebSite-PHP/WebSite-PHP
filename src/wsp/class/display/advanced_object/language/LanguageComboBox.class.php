@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.0.93
  */
@@ -60,7 +60,7 @@ class LanguageComboBox extends WebSitePhpObject {
 		} else {
 			$lang_link = BASE_URL.$language_code."/".str_replace($this->getPage()->getBaseLanguageURL(), "", $this->getPage()->getCurrentURLWithoutParameters());
 		}
-		$this->cmb_language->addItem($lang_link, $language_text, ($this->getPage()->getLanguage()==$language_code)?true:false, BASE_URL."wsp/img/lang/".$language_code.".png");
+		$this->cmb_language->addItem($lang_link, $language_text, ($this->getPage()->getLanguage()==$language_code)?true:false, "wsp/img/lang/".$language_code.".png");
 		$this->cmb_language->onChangeJs("location.href=$('#".$this->cmb_language->getEventObjectName()."').val();");
 		return $this;
 	}

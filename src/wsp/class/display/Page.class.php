@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.0.0
  */
@@ -480,7 +480,7 @@ class Page extends AbstractPage {
 				JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery.backstretch.min.js", "", true);
 				$background_body_pic = "";
 				if (find(DEFINE_STYLE_BCK_BODY_PIC, "http://") == 0 && find(DEFINE_STYLE_BCK_BODY_PIC, "https://") == 0) {
-					$background_body_pic = $this->getBaseURL().DEFINE_STYLE_BCK_BODY_PIC;
+					$background_body_pic = $this->getCDNServerURL().DEFINE_STYLE_BCK_BODY_PIC;
 				} else {
 					$background_body_pic = DEFINE_STYLE_BCK_BODY_PIC;
 				}
@@ -1217,18 +1217,20 @@ class Page extends AbstractPage {
 			throw new NewException("Render object not set for the page ".$this->page." (Please set the variable \$this->render in class ".$this->class_name.")", 0, getDebugBacktrace(1));
 		} else {
 			$html = "";
-			for ($i=0; $i < sizeof($this->add_to_render_begining); $i++) {
-				if ($this->add_to_render_begining[$i]->isJavascriptObject()) {
-					$html .= $this->add_to_render_begining[$i]->getJavascriptTagOpen();
-				}
-				if (gettype($this->add_to_render_begining[$i]) == "object" && method_exists($this->add_to_render_begining[$i], "render")) {
-					$html .= $this->add_to_render_begining[$i]->render();
-				} else {
-					$html .= $this->add_to_render_begining[$i];
-				}
-				$html .= "\n";
-				if ($this->add_to_render_begining[$i]->isJavascriptObject()) {
-					$html .= $this->add_to_render_begining[$i]->getJavascriptTagClose();
+			if (!$this->getPageIsCaching()) {
+				for ($i=0; $i < sizeof($this->add_to_render_begining); $i++) {
+					if ($this->add_to_render_begining[$i]->isJavascriptObject()) {
+						$html .= $this->add_to_render_begining[$i]->getJavascriptTagOpen();
+					}
+					if (gettype($this->add_to_render_begining[$i]) == "object" && method_exists($this->add_to_render_begining[$i], "render")) {
+						$html .= $this->add_to_render_begining[$i]->render();
+					} else {
+						$html .= $this->add_to_render_begining[$i];
+					}
+					$html .= "\n";
+					if ($this->add_to_render_begining[$i]->isJavascriptObject()) {
+						$html .= $this->add_to_render_begining[$i]->getJavascriptTagClose();
+					}
 				}
 			}
 			if (gettype($this->render) == "object" && method_exists($this->render, "render")) {
@@ -1236,25 +1238,27 @@ class Page extends AbstractPage {
 			} else {
 				$html .= $this->render;
 			}
-			$html .= "\n";
-			$add_to_render = $this->getEndAddedObjects();
-			$nb_end_added_object = sizeof($add_to_render);
-			for ($i=0; $i < sizeof($add_to_render); $i++) {
-				if ($add_to_render[$i]->isJavascriptObject()) {
-					$html .= $add_to_render[$i]->getJavascriptTagOpen();
-				}
-				if (gettype($add_to_render[$i]) == "object" && method_exists($add_to_render[$i], "render")) {
-					$html .= $add_to_render[$i]->render();
-				} else {
-					$html .= $add_to_render[$i];
-				}
+			if (!$this->getPageIsCaching()) {
 				$html .= "\n";
-				if ($add_to_render[$i]->isJavascriptObject()) {
-					$html .= $add_to_render[$i]->getJavascriptTagClose();
-				}
-				if ($this->getNbEndAddedObjects() > $nb_end_added_object) {
-					$add_to_render = $this->getEndAddedObjects();
-					$nb_end_added_object = $this->getNbEndAddedObjects();
+				$add_to_render = $this->getEndAddedObjects();
+				$nb_end_added_object = sizeof($add_to_render);
+				for ($i=0; $i < sizeof($add_to_render); $i++) {
+					if ($add_to_render[$i]->isJavascriptObject()) {
+						$html .= $add_to_render[$i]->getJavascriptTagOpen();
+					}
+					if (gettype($add_to_render[$i]) == "object" && method_exists($add_to_render[$i], "render")) {
+						$html .= $add_to_render[$i]->render();
+					} else {
+						$html .= $add_to_render[$i];
+					}
+					$html .= "\n";
+					if ($add_to_render[$i]->isJavascriptObject()) {
+						$html .= $add_to_render[$i]->getJavascriptTagClose();
+					}
+					if ($this->getNbEndAddedObjects() > $nb_end_added_object) {
+						$add_to_render = $this->getEndAddedObjects();
+						$nb_end_added_object = $this->getNbEndAddedObjects();
+					}
 				}
 			}
 			if (DEBUG) {
@@ -1263,12 +1267,16 @@ class Page extends AbstractPage {
 					$html_debug .= $this->log_debug_str[$i]."<br/>\n";
 				}
 				if ($html_debug != "") {
-					$html .= "<div style=\"background-color:white;color:black;padding:5px;margin:10px;border:1px solid black;margin-bottom:0px;\" id=\"wsp-log-debug-title\"><img src='wsp/img/drag_arrow_16x16.png' align='absmiddle'/> <b>DEBUG Page ".$this->getPage().".php:</b></div>";
+					$html .= "<div style=\"background-color:white;color:black;padding:5px;margin:10px;border:1px solid black;margin-bottom:0px;\" id=\"wsp-log-debug-title\"><img src='".$this->getPage()->getCDNServerURL()."wsp/img/drag_arrow_16x16.png' align='absmiddle'/> <b>DEBUG Page ".$this->getPage().".php:</b></div>";
 					$html .= "<div style=\"background-color:white;color:black;padding:5px;margin:10px;border:1px solid black;margin-top:0px;\" id=\"wsp-log-debug\">".$html_debug."</div>";
 					$html .= "<script type='text/javascript'>function loagDebugZoneFollowDrag() { \$('#wsp-log-debug').css('top', \$('#wsp-log-debug-title').position().top+\$('#wsp-log-debug-title').height()+20);\$('#wsp-log-debug').css('left', \$('#wsp-log-debug-title').position().left);} \$('#wsp-log-debug-title').draggable({start: function( event, ui ) {\$('#wsp-log-debug').css('position', 'absolute');\$('#wsp-log-debug-title').css('width', \$('#wsp-log-debug').css('width'))}, drag: function( event, ui ) {loagDebugZoneFollowDrag();}, stop: function( event, ui ) {loagDebugZoneFollowDrag();}});\$('#wsp-log-debug').resizable({start: function( event, ui ){\$('#wsp-log-debug').css('overflow', 'auto');}, resize: function( event, ui ) {\$('#wsp-log-debug-title').css('width', \$('#wsp-log-debug').css('width'));}});</script>";
 				}
 			}
-			return str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $html)));
+			if ($this->getPageIsCaching()) {
+				return $html;
+			} else {
+				return str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#CDN_BASE_URL#}", $this->getCDNServerURL(), str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $html))));
+			}
 		}
 	}
 	
@@ -1854,6 +1862,24 @@ class Page extends AbstractPage {
 			}
 		}
 		return $cache_directory;
+	}
+	
+	/**
+	 * Method getCDNServerURL
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.8
+	 */
+	public function getCDNServerURL(){
+		$cdn_server_url = BASE_URL;
+		if ($this->getRemoteIP() != "127.0.0.1" && defined("CDN_SERVER") && 
+			(CDN_SERVER != "" && CDN_SERVER != "http://")) {
+				$cdn_server_url = CDN_SERVER;
+				if ($cdn_server_url[strlen($cdn_server_url)-1] != "/") {
+					$cdn_server_url .= "/";
+				}
+		}
+		return $cdn_server_url;
 	}
 }
 ?>

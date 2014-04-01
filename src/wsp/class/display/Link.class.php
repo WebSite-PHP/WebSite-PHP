@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.0.17
  */
@@ -60,6 +60,7 @@ class Link extends WebSitePhpObject {
 	private $rel = "";
 	private $property = "";
 	private $style = "";
+	private $class = "";
 	private $tooltip_obj = null;
 	private $tooltip_title = "";
 	private $itemprop = false;
@@ -208,6 +209,18 @@ class Link extends WebSitePhpObject {
 	 */
 	public function setStyle($style) {
 		$this->style = $style;
+		return $this;
+	}
+	
+	/**
+	 * Method setClass
+	 * @access public
+	 * @param mixed $class 
+	 * @return Link
+	 * @since 1.2.8
+	 */
+	public function setClass($class) {
+		$this->class = $class;
 		return $this;
 	}
 		
@@ -437,7 +450,15 @@ class Link extends WebSitePhpObject {
 		}
 		
 		if ($this->track_categ != "") {
-			$this->onclick = "_gaq.push(['_trackEvent', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."']);".$this->onclick;
+			if (get_class($this->link) == "Link") {
+				$this->onclick .= "var link_url=$(this).attr('href');";
+			}
+			$this->onclick .= "ga('send', 'event', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."'";
+			if (get_class($this->link) == "Link" && $this->link->getUserHaveRights() && $this->link->getTarget() == Link::TARGET_NONE) {
+				$this->onclick .= ", {'hitCallback': function(){window.location.href = link_url;}}); return false;";
+			} else {
+				$this->onclick .= ");";
+			}
 		}
 		
 		$html .= "<a";
@@ -484,6 +505,9 @@ class Link extends WebSitePhpObject {
 		}
 		if ($this->itemprop) {
 			$html .= " itemprop=\"url\"";
+		}
+		if ($this->class != "") {
+			$html .= " class=\"".$this->class."\"";
 		}
 		$html .= ">";
 		if (gettype($this->content) == "object" && method_exists($this->content, "render")) {

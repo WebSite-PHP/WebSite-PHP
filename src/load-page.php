@@ -6,7 +6,7 @@
  * Entry point of all other pages (.pdf, .xml, .call, ...)
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.8
  * @access      public
  * @since       1.0.0
  */
@@ -169,10 +169,13 @@
 			if ($_GET['mime'] == "text/html") {
 				$idLoadPage = rand(0,999999);
 				$__AJAX_LOAD_PAGE_ID__ = $idLoadPage;
+				
+				// Get CDN server URL (or base URL if not exists)
+				$cdn_server_url = $page_object->getCDNServerURL();
 ?>
 				<div align="center" id="idLoadPageLoadingPicture<?php echo $idLoadPage; ?>" style="width:100%;height:100%;#position:absolute;#top:50%;display:table-cell;vertical-align:middle;">
 					<?php if (isset($_POST['oldContentHtml'])) { echo $_POST['oldContentHtml']; } ?>
-					<img src="<?php echo BASE_URL; ?>wsp/img/loading.gif" width="32" height="32"/>
+					<img src="<?php echo $cdn_server_url; ?>wsp/img/loading.gif" width="32" height="32"/>
 				</div>
 				<script language="JavaScript">$('#idLoadPageLoadingPicture<?php echo $idLoadPage; ?>').height($('#idLoadPageLoadingPicture<?php echo $idLoadPage; ?>').parent().height());</script>
 				<div id="idLoadPageContent<?php echo $idLoadPage; ?>" style="display:none;">
@@ -209,7 +212,7 @@
 						if (find($css, ".css.php") > 0 && CssInclude::getInstance()->getCssConfigFile() != "") {
 							$css .= "?conf_file=".CssInclude::getInstance()->getCssConfigFile();
 						}
-						echo "loadDynamicCSS('".$css."');\n";
+						echo "loadDynamicCSS('".str_replace(BASE_URL, $cdn_server_url, $css)."');\n";
 						if ($conditional_comment != "") { echo "			<![endif]-->\n"; }
 					}
 				}
@@ -217,7 +220,7 @@
 					if (find($combine_css, ".php.css") > 0 && CssInclude::getInstance()->getCssConfigFile() != "") {
 						$combine_css .= "?conf_file=".CssInclude::getInstance()->getCssConfigFile();
 					}
-					echo "			loadDynamicCSS('".BASE_URL."combine-css/".str_replace("/", "|", $combine_css)."');\n";
+					echo "			loadDynamicCSS('".$cdn_server_url."combine-css/".str_replace("/", "|", $combine_css)."');\n";
 				}
 				
 				$combine_js = "";
@@ -230,14 +233,14 @@
 						echo "			";
 						$conditional_comment = JavaScriptInclude::getInstance()->getConditionalComment($i);
 						if ($conditional_comment != "") { echo "<!--[if ".$conditional_comment."]>\n				"; }
-							echo "loadDynamicJS('".$script."', ".$ind_load_js.");\n";
+							echo "loadDynamicJS('".str_replace(BASE_URL, $cdn_server_url, $script)."', ".$ind_load_js.");\n";
 						if ($conditional_comment != "") {
 							echo "			<![endif]-->\n"; 
 						}
 					}
 				}
 				if ($combine_js != "") {
-					echo "			loadDynamicJS('".BASE_URL."combine-js/".str_replace("/", "|", $combine_js)."', ".$ind_load_js.");\n";
+					echo "			loadDynamicJS('".$cdn_server_url."combine-js/".str_replace("/", "|", $combine_js)."', ".$ind_load_js.");\n";
 				}
 ?>
 				waitForJsScripts(<?php echo $ind_load_js; ?>);

@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.2.1
  */
@@ -43,6 +43,10 @@
 			return utf8_decode($text);
 		}
 		return $text;
+	}
+	
+	function convert_utf8_to_html($text) {
+		return mb_convert_encoding($text, 'HTML-ENTITIES', 'UTF-8');
 	}
 	
 	function formatDate($date) {

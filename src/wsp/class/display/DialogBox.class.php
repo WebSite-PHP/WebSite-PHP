@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.0.17
  */
@@ -468,7 +468,7 @@ class DialogBox extends WebSitePhpObject {
 		if (get_class($this->content) == "Url") {
 			$html .= "wspDialogBox".$this->dialogbox_indice.".load('".$html_content."', {}, ";
             $html .= "function (response, status, xhr) {";
-            $html .= "if (status == 'error' && response != '') { wspDialogBox".$this->dialogbox_indice." = $('<div style=\'display:hidden;z-index:99999".$this->dialogbox_indice.";\'><table><tr><td><img src=\'".BASE_URL."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + response + '</div>').appendTo('body'); }";
+            $html .= "if (status == 'error' && response != '') { wspDialogBox".$this->dialogbox_indice." = $('<div style=\'display:hidden;z-index:99999".$this->dialogbox_indice.";\'><table><tr><td><img src=\'".$this->getPage()->getCDNServerURL()."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + response + '</div>').appendTo('body'); }";
 		}
 		$html .= "wspDialogBox".$this->dialogbox_indice.".dialog({ title: '".addslashes(str_replace("\r", "", str_replace("\n", "", $this->title)))."'";
 		$html .= ", close: function() { wspDialogBox".$this->dialogbox_indice.".dialog('widget').find('.ui-dialog-content').html(''); wspDialogBox".$this->dialogbox_indice.".dialog('widget').remove(); }";

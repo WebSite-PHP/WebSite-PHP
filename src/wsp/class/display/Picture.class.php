@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.0.17
  */
@@ -232,7 +232,7 @@ class Picture extends WebSitePhpEventObject {
 	 */
 	public function preloadPicture() {
 		if (strtoupper(substr($this->src, 0, 7)) != "HTTP://" && strtoupper(substr($this->src, 0, 8)) != "HTTPS://") {
-			$src = BASE_URL.$this->src;
+			$src = $this->getPage()->getCDNServerURL().$this->src;
 		} else {
 			$src = $this->src;
 		}
@@ -255,7 +255,7 @@ class Picture extends WebSitePhpEventObject {
 		$this->lightbox_name = $lightbox_name;
 		if ($pic_link != "") {
 			if (strtoupper(substr($pic_link, 0, 7)) != "HTTP://" && strtoupper(substr($pic_link, 0, 8)) != "HTTPS://") {
-				$pic_link = BASE_URL.$pic_link;
+				$pic_link = $this->getPage()->getCDNServerURL().$pic_link;
 			}
 		}
 		$this->pic_link = $pic_link;
@@ -541,7 +541,7 @@ class Picture extends WebSitePhpEventObject {
 			$html .= ">";
 		}
 		if (strtoupper(substr($this->src, 0, 7)) != "HTTP://" && strtoupper(substr($this->src, 0, 8)) != "HTTPS://") {
-			$this->src = BASE_URL.$this->src;
+			$this->src = $this->getPage()->getCDNServerURL().$this->src;
 		}
 		$html .= "<img src='".$this->src."'";
 		if ($this->id != "") {

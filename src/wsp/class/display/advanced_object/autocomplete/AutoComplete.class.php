@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.0.17
  */
@@ -36,6 +36,7 @@ class AutoComplete extends WebSitePhpObject {
 	private $track_categ = "";
 	private $track_action = "";
 	private $track_label = "";
+	private $track_use_search_value = false;
 	private $track_pageview = false;
 	/**#@-*/
 	
@@ -80,16 +81,18 @@ class AutoComplete extends WebSitePhpObject {
 	 * @param mixed $category 
 	 * @param mixed $action 
 	 * @param string $label 
+	 * @param boolean $use_search_value [default value: true]
 	 * @return AutoComplete
 	 * @since 1.0.95
 	 */
-	public function setTrackEvent($category, $action, $label='') {
+	public function setTrackEvent($category, $action, $label='', $use_search_value=true) {
 		if (GOOGLE_CODE_TRACKER == "") {
 			throw new NewException(get_class($this)."->setTrackEvent() error: please define google code tracker in the website configuration", 0, getDebugBacktrace(1));
 		}
 		$this->track_categ = $category;
 		$this->track_action = $action;
 		$this->track_label = $label;
+		$this->track_use_search_value = $use_search_value;
 		return $this;
 	}
 	
@@ -119,22 +122,29 @@ class AutoComplete extends WebSitePhpObject {
 		$html .= $this->getJavascriptTagOpen();
 		$html .= "$(document).ready( function() {\n";
 		$html .= "\$('#".$this->link_object_id."').autocomplete({ source: '".$this->autocomplete_url->render()."', minLength: ".$this->autocomplete_min_length.", ";
-		if ($this->indicator_id != "") {
-			$html .= "search: function( event, ui ) { $('#".$this->indicator_id."').css('display', 'block');$('#".$this->indicator_id."').css('visibility', 'visible'); }, ";
+		$html .= "search: function( event, ui ) { ";
+		if (GOOGLE_CODE_TRACKER != "" && $this->getPage()->getRemoteIP() != "127.0.0.1" && 
+			!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
+				if ($this->track_categ != "") {
+					$html .= "ga('send', 'event', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."'";
+					if ($this->track_use_search_value) {
+						$html .= ", trim(\$('#".$this->link_object_id."').val())";
+					}
+					//$html .= ", {'hitCallback': function() {alert('analytics.js done sending data');}}";
+					$html .= ");";
+				}
+				if ($this->track_pageview) {
+					$html .= "ga('send', 'pageview', {'page': '/".str_replace($this->getPage()->getBaseURL(), "", $this->autocomplete_url->render())."?term='+urlencode(trim(\$('#".$this->link_object_id."').val()))});";
+				}
 		}
+		if ($this->indicator_id != "") {
+			$html .= "$('#".$this->indicator_id."').css('display', 'block');$('#".$this->indicator_id."').css('visibility', 'visible');";
+		}
+		$html .= " }, ";
 		$html .= "open: function( event, ui ) { ";
 		$html .= "	$('.ui-resizable').css('z-index', '0');";
 		if ($this->indicator_id != "") {
 			$html .= "$('#".$this->indicator_id."').css('visibility', 'hidden');";
-		}
-		if (GOOGLE_CODE_TRACKER != "" && $this->getPage()->getRemoteIP() != "127.0.0.1" && 
-			!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
-				if ($this->track_categ != "") {
-					$html .= "_gaq.push(['_trackEvent', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."']);";
-				}
-				if ($this->track_pageview) {
-					$html .= "_gaq.push(['_trackPageview', '/".str_replace($this->getPage()->getBaseURL(), "", $this->autocomplete_url->render())."?term='+urlencode(trim(\$('#".$this->link_object_id."').val()))]);";
-				}
 		}
 		$html .= " }, ";
 		$html .= "select: function( event, ui ) { ";
@@ -144,9 +154,10 @@ class AutoComplete extends WebSitePhpObject {
 		$html .= " }, ";
 		$html .= "close: function( event, ui ) { ";
 		$html .= "	$('.ui-resizable').css('z-index', '2');";
-		$html .= " } })\n";
-		$html .= ".data(\"autocomplete\")._renderItem = function(ul, item) {
-			if (item.icon == '') {
+		$html .= " }";
+		$html .= " })\n";
+		$html .= ".data(\"autocomplete\")._renderItem = function(ul, item) {\n";
+		$html .= "	if (item.icon == '') {
 				return $(\"<li></li>\").data(\"item.autocomplete\", item).append(\"<a>\" + item.label + \"</a>\" ).appendTo(ul);
 			} else {
 				return $(\"<li></li>\").data(\"item.autocomplete\", item).append(\"<a><img src='\" + item.icon + \"' border='0' height='20' align='absmiddle'/> \" + item.label + \"</a>\" ).appendTo(ul);

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.0.17
  */
@@ -203,7 +203,7 @@ class Button extends WebSitePhpEventObject {
 	 */
 	public function setPrimaryIcon($icon_16px) {
 		if (strtoupper(substr($icon_16px, 0, 7)) != "HTTP://" || strtoupper(substr($icon_16px, 0, 8)) != "HTTPS://") {
-			$icon_16px = $this->getPage()->getBaseURL().$icon_16px;
+			$icon_16px = $this->getPage()->getCDNServerURL().$icon_16px;
 		}
 		$this->primary_icon = $icon_16px;
 		return $this;

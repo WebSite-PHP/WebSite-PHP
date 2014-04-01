@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.8
  * @access      public
  * @since       1.2.1
  */
@@ -44,7 +44,8 @@
 		}
 		
 		// Encode data
-		if ($GLOBALS['__AJAX_LOAD_PAGE__'] == true && 
+		$array_lang_convert_html = array('ru');
+		if ($GLOBALS['__AJAX_LOAD_PAGE__'] == true && !in_array($_GET['l'], $array_lang_convert_html) && 
 			(find($_GET['mime'], "xml") > 0 || find($_GET['mime'], "rss") > 0)) {
 				$txt = utf8decode($txt);
 		} else {
@@ -53,8 +54,18 @@
 		
 		// convert %s by args
 		for ($i=0; $i < sizeof($args); $i++) {
-			$txt = preg_replace('/%s/', utf8encode($args[$i]), $txt, 1);
+			if ($GLOBALS['__AJAX_LOAD_PAGE__'] == true && !in_array($_GET['l'], $array_lang_convert_html) && 
+				(find($_GET['mime'], "xml") > 0 || find($_GET['mime'], "rss") > 0)) {
+					$txt = preg_replace('/%s/', utf8decode($args[$i]), $txt, 1);
+			} else {
+				$txt = preg_replace('/%s/', utf8encode($args[$i]), $txt, 1);
+			}
     	}
+    	
+    	if ($GLOBALS['__AJAX_LOAD_PAGE__'] == true && in_array($_GET['l'], $array_lang_convert_html) && 
+			(find($_GET['mime'], "xml") > 0 || find($_GET['mime'], "rss") > 0)) {
+				$txt = convert_utf8_to_html($txt);	
+		}
     	return $txt;
 	}
 	

@@ -6,7 +6,7 @@
  * Entry point of all HTML pages
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/04/2013
- * @version     1.2.6
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.8
  * @access      public
  * @since       1.0.0
  */
@@ -138,6 +138,9 @@
 		
 		if (DEBUG) { $page_object->addLogDebugExecutionTime("Page Header ..."); }
 		
+		// Get CDN server URL (or base URL if not exists)
+		$cdn_server_url = $page_object->getCDNServerURL();
+		
 		// init page title
 		if ($page_object->getPageTitle() != "") {
 			$current_page_title = $page_object->getPageTitle();
@@ -208,7 +211,7 @@
 		if ($current_page_meta_opengraph_image != "") {
 			if (strtoupper(substr($current_page_meta_opengraph_image, 0, 7)) != "HTTP://" && 
 				strtoupper(substr($current_page_meta_opengraph_image, 0, 8)) != "HTTPS://") {
-					$current_page_meta_opengraph_image = BASE_URL.$current_page_meta_opengraph_image;
+					$current_page_meta_opengraph_image = $cdn_server_url.$current_page_meta_opengraph_image;
 			}
 		}
 		
@@ -225,7 +228,7 @@
 		if ($current_page_meta_iphone_image_57px != "") {
 			if (strtoupper(substr($current_page_meta_iphone_image_57px, 0, 7)) != "HTTP://" && 
 				strtoupper(substr($current_page_meta_iphone_image_57px, 0, 8)) != "HTTPS://") {
-					$current_page_meta_iphone_image_57px = BASE_URL.$current_page_meta_iphone_image_57px;
+					$current_page_meta_iphone_image_57px = $cdn_server_url.$current_page_meta_iphone_image_57px;
 			}
 		}
 		
@@ -242,7 +245,7 @@
 		if ($current_page_meta_iphone_image_72px != "") {
 			if (strtoupper(substr($current_page_meta_iphone_image_72px, 0, 7)) != "HTTP://" && 
 				strtoupper(substr($current_page_meta_iphone_image_72px, 0, 8)) != "HTTPS://") {
-					$current_page_meta_iphone_image_72px = BASE_URL.$current_page_meta_iphone_image_72px;
+					$current_page_meta_iphone_image_72px = $cdn_server_url.$current_page_meta_iphone_image_72px;
 			}
 		}
 		
@@ -259,7 +262,7 @@
 		if ($current_page_meta_iphone_image_114px != "") {
 			if (strtoupper(substr($current_page_meta_iphone_image_114px, 0, 7)) != "HTTP://" && 
 				strtoupper(substr($current_page_meta_iphone_image_114px, 0, 8)) != "HTTPS://") {
-					$current_page_meta_iphone_image_114px = BASE_URL.$current_page_meta_iphone_image_114px;
+					$current_page_meta_iphone_image_114px = $cdn_server_url.$current_page_meta_iphone_image_114px;
 			}
 		}
 ?>
@@ -296,7 +299,7 @@
 		<meta name="rating" content="<?php echo SITE_RATING; ?>" />
 		<meta name="identifier-url" content="<?php echo BASE_URL; ?>" />
 		<meta name="expires" content="never" />
-		<link rel="icon" type="image/ico" href="<?php echo BASE_URL; ?>favicon.ico" />
+		<link rel="icon" type="image/ico" href="<?php echo $cdn_server_url; ?>favicon.ico" />
 <?php 	if ($current_page_meta_iphone_image_57px != "") { ?>
 		<link rel="apple-touch-icon" sizes="57x57" href="<?php echo $current_page_meta_iphone_image_57px; ?>" />
 <?php 	} ?>
@@ -380,7 +383,7 @@
 				if (find($css, ".css.php") > 0 && CssInclude::getInstance()->getCssConfigFile() != "") {
 					$css .= "?conf_file=".CssInclude::getInstance()->getCssConfigFile();
 				}
-				echo "<link type=\"text/css\" rel=\"StyleSheet\" href=\"".$css."\" media=\"screen\" />\n";
+				echo "<link type=\"text/css\" rel=\"StyleSheet\" href=\"".str_replace(BASE_URL, $cdn_server_url, $css)."\" media=\"screen\" />\n";
 				if ($conditional_comment != "") { echo "		<![endif]-->\n"; }
 			}
 		}
@@ -388,7 +391,7 @@
 			if (find($combine_css, ".php.css") > 0 && CssInclude::getInstance()->getCssConfigFile() != "") {
 				$combine_css .= "?conf_file=".CssInclude::getInstance()->getCssConfigFile();
 			}
-			echo "		<link type=\"text/css\" rel=\"StyleSheet\" href=\"".BASE_URL."combine-css/".str_replace("/", "|", $combine_css)."\" media=\"screen\" />\n";
+			echo "		<link type=\"text/css\" rel=\"StyleSheet\" href=\"".$cdn_server_url."combine-css/".str_replace("/", "|", $combine_css)."\" media=\"screen\" />\n";
 		}
 		?>		
 		<!--[if ie 9]>
@@ -430,6 +433,7 @@
 		<script type="text/javascript">
 			wsp_user_language = "<?php echo $_GET['l']; ?>";
 			wsp_javascript_base_url = "<?php echo BASE_URL; ?>";
+			wsp_javascript_cdn_server = "<?php echo $cdn_server_url; ?>";
 			wsp_js_session_cache_expire = <?php echo session_cache_expire(); ?>;
 <?php if ($page_object->isCachingAsked()) { ?>
 			wsp_cache_filename = "<?php echo str_replace("/", "{#%2F#}", str_replace(SITE_DIRECTORY."/wsp/cache/".$_GET['l'], "", $page_object->getOriginalCacheFileName())); ?>";
@@ -463,14 +467,14 @@
 				$not_combine_js .= "		";
 				$conditional_comment = JavaScriptInclude::getInstance()->getConditionalComment($i);
 				if ($conditional_comment != "") { $not_combine_js .= "<!--[if ".$conditional_comment."]>\n			"; }
-					$not_combine_js .= "<script type=\"text/javascript\" src=\"".$script."\">".JavaScriptInclude::getInstance()->getJsIncludeScript($i)."</script>\n";
+					$not_combine_js .= "<script type=\"text/javascript\" src=\"".str_replace(BASE_URL, $cdn_server_url, $script)."\">".JavaScriptInclude::getInstance()->getJsIncludeScript($i)."</script>\n";
 				if ($conditional_comment != "") {
 					$not_combine_js .= "<![endif]-->\n		"; 
 				}
 			}
 		}
 		if ($combine_js != "") {
-			echo "		<script type=\"text/javascript\" src=\"".BASE_URL."combine-js/".str_replace("/", "|", $combine_js)."\"></script>\n";
+			echo "		<script type=\"text/javascript\" src=\"".$cdn_server_url."combine-js/".str_replace("/", "|", $combine_js)."\"></script>\n";
 		}
 		if ($not_combine_js != "") {
 			echo $not_combine_js;
@@ -496,7 +500,7 @@
 	<noscript>
 		<div style="width:100%;" align="center">
 			<div style="width:80%;text-align:center;background-color:#FEEFB3;color:#9F6000;border: 1px solid;">
-				<img src="<?php echo BASE_URL; ?>wsp/img/msg/warning.png" width="24" height="24" style="vertical-align:middle;">
+				<img src="<?php echo $cdn_server_url; ?>wsp/img/msg/warning.png" width="24" height="24" style="vertical-align:middle;">
 				<?php echo __(JAVASCRIPT_NOT_ACTIVATE); ?>
 			</div>
 		</div>
@@ -504,30 +508,33 @@
 	<body>
 		<?php if (GOOGLE_CODE_TRACKER != "" && $page_object->getRemoteIP() != "127.0.0.1" && !defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) { ?>
 		<script type="text/javascript">
-		  var _gaq = _gaq || [];
-		  _gaq.push(['_setAccount', '<?php echo GOOGLE_CODE_TRACKER; ?>']);
 		  window.google_analytics_uacct = "<?php echo GOOGLE_CODE_TRACKER; ?>";
-		  <?php 
+		  <?php
 			if (SUBDOMAIN_URL != "") { 
 				if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
-					echo "_gaq.push(['_setDomainName', '".str_replace("http://".SUBDOMAIN_URL.".", ".", "http://".$_SERVER['SERVER_NAME'])."']);\n";
+					$domain_name = str_replace("http://".SUBDOMAIN_URL.".", "", "http://".$_SERVER['SERVER_NAME']);
 				} else {
-					echo "_gaq.push(['_setDomainName', '".str_replace(SUBDOMAIN_URL.".", ".", FORCE_SERVER_NAME)."']);\n";
+					$domain_name = str_replace("http://".SUBDOMAIN_URL.".", "", FORCE_SERVER_NAME);
 				}
 			} else {
-				echo "_gaq.push(['_setDomainName', 'none']);\n";
+				if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
+					$domain_name = str_replace("http://www.", "", "http://".$_SERVER['SERVER_NAME']);
+				} else {
+					$domain_name = str_replace("http://www.", "", FORCE_SERVER_NAME);
+				}
 			}
 			?>
-		  _gaq.push(['_setAllowLinker', true]);
-		  _gaq.push(['_trackPageview', '<?php echo "/".str_replace($page_object->getBaseURL(), "", $page_object->getCurrentURL()); ?>']);
-		  _gaq.push(['_trackPageLoadTime']);
-		
-		  (function() {
-		    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-		    //ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-		    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
-		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-		  })();
+
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+		  ga('create', '<?php echo GOOGLE_CODE_TRACKER; ?>', '<?php echo $domain_name; ?>');
+		  ga('send', 'pageview', {
+			  'page': '<?php echo "/".str_replace($page_object->getBaseURL(), "", $page_object->getCurrentURL()); ?>',
+			  'title': '<?php echo addslashes(str_replace("\n", "", str_replace("\r", "", str_replace("\t", "", utf8encode(html_entity_decode($current_page_title)))))); ?>'
+			});
 		</script>
 		<?php 
 		}

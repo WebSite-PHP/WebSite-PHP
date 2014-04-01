@@ -38,6 +38,8 @@
 	define("EDT_SEND_ADMIN_CONNECT_BY_MAIL_TO", "Email notice");
 	define("SEND_ADMIN_CONNECT_BY_MAIL_CMT", "Not for local URL (http://127.0.0.1/)");
 	define("PLEASE_CONFIGURE_SMTP", "Please configure 'Configure send mail' before");
+	define("EDT_CDN_SERVER", "CDN Server");
+	define("CDN_SERVER_CMT", "URL of the <a href='http://en.wikipedia.org/wiki/Content_delivery_network' target='_blank'>CDN server</a>. If set, WSP will automatically use this URL <br/>by default to load your pictures, CSS and Javascript <br/>(increase your server performance).");
 	define("EDT_FORCE_SERVER_NAME", "Force server name");
 	define("PROBLEM_WITH_REDIRECT", "Use when you have problem with redirect"); 
 	define("EDT_DEFAULT_TIMEZONE", "Default Timezone");
