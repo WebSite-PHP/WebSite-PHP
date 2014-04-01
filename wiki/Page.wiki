@@ -315,9 +315,9 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																																						* `static Page getInstance()`
+																																																																								* `static Page getInstance()`
 		Method getInstance
-																																																																																																																																																																																						* `Page getInstance()`
+																																																																																																																																																																																								* `Page getInstance()`
 		Method getInstance
 																																																																																																																
 == Inherited Method Summary == 
@@ -897,6 +897,26 @@ Method getCacheTime
 
 
 *since:* 1.2.7
+
+*access:* public
+
+
+
+= Page::getCDNServerURL =
+
+*getCDNServerURL(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getCDNServerURL
+
+
+*since:* 1.2.8
 
 *access:* public
 

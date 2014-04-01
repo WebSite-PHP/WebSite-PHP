@@ -22,7 +22,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.2.7
+*version:* 1.2.8
 
 *copyright:* WebSite-PHP.com 17/01/2014
 
@@ -82,7 +82,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																																																														
+																																																																																																		
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpObject ===
@@ -355,6 +355,30 @@ Method render
 
 
 *since:* 1.0.35
+
+*access:* public
+
+
+
+= Link::setClass =
+
+*setClass(*
+*mixed*
+_$class_* );*
+
+
+	
+
+	
+*Parameters*
+			_$class_ 
+		
+*Remarks*
+
+Method setClass
+
+
+*since:* 1.2.8
 
 *access:* public
 
