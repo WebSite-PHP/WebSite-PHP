@@ -1,4 +1,4 @@
-#labels Class,WebSite-PHP,JavaScript,WebSitePhpObject,JavaScript,Logger
+#labels Class,WebSite-PHP,JavaScript,WebSitePhpObject,JavaScript,IOSNotifications,Logger
 = Class JavaScript =
 
 WebSitePhpObject
@@ -7,7 +7,10 @@ WebSitePhpObject
 
 
 Classes extended from JavaScript:
- 		Logger
+ 		IOSNotifications
+	    |
+	    --Class IOSNotifications
+		Logger
 	    |
 	    --Class Logger
 	
@@ -135,6 +138,8 @@ _$add_js_to_page_ = false]* );*
 
 
 	Overridden in child classes as:
+		IOSNotifications::__construct()
+		  Constructor IOSNotifications
 		Logger::__construct()
 		  Constructor Logger
 	Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)

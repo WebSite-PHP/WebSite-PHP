@@ -1,20 +1,22 @@
-#labels Class,WebSite-PHP,GoogleLikeButton,WebSitePhpObject,GoogleLikeButton
-= Class GoogleLikeButton =
+#labels Class,WebSite-PHP,IOSNotifications,WebSitePhpObject,JavaScript,IOSNotifications
+= Class IOSNotifications =
 
 WebSitePhpObject
    |
-   --GoogleLikeButton
+   --JavaScript
+      |
+      --IOSNotifications
 
 
 
-Location: /modules/ShareButton/GoogleLikeButton.class.php
+Location: /modules/Notification/IOSNotifications.class.php
 
 ----
 
 
 *Remarks*
 
-Class GoogleLikeButton
+Class IOSNotifications
 
 
 WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
@@ -24,11 +26,11 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *version:* 1.2.9
 
-*copyright:* WebSite-PHP.com 17/01/2014
+*copyright:* WebSite-PHP.com 17/06/2014
 
 *link:* 
 
-*since:* 1.0.88
+*since:* 1.2.9
 
 *access:* public
 
@@ -39,18 +41,6 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Class Constant Summary ==
 
-			* `BUTTON_MEDIUM` = ` 'medium'`
-		
-		Button style
-			* `BUTTON_SMALL` = ` 'small'`
-		
-		Button style
-			* `BUTTON_STANDARD` = ` ''`
-		
-		Button style
-			* `BUTTON_TALL` = ` 'tall'`
-		
-		Button style
 	
 ----
 == Inherited Class Constant Summary ==
@@ -79,9 +69,20 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-										
+						
 == Inherited Method Summary == 
 
+=== Inherited From Class JavaScript ===
+
+			* `JavaScript::__construct()`
+		Constructor JavaScript
+			* `JavaScript::displayFormURL()`
+		Method displayFormURL
+			* `JavaScript::getAjaxRender()`
+		Method getAjaxRender
+			* `JavaScript::render()`
+		Method render
+	
 === Inherited From Class WebSitePhpObject ===
 
 			* `WebSitePhpObject::__construct()`
@@ -132,58 +133,28 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 
 
-= GoogleLikeButton::__construct =
+= IOSNotifications::__construct =
 
 *__construct(*
-[*string*
-_$type_button_ = ''], [*boolean*
-_$count_ = true], [*string*
-_$url_ = ''], [*string*
-_$callback_ = '']* );*
+*mixed*
+_$title_, *mixed*
+_$message_, [*double*
+_$delay_ = 3000]* );*
 
 
-Overrides WebSitePhpObject::__construct() (Constructor WebSitePhpObject)
+Overrides JavaScript::__construct() (Constructor JavaScript)
 	
 
 	
 *Parameters*
-			_$type_button_ 
-			_$count_ [default value: true]
-			_$url_ 
-			_$callback_ 
+			_$title_ 
+			_$message_ 
+			_$delay_ [default value: 3000]
 		
 *Remarks*
 
-Constructor GoogleLikeButton
+Constructor IOSNotifications
 
-
-
-
-= GoogleLikeButton::render =
-
-*render(*
-[*boolean*
-_$ajax_render_ = false]* );*
-
-
-Overrides WebSitePhpObject::render() (Method render)
-	
-
-	
-*Parameters*
-			_$ajax_render_ [default value: false]
-		
-*Returns*
-		html code of object GoogleLikeButton
-
-*Remarks*
-
-Method render
-
-
-*since:* 1.0.88
-
-*access:* public
 
 
 
@@ -193,50 +164,6 @@ Method render
 
 ----
 == Class Constant Detail ==
-
-* `BUTTON_MEDIUM` = ` 'medium'` (line 34)
-
-
-*Remarks*
-
-Button style
-
-
-*access:* public
-
-
-* `BUTTON_SMALL` = ` 'small'` (line 33)
-
-
-*Remarks*
-
-Button style
-
-
-*access:* public
-
-
-* `BUTTON_STANDARD` = ` ''` (line 35)
-
-
-*Remarks*
-
-Button style
-
-
-*access:* public
-
-
-* `BUTTON_TALL` = ` 'tall'` (line 36)
-
-
-*Remarks*
-
-Button style
-
-
-*access:* public
-
 
 
 ----

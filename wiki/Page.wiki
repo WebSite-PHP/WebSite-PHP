@@ -315,9 +315,9 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																																																								* `static Page getInstance()`
+																																																																												* `static Page getInstance()`
 		Method getInstance
-																																																																																																																																																																																								* `Page getInstance()`
+																																																																																																																																																																																												* `Page getInstance()`
 		Method getInstance
 																																																																																																																
 == Inherited Method Summary == 
@@ -565,6 +565,26 @@ Method deleteCacheFilesPage
 
 
 
+= Page::disableAutoCreateConstantLabels =
+
+*disableAutoCreateConstantLabels(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method disableAutoCreateConstantLabels
+
+
+*since:* 1.2.9
+
+*access:* public
+
+
+
 = Page::disableCache =
 
 *disableCache(*
@@ -604,6 +624,26 @@ Method displayExecutionTime
 
 
 *since:* 1.0.92
+
+*access:* public
+
+
+
+= Page::enableAutoCreateConstantLabels =
+
+*enableAutoCreateConstantLabels(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method enableAutoCreateConstantLabels
+
+
+*since:* 1.2.9
 
 *access:* public
 

@@ -30,9 +30,9 @@ Location: /JavaScriptInclude.class.php
 
 																								* `static JavaScriptInclude getInstance()`
 		Method getInstance
-																												* `JavaScriptInclude getInstance()`
+																														* `JavaScriptInclude getInstance()`
 		Method getInstance
-				
+						
 == Inherited Method Summary == 
 
 ----
@@ -83,7 +83,8 @@ Constructor JavaScriptInclude
 _$js_url_, [*string*
 _$conditional_comment_ = ''], [*boolean*
 _$combine_ = false], [*string*
-_$js_script_ = '']* );*
+_$js_script_ = ''], [*boolean*
+_$async_ = false]* );*
 
 
 	
@@ -94,6 +95,7 @@ _$js_script_ = '']* );*
 			_$conditional_comment_ 
 			_$combine_ [default value: false]
 			_$js_script_ 
+			_$async_ [default value: false]
 		
 *Remarks*
 
@@ -112,7 +114,8 @@ Method add
 *string*
 _$js_url_, [*string*
 _$conditional_comment_ = ''], [*boolean*
-_$combine_ = false]* );*
+_$combine_ = false], [*boolean*
+_$async_ = false]* );*
 
 
 	
@@ -122,6 +125,7 @@ _$combine_ = false]* );*
 			_$js_url_ 
 			_$conditional_comment_ 
 			_$combine_ [default value: false]
+			_$async_ [default value: false]
 		
 *Remarks*
 
@@ -140,7 +144,8 @@ Method addToBegin
 *string*
 _$js_url_, [*string*
 _$conditional_comment_ = ''], [*boolean*
-_$combine_ = false]* );*
+_$combine_ = false], [*boolean*
+_$async_ = false]* );*
 
 
 	
@@ -150,6 +155,7 @@ _$combine_ = false]* );*
 			_$js_url_ 
 			_$conditional_comment_ 
 			_$combine_ [default value: false]
+			_$async_ [default value: false]
 		
 *Remarks*
 
@@ -300,6 +306,30 @@ Method getConditionalComment
 
 
 *since:* 1.0.35
+
+*access:* public
+
+
+
+= JavaScriptInclude::getIsAsync =
+
+*getIsAsync(*
+*mixed*
+_$indice_* );*
+
+
+	
+
+	
+*Parameters*
+			_$indice_ 
+		
+*Remarks*
+
+Method getIsAsync
+
+
+*since:* 1.2.9
 
 *access:* public
 

@@ -197,7 +197,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.2.7
+*version:* 1.2.9
 
 *copyright:* WebSite-PHP.com 17/01/2014
 
@@ -240,15 +240,63 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																														* `static mixed getRegisterObjects()`
+																						* `static mixed getJavascriptTagClose()`
+		Method getJavascriptTagClose
+					* `static mixed getJavascriptTagOpen()`
+		Method getJavascriptTagOpen
+									* `static mixed getRegisterObjects()`
 		Method getRegisterObjects
-																																														* `mixed getRegisterObjects()`
+																																						* `mixed getJavascriptTagClose()`
+		Method getJavascriptTagClose
+					* `mixed getJavascriptTagOpen()`
+		Method getJavascriptTagOpen
+									* `mixed getRegisterObjects()`
 		Method getRegisterObjects
 																
 == Inherited Method Summary == 
 
 ----
 == Method Detail ==
+
+
+= static WebSitePhpObject::getJavascriptTagClose =
+
+*static getJavascriptTagClose(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getJavascriptTagClose
+
+
+*since:* 1.0.35
+
+*access:* public
+
+
+
+= static WebSitePhpObject::getJavascriptTagOpen =
+
+*static getJavascriptTagOpen(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getJavascriptTagOpen
+
+
+*since:* 1.0.35
+
+*access:* public
+
 
 
 = static WebSitePhpObject::getRegisterObjects =
@@ -385,6 +433,8 @@ Method getRegisterObjects
 		  Constructor Form
 		JavaScript::__construct()
 		  Constructor JavaScript
+		IOSNotifications::__construct()
+		  Constructor IOSNotifications
 		Logger::__construct()
 		  Constructor Logger
 		Label::__construct()
@@ -664,46 +714,6 @@ Method getCssArray
 *Remarks*
 
 Method getJavaScriptArray
-
-
-*since:* 1.0.35
-
-*access:* public
-
-
-
-= WebSitePhpObject::getJavascriptTagClose =
-
-*getJavascriptTagClose(*
-* );*
-
-
-	
-
-	
-*Remarks*
-
-Method getJavascriptTagClose
-
-
-*since:* 1.0.35
-
-*access:* public
-
-
-
-= WebSitePhpObject::getJavascriptTagOpen =
-
-*getJavascriptTagOpen(*
-* );*
-
-
-	
-
-	
-*Remarks*
-
-Method getJavascriptTagOpen
 
 
 *since:* 1.0.35

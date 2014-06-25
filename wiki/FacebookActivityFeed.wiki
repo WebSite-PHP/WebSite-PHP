@@ -22,7 +22,7 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 
 *author:* Emilien MOREL <>
 
-*version:* 1.2.7
+*version:* 1.2.9
 
 *copyright:* WebSite-PHP.com 17/01/2014
 
@@ -91,7 +91,11 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 ----
 == Method Summary == 
 
-																																						
+						* `static void getFacebookJsInclude()`
+		Method getFacebookJsInclude
+																								* `void getFacebookJsInclude()`
+		Method getFacebookJsInclude
+																		
 == Inherited Method Summary == 
 
 === Inherited From Class WebSitePhpObject ===
@@ -141,6 +145,26 @@ WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright 
 	
 ----
 == Method Detail ==
+
+
+= static FacebookActivityFeed::getFacebookJsInclude =
+
+*static getFacebookJsInclude(*
+* );*
+
+
+	
+
+	
+*Remarks*
+
+Method getFacebookJsInclude
+
+
+*since:* 1.2.9
+
+*access:* public
+
 
 
 
@@ -382,7 +406,7 @@ Method setWidth
 ----
 == Class Constant Detail ==
 
-* `FONT_ARIAL` = ` 'arial'` (line 42)
+* `FONT_ARIAL` = ` 'arial'` (line 45)
 
 
 *Remarks*
@@ -393,7 +417,7 @@ FacebookActivityFeed font
 *access:* public
 
 
-* `FONT_LUCIDA_GRANDE` = ` 'lucida grande'` (line 43)
+* `FONT_LUCIDA_GRANDE` = ` 'lucida grande'` (line 46)
 
 
 *Remarks*
@@ -404,7 +428,7 @@ FacebookActivityFeed font
 *access:* public
 
 
-* `FONT_SEGOE_UI` = ` 'segoe ui'` (line 44)
+* `FONT_SEGOE_UI` = ` 'segoe ui'` (line 47)
 
 
 *Remarks*
@@ -415,7 +439,7 @@ FacebookActivityFeed font
 *access:* public
 
 
-* `FONT_TAHOMA` = ` 'tahoma'` (line 45)
+* `FONT_TAHOMA` = ` 'tahoma'` (line 48)
 
 
 *Remarks*
@@ -426,7 +450,7 @@ FacebookActivityFeed font
 *access:* public
 
 
-* `FONT_TREBUCHET_MS` = ` 'trebuchet ms'` (line 46)
+* `FONT_TREBUCHET_MS` = ` 'trebuchet ms'` (line 49)
 
 
 *Remarks*
@@ -437,7 +461,7 @@ FacebookActivityFeed font
 *access:* public
 
 
-* `FONT_VERDANA` = ` 'verdana'` (line 47)
+* `FONT_VERDANA` = ` 'verdana'` (line 50)
 
 
 *Remarks*
@@ -448,7 +472,7 @@ FacebookActivityFeed font
 *access:* public
 
 
-* `STYLE_DARK` = ` 'dark'` (line 34)
+* `STYLE_DARK` = ` 'dark'` (line 37)
 
 
 *Remarks*
@@ -459,7 +483,7 @@ FacebookActivityFeed style
 *access:* public
 
 
-* `STYLE_LIGHT` = ` 'light'` (line 33)
+* `STYLE_LIGHT` = ` 'light'` (line 36)
 
 
 *Remarks*
