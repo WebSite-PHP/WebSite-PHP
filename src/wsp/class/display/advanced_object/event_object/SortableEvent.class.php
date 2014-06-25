@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.9
  * @access      public
  * @since       1.0.17
  */
@@ -134,10 +134,10 @@ class SortableEvent extends WebSitePhpEventObject {
 	 * @since 1.0.35
 	 */
 	public function onSortJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onSortJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onsort = trim($js_function);
@@ -153,10 +153,10 @@ class SortableEvent extends WebSitePhpEventObject {
 	 * @since 1.0.35
 	 */
 	public function onSortStartJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onSortStartJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onsortstart = trim($js_function);
@@ -172,10 +172,10 @@ class SortableEvent extends WebSitePhpEventObject {
 	 * @since 1.0.35
 	 */
 	public function onSortChangeJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onSortChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onsortchange = trim($js_function);
@@ -191,10 +191,10 @@ class SortableEvent extends WebSitePhpEventObject {
 	 * @since 1.0.35
 	 */
 	public function onSortUpdateJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onSortUpdateJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onsortupdate = trim($js_function);
@@ -210,10 +210,10 @@ class SortableEvent extends WebSitePhpEventObject {
 	 * @since 1.0.35
 	 */
 	public function onSortStopJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onSortStopJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onsortstop = trim($js_function);
@@ -229,10 +229,10 @@ class SortableEvent extends WebSitePhpEventObject {
 	 * @since 1.0.35
 	 */
 	public function onSortRemoveJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onSortRemoveJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onsortremove = trim($js_function);
@@ -248,10 +248,10 @@ class SortableEvent extends WebSitePhpEventObject {
 	 * @since 1.0.35
 	 */
 	public function onSortOverJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onSortOverJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onsortover = trim($js_function);
@@ -267,10 +267,10 @@ class SortableEvent extends WebSitePhpEventObject {
 	 * @since 1.0.35
 	 */
 	public function onSortOutJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onSortOutJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onsortout = trim($js_function);

@@ -15,12 +15,13 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.8
+ * @version     1.2.9
  * @access      public
  * @since       1.2.1
  */
 
-	$WSP_AUTO_CREATE_CONSTANT = true;
+	global $WSP_AUTO_CREATE_CONSTANT;
+	$GLOBALS['WSP_AUTO_CREATE_CONSTANT'] = (getRemoteIp() == "127.0.0.1" ? true : false);
 
 	function __() {
 		$args = func_get_args();
@@ -130,7 +131,7 @@
 						$lang_file_content .= "?>";
 						
 						// Write File
-						if ($WSP_AUTO_CREATE_CONSTANT) {
+						if ($GLOBALS['WSP_AUTO_CREATE_CONSTANT']) {
 							$lang_file = new File($lang_file_path, false, true);
 							if ($lang_file->write($lang_file_content) !== false) {
 								$creation_message .= "Information: Constant <font color='blue'>".$constantValue."</font> automatically <font color='green'>CREATED</font> in the file ".$lang_file_path.".<br/>";
@@ -157,7 +158,7 @@
 									}
 									
 									// Write File
-									if ($label_found && $WSP_AUTO_CREATE_CONSTANT) {
+									if ($label_found && $GLOBALS['WSP_AUTO_CREATE_CONSTANT']) {
 										$lang_file = new File($page_lang_file_path, false, true);
 										if ($lang_file->write($lang_file_content) !== false) {
 											$creation_message .= "Information: Constant <font color='blue'>".$constantValue."</font> automatically <font color='red'>COMMENT</font> in the file ".$page_lang_file_path.".<br/>";

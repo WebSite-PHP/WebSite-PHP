@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.9
  * @access      public
  * @since       1.0.17
  */
@@ -308,10 +308,10 @@ class CheckBox extends WebSitePhpEventObject {
 	 * @since 1.0.89
 	 */
 	public function onChangeJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onchange = trim($js_function);

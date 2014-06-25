@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.9
  * @access      public
  * @since       1.1.5
  */
@@ -345,7 +345,7 @@ class ShareButton extends WebSitePhpObject {
 			$html .= "a2a_config.color_bg = \"".$this->background."\";";
 		}
 		$html .= "</script>";
-		$html .= "<script type=\"text/javascript\" src=\"http://static.addtoany.com/menu/page.js\"></script>";
+		$html .= "<script type=\"text/javascript\" src=\"http://static.addtoany.com/menu/page.js\" defer=\"defer\"></script>";
 
 		return $html;
 	}

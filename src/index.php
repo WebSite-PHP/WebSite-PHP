@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.8
+ * @version     1.2.9
  * @access      public
  * @since       1.0.0
  */
@@ -467,7 +467,7 @@
 				$not_combine_js .= "		";
 				$conditional_comment = JavaScriptInclude::getInstance()->getConditionalComment($i);
 				if ($conditional_comment != "") { $not_combine_js .= "<!--[if ".$conditional_comment."]>\n			"; }
-					$not_combine_js .= "<script type=\"text/javascript\" src=\"".str_replace(BASE_URL, $cdn_server_url, $script)."\">".JavaScriptInclude::getInstance()->getJsIncludeScript($i)."</script>\n";
+					$not_combine_js .= "<script type=\"text/javascript\"".(JavaScriptInclude::getInstance()->getIsAsync($i)?" async":"")." src=\"".str_replace(BASE_URL, $cdn_server_url, $script)."\">".JavaScriptInclude::getInstance()->getJsIncludeScript($i)."</script>\n";
 				if ($conditional_comment != "") {
 					$not_combine_js .= "<![endif]-->\n		"; 
 				}

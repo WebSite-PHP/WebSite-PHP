@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.8
+ * @version     1.2.9
  * @access      public
  * @since       1.0.17
  */
@@ -404,10 +404,10 @@ class Picture extends WebSitePhpEventObject {
 	 * @since 1.0.85
 	 */
 	public function onClickJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		
@@ -462,10 +462,10 @@ class Picture extends WebSitePhpEventObject {
 	 * @since 1.0.98
 	 */
 	public function onLoadJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		
@@ -631,19 +631,19 @@ class Picture extends WebSitePhpEventObject {
 					$html .= $this->lightbox_name;
 				}
 				$html .= "]').lightBox(";
-				if ($this->lightbox_max_width != "" || $this->lightbox_max_height) {
-					$html .= "{";
-					if ($this->lightbox_max_width != "") {
-						$html .= "maxWidth: ".$this->lightbox_max_width;
-					}
-					if ($this->lightbox_max_height != "") {
-						if ($this->lightbox_max_width != "") {
-							$html .= ", ";
-						}
-						$html .= "maxHeight: ".$this->lightbox_max_height;
-					}
-					$html .= "}";
+				$html .= "{";
+				if ($this->lightbox_max_width != "") {
+					$html .= "maxWidth: ".$this->lightbox_max_width;
+				} else {
+					$html .= "maxWidth: $(window).width()*0.9";
 				}
+				$html .= ", ";
+				if ($this->lightbox_max_height != "") {
+					$html .= "maxHeight: ".$this->lightbox_max_height;
+				} else {
+					$html .= "maxHeight: $(window).height()*0.9";
+				}
+				$html .= "}";
 				$html .= ");\n";
 				$html .= $this->getJavascriptTagClose();
 			}

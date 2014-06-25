@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.9
  * @access      public
  * @since       1.0.23
  */
@@ -62,6 +62,7 @@ class JavaScriptInclude {
 	private $js_scripts = array();
 	private $conditional_comment = array();
 	private $combine = array();
+	private $is_async = array();
 	private $script = array();
 	private $is_for_ajax = array();
 	
@@ -95,9 +96,10 @@ class JavaScriptInclude {
 	 * @param string $conditional_comment 
 	 * @param boolean $combine [default value: false]
 	 * @param string $js_script 
+	 * @param boolean $async [default value: false]
 	 * @since 1.0.59
 	 */
-	public function add($js_url, $conditional_comment='', $combine=false, $js_script='') {
+	public function add($js_url, $conditional_comment='', $combine=false, $js_script='', $async=false) {
 		if (!in_array($js_url, $this->js_scripts)) {
 			$this->js_scripts[] = $js_url;
 			$this->conditional_comment[] = $conditional_comment;
@@ -112,6 +114,7 @@ class JavaScriptInclude {
 				throw new NewException(get_class($this)."->add() error: you can't add script with combine mode", 0, getDebugBacktrace(1));
 			}
 			$this->script[] = $js_script;
+			$this->is_async[] = $async;
 		}
 	}
 	
@@ -121,11 +124,12 @@ class JavaScriptInclude {
 	 * @param string $js_url 
 	 * @param string $conditional_comment 
 	 * @param boolean $combine [default value: false]
+	 * @param boolean $async [default value: false]
 	 * @since 1.0.80
 	 */
-	public function addToBegin($js_url, $conditional_comment='', $combine=false) {
+	public function addToBegin($js_url, $conditional_comment='', $combine=false, $async=false) {
 		$this->array_put_js_to_begin[] = str_replace(BASE_URL, "", $js_url);
-		$this->add($js_url, $conditional_comment, $combine);
+		$this->add($js_url, $conditional_comment, $combine, "", $async);
 	}
 	
 	/**
@@ -134,11 +138,12 @@ class JavaScriptInclude {
 	 * @param string $js_url 
 	 * @param string $conditional_comment 
 	 * @param boolean $combine [default value: false]
+	 * @param boolean $async [default value: false]
 	 * @since 1.0.80
 	 */
-	public function addToEnd($js_url, $conditional_comment='', $combine=false) {
+	public function addToEnd($js_url, $conditional_comment='', $combine=false, $async=false) {
 		$this->array_put_js_to_end[] = str_replace(BASE_URL, "", $js_url);
-		$this->add($js_url, $conditional_comment, $combine);
+		$this->add($js_url, $conditional_comment, $combine, "", $async);
 	}
 	
 	/**
@@ -219,6 +224,17 @@ class JavaScriptInclude {
 	 */
 	public function getCombine($indice) {
 		return $this->combine[$indice];
+	}
+	
+	/**
+	 * Method getIsAsync
+	 * @access public
+	 * @param mixed $indice 
+	 * @return mixed
+	 * @since 1.2.9
+	 */
+	public function getIsAsync($indice) {
+		return $this->is_async[$indice];
 	}
 	
 	/**

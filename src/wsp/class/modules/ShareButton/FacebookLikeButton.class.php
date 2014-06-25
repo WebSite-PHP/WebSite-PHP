@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.9
  * @access      public
  * @since       1.0.103
  */
@@ -95,19 +95,8 @@ class FacebookLikeButton extends WebSitePhpObject {
 	 * @since 1.0.88
 	 */
 	public function render($ajax_render=false) {
-		$html = "";
-		
-		$html .= "<div id=\"fb-root\"></div>\n";
-		$html .= "<script>(function(d, s, id) {\n";
-		$html .= "  var js, fjs = d.getElementsByTagName(s)[0];\n";
-		$html .= "  if (d.getElementById(id)) return;\n";
-		$html .= "  js = d.createElement(s); js.id = id;\n";
-		$facebook_language = $this->getPage()->getLanguageLocale();
-		$html .= "  js.src = \"//connect.facebook.net/".$facebook_language."/all.js#xfbml=1\";\n";
-		$html .= "  fjs.parentNode.insertBefore(js, fjs);\n";
-		$html .= "}(document, 'script', 'facebook-jssdk'));</script>\n";
-		
-		$html .= "<div class=\"fb-like\"";
+		FacebookLikeButton::getFacebookJsInclude();
+		$html = "<div class=\"fb-like\"";
 		if ($this->url != "") {
 			$html .= " data-href=\"".$this->url."\"";
 		}
@@ -125,6 +114,16 @@ class FacebookLikeButton extends WebSitePhpObject {
 		$html .= "></div>\n";
 		
 		return $html;
+	}
+	
+	/**
+	 * Method getFacebookJsInclude
+	 * @access static
+	 * @return mixed
+	 * @since 1.2.9
+	 */
+	public static function getFacebookJsInclude() {
+		return FacebookActivityFeed::getFacebookJsInclude();
 	}
 }
 ?>

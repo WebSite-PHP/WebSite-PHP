@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.8
+ * @version     1.2.9
  * @access      public
  * @since       1.0.87
  */
@@ -217,10 +217,10 @@ class VideoHTML5 extends WebSitePhpObject {
 	 * @since 1.0.99
 	 */
 	public function onPlayJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onPlayJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onplay = trim($js_function);
@@ -245,10 +245,10 @@ class VideoHTML5 extends WebSitePhpObject {
 	 * @since 1.0.99
 	 */
 	public function onPauseJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onPauseJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onpause = trim($js_function);
@@ -273,10 +273,10 @@ class VideoHTML5 extends WebSitePhpObject {
 	 * @since 1.0.99
 	 */
 	public function onEndedJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onEndedJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onended = trim($js_function);

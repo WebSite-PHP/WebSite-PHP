@@ -15,7 +15,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.9
  * @access      public
  * @since       1.0.19
  */
@@ -136,7 +136,7 @@
 						$html .= "\" target=\"".$str_or_object_link->getTarget()."";
 					}
 				} else {
-					if (get_class($str_or_object_link) == "DialogBox" || get_class($str_or_object_link) == "JavaScript") {
+					if (get_class($str_or_object_link) == "DialogBox" || get_class($str_or_object_link) == "JavaScript" || is_subclass_of($str_or_object_link, "JavaScript")) {
 						$str_or_object_link->displayFormURL();
 					}
 					$tmp_link = $str_or_object_link->render();
@@ -159,7 +159,7 @@
 			$browser=get_browser($user_agent,$return_array); //If available, use PHP native function
 		} else {
 			require_once('browscap/php-local-browscap.php');
-			$browser=get_browser_local($user_agent,$return_array,'lite_php_browscap.ini',true);
+			$browser=get_browser_local($user_agent,$return_array,'php_browscap.ini',true);
 		}
 		return $browser;
 	}

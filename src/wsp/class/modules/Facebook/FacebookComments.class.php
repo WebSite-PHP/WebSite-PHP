@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.9
  * @access      public
  * @since       1.0.86
  */
@@ -107,18 +107,20 @@ class FacebookComments extends WebSitePhpObject {
 	 * @since 1.0.86
 	 */
 	public function render($ajax_render=false) {
-		$facebook_language = $this->getPage()->getLanguageLocale();
-		$html = "<div id=\"fb-root\"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = \"//connect.facebook.net/".$facebook_language."/all.js#xfbml=1\";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-<div class=\"fb-comments\" data-href=\"".$this->url_to_comment."\" data-numposts=\"".$this->number_post."\" data-width=\"".$this->width."\" data-colorscheme=\"".$this->style."\" style=\"border:none; overflow:hidden;background-color:".($this->style=="dark"?"black":"white")."; width:".$this->width."px;\"></div>";
+		FacebookComments::getFacebookJsInclude();
+		$html = "<div class=\"fb-comments\" data-href=\"".$this->url_to_comment."\" data-numposts=\"".$this->number_post."\" data-width=\"".$this->width."\" data-colorscheme=\"".$this->style."\" style=\"border:none; overflow:hidden;background-color:".($this->style=="dark"?"black":"white")."; width:".$this->width."px;\"></div>";
 		
 		return $html;
+	}
+	
+	/**
+	 * Method getFacebookJsInclude
+	 * @access static
+	 * @return mixed
+	 * @since 1.2.9
+	 */
+	public static function getFacebookJsInclude() {
+		return FacebookActivityFeed::getFacebookJsInclude();
 	}
 }
 ?>

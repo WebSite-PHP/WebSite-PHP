@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.9
  * @access      public
  * @since       1.0.17
  */
@@ -425,10 +425,10 @@ class TextBox extends WebSitePhpEventObject {
 	 * @since 1.0.36
 	 */
 	public function onChangeJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onchange = trim($js_function);
@@ -492,10 +492,10 @@ class TextBox extends WebSitePhpEventObject {
 	 * @since 1.0.84
 	 */
 	public function onClickJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onclick = trim($js_function);
@@ -534,10 +534,10 @@ class TextBox extends WebSitePhpEventObject {
 	 * @since 1.0.95
 	 */
 	public function onMouseOverJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onmouseover = trim($js_function);
@@ -553,10 +553,10 @@ class TextBox extends WebSitePhpEventObject {
 	 * @since 1.0.95
 	 */
 	public function onMouseOutJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onmouseout = trim($js_function);
@@ -602,10 +602,10 @@ class TextBox extends WebSitePhpEventObject {
 	 * @since 1.0.95
 	 */
 	public function onBlurJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onblur = trim($js_function);
@@ -651,10 +651,10 @@ class TextBox extends WebSitePhpEventObject {
 	 * @since 1.0.96
 	 */
 	public function onKeyPressJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onkeypress = trim($js_function);
@@ -700,10 +700,10 @@ class TextBox extends WebSitePhpEventObject {
 	 * @since 1.1.6
 	 */
 	public function onKeyUpJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onChangeJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onkeyup = trim($js_function);

@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.9
  * @access      public
  * @since       1.0.88
  */
@@ -90,11 +90,14 @@ class GoogleLikeButton extends WebSitePhpObject {
 		if ($_SESSION['lang'] != "en") {
 			$html .= "window.___gcfg = {lang: '".$_SESSION['lang']."'};\n";
 		}
+		$html .= "$( document ).ready(function() {\n";
 		$html .= "(function() {\n";
 		$html .= "  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;\n";
 		$html .= "  po.src = 'https://apis.google.com/js/plusone.js';\n";
+  		$html .= "  po.defer = \"defer\";\n";
 		$html .= "  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);\n";
 		$html .= "})();\n";
+		$html .= "});\n";
 		$html .= "</script>\n";
 		
 		return $html;

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.8
+ * @version     1.2.9
  * @access      public
  * @since       1.0.17
  */
@@ -605,10 +605,10 @@ class Object extends WebSitePhpEventObject {
 	 * @since 1.0.36
 	 */
 	public function onClickJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onClickJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onclick = trim($js_function);
@@ -665,10 +665,10 @@ class Object extends WebSitePhpEventObject {
 	 * @since 1.0.97
 	 */
 	public function onDblClickJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onDblClickJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->ondblclick = trim($js_function);
@@ -683,10 +683,10 @@ class Object extends WebSitePhpEventObject {
 	 * @since 1.0.63
 	 */
 	public function onMouseOverJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onMouseOverJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onmouseover = trim($js_function);
@@ -701,10 +701,10 @@ class Object extends WebSitePhpEventObject {
 	 * @since 1.0.63
 	 */
 	public function onMouseOutJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onMouseOutJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onmouseout = trim($js_function);
@@ -1074,10 +1074,12 @@ class Object extends WebSitePhpEventObject {
 				$loaded_url = $this->objects[0]->render();
 			}
 			$html .= $this->getJavascriptTagOpen();
+			$html .= "$( document ).ready(function() {\n";
 			$html .= "var oldContentHtml = ''; if (trim($('#".$this->getId()."').html().replace(/<div[^>]*>(.*?)<\/div>/gi, '')) != '') { oldContentHtml = $('#".$this->getId()."').html(); }\n";
 			$html .= "$('#".$this->getId()."').load('".$loaded_url."', { 'oldContentHtml': oldContentHtml }, ";
-            $html .= "function (response, status, xhr) { if (status == 'error' && response != '') { $('#".$this->getId()."').html('<table><tr><td><img src=\'".$this->getPage()->getCDNServerURL()."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + response); } } );";
-			$html .= $this->getJavascriptTagClose();
+            $html .= "function (response, status, xhr) { if (status == 'error' && response != '') { $('#".$this->getId()."').html('<table><tr><td><img src=\'".$this->getPage()->getCDNServerURL()."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + response); } } );\n";
+			$html .= "});";
+            $html .= $this->getJavascriptTagClose();
 		}
 		
 		$this->object_change = false;

@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.8
+ * @version     1.2.9
  * @access      public
  * @since       1.0.0
  */
@@ -485,7 +485,7 @@ class Page extends AbstractPage {
 					$background_body_pic = DEFINE_STYLE_BCK_BODY_PIC;
 				}
 				if (trim($background_body_pic) != "" && $background_body_pic != $this->getBaseURL()) {
-					$this->addObject(new JavaScript("$.backstretch(\"".$background_body_pic."\");"), true);
+					$this->addObject(new JavaScript("$(document).ready(function(){\$.backstretch(\"".$background_body_pic."\"); });"), false, true);
 				}
 		}
 	}
@@ -1218,19 +1218,25 @@ class Page extends AbstractPage {
 		} else {
 			$html = "";
 			if (!$this->getPageIsCaching()) {
+				$js_to_render = "";
 				for ($i=0; $i < sizeof($this->add_to_render_begining); $i++) {
-					if ($this->add_to_render_begining[$i]->isJavascriptObject()) {
-						$html .= $this->add_to_render_begining[$i]->getJavascriptTagOpen();
-					}
+					$to_render = "";
 					if (gettype($this->add_to_render_begining[$i]) == "object" && method_exists($this->add_to_render_begining[$i], "render")) {
-						$html .= $this->add_to_render_begining[$i]->render();
+						$to_render .= $this->add_to_render_begining[$i]->render();
 					} else {
-						$html .= $this->add_to_render_begining[$i];
+						$to_render .= $this->add_to_render_begining[$i];
 					}
-					$html .= "\n";
+					$to_render .= "\n";
 					if ($this->add_to_render_begining[$i]->isJavascriptObject()) {
-						$html .= $this->add_to_render_begining[$i]->getJavascriptTagClose();
+						$js_to_render .= $to_render;
+					} else {
+						$html .= $to_render;
 					}
+				}
+				if ($js_to_render != "") {
+					$html .= WebSitePhpObject::getJavascriptTagOpen();
+					$html .= $js_to_render;
+					$html .= WebSitePhpObject::getJavascriptTagClose();
 				}
 			}
 			if (gettype($this->render) == "object" && method_exists($this->render, "render")) {
@@ -1240,25 +1246,31 @@ class Page extends AbstractPage {
 			}
 			if (!$this->getPageIsCaching()) {
 				$html .= "\n";
+				$js_to_render = "";
 				$add_to_render = $this->getEndAddedObjects();
 				$nb_end_added_object = sizeof($add_to_render);
 				for ($i=0; $i < sizeof($add_to_render); $i++) {
-					if ($add_to_render[$i]->isJavascriptObject()) {
-						$html .= $add_to_render[$i]->getJavascriptTagOpen();
-					}
+					$to_render = "";
 					if (gettype($add_to_render[$i]) == "object" && method_exists($add_to_render[$i], "render")) {
-						$html .= $add_to_render[$i]->render();
+						$to_render .= $add_to_render[$i]->render();
 					} else {
-						$html .= $add_to_render[$i];
+						$to_render .= $add_to_render[$i];
 					}
-					$html .= "\n";
+					$to_render .= "\n";
 					if ($add_to_render[$i]->isJavascriptObject()) {
-						$html .= $add_to_render[$i]->getJavascriptTagClose();
+						$js_to_render .= $to_render;
+					} else {
+						$html .= $to_render;
 					}
 					if ($this->getNbEndAddedObjects() > $nb_end_added_object) {
 						$add_to_render = $this->getEndAddedObjects();
 						$nb_end_added_object = $this->getNbEndAddedObjects();
 					}
+				}
+				if ($js_to_render != "") {
+					$html .= WebSitePhpObject::getJavascriptTagOpen();
+					$html .= $js_to_render;
+					$html .= WebSitePhpObject::getJavascriptTagClose();
 				}
 			}
 			if (DEBUG) {
@@ -1267,7 +1279,7 @@ class Page extends AbstractPage {
 					$html_debug .= $this->log_debug_str[$i]."<br/>\n";
 				}
 				if ($html_debug != "") {
-					$html .= "<div style=\"background-color:white;color:black;padding:5px;margin:10px;border:1px solid black;margin-bottom:0px;\" id=\"wsp-log-debug-title\"><img src='".$this->getPage()->getCDNServerURL()."wsp/img/drag_arrow_16x16.png' align='absmiddle'/> <b>DEBUG Page ".$this->getPage().".php:</b></div>";
+					$html .= "<div style=\"background-color:white;color:black;padding:5px;margin:10px;border:1px solid black;margin-bottom:0px;\" id=\"wsp-log-debug-title\"><img src='".$this->getCDNServerURL()."wsp/img/drag_arrow_16x16.png' align='absmiddle'/> <b>DEBUG Page ".$this->getPage().".php:</b></div>";
 					$html .= "<div style=\"background-color:white;color:black;padding:5px;margin:10px;border:1px solid black;margin-top:0px;\" id=\"wsp-log-debug\">".$html_debug."</div>";
 					$html .= "<script type='text/javascript'>function loagDebugZoneFollowDrag() { \$('#wsp-log-debug').css('top', \$('#wsp-log-debug-title').position().top+\$('#wsp-log-debug-title').height()+20);\$('#wsp-log-debug').css('left', \$('#wsp-log-debug-title').position().left);} \$('#wsp-log-debug-title').draggable({start: function( event, ui ) {\$('#wsp-log-debug').css('position', 'absolute');\$('#wsp-log-debug-title').css('width', \$('#wsp-log-debug').css('width'))}, drag: function( event, ui ) {loagDebugZoneFollowDrag();}, stop: function( event, ui ) {loagDebugZoneFollowDrag();}});\$('#wsp-log-debug').resizable({start: function( event, ui ){\$('#wsp-log-debug').css('overflow', 'auto');}, resize: function( event, ui ) {\$('#wsp-log-debug-title').css('width', \$('#wsp-log-debug').css('width'));}});</script>";
 				}
@@ -1880,6 +1892,28 @@ class Page extends AbstractPage {
 				}
 		}
 		return $cdn_server_url;
+	}
+	
+	/**
+	 * Method disableAutoCreateConstantLabels
+	 * @access public
+	 * @return Page
+	 * @since 1.2.9
+	 */
+	public function disableAutoCreateConstantLabels() {
+		$GLOBALS['WSP_AUTO_CREATE_CONSTANT'] = false;
+		return $this;
+	}
+	
+	/**
+	 * Method enableAutoCreateConstantLabels
+	 * @access public
+	 * @return Page
+	 * @since 1.2.9
+	 */
+	public function enableAutoCreateConstantLabels() {
+		$GLOBALS['WSP_AUTO_CREATE_CONSTANT'] = true;
+		return $this;
 	}
 }
 ?>

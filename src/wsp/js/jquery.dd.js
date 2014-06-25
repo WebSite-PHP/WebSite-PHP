@@ -341,7 +341,7 @@ function dd(element, settings) {
 		};
 		var arrowPath = parsed.image;
 		if (arrowPath != "" && _settings.showIcon) {
-			var oIcon = _createElement("img");
+			var oIcon = _createElement("img", {height:24, width:24});
 			oIcon.src = arrowPath;
 			if(parsed.imagecss!="") {
 				oIcon.className = parsed.imagecss+" ";
@@ -1227,7 +1227,7 @@ function dd(element, settings) {
 			$(img).remove();
 		};
 		if (value.image != "" && _settings.showIcon) {
-			img = _createElement("img", {src: value.image});
+			img = _createElement("img", {src: value.image, height:24, width:24});
 			$("#" + titleid).prepend(img);
 			if(value.imagecss!="") {
 				img.className = value.imagecss+" ";

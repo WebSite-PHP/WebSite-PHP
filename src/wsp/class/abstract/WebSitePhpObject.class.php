@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.9
  * @access      public
  * @since       1.0.17
  */
@@ -212,7 +212,7 @@ abstract class WebSitePhpObject {
 	 * @return mixed
 	 * @since 1.0.35
 	 */
-	public function getJavascriptTagOpen() {
+	public static function getJavascriptTagOpen() {
 		return "<script type='text/javascript'>\n	//<![CDATA[\n";
 	}
 	
@@ -222,7 +222,7 @@ abstract class WebSitePhpObject {
 	 * @return mixed
 	 * @since 1.0.35
 	 */
-	public function getJavascriptTagClose() {
+	public static function getJavascriptTagClose() {
 		return "	//]]>\n</script>\n";
 	}
 	

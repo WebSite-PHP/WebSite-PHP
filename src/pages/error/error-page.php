@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php/error/error-page.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.0
+ * @copyright   WebSite-PHP.com 17/01/2014
+ * @version     1.2.9
  * @access      public
  * @since       1.0.18
  */
@@ -178,7 +178,7 @@ class ErrorPage extends Page {
 					// Check if file need to send a mail
 					$array_files_ex = array();
 					// list of files without error email
-					$array_file_no_mail = array("", "crossdomain.xml", "sitemap.xml", "error-page.html", "undefined", "&", 
+					$array_file_no_mail = array("", "crossdomain.xml", "sitemap.xml", "error-page.html", "undefined", "&", "browserconfig.xml",
 												"favicon.gif", "favicon.png", "ui.item.id;", "url;", "javascript:void(0);");
 					if (defined('SEND_BY_MAIL_FILE_EX') && SEND_BY_MAIL_FILE_EX != "") {
 						$array_files_ex = explode(',', SEND_BY_MAIL_FILE_EX);

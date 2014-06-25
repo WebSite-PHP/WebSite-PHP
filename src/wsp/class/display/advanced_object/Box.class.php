@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.9
  * @access      public
  * @since       1.0.17
  */
@@ -146,7 +146,9 @@ class Box extends WebSitePhpObject {
 		}
 		$this->shadow_color = constant("DEFINE_STYLE_OMBRE_COLOR_".strtoupper($this->style_header));
 		
-		$this->addCss(BASE_URL."wsp/css/angle.css.php", "", true);
+		if (!$this->getPage()->isAjaxPage() && !$this->getPage()->isAjaxLoadPage()) {
+			$this->addCss(BASE_URL."wsp/css/angle.css.php", "", true);
+		}
 	}
 	
 	/**

@@ -19,7 +19,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.8
+ * @version     1.2.9
  * @access      public
  * @since       1.2.7
  */
@@ -447,6 +447,7 @@ class MapLeafLet extends WebSitePhpObject {
 		$html .= "	var icon_".$this->id."_default = \"".$this->getPage()->getCDNServerURL()."wsp/img/leaflet/marker-icon-32.png\";\n";
 		$html .= "	L.Icon.Default.imagePath = \"".$this->getPage()->getCDNServerURL()."wsp/img/leaflet\";\n";
 		
+		$html .= "$(document).ready(function() {\n";
 		$html .= "	initializeMap_".$this->id." = function(center_latitude, center_longitude, zoom) {\n";
 		if ($this->geosearch_tool == MapLeafLet::GEOSEARCH_GOOGLE) {
 			$html .= "		var geoprovider = new L.GeoSearch.Provider.Google;\n";
@@ -591,6 +592,7 @@ class MapLeafLet extends WebSitePhpObject {
 		if ($this->init_onload) {
 			$html .= "	initializeMap_".$this->id."();\n";
 		}
+		$html .= "});\n";
 		if (DEBUG) {
 			$html .= "	} else {\n";
 			$html .= "		alert(\"".__(INCLUDE_OBJECT_TO_MAIN_PAGE, get_class($this), get_class($this))."\");\n";

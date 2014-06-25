@@ -17,7 +17,7 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.8
+ * @version     1.2.9
  * @access      public
  * @since       1.0.17
  */
@@ -87,10 +87,10 @@ class Tabs extends WebSitePhpObject {
 	 * @since 1.0.98
 	 */
 	public function onShowJs($js_function) {
-		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript") {
+		if (gettype($js_function) != "string" && get_class($js_function) != "JavaScript" && !is_subclass_of($js_function, "JavaScript")) {
 			throw new NewException(get_class($this)."->onShowJs(): \$js_function must be a string or JavaScript object.", 0, getDebugBacktrace(1));
 		}
-		if (get_class($js_function) == "JavaScript") {
+		if (get_class($js_function) == "JavaScript" || is_subclass_of($js_function, "JavaScript")) {
 			$js_function = $js_function->render();
 		}
 		$this->onshow = trim($js_function);
@@ -296,6 +296,7 @@ class Tabs extends WebSitePhpObject {
 		$html .= "</div>\n";
 		
 		$html .= $this->getJavascriptTagOpen();
+		$html .= "$( document ).ready(function() {\n";
 		$html .= "	$('#".$this->getId()."').tabs({";
 		if ($this->onshow != "") {
 			$html .= "		show: function(event, ui) { ".$this->onshow." }, \n";
@@ -360,6 +361,10 @@ class Tabs extends WebSitePhpObject {
 			$html .= "		}\n";
 		}
 		$html .= "});\n";
+		if ($this->selected_index > -1 && $this->height != "") {
+			$html .= "$('#".$this->getId()."_".formalize_to_variable($this->array_tabs_name[$this->selected_index])."').attr('style', 'overflow:auto;height:' + (parseInt($('#".$this->getId()."').css('height').replace('px', ''))-($('#".$this->getId()."').find('.ui-tabs-nav').height()+40)) + 'px;');\n";
+		}
+		$html .= "})\n";
 		$html .= $this->getJavascriptTagClose();
 		
 		$this->object_change = false;

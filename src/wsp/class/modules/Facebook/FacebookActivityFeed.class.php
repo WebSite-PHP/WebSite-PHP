@@ -19,10 +19,13 @@
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
  * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @version     1.2.9
  * @access      public
  * @since       1.0.86
  */
+
+global $is_facebook_js_already_loaded;
+$GLOBALS['is_facebook_js_already_loaded'] = false;
 
 class FacebookActivityFeed extends WebSitePhpObject {
 	/**#@+
@@ -180,17 +183,35 @@ class FacebookActivityFeed extends WebSitePhpObject {
 	 * @since 1.0.86
 	 */
 	public function render($ajax_render=false) {
-		$html = "<div id=\"fb-root\"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = \"//connect.facebook.net/fr_FR/all.js#xfbml=1\";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-<div class=\"fb-activity\" data-site=\"".$this->domain."\" data-action=\"likes, recommends\" data-width=\"".$this->width."\" data-height=\"".$this->height."\" data-colorscheme=\"".$this->style."\" data-header=\"".($this->header?"true":"false")."\" style=\"border:none; overflow:hidden;background-color:".($this->style=="dark"?"black":"white")."; width:".$this->width."px; height:".$this->height."px;\"></div>";
+		FacebookActivityFeed::getFacebookJsInclude();
+		$html = "<div class=\"fb-activity\" data-site=\"".$this->domain."\" data-action=\"likes, recommends\" data-width=\"".$this->width."\" data-height=\"".$this->height."\" data-colorscheme=\"".$this->style."\" data-header=\"".($this->header?"true":"false")."\" style=\"border:none; overflow:hidden;background-color:".($this->style=="dark"?"black":"white")."; width:".$this->width."px; height:".$this->height."px;\"></div>";
 		
 		return $html;
+	}
+	
+	/**
+	 * Method getFacebookJsInclude
+	 * @access static
+	 * @since 1.2.9
+	 */
+	public static function getFacebookJsInclude() {
+		if (!$GLOBALS['is_facebook_js_already_loaded']) {
+			$page = Page::getInstance($_GET['p']);
+			$page->addObject(new Object("<div id=\"fb-root\"></div>"));
+			$js = "$( document ).ready(function() {\n";
+			$js .= "(function(d, s, id) {\n";
+			$js .= "  var js, fjs = d.getElementsByTagName(s)[0];\n";
+			$js .= "  if (d.getElementById(id)) return;\n";
+			$js .= "  js = d.createElement(s); js.id = id;\n";
+			$facebook_language = $page->getLanguageLocale();
+			$js .= "  js.src = \"//connect.facebook.net/".$facebook_language."/all.js#xfbml=1\";\n";
+	  		$js .= "  js.defer = \"defer\";\n";
+			$js .= "  fjs.parentNode.insertBefore(js, fjs);\n";
+			$js .= "}(document, 'script', 'facebook-jssdk'));\n";
+			$js .= "});\n";
+			$page->addObject(new JavaScript($js), false, true);
+			$GLOBALS['is_facebook_js_already_loaded'] = true;
+		}
 	}
 }
 ?>
