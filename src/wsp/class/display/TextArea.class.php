@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.9
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.2.0
  */
@@ -1010,6 +1010,9 @@ function getSelStartIE(textarea) {
 				$html .= str_replace("\t", "{#wsp_tab}", str_replace("\n", "\\r\\n", str_replace("\r", "", str_replace('"', '\\"', str_replace("\\", "\\\\", $this->getValue())))));
 				$html .= "\");\n";
 			}
+			if ($this->style != "") {
+				$html .= "$('#".$this->id."').attr('style', \"".$this->style."\");\n";
+			}
 			if ($this->width != "") {
 				$html .= "$('#".$this->id."').css('width', \"";
 				if (is_integer($this->width)) {
@@ -1028,7 +1031,7 @@ function getSelStartIE(textarea) {
 				}
 				$html .= "\");\n";
 			}
-			$html .= "$('#".$this->id."').attr('wrap', \"".($this->no_wrap?"off":"on")."\");\n";
+			$html .= "try { $('#".$this->id."').attr('wrap', \"".($this->no_wrap?"off":"on")."\"); } catch (e) {}\n";
 			$html .= "$('#".$this->id."').attr('class', \"".$this->class."\");";
 			$html .= "$('#".$this->id."').attr('disabled', ".(($this->disable)?"true":"false").");\n";
 			

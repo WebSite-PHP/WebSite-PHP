@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.17
  */
@@ -34,6 +34,7 @@ class Hidden extends WebSitePhpEventObject {
 	
 	private $strip_tags = false;
 	private $strip_tags_allowable = "";
+	private $is_not_wsp_object_name = false;
 	/**#@-*/
 	
 	/**
@@ -123,6 +124,20 @@ class Hidden extends WebSitePhpEventObject {
 		$this->strip_tags_allowable = $allowable_tags;
 		return $this;
 	}
+	
+	/**
+	 * Method setNotWspObjectName
+	 * @access public
+	 * @param mixed $name 
+	 * @return Hidden
+	 * @since 1.2.10
+	 */
+	public function setNotWspObjectName($name) {
+		$this->name = $name;
+		$this->id = $name;
+		$this->is_not_wsp_object_name = true;
+		return $this;
+	}
 		
 	/**
 	 * Method getName
@@ -195,7 +210,13 @@ class Hidden extends WebSitePhpEventObject {
 	public function render($ajax_render=false) {
 		$html = "";
 		if ($this->class_name != "") {
-			$html .= "<input type='hidden' name='".$this->getEventObjectName()."' id='".$this->id."' value=\"".str_replace('"', '\\"', $this->value)."\"/>";
+			$html .= "<input type='hidden' name='";
+			if ($this->is_not_wsp_object_name) {
+				$html .= $this->getName();
+			} else {
+				$html .= $this->getEventObjectName();
+			}
+			$html .= "' id='".$this->id."' value=\"".str_replace('"', '\\"', $this->value)."\"/>";
 		}
 		$this->object_change = false;
 		return $html;

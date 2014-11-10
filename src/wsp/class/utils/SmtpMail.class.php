@@ -16,8 +16,8 @@
  * @package utils
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.16
  */
@@ -150,7 +150,7 @@ class SmtpMail {
 	 * @since 1.0.35
 	 */
 	public function send() {
-		$this->smtp_object = new PHPMailer(true);
+		$this->smtp_object = new PHPMailer();
 		
 		$this->smtp_object->IsSMTP();  // telling the class to use SMTP
 		$this->smtp_object->SMTPAuth = SMTP_AUTH; // turn on SMTP authentication

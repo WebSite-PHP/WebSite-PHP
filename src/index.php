@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.9
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.0
  */
@@ -276,6 +276,7 @@
 <?php } ?>
 <?php if ($page_object->isMobileWebAppMetaTag()) { ?>
 		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="mobile-web-app-capable" content="yes">
 <?php } ?>
 		<title><?php echo utf8encode(html_entity_decode($current_page_title)); ?></title>
 		
@@ -433,6 +434,7 @@
 		<script type="text/javascript">
 			wsp_user_language = "<?php echo $_GET['l']; ?>";
 			wsp_javascript_base_url = "<?php echo BASE_URL; ?>";
+			wsp_javascript_base_lang_url = "<?php echo $page_object->getBaseLanguageURL(); ?>";
 			wsp_javascript_cdn_server = "<?php echo $cdn_server_url; ?>";
 			wsp_js_session_cache_expire = <?php echo session_cache_expire(); ?>;
 <?php if ($page_object->isCachingAsked()) { ?>
@@ -451,7 +453,7 @@
 			define(SEND_JS_ERROR_BY_MAIL, false);
 		}
 		if (SEND_JS_ERROR_BY_MAIL) {
-			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true && $page_object->getRemoteIP() != "127.0.0.1") {
+			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true && !isLocalDebug()) {
 				JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery.onerror.js", "", true);
 			}
 		}
@@ -506,7 +508,7 @@
 		</div>
 	</noscript>
 	<body>
-		<?php if (GOOGLE_CODE_TRACKER != "" && $page_object->getRemoteIP() != "127.0.0.1" && !defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) { ?>
+		<?php if (GOOGLE_CODE_TRACKER != "" && !isLocalDebug() && !defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) { ?>
 		<script type="text/javascript">
 		  window.google_analytics_uacct = "<?php echo GOOGLE_CODE_TRACKER; ?>";
 		  <?php
@@ -531,6 +533,7 @@
 		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 		  ga('create', '<?php echo GOOGLE_CODE_TRACKER; ?>', '<?php echo $domain_name; ?>');
+		  ga('require', 'displayfeatures');
 		  ga('send', 'pageview', {
 			  'page': '<?php echo "/".str_replace($page_object->getBaseURL(), "", $page_object->getCurrentURL()); ?>',
 			  'title': '<?php echo addslashes(str_replace("\n", "", str_replace("\r", "", str_replace("\t", "", utf8encode(html_entity_decode($current_page_title)))))); ?>'
@@ -556,7 +559,7 @@
 		<?php
 		}
 		if (SEND_JS_ERROR_BY_MAIL) {
-			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true && $page_object->getRemoteIP() != "127.0.0.1") {
+			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true && !isLocalDebug()) {
 		?>
 			$(document).jsErrorHandler();
 		<?php

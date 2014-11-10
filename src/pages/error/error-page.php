@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.9
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.18
  */
@@ -28,6 +28,8 @@ class ErrorPage extends Page {
 	function __construct() {}
 	
 	public function Load() {
+		header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+		
 		parent::$PAGE_TITLE = __(ERROR_PAGE)." - ".__(SITE_NAME);
 		parent::$PAGE_META_ROBOTS = "noindex, nofollow";
 		
@@ -161,7 +163,7 @@ class ErrorPage extends Page {
 			}
 			
 			// send error by mail
-			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true && $this->getRemoteIP() != "127.0.0.1") {
+			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true && !isLocalDebug()) {
 					$send_error_mail = true;
 					
 					// Check if we have enougth information to send a mail

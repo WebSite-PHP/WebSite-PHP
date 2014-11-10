@@ -163,6 +163,16 @@ if (isset($is_call_from_wsp_admin_update) && $is_call_from_wsp_admin_update == t
 		$older_version = true;
 	}
 	
+	// Update: version 1.2.9
+	if (version_compare($old_wsp_vserion, '1.2.9') <= 0 || $older_version) {
+		$script_log_file->write("[".date("Y-m-d H:i:s")."] Start version 1.2.9 clean ...\n");
+		
+		unlink($base_dir."/wsp/class/modules/PDF/fpdf.php");
+		
+		$script_log_file->write("[".date("Y-m-d H:i:s")."] End version 1.2.9 clean\n");
+		$older_version = true;
+	}
+	
 	// reset current CSS and JS cache
 	$script_log_file->write("[".date("Y-m-d H:i:s")."] Start purge cache folders ...\n");
 	rrmdir($base_dir."/wsp/cache/css/");

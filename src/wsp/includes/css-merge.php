@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.8
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.19
  */
@@ -218,7 +218,7 @@
 		if (strrpos($_SERVER['REQUEST_URI'], "combine-css/") > 0) {
 			$my_site_base_url_merge_css = substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], "combine-css/"));
 		}
-		if (getRemoteIP() != "127.0.0.1" && defined("CDN_SERVER") && 
+		if (!isLocalDebug() && defined("CDN_SERVER") && 
 			(CDN_SERVER != "" && CDN_SERVER != "http://")) {
 				$cdn_server_url = CDN_SERVER;
 				if ($cdn_server_url[strlen($cdn_server_url)-1] != "/") {

@@ -342,7 +342,7 @@ input[type="submit"] {
   -webkit-appearance: button;
 }
 
-label,
+label[id],
 select,
 button,
 input[type="button"],
@@ -600,4 +600,26 @@ textarea::-webkit-input-placeholder {
 .ui-widget div {
 	font-family: <?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
 	font-size: <?php echo $style_font_size_value; ?>;
+}
+
+#cookieChoiceInfo {
+	background-color: #666766;
+	color: #fff;
+}
+#cookieChoiceInfo a {
+	background-color: #464847;
+	border: 1px solid rgba(0,0,0,.1);
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	border-radius: 2px;
+	color: #fff;
+	cursor: pointer;
+	line-height: 19px;
+	padding: 4px 8px;
+	text-decoration: none;
+	white-space: nowrap;
+}
+#cookieChoiceInfo span {
+	width: 70%;
+	display: inline-block;
 }

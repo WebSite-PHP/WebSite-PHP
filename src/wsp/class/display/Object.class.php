@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.9
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.17
  */
@@ -71,6 +71,8 @@ class Object extends WebSitePhpEventObject {
 	* @access private
 	*/
 	private $objects = array();
+	private $objects_after_init = array();
+	private $object_is_cleared = false;
 	private $align = "";
 	private $width = "";
 	private $height = "";
@@ -164,7 +166,6 @@ class Object extends WebSitePhpEventObject {
 				$this->addObject($args[$i]);
     		}
     	}
-		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
     	return $this;
 	}
 	
@@ -188,6 +189,12 @@ class Object extends WebSitePhpEventObject {
 			$this->loaded_from_url = true;
 		}
 		$this->objects[sizeof($this->objects)] = $object;
+		if ($GLOBALS['__PAGE_IS_INIT__']) {
+			$this->object_change =true;
+			$this->objects_after_init[sizeof($this->objects_after_init)] = true;
+		} else {
+			$this->objects_after_init[sizeof($this->objects_after_init)] = false;
+		}
 	}
 	
 	/**
@@ -348,6 +355,8 @@ class Object extends WebSitePhpEventObject {
 	 */
 	public function emptyObject() {
 		$this->objects = array();
+		$this->objects_after_init = array();
+		$this->object_is_cleared = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
@@ -1208,13 +1217,15 @@ class Object extends WebSitePhpEventObject {
 			
 			$content = "";
 			for ($i=0; $i < sizeof($this->objects); $i++) {
-				if ($i != 0) {
-					$html .= " ";
-				}
-				if (gettype($this->objects[$i]) == "object" && method_exists($this->objects[$i], "render")) {
-					$content .= $this->objects[$i]->render();
-				} else {
-					$content .= $this->objects[$i];
+				if ($this->objects_after_init[$i] === true) {
+					if ($i != 0) {
+						$html .= " ";
+					}
+					if (gettype($this->objects[$i]) == "object" && method_exists($this->objects[$i], "render")) {
+						$content .= $this->objects[$i]->render();
+					} else {
+						$content .= $this->objects[$i];
+					}
 				}
 			}
 			
@@ -1230,7 +1241,10 @@ class Object extends WebSitePhpEventObject {
 				$this->getPage()->addObject(new JavaScript($js), false, true);
 			}
 			
-			$html .= "$('#".$this->getId()."').html(\"".str_replace("\n", "", str_replace("\r", "", addslashes($array_ajax_render[0])))."\");\n";
+			if ($this->object_is_cleared) {
+				$html .= "$('#".$this->getId()."').html(\"\");\n";
+			}
+			$html .= "$('#".$this->getId()."').append(\"".str_replace("\n", "", str_replace("\r", "", addslashes($array_ajax_render[0])))."\");\n";
 			$html .= "$('#".$this->getId()."').attr('style', \"";
 			if ($this->width != "") {
 				if (is_integer($this->width)) {

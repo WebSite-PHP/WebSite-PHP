@@ -18,8 +18,8 @@
  * @subpackage advanced_object.menu
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.17
  */
@@ -91,7 +91,7 @@ class ContextMenu extends WebSitePhpObject {
 	 */
 	public function addItem($text, $contextmenu_icon='', $event_js_or_object='', $separator=false) {
 		if (gettype($event_js_or_object) == "object") {
-			if (get_class($event_js_or_object) != "ContextMenuEvent" && get_class($event_js_or_object) != "DialogBox") {
+			if (get_class($event_js_or_object) != "ContextMenuEvent" && get_class($event_js_or_object) != "DialogBox" && !is_subclass_of($event_js_or_object, "DialogBox")) {
 				throw new NewException("Error ContextMenu->addItem(): $event_js_or_object is not a string or ContextMenuEvent or DialogBox object", 0, getDebugBacktrace(1));
 			}
 		}

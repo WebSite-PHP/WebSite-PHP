@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.8
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.17
  */
@@ -39,7 +39,7 @@ class DialogBox extends WebSitePhpObject {
 	* @access private
 	*/
 	private $title = "";
-	private $content = null;
+	protected $content = null;
 	private $width = "";
 	private $height = "";
 	private $align = "center";
@@ -55,6 +55,9 @@ class DialogBox extends WebSitePhpObject {
 	private $dialogbox_indice = "";
 	private $one_instance = false;
 	private $close_if_instance_exists = false;
+	
+	private $delay = 0;
+	private $load_url_delay;
 	/**#@-*/
 	
 	/**
@@ -86,6 +89,16 @@ class DialogBox extends WebSitePhpObject {
 	public function displayFormURL() {
 		$this->display_from_url = true;
 		return $this;
+	}
+	
+	/**
+	 * Method isDisplayFormURL
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.10
+	 */
+	public function isDisplayFormURL() {
+		return $this->display_from_url;
 	}
 	
 	/**
@@ -179,6 +192,33 @@ class DialogBox extends WebSitePhpObject {
 	public function setPositionY($position_y) {
 		$this->position_y = $position_y;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
+	 * Method setOpenDelay
+	 * @access public
+	 * @param mixed $delay 
+	 * @return DialogBox
+	 * @since 1.2.10
+	 */
+	public function setOpenDelay($delay) {
+		$this->delay = $delay;
+		return $this;
+	}
+	
+	/**
+	 * Method setLoadUrlDelay
+	 * @access public
+	 * @param mixed $delay 
+	 * @return DialogBox
+	 * @since 1.2.10
+	 */
+	public function setLoadUrlDelay($delay) {
+		if (get_class($this->content) != "Url") {
+			throw new NewException(get_class($this)."->setLoadUrlDelay() error: Content need to be an Url object.", 0, getDebugBacktrace(1));
+		}
+		$this->load_url_delay = $delay;
 		return $this;
 	}
 	
@@ -453,6 +493,8 @@ class DialogBox extends WebSitePhpObject {
 		$html_div = "<div style=\'display:hidden;z-index:99999".$this->dialogbox_indice.";\'>";
 		if (get_class($this->content) != "Url") {
 			$html_div .= $html_content;
+		} else {
+			$html_div .= "<div align=\'center\'><img src=\'".$this->getPage()->getCDNServerURL()."wsp/img/loading.gif\' width=\'32\' height=\'32\' /></div>";
 		}
 		if ($this->display_from_url && $GLOBALS['__AJAX_PAGE__'] && !$GLOBALS['__AJAX_LOAD_PAGE__']) {
 			$html_div = str_replace("\'", "\\\'", $html_div);
@@ -465,12 +507,11 @@ class DialogBox extends WebSitePhpObject {
 			$html .= $js_display_from_url;
 		}
 		
-		if (get_class($this->content) == "Url") {
-			$html .= "wspDialogBox".$this->dialogbox_indice.".load('".$html_content."', {}, ";
-            $html .= "function (response, status, xhr) {";
-            $html .= "if (status == 'error' && response != '') { wspDialogBox".$this->dialogbox_indice." = $('<div style=\'display:hidden;z-index:99999".$this->dialogbox_indice.";\'><table><tr><td><img src=\'".$this->getPage()->getCDNServerURL()."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + response + '</div>').appendTo('body'); }";
+		$html .= "wspDialogBox".$this->dialogbox_indice;
+		if ($this->delay > 0) {
+			$html .= ".delay(".$this->delay.").queue(function( nxt ) { $(this)";
 		}
-		$html .= "wspDialogBox".$this->dialogbox_indice.".dialog({ title: '".addslashes(str_replace("\r", "", str_replace("\n", "", $this->title)))."'";
+		$html .= ".dialog({ title: '".addslashes(str_replace("\r", "", str_replace("\n", "", $this->title)))."'";
 		$html .= ", close: function() { wspDialogBox".$this->dialogbox_indice.".dialog('widget').find('.ui-dialog-content').html(''); wspDialogBox".$this->dialogbox_indice.".dialog('widget').remove(); }";
 		if ($this->desactivate) {
 			$html .= ", modal: true, closeOnEscape: false";
@@ -507,11 +548,27 @@ class DialogBox extends WebSitePhpObject {
 	 	}
 		$html .= "setTimeout('LoadPngPicture();', 1);";
 		if (get_class($this->content) == "Url") {
-            $html .= "});";
+            $html .= "wspDialogBox".$this->dialogbox_indice;
+			if ($this->load_url_delay > 0) {
+				$html .= ".delay(".$this->load_url_delay.").queue(function( nxt ) { $(this)";
+			}
+			$html .= ".load('".$html_content."', {}, ";
+            $html .= "function (response, status, xhr) {";
+            $html .= "if (status == 'error' && response != '') { wspDialogBox".$this->dialogbox_indice." = $('<div style=\'display:hidden;z-index:99999".$this->dialogbox_indice.";\'><table><tr><td><img src=\'".$this->getPage()->getCDNServerURL()."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + response + '</div>').appendTo('body'); }";
+			$html .= "});";
+			if ($this->load_url_delay > 0) {
+				$html .= "});";
+			}
 		}
 		if (!$this->display_from_url) {
-			 $html .= "});";
+			$html .= "});";
+			if ($this->delay > 0) {
+				$html .= "});";
+			}
 		} else {
+			if ($this->delay > 0) {
+				$html .= "});";
+			}
 			$html .= "return false;";
 		}
 		$this->object_change = false;

@@ -18,8 +18,8 @@
  * @subpackage Video
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.9
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.87
  */
@@ -384,7 +384,7 @@ class VideoHTML5 extends WebSitePhpObject {
 		$html .= "	var video_".md5($this->video_mp4)." = this;\n";
 		if ($this->track_categ != "" || $this->onplay != "") {
 			$html .= "	video_".md5($this->video_mp4).".addEvent(\"play\", function(){\n";
-			if (GOOGLE_CODE_TRACKER != "" && $this->getPage()->getRemoteIP() != "127.0.0.1" && 
+			if (GOOGLE_CODE_TRACKER != "" && !isLocalDebug() && 
 				!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
 					if ($this->track_categ != "") {
 						$html .= "ga('send', 'event', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."');";

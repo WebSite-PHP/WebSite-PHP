@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php/error/error-user-rights.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2012 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.1.12
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.18
  */
@@ -27,6 +27,8 @@ class ErrorUserRights extends Page {
 	function __construct() {}
 	
 	public function Load() {
+		header($_SERVER["SERVER_PROTOCOL"]." 401 Unauthorized");
+		
 		parent::$PAGE_TITLE = __(ERROR_USER_RIGHTS)." - ".__(SITE_NAME);
 		parent::$PAGE_META_ROBOTS = "noindex, nofollow";
 		

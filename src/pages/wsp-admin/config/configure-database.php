@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php-install/wsp-admin/config/configure-database.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.25
  */
@@ -299,8 +299,10 @@ class ConfigureDatabase extends Page {
 			$type=substr($type, 0, $pos-1);
 		}
 		$type = strtolower($type);
-		if (in_array($type, array("char", "varchar", "text", "tinyblob", "tinytext", "blob", "mediumblob", "mediumtext", "longblob", "longtext", "enum", "set", "bit"))) {
+		if (in_array($type, array("char", "varchar", "text", "tinytext", "mediumtext", "longtext", "enum", "set", "bit"))) {
 			return "string";
+		} else if (in_array($type, array("tinyblob", "blob", "mediumblob", "longblob"))) {
+			return "binary";
 		} else if (in_array($type, array("int", "integer", "smallint", "mediumint", "bigint"))) {
 			return "integer";
 		} else if (in_array($type, array("float", "double", "real", "decimal", "numeric"))) {

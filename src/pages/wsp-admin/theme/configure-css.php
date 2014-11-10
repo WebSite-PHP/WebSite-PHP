@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php-install/wsp-admin/theme/configure-css.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 18/02/2013
- * @version     1.2.3
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.25
  */

@@ -60,4 +60,8 @@
 	define("TABLE_CONFIME_DEL_ROW", "Etes-vous sûr de vouloir supprimer cette ligne?");
 	
 	define('WSP_BTN_UPLOAD_FILE', 'Choisissez un fichier');
+
+	define('COOKIES_MSG', 'Notre site utilise des cookies. Les cookies nous permettent d\'offrir la meilleure expérience possible. En utilisant nos services, vous acceptez notre utilisation des cookies.');
+	define('COOKIES_MSG_SHORT', 'En utilisant nos services, vous acceptez notre utilisation des cookies.');
+	define('LEARN_MORE', 'En savoir plus');
 ?>

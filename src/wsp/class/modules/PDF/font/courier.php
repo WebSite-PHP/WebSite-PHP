@@ -14,15 +14,16 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
- * @since       1.2.2
+ * @since       1.2.10
  */
 
+$type = 'Core';
+$name = 'Courier';
+$up = -100;
+$ut = 50;
 for($i=0;$i<=255;$i++)
-	$fpdf_charwidths['courier'][chr($i)]=600;
-$fpdf_charwidths['courierB']=$fpdf_charwidths['courier'];
-$fpdf_charwidths['courierI']=$fpdf_charwidths['courier'];
-$fpdf_charwidths['courierBI']=$fpdf_charwidths['courier'];
+	$cw[chr($i)] = 600;
 ?>

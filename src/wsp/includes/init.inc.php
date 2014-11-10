@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.8
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.1.0
  */
@@ -139,7 +139,7 @@
 			$http->execute(BASE_URL.$tmp_lang."/");
 			$http_error = $http->getError();
 			$http_result = $http->getResult();
-			if ($http_result == "") {
+			if ($http->getStatus() >= 400) {
 				rename('.htaccess', 'install.htaccess');
 				echo "Please change your configuration to be compatible with <a href='http://www.website-php.com' target='_blank'>WebSite-PHP</a>:<br/>- Webserver needs to support \"<b>AllowOverride <font color='red'>All</font></b>\" for your website directory!<br/>&lt;Directory /your_directory&gt;<br/>&nbsp;&nbsp;&nbsp;AllowOverride all<br/>&lt;/Directory&gt;<br/>Edit the configuration file httpd.conf of your apache server. In this file you need to find the tag \"Directory\" concerning website folder (i.e.: www) and set the property AllowOverride with the parameter \"All\" as explained before.<br/><a href='http://httpd.apache.org/docs/current/mod/core.html#allowoverride' target='_blank'>http://httpd.apache.org/docs/current/mod/core.html#allowoverride</a><br/><br/>\n";
 				echo "<b>If you want to use <font color='red'>Alias</font></b> with WebSite-PHP you need to uncomment and configure the line with \"RewriteBase /myAliasName/\" in the file install.htaccess of the framework.<br/>\n";

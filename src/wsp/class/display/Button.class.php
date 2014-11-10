@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.9
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.17
  */
@@ -36,6 +36,7 @@ class Button extends WebSitePhpEventObject {
 	private $hide = false;
 	private $force_span_tag = false;
 	private $disable = false;
+	private $tooltip = "";
 	
 	private $primary_icon = "";
 	private $secondary_icon = "";
@@ -191,6 +192,18 @@ class Button extends WebSitePhpEventObject {
 		if ($id == "") {
 			$this->id = $name;
 		}
+		return $this;
+	}
+	
+	/**
+	 * Method setTooltip
+	 * @access public
+	 * @param mixed $tooltip 
+	 * @return Button
+	 * @since 1.2.10
+	 */
+	public function setTooltip($tooltip) {
+		$this->tooltip = $tooltip;
 		return $this;
 	}
 	
@@ -495,6 +508,9 @@ class Button extends WebSitePhpEventObject {
 					}
 					if ($this->disable) {
 						$html .= " disabled";
+					}
+					if ($this->tooltip != "") {
+						$html .= " title=\"".$this->tooltip."\"";
 					}
 					$html .= ">";
 					$is_jquery_button = true;

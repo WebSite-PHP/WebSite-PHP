@@ -18,8 +18,8 @@
  * @subpackage GoogleSearch
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.99
  */
@@ -189,7 +189,7 @@ class GoogleSearchBar extends WebSitePhpObject {
 	public function render($ajax_render=false) {
 		$html = "<div id=\"cse-search-form\" style=\"width: 100%;\">Loading</div>
 				<script type=\"text/javascript\">\n";
-				if (GOOGLE_CODE_TRACKER != "" && $this->getPage()->getRemoteIP() != "127.0.0.1" && 
+				if (GOOGLE_CODE_TRACKER != "" && !isLocalDebug() && 
 					!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
 						$html .= "	var _gaq = _gaq || []; _gaq.push(['_setAccount', '".GOOGLE_CODE_TRACKER."']);
 							_trackCseQuery = function(control, searcher, query) {
@@ -214,7 +214,7 @@ class GoogleSearchBar extends WebSitePhpObject {
 				  	$html .= "		this.customSearchControl.setLinkTarget(".$this->link_target.");\n";
 				  }
 				    $html .= "		this.customSearchControl.setResultSetSize(google.search.Search.FILTERED_CSE_RESULTSET);\n";
-				  	if (GOOGLE_CODE_TRACKER != "" && $this->getPage()->getRemoteIP() != "127.0.0.1" && 
+				  	if (GOOGLE_CODE_TRACKER != "" && !isLocalDebug() && 
 				  		!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
 				    		$html .= "            this.customSearchControl.setSearchStartingCallback(null, _trackCseQuery);\n";
 				  	}

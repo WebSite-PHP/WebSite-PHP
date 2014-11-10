@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.9
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.2.3
  */
@@ -36,6 +36,7 @@ class UploadFile extends WebSitePhpEventObject {
 	private $button_value = "";
 	private $class = "";
 	private $width = "";
+	private $tooltip = "";
 	
 	private $is_changed = false;
 	private $onchange = "";
@@ -179,6 +180,18 @@ class UploadFile extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method setTooltip
+	 * @access public
+	 * @param mixed $tooltip 
+	 * @return UploadFile
+	 * @since 1.2.10
+	 */
+	public function setTooltip($tooltip) {
+		$this->tooltip = $tooltip;
+		return $this;
+	}
+	
+	/**
 	 * Method setAuthorizedMimeTypes
 	 * @access public
 	 * @param mixed $mime_types 
@@ -186,6 +199,9 @@ class UploadFile extends WebSitePhpEventObject {
 	 * @since 1.2.3
 	 */
 	public function setAuthorizedMimeTypes($mime_types) {
+		if (!extension_loaded('fileinfo')) {
+			throw new NewException("You need to install PHP lib fileinfo.", 0, getDebugBacktrace(1));
+		}
 		if (!is_array($mime_types)) {
 			$mime_types = array($mime_types);
 		}
@@ -201,9 +217,52 @@ class UploadFile extends WebSitePhpEventObject {
 	 * @since 1.2.3
 	 */
 	public function setFileSizeLimit($bytes_size) {
+		$apache_conf_size =  $this->convertSizeToBytes(ini_get('upload_max_filesize'));
+		if ($bytes_size > $apache_conf_size) {
+			throw new NewException(get_class($this)."->setFileSizeLimit() error : \$bytes_size greater than the PHP configuration variable upload_max_filesize.", 0, getDebugBacktrace(1));
+		}
 		$this->file_size_limit = $bytes_size;
 		return $this;
 	}
+	
+	/**
+	 * Method convertSizeToBytes
+	 * @access private
+	 * @param mixed $val 
+	 * @return mixed
+	 * @since 1.2.10
+	 */
+	private function convertSizeToBytes($val) {
+        if(empty($val))return 0;
+
+        $val = trim($val);
+
+        preg_match('#([0-9]+)[\s]*([a-z]+)#i', $val, $matches);
+
+        $last = '';
+        if(isset($matches[2])){
+            $last = $matches[2];
+        }
+
+        if(isset($matches[1])){
+            $val = (int) $matches[1];
+        }
+
+        switch (strtolower($last))
+        {
+            case 'g':
+            case 'gb':
+                $val *= 1024;
+            case 'm':
+            case 'mb':
+                $val *= 1024;
+            case 'k':
+            case 'kb':
+                $val *= 1024;
+        }
+
+        return (int) $val;
+    }
 	
 	/**
 	 * Method getFileMimeType
@@ -239,7 +298,7 @@ class UploadFile extends WebSitePhpEventObject {
 	 */
 	public function checkFileSize() {
 		$size = $this->getFileSize();
-		if ($size <= $this->file_size_limit || $this->file_size_limit == -1) {
+		if (is_numeric($size) && ($size <= $this->file_size_limit || $size != -1)) {
 			return true;
 		}
 		return false;
@@ -262,7 +321,7 @@ class UploadFile extends WebSitePhpEventObject {
 	 * @since 1.2.3
 	 */
 	public function isEmptyFile() {
-		return ($this->getFileSize() == 0);
+		return ($this->getFileSize() === 0);
 	}
 	
 	/**
@@ -309,7 +368,7 @@ class UploadFile extends WebSitePhpEventObject {
 		$content = $file->read();
 		$file->close();
 		
-		return $content;
+		return (binary) $content;
 	}
 	
 	/**
@@ -463,26 +522,35 @@ class UploadFile extends WebSitePhpEventObject {
 		// Generate HTML
 		if (!is_browser_ie()) {
 			$html .= "<span class=\"UploadFile\">";
-			$html .= "<input type=\"text\" id=\"UploadFile_Path_".$this->id."\"";
-			if ($this->width != "") {
-				$html .= " width=\"".$this->width."\"";
-			}
-			$html .= " disabled/>";
+			$html .= "<input type=\"text\" id=\"UploadFile_Path_".$this->id."\" disabled/>";
 			$html .= "<label id=\"UploadFile_Button_".$this->id."\" class=\"button";
 			if ($this->class != "") {
 				$html .= " ".$this->class;
 			}
-			$html .= "\">".$this->button_value."</label><input type='file' name='".$this->getEventObjectName()."' id='".$this->id."' class='UploadFileInput'/>";
+			$html .= "\"";
+			if ($this->tooltip != "") {
+				$html .= " title=\"".$this->tooltip."\"";
+			}
+			$html .= ">".$this->button_value."</label><input type='file' name='".$this->getEventObjectName()."' id='".$this->id."' class='UploadFileInput'/>";
 			$html .= "</span>";
 		} else {
 			$html .= "<input type='file' name='".$this->getEventObjectName()."' id='".$this->id."'";
 			if ($this->width != "") {
-				$html .= " width=\"".$this->width."\"";
+				$html .= " style=\"width:";
+				if (is_integer($this->width)) {
+					$html .= $this->width."px";
+				} else {
+					$html .= $this->width;
+				}
+				$html .= ";\"";
 			}
 			if ($this->class != "") {
 				$html .= " class='".$this->class."'";
 			}
-			$html .= "'/>";
+			if ($this->tooltip != "") {
+				$html .= " title='".$this->tooltip."'";
+			}
+			$html .= "/>";
 		}
 		
 		$html .= $this->getJavascriptTagOpen();
@@ -490,6 +558,15 @@ class UploadFile extends WebSitePhpEventObject {
 			$html .= "\$('#UploadFile_Button_".$this->id."').click(function(event){\n";
 			$html .= "	\$('#".$this->id."').click()\n";
 			$html .= "});\n";
+			if ($this->width != "") {
+				$html .= "\$('#UploadFile_Path_".$this->id."').css('width', (";
+				if (is_integer($this->width)) {
+					$html .= $this->width;
+				} else {
+					$html .= trim(str_replace("px", "", $this->width));
+				}
+				$html .= " - myReplace($('#UploadFile_Button_".$this->id."').css('width'), 'px', '')) + 'px');\n";
+			}
 		}
 		$html .= "\$('#".$this->id."').change(function(){\n";
 		if (!is_browser_ie()) {

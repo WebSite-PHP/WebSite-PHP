@@ -14,14 +14,14 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.9
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.2.1
  */
 
 	global $WSP_AUTO_CREATE_CONSTANT;
-	$GLOBALS['WSP_AUTO_CREATE_CONSTANT'] = (getRemoteIp() == "127.0.0.1" ? true : false);
+	$GLOBALS['WSP_AUTO_CREATE_CONSTANT'] = isLocalDebug();
 
 	function __() {
 		$args = func_get_args();
@@ -184,7 +184,7 @@
 					Page::getInstance($_GET['p'])->addObject($dialog);
 			}
 			// Inform the developer by mail
-			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true && getRemoteIp() != "127.0.0.1") {
+			if (defined('SEND_ERROR_BY_MAIL') && SEND_ERROR_BY_MAIL == true && !isLocalDebug()) {
 					try {
 						$mail = new SmtpMail(SEND_ERROR_BY_MAIL_TO, __(SEND_ERROR_BY_MAIL_TO), "New label on ".__(SITE_NAME)." !!!", $creation_message, SMTP_MAIL, __(SMTP_NAME));
 						$mail->setPriority(SmtpMail::PRIORITY_HIGH);

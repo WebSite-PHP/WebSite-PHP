@@ -18,8 +18,8 @@
  * @subpackage advanced_object.autocomplete
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.8
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.17
  */
@@ -123,7 +123,7 @@ class AutoComplete extends WebSitePhpObject {
 		$html .= "$(document).ready( function() {\n";
 		$html .= "\$('#".$this->link_object_id."').autocomplete({ source: '".$this->autocomplete_url->render()."', minLength: ".$this->autocomplete_min_length.", ";
 		$html .= "search: function( event, ui ) { ";
-		if (GOOGLE_CODE_TRACKER != "" && $this->getPage()->getRemoteIP() != "127.0.0.1" && 
+		if (GOOGLE_CODE_TRACKER != "" && !isLocalDebug() && 
 			!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
 				if ($this->track_categ != "") {
 					$html .= "ga('send', 'event', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."'";

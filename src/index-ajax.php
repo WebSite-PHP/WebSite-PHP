@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.8
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.0
  */
@@ -141,7 +141,7 @@
 		$register_objects = WebSitePhpObject::getRegisterObjects();
 		for ($i=0; $i < sizeof($register_objects); $i++) {
 			$object = $register_objects[$i];
-			if ($object->isObjectChange() && get_class($object) != "DialogBox" && get_class($object) != "JavaScript") {
+			if ($object->isObjectChange() && get_class($object) != "DialogBox" && !is_subclass_of($object, "DialogBox") && get_class($object) != "JavaScript") {
 				$ajax_render = str_replace("{#BASE_URL#}", BASE_URL, str_replace("{#CDN_BASE_URL#}", $page_object->getCDNServerURL(), str_replace("{#QUOTE#}", "\"", str_replace("{#SIMPLE_QUOTE#}", "'", $object->getAjaxRender()))));
 				if ($ajax_render != "") {
 					$array_ajax_object_render[] = $ajax_render;

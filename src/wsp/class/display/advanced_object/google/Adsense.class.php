@@ -18,8 +18,8 @@
  * @subpackage advanced_object.google
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.9
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.17
  */
@@ -78,7 +78,7 @@ class Adsense extends WebSitePhpObject {
 			$adsense_html .= "     style=\"display:inline-block;width:".$this->google_ad_width."px;height:".$this->google_ad_height."px\"\n";
 			$adsense_html .= "     data-ad-client=\"".$this->google_ad_client."\"\n";
 			$adsense_html .= "     data-ad-slot=\"".$this->google_ad_slot."\"\n";
-			if (GOOGLE_CODE_TRACKER != "" && $this->getPage()->getRemoteIP() != "127.0.0.1" &&
+			if (GOOGLE_CODE_TRACKER != "" && !isLocalDebug() &&
 				!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
 					$adsense_html .= "     data-analytics-uacct=\"".GOOGLE_CODE_TRACKER."\"\n";
 			}
@@ -92,7 +92,7 @@ class Adsense extends WebSitePhpObject {
 			$adsense_html .= "	google_ad_slot=\"".$this->google_ad_slot."\";\n";
 			$adsense_html .= "	google_ad_width=".$this->google_ad_width.";\n";
 			$adsense_html .= "	google_ad_height=".$this->google_ad_height.";\n";
-			if (GOOGLE_CODE_TRACKER != "" && $this->getPage()->getRemoteIP() != "127.0.0.1" && 
+			if (GOOGLE_CODE_TRACKER != "" && !isLocalDebug() && 
 				!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
 					$adsense_html .= "	window.google_analytics_uacct=\"".GOOGLE_CODE_TRACKER."\";\n";
 					if (SUBDOMAIN_URL != "") {

@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php/wsp-admin/connect.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2013 WebSite-PHP.com
+ * Copyright (c) 2009-2014 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/05/2011
- * @version     1.2.0
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.25
  */
@@ -134,7 +134,7 @@ class Connect extends Page {
 	
 	public function connect() {
 		if (!isset($_SESSION['user_try_connect_wsp_admin']) && $_SESSION['user_try_connect_wsp_admin'] != true) {
-			if (defined('SEND_ADMIN_CONNECT_BY_MAIL') && SEND_ADMIN_CONNECT_BY_MAIL == true && $this->getRemoteIP() != "127.0.0.1") {
+			if (defined('SEND_ADMIN_CONNECT_BY_MAIL') && SEND_ADMIN_CONNECT_BY_MAIL == true && !isLocalDebug()) {
 					
 					$connect_mail .= "<b>User tried or is connected on administration :</b><br/>";
 					$connect_mail .= "URL : ".$this->getCurrentUrl()."<br/>";

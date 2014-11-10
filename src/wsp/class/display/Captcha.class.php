@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.8
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.17
  */
@@ -215,7 +215,11 @@ class Captcha extends WebSitePhpObject {
 	 */
 	public function check() {
 		$securimage = new Securimage();
-		return $securimage->check($this->value);
+		$is_captcha_correct = $securimage->check($this->value);
+		if (!$is_captcha_correct) {
+			$this->object_change =true;
+		}
+		return $is_captcha_correct;
 	}
 	
 	/**

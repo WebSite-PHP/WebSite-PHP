@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.9
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.17
  */
@@ -231,7 +231,7 @@ class Picture extends WebSitePhpEventObject {
 	 * @since 1.0.99
 	 */
 	public function preloadPicture() {
-		if (strtoupper(substr($this->src, 0, 7)) != "HTTP://" && strtoupper(substr($this->src, 0, 8)) != "HTTPS://") {
+		if (strtoupper(substr($this->src, 0, 7)) != "HTTP://" && strtoupper(substr($this->src, 0, 8)) != "HTTPS://" && strtoupper(substr($this->src, 0, 5)) != "DATA:") {
 			$src = $this->getPage()->getCDNServerURL().$this->src;
 		} else {
 			$src = $this->src;
@@ -254,7 +254,7 @@ class Picture extends WebSitePhpEventObject {
 		$this->is_lightbox = true;
 		$this->lightbox_name = $lightbox_name;
 		if ($pic_link != "") {
-			if (strtoupper(substr($pic_link, 0, 7)) != "HTTP://" && strtoupper(substr($pic_link, 0, 8)) != "HTTPS://") {
+			if (strtoupper(substr($pic_link, 0, 7)) != "HTTP://" && strtoupper(substr($pic_link, 0, 8)) != "HTTPS://" && strtoupper(substr($this->src, 0, 5)) != "DATA:") {
 				$pic_link = $this->getPage()->getCDNServerURL().$pic_link;
 			}
 		}
@@ -540,7 +540,7 @@ class Picture extends WebSitePhpEventObject {
 			}
 			$html .= ">";
 		}
-		if (strtoupper(substr($this->src, 0, 7)) != "HTTP://" && strtoupper(substr($this->src, 0, 8)) != "HTTPS://") {
+		if (strtoupper(substr($this->src, 0, 7)) != "HTTP://" && strtoupper(substr($this->src, 0, 8)) != "HTTPS://" && strtoupper(substr($this->src, 0, 5)) != "DATA:") {
 			$this->src = $this->getPage()->getCDNServerURL().$this->src;
 		}
 		$html .= "<img src='".$this->src."'";

@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.9
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.17
  */
@@ -154,7 +154,8 @@ class Form extends WebSitePhpObject {
 			$action_file_name = $action_file_name->render();
 		}
 		
-		$this->action = str_replace(".php", ".html", str_replace(".call", ".html", str_replace(".do", ".html", str_replace(".xhtml", ".html", $action_file_name))));
+		//$this->action = str_replace(".php", ".html", str_replace(".call", ".html", str_replace(".do", ".html", str_replace(".xhtml", ".html", $action_file_name))));
+		$this->action = $action_file_name;
 		$this->action = str_replace($this->page_object->getBaseLanguageURL(), "", $this->action);
 		$this->action = str_replace($this->page_object->getBaseURL(), "", $this->action);
 		
@@ -207,7 +208,7 @@ class Form extends WebSitePhpObject {
 	 * @since 1.0.99
 	 */
 	public function setSubmitDialogBox($dialog_box, $display_delay=200) {
-		if (gettype($dialog_box) != "object" || get_class($dialog_box) != "DialogBox") {
+		if (gettype($dialog_box) != "object" || get_class($dialog_box) != "DialogBox" || !is_subclass_of($dialog_box, "DialogBox")) {
 			throw new NewException(get_class($this)."->setSubmitDialogBox(): \$dialog_box must be a DialogBox object.", 0, getDebugBacktrace(1));
 		}
 		

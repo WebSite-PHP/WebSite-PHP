@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.9
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.19
  */
@@ -62,6 +62,10 @@
     	} else {
     		return $_SERVER["REMOTE_ADDR"];
     	}
+    }
+    
+    function isLocalDebug() {
+    	return ((getRemoteIp() == "127.0.0.1" || DEBUG) ? true : false);
     }
 	
 	function error_handler($code, $message, $file, $line) {
@@ -136,7 +140,7 @@
 						$html .= "\" target=\"".$str_or_object_link->getTarget()."";
 					}
 				} else {
-					if (get_class($str_or_object_link) == "DialogBox" || get_class($str_or_object_link) == "JavaScript" || is_subclass_of($str_or_object_link, "JavaScript")) {
+					if (get_class($str_or_object_link) == "DialogBox" || is_subclass_of($str_or_object_link, "DialogBox") || get_class($str_or_object_link) == "JavaScript" || is_subclass_of($str_or_object_link, "JavaScript")) {
 						$str_or_object_link->displayFormURL();
 					}
 					$tmp_link = $str_or_object_link->render();

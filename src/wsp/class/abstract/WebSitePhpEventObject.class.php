@@ -16,8 +16,8 @@
  * @package abstract
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.9
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.18
  */
@@ -380,9 +380,10 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 		$callback_arg_js = false;
 		if (get_class($arg) == "TextBox" || get_class($arg) == "ColorPicker" || 
 			get_class($arg) == "Button" || get_class($arg) == "Calendar" || 
-			get_class($arg) == "Hidden" || get_class($arg) == "RadioButtonGroup" || 
-			get_class($arg) == "TextArea") {
-				$callback_arg_js = $quote_begin."(\$('#".trim($arg->getId())."').val()==null?'':\$('#".trim($arg->getId())."').val())".$quote_end;
+			get_class($arg) == "Hidden" || get_class($arg) == "RadioButtonGroup") {
+				$callback_arg_js = $quote_begin."(\$('#".trim($arg->getId())."').val()==null?'':addslashes(\$('#".trim($arg->getId())."').val()))".$quote_end;
+		} else if (get_class($arg) == "TextArea") {
+			$callback_arg_js = $quote_begin."(\$('#".trim($arg->getId())."').val()==null?'':myReplaceAll(myReplaceAll(addslashes(\$('#".trim($arg->getId())."').val()), '\\n', '\\\\n'), '\\r', ''))".$quote_end;
 		} else if (get_class($arg) == "ComboBox") {
 			$callback_arg_js = $quote_begin."(\$('#".trim($arg->getEventObjectName())."').val()==null?'':\$('#".trim($arg->getEventObjectName())."').val())".$quote_end;
 		} else if (get_class($arg) == "CheckBox") {
@@ -505,7 +506,7 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
         $html .= "				isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;\n";
 		$html .= "				if (ajax_event_response != \"\") {\n";
 		$html .= "					var dialogbox_is_change = false;\n";
-		if ($this->getPage()->getRemoteIP() == "127.0.0.1" || DEBUG == true) {
+		if (isLocalDebug()) {
 			$html .= "					var alert_local_eval_error = true;\n";
 	    }
 		$html .= "					for (var ajax_event_ind=0; ajax_event_ind < ajax_event_response.length; ajax_event_ind++) {\n";
@@ -522,7 +523,7 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 	    $html .= "						} catch (e) {\n";
 	    $html .= "							console.log('Js error: ' + e.message + '\\nCode: ' + ajax_event_response[ajax_event_ind]);\n";
 	    // display ajax render error message when it's local or debug execution (useful to debug)
-	    if ($this->getPage()->getRemoteIP() == "127.0.0.1" || DEBUG == true) {
+	    if (isLocalDebug()) {
     		$html .= "							if (alert_local_eval_error) {\n";
     		$html .= "								alert('An error appeared during Ajax event, please check the console of your browser to see the error(s).');";
     		$html .= "								alert_local_eval_error = false;\n";

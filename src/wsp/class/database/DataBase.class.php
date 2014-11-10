@@ -16,8 +16,8 @@
  * @package database
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.7
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.17
  */
@@ -164,13 +164,12 @@ class DataBase {
 			$type_array = array("i", "d", "s", "b");
 			for ($i=0; $i < sizeof($stmt_objects); $i++) {
 				$attribute_type = gettype($stmt_objects[$i]);
-				if ($attribute_type == "boolean") {
+				if ($attribute_type == "boolean" || $attribute_type == "datetime") {
 					$type = "s";
 				} else {
 					$type = substr($attribute_type, 0, 1);
 					if (!in_array($type, $type_array)) { $type = "s"; }
 				}
-				
 				$list_type .= $type;
 			}
 			if (get_magic_quotes_gpc()) {
@@ -227,7 +226,7 @@ class DataBase {
 									if ($stmt_objects[$i] == null) {
 										$query = str_replace_first('?', "NULL", $query);
 									} else {
-										$query = str_replace_first('?', "'".str_replace("?", "&quest;", $stmt_objects[$i])."'", $query);
+										$query = str_replace_first('?', "'".str_replace("?", "&quest;", str_replace("'", "\\&apos;", $stmt_objects[$i]))."'", $query);
 									}
 						    	}
 								Page::getInstance($_GET['p'])->addLogDebug($query." [Execution Time: ".round($queryStartTime, 3)." Seconds]");

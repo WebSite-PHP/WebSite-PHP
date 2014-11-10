@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.9
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.17
  */
@@ -373,7 +373,7 @@ class Link extends WebSitePhpObject {
 			if (get_class($this->link) == "Link") {
 				$tmp_link = $this->link->getLink();
 			} else {
-				if (get_class($this->link) != "DialogBox" && get_class($this->link) != "JavaScript") {
+				if (get_class($this->link) != "DialogBox" && !is_subclass_of($this->link, "DialogBox") && get_class($this->link) != "JavaScript") {
 					if (method_exists($this->link, "render")) {
 						$tmp_link = $this->link->render();
 					} else {
@@ -386,7 +386,7 @@ class Link extends WebSitePhpObject {
 		}
 		if (($tmp_link != null || empty($this->link)) && strtoupper(substr($tmp_link, 0, 11)) != "JAVASCRIPT:" && strtoupper(substr($tmp_link, 0, 7)) != "MAILTO:" &&
 			strtoupper(substr($tmp_link, 0, 6)) != "FTP://" && strtoupper(substr($tmp_link, 0, 1)) != "#" &&
-			get_class($this->link) != "DialogBox" && get_class($this->link) != "JavaScript") {
+			get_class($this->link) != "DialogBox" && !is_subclass_of($this->link, "DialogBox") && get_class($this->link) != "JavaScript") {
 				
 			if (strtoupper(substr($tmp_link, 0, strlen(BASE_URL))) == strtoupper(BASE_URL)
 				|| (strtoupper(substr($tmp_link, 0, 7)) != "HTTP://" && strtoupper(substr($tmp_link, 0, 8)) != "HTTPS://")) {
@@ -487,7 +487,7 @@ class Link extends WebSitePhpObject {
 			}
 			$html .= "\"";
 		}
-		if ($this->nofollow && !$this->is_lightbox && $this->rel != "") {
+		if ($this->nofollow && !$this->is_lightbox && $this->rel == "") {
 			$html .= " rel=\"nofollow\"";
 		}
 		if ($this->rel != "" && !$this->is_lightbox && !$this->nofollow) {

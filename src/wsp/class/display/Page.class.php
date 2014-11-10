@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 17/01/2014
- * @version     1.2.9
+ * @copyright   WebSite-PHP.com 10/11/2014
+ * @version     1.2.10
  * @access      public
  * @since       1.0.0
  */
@@ -209,6 +209,7 @@ class Page extends AbstractPage {
 			if ($this->page_is_display) {
 				if ((CACHING_ALL_PAGES || $this->PAGE_CACHING) && !$this->page_is_caching && $this->cache_time != -1) {
 					if (strtoupper(substr($this->class_name, 0, 5)) != "ERROR" && $GLOBALS['__ERROR_DEBUG_PAGE__'] != true) {
+						$this->cache_file_name = $this->getRealCacheFileName();
 						$cache_file = new File($this->cache_file_name, false, true);
 						$cache_file->write(ob_get_contents());
 						$cache_file->close();
@@ -229,6 +230,7 @@ class Page extends AbstractPage {
 	 * @since 1.0.0
 	 */
 	final public static function getInstance($page) {
+		if ($page == "") { $page = $_GET['p']; }
 		$page_tmp = str_replace("_", "-", $page);
 		$page_tmp = explode('/', $page_tmp);
 		$page_names = explode('-', $page_tmp[sizeof($page_tmp)-1]);
@@ -239,11 +241,14 @@ class Page extends AbstractPage {
 		
 		static $aoInstance = array();
 		if (!isset($aoInstance[$page_class_name])) {
+			$required_page = dirname(__FILE__)."/../../../pages/".$page.".php";
 			if (strtoupper(substr($page, 0, 6)) == "ERROR-") {
-				require_once(dirname(__FILE__)."/../../../pages/error/".$page.".php");
-			} else {
-				require_once(dirname(__FILE__)."/../../../pages/".$page.".php");
+				$required_page = dirname(__FILE__)."/../../../pages/error/".$page.".php";
 			}
+			if (!is_file($required_page)) {
+				throw new NewException("Unable to find the page ".$required_page, 0, getDebugBacktrace(1));
+			}
+			require_once($required_page);
 			$aoInstance[$page_class_name] = new $page_class_name();
 			
 			// run ob_start only for current page and not for user rights testing
@@ -269,6 +274,7 @@ class Page extends AbstractPage {
 		$this->page_is_display = true;
 		$this->PAGE_CACHING = true;
 		if (CACHING_ALL_PAGES || $this->PAGE_CACHING) {
+			$this->cache_file_name = $this->getRealCacheFileName();
 			$cache_file = $this->cache_file_name;
 			$cache_file_existe = (@file_exists($cache_file)) ? @filemtime($cache_file) : 0;
 			$cache_time = CACHE_TIME;
@@ -360,10 +366,13 @@ class Page extends AbstractPage {
 		}
 		if ($cache_file_name_orig != "") {
 			$cache_directory = $this->getCacheDirectory();
+			$default_cache_directory = SITE_DIRECTORY."/wsp/cache";
 			if ($_SESSION['lang'] != "") {
 				$cache_directory = $cache_directory."/".$_SESSION['lang'];
+				$default_cache_directory = $default_cache_directory."/".$_SESSION['lang'];
 			}
-			$cache_file_name = str_replace($cache_directory, "", $cache_file_name_orig);
+			$cache_file_name = str_replace($cache_directory."/", "/", $cache_file_name_orig);
+			$cache_file_name = str_replace($default_cache_directory."/", "/", $cache_file_name);
 			
 			$cache_file_name_ext = "";
 			if (find($cache_file_name, ".cache", 1, 0) == 0) {
@@ -641,6 +650,19 @@ class Page extends AbstractPage {
 	}
 	
 	/**
+	 * Method getMimeType
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.10
+	 */
+	public function getMimeType() {
+		if (isset($_GET['mime']) && !empty($_GET['mime'])){
+			return $_GET['mime'];
+		}
+		return "text/html";
+	}
+	
+	/**
 	 * Method addEventObject
 	 * @access public
 	 * @param WebSitePhpObject $object 
@@ -699,9 +721,12 @@ class Page extends AbstractPage {
 	public function getObjectId($id) {
 		$register_objects = WebSitePhpObject::getRegisterObjects();
 		for ($i=0; $i < sizeof($register_objects); $i++) {
-			if (method_exists($register_objects[$i], "getId")) {
-				if ($register_objects[$i]->getId() == $id || $register_objects[$i]->getId()."_id" == $id) {
-					return $register_objects[$i];
+			$obj = $register_objects[$i];
+			if (method_exists($obj, "getId")) {
+				$obj_id = $obj->getId();
+				if ($obj_id == $id || $obj_id."_id" == $id || 
+					(get_class($obj) == "Object" && $obj_id == "wsp_object_".$id)) {
+						return $register_objects[$i];
 				}
 			}
 		}
@@ -1106,7 +1131,7 @@ class Page extends AbstractPage {
 		if (!is_subclass_of($object, "WebSitePhpObject")) {
 			throw new NewException("You can't add this object ".get_class($this)." to the page, you must add WebSitePhpObject", 0, getDebugBacktrace(1));
 		}
-		if ($page_ending || (gettype($object) == "object" && get_class($object) == "DialogBox") || 
+		if ($page_ending || (gettype($object) == "object" && (get_class($object) == "DialogBox" || is_subclass_of($object, "DialogBox"))) || 
 			$this->ended_added_object_loaded) {
 				$this->add_to_render_ending[] = $object;
 		} else if ($page_begining) {
@@ -1279,9 +1304,10 @@ class Page extends AbstractPage {
 					$html_debug .= $this->log_debug_str[$i]."<br/>\n";
 				}
 				if ($html_debug != "") {
-					$html .= "<div style=\"background-color:white;color:black;padding:5px;margin:10px;border:1px solid black;margin-bottom:0px;\" id=\"wsp-log-debug-title\"><img src='".$this->getCDNServerURL()."wsp/img/drag_arrow_16x16.png' align='absmiddle'/> <b>DEBUG Page ".$this->getPage().".php:</b></div>";
-					$html .= "<div style=\"background-color:white;color:black;padding:5px;margin:10px;border:1px solid black;margin-top:0px;\" id=\"wsp-log-debug\">".$html_debug."</div>";
-					$html .= "<script type='text/javascript'>function loagDebugZoneFollowDrag() { \$('#wsp-log-debug').css('top', \$('#wsp-log-debug-title').position().top+\$('#wsp-log-debug-title').height()+20);\$('#wsp-log-debug').css('left', \$('#wsp-log-debug-title').position().left);} \$('#wsp-log-debug-title').draggable({start: function( event, ui ) {\$('#wsp-log-debug').css('position', 'absolute');\$('#wsp-log-debug-title').css('width', \$('#wsp-log-debug').css('width'))}, drag: function( event, ui ) {loagDebugZoneFollowDrag();}, stop: function( event, ui ) {loagDebugZoneFollowDrag();}});\$('#wsp-log-debug').resizable({start: function( event, ui ){\$('#wsp-log-debug').css('overflow', 'auto');}, resize: function( event, ui ) {\$('#wsp-log-debug-title').css('width', \$('#wsp-log-debug').css('width'));}});</script>";
+					$log_debug_level = rand(1000000, 99999999999);
+					$html .= "<div style=\"background-color:white;color:black;padding:5px;margin:10px;border:1px solid black;margin-bottom:0px;\" id=\"wsp-log-debug-title".$log_debug_level."\"><img src='".$this->getCDNServerURL()."wsp/img/drag_arrow_16x16.png' align='absmiddle'/> <b>DEBUG Page ".$this->getPage().".php:</b> <span style='float:right;cursor:pointer;' onclick=\"\$('#wsp-log-debug-title".$log_debug_level."').hide();\$('#wsp-log-debug".$log_debug_level."').hide();\"><img src='".$this->getCDNServerURL()."wsp/img/close.gif' align='absmiddle'/></span></div>";
+					$html .= "<div style=\"background-color:white;color:black;padding:5px;margin:10px;border:1px solid black;margin-top:0px;\" id=\"wsp-log-debug".$log_debug_level."\">".$html_debug."</div>";
+					$html .= "<script type='text/javascript'>function loagDebugZoneFollowDrag() { \$('#wsp-log-debug".$log_debug_level."').css('top', \$('#wsp-log-debug-title".$log_debug_level."').position().top+\$('#wsp-log-debug-title".$log_debug_level."').height()+20);\$('#wsp-log-debug".$log_debug_level."').css('left', \$('#wsp-log-debug-title".$log_debug_level."').position().left);} \$('#wsp-log-debug-title".$log_debug_level."').draggable({start: function( event, ui ) {\$('#wsp-log-debug".$log_debug_level."').css('position', 'absolute');\$('#wsp-log-debug-title".$log_debug_level."').css('width', \$('#wsp-log-debug".$log_debug_level."').css('width'))}, drag: function( event, ui ) {loagDebugZoneFollowDrag();}, stop: function( event, ui ) {loagDebugZoneFollowDrag();}});\$('#wsp-log-debug".$log_debug_level."').resizable({start: function( event, ui ){\$('#wsp-log-debug".$log_debug_level."').css('overflow', 'auto');}, resize: function( event, ui ) {\$('#wsp-log-debug-title".$log_debug_level."').css('width', \$('#wsp-log-debug".$log_debug_level."').css('width'));}});</script>";
 				}
 			}
 			if ($this->getPageIsCaching()) {
@@ -1381,7 +1407,15 @@ class Page extends AbstractPage {
 		
 		return $this->USER_NO_RIGHTS_REDIRECT;
 	}
-
+	
+	/**
+	 * Method redirectErrorUserRights
+	 * @access public
+	 * @since 1.2.10
+	 */
+	public function redirectErrorUserRights() {
+		$this->redirect($this->getBaseLanguageURL()."error/error-user-rights.html");
+	}
 	
 	/**
 	 * Method redirect
@@ -1394,7 +1428,7 @@ class Page extends AbstractPage {
 		if (strtoupper(substr($url, 0, 7)) != "HTTP://" && strtoupper(substr($url, 0, 8)) != "HTTPS://") {
 			$url = $this->getBaseLanguageURL().$url;
 		}
-		if ($GLOBALS['__AJAX_PAGE__'] == true) {
+		if ($GLOBALS['__AJAX_PAGE__'] == true && find($this->getMimeType(), "html") > 0) {
 			$this->addObject(new JavaScript("location.href='".$url."';"));
 		} else {
 			$this->cache_time = -1;
@@ -1517,6 +1551,16 @@ class Page extends AbstractPage {
 	}
 	
 	/**
+	 * Method getSiteDirectory
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.10
+	 */
+	public function getSiteDirectory() {
+		return SITE_DIRECTORY;
+	}
+	
+	/**
 	 * Method getBaseLanguageURL
 	 * @access public
 	 * @return string
@@ -1534,10 +1578,20 @@ class Page extends AbstractPage {
 	 */
 	public function isLocalhostURL() {
 		if (getRemoteIp() == "127.0.0.1") {
-				return true;
+			return true;
 		}
 		return false;
 	}
+    
+	/**
+	 * Method isLocalDebug
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.10
+	 */
+    public function isLocalDebug() {
+    	return isLocalDebug();
+    }
 	
 	/**
 	 * Method getRootWspDirectory
@@ -1884,7 +1938,7 @@ class Page extends AbstractPage {
 	 */
 	public function getCDNServerURL(){
 		$cdn_server_url = BASE_URL;
-		if ($this->getRemoteIP() != "127.0.0.1" && defined("CDN_SERVER") && 
+		if (!isLocalDebug() && defined("CDN_SERVER") && 
 			(CDN_SERVER != "" && CDN_SERVER != "http://")) {
 				$cdn_server_url = CDN_SERVER;
 				if ($cdn_server_url[strlen($cdn_server_url)-1] != "/") {
@@ -1913,6 +1967,25 @@ class Page extends AbstractPage {
 	 */
 	public function enableAutoCreateConstantLabels() {
 		$GLOBALS['WSP_AUTO_CREATE_CONSTANT'] = true;
+		return $this;
+	}
+	
+	/**
+	 * Method enableCookiesAcceptMessage
+	 * @access public
+	 * @param mixed $cookies_terms_url 
+	 * @param boolean $is_short_message [default value: false]
+	 * @return Page
+	 * @since 1.2.10
+	 */
+	public function enableCookiesAcceptMessage($cookies_terms_url, $is_short_message=false) {
+		if (strtoupper(substr($cookies_terms_url, 0, 7)) != "HTTP://" && strtoupper(substr($cookies_terms_url, 0, 8)) != "HTTPS://") {
+			$cookies_terms_url = $this->getBaseLanguageURL().$cookies_terms_url;
+		}
+		
+		$this->addObject(new Object("<script src=\"".$this->getCDNServerURL()."wsp/js/cookiechoices.js\"></script>"), false, true);
+		$this->addObject(new JavaScript("$(document).ready(function(){cookieChoices.showCookieConsentBar(\"".($is_short_message?__(COOKIES_MSG_SHORT):__(COOKIES_MSG))."\", \"".__(CLOSE)."\", \"".__(LEARN_MORE)."\", \"".$cookies_terms_url."\");});"), false, true);
+		
 		return $this;
 	}
 }

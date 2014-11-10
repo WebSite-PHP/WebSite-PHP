@@ -122,11 +122,13 @@ AddDefaultCharset utf-8
 	RewriteRule ^([a-z]{2})(.+)/(.+)\.html$ index.php?p=$1$2/$3&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})/(.+)/$ index.php?p=$2/home&l=$1&%{QUERY_STRING} [L]
 
+	
+
 	# Rewrite Special URL subfolder (ex: xml, rss, sitemap, ...)
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4/$5/$6/$7&mime=$6&l=$1&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4/$5/$6/$7&mime=$6&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4/$5/$6&mime=$6&l=$1&%{QUERY_STRING} [L]
-	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4/$5/$6&mime=$6&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4/$5/$6/$7&mime=$8&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4/$5/$6/$7&mime=$8&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4/$5/$6&mime=$7&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4/$5/$6&mime=$7&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4/$5&mime=$6&l=$1&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3/$4/$5&mime=$6&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3/$4&mime=$5&l=$1&%{QUERY_STRING} [L]
@@ -134,6 +136,19 @@ AddDefaultCharset utf-8
 	RewriteRule ^([a-z]{2})/(.+)/(.+)\.([^php]+)$ load-page.php?p=$2/$3&mime=$4&l=$1&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})(.+)/(.+)\.([^php]+)$ load-page.php?p=$1$2/$3&mime=$4&%{QUERY_STRING} [L]
 	RewriteRule ^([a-z]{2})/(.+)\.([^php]+)$ load-page.php?p=$2&l=$1&mime=$3&%{QUERY_STRING} [L]
+
+	# Rewrite PDF URL subfolder
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.pdf$ load-page.php?p=$2/$3/$4/$5/$6/$7&mime=pdf&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)/(.+)\.pdf$ load-page.php?p=$1$2/$3/$4/$5/$6/$7&mime=pdf&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)/(.+)\.pdf$ load-page.php?p=$2/$3/$4/$5/$6&mime=pdf&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)/(.+)\.pdf$ load-page.php?p=$1$2/$3/$4/$5/$6&mime=pdf&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)/(.+)\.pdf$ load-page.php?p=$2/$3/$4/$5&mime=pdf&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)/(.+)\.pdf$ load-page.php?p=$1$2/$3/$4/$5&mime=pdf&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)/(.+)\.pdf$ load-page.php?p=$2/$3/$4&mime=pdf&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)/(.+)\.pdf$ load-page.php?p=$1$2/$3/$4&mime=pdf&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)/(.+)\.pdf$ load-page.php?p=$2/$3&mime=pdf&l=$1&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})(.+)/(.+)\.pdf$ load-page.php?p=$1$2/$3&mime=pdf&%{QUERY_STRING} [L]
+	RewriteRule ^([a-z]{2})/(.+)\.pdf$ load-page.php?p=$2&l=$1&mime=pdf&%{QUERY_STRING} [L]
 	
 	# Rewrite URL home.html, index.html and index.php
 	RewriteRule ^([a-z]{2})/home.html$ /$1/ [R=301,L] 
