@@ -16,7 +16,7 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
+ * @copyright   WebSite-PHP.com 11/11/2014
  * @version     1.2.10
  * @access      public
  * @since       1.0.17
@@ -208,7 +208,7 @@ class Form extends WebSitePhpObject {
 	 * @since 1.0.99
 	 */
 	public function setSubmitDialogBox($dialog_box, $display_delay=200) {
-		if (gettype($dialog_box) != "object" || get_class($dialog_box) != "DialogBox" || !is_subclass_of($dialog_box, "DialogBox")) {
+		if (gettype($dialog_box) != "object" || (get_class($dialog_box) != "DialogBox" && !is_subclass_of($dialog_box, "DialogBox"))) {
 			throw new NewException(get_class($this)."->setSubmitDialogBox(): \$dialog_box must be a DialogBox object.", 0, getDebugBacktrace(1));
 		}
 		
