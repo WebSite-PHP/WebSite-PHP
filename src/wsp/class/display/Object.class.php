@@ -7,7 +7,7 @@
  * Class Object
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 08/12/2014
+ * @version     1.2.11
  * @access      public
  * @since       1.0.17
  */
@@ -359,6 +359,27 @@ class Object extends WebSitePhpEventObject {
 		$this->object_is_cleared = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
+	}
+	
+	/**
+	 * Method getObjects
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.11
+	 */
+	public function getObjects() {
+		return $this->objects;
+	}
+	
+	/**
+	 * Method getObject
+	 * @access public
+	 * @param mixed $index 
+	 * @return mixed
+	 * @since 1.2.11
+	 */
+	public function getObject($index) {
+		return $this->objects[$index];
 	}
 		
 	/**

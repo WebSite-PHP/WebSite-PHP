@@ -8,7 +8,7 @@
  * Class ToolTip
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,123 +18,310 @@
  * @subpackage advanced_object.event_object
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 26/01/2015
+ * @version     1.2.11
  * @access      public
  * @since       1.0.77
  */
 
+/* Thanks Alban Langloy for his help */
+
 class ToolTip extends WebSitePhpObject {
-	/**#@+
-	* @access private
-	*/
-	private $id = "";
-	private $content = "";
-	private $params = "";
-	private $follow_cursor = false;
-	/**#@-*/
-	
+    /**#@+
+     * @access private
+     */
+    private $id = "";
+    private $content = "";
+    private $title = "";
+
+    private $params = "";
+
+    private $style = "widget";
+    private $add_css = false;
+    private $shadow = false;
+    private $rounded = false;
+
+    private $follow_cursor = false;
+    private $show_slide = false;
+    private $show_click = false;
+    private $show_fade = false;
+    /**#@-*/
+
 	/**
 	 * Constructor ToolTip
-	 * @param string $content 
+	 * * Constructor ToolTip
+	 * * @param string $content of the tooltip
+	 * * @param string $params
+	 * * @param boolean $follow_cursor [default value: false]
+	 * * @param string $title title tooltip
+	 * @param string $content of the tooltip
 	 * @param string $params 
 	 * @param boolean $follow_cursor [default value: false]
+	 * @param string $title title tooltip
 	 */
-	function __construct($content='', $params='', $follow_cursor=false) {
-		$this->content = $content;
-		$this->params = $params;
-		$this->follow_cursor = $follow_cursor;
-		
-		$this->addJavaScript(BASE_URL."wsp/js/jquery.qtip.min.js", "", true);
-		$this->addCss(BASE_URL."wsp/css/jquery.qtip.css");
-	}
-	
+    function __construct($content='', $params='', $follow_cursor=false ,$title='') {
+        $this->setId("tooltips_".rand(0, 999999999));
+        $this->setContent($content);
+        $this->setTitle($title);
+        $this->params = $params;
+        $this->follow_cursor = $follow_cursor;
+
+        $this->addJavaScript(BASE_URL."wsp/js/jquery.qtip.min.js", "", true);
+        $this->addCss(BASE_URL."wsp/css/jquery.qtip.css");
+    }
+
 	/**
 	 * Method setId
+	 * * Method setId
+	 * * @access public
+	 * * @param string $id
+	 * * @return ToolTip
 	 * @access public
 	 * @param string $id 
 	 * @return ToolTip
 	 * @since 1.0.77
 	 */
-	public function setId($id) {
-		$this->id = $id;
-		return $this;
-	}
-	
+    public function setId($id) {
+        if (!isset($id) || $id == "") {
+            throw new NewException("Error ".get_class($this).": Please set an id", 0, getDebugBacktrace(1));
+        }
+        $this->id = $id;
+        return $this;
+    }
+
 	/**
 	 * Method setParams
+	 * * Method setParams
+	 * * @access public
+	 * * @param string $params
+	 * * @return ToolTip
 	 * @access public
 	 * @param string $params 
 	 * @return ToolTip
 	 * @since 1.0.77
 	 */
-	public function setParams($params) {
-		$this->params = $params;
-		return $this;
-	}
-	
+    public function setParams($params) {
+        $this->params = $params;
+        return $this;
+    }
+
 	/**
-	 * Method followCursor
+	 * Method setTitle
+	 * * Method setTitle
+	 * * @access public
+	 * * @param string $title
+	 * * @return ToolTip
 	 * @access public
+	 * @param string $title 
 	 * @return ToolTip
-	 * @since 1.1.0
+	 * @since 1.0.77
 	 */
-	public function followCursor() {
-		$this->follow_cursor = true;
-		return $this;
-	}
-	
+    public function setTitle($title) {
+        $this->title = str_replace("'", "&#39;",$title);
+        return $this;
+    }
+
 	/**
 	 * Method setContent
+	 * * Method setContent
+	 * * @access public
+	 * * @param string|WebSitePhpObject $content
+	 * * @return ToolTip
 	 * @access public
 	 * @param string|WebSitePhpObject $content 
 	 * @return ToolTip
 	 * @since 1.0.77
 	 */
-	public function setContent($content) {
-		$this->content = $content;
-		return $this;
-	}
-	
+    public function setContent($content) {
+        if (gettype($content) == "object")
+        {
+            $content = $content->render();
+        }
+        $this->content = ($content=="")?"$('#".$this->id."').title":"'".str_replace("'", "&#39;",$content)."'";
+        return $this;
+    }
+
+	/**
+	 * Method setStyle
+	 * * Method setStyle
+	 * * @access public
+	 * * @param string $style [default value: widget] or [default|dark|cream|red|green|blue|youtube|youtube-red|youtube-green|jtools|cluetip|tipsy|tipped]
+	 * * @return ToolTip
+	 * @access public
+	 * @param string $style or [default|dark|cream|red|green|blue|youtube|youtube-red|youtube-green|jtools|cluetip|tipsy|tipped] [default value: widget]
+	 * @return ToolTip
+	 * @since 1.0.77
+	 */
+    public function setStyle($style) {
+        if(!preg_match("/^(default|dark|cream|red|green|blue|youtube|youtube-red|youtube-green|jtools|cluetip|tipsy|tipped|widget)$/",$style)) {
+            throw new NewException("Error ".get_class($this).": The style \"".$style."\" do not exist.", 0, getDebugBacktrace(1));
+        }
+        $this->style = $style;
+        return $this;
+    }
+
+    /*GETTER*/
+
 	/**
 	 * Method getParams
+	 * * Method getParams
+	 * * @access public
+	 * * @return mixed
 	 * @access public
 	 * @return mixed
 	 * @since 1.0.91
 	 */
-	public function getParams() {
-		return $this->params;
-	}
-	
+    public function getParams() {
+        return $this->params;
+    }
+
+	/**
+	 * Method followCursor
+	 * * Method followCursor
+	 * * @access public
+	 * * @return ToolTip
+	 * @access public
+	 * @return ToolTip
+	 * @since 1.1.0
+	 */
+    public function followCursor() {
+        $this->follow_cursor = true;
+        return $this;
+    }
+
+	/**
+	 * Method shadow
+	 * * Method shadow
+	 * * @access public
+	 * * @return ToolTip
+	 * @access public
+	 * @return ToolTip
+	 * @since 1.1.0
+	 */
+    public function shadow() {
+        if(preg_match("/^(youtube|youtube-red|youtube-green|jtools|cluetip)$/",$this->style)) {
+            throw new NewException("Error ".get_class($this).": The style \"".$this->style."\" is already shadowed.", 0, getDebugBacktrace(1));
+        }
+        $this->add_css = true;
+        $this->shadow = true;
+        return $this;
+    }
+
+	/**
+	 * Method rounded
+	 * * Method rounded
+	 * * @access public
+	 * * @return ToolTip
+	 * @access public
+	 * @return ToolTip
+	 * @since 1.1.0
+	 */
+    public function rounded() {
+        if(preg_match("/^(jtools|tipped)$/",$this->style)) {
+            throw new NewException("Error ".get_class($this).": The style \"".$this->style."\" is already rounded.", 0, getDebugBacktrace(1));
+        }
+        $this->add_css = true;
+        $this->rounded = true;
+        return $this;
+    }
+
+	/**
+	 * Method showClick
+	 * * Method showClick
+	 * * @access public
+	 * * @return ToolTip
+	 * @access public
+	 * @return ToolTip
+	 * @since 1.1.0
+	 */
+    public function showClick() {
+        $this->show_click = true;
+        return $this;
+    }
+
+	/**
+	 * Method showSlide
+	 * * Method showSlide
+	 * * @access public
+	 * * @return ToolTip
+	 * @access public
+	 * @return ToolTip
+	 * @since 1.1.0
+	 */
+    public function showSlide() {
+        $this->show_slide = true;
+        return $this;
+    }
+
+	/**
+	 * Method showFade
+	 * * Method showFade
+	 * * @access public
+	 * * @return ToolTip
+	 * @access public
+	 * @return ToolTip
+	 * @since 1.1.0
+	 */
+    public function showFade() {
+        $this->show_fade = true;
+        return $this;
+    }
+
+
 	/**
 	 * Method render
+	 * * Method render
+	 * * @access public
+	 * * @param boolean $ajax_render [default value: false]
+	 * * @return string html code of object ToolTip
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
-	 * @return string html code of object ToolTip
 	 * @since 1.0.77
 	 */
-	public function render($ajax_render=false) {
-		if (!isset($this->id) || $this->id == "") {
-			throw new NewException("Error ".get_class($this).": Please set an id", 0, getDebugBacktrace(1));
-		}
-		
-		if (gettype($this->content) == "object") {
-			$this->content = $this->content->render();
-		}
-		
-		$html = "";
-		$html .= "$(document).ready(function() {\n";
-		$html .= "	$('#".$this->id."').qtip({ content: ".(($this->content=="")?"$('#".$this->id."').title":"'".str_replace("'", "&#39;", $this->content)."'");
-		$html .= ", style: { widget: true }";
-		if ($this->params != "") {
-			$html .= ", ".$this->params;
-		}
-		if ($this->follow_cursor) {
-			$html .= ", position: { my: 'top left', target: 'mouse', viewport: $(window), adjust: { x: 10,  y: 10 } }";
-		}
-		$html .= " });\n";
-		$html .= "});\n";
-		return $html;
-	}
+    public function render($ajax_render=false) {
+        $html = "$(document).ready(function() {\n";
+        $html .= "	$('#".$this->id."').qtip({ content: { text:".$this->content;
+        if ($this->title != "") {
+            $html .= " ,title: '".$this->title."'";
+        }
+        $html .="}, style: {";
+        if($this->style=="widget") {
+            $html.="widget: true";
+            if($this->add_css)
+            {
+                $html.=", classes: '";
+            }
+        } else {
+            $html.= "classes: 'ui-tooltip-".$this->style;
+        }
+        if($this->shadow) {
+            $html.=" ui-tooltip-shadow ";
+        }
+        if($this->rounded)	{
+            $html.=" ui-tooltip-rounded ";
+        }
+        if($this->style!="widget"||$this->add_css==true) {
+            $html.="'";
+        }
+        $html.= "}";
+        if($this->params != "") {
+            $html .= ", ".$this->params;
+        }
+        if($this->show_slide) {
+            $html .= ", show: {effect: function() { $(this).slideDown();}},hide: {effect: function() { $(this).slideUp();}}";
+        }
+        if($this->show_click) {
+            $html .= ", show: 'click', hide: 'click'";
+        }
+        if($this->show_fade) {
+            $html .= ", show: { effect: function() { $(this).fadeIn();}},hide: {effect: function() { $(this).fadeOut();}}";
+        }
+        if($this->follow_cursor) {
+            $html .= ", position: { my: 'top left', target: 'mouse', viewport: $(window), adjust: { x: 10,  y: 10 } }";
+        }
+        $html .= " });\n";
+        $html .= "});\n";
+        return $html;
+    }
 }
 ?>

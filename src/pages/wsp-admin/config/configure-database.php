@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php-install/wsp-admin/config/configure-database.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 07/12/2014
+ * @version     1.2.11
  * @access      public
  * @since       1.0.25
  */
@@ -253,9 +253,9 @@ class ConfigureDatabase extends Page {
 						$this->generateWspTableObject($database, $table, $db_key_identifier);
 						$this->generateTableObject($database, $table, $db_key_identifier);
 						$this->generateTableObjectList($database, $table);
-						$dialog = new DialogBox(__(GENERATE_DATABASE_OBJECTS), __(GENERATE_DATABASE_OBJECTS_OK, $database));
+						$dialog = new DialogBox(__(GENERATE_DATABASE_OBJECTS_TITLE), __(GENERATE_DATABASE_OBJECTS_OK, $database));
 					} else {
-						$dialog = new DialogBox(__(GENERATE_DATABASE_OBJECTS), __(GENERATE_DATABASE_OBJECTS_ERROR, $database));
+						$dialog = new DialogBox(__(GENERATE_DATABASE_OBJECTS_TITLE), __(GENERATE_DATABASE_OBJECTS_ERROR, $database));
 					}
 				}
 			} else {
@@ -264,13 +264,13 @@ class ConfigureDatabase extends Page {
 					$this->generateWspTableObject($database, $table, $db_key_identifier);
 					$this->generateTableObject($database, $table, $db_key_identifier);
 					$this->generateTableObjectList($database, $table);
-					$dialog = new DialogBox(__(GENERATE_DATABASE_OBJECTS), __(GENERATE_DATABASE_OBJECTS_OK, $database.".".$table));
+					$dialog = new DialogBox(__(GENERATE_DATABASE_OBJECTS_TITLE), __(GENERATE_DATABASE_OBJECTS_OK, $database.".".$table));
 				} else {
-					$dialog = new DialogBox(__(GENERATE_DATABASE_OBJECTS), __(GENERATE_DATABASE_OBJECTS_ERROR, $database.".".$table));
+					$dialog = new DialogBox(__(GENERATE_DATABASE_OBJECTS_TITLE), __(GENERATE_DATABASE_OBJECTS_ERROR, $database.".".$table));
 				}
 			}
 			if ($dialog == null) {
-				$dialog = new DialogBox(__(GENERATE_DATABASE_OBJECTS), __(GENERATE_DATABASE_OBJECTS_ERROR, ""));
+				$dialog = new DialogBox(__(GENERATE_DATABASE_OBJECTS_TITLE), __(GENERATE_DATABASE_OBJECTS_ERROR, ""));
 			}
 			$dialog->activateCloseButton();
 			$this->addObject($dialog);
@@ -778,7 +778,13 @@ $data .= "	/**
 		\$sql = new SqlDataView(new ".$this->getFormatValue($row['table_name'])."DbTable());
 		\$sql->setClause(\"/* #!#get_object_array_".$this->getFormatValue($row['table_name'])."_key#!# */\".(\$clause!=''?\" AND \".\$clause:\"\"));
 		if (\$sort_attribut != '') {
-			\$sql->addOrder(\$sort_attribut, \$sort_order);
+			if (is_array(\$sort_attribut)) {
+				for (\$i=0; \$i < sizeof(\$sort_attribut); \$i++) {
+					\$sql->addOrder(\$sort_attribut[\$i], \$sort_order[\$i]);
+				}
+			} else {
+				\$sql->addOrder(\$sort_attribut, \$sort_order);
+			}
 		}
 		if (\$limit_row_count > 0) {
 			\$sql->setLimit(\$limit_offset, \$limit_row_count);
@@ -901,7 +907,13 @@ $data .= "	/**
 			\$sql = new SqlDataView(new ".$class_name."DbTable());
 			\$sql->setClause(\$clause);
 			if (\$sort_attribut != '') {
-				\$sql->addOrder(\$sort_attribut, \$sort_order);
+				if (is_array(\$sort_attribut)) {
+					for (\$i=0; \$i < sizeof(\$sort_attribut); \$i++) {
+						\$sql->addOrder(\$sort_attribut[\$i], \$sort_order[\$i]);
+					}
+				} else {
+					\$sql->addOrder(\$sort_attribut, \$sort_order);
+				}
 			}
 			if (\$limit_row_count > 0) {
 				\$sql->setLimit(\$limit_offset, \$limit_row_count);
@@ -922,6 +934,22 @@ $data .= "	/**
 			}
 			
 			return \$array_".str_replace("-", "_", strtolower($class_name)).";
+		}
+		
+		/**
+		 * Method count".$class_name."
+		 * @access public
+		 * @param string \$clause
+		 * @param boolean \$activate_htmlentities [default value: false]
+		 * @return \$count (nb of ".$class_name." respecting \$clause)
+		 */
+		public function count".$class_name."(\$clause, \$activate_htmlentities=false) {
+			\$sql = new SqlDataView(new ".$class_name."DbTable());
+			\$sql->setClause(\$clause);
+			if (\$activate_htmlentities) {
+				\$sql->enableHtmlentitiesMode();
+			}
+			return \$sql->retrieveCount();
 		}
 	}
 ?>";

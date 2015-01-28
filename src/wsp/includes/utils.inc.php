@@ -6,7 +6,7 @@
  * WebSite-PHP file utils.inc.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 05/12/2014
+ * @version     1.2.11
  * @access      public
  * @since       1.0.19
  */
@@ -163,7 +163,11 @@
 			$browser=get_browser($user_agent,$return_array); //If available, use PHP native function
 		} else {
 			require_once('browscap/php-local-browscap.php');
-			$browser=get_browser_local($user_agent,$return_array,'php_browscap.ini',true);
+			$browscap_file = "lite_php_browscap.ini";
+			if (defined("LITE_PHP_BROWSCAP") && LITE_PHP_BROWSCAP == false) {
+				$browscap_file = "php_browscap.ini";
+			}
+			$browser=get_browser_local($user_agent,$return_array,$browscap_file,true);
 		}
 		return $browser;
 	}

@@ -7,7 +7,7 @@
  * Class UploadFile
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 27/11/2014
+ * @version     1.2.11
  * @access      public
  * @since       1.2.3
  */
@@ -32,11 +32,12 @@ class UploadFile extends WebSitePhpEventObject {
 	
 	private $array_mime_types = array();
 	private $file_size_limit = -1;
-	private $file_path = "";
+	private $file_path = array();
 	private $button_value = "";
 	private $class = "";
 	private $width = "";
 	private $tooltip = "";
+	private $is_multiple = false;
 	
 	private $is_changed = false;
 	private $onchange = "";
@@ -85,8 +86,6 @@ class UploadFile extends WebSitePhpEventObject {
 		} else {
 			$this->id = $id;
 		}
-		
-		$this->button_value = __(WSP_BTN_UPLOAD_FILE);
 		
 		JavaScriptInclude::getInstance()->addToEnd(BASE_URL."wsp/js/jquery.upload.js", "", true);
 	}
@@ -218,6 +217,7 @@ class UploadFile extends WebSitePhpEventObject {
 	 */
 	public function setFileSizeLimit($bytes_size) {
 		$apache_conf_size =  $this->convertSizeToBytes(ini_get('upload_max_filesize'));
+		$bytes_size =  $this->convertSizeToBytes($bytes_size);
 		if ($bytes_size > $apache_conf_size) {
 			throw new NewException(get_class($this)."->setFileSizeLimit() error : \$bytes_size greater than the PHP configuration variable upload_max_filesize.", 0, getDebugBacktrace(1));
 		}
@@ -263,27 +263,40 @@ class UploadFile extends WebSitePhpEventObject {
 
         return (int) $val;
     }
+    
+	/**
+	 * Method activateMultipleFiles
+	 * @access public
+	 * @return UploadFile
+	 * @since 1.2.11
+	 */
+    public function activateMultipleFiles() {
+    	$this->is_multiple = true;
+    	return $this;
+    }
 	
 	/**
 	 * Method getFileMimeType
 	 * @access public
+	 * @param double $file_index [default value: 0]
 	 * @return mixed
 	 * @since 1.2.3
 	 */
-	public function getFileMimeType() {
+	public function getFileMimeType($file_index=0) {
 		$file_info = new finfo(FILEINFO_MIME);
-		$mime_type = split(";", $file_info->buffer(file_get_contents($this->getFilePath())));  // e.g. gives "image/jpeg"
+		$mime_type = split(";", $file_info->buffer(file_get_contents($this->getFilePath($file_index))));  // e.g. gives "image/jpeg"
 		return trim($mime_type[0]);
 	}
 	
 	/**
 	 * Method checkMimeType
 	 * @access public
+	 * @param double $file_index [default value: 0]
 	 * @return boolean
 	 * @since 1.2.3
 	 */
-	public function checkMimeType() {
-		$mime_type = $this->getFileMimeType();
+	public function checkMimeType($file_index=0) {
+		$mime_type = $this->getFileMimeType($file_index);
 		if (in_array($mime_type, $this->array_mime_types)) {
 			return true;
 		}
@@ -293,12 +306,13 @@ class UploadFile extends WebSitePhpEventObject {
 	/**
 	 * Method checkFileSize
 	 * @access public
+	 * @param double $file_index [default value: 0]
 	 * @return boolean
 	 * @since 1.2.3
 	 */
-	public function checkFileSize() {
-		$size = $this->getFileSize();
-		if (is_numeric($size) && ($size <= $this->file_size_limit || $size != -1)) {
+	public function checkFileSize($file_index=0) {
+		$size = $this->getFileSize($file_index);
+		if (is_numeric($size) && $size <= $this->file_size_limit) {
 			return true;
 		}
 		return false;
@@ -307,42 +321,40 @@ class UploadFile extends WebSitePhpEventObject {
 	/**
 	 * Method getFileSize
 	 * @access public
+	 * @param double $file_index [default value: 0]
 	 * @return mixed
 	 * @since 1.2.3
 	 */
-	public function getFileSize() {
-		return filesize($this->getFilePath());
+	public function getFileSize($file_index=0) {
+		return filesize($this->getFilePath($file_index));
 	}
 	
 	/**
 	 * Method isEmptyFile
 	 * @access public
+	 * @param double $file_index [default value: 0]
 	 * @return mixed
 	 * @since 1.2.3
 	 */
-	public function isEmptyFile() {
-		return ($this->getFileSize() === 0);
+	public function isEmptyFile($file_index=0) {
+		return ($this->getFileSize($file_index) === 0);
 	}
 	
 	/**
 	 * Method moveFile
 	 * @access public
 	 * @param mixed $destination_path 
+	 * @param double $file_index [default value: 0]
 	 * @return boolean
 	 * @since 1.2.3
 	 */
-	public function moveFile($destination_path) {
-		if (sizeof($this->array_mime_types) > 0) {
-			if (!$this->checkMimeType()) {
-				throw new NewException("Mime type not supported.", 0, getDebugBacktrace(1));
-			}
-		}
-		if (!$this->checkFileSize()) {
-			throw new NewException("Uploaded file is bigger than file size limit.", 0, getDebugBacktrace(1));
-		}
+	public function moveFile($destination_path, $file_index=0) {
+		// To check mime type and size call getFileName to block the unauthorized format and size file
+		$filename = $this->getFileName($file_index, true);
 		
-		if (move_uploaded_file($this->getFilePath(), $destination_path.$_FILES[$this->getEventObjectName()]["name"])) {
-			$this->file_path = $destination_path.$_FILES[$this->getEventObjectName()]["name"];
+		// Move file
+		if (move_uploaded_file($this->getFilePath($file_index), $destination_path.$filename)) {
+			$this->file_path[$file_index] = $destination_path.$filename;
 			return true;
 		}
 		return false;
@@ -351,20 +363,16 @@ class UploadFile extends WebSitePhpEventObject {
 	/**
 	 * Method getFileContent
 	 * @access public
+	 * @param double $file_index [default value: 0]
 	 * @return mixed
 	 * @since 1.2.3
 	 */
-	public function getFileContent() {
-		if (sizeof($this->array_mime_types) > 0) {
-			if (!$this->checkMimeType()) {
-				throw new NewException("Mime type not supported.", 0, getDebugBacktrace(1));
-			}
-		}
-		if (!$this->checkFileSize()) {
-			throw new NewException("Uploaded file is bigger than file size limit.", 0, getDebugBacktrace(1));
-		}
+	public function getFileContent($file_index=0) {
+		//To check mime type and size call getFileName to block the unauthorized format and size file
+		$filename = $this->getFileName($file_index, true);
 		
-		$file = new File($this->getFilePath());
+		// Get file content
+		$file = new File($this->getFilePath($file_index));
 		$content = $file->read();
 		$file->close();
 		
@@ -374,33 +382,57 @@ class UploadFile extends WebSitePhpEventObject {
 	/**
 	 * Method getFileName
 	 * @access public
+	 * @param double $file_index [default value: 0]
+	 * @param boolean $check_mime_size [default value: false]
 	 * @return mixed
 	 * @since 1.2.3
 	 */
-	public function getFileName() {
-		if (sizeof($this->array_mime_types) > 0) {
-			if (!$this->checkMimeType()) {
-				throw new NewException("Mime type not supported.", 0, getDebugBacktrace(1));
+	public function getFileName($file_index=0, $check_mime_size=false) {
+		if ($this->is_multiple) {
+			$filename = $_FILES[$this->getEventObjectName()]["name"][$file_index];
+		} else {
+			$filename = $_FILES[$this->getEventObjectName()]["name"];
+		}
+		if ($check_mime_size == true) {
+			if (sizeof($this->array_mime_types) > 0) {
+				if (!$this->checkMimeType($file_index)) {
+					throw new NewException("Mime type of file ".$filename." not supported.", 0, getDebugBacktrace(1));
+				}
+			}
+			if (!$this->checkFileSize($file_index)) {
+				throw new NewException("Uploaded file ".$filename." is bigger than file size limit.", 0, getDebugBacktrace(1));
 			}
 		}
-		if (!$this->checkFileSize()) {
-			throw new NewException("Uploaded file is bigger than file size limit.", 0, getDebugBacktrace(1));
-		}
 		
-		return $_FILES[$this->getEventObjectName()]["name"];
+		return $filename;
 	}
 	
 	/**
 	 * Method getFilePath
 	 * @access public
+	 * @param double $file_index [default value: 0]
 	 * @return mixed
 	 * @since 1.2.3
 	 */
-	public function getFilePath() {
-		if ($this->file_path == "") {
-			$this->file_path = $_FILES[$this->getEventObjectName()]["tmp_name"];
+	public function getFilePath($file_index=0) {
+		if ($this->file_path[$file_index] == "") {
+			if ($this->is_multiple) {
+				$this->file_path[$file_index] = $_FILES[$this->getEventObjectName()]["tmp_name"][$file_index];
+			} else {
+				$this->file_path[$file_index] = $_FILES[$this->getEventObjectName()]["tmp_name"];
+			}
 		}
-		return $this->file_path;
+		return $this->file_path[$file_index];
+	}
+	
+	/**
+	 * Method count
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.11
+	 */
+	public function count() {
+		return sizeof($_FILES[$this->getEventObjectName()]["tmp_name"]);
 	}
 	
 	/**
@@ -417,7 +449,7 @@ class UploadFile extends WebSitePhpEventObject {
 	 */
 	public function onChange($str_function, $arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
 		if (!$this->is_ajax_event) {
-			throw new NewException(get_class($this)."->onChange(): onChange function is available only for UploadFile with ajax event. Please call the function ".get_class($this)."->setAjaxEvent().", 0, getDebugBacktrace(1));
+			throw new NewException(get_class($this)."->onChange(): onChange function is available only for ".get_class($this)." with ajax event. Please call the function ".get_class($this)."->setAjaxEvent().", 0, getDebugBacktrace(1));
 		}
 		
 		$args = func_get_args();
@@ -519,6 +551,14 @@ class UploadFile extends WebSitePhpEventObject {
 			$html .= $this->getJavascriptTagClose();
 		}
 		
+		if ($this->button_value == "") {
+			if ($this->is_multiple) {
+				$this->button_value = __(WSP_BTN_UPLOAD_FILES);
+			} else {
+				$this->button_value = __(WSP_BTN_UPLOAD_FILE);
+			}
+		}
+		
 		// Generate HTML
 		if (!is_browser_ie()) {
 			$html .= "<span class=\"UploadFile\">";
@@ -531,10 +571,17 @@ class UploadFile extends WebSitePhpEventObject {
 			if ($this->tooltip != "") {
 				$html .= " title=\"".$this->tooltip."\"";
 			}
-			$html .= ">".$this->button_value."</label><input type='file' name='".$this->getEventObjectName()."' id='".$this->id."' class='UploadFileInput'/>";
+			$html .= ">".$this->button_value."</label><input type='file' name='".$this->getEventObjectName().($this->is_multiple?"[]":"")."' id='".$this->id."' class='UploadFileInput'";
+			if ($this->is_multiple) {
+				$html .= " multiple";
+			}
+			$html .= "/>";
 			$html .= "</span>";
 		} else {
-			$html .= "<input type='file' name='".$this->getEventObjectName()."' id='".$this->id."'";
+			$html .= "<input type='file' name='".$this->getEventObjectName().($this->is_multiple?"[]":"")."' id='".$this->id."'";
+			if ($this->is_multiple) {
+				$html .= " multiple";
+			}
 			if ($this->width != "") {
 				$html .= " style=\"width:";
 				if (is_integer($this->width)) {

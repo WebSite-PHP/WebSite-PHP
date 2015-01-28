@@ -7,7 +7,7 @@
  * Class Page
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 16/12/2014
+ * @version     1.2.11
  * @access      public
  * @since       1.0.0
  */
@@ -183,7 +183,7 @@ class Page extends AbstractPage {
 	private $array_callback_object = array("Button", "ComboBox", "TextBox", "Password", "ColorPicker", "CheckBox", 
 											"ContextMenuEvent", "DroppableEvent", "SortableEvent", "Object", "Picture", 
 											"Calendar", "AutoCompleteEvent", "Raty", "TextArea", "RadioButtonGroup", 
-											"UploadFile");
+											"UploadFile", "SelectList");
 	
 	private $create_object_to_get_css_js = false;
 	private $ended_added_object_loaded = false;
@@ -1080,7 +1080,7 @@ class Page extends AbstractPage {
 	                    $this->callback_method_params[$i] = str_replace("{#wsp_callback_amp}", "&", $this->callback_method_params[$i]);
 						$this->callback_method_params[$i] = str_replace("{#wsp_callback_quote}", "'", $this->callback_method_params[$i]);
 						
-						if (!$is_json) {
+						if (!$is_json && !is_numeric($this->callback_method_params[$i])) {
 							// Search if string is linked with object
 	    					$param_object = $this->getObjectId($this->callback_method_params[$i]);
 	    					if ($param_object != null) {

@@ -13,6 +13,7 @@
 	define("PRIMARY_KEY", "Primary key");
 	define("NO_PRIMARY_KEY", "You must specify a primary keyor a unique key on the table %s.%s");
 	define("GENERATE_DATABASE_OBJECTS", "<b>Generate database objects</b><br/>Allows you to generate PHP classes depending on the model of the database.<br/>To understand how to use these classes: <a href=\"http://www.website-php.com/en/tutorials/database-tutorial.html\" target=\"_blank\">http://www.website-php.com/en/tutorials/database-tutorial.html</a>");
+	define("GENERATE_DATABASE_OBJECTS_TITLE", "Generate database objects");
 	define("GENERATE_OBJECTS", "Generate objects");
 	define("GENERATE_DATABASE_OBJECTS_OK", "Generate objects from database %s finished");
 	define("GENERATE_DATABASE_OBJECTS_ERROR", "Error when generate objects from database %s");

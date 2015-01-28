@@ -7,7 +7,7 @@
  * Class RadioButtonGroup
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 13/12/2014
+ * @version     1.2.11
  * @access      public
  * @since       1.2.3
  */
@@ -90,9 +90,14 @@ class RadioButtonGroup extends WebSitePhpEventObject {
 			$text = $value;
 		}
 		$this->array_value[] = $value;
+		if (gettype($text) == "object" && method_exists($text, "render")) {
+			$text = $text->render();
+		}
 		$this->array_text[] = $text;
 		if ($selected) {
+			$save_is_changed = $this->is_changed;
 			$this->setValue($value);
+			$this->is_changed = $save_is_changed;
 		}
 		
 		return $this;
@@ -111,6 +116,7 @@ class RadioButtonGroup extends WebSitePhpEventObject {
 		}
 		$this->value = $value;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		$this->is_changed = true;
 		return $this;
 	}
 
@@ -206,6 +212,9 @@ class RadioButtonGroup extends WebSitePhpEventObject {
 	 * @since 1.2.3
 	 */
 	public function getValue() {
+		if (sizeof($this->array_value) > 0) { // init selected index with submit value if not already do
+			$this->initSubmitValue();
+		}
 		return $this->value;
 	}
 
@@ -282,6 +291,9 @@ class RadioButtonGroup extends WebSitePhpEventObject {
 				return false;
 			}
 		} else {
+			if (sizeof($this->array_value) > 0) { // init selected index with submit value if not already do
+				$this->initSubmitValue();
+			}
 			return $this->is_changed;
 		}
 	}

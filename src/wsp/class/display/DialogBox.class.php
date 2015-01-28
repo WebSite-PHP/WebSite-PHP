@@ -7,7 +7,7 @@
  * Class DialogBox
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 27/01/2015
+ * @version     1.2.11
  * @access      public
  * @since       1.0.17
  */
@@ -43,6 +43,7 @@ class DialogBox extends WebSitePhpObject {
 	private $width = "";
 	private $height = "";
 	private $align = "center";
+    private $style = "";
 	private $desactivate = false;
 	private $display_from_url = false;
 	private $close_button = false;
@@ -124,11 +125,24 @@ class DialogBox extends WebSitePhpObject {
 	 * @return DialogBox
 	 * @since 1.0.35
 	 */
-	public function setAlign($align) {
-		$this->align = $align;
-		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
-		return $this;
-	}
+    public function setAlign($align) {
+        $this->align = $align;
+        if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+        return $this;
+    }
+
+	/**
+	 * Method setStyle
+	 * @access public
+	 * @param mixed $style 
+	 * @return DialogBox
+	 * @since 1.2.11
+	 */
+    public function setStyle($style) {
+        $this->style = $style;
+        if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+        return $this;
+    }
 	
 	/**
 	 * Method setWidth
@@ -459,7 +473,12 @@ class DialogBox extends WebSitePhpObject {
 			$html_content = $this->content;
 		}
 		if (get_class($this->content) != "Url") {
-			$html_content = "<div align=\'".$this->align."\'>".str_replace("\"", "\'", str_replace("'", "\'", str_replace("\r", "", str_replace("\n", "", $html_content))))."</div>";
+			$tmp_html_content = "<div align=\'".$this->align."\'";
+            if ($this->style != "") {
+                $tmp_html_content .= " style=\'".$this->style."\'";
+            }
+            $tmp_html_content .= ">".str_replace("\"", "\\\"", str_replace("'", "\'", str_replace("\r", "", str_replace("\n", "", $html_content))))."</div>";
+            $html_content = $tmp_html_content;
 		} else {
 			if (find($html_content, "?", 0, 0) > 0) {
 				$html_content .= "&dialogbox_level=".($this->dialogbox_indice==""?1:$this->dialogbox_indice);

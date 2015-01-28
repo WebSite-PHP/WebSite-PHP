@@ -58,8 +58,9 @@
 	define("JAVASCRIPT_NOT_ACTIVATE", "JavaScript n'est pas activé sur votre navigateur. Activez le pour profiter de tous les avantages du site, ensuite rafraichissez la page.");
 	
 	define("TABLE_CONFIME_DEL_ROW", "Etes-vous sûr de vouloir supprimer cette ligne?");
-	
+
 	define('WSP_BTN_UPLOAD_FILE', 'Choisissez un fichier');
+	define('WSP_BTN_UPLOAD_FILES', 'Choisissez des fichiers');
 
 	define('COOKIES_MSG', 'Notre site utilise des cookies. Les cookies nous permettent d\'offrir la meilleure expérience possible. En utilisant nos services, vous acceptez notre utilisation des cookies.');
 	define('COOKIES_MSG_SHORT', 'En utilisant nos services, vous acceptez notre utilisation des cookies.');

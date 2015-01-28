@@ -6,7 +6,7 @@
  * WebSite-PHP file init.inc.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 25/01/2015
+ * @version     1.2.11
  * @access      public
  * @since       1.1.0
  */
@@ -142,8 +142,9 @@
 			if ($http->getStatus() >= 400) {
 				rename('.htaccess', 'install.htaccess');
 				echo "Please change your configuration to be compatible with <a href='http://www.website-php.com' target='_blank'>WebSite-PHP</a>:<br/>- Webserver needs to support \"<b>AllowOverride <font color='red'>All</font></b>\" for your website directory!<br/>&lt;Directory /your_directory&gt;<br/>&nbsp;&nbsp;&nbsp;AllowOverride all<br/>&lt;/Directory&gt;<br/>Edit the configuration file httpd.conf of your apache server. In this file you need to find the tag \"Directory\" concerning website folder (i.e.: www) and set the property AllowOverride with the parameter \"All\" as explained before.<br/><a href='http://httpd.apache.org/docs/current/mod/core.html#allowoverride' target='_blank'>http://httpd.apache.org/docs/current/mod/core.html#allowoverride</a><br/><br/>\n";
-				echo "<b>If you want to use <font color='red'>Alias</font></b> with WebSite-PHP you need to uncomment and configure the line with \"RewriteBase /myAliasName/\" in the file install.htaccess of the framework.<br/>\n";
-				exit;
+				echo "<b>If you want to use <font color='red'>Alias</font></b> with WebSite-PHP you need to uncomment and configure the line with \"RewriteBase /myAliasName/\" in the file install.htaccess of the framework.<br/><br/>\n";
+                echo "If all the previous elements are already configured, then your apache server is configure correctly. But may be, do you have an <b>PHP error</b> (ie: memory_limit).<br/>Please, open your php_error.log file and check if there are no error at the time of your last page refresh. And if you find an erreur, correct it; probably in the configuration file php.ini.<br/>";
+                exit;
 			}
 		}
 	}

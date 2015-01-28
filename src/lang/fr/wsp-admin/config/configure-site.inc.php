@@ -51,4 +51,6 @@
 	define("EDT_MAX_SESSION_TIME", "Temps de session max.");
 	define("CMB_JQUERY_VERSION", "JQuery version");
 	define("CMB_JQUERY_UI_VERSION", "JQuery UI version");
+	define('CMB_LITE_PHP_BROWSCAP', 'Lite Browscap');
+	define('LITE_PHP_BROWSCAP_EXPLANATION', '<a href="http://browscap.org/" target="_blank">Browscap</a> est utilisé par WSP pour récupérer les informations sur<br/>le navigateur de l\'utilsateur (version mobile, CSS3, ...)');
 ?>

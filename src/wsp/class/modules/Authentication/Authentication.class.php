@@ -8,7 +8,7 @@
  * Class Authentication
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage Authentication
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 09/12/2014
+ * @version     1.2.11
  * @access      public
  * @since       1.0.84
  */
@@ -514,6 +514,7 @@ class Authentication extends WebSitePhpObject {
 	 * @since 1.1.11
 	 */
 	public function connect($redirect=true, $redirect_url='REFERER') {
+		$this->error_obj->emptyObject();
 		require_once(dirname(__FILE__)."/../../../../pages/".WSP_ADMIN_URL."/includes/utils-users.inc.php");
 		
 		list($strAdminLogin, $strAdminPasswd, $strUserRights) = getWspUserRightsInfo($this->getLogin());

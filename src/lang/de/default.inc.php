@@ -60,6 +60,7 @@
 	define("TABLE_CONFIME_DEL_ROW", "Sind Sie sicher, dass Sie diese Zeile löschen?");
 	
 	define('WSP_BTN_UPLOAD_FILE', 'Wählen Sie eine Datei');
+	define('WSP_BTN_UPLOAD_FILES', 'Wählen Sie die Datein');
 
 	define('COOKIES_MSG', 'Unsere Website verwendet Cookies. Cookies ermöglichen es uns, die bestmögliche Erfahrung bieten. Durch die Nutzung unserer Dienste, akzeptieren Sie die Verwendung von Cookies.');
 	define('COOKIES_MSG_SHORT', 'Durch die Nutzung unserer Dienste, akzeptieren Sie die Verwendung von Cookies.');
