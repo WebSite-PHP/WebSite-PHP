@@ -7,7 +7,7 @@
  * Class Editor
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 07/02/2015
+ * @version     1.2.12
  * @access      public
  * @since       1.0.17
  */
@@ -412,6 +412,7 @@ class Editor extends WebSitePhpEventObject {
 		}
 		if ($this->toolbar == Editor::TOOLBAR_NONE || $this->collapse_toolbar) {
 			$html .= "						, toolbarStartupExpanded: false\n";
+            $html .= "						, toolbarCanCollapse: true\n";
 		}
 		if ($this->toolbar != "" && $this->toolbar != Editor::TOOLBAR_DEFAULT) {
 			$html .= "						, toolbar: '".$this->toolbar."'\n";
@@ -434,7 +435,15 @@ class Editor extends WebSitePhpEventObject {
 		}
 		$html .= " });\n";
 		$html .= "				};";
-		$html .= "	copyEditorContent_".$this->name."ToHidden = function() { var content_editor=getEditorContent_".$this->name."();$('#hidden_".$this->name."').val(content_editor);$('#".$this->getId()."').val(''); };\n";
+		$html .= "	copyEditorContent_".$this->name."ToHidden = function() {
+						if (CKEDITOR.instances['".$this->name."']) {
+                            var content_editor=getEditorContent_".$this->name."();
+                            $('#hidden_".$this->name."').val(content_editor);
+                            $('#".$this->getId()."').val('');
+                        } else if (trim($('#".$this->name."').val()) != '') {
+                            $('#hidden_".$this->name."').val($('#".$this->getId()."').val());
+                        }
+		            };\n";
 		$html .= "	setEditorContent_".$this->name." = function(content) {
 						if (CKEDITOR.instances['".$this->name."']) {
 							CKEDITOR.document.getById('".$this->name."').setHtml(content);
@@ -448,6 +457,8 @@ class Editor extends WebSitePhpEventObject {
 							} else { 
 								return content_editor;
 							}
+						} else if (trim($('#".$this->name."').val()) != '') {
+						    return $('#".$this->name."').val();
 						}
 						return '';
 					};";
@@ -490,17 +501,19 @@ class Editor extends WebSitePhpEventObject {
 				$html .= "<div id=\"wsp_editor_".$this->name."\">\n";
 			}
 			$html .= "<textarea name=\"".$this->getEventObjectName()."\" id=\"".$this->name."\"";
-			if ($this->height != "" || $this->width != "") {
-				$html .= " style=\"";
-				if ($this->height != "") {
-					$html .= "height:".$this->height."px;";
-				}
-				if ($this->width != "") {
-					$html .= "width:".$this->width."px;";
-				}
-				$html .= "\"";
-			}
-			$html .= ">";
+			$html .= " style=\"height:";
+            if ($this->height != "") {
+                $html .= $this->height;
+            } else {
+                $html .= "100";
+            }
+            $html .= "px;width:";
+            if ($this->width != "") {
+                $html .= $this->width."px";
+            } else {
+                $html .= "98%";
+            }
+            $html .= ";\">";
 			if ($this->form_object != null) {
 				$hidden_text = new TextBox($this->form_object, "hidden_".$this->name);
 			} else {

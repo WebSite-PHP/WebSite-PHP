@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 16/12/2014
- * @version     1.2.11
+ * @copyright   WebSite-PHP.com 05/02/2015
+ * @version     1.2.12
  * @access      public
  * @since       1.0.0
  */
@@ -1708,7 +1708,7 @@ class Page extends AbstractPage {
 	 * @since 1.1.8
 	 */
 	private function getBrowserInfo() {
-		if ($this->browser == null) {
+		if ($this->browser == null && $this->getBrowserUserAgent() != "") {
 			if (isset($_SESSION['browser_info'])) {
 				$this->browser = $_SESSION['browser_info'];
 			} else {
@@ -1729,7 +1729,7 @@ class Page extends AbstractPage {
 		if ($this->browser == null) {
 			$this->browser = $this->getBrowserInfo();
 		}
-		return ($this->browser['cssversion'] >= 3)?true:false;
+		return ($this->browser['CssVersion'] >= 3)?true:false;
 	}
 	
 	/**
@@ -1745,10 +1745,10 @@ class Page extends AbstractPage {
 		if ($this->browser == null) {
 			$this->browser = $this->getBrowserInfo();
 		}
-		if (is_bool($this->browser['ismobiledevice'])) {
-			return $this->browser['ismobiledevice'];
+		if (is_bool($this->browser['isMobileDevice'])) {
+			return $this->browser['isMobileDevice'];
 		} else {
-			return (trim($this->browser['ismobiledevice'])=="true")?true:false;
+			return (trim($this->browser['isMobileDevice'])=="true")?true:false;
 		}
 	}
 	
@@ -1763,10 +1763,10 @@ class Page extends AbstractPage {
 			$this->browser = $this->getBrowserInfo();
 		}
 		$is_crawler = false;
-		if (is_bool($this->browser['crawler'])) {
-			$is_crawler = $this->browser['crawler'];
+		if (is_bool($this->browser['Crawler'])) {
+			$is_crawler = $this->browser['Crawler'];
 		} else {
-			$is_crawler = (trim($this->browser['crawler'])=="true")?true:false;
+			$is_crawler = (trim($this->browser['Crawler'])=="true")?true:false;
 		}
 		if (!$is_crawler) {
 			if (file_exists(dirname(__FILE__)."/../../config/crawlers.cnf")) {
@@ -1795,7 +1795,7 @@ class Page extends AbstractPage {
 		if ($this->browser == null) {
 			$this->browser = $this->getBrowserInfo();
 		}
-		return $this->browser[browser];
+		return $this->browser['Browser'];
 	}
 	
 	/**
@@ -1808,7 +1808,7 @@ class Page extends AbstractPage {
 		if ($this->browser == null) {
 			$this->browser = $this->getBrowserInfo();
 		}
-		return $this->browser[version];
+		return $this->browser['Version'];
 	}
 	
 	/**

@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 05/12/2014
- * @version     1.2.11
+ * @copyright   WebSite-PHP.com 05/02/2015
+ * @version     1.2.12
  * @access      public
  * @since       1.0.25
  */
@@ -272,8 +272,8 @@ class ConfigureSite extends Page {
 		}
 		$edtValidation = new LiveValidation();
 		$table_form2->addRowColumns(__(EDT_CACHE_TIME).":&nbsp;", new Object($this->edtCacheTime->setLiveValidation($edtValidation->addValidatePresence()->addValidateNumericality(true)->setFieldName(__(EDT_CACHE_TIME))), "&nbsp;".__(SECONDS)));
-		
-		if (!defined("LITE_PHP_BROWSCAP")) {
+
+		/*if (!defined("LITE_PHP_BROWSCAP")) {
 			define("LITE_PHP_BROWSCAP", true);
 		}
 		$this->cmbBrowscap = new ComboBox($this->form2, "cmbBrowscap");
@@ -281,8 +281,8 @@ class ConfigureSite extends Page {
 		$this->cmbBrowscap->addItem("false", "false", (LITE_PHP_BROWSCAP==false)?true:false);
 		$this->cmbBrowscap->setWidth(143);
 		$table_form2->addRowColumns(__(CMB_LITE_PHP_BROWSCAP).":&nbsp;", $this->cmbBrowscap);
-		$table_form2->addRowColumns("&nbsp;", __(LITE_PHP_BROWSCAP_EXPLANATION));
-		
+		$table_form2->addRowColumns("&nbsp;", __(LITE_PHP_BROWSCAP_EXPLANATION));*/
+
 		/*$this->cmbJsCompression = new ComboBox($this->form);
 		$this->cmbJsCompression->addItem("NONE", "NONE", (JS_COMPRESSION_TYPE=="NONE")?true:false);
 		$this->cmbJsCompression->addItem("GOOGLE_WS", "GOOGLE_WS", (JS_COMPRESSION_TYPE=="GOOGLE_WS")?true:false);
@@ -504,7 +504,7 @@ class ConfigureSite extends Page {
 			$data_config_file .= $this->edtCacheTime->getValue();
 		}
 		$data_config_file .= "); // 12 heures = 60*60*12\n";
-		$data_config_file .= "define(\"LITE_PHP_BROWSCAP\", ".$this->cmbBrowscap->getValue()."); // is lite or normal version of Browscap used\n";
+		//$data_config_file .= "define(\"LITE_PHP_BROWSCAP\", ".$this->cmbBrowscap->getValue()."); // is lite or normal version of Browscap used\n";
 		$data_config_file .= "\n";
 		$data_config_file .= "define(\"JQUERY_LOAD_LOCAL\", ".$this->cmbJqueryLocal->getValue()."); // if false load jquery from google else load from local\n";
 		$data_config_file .= "define(\"JQUERY_VERSION\", \"".$this->cmbJQueryVersion->getValue()."\");\n";

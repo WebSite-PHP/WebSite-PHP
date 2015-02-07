@@ -6,7 +6,7 @@
  * Class NewException
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 05/02/2015
+ * @version     1.2.12
  * @access      public
  * @since       1.0.15
  */
@@ -380,13 +380,15 @@ class NewException extends Exception
 					$debug_mail .= "Referer : ".$page_object->getRefererURL()."<br/>";
 					$debug_mail .= "IP : <a href='http://www.infosniper.net/index.php?ip_address=".$page_object->getRemoteIP()."' target='_blank'>".$page_object->getRemoteIP()."</a><br/>";
 					$debug_mail .= "Browser : ";
-					if ($page_object->getBrowserName() == "Default Browser") {
+					if (!isset($_SESSION['browser_info']) || $page_object->getBrowserName() == "Default Browser" || $page_object->getBrowserName() == "") {
 						$debug_mail .= $page_object->getBrowserUserAgent();
 					} else {
 						$debug_mail .= $page_object->getBrowserName()." (version: ".$page_object->getBrowserVersion().")";
 					}
 					$debug_mail .= "<br/>";
-					$debug_mail .= "Crawler : ".($page_object->isCrawlerBot()?"true":"false")."<br/>";
+					if (isset($_SESSION['browser_info'])) {
+						$debug_mail .= "Crawler : ".($page_object->isCrawlerBot()?"true":"false")."<br/>";
+					}
 					
 					$caching_file->writeCache($debug_mail);
 					

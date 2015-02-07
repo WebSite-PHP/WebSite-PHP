@@ -8,7 +8,7 @@
  * URL: http://127.0.0.1/website-php-install/wsp-admin/update/update-browscap.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 05/02/2015
+ * @version     1.2.12
  * @access      public
  * @since       1.1.4
  */
@@ -35,10 +35,7 @@ class UpdateBrowscap extends Page {
 	public function Load() {
 		unset($_SESSION['user_browscap_version']);
 		
-		if ($this->updateFileFromUrl(dirname(__FILE__)."/../../../wsp/includes/browscap/lite_php_browscap.ini", 
-									"http://www.browscap.org/stream?q=Lite_PHP_BrowsCapINI") && 
-			$this->updateFileFromUrl(dirname(__FILE__)."/../../../wsp/includes/browscap/php_browscap.ini", 
-									"http://www.browscap.org/stream?q=PHP_BrowsCapINI")) {
+		if ($this->updateBrowscapFile()) {
 			$congratulation_pic = new Picture("img/wsp-admin/button_ok_64.png", 64, 64);
 			$this->render = new Object($congratulation_pic, "<br/>", __(UPDATE_FRAMEWORK_COMPLETE_OK, "Browscap.ini"));
 		} else {
@@ -57,35 +54,25 @@ class UpdateBrowscap extends Page {
 		$this->addObject(new JavaScript("setTimeout('location.href=location.href;', 1000);"));
 	}
 	
-	private function updateFileFromUrl($file, $url) {
-		$browscap_file = new File($file, false, true);
-		
-		// Simulate user browser
-		$opts = array(
-		  'http'=>array(
-		    'method'=>"GET",
-		    'header'=>"Accept-language: en\r\n" .
-		              "Cookie: foo=bar\r\n",
-			'user_agent'=>$_SERVER['HTTP_USER_AGENT']
-		  )
-		);
-		$context = stream_context_create($opts);
-		
-		// get new file version
-		$data = file_get_contents($url, FILE_USE_INCLUDE_PATH, $context);
-		
-		// write file
-		if ($data != "") {
-			$browscap_file->write($data);
-		}
-		$browscap_file->close();
-		
+	private function updateBrowscapFile() {
+        ini_set("memory_limit", "2G");
+
+        require_once(dirname(__FILE__).'/../../../wsp/class/utils/Browscap.class.php');
+        $cacheDir = SITE_DIRECTORY.'/wsp/includes/browscap/';
+        if (!is_dir($cacheDir)) {
+            mkdir($cacheDir);
+        }
+        unlink($cacheDir."cache.php");
+        $browscap = new Browscap($cacheDir);
+        $browscap->doAutoUpdate = true;
+        $browser = $browscap->getBrowser();
+
 		unset($_SESSION['user_browscap_version']);
 		unset($_SESSION['browser_info']);
 		global $browscapIni;
 		unset($browscapIni);
 		
-		if ($data != "") {
+		if (is_dir($cacheDir."cache.php")) {
 			return true;
 		}
 		return false;
