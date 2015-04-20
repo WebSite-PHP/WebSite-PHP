@@ -1,0 +1,965 @@
+# Class Picture #
+
+WebSitePhpObject
+> |
+> --WebSitePhpEventObject
+> > |
+> > --Picture
+
+
+
+Location: /display/Picture.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class Picture
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.9
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.17
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+  * `ALIGN_ABSMIDDLE` = ` 'absmiddle'`
+
+
+> Align
+    * `ALIGN_CENTER` = ` 'center'`
+
+> Align
+    * `ALIGN_LEFT` = ` 'left'`
+
+> Align
+    * `ALIGN_MIDDLE` = ` 'middle'`
+
+> Align
+    * `ALIGN_RIGHT` = ` 'right'`
+
+> Align
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpEventObject ###
+
+  * `WebSitePhpEventObject::$ajax_wait_message` = ` ''`
+
+
+  * `WebSitePhpEventObject::$class_name` = ` ''`
+
+
+  * `WebSitePhpEventObject::$disable_ajax_wait_message` = ` false`
+
+
+  * `WebSitePhpEventObject::$form_object` = ` null`
+
+
+  * `WebSitePhpEventObject::$id` = ` ''`
+
+
+  * `WebSitePhpEventObject::$is_ajax_event` = ` false`
+
+
+  * `WebSitePhpEventObject::$name` = ` ''`
+
+
+  * `WebSitePhpEventObject::$on_form_is_changed_js` = ` ''`
+
+
+  * `WebSitePhpEventObject::$on_form_is_changed_revert` = ` false`
+
+
+  * `WebSitePhpEventObject::$page_object` = ` null`
+
+
+
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpEventObject ###
+
+  * `WebSitePhpEventObject::__construct()`
+> Constructor WebSitePhpEventObject
+    * `WebSitePhpEventObject::automaticAjaxEvent()`
+> Method automaticAjaxEvent
+    * `WebSitePhpEventObject::disableAjaxWaitMessage()`
+> Method disableAjaxWaitMessage
+    * `WebSitePhpEventObject::getAjaxEventFunctionRender()`
+> Method getAjaxEventFunctionRender
+    * `WebSitePhpEventObject::getEventObjectName()`
+> Method getEventObjectName
+    * `WebSitePhpEventObject::getFormObject()`
+> Method getFormObject
+    * `WebSitePhpEventObject::getId()`
+> Method getId
+    * `WebSitePhpEventObject::getName()`
+> Method getName
+    * `WebSitePhpEventObject::getObjectEventValidationRender()`
+> Method getObjectEventValidationRender
+    * `WebSitePhpEventObject::getSubmitValueIsInit()`
+
+  * `WebSitePhpEventObject::initSubmitValue()`
+> Method initSubmitValue  Internal method used by an object like ComboBox or TextBox to init it with submitted value (if not already done).
+    * `WebSitePhpEventObject::isAjaxEvent()`
+> Method isAjaxEvent
+    * `WebSitePhpEventObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpEventObject::loadCallbackMethod()`
+> Method loadCallbackMethod
+    * `WebSitePhpEventObject::onFormIsChangedJs()`
+> Method onFormIsChangedJs
+    * `WebSitePhpEventObject::setAjaxEvent()`
+> Method setAjaxEvent
+    * `WebSitePhpEventObject::setAjaxWaitMessage()`
+> Method setAjaxWaitMessage
+    * `WebSitePhpEventObject::setSubmitValueIsInit()`
+> Method setSubmitValueIsInit
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# Picture::addLightbox #
+
+**addLightbox(**
+[**string**
+_$lightbox\_name_ = ''], [**string**
+_$pic\_link_ = ''], [**string**
+_$max\_width_ = ''], [**string**
+_$max\_height_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$lightbox\_name_
+> _$pic\_link_
+> _$max\_width_
+> _$max\_height_
+
+**Remarks**
+
+Method addLightbox
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Picture::construct #
+
+**construct(**
+**mixed**
+_$src_, [**double**
+_$height_ = 0], [**double**
+_$width_ = 0], [**double**
+_$border_ = 0], [**string**
+_$align_ = ''], [**string**
+_$title_ = '']**);**
+
+
+Overrides WebSitePhpEventObject::construct() (Constructor WebSitePhpEventObject)
+
+
+
+**Parameters**
+> _$src_
+> _$height_ [value: 0](default.md)
+> _$width_ [value: 0](default.md)
+> _$border_ [value: 0](default.md)
+> _$align_
+> _$title_
+
+**Remarks**
+
+Constructor Picture
+
+
+
+
+# Picture::getAjaxRender #
+
+**getAjaxRender(**
+**);**
+
+
+Overrides WebSitePhpObject::getAjaxRender() (Method getAjaxRender)
+
+
+
+**Returns**
+> javascript code to update initial html of object Picture (call with AJAX)
+
+**Remarks**
+
+Method getAjaxRender
+
+
+**since:** 1.0.88
+
+**access:** public
+
+
+
+# Picture::getHeight #
+
+**getHeight(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getHeight
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Picture::getId #
+
+**getId(**
+**);**
+
+
+Overrides WebSitePhpEventObject::getId() (Method getId)
+
+
+
+**Remarks**
+
+Method getId
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Picture::getSrc #
+
+**getSrc(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getSrc
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Picture::getWidth #
+
+**getWidth(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getWidth
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Picture::isClicked #
+
+**isClicked(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isClicked
+
+
+**since:** 1.0.85
+
+**access:** public
+
+
+
+# Picture::onClick #
+
+**onClick(**
+**Page**
+_$page\_object_, **string**
+_$str\_function_, [**mixed**
+_$arg1_ = null], [**mixed**
+_$arg2_ = null], [**mixed**
+_$arg3_ = null], [**mixed**
+_$arg4_ = null], [**mixed**
+_$arg5_ = null]**);**
+
+
+
+
+
+**Parameters**
+> _$page\_object_
+> _$str\_function_
+> _$arg1_ [value: null](default.md)
+> _$arg2_ [value: null](default.md)
+> _$arg3_ [value: null](default.md)
+> _$arg4_ [value: null](default.md)
+> _$arg5_ [value: null](default.md)
+
+**Remarks**
+
+Method onClick
+
+
+**since:** 1.0.85
+
+**access:** public
+
+
+
+# Picture::onClickJs #
+
+**onClickJs(**
+**string|JavaScript**
+_$js\_function_**);**
+
+
+
+
+
+**Parameters**
+> _$js\_function_
+
+**Remarks**
+
+Method onClickJs
+
+
+**since:** 1.0.85
+
+**access:** public
+
+
+
+# Picture::onLoadJs #
+
+**onLoadJs(**
+**mixed**
+_$js\_function_**);**
+
+
+
+
+
+**Parameters**
+> _$js\_function_
+
+**Remarks**
+
+Method onLoadJs
+
+
+**since:** 1.0.98
+
+**access:** public
+
+
+
+# Picture::preloadPicture #
+
+**preloadPicture(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method preloadPicture
+
+
+**since:** 1.0.99
+
+**access:** public
+
+
+
+# Picture::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object Picture
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Picture::setAlign #
+
+**setAlign(**
+**string**
+_$align_**);**
+
+
+
+
+
+**Parameters**
+> _$align_
+
+**Remarks**
+
+Method setAlign
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Picture::setAlt #
+
+**setAlt(**
+**mixed**
+_$alt_**);**
+
+
+
+
+
+**Parameters**
+> _$alt_
+
+**Remarks**
+
+Method setAlt
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Picture::setBorder #
+
+**setBorder(**
+**mixed**
+_$border_**);**
+
+
+
+
+
+**Parameters**
+> _$border_
+
+**Remarks**
+
+Method setBorder
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Picture::setClick #
+
+**setClick(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setClick
+
+
+**since:** 1.0.85
+
+**access:** public
+
+
+
+# Picture::setHeight #
+
+**setHeight(**
+**integer**
+_$height_**);**
+
+
+
+
+
+**Parameters**
+> _$height_
+
+**Remarks**
+
+Method setHeight
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Picture::setHspace #
+
+**setHspace(**
+**mixed**
+_$hspace_**);**
+
+
+
+
+
+**Parameters**
+> _$hspace_
+
+**Remarks**
+
+Method setHspace
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Picture::setId #
+
+**setId(**
+**mixed**
+_$id_**);**
+
+
+
+
+
+**Parameters**
+> _$id_
+
+**Remarks**
+
+Method setId
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Picture::setItemProp #
+
+**setItemProp(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setItemProp
+
+
+**since:** 1.1.1
+
+**access:** public
+
+
+
+# Picture::setPictureMap #
+
+**setPictureMap(**
+**mixed**
+_$picture\_map_**);**
+
+
+
+
+
+**Parameters**
+> _$picture\_map_
+
+**Remarks**
+
+Method setPictureMap
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Picture::setSrc #
+
+**setSrc(**
+**mixed**
+_$src_**);**
+
+
+
+
+
+**Parameters**
+> _$src_
+
+**Remarks**
+
+Method setSrc
+
+
+**since:** 1.0.88
+
+**access:** public
+
+
+
+# Picture::setStyle #
+
+**setStyle(**
+**mixed**
+_$style_**);**
+
+
+
+
+
+**Parameters**
+> _$style_
+
+**Remarks**
+
+Method setStyle
+
+
+**since:** 1.0.85
+
+**access:** public
+
+
+
+# Picture::setTitle #
+
+**setTitle(**
+**mixed**
+_$title_**);**
+
+
+
+
+
+**Parameters**
+> _$title_
+
+**Remarks**
+
+Method setTitle
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Picture::setVspace #
+
+**setVspace(**
+**mixed**
+_$vspace_**);**
+
+
+
+
+
+**Parameters**
+> _$vspace_
+
+**Remarks**
+
+Method setVspace
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Picture::setWidth #
+
+**setWidth(**
+**integer**
+_$width_**);**
+
+
+
+
+
+**Parameters**
+> _$width_
+
+**Remarks**
+
+Method setWidth
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Picture::tooltip #
+
+**tooltip(**
+**ToolTip**
+_$tooltip\_obj_**);**
+
+
+
+
+
+**Parameters**
+> _$tooltip\_obj_
+
+**Remarks**
+
+Method tooltip
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+**`ALIGN_ABSMIDDLE` = ` 'absmiddle'` (line 33)**
+
+
+**Remarks**
+
+Align
+
+
+**access:** public
+
+
+**`ALIGN_CENTER` = ` 'center'` (line 35)**
+
+
+**Remarks**
+
+Align
+
+
+**access:** public
+
+
+**`ALIGN_LEFT` = ` 'left'` (line 31)**
+
+
+**Remarks**
+
+Align
+
+
+**access:** public
+
+
+**`ALIGN_MIDDLE` = ` 'middle'` (line 32)**
+
+
+**Remarks**
+
+Align
+
+
+**access:** public
+
+
+**`ALIGN_RIGHT` = ` 'right'` (line 34)**
+
+
+**Remarks**
+
+Align
+
+
+**access:** public
+
+
+
+
+---

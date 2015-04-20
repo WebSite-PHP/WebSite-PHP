@@ -1,0 +1,352 @@
+# Class ContactForm #
+
+WebSitePhpObject
+> |
+> --ContactForm
+
+
+
+Location: /modules/ContactForm/ContactForm.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class ContactForm
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.7
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.84
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# ContactForm::construct #
+
+**construct(**
+**Page**
+_$page\_object_, **string**
+_$send\_method_, [**string**
+_$table\_style_ = '']**);**
+
+
+Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Parameters**
+> _$page\_object_
+> _$send\_method_
+> _$table\_style_
+
+**Remarks**
+
+Constructor ContactForm
+
+
+
+
+# ContactForm::activateSendWaitMail #
+
+**activateSendWaitMail(**
+[**string**
+_$message_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$message_
+
+**Remarks**
+
+Method activateSendWaitMail
+
+
+**since:** 1.0.71
+
+**access:** public
+
+
+
+# ContactForm::getContactEmail #
+
+**getContactEmail(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getContactEmail
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ContactForm::getContactMessage #
+
+**getContactMessage(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getContactMessage
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ContactForm::getContactName #
+
+**getContactName(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getContactName
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ContactForm::getContactSubject #
+
+**getContactSubject(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getContactSubject
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ContactForm::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object ContactForm
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ContactForm::sendMail #
+
+**sendMail(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method sendMail
+
+
+**since:** 1.0.59
+
+**access:** public
+
+
+
+# ContactForm::setMailTo #
+
+**setMailTo(**
+**string**
+_$mail\_to_, [**string**
+_$mail\_to\_name_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$mail\_to_
+> _$mail\_to\_name_
+
+**Remarks**
+
+Method setMailTo
+
+
+**since:** 1.0.71
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+
+
+---

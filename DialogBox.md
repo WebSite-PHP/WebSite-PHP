@@ -1,0 +1,728 @@
+# Class DialogBox #
+
+WebSitePhpObject
+> |
+> --DialogBox
+
+
+
+Location: /display/DialogBox.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class DialogBox
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.8
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.17
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+  * `ALIGN_CENTER` = ` 'center'`
+
+> DialogBox alignment
+    * `ALIGN_LEFT` = ` 'left'`
+
+> DialogBox alignment
+    * `ALIGN_RIGHT` = ` 'right'`
+
+> DialogBox alignment
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+  * `static JavaScript closeAll()`
+> Method closeAll
+    * `static JavaScript closeLevel()`
+> Method closeLevel
+    * `static array getArrayDialogBoxLevels()`
+> Method getArrayDialogBoxLevels
+    * `static integer getCurrentDialogBoxLevel()`
+> Method getCurrentDialogBoxLevel
+    * `JavaScript closeAll()`
+> Method closeAll
+    * `JavaScript closeLevel()`
+> Method closeLevel
+    * `array getArrayDialogBoxLevels()`
+> Method getArrayDialogBoxLevels
+    * `integer getCurrentDialogBoxLevel()`
+> Method getCurrentDialogBoxLevel
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+# static DialogBox::closeAll #
+
+**static closeAll(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method closeAll
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# static DialogBox::closeLevel #
+
+**static closeLevel(**
+**mixed**
+_$level_**);**
+
+
+
+
+
+**Parameters**
+> _$level_
+
+**Remarks**
+
+Method closeLevel
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# static DialogBox::getArrayDialogBoxLevels #
+
+**static getArrayDialogBoxLevels(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getArrayDialogBoxLevels
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# static DialogBox::getCurrentDialogBoxLevel #
+
+**static getCurrentDialogBoxLevel(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getCurrentDialogBoxLevel
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+
+# DialogBox::construct #
+
+**construct(**
+**string**
+_$title_, **string|object|Url**
+_$content\_or\_url\_object_, [**string**
+_$width_ = '']**);**
+
+
+Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Parameters**
+> _$title_
+> _$content\_or\_url\_object_
+> _$width_
+
+**Remarks**
+
+Constructor DialogBox
+
+
+
+
+# DialogBox::activateCloseButton #
+
+**activateCloseButton(**
+[**string**
+_$close\_button\_js_ = &quot;&quot;]**);**
+
+
+
+
+
+**Parameters**
+> _$close\_button\_js_
+
+**Remarks**
+
+Method activateCloseButton
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# DialogBox::activateOneInstance #
+
+**activateOneInstance(**
+[**boolean**
+_$close\_if\_exists_ = false]**);**
+
+
+
+
+
+**Parameters**
+> _$close\_if\_exists_ [value: false](default.md)
+
+**Remarks**
+
+Method activateOneInstance
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# DialogBox::close #
+
+**close(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method close
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# DialogBox::displayFormURL #
+
+**displayFormURL(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method displayFormURL
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# DialogBox::getAjaxRender #
+
+**getAjaxRender(**
+**);**
+
+
+Overrides WebSitePhpObject::getAjaxRender() (Method getAjaxRender)
+
+
+
+**Returns**
+> javascript code to update initial html of object DialogBox (call with AJAX)
+
+**Remarks**
+
+Method getAjaxRender
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# DialogBox::getDialogBoxLevel #
+
+**getDialogBoxLevel(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getDialogBoxLevel
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# DialogBox::getHeight #
+
+**getHeight(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getHeight
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# DialogBox::getWidth #
+
+**getWidth(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getWidth
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# DialogBox::modal #
+
+**modal(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method modal
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# DialogBox::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object DialogBox
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# DialogBox::setAlign #
+
+**setAlign(**
+**string**
+_$align_**);**
+
+
+
+
+
+**Parameters**
+> _$align_
+
+**Remarks**
+
+Method setAlign
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# DialogBox::setContent #
+
+**setContent(**
+**string|object|Url**
+_$content\_or\_url_**);**
+
+
+
+
+
+**Parameters**
+> _$content\_or\_url_
+
+**Remarks**
+
+Method setContent
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# DialogBox::setDialogBoxLevel #
+
+**setDialogBoxLevel(**
+**mixed**
+_$level_**);**
+
+
+
+
+
+**Parameters**
+> _$level_
+
+**Remarks**
+
+Method setDialogBoxLevel
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# DialogBox::setHeight #
+
+**setHeight(**
+**integer**
+_$height_**);**
+
+
+
+
+
+**Parameters**
+> _$height_
+
+**Remarks**
+
+Method setHeight
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# DialogBox::setPosition #
+
+**setPosition(**
+**mixed**
+_$position_**);**
+
+
+
+
+
+**Parameters**
+> _$position_
+
+**Remarks**
+
+Method setPosition
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# DialogBox::setPositionX #
+
+**setPositionX(**
+**mixed**
+_$position\_x_**);**
+
+
+
+
+
+**Parameters**
+> _$position\_x_
+
+**Remarks**
+
+Method setPositionX
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# DialogBox::setPositionY #
+
+**setPositionY(**
+**mixed**
+_$position\_y_**);**
+
+
+
+
+
+**Parameters**
+> _$position\_y_
+
+**Remarks**
+
+Method setPositionY
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# DialogBox::setWidth #
+
+**setWidth(**
+**integer**
+_$width_**);**
+
+
+
+
+
+**Parameters**
+> _$width_
+
+**Remarks**
+
+Method setWidth
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+**`ALIGN_CENTER` = ` 'center'` (line 32)**
+
+
+**Remarks**
+
+DialogBox alignment
+
+
+**access:** public
+
+
+**`ALIGN_LEFT` = ` 'left'` (line 31)**
+
+
+**Remarks**
+
+DialogBox alignment
+
+
+**access:** public
+
+
+**`ALIGN_RIGHT` = ` 'right'` (line 33)**
+
+
+**Remarks**
+
+DialogBox alignment
+
+
+**access:** public
+
+
+
+
+---

@@ -1,0 +1,308 @@
+# Class ImageRotator #
+
+WebSitePhpObject
+> |
+> --ImageRotator
+
+
+
+Location: /modules/Slider/ImageRotator.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class ImageRotator
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2012 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.1.12
+
+**copyright:** WebSite-PHP.com 20/06/2011
+
+**link:**
+
+**since:** 1.0.17
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+  * `TRANSITION_BGFADE` = ` 'bgfade'`
+
+
+  * `TRANSITION_BLOCKS` = ` 'blocks'`
+
+
+  * `TRANSITION_BUBBLE` = ` 'bubbles'`
+
+
+  * `TRANSITION_CIRCLES` = ` 'circles'`
+
+
+  * `TRANSITION_FADE` = ` 'fade'`
+
+
+  * `TRANSITION_FLUIDS` = ` 'fluids'`
+
+
+  * `TRANSITION_LINES` = ` 'lines'`
+
+
+  * `TRANSITION_RANDOM` = ` 'random'`
+
+
+  * `TRANSITION_SLOWFADE` = ` 'slowfade'`
+
+
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# ImageRotator::construct #
+
+**construct(**
+**string**
+_$id_, **integer**
+_$width_, **integer**
+_$height_, [**string**
+_$transition_ = 'blocks'], [**integer**
+_$rotate\_time_ = '']**);**
+
+
+Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Parameters**
+> _$id_
+> _$width_
+> _$height_
+> _$transition_ [value: blocks](default.md)
+> _$rotate\_time_
+
+**Remarks**
+
+Constructor ImageRotator
+
+
+
+
+# ImageRotator::addImage #
+
+**addImage(**
+**string**
+_$src_, [**string**
+_$title_ = ''], [**string**
+_$link_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$src_
+> _$title_
+> _$link_
+
+**Remarks**
+
+Method addImage
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ImageRotator::disableNavigationBar #
+
+**disableNavigationBar(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method disableNavigationBar
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ImageRotator::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object ImageRotator
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+**`TRANSITION_BGFADE` = ` 'bgfade'` (line 58)**
+
+
+**`TRANSITION_BLOCKS` = ` 'blocks'` (line 59)**
+
+
+**`TRANSITION_BUBBLE` = ` 'bubbles'` (line 60)**
+
+
+**`TRANSITION_CIRCLES` = ` 'circles'` (line 55)**
+
+
+**`TRANSITION_FADE` = ` 'fade'` (line 56)**
+
+
+**`TRANSITION_FLUIDS` = ` 'fluids'` (line 61)**
+
+
+**`TRANSITION_LINES` = ` 'lines'` (line 53)**
+
+
+**`TRANSITION_RANDOM` = ` 'random'` (line 54)**
+
+
+**`TRANSITION_SLOWFADE` = ` 'slowfade'` (line 57)**
+
+
+
+
+---

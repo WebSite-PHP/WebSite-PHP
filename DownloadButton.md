@@ -1,0 +1,450 @@
+# Class DownloadButton #
+
+WebSitePhpObject
+> |
+> --DownloadButton
+
+
+
+Location: /modules/DownloadButton/DownloadButton.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class DownloadButton
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.8
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.17
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+  * `IMAGE_BLACK_SRC` = ` 'wsp/img/download_button/download_button_black.png'`
+
+> Box style
+    * `IMAGE_BLUE_SRC` = ` 'wsp/img/download_button/download_button_blue.png'`
+
+> Box style
+    * `IMAGE_GREEN_SRC` = ` 'wsp/img/download_button/download_button_green.png'`
+
+> Box style
+    * `IMAGE_ORANGE_SRC` = ` 'wsp/img/download_button/download_button_orange.png'`
+
+> Box style
+    * `IMAGE_RED_SRC` = ` 'wsp/img/download_button/download_button_red.png'`
+
+> Box style
+    * `IMAGE_VIOLET_SRC` = ` 'wsp/img/download_button/download_button_violet.png'`
+
+> Box style
+    * `IMAGE_YELLOW_SRC` = ` 'wsp/img/download_button/download_button_yellow.png'`
+
+> Box style
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# DownloadButton::construct #
+
+**construct(**
+**mixed**
+_$link_, **mixed**
+_$download\_text_, [**string**
+_$download\_sub\_text_ = ''], [**string**
+_$link\_target_ = '']**);**
+
+
+Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Parameters**
+> _$link_
+> _$download\_text_
+> _$download\_sub\_text_
+> _$link\_target_
+
+**Remarks**
+
+Constructor DownloadButton
+
+
+
+
+# DownloadButton::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object DownloadButton
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.55
+
+**access:** public
+
+
+
+# DownloadButton::setImageHeight #
+
+**setImageHeight(**
+**integer**
+_$height_**);**
+
+
+
+
+
+**Parameters**
+> _$height_
+
+**Remarks**
+
+Method setImageHeight
+
+
+**since:** 1.0.55
+
+**access:** public
+
+
+
+# DownloadButton::setImageSrc #
+
+**setImageSrc(**
+**mixed**
+_$image\_src_**);**
+
+
+
+
+
+**Parameters**
+> _$image\_src_
+
+**Remarks**
+
+Method setImageSrc
+
+
+**since:** 1.0.55
+
+**access:** public
+
+
+
+# DownloadButton::setImageWidth #
+
+**setImageWidth(**
+**integer**
+_$width_**);**
+
+
+
+
+
+**Parameters**
+> _$width_
+
+**Remarks**
+
+Method setImageWidth
+
+
+**since:** 1.0.55
+
+**access:** public
+
+
+
+# DownloadButton::setLeftPositionText #
+
+**setLeftPositionText(**
+**mixed**
+_$left_**);**
+
+
+
+
+
+**Parameters**
+> _$left_
+
+**Remarks**
+
+Method setLeftPositionText
+
+
+**since:** 1.0.55
+
+**access:** public
+
+
+
+# DownloadButton::setTopPositionText #
+
+**setTopPositionText(**
+**mixed**
+_$top_**);**
+
+
+
+
+
+**Parameters**
+> _$top_
+
+**Remarks**
+
+Method setTopPositionText
+
+
+**since:** 1.0.55
+
+**access:** public
+
+
+
+# DownloadButton::setTrackEvent #
+
+**setTrackEvent(**
+**mixed**
+_$category_, **mixed**
+_$action_, [**string**
+_$label_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$category_
+> _$action_
+> _$label_
+
+**Remarks**
+
+Method setTrackEvent
+
+
+**since:** 1.0.99
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+**`IMAGE_BLACK_SRC` = ` 'wsp/img/download_button/download_button_black.png'` (line 33)**
+
+
+**Remarks**
+
+Box style
+
+
+**access:** public
+
+
+**`IMAGE_BLUE_SRC` = ` 'wsp/img/download_button/download_button_blue.png'` (line 34)**
+
+
+**Remarks**
+
+Box style
+
+
+**access:** public
+
+
+**`IMAGE_GREEN_SRC` = ` 'wsp/img/download_button/download_button_green.png'` (line 35)**
+
+
+**Remarks**
+
+Box style
+
+
+**access:** public
+
+
+**`IMAGE_ORANGE_SRC` = ` 'wsp/img/download_button/download_button_orange.png'` (line 36)**
+
+
+**Remarks**
+
+Box style
+
+
+**access:** public
+
+
+**`IMAGE_RED_SRC` = ` 'wsp/img/download_button/download_button_red.png'` (line 37)**
+
+
+**Remarks**
+
+Box style
+
+
+**access:** public
+
+
+**`IMAGE_VIOLET_SRC` = ` 'wsp/img/download_button/download_button_violet.png'` (line 38)**
+
+
+**Remarks**
+
+Box style
+
+
+**access:** public
+
+
+**`IMAGE_YELLOW_SRC` = ` 'wsp/img/download_button/download_button_yellow.png'` (line 39)**
+
+
+**Remarks**
+
+Box style
+
+
+**access:** public
+
+
+
+
+---

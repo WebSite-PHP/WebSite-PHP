@@ -1,0 +1,584 @@
+# Class Raty #
+
+WebSitePhpObject
+> |
+> --WebSitePhpEventObject
+> > |
+> > --Raty
+
+
+
+Location: /modules/Rating/Raty.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class Raty
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.7
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.103
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+  * `$id` = ` ''`
+
+
+
+
+---
+
+## Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpEventObject ###
+
+  * `WebSitePhpEventObject::$ajax_wait_message` = ` ''`
+
+
+  * `WebSitePhpEventObject::$class_name` = ` ''`
+
+
+  * `WebSitePhpEventObject::$disable_ajax_wait_message` = ` false`
+
+
+  * `WebSitePhpEventObject::$form_object` = ` null`
+
+
+  * `WebSitePhpEventObject::$is_ajax_event` = ` false`
+
+
+  * `WebSitePhpEventObject::$name` = ` ''`
+
+
+  * `WebSitePhpEventObject::$on_form_is_changed_js` = ` ''`
+
+
+  * `WebSitePhpEventObject::$on_form_is_changed_revert` = ` false`
+
+
+  * `WebSitePhpEventObject::$page_object` = ` null`
+
+
+
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpEventObject ###
+
+  * `WebSitePhpEventObject::__construct()`
+
+> Constructor WebSitePhpEventObject
+    * `WebSitePhpEventObject::automaticAjaxEvent()`
+> Method automaticAjaxEvent
+    * `WebSitePhpEventObject::disableAjaxWaitMessage()`
+> Method disableAjaxWaitMessage
+    * `WebSitePhpEventObject::getAjaxEventFunctionRender()`
+> Method getAjaxEventFunctionRender
+    * `WebSitePhpEventObject::getEventObjectName()`
+> Method getEventObjectName
+    * `WebSitePhpEventObject::getFormObject()`
+> Method getFormObject
+    * `WebSitePhpEventObject::getId()`
+> Method getId
+    * `WebSitePhpEventObject::getName()`
+> Method getName
+    * `WebSitePhpEventObject::getObjectEventValidationRender()`
+> Method getObjectEventValidationRender
+    * `WebSitePhpEventObject::getSubmitValueIsInit()`
+
+  * `WebSitePhpEventObject::initSubmitValue()`
+> Method initSubmitValue  Internal method used by an object like ComboBox or TextBox to init it with submitted value (if not already done).
+    * `WebSitePhpEventObject::isAjaxEvent()`
+> Method isAjaxEvent
+    * `WebSitePhpEventObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpEventObject::loadCallbackMethod()`
+> Method loadCallbackMethod
+    * `WebSitePhpEventObject::onFormIsChangedJs()`
+> Method onFormIsChangedJs
+    * `WebSitePhpEventObject::setAjaxEvent()`
+> Method setAjaxEvent
+    * `WebSitePhpEventObject::setAjaxWaitMessage()`
+> Method setAjaxWaitMessage
+    * `WebSitePhpEventObject::setSubmitValueIsInit()`
+> Method setSubmitValueIsInit
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# Raty::construct #
+
+**construct(**
+**mixed**
+_$id_**);**
+
+
+Overrides WebSitePhpEventObject::construct() (Constructor WebSitePhpEventObject)
+
+
+
+**Parameters**
+> _$id_
+
+**Remarks**
+
+Constructor Raty
+
+
+
+
+# Raty::displayBigIcon #
+
+**displayBigIcon(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method displayBigIcon
+
+
+**since:** 1.0.103
+
+**access:** public
+
+
+
+# Raty::displayCancelButton #
+
+**displayCancelButton(**
+[**string**
+_$cancel\_hint_ = 'cancel my rating!'], [**string**
+_$cancel\_place_ = 'left']**);**
+
+
+
+
+
+**Parameters**
+> _$cancel\_hint_ [value: cancel my rating!](default.md)
+> _$cancel\_place_ [value: left](default.md)
+
+**Remarks**
+
+Method displayCancelButton
+
+
+**since:** 1.0.103
+
+**access:** public
+
+
+
+# Raty::displayHaflStar #
+
+**displayHaflStar(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method displayHaflStar
+
+
+**since:** 1.0.103
+
+**access:** public
+
+
+
+# Raty::getOnClickJs #
+
+**getOnClickJs(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getOnClickJs
+
+
+**since:** 1.0.103
+
+**access:** public
+
+
+
+# Raty::onClick #
+
+**onClick(**
+**mixed**
+_$page\_or\_form\_object_, **mixed**
+_$str\_function_, [**mixed**
+_$arg1_ = null], [**mixed**
+_$arg2_ = null], [**mixed**
+_$arg3_ = null], [**mixed**
+_$arg4_ = null], [**mixed**
+_$arg5_ = null]**);**
+
+
+
+
+
+**Parameters**
+> _$page\_or\_form\_object_
+> _$str\_function_
+> _$arg1_ [value: null](default.md)
+> _$arg2_ [value: null](default.md)
+> _$arg3_ [value: null](default.md)
+> _$arg4_ [value: null](default.md)
+> _$arg5_ [value: null](default.md)
+
+**Remarks**
+
+Method onClick
+
+
+**since:** 1.0.103
+
+**access:** public
+
+
+
+# Raty::onClickReadOnly #
+
+**onClickReadOnly(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method onClickReadOnly
+
+
+**since:** 1.0.103
+
+**access:** public
+
+
+
+# Raty::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object Raty
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.103
+
+**access:** public
+
+
+
+# Raty::setClick #
+
+**setClick(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setClick
+
+
+**since:** 1.0.103
+
+**access:** public
+
+
+
+# Raty::setHintStarValue #
+
+**setHintStarValue(**
+**mixed**
+_$hint\_1_, [**mixed**
+_$hint\_2_ = null], [**mixed**
+_$hint\_3_ = null], [**mixed**
+_$hint\_4_ = null], [**mixed**
+_$hint\_5_ = null]**);**
+
+
+
+
+
+**Parameters**
+> _$hint\_1_
+> _$hint\_2_ [value: null](default.md)
+> _$hint\_3_ [value: null](default.md)
+> _$hint\_4_ [value: null](default.md)
+> _$hint\_5_ [value: null](default.md)
+
+**Remarks**
+
+Method setHintStarValue
+
+
+**since:** 1.0.103
+
+**access:** public
+
+
+
+# Raty::setNoRateMessage #
+
+**setNoRateMessage(**
+**mixed**
+_$msg_**);**
+
+
+
+
+
+**Parameters**
+> _$msg_
+
+**Remarks**
+
+Method setNoRateMessage
+
+
+**since:** 1.0.103
+
+**access:** public
+
+
+
+# Raty::setNoSpace #
+
+**setNoSpace(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setNoSpace
+
+
+**since:** 1.0.103
+
+**access:** public
+
+
+
+# Raty::setReadOnly #
+
+**setReadOnly(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setReadOnly
+
+
+**since:** 1.0.103
+
+**access:** public
+
+
+
+# Raty::setStarNumber #
+
+**setStarNumber(**
+**mixed**
+_$number_**);**
+
+
+
+
+
+**Parameters**
+> _$number_
+
+**Remarks**
+
+Method setStarNumber
+
+
+**since:** 1.0.103
+
+**access:** public
+
+
+
+# Raty::setStartValue #
+
+**setStartValue(**
+**mixed**
+_$value_**);**
+
+
+
+
+
+**Parameters**
+> _$value_
+
+**Remarks**
+
+Method setStartValue
+
+
+**since:** 1.0.103
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+**`$id` = ` ''` (line 31)** **Data type:** `mixed`**Overrides:** Array
+**access:** protected
+
+
+
+
+---
+
+## Class Constant Detail ##
+
+
+
+---

@@ -1,0 +1,2154 @@
+# Class ShareButton #
+
+WebSitePhpObject
+> |
+> --ShareButton
+
+
+
+Location: /modules/ShareButton/ShareButton.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class ShareButton
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2011 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.0.84
+
+**copyright:** WebSite-PHP.com 01/06/2011
+
+**link:**
+
+**since:** 1.0.79
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+  * `BUTTON_BIG` = ` 'big'`
+
+> Button style
+    * `BUTTON_ICON` = ` 'icon'`
+
+> Button style
+    * `BUTTON_ICONS_TEXT` = ` 'icons_text'`
+
+> Button style
+    * `BUTTON_MEDIUM` = ` 'medium'`
+
+> Button style
+    * `BUTTON_SMALL` = ` 'small'`
+
+> Button style
+    * `BUTTON_TEXT` = ` 'text'`
+
+> Button style
+    * `SHARE_BY_AIM` = ` 'aim'`
+
+> Share services
+    * `SHARE_BY_ALLVOICES` = ` 'allvoices'`
+
+> Share services
+    * `SHARE_BY_AMAZON_WISH_LIST` = ` 'amazon_wish_list'`
+
+> Share services
+    * `SHARE_BY_AOL_MAIL` = ` 'aol_mail'`
+
+> Share services
+    * `SHARE_BY_ARTO` = ` 'arto'`
+
+> Share services
+    * `SHARE_BY_ASK_COM_MYSTUFF` = ` 'ask_com_mystuff'`
+
+> Share services
+    * `SHARE_BY_BACKFLIP` = ` 'backflip'`
+
+> Share services
+    * `SHARE_BY_BEBO` = ` 'bebo'`
+
+> Share services
+    * `SHARE_BY_BIBSONOMY` = ` 'bibsonomy'`
+
+> Share services
+    * `SHARE_BY_BITTY_BROWSER` = ` 'bitty_browser'`
+
+> Share services
+    * `SHARE_BY_BLINKLIST` = ` 'blinklist'`
+
+> Share services
+    * `SHARE_BY_BLOGGER_POST` = ` 'blogger_post'`
+
+> Share services
+    * `SHARE_BY_BLOGMARKS` = ` 'blogmarks'`
+
+> Share services
+    * `SHARE_BY_BOOKMARKS_FR` = ` 'bookmarks_fr'`
+
+> Share services
+    * `SHARE_BY_BOX_NET` = ` 'box_net'`
+
+> Share services
+    * `SHARE_BY_BUDDYMARKS` = ` 'buddymarks'`
+
+> Share services
+    * `SHARE_BY_BUSINESS_EXCHANGE` = ` 'business_exchange'`
+
+> Share services
+    * `SHARE_BY_CARE2_NEWS` = ` 'care2_news'`
+
+> Share services
+    * `SHARE_BY_CITEULIKE` = ` 'citeulike'`
+
+> Share services
+    * `SHARE_BY_CONNOTEA` = ` 'connotea'`
+
+> Share services
+    * `SHARE_BY_CURRENT` = ` 'current'`
+
+> Share services
+    * `SHARE_BY_DAILYME` = ` 'dailyme'`
+
+> Share services
+    * `SHARE_BY_DELICIOUS` = ` 'delicious'`
+
+> Share services
+    * `SHARE_BY_DIGG` = ` 'digg'`
+
+> Share services
+    * `SHARE_BY_DIGLOG` = ` 'diglog'`
+
+> Share services
+    * `SHARE_BY_DIIGO` = ` 'diigo'`
+
+> Share services
+    * `SHARE_BY_DZONE` = ` 'dzone'`
+
+> Share services
+    * `SHARE_BY_EMAIL` = ` 'email'`
+
+> Share services
+    * `SHARE_BY_EVERNOTE` = ` 'evernote'`
+
+> Share services
+    * `SHARE_BY_EXPRESSION` = ` 'expression'`
+
+> Share services
+    * `SHARE_BY_FACEBOOK` = ` 'facebook'`
+
+> Share services
+    * `SHARE_BY_FARK` = ` 'fark'`
+
+> Share services
+    * `SHARE_BY_FAVES` = ` 'faves'`
+
+> Share services
+    * `SHARE_BY_FOLKD` = ` 'folkd'`
+
+> Share services
+    * `SHARE_BY_FRIENDFEED` = ` 'friendfeed'`
+
+> Share services
+    * `SHARE_BY_FUNP` = ` 'funp'`
+
+> Share services
+    * `SHARE_BY_GABBR` = ` 'gabbr'`
+
+> Share services
+    * `SHARE_BY_GOOGLE_BOOKMARKS` = ` 'google_bookmarks'`
+
+> Share services
+    * `SHARE_BY_GOOGLE_BUZZ` = ` 'google_buzz'`
+
+> Share services
+    * `SHARE_BY_GOOGLE_GMAIL` = ` 'google_gmail'`
+
+> Share services
+    * `SHARE_BY_GOOGLE_READER` = ` 'google_reader'`
+
+> Share services
+    * `SHARE_BY_HELLOTXT` = ` 'hellotxt'`
+
+> Share services
+    * `SHARE_BY_HEMIDEMI` = ` 'hemidemi'`
+
+> Share services
+    * `SHARE_BY_HOTMAIL` = ` 'hotmail'`
+
+> Share services
+    * `SHARE_BY_HUGG` = ` 'hugg'`
+
+> Share services
+    * `SHARE_BY_HYVES` = ` 'hyves'`
+
+> Share services
+    * `SHARE_BY_IDENTI_CA` = ` 'identi_ca'`
+
+> Share services
+    * `SHARE_BY_IMERA_BRAZIL` = ` 'imera_brazil'`
+
+> Share services
+    * `SHARE_BY_INSTAPAPER` = ` 'instapaper'`
+
+> Share services
+    * `SHARE_BY_JAMESPOT` = ` 'jamespot'`
+
+> Share services
+    * `SHARE_BY_JUMPTAGS` = ` 'jumptags'`
+
+> Share services
+    * `SHARE_BY_KHABBR` = ` 'khabbr'`
+
+> Share services
+    * `SHARE_BY_KLEDY` = ` 'kledy'`
+
+> Share services
+    * `SHARE_BY_LINKAGOGO` = ` 'linkagogo'`
+
+> Share services
+    * `SHARE_BY_LINKATOPIA` = ` 'linkatopia'`
+
+> Share services
+    * `SHARE_BY_LINKEDIN` = ` 'linkedin'`
+
+> Share services
+    * `SHARE_BY_LIVE` = ` 'live'`
+
+> Share services
+    * `SHARE_BY_LIVEJOURNAL` = ` 'livejournal'`
+
+> Share services
+    * `SHARE_BY_MAPLE` = ` 'maple'`
+
+> Share services
+    * `SHARE_BY_MENEAME` = ` 'meneame'`
+
+> Share services
+    * `SHARE_BY_MINDBODYGREEN` = ` 'mindbodygreen'`
+
+> Share services
+    * `SHARE_BY_MISTER_WONG` = ` 'mister_wong'`
+
+> Share services
+    * `SHARE_BY_MIXX` = ` 'mixx'`
+
+> Share services
+    * `SHARE_BY_MOZILLACA` = ` 'mozillaca'`
+
+> Share services
+    * `SHARE_BY_MSDN` = ` 'msdn'`
+
+> Share services
+    * `SHARE_BY_MULTIPLY` = ` 'multiply'`
+
+> Share services
+    * `SHARE_BY_MYLINKVAULT` = ` 'mylinkvault'`
+
+> Share services
+    * `SHARE_BY_MYSPACE` = ` 'myspace'`
+
+> Share services
+    * `SHARE_BY_NETLOG` = ` 'netlog'`
+
+> Share services
+    * `SHARE_BY_NETVIBES_SHARE` = ` 'netvibes_share'`
+
+> Share services
+    * `SHARE_BY_NETVOUZ` = ` 'netvouz'`
+
+> Share services
+    * `SHARE_BY_NEWSTRUST` = ` 'newstrust'`
+
+> Share services
+    * `SHARE_BY_NEWSVINE` = ` 'newsvine'`
+
+> Share services
+    * `SHARE_BY_NOWPUBLIC` = ` 'nowpublic'`
+
+> Share services
+    * `SHARE_BY_ONEVIEW` = ` 'oneview'`
+
+> Share services
+    * `SHARE_BY_ORKUT` = ` 'orkut'`
+
+> Share services
+    * `SHARE_BY_PHONEFAVS` = ` 'phonefavs'`
+
+> Share services
+    * `SHARE_BY_PING` = ` 'ping'`
+
+> Share services
+    * `SHARE_BY_PLAXO_PULSE` = ` 'plaxo_pulse'`
+
+> Share services
+    * `SHARE_BY_PLURK` = ` 'plurk'`
+
+> Share services
+    * `SHARE_BY_POSTEROUS` = ` 'posterous'`
+
+> Share services
+    * `SHARE_BY_PRINTFRIENDLY` = ` 'printfriendly'`
+
+> Share services
+    * `SHARE_BY_PROTOPAGE_BOOKMARKS` = ` 'protopage_bookmarks'`
+
+> Share services
+    * `SHARE_BY_PUSHA` = ` 'pusha'`
+
+> Share services
+    * `SHARE_BY_READ_IT_LATER` = ` 'read_it_later'`
+
+> Share services
+    * `SHARE_BY_REDDIT` = ` 'reddit'`
+
+> Share services
+    * `SHARE_BY_REDIFF` = ` 'rediff'`
+
+> Share services
+    * `SHARE_BY_SEGNALO` = ` 'segnalo'`
+
+> Share services
+    * `SHARE_BY_SHOUTWIRE` = ` 'shoutwire'`
+
+> Share services
+    * `SHARE_BY_SIMPY` = ` 'simpy'`
+
+> Share services
+    * `SHARE_BY_SITEJOT` = ` 'sitejot'`
+
+> Share services
+    * `SHARE_BY_SLASHDOT` = ` 'slashdot'`
+
+> Share services
+    * `SHARE_BY_SMAKNEWS` = ` 'smaknews'`
+
+> Share services
+    * `SHARE_BY_SPHERE` = ` 'sphere'`
+
+> Share services
+    * `SHARE_BY_SPHINN` = ` 'sphinn'`
+
+> Share services
+    * `SHARE_BY_SPURL` = ` 'spurl'`
+
+> Share services
+    * `SHARE_BY_SQUIDOO` = ` 'squidoo'`
+
+> Share services
+    * `SHARE_BY_STARTAID` = ` 'startaid'`
+
+> Share services
+    * `SHARE_BY_STRANDS` = ` 'strands'`
+
+> Share services
+    * `SHARE_BY_STUMBLEUPON` = ` 'stumbleupon'`
+
+> Share services
+    * `SHARE_BY_SYMBALOO_FEEDS` = ` 'symbaloo_feeds'`
+
+> Share services
+    * `SHARE_BY_TAGZA` = ` 'tagza'`
+
+> Share services
+    * `SHARE_BY_TAILRANK` = ` 'tailrank'`
+
+> Share services
+    * `SHARE_BY_TECHNET` = ` 'technet'`
+
+> Share services
+    * `SHARE_BY_TECHNORATI_FAVORITES` = ` 'technorati_favorites'`
+
+> Share services
+    * `SHARE_BY_TECHNOTIZIE` = ` 'technotizie'`
+
+> Share services
+    * `SHARE_BY_TIPD` = ` 'tipd'`
+
+> Share services
+    * `SHARE_BY_TUENTI` = ` 'tuenti'`
+
+> Share services
+    * `SHARE_BY_TUMBLR` = ` 'tumblr'`
+
+> Share services
+    * `SHARE_BY_TWIDDLA` = ` 'twiddla'`
+
+> Share services
+    * `SHARE_BY_TWITTER` = ` 'twitter'`
+
+> Share services
+    * `SHARE_BY_TYPEPAD_POST` = ` 'typepad_post'`
+
+> Share services
+    * `SHARE_BY_UNALOG` = ` 'unalog'`
+
+> Share services
+    * `SHARE_BY_VIADEO` = ` 'viadeo'`
+
+> Share services
+    * `SHARE_BY_VODPOD` = ` 'vodpod'`
+
+> Share services
+    * `SHARE_BY_WEBNEWS` = ` 'webnews'`
+
+> Share services
+    * `SHARE_BY_WINK` = ` 'wink'`
+
+> Share services
+    * `SHARE_BY_WISTS` = ` 'wists'`
+
+> Share services
+    * `SHARE_BY_WORDPRESS` = ` 'wordpress'`
+
+> Share services
+    * `SHARE_BY_XERPI` = ` 'xerpi'`
+
+> Share services
+    * `SHARE_BY_XING` = ` 'xing'`
+
+> Share services
+    * `SHARE_BY_YAHOO_BOOKMARKS` = ` 'yahoo_bookmarks'`
+
+> Share services
+    * `SHARE_BY_YAHOO_MAIL` = ` 'yahoo_mail'`
+
+> Share services
+    * `SHARE_BY_YAHOO_MESSENGER` = ` 'yahoo_messenger'`
+
+> Share services
+    * `SHARE_BY_YAMPLE` = ` 'yample'`
+
+> Share services
+    * `SHARE_BY_YIGG` = ` 'yigg'`
+
+> Share services
+    * `SHARE_BY_YOOLINK` = ` 'yoolink'`
+
+> Share services
+    * `SHARE_BY_YOUMOB` = ` 'youmob'`
+
+> Share services
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# ShareButton::addShareServices #
+
+**addShareServices(**
+**mixed**
+_$share\_service_**);**
+
+
+
+
+
+**Parameters**
+> _$share\_service_
+
+**Remarks**
+
+Method addShareServices
+
+
+**since:** 1.0.79
+
+**access:** public
+
+
+
+# ShareButton::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object ShareButton
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.79
+
+**access:** public
+
+
+
+# ShareButton::setColor #
+
+**setColor(**
+**mixed**
+_$main\_color_, **mixed**
+_$border_, **mixed**
+_$link\_text_, **mixed**
+_$link\_text\_hover_, **mixed**
+_$background_**);**
+
+
+
+
+
+**Parameters**
+> _$main\_color_
+> _$border_
+> _$link\_text_
+> _$link\_text\_hover_
+> _$background_
+
+**Remarks**
+
+Method setColor
+
+
+**since:** 1.0.79
+
+**access:** public
+
+
+
+# ShareButton::construct #
+
+**construct(**
+[**string**
+_$type\_button_ = 'medium'], [**string**
+_$page\_name_ = ''], [**string**
+_$page\_url_ = '']**);**
+
+
+Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Parameters**
+> _$type\_button_ [value: medium](default.md)
+> _$page\_name_
+> _$page\_url_
+
+**Remarks**
+
+Constructor ShareButton
+
+
+
+
+# ShareButton::showMenuOnlyWhenButtonClicked #
+
+**showMenuOnlyWhenButtonClicked(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method showMenuOnlyWhenButtonClicked
+
+
+**since:** 1.0.79
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+**`BUTTON_BIG` = ` 'big'` (line 60)**
+
+
+**Remarks**
+
+Button style
+
+
+**access:** public
+
+
+**`BUTTON_ICON` = ` 'icon'` (line 62)**
+
+
+**Remarks**
+
+Button style
+
+
+**access:** public
+
+
+**`BUTTON_ICONS_TEXT` = ` 'icons_text'` (line 61)**
+
+
+**Remarks**
+
+Button style
+
+
+**access:** public
+
+
+**`BUTTON_MEDIUM` = ` 'medium'` (line 59)**
+
+
+**Remarks**
+
+Button style
+
+
+**access:** public
+
+
+**`BUTTON_SMALL` = ` 'small'` (line 58)**
+
+
+**Remarks**
+
+Button style
+
+
+**access:** public
+
+
+**`BUTTON_TEXT` = ` 'text'` (line 63)**
+
+
+**Remarks**
+
+Button style
+
+
+**access:** public
+
+
+**`SHARE_BY_AIM` = ` 'aim'` (line 71)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_ALLVOICES` = ` 'allvoices'` (line 73)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_AMAZON_WISH_LIST` = ` 'amazon_wish_list'` (line 74)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_AOL_MAIL` = ` 'aol_mail'` (line 72)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_ARTO` = ` 'arto'` (line 75)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_ASK_COM_MYSTUFF` = ` 'ask_com_mystuff'` (line 76)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_BACKFLIP` = ` 'backflip'` (line 77)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_BEBO` = ` 'bebo'` (line 78)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_BIBSONOMY` = ` 'bibsonomy'` (line 79)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_BITTY_BROWSER` = ` 'bitty_browser'` (line 80)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_BLINKLIST` = ` 'blinklist'` (line 81)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_BLOGGER_POST` = ` 'blogger_post'` (line 83)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_BLOGMARKS` = ` 'blogmarks'` (line 82)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_BOOKMARKS_FR` = ` 'bookmarks_fr'` (line 84)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_BOX_NET` = ` 'box_net'` (line 85)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_BUDDYMARKS` = ` 'buddymarks'` (line 86)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_BUSINESS_EXCHANGE` = ` 'business_exchange'` (line 87)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_CARE2_NEWS` = ` 'care2_news'` (line 88)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_CITEULIKE` = ` 'citeulike'` (line 89)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_CONNOTEA` = ` 'connotea'` (line 90)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_CURRENT` = ` 'current'` (line 91)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_DAILYME` = ` 'dailyme'` (line 93)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_DELICIOUS` = ` 'delicious'` (line 94)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_DIGG` = ` 'digg'` (line 95)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_DIGLOG` = ` 'diglog'` (line 96)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_DIIGO` = ` 'diigo'` (line 97)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_DZONE` = ` 'dzone'` (line 92)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_EMAIL` = ` 'email'` (line 98)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_EVERNOTE` = ` 'evernote'` (line 99)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_EXPRESSION` = ` 'expression'` (line 100)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_FACEBOOK` = ` 'facebook'` (line 101)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_FARK` = ` 'fark'` (line 102)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_FAVES` = ` 'faves'` (line 103)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_FOLKD` = ` 'folkd'` (line 104)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_FRIENDFEED` = ` 'friendfeed'` (line 105)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_FUNP` = ` 'funp'` (line 106)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_GABBR` = ` 'gabbr'` (line 107)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_GOOGLE_BOOKMARKS` = ` 'google_bookmarks'` (line 108)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_GOOGLE_BUZZ` = ` 'google_buzz'` (line 109)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_GOOGLE_GMAIL` = ` 'google_gmail'` (line 110)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_GOOGLE_READER` = ` 'google_reader'` (line 111)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_HELLOTXT` = ` 'hellotxt'` (line 112)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_HEMIDEMI` = ` 'hemidemi'` (line 113)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_HOTMAIL` = ` 'hotmail'` (line 114)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_HUGG` = ` 'hugg'` (line 115)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_HYVES` = ` 'hyves'` (line 116)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_IDENTI_CA` = ` 'identi_ca'` (line 117)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_IMERA_BRAZIL` = ` 'imera_brazil'` (line 118)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_INSTAPAPER` = ` 'instapaper'` (line 119)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_JAMESPOT` = ` 'jamespot'` (line 120)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_JUMPTAGS` = ` 'jumptags'` (line 121)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_KHABBR` = ` 'khabbr'` (line 122)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_KLEDY` = ` 'kledy'` (line 123)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_LINKAGOGO` = ` 'linkagogo'` (line 124)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_LINKATOPIA` = ` 'linkatopia'` (line 125)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_LINKEDIN` = ` 'linkedin'` (line 126)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_LIVE` = ` 'live'` (line 131)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_LIVEJOURNAL` = ` 'livejournal'` (line 127)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_MAPLE` = ` 'maple'` (line 129)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_MENEAME` = ` 'meneame'` (line 130)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_MINDBODYGREEN` = ` 'mindbodygreen'` (line 132)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_MISTER_WONG` = ` 'mister_wong'` (line 133)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_MIXX` = ` 'mixx'` (line 134)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_MOZILLACA` = ` 'mozillaca'` (line 135)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_MSDN` = ` 'msdn'` (line 128)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_MULTIPLY` = ` 'multiply'` (line 136)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_MYLINKVAULT` = ` 'mylinkvault'` (line 137)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_MYSPACE` = ` 'myspace'` (line 138)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_NETLOG` = ` 'netlog'` (line 139)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_NETVIBES_SHARE` = ` 'netvibes_share'` (line 140)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_NETVOUZ` = ` 'netvouz'` (line 141)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_NEWSTRUST` = ` 'newstrust'` (line 142)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_NEWSVINE` = ` 'newsvine'` (line 143)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_NOWPUBLIC` = ` 'nowpublic'` (line 144)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_ONEVIEW` = ` 'oneview'` (line 145)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_ORKUT` = ` 'orkut'` (line 146)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_PHONEFAVS` = ` 'phonefavs'` (line 147)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_PING` = ` 'ping'` (line 148)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_PLAXO_PULSE` = ` 'plaxo_pulse'` (line 149)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_PLURK` = ` 'plurk'` (line 150)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_POSTEROUS` = ` 'posterous'` (line 151)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_PRINTFRIENDLY` = ` 'printfriendly'` (line 152)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_PROTOPAGE_BOOKMARKS` = ` 'protopage_bookmarks'` (line 153)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_PUSHA` = ` 'pusha'` (line 154)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_READ_IT_LATER` = ` 'read_it_later'` (line 155)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_REDDIT` = ` 'reddit'` (line 156)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_REDIFF` = ` 'rediff'` (line 157)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_SEGNALO` = ` 'segnalo'` (line 158)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_SHOUTWIRE` = ` 'shoutwire'` (line 159)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_SIMPY` = ` 'simpy'` (line 160)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_SITEJOT` = ` 'sitejot'` (line 161)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_SLASHDOT` = ` 'slashdot'` (line 162)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_SMAKNEWS` = ` 'smaknews'` (line 163)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_SPHERE` = ` 'sphere'` (line 164)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_SPHINN` = ` 'sphinn'` (line 165)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_SPURL` = ` 'spurl'` (line 166)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_SQUIDOO` = ` 'squidoo'` (line 167)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_STARTAID` = ` 'startaid'` (line 168)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_STRANDS` = ` 'strands'` (line 169)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_STUMBLEUPON` = ` 'stumbleupon'` (line 170)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_SYMBALOO_FEEDS` = ` 'symbaloo_feeds'` (line 171)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_TAGZA` = ` 'tagza'` (line 172)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_TAILRANK` = ` 'tailrank'` (line 173)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_TECHNET` = ` 'technet'` (line 174)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_TECHNORATI_FAVORITES` = ` 'technorati_favorites'` (line 175)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_TECHNOTIZIE` = ` 'technotizie'` (line 176)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_TIPD` = ` 'tipd'` (line 177)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_TUENTI` = ` 'tuenti'` (line 178)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_TUMBLR` = ` 'tumblr'` (line 179)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_TWIDDLA` = ` 'twiddla'` (line 180)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_TWITTER` = ` 'twitter'` (line 181)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_TYPEPAD_POST` = ` 'typepad_post'` (line 182)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_UNALOG` = ` 'unalog'` (line 198)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_VIADEO` = ` 'viadeo'` (line 183)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_VODPOD` = ` 'vodpod'` (line 184)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_WEBNEWS` = ` 'webnews'` (line 185)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_WINK` = ` 'wink'` (line 186)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_WISTS` = ` 'wists'` (line 187)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_WORDPRESS` = ` 'wordpress'` (line 188)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_XERPI` = ` 'xerpi'` (line 190)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_XING` = ` 'xing'` (line 189)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_YAHOO_BOOKMARKS` = ` 'yahoo_bookmarks'` (line 191)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_YAHOO_MAIL` = ` 'yahoo_mail'` (line 192)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_YAHOO_MESSENGER` = ` 'yahoo_messenger'` (line 193)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_YAMPLE` = ` 'yample'` (line 194)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_YIGG` = ` 'yigg'` (line 195)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_YOOLINK` = ` 'yoolink'` (line 196)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+**`SHARE_BY_YOUMOB` = ` 'youmob'` (line 197)**
+
+
+**Remarks**
+
+Share services
+
+
+**access:** public
+
+
+
+
+---

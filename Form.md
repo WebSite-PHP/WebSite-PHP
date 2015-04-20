@@ -1,0 +1,806 @@
+# Class Form #
+
+WebSitePhpObject
+> |
+> --Form
+
+
+
+Location: /display/Form.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class Form
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.9
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.17
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+  * `$page_object` = ` null`
+
+
+
+
+---
+
+## Class Constant Summary ##
+
+  * `METHOD_GET` = ` 'GET'`
+
+> method properties
+    * `METHOD_POST` = ` 'POST'`
+
+> method properties
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# Form::construct #
+
+**construct(**
+**mixed**
+_$page\_object_, [**string**
+_$name_ = ''], [**string**
+_$id_ = ''], [**string**
+_$method_ = &quot;POST&quot;]**);**
+
+
+Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Parameters**
+> _$page\_object_
+> _$name_
+> _$id_
+> _$method_ [value: POST](default.md)
+
+**Remarks**
+
+Constructor Form
+
+
+
+
+# Form::deleteFormFromSqlDataView #
+
+**deleteFormFromSqlDataView(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method deleteFormFromSqlDataView
+
+
+**since:** 1.2.0
+
+**access:** public
+
+
+
+# Form::disableEncryptObject #
+
+**disableEncryptObject(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method disableEncryptObject
+
+
+**since:** 1.1.11
+
+**access:** public
+
+
+
+# Form::getAction #
+
+**getAction(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getAction
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Form::getDataRowIterator #
+
+**getDataRowIterator(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getDataRowIterator
+
+
+**since:** 1.2.0
+
+**access:** public
+
+
+
+# Form::getEncryptObject #
+
+**getEncryptObject(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getEncryptObject
+
+
+**since:** 1.0.67
+
+**access:** public
+
+
+
+# Form::getFormObjects #
+
+**getFormObjects(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getFormObjects
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Form::getId #
+
+**getId(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getId
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Form::getMethod #
+
+**getMethod(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getMethod
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Form::getName #
+
+**getName(**
+**);**
+
+
+Overrides WebSitePhpObject::getName() (Method getName)
+
+
+
+**Remarks**
+
+Method getName
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Form::getOnSubmitJs #
+
+**getOnSubmitJs(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getOnSubmitJs
+
+
+**since:** 1.2.3
+
+**access:** public
+
+
+
+# Form::getPageObject #
+
+**getPageObject(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getPageObject
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Form::insertFormFromSqlDataView #
+
+**insertFormFromSqlDataView(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method insertFormFromSqlDataView
+
+
+**since:** 1.2.0
+
+**access:** public
+
+
+
+# Form::isEncrypted #
+
+**isEncrypted(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isEncrypted
+
+
+**since:** 1.0.67
+
+**access:** public
+
+
+
+# Form::loadFromSqlDataView #
+
+**loadFromSqlDataView(**
+**mixed**
+_$sql_, [**mixed**
+_$properties_ = array()], [
+_$hide\_empty\_fields_ = false]**);**
+
+
+
+
+
+**Parameters**
+> _$sql_
+> _$properties_ [value: array(](default.md)
+> _$hide\_empty\_fields_
+
+**Remarks**
+
+Method loadFromSqlDataView
+
+
+**since:** 1.2.0
+
+**access:** public
+
+
+
+# Form::onChangeJs #
+
+**onChangeJs(**
+**mixed**
+_$js\_function_**);**
+
+
+
+
+
+**Parameters**
+> _$js\_function_
+
+**Remarks**
+
+Method onChangeJs
+
+
+**since:** 1.0.90
+
+**access:** public
+
+
+
+# Form::onSubmitJs #
+
+**onSubmitJs(**
+**string|JavaScript**
+_$js\_function_**);**
+
+
+
+
+
+**Parameters**
+> _$js\_function_
+
+**Remarks**
+
+Method onSubmitJs
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Form::registerObjectToForm #
+
+**registerObjectToForm(**
+**mixed**
+_$object_**);**
+
+
+
+
+
+**Parameters**
+> _$object_
+
+**Remarks**
+
+Method registerObjectToForm
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Form::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object Form
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Form::resetFormChangeHiddenField #
+
+**resetFormChangeHiddenField(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method resetFormChangeHiddenField
+
+
+**since:** 1.0.90
+
+**access:** public
+
+
+
+# Form::setAction #
+
+**setAction(**
+**mixed**
+_$action\_file\_name_**);**
+
+
+
+
+
+**Parameters**
+> _$action\_file\_name_
+
+**Remarks**
+
+Method setAction
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Form::setContent #
+
+**setContent(**
+**object**
+_$content_**);**
+
+
+
+
+
+**Parameters**
+> _$content_
+
+**Remarks**
+
+Method setContent
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Form::setEncryptObject #
+
+**setEncryptObject(**
+[**mixed**
+_$encrypt\_object_ = null]**);**
+
+
+
+
+
+**Parameters**
+> _$encrypt\_object_ [value: null](default.md)
+
+**Remarks**
+
+Method setEncryptObject
+
+
+**since:** 1.0.67
+
+**access:** public
+
+
+
+# Form::setEnctypeMultipart #
+
+**setEnctypeMultipart(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setEnctypeMultipart
+
+
+**since:** 1.2.3
+
+**access:** public
+
+
+
+# Form::setMethod #
+
+**setMethod(**
+**mixed**
+_$method_**);**
+
+
+
+
+
+**Parameters**
+> _$method_
+
+**Remarks**
+
+Method setMethod
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Form::setName #
+
+**setName(**
+**mixed**
+_$name_**);**
+
+
+
+
+
+**Parameters**
+> _$name_
+
+**Remarks**
+
+Method setName
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Form::setSubmitDialogBox #
+
+**setSubmitDialogBox(**
+**mixed**
+_$dialog\_box_, [**double**
+_$display\_delay_ = 200]**);**
+
+
+
+
+
+**Parameters**
+> _$dialog\_box_
+> _$display\_delay_ [value: 200](default.md)
+
+**Remarks**
+
+Method setSubmitDialogBox
+
+
+**since:** 1.0.99
+
+**access:** public
+
+
+
+# Form::updateFormFromSqlDataView #
+
+**updateFormFromSqlDataView(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method updateFormFromSqlDataView
+
+
+**since:** 1.2.0
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+**`$page_object` = ` null` (line 38)** **Data type:** `mixed`
+**access:** protected
+
+
+
+
+---
+
+## Class Constant Detail ##
+
+**`METHOD_GET` = ` 'GET'` (line 32)**
+
+
+**Remarks**
+
+method properties
+
+
+**access:** public
+
+
+**`METHOD_POST` = ` 'POST'` (line 31)**
+
+
+**Remarks**
+
+method properties
+
+
+**access:** public
+
+
+
+
+---

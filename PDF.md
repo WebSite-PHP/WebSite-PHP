@@ -1,0 +1,427 @@
+# Class PDF #
+
+FPDF
+> |
+> --PDF
+
+
+
+Location: /modules/PDF/info/tutoriel/tuto2.php
+
+
+---
+
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class FPDF ###
+
+  * `FPDF::$AliasNbPages` = ``
+
+
+  * `FPDF::$author` = ``
+
+
+  * `FPDF::$AutoPageBreak` = ``
+
+
+  * `FPDF::$bMargin` = ``
+
+
+  * `FPDF::$buffer` = ``
+
+
+  * `FPDF::$cMargin` = ``
+
+
+  * `FPDF::$ColorFlag` = ``
+
+
+  * `FPDF::$compress` = ``
+
+
+  * `FPDF::$CoreFonts` = ``
+
+
+  * `FPDF::$creator` = ``
+
+
+  * `FPDF::$CurOrientation` = ``
+
+
+  * `FPDF::$CurPageFormat` = ``
+
+
+  * `FPDF::$CurrentFont` = ``
+
+
+  * `FPDF::$DefOrientation` = ``
+
+
+  * `FPDF::$DefPageFormat` = ``
+
+
+  * `FPDF::$diffs` = ``
+
+
+  * `FPDF::$DrawColor` = ``
+
+
+  * `FPDF::$FillColor` = ``
+
+
+  * `FPDF::$FontFamily` = ``
+
+
+  * `FPDF::$FontFiles` = ``
+
+
+  * `FPDF::$fonts` = ``
+
+
+  * `FPDF::$FontSize` = ``
+
+
+  * `FPDF::$FontSizePt` = ``
+
+
+  * `FPDF::$FontStyle` = ``
+
+
+  * `FPDF::$h` = ``
+
+
+  * `FPDF::$hPt` = ``
+
+
+  * `FPDF::$images` = ``
+
+
+  * `FPDF::$InFooter` = ``
+
+
+  * `FPDF::$InHeader` = ``
+
+
+  * `FPDF::$k` = ``
+
+
+  * `FPDF::$keywords` = ``
+
+
+  * `FPDF::$lasth` = ``
+
+
+  * `FPDF::$LayoutMode` = ``
+
+
+  * `FPDF::$LineWidth` = ``
+
+
+  * `FPDF::$links` = ``
+
+
+  * `FPDF::$lMargin` = ``
+
+
+  * `FPDF::$n` = ``
+
+
+  * `FPDF::$offsets` = ``
+
+
+  * `FPDF::$page` = ``
+
+
+  * `FPDF::$PageBreakTrigger` = ``
+
+
+  * `FPDF::$PageFormats` = ``
+
+
+  * `FPDF::$PageLinks` = ``
+
+
+  * `FPDF::$pages` = ``
+
+
+  * `FPDF::$PageSizes` = ``
+
+
+  * `FPDF::$PDFVersion` = ``
+
+
+  * `FPDF::$rMargin` = ``
+
+
+  * `FPDF::$state` = ``
+
+
+  * `FPDF::$subject` = ``
+
+
+  * `FPDF::$TextColor` = ``
+
+
+  * `FPDF::$title` = ``
+
+
+  * `FPDF::$tMargin` = ``
+
+
+  * `FPDF::$underline` = ``
+
+
+  * `FPDF::$w` = ``
+
+
+  * `FPDF::$wPt` = ``
+
+
+  * `FPDF::$ws` = ``
+
+
+  * `FPDF::$x` = ``
+
+
+  * `FPDF::$y` = ``
+
+
+  * `FPDF::$ZoomMode` = ``
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class FPDF ###
+
+  * `FPDF::FPDF()`
+> Method FPDF
+    * `FPDF::AcceptPageBreak()`
+
+  * `FPDF::AddFont()`
+
+  * `FPDF::AddLink()`
+
+  * `FPDF::AddPage()`
+
+  * `FPDF::AliasNbPages()`
+
+  * `FPDF::Cell()`
+
+  * `FPDF::Close()`
+
+  * `FPDF::Error()`
+
+  * `FPDF::Footer()`
+
+  * `FPDF::GetStringWidth()`
+
+  * `FPDF::GetX()`
+
+  * `FPDF::GetY()`
+
+  * `FPDF::Header()`
+
+  * `FPDF::Image()`
+
+  * `FPDF::Line()`
+
+  * `FPDF::Link()`
+
+  * `FPDF::Ln()`
+
+  * `FPDF::MultiCell()`
+
+  * `FPDF::Open()`
+
+  * `FPDF::Output()`
+
+  * `FPDF::PageNo()`
+
+  * `FPDF::Rect()`
+
+  * `FPDF::SetAuthor()`
+
+  * `FPDF::SetAutoPageBreak()`
+
+  * `FPDF::SetCompression()`
+
+  * `FPDF::SetCreator()`
+
+  * `FPDF::SetDisplayMode()`
+
+  * `FPDF::SetDrawColor()`
+
+  * `FPDF::SetFillColor()`
+
+  * `FPDF::SetFont()`
+
+  * `FPDF::SetFontSize()`
+
+  * `FPDF::SetKeywords()`
+
+  * `FPDF::SetLeftMargin()`
+
+  * `FPDF::SetLineWidth()`
+
+  * `FPDF::SetLink()`
+
+  * `FPDF::SetMargins()`
+
+  * `FPDF::SetRightMargin()`
+
+  * `FPDF::SetSubject()`
+
+  * `FPDF::SetTextColor()`
+
+  * `FPDF::SetTitle()`
+
+  * `FPDF::SetTopMargin()`
+
+  * `FPDF::SetX()`
+
+  * `FPDF::SetXY()`
+
+  * `FPDF::SetY()`
+
+  * `FPDF::Text()`
+
+  * `FPDF::Write()`
+
+  * `FPDF::_beginpage()`
+
+  * `FPDF::_dochecks()`
+  * *** `FPDF::_dounderline()`**
+
+  * `FPDF::_enddoc()`
+
+  * `FPDF::_endpage()`
+
+  * `FPDF::_escape()`
+
+  * `FPDF::_getfontpath()`
+
+  * `FPDF::_getpageformat()`
+
+  * `FPDF::_newobj()`
+
+  * `FPDF::_out()`
+
+  * `FPDF::_parsegif()`
+
+  * `FPDF::_parsejpg()`
+
+  * `FPDF::_parsepng()`
+
+  * `FPDF::_putcatalog()`
+
+  * `FPDF::_putfonts()`
+
+  * `FPDF::_putheader()`
+
+  * `FPDF::_putimages()`
+
+  * `FPDF::_putinfo()`
+
+  * `FPDF::_putpages()`
+
+  * `FPDF::_putresourcedict()`
+
+  * `FPDF::_putresources()`
+
+  * `FPDF::_putstream()`
+
+  * `FPDF::_puttrailer()`
+
+  * `FPDF::_putxobjectdict()`
+
+  * `FPDF::_readint()`
+
+  * `FPDF::_readstream()`
+
+  * `FPDF::_textstring()`
+
+  * `FPDF::_UTF8toUTF16()`
+
+
+
+---
+
+## Method Detail ##
+
+
+
+# PDF::Footer #
+
+**Footer(**
+**);**
+
+
+Overrides FPDF::Footer() (parent method not documented)
+
+
+
+
+# PDF::Header #
+
+**Header(**
+**);**
+
+
+Overrides FPDF::Header() (parent method not documented)
+
+
+
+**Remarks**
+
+Method Header
+
+
+**since:** 1.2.0
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+
+
+---

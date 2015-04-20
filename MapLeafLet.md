@@ -1,0 +1,749 @@
+# Class MapLeafLet #
+
+WebSitePhpObject
+> |
+> --MapLeafLet
+
+
+
+Location: /display/advanced\_object/map/MapLeafLet.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class MapLeafLet
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.9
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+  * `GEOSEARCH_BING` = ` 'BING'`
+
+> GeoSearch
+    * `GEOSEARCH_ESRI` = ` 'ESRI'`
+
+> GeoSearch
+    * `GEOSEARCH_GOOGLE` = ` 'GOOGLE'`
+
+> GeoSearch
+    * `GEOSEARCH_NOKIA` = ` 'NOKIA'`
+
+> GeoSearch
+    * `GEOSEARCH_OPENSTREETMAP` = ` 'OPENSTREETMAP'`
+
+> GeoSearch
+    * `LEGEND_POS_BOTTOM_LEFT` = ` 'bottomleft'`
+
+> Legend position
+    * `LEGEND_POS_BOTTOM_RIGHT` = ` 'bottomright'`
+
+> Legend position
+    * `LEGEND_POS_TOP_LEFT` = ` 'topleft'`
+
+> Legend position
+    * `LEGEND_POS_TOP_RIGHT` = ` 'topright'`
+
+> Legend position
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# MapLeafLet::construct #
+
+**construct(**
+[**string**
+_$id_ = 'map\_canvas'], [**double**
+_$zoom_ = 13], [**double**
+_$width_ = 400], [**double**
+_$height_ = 300], [**double**
+_$default\_latitude_ = 48.85667], [**double**
+_$default\_longitude_ = 2.35099]**);**
+
+
+Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Parameters**
+> _$id_ [value: map\_canvas](default.md)
+> _$zoom_ [value: 13](default.md)
+> _$width_ [value: 400](default.md)
+> _$height_ [value: 300](default.md)
+> _$default\_latitude_ [value: 48.85667](default.md)
+> _$default\_longitude_ [value: 2.35099](default.md)
+
+**Remarks**
+
+Constructor MapLeafLet
+
+
+
+
+# MapLeafLet::addLatitudeLongitudeMarker #
+
+**addLatitudeLongitudeMarker(**
+**mixed**
+_$latitude_, **mixed**
+_$longitude_, [**string**
+_$text_ = ''], [**string**
+_$icon\_url\_32_ = ''], [**boolean**
+_$define\_as\_center_ = true], [**string**
+_$marker\_link_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$latitude_
+> _$longitude_
+> _$text_
+> _$icon\_url\_32_
+> _$define\_as\_center_ [value: true](default.md)
+> _$marker\_link_
+
+**Remarks**
+
+Method addLatitudeLongitudeMarker
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# MapLeafLet::addLegend #
+
+**addLegend(**
+**mixed**
+_$position_, **object**
+_$content_**);**
+
+
+
+
+
+**Parameters**
+> _$position_
+> _$content_
+
+**Remarks**
+
+Method addLegend
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# MapLeafLet::addMarker #
+
+**addMarker(**
+**mixed**
+_$address_, [**string**
+_$text_ = ''], [**string**
+_$icon\_url\_32_ = ''], [**boolean**
+_$define\_as\_center_ = true], [**string**
+_$marker\_link_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$address_
+> _$text_
+> _$icon\_url\_32_
+> _$define\_as\_center_ [value: true](default.md)
+> _$marker\_link_
+
+**Remarks**
+
+Method addMarker
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# MapLeafLet::disableInitOnLoad #
+
+**disableInitOnLoad(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method disableInitOnLoad
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# MapLeafLet::displaySearchBar #
+
+**displaySearchBar(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method displaySearchBar
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# MapLeafLet::getId #
+
+**getId(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getId
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# MapLeafLet::getZoom #
+
+**getZoom(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getZoom
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# MapLeafLet::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# MapLeafLet::setAutoZoom #
+
+**setAutoZoom(**
+**mixed**
+_$min\_latitude_, **mixed**
+_$max\_latitude_, **mixed**
+_$min\_longitude_, **mixed**
+_$max\_longitude_**);**
+
+
+
+
+
+**Parameters**
+> _$min\_latitude_
+> _$max\_latitude_
+> _$min\_longitude_
+> _$max\_longitude_
+
+**Remarks**
+
+Method setAutoZoom
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# MapLeafLet::setDefaultLatitude #
+
+**setDefaultLatitude(**
+**mixed**
+_$default\_latitude_**);**
+
+
+
+
+
+**Parameters**
+> _$default\_latitude_
+
+**Remarks**
+
+Method setDefaultLatitude
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# MapLeafLet::setDefaultLongitude #
+
+**setDefaultLongitude(**
+**mixed**
+_$default\_longitude_**);**
+
+
+
+
+
+**Parameters**
+> _$default\_longitude_
+
+**Remarks**
+
+Method setDefaultLongitude
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# MapLeafLet::setGeoSearchTool #
+
+**setGeoSearchTool(**
+**mixed**
+_$tool_**);**
+
+
+
+
+
+**Parameters**
+> _$tool_
+
+**Remarks**
+
+Method setGeoSearchTool
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# MapLeafLet::setHeight #
+
+**setHeight(**
+**integer**
+_$height_**);**
+
+
+
+
+
+**Parameters**
+> _$height_
+
+**Remarks**
+
+Method setHeight
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# MapLeafLet::setMaxZoom #
+
+**setMaxZoom(**
+**mixed**
+_$max\_zoom_**);**
+
+
+
+
+
+**Parameters**
+> _$max\_zoom_
+
+**Remarks**
+
+Method setMaxZoom
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# MapLeafLet::setMinZoom #
+
+**setMinZoom(**
+**mixed**
+_$min\_zoom_**);**
+
+
+
+
+
+**Parameters**
+> _$min\_zoom_
+
+**Remarks**
+
+Method setMinZoom
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# MapLeafLet::setTileLayer #
+
+**setTileLayer(**
+**mixed**
+_$tile\_layer_**);**
+
+
+
+
+
+**Parameters**
+> _$tile\_layer_
+
+**Remarks**
+
+Method setTileLayer
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# MapLeafLet::setWidth #
+
+**setWidth(**
+**integer**
+_$width_**);**
+
+
+
+
+
+**Parameters**
+> _$width_
+
+**Remarks**
+
+Method setWidth
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# MapLeafLet::setZoom #
+
+**setZoom(**
+**mixed**
+_$zoom_**);**
+
+
+
+
+
+**Parameters**
+> _$zoom_
+
+**Remarks**
+
+Method setZoom
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+**`GEOSEARCH_BING` = ` 'BING'` (line 34)**
+
+
+**Remarks**
+
+GeoSearch
+
+
+**access:** public
+
+
+**`GEOSEARCH_ESRI` = ` 'ESRI'` (line 35)**
+
+
+**Remarks**
+
+GeoSearch
+
+
+**access:** public
+
+
+**`GEOSEARCH_GOOGLE` = ` 'GOOGLE'` (line 36)**
+
+
+**Remarks**
+
+GeoSearch
+
+
+**access:** public
+
+
+**`GEOSEARCH_NOKIA` = ` 'NOKIA'` (line 37)**
+
+
+**Remarks**
+
+GeoSearch
+
+
+**access:** public
+
+
+**`GEOSEARCH_OPENSTREETMAP` = ` 'OPENSTREETMAP'` (line 33)**
+
+
+**Remarks**
+
+GeoSearch
+
+
+**access:** public
+
+
+**`LEGEND_POS_BOTTOM_LEFT` = ` 'bottomleft'` (line 47)**
+
+
+**Remarks**
+
+Legend position
+
+
+**access:** public
+
+
+**`LEGEND_POS_BOTTOM_RIGHT` = ` 'bottomright'` (line 48)**
+
+
+**Remarks**
+
+Legend position
+
+
+**access:** public
+
+
+**`LEGEND_POS_TOP_LEFT` = ` 'topleft'` (line 45)**
+
+
+**Remarks**
+
+Legend position
+
+
+**access:** public
+
+
+**`LEGEND_POS_TOP_RIGHT` = ` 'topright'` (line 46)**
+
+
+**Remarks**
+
+Legend position
+
+
+**access:** public
+
+
+
+
+---

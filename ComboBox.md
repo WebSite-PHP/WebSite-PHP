@@ -1,0 +1,876 @@
+# Class ComboBox #
+
+WebSitePhpObject
+> |
+> --WebSitePhpEventObject
+> > |
+> > --ComboBox
+
+
+
+Location: /display/ComboBox.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class ComboBox
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.9
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.17
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpEventObject ###
+
+  * `WebSitePhpEventObject::$ajax_wait_message` = ` ''`
+
+
+  * `WebSitePhpEventObject::$class_name` = ` ''`
+
+
+  * `WebSitePhpEventObject::$disable_ajax_wait_message` = ` false`
+
+
+  * `WebSitePhpEventObject::$form_object` = ` null`
+
+
+  * `WebSitePhpEventObject::$id` = ` ''`
+
+
+  * `WebSitePhpEventObject::$is_ajax_event` = ` false`
+
+
+  * `WebSitePhpEventObject::$name` = ` ''`
+
+
+  * `WebSitePhpEventObject::$on_form_is_changed_js` = ` ''`
+
+
+  * `WebSitePhpEventObject::$on_form_is_changed_revert` = ` false`
+
+
+  * `WebSitePhpEventObject::$page_object` = ` null`
+
+
+
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpEventObject ###
+
+  * `WebSitePhpEventObject::__construct()`
+
+> Constructor WebSitePhpEventObject
+    * `WebSitePhpEventObject::automaticAjaxEvent()`
+> Method automaticAjaxEvent
+    * `WebSitePhpEventObject::disableAjaxWaitMessage()`
+> Method disableAjaxWaitMessage
+    * `WebSitePhpEventObject::getAjaxEventFunctionRender()`
+> Method getAjaxEventFunctionRender
+    * `WebSitePhpEventObject::getEventObjectName()`
+> Method getEventObjectName
+    * `WebSitePhpEventObject::getFormObject()`
+> Method getFormObject
+    * `WebSitePhpEventObject::getId()`
+> Method getId
+    * `WebSitePhpEventObject::getName()`
+> Method getName
+    * `WebSitePhpEventObject::getObjectEventValidationRender()`
+> Method getObjectEventValidationRender
+    * `WebSitePhpEventObject::getSubmitValueIsInit()`
+
+  * `WebSitePhpEventObject::initSubmitValue()`
+> Method initSubmitValue  Internal method used by an object like ComboBox or TextBox to init it with submitted value (if not already done).
+    * `WebSitePhpEventObject::isAjaxEvent()`
+> Method isAjaxEvent
+    * `WebSitePhpEventObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpEventObject::loadCallbackMethod()`
+> Method loadCallbackMethod
+    * `WebSitePhpEventObject::onFormIsChangedJs()`
+> Method onFormIsChangedJs
+    * `WebSitePhpEventObject::setAjaxEvent()`
+> Method setAjaxEvent
+    * `WebSitePhpEventObject::setAjaxWaitMessage()`
+> Method setAjaxWaitMessage
+    * `WebSitePhpEventObject::setSubmitValueIsInit()`
+> Method setSubmitValueIsInit
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# ComboBox::construct #
+
+**construct(**
+**Page|Form**
+_$page\_or\_form\_object_, [**string**
+_$name_ = ''], [**string**
+_$width_ = '']**);**
+
+
+Overrides WebSitePhpEventObject::construct() (Constructor WebSitePhpEventObject)
+
+
+
+**Parameters**
+> _$page\_or\_form\_object_
+> _$name_
+> _$width_
+
+**Remarks**
+
+Constructor ComboBox
+
+
+
+
+# ComboBox::addItem #
+
+**addItem(**
+**string**
+_$value_, **string**
+_$text_, [**boolean**
+_$selected_ = false], [**string**
+_$img_ = ''], [**string**
+_$group\_name_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$value_
+> _$text_
+> _$selected_ [value: false](default.md)
+> _$img_
+> _$group\_name_
+
+**Remarks**
+
+Method addItem
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::disable #
+
+**disable(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method disable
+
+
+**since:** 1.0.89
+
+**access:** public
+
+
+
+# ComboBox::enable #
+
+**enable(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method enable
+
+
+**since:** 1.0.89
+
+**access:** public
+
+
+
+# ComboBox::getAjaxRender #
+
+**getAjaxRender(**
+**);**
+
+
+Overrides WebSitePhpObject::getAjaxRender() (Method getAjaxRender)
+
+
+
+**Returns**
+> javascript code to update initial html of object ComboBox (call with AJAX)
+
+**Remarks**
+
+Method getAjaxRender
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::getDefaultValue #
+
+**getDefaultValue(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getDefaultValue
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::getId #
+
+**getId(**
+**);**
+
+
+Overrides WebSitePhpEventObject::getId() (Method getId)
+
+
+
+**Remarks**
+
+Method getId
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::getItemTextAt #
+
+**getItemTextAt(**
+**mixed**
+_$i_**);**
+
+
+
+
+
+**Parameters**
+> _$i_
+
+**Remarks**
+
+Method getItemTextAt
+
+
+**since:** 1.0.89
+
+**access:** public
+
+
+
+# ComboBox::getItemValueAt #
+
+**getItemValueAt(**
+**mixed**
+_$i_**);**
+
+
+
+
+
+**Parameters**
+> _$i_
+
+**Remarks**
+
+Method getItemValueAt
+
+
+**since:** 1.0.89
+
+**access:** public
+
+
+
+# ComboBox::getSelectedIndex #
+
+**getSelectedIndex(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getSelectedIndex
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::getText #
+
+**getText(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getText
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::getValue #
+
+**getValue(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getValue
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::isChanged #
+
+**isChanged(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isChanged
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::length #
+
+**length(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method length
+
+
+**since:** 1.0.89
+
+**access:** public
+
+
+
+# ComboBox::onChange #
+
+**onChange(**
+**string**
+_$str\_function_, [**mixed**
+_$arg1_ = null], [**mixed**
+_$arg2_ = null], [**mixed**
+_$arg3_ = null], [**mixed**
+_$arg4_ = null], [**mixed**
+_$arg5_ = null]**);**
+
+
+
+
+
+**Parameters**
+> _$str\_function_
+> _$arg1_ [value: null](default.md)
+> _$arg2_ [value: null](default.md)
+> _$arg3_ [value: null](default.md)
+> _$arg4_ [value: null](default.md)
+> _$arg5_ [value: null](default.md)
+
+**Remarks**
+
+Method onChange
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::onChangeJs #
+
+**onChangeJs(**
+**string|JavaScript**
+_$js\_function_**);**
+
+
+
+
+
+**Parameters**
+> _$js\_function_
+
+**Remarks**
+
+Method onChangeJs
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::removeItem #
+
+**removeItem(**
+**mixed**
+_$value_**);**
+
+
+
+
+
+**Parameters**
+> _$value_
+
+**Remarks**
+
+Method removeItem
+
+
+**since:** 1.0.98
+
+**access:** public
+
+
+
+# ComboBox::removeItems #
+
+**removeItems(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method removeItems
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::setDefaultValue #
+
+**setDefaultValue(**
+**string**
+_$value_**);**
+
+
+
+
+
+**Parameters**
+> _$value_
+
+**Remarks**
+
+Method setDefaultValue
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::setListItemsChange #
+
+**setListItemsChange(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setListItemsChange
+
+
+To be use only if your are sur ComboBox list items have been changed
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::setName #
+
+**setName(**
+**string**
+_$name_**);**
+
+
+
+
+
+**Parameters**
+> _$name_
+
+**Remarks**
+
+Method setName
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::setOption #
+
+**setOption(**
+**string**
+_$option_**);**
+
+
+
+
+
+**Parameters**
+> _$option_
+
+**Remarks**
+
+Method setOption
+
+
+set jquery msDropDown options
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::setSelectedIndex #
+
+**setSelectedIndex(**
+**integer**
+_$index_**);**
+
+
+
+
+
+**Parameters**
+> _$index_
+
+**Remarks**
+
+Method setSelectedIndex
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::setSmallIcons #
+
+**setSmallIcons(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setSmallIcons
+
+
+**since:** 1.1.7
+
+**access:** public
+
+
+
+# ComboBox::setStripTags #
+
+**setStripTags(**
+[**string**
+_$allowable\_tags_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$allowable\_tags_
+
+**Remarks**
+
+Method setStripTags
+
+
+**since:** 1.1.2
+
+**access:** public
+
+
+
+# ComboBox::setValue #
+
+**setValue(**
+**string**
+_$value_**);**
+
+
+
+
+
+**Parameters**
+> _$value_
+
+**Remarks**
+
+Method setValue
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# ComboBox::setWidth #
+
+**setWidth(**
+**integer**
+_$width_**);**
+
+
+
+
+
+**Parameters**
+> _$width_
+
+**Remarks**
+
+Method setWidth
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+
+
+---

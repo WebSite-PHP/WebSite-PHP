@@ -1,0 +1,442 @@
+# Class RSSFeedItem #
+
+RSSFeedBase
+> |
+> --RSSFeedItem
+
+
+
+Location: /modules/RSS-Generator/RSSFeedItem.class.php
+
+
+---
+
+
+
+**Remarks**
+
+
+
+
+**author:** : Hugo 'Emacs' HAMON
+
+**version:** : 1.0
+
+**abstract:** : no
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class RSSFeedBase ###
+
+  * `RSSFeedBase::$_categories` = `array()`
+
+
+  * `RSSFeedBase::$_description` = ` ''`
+
+
+  * `RSSFeedBase::$_link` = ` ''`
+
+
+  * `RSSFeedBase::$_pubDate` = ` ''`
+
+
+  * `RSSFeedBase::$_title` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+  * `static : getAuthor()`
+  * 
+    * `static : getComments()`
+  * 
+    * `static : getEnclosure()`
+  * 
+    * `static : getGuid()`
+  * 
+    * `static : getSource()`
+  * 
+    * `static : setComments()`
+  * 
+    * `static : setEnclosure()`
+  * 
+    * `static : setGuid()`
+  * 
+    * `static : setSource()`
+  * 
+    * `: getAuthor()`
+  * 
+    * `: getComments()`
+  * 
+    * `: getEnclosure()`
+  * 
+    * `: getGuid()`
+  * 
+    * `: getSource()`
+  * 
+    * `: setComments()`
+  * 
+    * `: setEnclosure()`
+  * 
+    * `: setGuid()`
+  * 
+    * `: setSource()`
+  * 
+
+## Inherited Method Summary ##
+
+### Inherited From Class RSSFeedBase ###
+
+  * `RSSFeedBase::getCategories()`
+  * 
+    * `RSSFeedBase::getDescription()`
+  * 
+    * `RSSFeedBase::getLink()`
+  * 
+    * `RSSFeedBase::getPubDate()`
+  * 
+    * `RSSFeedBase::getTitle()`
+  * 
+    * `RSSFeedBase::setCategory()`
+  * 
+    * `RSSFeedBase::setDescription()`
+  * 
+    * `RSSFeedBase::setLink()`
+  * 
+    * `RSSFeedBase::setPubDate()`
+  * 
+    * `RSSFeedBase::setTitle()`
+  * 
+
+
+---
+
+## Method Detail ##
+
+
+# static RSSFeedItem::getAuthor #
+
+**static getAuthor(**
+**:**
+_0_**);**
+
+
+
+
+
+**Parameters**
+> _0_ void
+
+**Returns**
+> array $this-&gt;**itemAuthor**Remarks
+
+
+
+
+**access:** public
+
+
+
+# static RSSFeedItem::getComments #
+
+**static getComments(**
+**:**
+_0_**);**
+
+
+
+
+
+**Parameters**
+> _0_ void
+
+**Returns**
+> string $this-&gt;**comments**Remarks
+
+
+
+
+**access:** public
+
+
+
+# static RSSFeedItem::getEnclosure #
+
+**static getEnclosure(**
+**:**
+_0_**);**
+
+
+
+
+
+**Parameters**
+> _0_ void
+
+**Returns**
+> array $this-&gt;**itemEnclosure**Remarks
+
+
+
+
+**access:** public
+
+
+
+# static RSSFeedItem::getGuid #
+
+**static getGuid(**
+**:**
+_0_**);**
+
+
+
+
+
+**Parameters**
+> _0_ void
+
+**Returns**
+> array $this-&gt;**itemGuid**Remarks
+
+
+
+
+**access:** public
+
+
+
+# static RSSFeedItem::getSource #
+
+**static getSource(**
+**:**
+_0_**);**
+
+
+
+
+
+**Parameters**
+> _0_ void
+
+**Returns**
+> array $this-&gt;**itemSource**Remarks
+
+
+
+
+**access:** public
+
+
+
+# static RSSFeedItem::setComments #
+
+**static setComments(**
+**:**
+_$url_**);**
+
+
+
+
+
+**Parameters**
+> _$url_ string $url
+
+**Returns**
+> void 
+
+**Remarks**
+
+
+
+
+**access:** public
+
+
+
+# static RSSFeedItem::setEnclosure #
+
+**static setEnclosure(**
+**:**
+_$url_, **:**
+_$length_, **:**
+_$mimeType_**);**
+
+
+
+
+
+**Parameters**
+> _$url_ string $url
+> _$length_ int $length
+> _$mimeType_ string $mimeType
+
+**Returns**
+> void 
+
+**Remarks**
+
+
+
+
+**access:** public
+
+
+
+# static RSSFeedItem::setGuid #
+
+**static setGuid(**
+**:**
+_$guid_, [**:**
+_$isPermaLink_ = false]**);**
+
+
+
+
+
+**Parameters**
+> _$guid_ string $guid
+> _$isPermaLink_ bool $isPermaLink
+
+**Returns**
+> void 
+
+**Remarks**
+
+
+
+
+**access:** public
+
+
+
+# static RSSFeedItem::setSource #
+
+**static setSource(**
+**:**
+_$url_, **:**
+_$content_**);**
+
+
+
+
+
+**Parameters**
+> _$url_ string $url
+> _$content_ string $content
+
+**Returns**
+> void 
+
+**Remarks**
+
+
+
+
+**access:** public
+
+
+
+
+# RSSFeedItem::construct #
+
+**construct(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Constructor RSSFeedItem
+
+
+**access:** public
+
+
+
+# RSSFeedItem::destruct #
+
+**destruct(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Destructor RSSFeedItem
+
+
+**access:** public
+
+
+
+# RSSFeedItem::setAuthor #
+
+**setAuthor(**
+**mixed**
+_$email_, [**string**
+_$name_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$email_
+> _$name_
+
+**Remarks**
+
+Method setAuthor
+
+
+**since:** 1.1.2
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+
+
+---

@@ -1,0 +1,458 @@
+# Class Label #
+
+WebSitePhpObject
+> |
+> --Label
+
+
+
+Location: /display/Label.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class Label
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.8
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.17
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+  * `FONT_ARIAL` = ` 'Arial'`
+
+> Font family
+    * `FONT_TIMES` = ` 'Times New Roman'`
+
+> Font family
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# Label::construct #
+
+**construct(**
+[**string**
+_$label_ = ''], [**boolean**
+_$bold_ = false], [**boolean**
+_$italic_ = false], [**boolean**
+_$underline_ = false]**);**
+
+
+Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Parameters**
+> _$label_
+> _$bold_ [value: false](default.md)
+> _$italic_ [value: false](default.md)
+> _$underline_ [value: false](default.md)
+
+**Remarks**
+
+Constructor Label
+
+
+
+
+# Label::getAjaxRender #
+
+**getAjaxRender(**
+**);**
+
+
+Overrides WebSitePhpObject::getAjaxRender() (Method getAjaxRender)
+
+
+
+**Returns**
+> javascript code to update initial html of object Label (call with AJAX)
+
+**Remarks**
+
+Method getAjaxRender
+
+
+**since:** 1.2.3
+
+**access:** public
+
+
+
+# Label::getId #
+
+**getId(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getId
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Label::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object Label
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Label::setBold #
+
+**setBold(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setBold
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Label::setColor #
+
+**setColor(**
+**mixed**
+_$color_**);**
+
+
+
+
+
+**Parameters**
+> _$color_
+
+**Remarks**
+
+Method setColor
+
+
+**since:** 1.0.84
+
+**access:** public
+
+
+
+# Label::setFont #
+
+**setFont(**
+**mixed**
+_$font\_size_, **mixed**
+_$font\_family_**);**
+
+
+
+
+
+**Parameters**
+> _$font\_size_
+> _$font\_family_
+
+**Remarks**
+
+Method setFont
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Label::setId #
+
+**setId(**
+**mixed**
+_$id_**);**
+
+
+
+
+
+**Parameters**
+> _$id_
+
+**Remarks**
+
+Method setId
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Label::setItalic #
+
+**setItalic(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setItalic
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Label::setLabel #
+
+**setLabel(**
+**mixed**
+_$label_**);**
+
+
+
+
+
+**Parameters**
+> _$label_
+
+**Remarks**
+
+Method setLabel
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Label::setStyle #
+
+**setStyle(**
+**mixed**
+_$style_**);**
+
+
+
+
+
+**Parameters**
+> _$style_
+
+**Remarks**
+
+Method setStyle
+
+
+**since:** 1.0.89
+
+**access:** public
+
+
+
+# Label::setUnderline #
+
+**setUnderline(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setUnderline
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+**`FONT_ARIAL` = ` 'Arial'` (line 31)**
+
+
+**Remarks**
+
+Font family
+
+
+**access:** public
+
+
+**`FONT_TIMES` = ` 'Times New Roman'` (line 32)**
+
+
+**Remarks**
+
+Font family
+
+
+**access:** public
+
+
+
+
+---

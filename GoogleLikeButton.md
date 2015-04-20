@@ -1,0 +1,260 @@
+# Class GoogleLikeButton #
+
+WebSitePhpObject
+> |
+> --GoogleLikeButton
+
+
+
+Location: /modules/ShareButton/GoogleLikeButton.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class GoogleLikeButton
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.9
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.88
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+  * `BUTTON_MEDIUM` = ` 'medium'`
+
+> Button style
+    * `BUTTON_SMALL` = ` 'small'`
+
+> Button style
+    * `BUTTON_STANDARD` = ` ''`
+
+> Button style
+    * `BUTTON_TALL` = ` 'tall'`
+
+> Button style
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# GoogleLikeButton::construct #
+
+**construct(**
+[**string**
+_$type\_button_ = ''], [**boolean**
+_$count_ = true], [**string**
+_$url_ = ''], [**string**
+_$callback_ = '']**);**
+
+
+Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Parameters**
+> _$type\_button_
+> _$count_ [value: true](default.md)
+> _$url_
+> _$callback_
+
+**Remarks**
+
+Constructor GoogleLikeButton
+
+
+
+
+# GoogleLikeButton::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object GoogleLikeButton
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.88
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+**`BUTTON_MEDIUM` = ` 'medium'` (line 34)**
+
+
+**Remarks**
+
+Button style
+
+
+**access:** public
+
+
+**`BUTTON_SMALL` = ` 'small'` (line 33)**
+
+
+**Remarks**
+
+Button style
+
+
+**access:** public
+
+
+**`BUTTON_STANDARD` = ` ''` (line 35)**
+
+
+**Remarks**
+
+Button style
+
+
+**access:** public
+
+
+**`BUTTON_TALL` = ` 'tall'` (line 36)**
+
+
+**Remarks**
+
+Button style
+
+
+**access:** public
+
+
+
+
+---

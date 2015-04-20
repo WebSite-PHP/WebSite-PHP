@@ -1,0 +1,498 @@
+# Class Tabs #
+
+WebSitePhpObject
+> |
+> --Tabs
+
+
+
+Location: /display/Tabs.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class Tabs
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.9
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.17
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# Tabs::construct #
+
+**construct(**
+[**string**
+_$id_ = '']**);**
+
+
+Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Parameters**
+> _$id_
+
+**Remarks**
+
+Constructor Tabs
+
+
+
+
+# Tabs::activateCache #
+
+**activateCache(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method activateCache
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Tabs::addTab #
+
+**addTab(**
+**mixed**
+_$tab\_name_, **object**
+_$content\_or\_url\_object_, [**string**
+_$on\_select\_js_ = &quot;&quot;], [**boolean**
+_$disabled_ = false], [**string**
+_$loading\_content_ = &quot;&quot;]**);**
+
+
+
+
+
+**Parameters**
+> _$tab\_name_
+> _$content\_or\_url\_object_
+> _$on\_select\_js_
+> _$disabled_ [value: false](default.md)
+> _$loading\_content_
+
+**Remarks**
+
+Method addTab
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Tabs::disableAjaxLoad #
+
+**disableAjaxLoad(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method disableAjaxLoad
+
+
+**since:** 1.0.97
+
+**access:** public
+
+
+
+# Tabs::getAjaxRender #
+
+**getAjaxRender(**
+**);**
+
+
+Overrides WebSitePhpObject::getAjaxRender() (Method getAjaxRender)
+
+
+
+**Returns**
+> javascript code to update initial html of object Tabs (call with AJAX)
+
+**Remarks**
+
+Method getAjaxRender
+
+
+**since:** 1.0.98
+
+**access:** public
+
+
+
+# Tabs::getId #
+
+**getId(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getId
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Tabs::onShowJs #
+
+**onShowJs(**
+**mixed**
+_$js\_function_**);**
+
+
+
+
+
+**Parameters**
+> _$js\_function_
+
+**Remarks**
+
+Method onShowJs
+
+
+**since:** 1.0.98
+
+**access:** public
+
+
+
+# Tabs::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object Tabs
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Tabs::selectedIndex #
+
+**selectedIndex(**
+**mixed**
+_$index_**);**
+
+
+
+
+
+**Parameters**
+> _$index_
+
+**Remarks**
+
+Method selectedIndex
+
+
+**since:** 1.0.97
+
+**access:** public
+
+
+
+# Tabs::setHeight #
+
+**setHeight(**
+**integer**
+_$height_**);**
+
+
+
+
+
+**Parameters**
+> _$height_
+
+**Remarks**
+
+Method setHeight
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Tabs::setMinHeight #
+
+**setMinHeight(**
+**mixed**
+_$min\_height_**);**
+
+
+
+
+
+**Parameters**
+> _$min\_height_
+
+**Remarks**
+
+Method setMinHeight
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Tabs::setTitleTagH #
+
+**setTitleTagH(**
+**mixed**
+_$value_**);**
+
+
+
+
+
+**Parameters**
+> _$value_
+
+**Remarks**
+
+Method setTitleTagH
+
+
+**since:** 1.0.98
+
+**access:** public
+
+
+
+# Tabs::setTitleTagH1 #
+
+**setTitleTagH1(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setTitleTagH1
+
+
+**since:** 1.0.98
+
+**access:** public
+
+
+
+# Tabs::setTitleTagH2 #
+
+**setTitleTagH2(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setTitleTagH2
+
+
+**since:** 1.0.98
+
+**access:** public
+
+
+
+# Tabs::setWidth #
+
+**setWidth(**
+**integer**
+_$width_**);**
+
+
+
+
+
+**Parameters**
+> _$width_
+
+**Remarks**
+
+Method setWidth
+
+
+**since:** 1.1.2
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+
+
+---

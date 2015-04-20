@@ -1,0 +1,600 @@
+# Class TreeView #
+
+WebSitePhpObject
+> |
+> --TreeView
+
+
+
+Location: /display/advanced\_object/treeview/TreeView.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class TreeView
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.7
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.17
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+  * `static void refreshAllIds()`
+> Method refreshAllIds
+    * `void refreshAllIds()`
+> Method refreshAllIds
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+# static TreeView::refreshAllIds #
+
+**static refreshAllIds(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method refreshAllIds
+
+
+**since:** 1.0.59
+
+**access:** public
+
+
+
+
+# TreeView::construct #
+
+**construct(**
+**string**
+_$id_**);**
+
+
+Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Parameters**
+> _$id_
+
+**Remarks**
+
+Constructor TreeView
+
+
+
+
+# TreeView::generateTreeViewIds #
+
+**generateTreeViewIds(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method generateTreeViewIds
+
+
+**since:** 1.0.59
+
+**access:** public
+
+
+
+# TreeView::getAjaxRender #
+
+**getAjaxRender(**
+**);**
+
+
+Overrides WebSitePhpObject::getAjaxRender() (Method getAjaxRender)
+
+
+
+**Returns**
+> javascript code to update initial html of object TreeView (call with AJAX)
+
+**Remarks**
+
+Method getAjaxRender
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeView::getChildsTreeViewItemArray #
+
+**getChildsTreeViewItemArray(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getChildsTreeViewItemArray
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeView::getId #
+
+**getId(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getId
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeView::getLoadedPath #
+
+**getLoadedPath(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getLoadedPath
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeView::getTreeViewItemsObject #
+
+**getTreeViewItemsObject(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getTreeViewItemsObject
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeView::isRootFolder #
+
+**isRootFolder(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isRootFolder
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeView::isSynchronizeWithDir #
+
+**isSynchronizeWithDir(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isSynchronizeWithDir
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeView::loadFromPath #
+
+**loadFromPath(**
+**string**
+_$path_, [**string|Link|DialogBox**
+_$link\_file\_template_ = ''], [**string**
+_$root\_dir\_name_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$path_ path to the folder to load
+> _$link\_file\_template_ template when click a TreeViewFile : new DialogBox('open file', 'open file {#file}');
+> _$root\_dir\_name_ name of the root directory
+
+**Remarks**
+
+Method loadFromPath
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeView::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object TreeView
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeView::searchTreeViewItemId #
+
+**searchTreeViewItemId(**
+**string**
+_$id_**);**
+
+
+
+
+
+**Parameters**
+> _$id_
+
+**Remarks**
+
+Method searchTreeViewItemId
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeView::setContextMenuFile #
+
+**setContextMenuFile(**
+**ContextMenu**
+_$context\_menu\_object_**);**
+
+
+
+
+
+**Parameters**
+> _$context\_menu\_object_
+
+**Remarks**
+
+Method setContextMenuFile
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeView::setContextMenuFolder #
+
+**setContextMenuFolder(**
+**ContextMenu**
+_$context\_menu\_object_**);**
+
+
+
+
+
+**Parameters**
+> _$context\_menu\_object_
+
+**Remarks**
+
+Method setContextMenuFolder
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeView::setContextMenuOnTreeViewItem #
+
+**setContextMenuOnTreeViewItem(**
+**ContextMenu**
+_$context\_menu\_object_, **TreeViewItem|TreeViewFolder|TreeViewFile|TreeView**
+_$treeview\_item\_object_**);**
+
+
+
+
+
+**Parameters**
+> _$context\_menu\_object_
+> _$treeview\_item\_object_
+
+**Remarks**
+
+Method setContextMenuOnTreeViewItem
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeView::setContextMenuRoot #
+
+**setContextMenuRoot(**
+**ContextMenu**
+_$context\_menu\_object_**);**
+
+
+
+
+
+**Parameters**
+> _$context\_menu\_object_
+
+**Remarks**
+
+Method setContextMenuRoot
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeView::setTreeViewItems #
+
+**setTreeViewItems(**
+**TreeViewItems**
+_$treeview\_items\_object_**);**
+
+
+
+
+
+**Parameters**
+> _$treeview\_items\_object_
+
+**Remarks**
+
+Method setTreeViewItems
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeView::synchronizeWithDir #
+
+**synchronizeWithDir(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method synchronizeWithDir
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeView::unSynchronizeWithDir #
+
+**unSynchronizeWithDir(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method unSynchronizeWithDir
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+
+
+---

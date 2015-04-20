@@ -1,0 +1,971 @@
+# Class Calendar #
+
+WebSitePhpObject
+> |
+> --WebSitePhpEventObject
+> > |
+> > --TextBox
+> > > |
+> > > --Calendar
+
+
+
+Location: /display/Calendar.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class TextBox
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.9
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+  * `ANIMATION_BLIND` = ` 'blind'`
+
+
+> Calendar Animation
+    * `ANIMATION_BOUNCE` = ` 'bounce'`
+
+> Calendar Animation
+    * `ANIMATION_CLIP` = ` 'clip'`
+
+> Calendar Animation
+    * `ANIMATION_DROP` = ` 'drop'`
+
+> Calendar Animation
+    * `ANIMATION_FADEIN` = ` 'fadeIn'`
+
+> Calendar Animation
+    * `ANIMATION_FOLD` = ` 'fold'`
+
+> Calendar Animation
+    * `ANIMATION_SHOW` = ` 'show'`
+
+> Calendar Animation
+    * `ANIMATION_SLIDE` = ` 'slide'`
+
+> Calendar Animation
+    * `ANIMATION_SLIDESHOW` = ` 'slideDown'`
+
+> Calendar Animation
+    * `DATE_FORMAT_ENGLISH` = ` 'mm-dd-yy'`
+
+> Calendar Date Format
+    * `DATE_FORMAT_FRENCH` = ` 'dd/mm/yy'`
+
+> Calendar Date Format
+    * `DATE_FORMAT_GERMAN` = ` 'dd.mm.yy'`
+
+> Calendar Date Format
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class TextBox ###
+
+  * `TextBox::$live_validation` = ` null`
+
+
+  * `TextBox::$type` = ` 'text'`
+
+
+
+
+### Inherited From Class WebSitePhpEventObject ###
+
+  * `WebSitePhpEventObject::$ajax_wait_message` = ` ''`
+
+
+  * `WebSitePhpEventObject::$class_name` = ` ''`
+
+
+  * `WebSitePhpEventObject::$disable_ajax_wait_message` = ` false`
+
+
+  * `WebSitePhpEventObject::$form_object` = ` null`
+
+
+  * `WebSitePhpEventObject::$id` = ` ''`
+
+
+  * `WebSitePhpEventObject::$is_ajax_event` = ` false`
+
+
+  * `WebSitePhpEventObject::$name` = ` ''`
+
+
+  * `WebSitePhpEventObject::$on_form_is_changed_js` = ` ''`
+
+
+  * `WebSitePhpEventObject::$on_form_is_changed_revert` = ` false`
+
+
+  * `WebSitePhpEventObject::$page_object` = ` null`
+
+
+
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class TextBox ###
+
+  * `TextBox::__construct()`
+> Constructor TextBox
+    * `TextBox::clearable()`
+> Method clearable
+    * `TextBox::disable()`
+> Method disable
+    * `TextBox::enable()`
+> Method enable
+    * `TextBox::forceEmpty()`
+> Method forceEmpty
+    * `TextBox::getAjaxRender()`
+> Method getAjaxRender
+    * `TextBox::getClass()`
+> Method getClass
+    * `TextBox::getDefaultValue()`
+> Method getDefaultValue
+    * `TextBox::getEncryptObject()`
+> Method getEncryptObject
+    * `TextBox::getOnBlurJs()`
+> Method getOnBlurJs
+    * `TextBox::getOnChangeJs()`
+> Method getOnChangeJs
+    * `TextBox::getOnClickJs()`
+> Method getOnClickJs
+    * `TextBox::getOnKeyPressJs()`
+> Method getOnKeyPressJs
+    * `TextBox::getOnKeyUpJs()`
+> Method getOnKeyUpJs
+    * `TextBox::getOnMouseOutJs()`
+> Method getOnMouseOutJs
+    * `TextBox::getValue()`
+> Method getValue
+    * `TextBox::isChanged()`
+> Method isChanged
+    * `TextBox::isClicked()`
+> Method isClicked
+    * `TextBox::isEncrypted()`
+> Method isEncrypted
+    * `TextBox::onBlur()`
+> Method onBlur
+    * `TextBox::onBlurJs()`
+> Method onBlurJs
+    * `TextBox::onChange()`
+> Method onChange
+    * `TextBox::onChangeJs()`
+> Method onChangeJs
+    * `TextBox::onClick()`
+> Method onClick
+    * `TextBox::onClickJs()`
+> Method onClickJs
+    * `TextBox::onKeyPress()`
+> Method onKeyPress
+    * `TextBox::onKeyPressJs()`
+> Method onKeyPressJs
+    * `TextBox::onKeyUp()`
+> Method onKeyUp
+    * `TextBox::onKeyUpJs()`
+> Method onKeyUpJs
+    * `TextBox::onMouseOutJs()`
+> Method onMouseOutJs
+    * `TextBox::onMouseOverJs()`
+> Method onMouseOverJs
+    * `TextBox::render()`
+> Method render
+    * `TextBox::setAutoComplete()`
+> Method setAutoComplete
+    * `TextBox::setClass()`
+> Method setClass
+    * `TextBox::setDefaultValue()`
+> Method setDefaultValue
+    * `TextBox::setEncryptObject()`
+> Method setEncryptObject
+    * `TextBox::setFocus()`
+> Method setFocus
+    * `TextBox::setLength()`
+> Method setLength
+    * `TextBox::setLiveValidation()`
+> Method setLiveValidation
+    * `TextBox::setName()`
+> Method setName
+    * `TextBox::setStripTags()`
+> Method setStripTags
+    * `TextBox::setStyle()`
+> Method setStyle
+    * `TextBox::setValue()`
+> Method setValue
+    * `TextBox::setWidth()`
+> Method setWidth
+
+### Inherited From Class WebSitePhpEventObject ###
+
+  * `WebSitePhpEventObject::__construct()`
+> Constructor WebSitePhpEventObject
+    * `WebSitePhpEventObject::automaticAjaxEvent()`
+> Method automaticAjaxEvent
+    * `WebSitePhpEventObject::disableAjaxWaitMessage()`
+> Method disableAjaxWaitMessage
+    * `WebSitePhpEventObject::getAjaxEventFunctionRender()`
+> Method getAjaxEventFunctionRender
+    * `WebSitePhpEventObject::getEventObjectName()`
+> Method getEventObjectName
+    * `WebSitePhpEventObject::getFormObject()`
+> Method getFormObject
+    * `WebSitePhpEventObject::getId()`
+> Method getId
+    * `WebSitePhpEventObject::getName()`
+> Method getName
+    * `WebSitePhpEventObject::getObjectEventValidationRender()`
+> Method getObjectEventValidationRender
+    * `WebSitePhpEventObject::getSubmitValueIsInit()`
+
+  * `WebSitePhpEventObject::initSubmitValue()`
+> Method initSubmitValue  Internal method used by an object like ComboBox or TextBox to init it with submitted value (if not already done).
+    * `WebSitePhpEventObject::isAjaxEvent()`
+> Method isAjaxEvent
+    * `WebSitePhpEventObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpEventObject::loadCallbackMethod()`
+> Method loadCallbackMethod
+    * `WebSitePhpEventObject::onFormIsChangedJs()`
+> Method onFormIsChangedJs
+    * `WebSitePhpEventObject::setAjaxEvent()`
+> Method setAjaxEvent
+    * `WebSitePhpEventObject::setAjaxWaitMessage()`
+> Method setAjaxWaitMessage
+    * `WebSitePhpEventObject::setSubmitValueIsInit()`
+> Method setSubmitValueIsInit
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# Calendar::construct #
+
+**construct(**
+**mixed**
+_$page\_or\_form\_object_, [**string**
+_$name_ = ''], [**string**
+_$id_ = ''], [**string**
+_$value_ = ''], [**string**
+_$width_ = '']**);**
+
+
+Overrides TextBox::construct() (Constructor TextBox)
+
+
+
+**Parameters**
+> _$page\_or\_form\_object_
+> _$name_
+> _$id_
+> _$value_
+> _$width_
+
+**Remarks**
+
+Constructor Calendar
+
+
+
+
+# Calendar::changeMonth #
+
+**changeMonth(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method changeMonth
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Calendar::changeYear #
+
+**changeYear(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method changeYear
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Calendar::getConvertedDateFormat #
+
+**getConvertedDateFormat(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getConvertedDateFormat
+
+
+**since:** 1.2.6
+
+**access:** public
+
+
+
+# Calendar::getDateFormat #
+
+**getDateFormat(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getDateFormat
+
+
+**since:** 1.2.6
+
+**access:** public
+
+
+
+# Calendar::getValue #
+
+**getValue(**
+**);**
+
+
+Overrides TextBox::getValue() (Method getValue)
+
+
+
+**Remarks**
+
+Method getValue
+
+
+**since:** 1.0.99
+
+**access:** public
+
+
+
+# Calendar::getValueStr #
+
+**getValueStr(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getValueStr
+
+
+**since:** 1.1.6
+
+**access:** public
+
+
+
+# Calendar::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides TextBox::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object Calendar
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Calendar::selectOtherMonths #
+
+**selectOtherMonths(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method selectOtherMonths
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Calendar::setAutoComplete #
+
+**setAutoComplete(**
+**mixed**
+_$autocomplete\_object_**);**
+
+
+Overrides TextBox::setAutoComplete() (Method setAutoComplete)
+
+
+
+**Parameters**
+> _$autocomplete\_object_
+
+**Remarks**
+
+Method setAutoComplete
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Calendar::setDateFormat #
+
+**setDateFormat(**
+**mixed**
+_$dateFormat_**);**
+
+
+
+
+
+**Parameters**
+> _$dateFormat_
+
+**Remarks**
+
+Method setDateFormat
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Calendar::setDayNames #
+
+**setDayNames(**
+[**mixed**
+_$dayNames_ = array()], [
+_$dayNamesShort_ = array()], [
+_$dayNamesMin_ = array()]**);**
+
+
+
+
+
+**Parameters**
+> _$dayNames_ [value: array(](default.md)
+> _$dayNamesShort_
+> _$dayNamesMin_
+
+**Remarks**
+
+Method setDayNames
+
+
+**since:** 1.1.11
+
+**access:** public
+
+
+
+# Calendar::setFirstDay #
+
+**setFirstDay(**
+**mixed**
+_$firstDay_**);**
+
+
+
+
+
+**Parameters**
+> _$firstDay_
+
+**Remarks**
+
+Method setFirstDay
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Calendar::setMaxDate #
+
+**setMaxDate(**
+**mixed**
+_$maxDate_**);**
+
+
+
+
+
+**Parameters**
+> _$maxDate_
+
+**Remarks**
+
+Method setMaxDate
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Calendar::setMinDate #
+
+**setMinDate(**
+**mixed**
+_$minDate_**);**
+
+
+
+
+
+**Parameters**
+> _$minDate_
+
+**Remarks**
+
+Method setMinDate
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Calendar::setMonthNames #
+
+**setMonthNames(**
+[**mixed**
+_$monthNames_ = array()], [
+_$monthNamesShort_ = array()]**);**
+
+
+
+
+
+**Parameters**
+> _$monthNames_ [value: array(](default.md)
+> _$monthNamesShort_
+
+**Remarks**
+
+Method setMonthNames
+
+
+**since:** 1.1.11
+
+**access:** public
+
+
+
+# Calendar::setNumberOfMonths #
+
+**setNumberOfMonths(**
+**mixed**
+_$numberOfMonths_**);**
+
+
+
+
+
+**Parameters**
+> _$numberOfMonths_
+
+**Remarks**
+
+Method setNumberOfMonths
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Calendar::setShowAnim #
+
+**setShowAnim(**
+**mixed**
+_$showAnim_**);**
+
+
+
+
+
+**Parameters**
+> _$showAnim_
+
+**Remarks**
+
+Method setShowAnim
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Calendar::showButtonPanel #
+
+**showButtonPanel(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method showButtonPanel
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Calendar::showOtherMonths #
+
+**showOtherMonths(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method showOtherMonths
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Calendar::showWeek #
+
+**showWeek(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method showWeek
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+**`ANIMATION_BLIND` = ` 'blind'` (line 36)**
+
+
+**Remarks**
+
+Calendar Animation
+
+
+**access:** public
+
+
+**`ANIMATION_BOUNCE` = ` 'bounce'` (line 37)**
+
+
+**Remarks**
+
+Calendar Animation
+
+
+**access:** public
+
+
+**`ANIMATION_CLIP` = ` 'clip'` (line 38)**
+
+
+**Remarks**
+
+Calendar Animation
+
+
+**access:** public
+
+
+**`ANIMATION_DROP` = ` 'drop'` (line 39)**
+
+
+**Remarks**
+
+Calendar Animation
+
+
+**access:** public
+
+
+**`ANIMATION_FADEIN` = ` 'fadeIn'` (line 35)**
+
+
+**Remarks**
+
+Calendar Animation
+
+
+**access:** public
+
+
+**`ANIMATION_FOLD` = ` 'fold'` (line 40)**
+
+
+**Remarks**
+
+Calendar Animation
+
+
+**access:** public
+
+
+**`ANIMATION_SHOW` = ` 'show'` (line 33)**
+
+
+**Remarks**
+
+Calendar Animation
+
+
+**access:** public
+
+
+**`ANIMATION_SLIDE` = ` 'slide'` (line 41)**
+
+
+**Remarks**
+
+Calendar Animation
+
+
+**access:** public
+
+
+**`ANIMATION_SLIDESHOW` = ` 'slideDown'` (line 34)**
+
+
+**Remarks**
+
+Calendar Animation
+
+
+**access:** public
+
+
+**`DATE_FORMAT_ENGLISH` = ` 'mm-dd-yy'` (line 49)**
+
+
+**Remarks**
+
+Calendar Date Format
+
+
+**access:** public
+
+
+**`DATE_FORMAT_FRENCH` = ` 'dd/mm/yy'` (line 50)**
+
+
+**Remarks**
+
+Calendar Date Format
+
+
+**access:** public
+
+
+**`DATE_FORMAT_GERMAN` = ` 'dd.mm.yy'` (line 51)**
+
+
+**Remarks**
+
+Calendar Date Format
+
+
+**access:** public
+
+
+
+
+---

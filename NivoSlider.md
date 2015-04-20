@@ -1,0 +1,454 @@
+# Class NivoSlider #
+
+WebSitePhpObject
+> |
+> --NivoSlider
+
+
+
+Location: /modules/Slider/NivoSlider.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class NivoSlider
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.7
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.2.1
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+  * `THEME_BAR` = ` 'bar'`
+
+
+  * `THEME_DARK` = ` 'dark'`
+
+
+  * `THEME_DEFAULT` = ` 'default'`
+
+
+  * `THEME_LIGHT` = ` 'light'`
+
+
+  * `TRANSITION_BOXRAIN` = ` 'boxRain'`
+
+
+  * `TRANSITION_BOXRAINGROW` = ` 'boxRainGrow'`
+
+
+  * `TRANSITION_BOXRAINGROWREVERSE` = ` 'boxRainGrowReverse'`
+
+
+  * `TRANSITION_BOXRAINREVERSE` = ` 'boxRainReverse'`
+
+
+  * `TRANSITION_BOXRANDOM` = ` 'boxRandom'`
+
+
+  * `TRANSITION_FADE` = ` 'fade'`
+
+
+  * `TRANSITION_FOLD` = ` 'fold'`
+
+
+  * `TRANSITION_RANDOM` = ` 'random'`
+
+
+  * `TRANSITION_SLICEDOWN` = ` 'sliceDown'`
+
+
+  * `TRANSITION_SLICEDOWNLEFT` = ` 'sliceDownLeft'`
+
+
+  * `TRANSITION_SLICEUP` = ` 'sliceUp'`
+
+
+  * `TRANSITION_SLICEUPDOWN` = ` 'sliceUpDown'`
+
+
+  * `TRANSITION_SLICEUPDOWNLEFT` = ` 'sliceUpDownLeft'`
+
+
+  * `TRANSITION_SLICEUPLEFT` = ` 'sliceUpLeft'`
+
+
+  * `TRANSITION_SLIDEINLEFT` = ` 'slideInLeft'`
+
+
+  * `TRANSITION_SLIDEINRIGHT` = ` 'slideInRight'`
+
+
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# NivoSlider::construct #
+
+**construct(**
+[**string**
+_$id_ = 'nivo-1'], [**string**
+_$width_ = ''], [**string**
+_$height_ = ''], [**string**
+_$transition_ = 'random'], [**string**
+_$rotate\_time_ = ''], [**string**
+_$theme_ = 'default']**);**
+
+
+Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Parameters**
+> _$id_ [value: nivo-1](default.md)
+> _$width_
+> _$height_
+> _$transition_ [value: random](default.md)
+> _$rotate\_time_
+> _$theme_ [value: default](default.md)
+
+**Remarks**
+
+Constructor NivoSlider
+
+
+
+
+# NivoSlider::addImage #
+
+**addImage(**
+**mixed**
+_$src_, [**string**
+_$src\_thumbnail_ = ''], [**string**
+_$title_ = ''], [**string**
+_$link_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$src_
+> _$src\_thumbnail_
+> _$title_
+> _$link_
+
+**Remarks**
+
+Method addImage
+
+
+**since:** 1.2.1
+
+**access:** public
+
+
+
+# NivoSlider::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object NivoSlider
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.2.1
+
+**access:** public
+
+
+
+# NivoSlider::setHeight #
+
+**setHeight(**
+**integer**
+_$height_**);**
+
+
+
+
+
+**Parameters**
+> _$height_
+
+**Remarks**
+
+Method setHeight
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# NivoSlider::setPictureListHeight #
+
+**setPictureListHeight(**
+**integer**
+_$height_**);**
+
+
+
+
+
+**Parameters**
+> _$height_
+
+**Remarks**
+
+Method setPictureListHeight
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# NivoSlider::setStyle #
+
+**setStyle(**
+**mixed**
+_$style_**);**
+
+
+
+
+
+**Parameters**
+> _$style_
+
+**Remarks**
+
+Method setStyle
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# NivoSlider::setWidth #
+
+**setWidth(**
+**integer**
+_$width_**);**
+
+
+
+
+
+**Parameters**
+> _$width_
+
+**Remarks**
+
+Method setWidth
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+**`THEME_BAR` = ` 'bar'` (line 48)**
+
+
+**`THEME_DARK` = ` 'dark'` (line 47)**
+
+
+**`THEME_DEFAULT` = ` 'default'` (line 45)**
+
+
+**`THEME_LIGHT` = ` 'light'` (line 46)**
+
+
+**`TRANSITION_BOXRAIN` = ` 'boxRain'` (line 40)**
+
+
+**`TRANSITION_BOXRAINGROW` = ` 'boxRainGrow'` (line 42)**
+
+
+**`TRANSITION_BOXRAINGROWREVERSE` = ` 'boxRainGrowReverse'` (line 43)**
+
+
+**`TRANSITION_BOXRAINREVERSE` = ` 'boxRainReverse'` (line 41)**
+
+
+**`TRANSITION_BOXRANDOM` = ` 'boxRandom'` (line 39)**
+
+
+**`TRANSITION_FADE` = ` 'fade'` (line 36)**
+
+
+**`TRANSITION_FOLD` = ` 'fold'` (line 35)**
+
+
+**`TRANSITION_RANDOM` = ` 'random'` (line 28)**
+
+
+**`TRANSITION_SLICEDOWN` = ` 'sliceDown'` (line 29)**
+
+
+**`TRANSITION_SLICEDOWNLEFT` = ` 'sliceDownLeft'` (line 30)**
+
+
+**`TRANSITION_SLICEUP` = ` 'sliceUp'` (line 31)**
+
+
+**`TRANSITION_SLICEUPDOWN` = ` 'sliceUpDown'` (line 33)**
+
+
+**`TRANSITION_SLICEUPDOWNLEFT` = ` 'sliceUpDownLeft'` (line 34)**
+
+
+**`TRANSITION_SLICEUPLEFT` = ` 'sliceUpLeft'` (line 32)**
+
+
+**`TRANSITION_SLIDEINLEFT` = ` 'slideInLeft'` (line 38)**
+
+
+**`TRANSITION_SLIDEINRIGHT` = ` 'slideInRight'` (line 37)**
+
+
+
+
+---

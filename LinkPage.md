@@ -1,0 +1,345 @@
+# Class LinkPage #
+
+WebSitePhpObject
+> |
+> --LinkPage
+
+
+
+Location: /display/LinkPage.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class LinkPage
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.7
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.17
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# LinkPage::construct #
+
+**construct(**
+**mixed**
+_$page_, **mixed**
+_$title\_object_, [**string**
+_$picture\_16_ = '']**);**
+
+
+Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Parameters**
+> _$page_
+> _$title\_object_
+> _$picture\_16_
+
+**Remarks**
+
+Constructor LinkPage
+
+
+
+
+# LinkPage::getUserHaveRights #
+
+**getUserHaveRights(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getUserHaveRights
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# LinkPage::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# LinkPage::setGetParameters #
+
+**setGetParameters(**
+**mixed**
+_$get_**);**
+
+
+
+
+
+**Parameters**
+> _$get_
+
+**Remarks**
+
+Method setGetParameters
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# LinkPage::setTitleTagH #
+
+**setTitleTagH(**
+**mixed**
+_$value_, [**boolean**
+_$bold_ = false]**);**
+
+
+
+
+
+**Parameters**
+> _$value_
+> _$bold_ [value: false](default.md)
+
+**Remarks**
+
+Method setTitleTagH
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# LinkPage::setTitleTagH1 #
+
+**setTitleTagH1(**
+[**boolean**
+_$bold_ = true]**);**
+
+
+
+
+
+**Parameters**
+> _$bold_ [value: true](default.md)
+
+**Remarks**
+
+Method setTitleTagH1
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# LinkPage::setTitleTagH2 #
+
+**setTitleTagH2(**
+[**boolean**
+_$bold_ = false]**);**
+
+
+
+
+
+**Parameters**
+> _$bold_ [value: false](default.md)
+
+**Remarks**
+
+Method setTitleTagH2
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# LinkPage::setTrackEvent #
+
+**setTrackEvent(**
+**mixed**
+_$category_, **mixed**
+_$action_, [**string**
+_$label_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$category_
+> _$action_
+> _$label_
+
+**Remarks**
+
+Method setTrackEvent
+
+
+**since:** 1.0.99
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+
+
+---

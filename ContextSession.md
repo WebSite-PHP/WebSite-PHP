@@ -1,0 +1,168 @@
+# Class ContextSession #
+
+
+
+
+
+Location: /utils/ContextSession.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class ContextSession
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.7
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+
+
+---
+
+## Method Summary ##
+
+  * `static void add()`
+> Method add
+    * `static mixed get()`
+> Method get
+    * `static mixed toString()`
+> Method toString
+    * `void add()`
+> Method add
+    * `mixed get()`
+> Method get
+    * `mixed toString()`
+> Method toString
+
+## Inherited Method Summary ##
+
+
+---
+
+## Method Detail ##
+
+
+# static ContextSession::add #
+
+**static add(**
+**mixed**
+_$key_, **mixed**
+_$string\_or\_object_**);**
+
+
+
+
+
+**Parameters**
+> _$key_
+> _$string\_or\_object_
+
+**Remarks**
+
+Method add
+
+
+**since:** 1.0.59
+
+**access:** public
+
+
+
+# static ContextSession::get #
+
+**static get(**
+**mixed**
+_$key_**);**
+
+
+
+
+
+**Parameters**
+> _$key_
+
+**Remarks**
+
+Method get
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# static ContextSession::toString #
+
+**static toString(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method toString
+
+
+**since:** 1.0.67
+
+**access:** public
+
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+
+
+---

@@ -1,0 +1,1576 @@
+# Class Table #
+
+WebSitePhpObject
+> |
+> --Table
+
+
+
+Location: /display/Table.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class Table
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.8
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.17
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+  * `BORDER_STYLE_DASHED` = ` 'dashed'`
+
+> border style properties
+    * `BORDER_STYLE_DOTTED` = ` 'dotted'`
+
+> border style properties
+    * `BORDER_STYLE_DOUBLE` = ` 'double'`
+
+> border style properties
+    * `BORDER_STYLE_GROOVE` = ` 'groove'`
+
+> border style properties
+    * `BORDER_STYLE_INSET` = ` 'inset'`
+
+> border style properties
+    * `BORDER_STYLE_OUTSET` = ` 'outset'`
+
+> border style properties
+    * `BORDER_STYLE_RIDGE` = ` 'ridge'`
+
+> border style properties
+    * `BORDER_STYLE_SOLID` = ` 'solid'`
+
+> border style properties
+    * `COL_FILTER_POSITION_BOTTOM` = ` 'bottom'`
+
+> column filter position properties
+    * `COL_FILTER_POSITION_TOP` = ` 'top'`
+
+> column filter position properties
+    * `COL_TYPE_ALT_STRING` = ` 'alt-string'`
+
+> column type properties
+    * `COL_TYPE_ANTI_THE` = ` 'anti-the'`
+
+> column type properties
+    * `COL_TYPE_CURRENCY` = ` 'currency'`
+
+> column type properties
+    * `COL_TYPE_DATE` = ` 'date'`
+
+> column type properties
+    * `COL_TYPE_DATE_EURO` = ` 'date-euro'`
+
+> column type properties
+    * `COL_TYPE_FILE_SIZE` = ` 'file-size'`
+
+> column type properties
+    * `COL_TYPE_FORMATTED_NUM` = ` 'formatted-num'`
+
+> column type properties
+    * `COL_TYPE_HTML` = ` 'html'`
+
+> column type properties
+    * `COL_TYPE_IP_ADDRESS` = ` 'ip-address'`
+
+> column type properties
+    * `COL_TYPE_MONTHYEAR_SORT` = ` 'monthYear-sort'`
+
+> column type properties
+    * `COL_TYPE_NUMERIC` = ` 'numeric'`
+
+> column type properties
+    * `COL_TYPE_NUMERIC_COMMA` = ` 'numeric-comma'`
+
+> column type properties
+    * `COL_TYPE_NUM_HTML` = ` 'num-html'`
+
+> column type properties
+    * `COL_TYPE_PERCENT` = ` 'percent'`
+
+> column type properties
+    * `COL_TYPE_PRIORITY` = ` 'priority'`
+
+> column type properties
+    * `COL_TYPE_SIGNED_NUM` = ` 'signed-num'`
+
+> column type properties
+    * `COL_TYPE_STRING` = ` 'string'`
+
+> column type properties
+    * `COL_TYPE_TITLE_NUMERIC` = ` 'title-numeric'`
+
+> column type properties
+    * `COL_TYPE_TITLE_STRING` = ` 'title-string'`
+
+> column type properties
+    * `COL_TYPE_UK_DATE` = ` 'uk_date'`
+
+> column type properties
+    * `COL_TYPE_VALUE_NUMERIC` = ` 'value-numeric'`
+
+> column type properties
+    * `COL_TYPE_VALUE_STRING` = ` 'value-string'`
+
+> column type properties
+    * `FONT_ARIAL` = ` 'Arial'`
+
+> Font family
+    * `FONT_TIMES` = ` 'Times New Roman'`
+
+> Font family
+    * `FONT_WEIGHT_BOLD` = ` 'bold'`
+
+> Font weight
+    * `FONT_WEIGHT_NONE` = ` 'none'`
+
+> Font weight
+    * `STYLE_MAIN` = ` '1'`
+
+> Table style
+    * `STYLE_MAIN_ROUNDBOX` = ` '1 table_1_round'`
+
+> Table style
+    * `STYLE_SECOND` = ` '2'`
+
+> Table style
+    * `STYLE_SECOND_ROUNDBOX` = ` '2 table_2_round'`
+
+> Table style
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# Table::construct #
+
+**construct(**
+[**integer**
+_$cellpadding_ = 0], [**integer**
+_$cellspacing_ = 0], [**string**
+_$width_ = ''], [**string**
+_$default\_align_ = ''], [**string**
+_$default\_valign_ = '']**);**
+
+
+Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Parameters**
+> _$cellpadding_ [value: 0](default.md)
+> _$cellspacing_ [value: 0](default.md)
+> _$width_
+> _$default\_align_
+> _$default\_valign_
+
+**Remarks**
+
+Constructor Table
+
+
+
+
+# Table::activateAdvanceTable #
+
+**activateAdvanceTable(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method activateAdvanceTable
+
+
+**since:** 1.0.96
+
+**access:** public
+
+
+
+# Table::activateAdvanceTableInfo #
+
+**activateAdvanceTableInfo(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method activateAdvanceTableInfo
+
+
+**since:** 1.0.96
+
+**access:** public
+
+
+
+# Table::activateColumnsFilter #
+
+**activateColumnsFilter(**
+[**string**
+_$column\_filter\_params_ = ''], [**string**
+_$position_ = 'top']**);**
+
+
+
+
+
+**Parameters**
+> _$column\_filter\_params_
+> _$position_ [value: top](default.md)
+
+**Remarks**
+
+Method activateColumnsFilter
+
+
+**since:** 1.1.7
+
+**access:** public
+
+
+
+# Table::activateFixeHeader #
+
+**activateFixeHeader(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method activateFixeHeader
+
+
+**since:** 1.1.7
+
+**access:** public
+
+
+
+# Table::activateHorizontalScroll #
+
+**activateHorizontalScroll(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method activateHorizontalScroll
+
+
+**since:** 1.1.7
+
+**access:** public
+
+
+
+# Table::activatePagination #
+
+**activatePagination(**
+[**double**
+_$nb\_row\_per\_page_ = 10], [**boolean**
+_$style\_full\_numbers_ = false]**);**
+
+
+
+
+
+**Parameters**
+> _$nb\_row\_per\_page_ [value: 10](default.md)
+> _$style\_full\_numbers_ [value: false](default.md)
+
+**Remarks**
+
+Method activatePagination
+
+
+**since:** 1.0.96
+
+**access:** public
+
+
+
+# Table::activateSearch #
+
+**activateSearch(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method activateSearch
+
+
+**since:** 1.0.96
+
+**access:** public
+
+
+
+# Table::activateSort #
+
+**activateSort(**
+**mixed**
+_$sort\_col\_number_, [**string**
+_$sort\_order_ = 'asc']**);**
+
+
+
+
+
+**Parameters**
+> _$sort\_col\_number_
+> _$sort\_order_ [value: asc](default.md)
+
+**Remarks**
+
+Method activateSort
+
+
+**since:** 1.0.96
+
+**access:** public
+
+
+
+# Table::activateVerticalScroll #
+
+**activateVerticalScroll(**
+[**double**
+_$height_ = 200]**);**
+
+
+
+
+
+**Parameters**
+> _$height_ [value: 200](default.md)
+
+**Remarks**
+
+Method activateVerticalScroll
+
+
+**since:** 1.1.7
+
+**access:** public
+
+
+
+# Table::addRow #
+
+**addRow(**
+[**mixed**
+_$row_ = null], [**string**
+_$align_ = ''], [**string**
+_$valign_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$row_ [value: null](default.md)
+> _$align_
+> _$valign_
+
+**Remarks**
+
+Method addRow
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Table::addRowColumns #
+
+**addRowColumns(**
+[**mixed**
+_$object_ = null], [**mixed**
+_$object2_ = null], [**mixed**
+_$object3_ = null], [**mixed**
+_$object4_ = null], [**mixed**
+_$object5_ = null]**);**
+
+
+
+
+
+**Parameters**
+> _$object_ [value: null](default.md)
+> _$object2_ [value: null](default.md)
+> _$object3_ [value: null](default.md)
+> _$object4_ [value: null](default.md)
+> _$object5_ [value: null](default.md)
+
+**Remarks**
+
+Method addRowColumns
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Table::deleteAllRows #
+
+**deleteAllRows(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method deleteAllRows
+
+
+**since:** 1.0.97
+
+**access:** public
+
+
+
+# Table::deleteRow #
+
+**deleteRow(**
+**mixed**
+_$row\_table\_id_, [**boolean**
+_$catch\_exception_ = true]**);**
+
+
+
+
+
+**Parameters**
+> _$row\_table\_id_
+> _$catch\_exception_ [value: true](default.md)
+
+**Remarks**
+
+Method deleteRow
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Table::getAjaxRender #
+
+**getAjaxRender(**
+**);**
+
+
+Overrides WebSitePhpObject::getAjaxRender() (Method getAjaxRender)
+
+
+
+**Returns**
+> javascript code to update initial html of object Table (call with AJAX)
+
+**Remarks**
+
+Method getAjaxRender
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Table::getId #
+
+**getId(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getId
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Table::getMaxNbColumns #
+
+**getMaxNbColumns(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getMaxNbColumns
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Table::getNbRows #
+
+**getNbRows(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getNbRows
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Table::isEmpty #
+
+**isEmpty(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isEmpty
+
+
+**since:** 1.2.3
+
+**access:** public
+
+
+
+# Table::loadFromSqlDataView #
+
+**loadFromSqlDataView(**
+**mixed**
+_$sql_, [**mixed**
+_$properties_ = array()], [
+_$insert_ = false], [
+_$update_ = false], [
+_$delete_ = false]**);**
+
+
+
+
+
+**Parameters**
+> _$sql_
+> _$properties_ [value: array(](default.md)
+> _$insert_
+> _$update_
+> _$delete_
+
+**Remarks**
+
+Method loadFromSqlDataView
+
+
+**since:** 1.1.6
+
+**access:** public
+
+
+
+# Table::onChangeTableFromSqlDataView #
+
+**onChangeTableFromSqlDataView(**
+**mixed**
+_$sender_**);**
+
+
+
+
+
+**Parameters**
+> _$sender_
+
+**Remarks**
+
+Method onChangeTableFromSqlDataView
+
+
+**since:** 1.1.6
+
+**access:** public
+
+
+
+# Table::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object Table
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Table::setAdvanceTableColumnType #
+
+**setAdvanceTableColumnType(**
+**mixed**
+_$col\_number_, [**string**
+_$type_ = 'html']**);**
+
+
+
+
+
+**Parameters**
+> _$col\_number_
+> _$type_ [value: html](default.md)
+
+**Remarks**
+
+Method setAdvanceTableColumnType
+
+
+**since:** 1.0.99
+
+**access:** public
+
+
+
+# Table::setAjaxRefreshAllTable #
+
+**setAjaxRefreshAllTable(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setAjaxRefreshAllTable
+
+
+**since:** 1.0.95
+
+**access:** public
+
+
+
+# Table::setBorder #
+
+**setBorder(**
+[**integer**
+_$border_ = 1], [**string**
+_$border\_color_ = &quot;grey&quot;], [**string**
+_$border\_style_ = &quot;solid&quot;]**);**
+
+
+
+
+
+**Parameters**
+> _$border_ [value: 1](default.md)
+> _$border\_color_ [value: grey](default.md)
+> _$border\_style_ [value: solid](default.md)
+
+**Remarks**
+
+Method setBorder
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Table::setCellpadding #
+
+**setCellpadding(**
+**integer**
+_$cellpadding_**);**
+
+
+
+
+
+**Parameters**
+> _$cellpadding_
+
+**Remarks**
+
+Method setCellpadding
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Table::setCellspacing #
+
+**setCellspacing(**
+**integer**
+_$cellspacing_**);**
+
+
+
+
+
+**Parameters**
+> _$cellspacing_
+
+**Remarks**
+
+Method setCellspacing
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Table::setClass #
+
+**setClass(**
+**string**
+_$class_**);**
+
+
+
+
+
+**Parameters**
+> _$class_
+
+**Remarks**
+
+Method setClass
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Table::setDefaultAlign #
+
+**setDefaultAlign(**
+**string**
+_$default\_align_**);**
+
+
+
+
+
+**Parameters**
+> _$default\_align_
+
+**Remarks**
+
+Method setDefaultAlign
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Table::setDefaultValign #
+
+**setDefaultValign(**
+**string**
+_$default\_valign_**);**
+
+
+
+
+
+**Parameters**
+> _$default\_valign_
+
+**Remarks**
+
+Method setDefaultValign
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Table::setFont #
+
+**setFont(**
+**integer**
+_$font\_size_, **string**
+_$font\_family_, **string**
+_$font\_weight_**);**
+
+
+
+
+
+**Parameters**
+> _$font\_size_
+> _$font\_family_
+> _$font\_weight_
+
+**Remarks**
+
+Method setFont
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Table::setHeight #
+
+**setHeight(**
+**integer**
+_$height_**);**
+
+
+
+
+
+**Parameters**
+> _$height_
+
+**Remarks**
+
+Method setHeight
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Table::setId #
+
+**setId(**
+**mixed**
+_$id_**);**
+
+
+
+
+
+**Parameters**
+> _$id_
+
+**Remarks**
+
+Method setId
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Table::setStyle #
+
+**setStyle(**
+**mixed**
+_$style_**);**
+
+
+
+
+
+**Parameters**
+> _$style_
+
+**Remarks**
+
+Method setStyle
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+# Table::setTitle #
+
+**setTitle(**
+**mixed**
+_$title_**);**
+
+
+
+
+
+**Parameters**
+> _$title_
+
+**Remarks**
+
+Method setTitle
+
+
+**since:** 1.0.97
+
+**access:** public
+
+
+
+# Table::setWidth #
+
+**setWidth(**
+**integer**
+_$width_**);**
+
+
+
+
+
+**Parameters**
+> _$width_
+
+**Remarks**
+
+Method setWidth
+
+
+**since:** 1.0.36
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+**`BORDER_STYLE_DASHED` = ` 'dashed'` (line 43)**
+
+
+**Remarks**
+
+border style properties
+
+
+**access:** public
+
+
+**`BORDER_STYLE_DOTTED` = ` 'dotted'` (line 42)**
+
+
+**Remarks**
+
+border style properties
+
+
+**access:** public
+
+
+**`BORDER_STYLE_DOUBLE` = ` 'double'` (line 45)**
+
+
+**Remarks**
+
+border style properties
+
+
+**access:** public
+
+
+**`BORDER_STYLE_GROOVE` = ` 'groove'` (line 46)**
+
+
+**Remarks**
+
+border style properties
+
+
+**access:** public
+
+
+**`BORDER_STYLE_INSET` = ` 'inset'` (line 48)**
+
+
+**Remarks**
+
+border style properties
+
+
+**access:** public
+
+
+**`BORDER_STYLE_OUTSET` = ` 'outset'` (line 49)**
+
+
+**Remarks**
+
+border style properties
+
+
+**access:** public
+
+
+**`BORDER_STYLE_RIDGE` = ` 'ridge'` (line 47)**
+
+
+**Remarks**
+
+border style properties
+
+
+**access:** public
+
+
+**`BORDER_STYLE_SOLID` = ` 'solid'` (line 44)**
+
+
+**Remarks**
+
+border style properties
+
+
+**access:** public
+
+
+**`COL_FILTER_POSITION_BOTTOM` = ` 'bottom'` (line 87)**
+
+
+**Remarks**
+
+column filter position properties
+
+
+**access:** public
+
+
+**`COL_FILTER_POSITION_TOP` = ` 'top'` (line 86)**
+
+
+**Remarks**
+
+column filter position properties
+
+
+**access:** public
+
+
+**`COL_TYPE_ALT_STRING` = ` 'alt-string'` (line 61)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_ANTI_THE` = ` 'anti-the'` (line 62)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_CURRENCY` = ` 'currency'` (line 64)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_DATE` = ` 'date'` (line 59)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_DATE_EURO` = ` 'date-euro'` (line 65)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_FILE_SIZE` = ` 'file-size'` (line 67)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_FORMATTED_NUM` = ` 'formatted-num'` (line 68)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_HTML` = ` 'html'` (line 60)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_IP_ADDRESS` = ` 'ip-address'` (line 73)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_MONTHYEAR_SORT` = ` 'monthYear-sort'` (line 74)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_NUMERIC` = ` 'numeric'` (line 58)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_NUMERIC_COMMA` = ` 'numeric-comma'` (line 63)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_NUM_HTML` = ` 'num-html'` (line 75)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_PERCENT` = ` 'percent'` (line 76)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_PRIORITY` = ` 'priority'` (line 77)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_SIGNED_NUM` = ` 'signed-num'` (line 78)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_STRING` = ` 'string'` (line 57)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_TITLE_NUMERIC` = ` 'title-numeric'` (line 69)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_TITLE_STRING` = ` 'title-string'` (line 71)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_UK_DATE` = ` 'uk_date'` (line 66)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_VALUE_NUMERIC` = ` 'value-numeric'` (line 70)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`COL_TYPE_VALUE_STRING` = ` 'value-string'` (line 72)**
+
+
+**Remarks**
+
+column type properties
+
+
+**access:** public
+
+
+**`FONT_ARIAL` = ` 'Arial'` (line 95)**
+
+
+**Remarks**
+
+Font family
+
+
+**access:** public
+
+
+**`FONT_TIMES` = ` 'Times New Roman'` (line 96)**
+
+
+**Remarks**
+
+Font family
+
+
+**access:** public
+
+
+**`FONT_WEIGHT_BOLD` = ` 'bold'` (line 104)**
+
+
+**Remarks**
+
+Font weight
+
+
+**access:** public
+
+
+**`FONT_WEIGHT_NONE` = ` 'none'` (line 105)**
+
+
+**Remarks**
+
+Font weight
+
+
+**access:** public
+
+
+**`STYLE_MAIN` = ` '1'` (line 31)**
+
+
+**Remarks**
+
+Table style
+
+
+**access:** public
+
+
+**`STYLE_MAIN_ROUNDBOX` = ` '1 table_1_round'` (line 33)**
+
+
+**Remarks**
+
+Table style
+
+
+**access:** public
+
+
+**`STYLE_SECOND` = ` '2'` (line 32)**
+
+
+**Remarks**
+
+Table style
+
+
+**access:** public
+
+
+**`STYLE_SECOND_ROUNDBOX` = ` '2 table_2_round'` (line 34)**
+
+
+**Remarks**
+
+Table style
+
+
+**access:** public
+
+
+
+
+---

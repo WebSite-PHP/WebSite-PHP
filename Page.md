@@ -1,0 +1,3209 @@
+# Class Page #
+
+AbstractPage
+> |
+> --Page
+
+
+
+Location: /display/Page.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Abstract Class AbstractPage
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.7
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+
+
+---
+
+## Class Variable Summary ##
+  * `static $PAGE_DESCRIPTION` = ` ''`
+
+
+  * `static $PAGE_KEYWORDS` = ` ''`
+
+
+  * `static $PAGE_META_GOOGLEBOTS` = ` ''`
+
+
+  * `static $PAGE_META_IPHONE_IMAGE_57PX` = ` ''`
+
+
+  * `static $PAGE_META_IPHONE_IMAGE_72PX` = ` ''`
+
+
+  * `static $PAGE_META_IPHONE_IMAGE_114PX` = ` ''`
+
+
+  * `static $PAGE_META_OPENGRAPH_IMAGE` = ` ''`
+
+
+  * `static $PAGE_META_OPENGRAPH_TYPE` = ` ''`
+
+
+  * `static $PAGE_META_REVISIT_AFTER` = ` ''`
+
+
+  * `static $PAGE_META_ROBOTS` = ` ''`
+
+
+  * `static $PAGE_TITLE` = ` ''`
+
+
+  * `$PAGE_CACHING` = ` false`
+
+
+  * `$render` = ` null`
+
+
+  * `$USER_NO_RIGHTS_REDIRECT` = ` ''`
+
+
+  * `$USER_RIGHTS` = ` ''`
+
+
+
+
+---
+
+## Class Constant Summary ##
+
+  * `CACHE_TIME_1DAY` = ` 86400`
+
+> cache time
+    * `CACHE_TIME_1HOUR` = ` 3600`
+
+> cache time
+    * `CACHE_TIME_1MIN` = ` 60`
+
+> cache time
+    * `CACHE_TIME_1MONTH` = ` 2678400`
+
+> cache time
+    * `CACHE_TIME_1YEAR` = ` 31536000`
+
+> cache time
+    * `CACHE_TIME_2DAYS` = ` 172800`
+
+> cache time
+    * `CACHE_TIME_2HOURS` = ` 7200`
+
+> cache time
+    * `CACHE_TIME_2MIN` = ` 120`
+
+> cache time
+    * `CACHE_TIME_2MONTHS` = ` 5270400`
+
+> cache time
+    * `CACHE_TIME_2YEARS` = ` 63072000`
+
+> cache time
+    * `CACHE_TIME_3DAYS` = ` 259200`
+
+> cache time
+    * `CACHE_TIME_3HOURS` = ` 10800`
+
+> cache time
+    * `CACHE_TIME_3MONTHS` = ` 8035200`
+
+> cache time
+    * `CACHE_TIME_4DAYS` = ` 345600`
+
+> cache time
+    * `CACHE_TIME_4HOURS` = ` 14400`
+
+> cache time
+    * `CACHE_TIME_4MONTHS` = ` 10713600`
+
+> cache time
+    * `CACHE_TIME_6HOURS` = ` 21600`
+
+> cache time
+    * `CACHE_TIME_6MONTHS` = ` 15724800`
+
+> cache time
+    * `CACHE_TIME_7DAYS` = ` 604800`
+
+> cache time
+    * `CACHE_TIME_8HOURS` = ` 28800`
+
+> cache time
+    * `CACHE_TIME_10HOURS` = ` 36000`
+
+> cache time
+    * `CACHE_TIME_10MIN` = ` 600`
+
+> cache time
+    * `CACHE_TIME_12HOURS` = ` 43200`
+
+> cache time
+    * `CACHE_TIME_14DAYS` = ` 1209600`
+
+> cache time
+    * `CACHE_TIME_20MIN` = ` 1200`
+
+> cache time
+    * `CACHE_TIME_30MIN` = ` 1800`
+
+> cache time
+    * `META_ROBOTS_INDEX_FOLLOW` = ` 'index, follow'`
+
+> meta robots
+    * `META_ROBOTS_INDEX_NOFOLLOW` = ` 'index, nofollow'`
+
+> meta robots
+    * `META_ROBOTS_NOINDEX_FOLLOW` = ` 'noindex, follow'`
+
+> meta robots
+    * `META_ROBOTS_NOINDEX_NOFOLLOW` = ` 'noindex, nofollow'`
+
+> meta robots
+    * `OPENGRAPH_TYPE_ACTIVITY` = ` 'activity'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_ACTOR` = ` 'actor'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_ALBUM` = ` 'album'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_ARTICLE` = ` 'article'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_ATHLETE` = ` 'athlete'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_AUTHOR` = ` 'author'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_BAND` = ` 'band'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_BAR` = ` 'bar'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_BLOG` = ` 'blog'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_BOOK` = ` 'book'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_CAFE` = ` 'cafe'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_CAUSE` = ` 'cause'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_CITY` = ` 'city'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_COMPANY` = ` 'company'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_COUNTRY` = ` 'country'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_DIRECTOR` = ` 'director'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_DRINK` = ` 'drink'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_FOOD` = ` 'food'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_GAME` = ` 'game'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_GOVERNMENT` = ` 'government'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_HOTEL` = ` 'hotel'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_LANDMARK` = ` 'landmark'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_MOVIE` = ` 'movie'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_MUSICIAN` = ` 'musician'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_NON_PROFIT` = ` 'non_profit'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_POLITICIAN` = ` 'politician'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_PRODUCT` = ` 'product'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_PROFILE` = ` 'profile'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_PUBLIC_FIGURE` = ` 'public_figure'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_RESTAURANT` = ` 'restaurant'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_SCHOOL` = ` 'school'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_SONG` = ` 'song'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_SPORT` = ` 'sport'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_SPORTS_LEAGUE` = ` 'sports_league'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_SPORTS_TEAM` = ` 'sports_team'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_STATE_PROVINCE` = ` 'state_province'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_TV_SHOW` = ` 'tv_show'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_UNIVERSITY` = ` 'university'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `OPENGRAPH_TYPE_WEBSITE` = ` 'website'`
+
+> Open Graph Theme (http://ogp.me/#types)
+    * `RIGHTS_ADMINISTRATOR` = ` 'administrator'`
+
+> Page Rights
+    * `RIGHTS_AUTH_USER` = ` 'auth_user'`
+
+> Page Rights
+    * `RIGHTS_DEVELOPER` = ` 'developer'`
+
+> Page Rights
+    * `RIGHTS_GUEST` = ` 'guest'`
+
+> Page Rights
+    * `RIGHTS_MODERATOR` = ` 'moderator'`
+
+> Page Rights
+    * `RIGHTS_TRANSLATOR` = ` 'translator'`
+
+> Page Rights
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+
+
+---
+
+## Method Summary ##
+
+  * `static Page getInstance()`
+> Method getInstance
+    * `Page getInstance()`
+> Method getInstance
+
+## Inherited Method Summary ##
+
+### Inherited From Class AbstractPage ###
+
+  * `AbstractPage::InitializeComponent()`
+
+  * `AbstractPage::Load()`
+
+  * `AbstractPage::Loaded()`
+
+
+
+---
+
+## Method Detail ##
+
+
+# static Page::getInstance #
+
+**static getInstance(**
+**string**
+_$page_**);**
+
+
+
+
+
+**Parameters**
+> _$page_ file path of the page in the folder pages (without pages/ folder and .php extension)
+
+**Remarks**
+
+Method getInstance
+
+
+**since:** 1.0.0
+
+**access:** public
+
+
+
+
+# Page::addEventObject #
+
+**addEventObject(**
+**WebSitePhpObject**
+_$object_, [**Form**
+_$form\_object_ = null]**);**
+
+
+
+
+
+**Parameters**
+> _$object_
+> _$form\_object_ [value: null](default.md)
+
+**Remarks**
+
+Method addEventObject
+
+
+**since:** 1.0.18
+
+**access:** public
+
+
+
+# Page::addLogDebug #
+
+**addLogDebug(**
+**string**
+_$str_**);**
+
+
+
+
+
+**Parameters**
+> _$str_ add string to debug consol
+
+**Remarks**
+
+Method addLogDebug
+
+
+**since:** 1.0.3
+
+**access:** public
+
+
+
+# Page::addLogDebugExecutionTime #
+
+**addLogDebugExecutionTime(**
+[**string**
+_$info_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$info_
+
+**Remarks**
+
+Method addLogDebugExecutionTime
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Page::addLogDebugRegisterObjects #
+
+**addLogDebugRegisterObjects(**
+[**string**
+_$class\_filter_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$class\_filter_
+
+**Remarks**
+
+Method addLogDebugRegisterObjects
+
+
+**since:** 1.1.6
+
+**access:** public
+
+
+
+# Page::addObject #
+
+**addObject(**
+**WebSitePhpObject**
+_$object_, [**boolean**
+_$page\_begining_ = false], [**boolean**
+_$page\_ending_ = false]**);**
+
+
+
+
+
+**Parameters**
+> _$object_ add script after the render of the page (ex: DialogBox, JavaScript, ...)
+> _$page\_begining_ [value: false](default.md)
+> _$page\_ending_ [value: false](default.md)
+
+**Remarks**
+
+Method addObject
+
+
+**since:** 1.0.18
+
+**access:** public
+
+
+
+# Page::construct #
+
+**construct(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Constructor Page
+
+
+
+
+# Page::destruct #
+
+**destruct(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Destructor Page
+
+
+
+
+# Page::createObjectName #
+
+**createObjectName(**
+**WebSitePhpObject**
+_$object_**);**
+
+
+
+
+
+**Parameters**
+> _$object_ event object (ex: TextBox, Editor, Button, ...)
+
+**Remarks**
+
+Method createObjectName
+
+
+Create an automatique and unique name for an event object
+
+
+**since:** 1.0.18
+
+**access:** public
+
+
+
+# Page::deleteCacheFilesPage #
+
+**deleteCacheFilesPage(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method deleteCacheFilesPage
+
+
+**since:** 1.0.103
+
+**access:** public
+
+
+
+# Page::disableAutoCreateConstantLabels #
+
+**disableAutoCreateConstantLabels(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method disableAutoCreateConstantLabels
+
+
+**since:** 1.2.9
+
+**access:** public
+
+
+
+# Page::disableCache #
+
+**disableCache(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method disableCache
+
+
+**since:** 1.0.3
+
+**access:** public
+
+
+
+# Page::displayExecutionTime #
+
+**displayExecutionTime(**
+[**string**
+_$info_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$info_
+
+**Remarks**
+
+Method displayExecutionTime
+
+
+**since:** 1.0.92
+
+**access:** public
+
+
+
+# Page::enableAutoCreateConstantLabels #
+
+**enableAutoCreateConstantLabels(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method enableAutoCreateConstantLabels
+
+
+**since:** 1.2.9
+
+**access:** public
+
+
+
+# Page::executeCallback #
+
+**executeCallback(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method executeCallback
+
+
+Execute method link to the user action
+
+
+**since:** 1.0.33
+
+**access:** public
+
+
+
+# Page::existsObjectName #
+
+**existsObjectName(**
+**string**
+_$name_**);**
+
+
+
+
+
+**Parameters**
+> _$name_
+
+**Remarks**
+
+Method existsObjectName
+
+
+Test if an event object already exists for this name
+
+
+**since:** 1.0.18
+
+**access:** public
+
+
+
+# Page::forceObjectsDefaultValues #
+
+**forceObjectsDefaultValues(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method forceObjectsDefaultValues
+
+
+Force all event object (ex: TextBox, Editor, Button, ...) to the default value (like a reset)  Cancel method loadAllVariables
+
+
+**since:** 1.0.33
+
+**access:** public
+
+
+
+# Page::getAddedObjects #
+
+**getAddedObjects(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getAddedObjects
+
+
+**since:** 1.0.18
+
+**access:** public
+
+
+
+# Page::getAllEventObjects #
+
+**getAllEventObjects(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getAllEventObjects
+
+
+**since:** 1.0.18
+
+**access:** public
+
+
+
+# Page::getBaseLanguageURL #
+
+**getBaseLanguageURL(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getBaseLanguageURL
+
+
+**since:** 1.0.3
+
+**access:** public
+
+
+
+# Page::getBaseURL #
+
+**getBaseURL(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getBaseURL
+
+
+**since:** 1.0.0
+
+**access:** public
+
+
+
+# Page::getBeginAddedObjects #
+
+**getBeginAddedObjects(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getBeginAddedObjects
+
+
+**since:** 1.0.95
+
+**access:** public
+
+
+
+# Page::getBrowserName #
+
+**getBrowserName(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getBrowserName
+
+
+**since:** 1.0.62
+
+**access:** public
+
+
+
+# Page::getBrowserUserAgent #
+
+**getBrowserUserAgent(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getBrowserUserAgent
+
+
+**since:** 1.0.102
+
+**access:** public
+
+
+
+# Page::getBrowserVersion #
+
+**getBrowserVersion(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getBrowserVersion
+
+
+**since:** 1.0.62
+
+**access:** public
+
+
+
+# Page::getCacheDirectory #
+
+**getCacheDirectory(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getCacheDirectory
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# Page::getCacheFileName #
+
+**getCacheFileName(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getCacheFileName
+
+
+**since:** 1.0.73
+
+**access:** protected
+
+
+
+# Page::getCacheTime #
+
+**getCacheTime(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getCacheTime
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# Page::getCDNServerURL #
+
+**getCDNServerURL(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getCDNServerURL
+
+
+**since:** 1.2.8
+
+**access:** public
+
+
+
+# Page::getClassName #
+
+**getClassName(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getClassName
+
+
+**since:** 1.0.67
+
+**access:** public
+
+
+
+# Page::getCurrentURL #
+
+**getCurrentURL(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getCurrentURL
+
+
+**since:** 1.0.0
+
+**access:** public
+
+
+
+# Page::getCurrentURLDirectory #
+
+**getCurrentURLDirectory(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getCurrentURLDirectory
+
+
+**since:** 1.0.3
+
+**access:** public
+
+
+
+# Page::getCurrentURLWithoutParameters #
+
+**getCurrentURLWithoutParameters(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getCurrentURLWithoutParameters
+
+
+**since:** 1.2.1
+
+**access:** public
+
+
+
+# Page::getDocumentHeight #
+
+**getDocumentHeight(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getDocumentHeight
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Page::getDocumentWidth #
+
+**getDocumentWidth(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getDocumentWidth
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Page::getEndAddedObjects #
+
+**getEndAddedObjects(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getEndAddedObjects
+
+
+**since:** 1.0.95
+
+**access:** public
+
+
+
+# Page::getEventObjects #
+
+**getEventObjects(**
+**mixed**
+_$event\_object\_name_**);**
+
+
+
+
+
+**Parameters**
+> _$event\_object\_name_
+
+**Remarks**
+
+Method getEventObjects
+
+
+**since:** 1.0.18
+
+**access:** public
+
+
+
+# Page::getLanguage #
+
+**getLanguage(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getLanguage
+
+
+**since:** 1.0.2
+
+**access:** public
+
+
+
+# Page::getLanguageLocale #
+
+**getLanguageLocale(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getLanguageLocale
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# Page::getLogDebug #
+
+**getLogDebug(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getLogDebug
+
+
+**since:** 1.0.3
+
+**access:** public
+
+
+
+# Page::getNbEndAddedObjects #
+
+**getNbEndAddedObjects(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getNbEndAddedObjects
+
+
+**since:** 1.0.98
+
+**access:** public
+
+
+
+# Page::getObjectId #
+
+**getObjectId(**
+**string**
+_$id_**);**
+
+
+
+
+
+**Parameters**
+> _$id_
+
+**Remarks**
+
+Method getObjectId
+
+
+**since:** 1.0.18
+
+**access:** public
+
+
+
+# Page::getObjectValue #
+
+**getObjectValue(**
+**string**
+_$name_**);**
+
+
+
+
+
+**Parameters**
+> _$name_ get the value of an event object (ex: TextBox, Editor, Button, ...)
+
+**Remarks**
+
+Method getObjectValue
+
+
+**since:** 1.0.18
+
+**access:** public
+
+
+
+# Page::getOriginalCacheFileName #
+
+**getOriginalCacheFileName(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getOriginalCacheFileName
+
+
+**since:** 1.1.3
+
+**access:** public
+
+
+
+# Page::getPage #
+
+**getPage(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getPage
+
+
+**since:** 1.0.0
+
+**access:** public
+
+
+
+# Page::getPageDescription #
+
+**getPageDescription(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getPageDescription
+
+
+**since:** 1.0.0
+
+**access:** public
+
+
+
+# Page::getPageIsCaching #
+
+**getPageIsCaching(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getPageIsCaching
+
+
+**since:** 1.0.3
+
+**access:** public
+
+
+
+# Page::getPageKeywords #
+
+**getPageKeywords(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getPageKeywords
+
+
+**since:** 1.0.0
+
+**access:** public
+
+
+
+# Page::getPageMetaGooglebots #
+
+**getPageMetaGooglebots(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getPageMetaGooglebots
+
+
+**since:** 1.0.0
+
+**access:** public
+
+
+
+# Page::getPageMetaIphoneImage57Px #
+
+**getPageMetaIphoneImage57Px(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getPageMetaIphoneImage57Px
+
+
+**since:** 1.0.98
+
+**access:** public
+
+
+
+# Page::getPageMetaIphoneImage72Px #
+
+**getPageMetaIphoneImage72Px(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getPageMetaIphoneImage72Px
+
+
+**since:** 1.0.98
+
+**access:** public
+
+
+
+# Page::getPageMetaIphoneImage114Px #
+
+**getPageMetaIphoneImage114Px(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getPageMetaIphoneImage114Px
+
+
+**since:** 1.0.98
+
+**access:** public
+
+
+
+# Page::getPageMetaOpenGraphImage #
+
+**getPageMetaOpenGraphImage(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getPageMetaOpenGraphImage
+
+
+**since:** 1.0.94
+
+**access:** public
+
+
+
+# Page::getPageMetaOpenGraphType #
+
+**getPageMetaOpenGraphType(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getPageMetaOpenGraphType
+
+
+**since:** 1.0.94
+
+**access:** public
+
+
+
+# Page::getPageMetaRevisitAfter #
+
+**getPageMetaRevisitAfter(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getPageMetaRevisitAfter
+
+
+**since:** 1.0.33
+
+**access:** public
+
+
+
+# Page::getPageMetaRobots #
+
+**getPageMetaRobots(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getPageMetaRobots
+
+
+**since:** 1.0.0
+
+**access:** public
+
+
+
+# Page::getPageTitle #
+
+**getPageTitle(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getPageTitle
+
+
+**since:** 1.0.0
+
+**access:** public
+
+
+
+# Page::getRealCacheFileName #
+
+**getRealCacheFileName(**
+[**string**
+_$cache\_file\_name\_orig_ = &quot;&quot;]**);**
+
+
+
+
+
+**Parameters**
+> _$cache\_file\_name\_orig_
+
+**Remarks**
+
+Method getRealCacheFileName
+
+
+**since:** 1.1.3
+
+**access:** public
+
+
+
+# Page::getRefererURL #
+
+**getRefererURL(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getRefererURL
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Page::getRemoteIP #
+
+**getRemoteIP(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getRemoteIP
+
+
+**since:** 1.0.89
+
+**access:** public
+
+
+
+# Page::getRenderObject #
+
+**getRenderObject(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getRenderObject
+
+
+**since:** 1.0.0
+
+**access:** public
+
+
+
+# Page::getRootWspDirectory #
+
+**getRootWspDirectory(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getRootWspDirectory
+
+
+**since:** 1.2.3
+
+**access:** public
+
+
+
+# Page::getSubDomainURL #
+
+**getSubDomainURL(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getSubDomainURL
+
+
+**since:** 1.0.22
+
+**access:** public
+
+
+
+# Page::getUserEventObject #
+
+**getUserEventObject(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getUserEventObject
+
+
+Save the callback method and params from user event
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Page::getUserNoRightsRedirect #
+
+**getUserNoRightsRedirect(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getUserNoRightsRedirect
+
+
+**since:** 1.0.67
+
+**access:** public
+
+
+
+# Page::getUserRights #
+
+**getUserRights(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getUserRights
+
+
+**since:** 1.0.93
+
+**access:** public
+
+
+
+# Page::getWindowHeight #
+
+**getWindowHeight(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getWindowHeight
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Page::getWindowWidth #
+
+**getWindowWidth(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getWindowWidth
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Page::includeJsAndCssFromObjectToPage #
+
+**includeJsAndCssFromObjectToPage(**
+**string**
+_$str\_object_**);**
+
+
+
+
+
+**Parameters**
+> _$str\_object_
+
+**Remarks**
+
+Method includeJsAndCssFromObjectToPage
+
+
+Use to add JS and CSS to the page when Object never load on init, but load dynamically (on DialogBox, Map, ...)
+
+
+**since:** 1.0.33
+
+**access:** public
+
+
+
+# Page::isAjaxLoadPage #
+
+**isAjaxLoadPage(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isAjaxLoadPage
+
+
+**since:** 1.0.24
+
+**access:** public
+
+
+
+# Page::isAjaxPage #
+
+**isAjaxPage(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isAjaxPage
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Page::isCachingAsked #
+
+**isCachingAsked(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isCachingAsked
+
+
+**since:** 1.1.3
+
+**access:** public
+
+
+
+# Page::isCrawlerBot #
+
+**isCrawlerBot(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isCrawlerBot
+
+
+**since:** 1.0.80
+
+**access:** public
+
+
+
+# Page::isCss3Browser #
+
+**isCss3Browser(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isCss3Browser
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Page::isLocalhostURL #
+
+**isLocalhostURL(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isLocalhostURL
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# Page::isMobileDevice #
+
+**isMobileDevice(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isMobileDevice
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Page::isMobileMetaTag #
+
+**isMobileMetaTag(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isMobileMetaTag
+
+
+**since:** 1.1.4
+
+**access:** public
+
+
+
+# Page::isMobileWebAppMetaTag #
+
+**isMobileWebAppMetaTag(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isMobileWebAppMetaTag
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# Page::loadAllVariables #
+
+**loadAllVariables(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method loadAllVariables
+
+
+Load all GET and POST Varaibles after submit a form
+
+
+**since:** 1.0.22
+
+**access:** public
+
+
+
+# Page::redirect #
+
+**redirect(**
+**string**
+_$url_**);**
+
+
+
+
+
+**Parameters**
+> _$url_
+
+**Remarks**
+
+Method redirect
+
+
+**since:** 1.0.33
+
+**access:** public
+
+
+
+# Page::redirect404 #
+
+**redirect404(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method redirect404
+
+
+**since:** 1.0.101
+
+**access:** public
+
+
+
+# Page::refreshPage #
+
+**refreshPage(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method refreshPage
+
+
+**since:** 1.0.103
+
+**access:** public
+
+
+
+# Page::render #
+
+**render(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method render
+
+
+Render the page
+
+
+**since:** 1.0.0
+
+**access:** public
+
+
+
+# Page::setCache #
+
+**setCache(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setCache
+
+
+return true if the cache must be replace or write
+
+
+**since:** 1.0.3
+
+**access:** public
+
+
+
+# Page::setCacheFileName #
+
+**setCacheFileName(**
+**string**
+_$file\_name_**);**
+
+
+
+
+
+**Parameters**
+> _$file\_name_ base of file name of the caching file
+
+**Remarks**
+
+Method setCacheFileName
+
+
+**since:** 1.0.3
+
+**access:** protected
+
+
+
+# Page::setCacheTime #
+
+**setCacheTime(**
+**integer**
+_$cache\_time_, [**boolean**
+_$reset\_on\_midnight_ = false], [**string**
+_$cache\_timezone\_id_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$cache\_time_ time in seconds
+> _$reset\_on\_midnight_ true if the cache is replace after midnight [value: false](default.md)
+> _$cache\_timezone\_id_ if $reset\_on\_midnight is true, then the time zone id can be defined to detect the change of the day [value: ''](default.md)
+
+**Remarks**
+
+Method setCacheTime
+
+
+**since:** 1.0.3
+
+**access:** protected
+
+
+
+# Page::setMobileMetaTag #
+
+**setMobileMetaTag(**
+[**boolean**
+_$bool_ = true]**);**
+
+
+
+
+
+**Parameters**
+> _$bool_ [value: true](default.md)
+
+**Remarks**
+
+Method setMobileMetaTag
+
+
+**since:** 1.1.4
+
+**access:** public
+
+
+
+# Page::setMobileWebAppMetaTag #
+
+**setMobileWebAppMetaTag(**
+[**boolean**
+_$bool_ = true]**);**
+
+
+
+
+
+**Parameters**
+> _$bool_ [value: true](default.md)
+
+**Remarks**
+
+Method setMobileWebAppMetaTag
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# Page::setObjectValue #
+
+**setObjectValue(**
+**string**
+_$name_, **string**
+_$value_**);**
+
+
+
+
+
+**Parameters**
+> _$name_ set the value of an event object (ex: TextBox, Editor, Button, ...)
+> _$value_
+
+**Remarks**
+
+Method setObjectValue
+
+
+**since:** 1.0.18
+
+**access:** public
+
+
+
+# Page::setTimeout #
+
+**setTimeout(**
+[**integer**
+_$timeout_ = 30]**);**
+
+
+
+
+
+**Parameters**
+> _$timeout_ [value: 30](default.md)
+
+**Remarks**
+
+Method setTimeout
+
+
+**since:** 1.0.33
+
+**access:** public
+
+
+
+# Page::setUserRights #
+
+**setUserRights(**
+**string|array**
+_$rights_**);**
+
+
+
+
+
+**Parameters**
+> _$rights_
+
+**Remarks**
+
+Method setUserRights
+
+
+**since:** 1.0.4
+
+**access:** public
+
+
+
+# Page::userHaveRights #
+
+**userHaveRights(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method userHaveRights
+
+
+**since:** 1.0.4
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+**`static $PAGE_DESCRIPTION` = ` ''` (line 138)** **Data type:** `mixed`
+**access:** protected
+
+
+**`static $PAGE_KEYWORDS` = ` ''` (line 137)** **Data type:** `mixed`
+**access:** protected
+
+
+**`static $PAGE_META_GOOGLEBOTS` = ` ''` (line 140)** **Data type:** `mixed`
+**access:** protected
+
+
+**`static $PAGE_META_IPHONE_IMAGE_57PX` = ` ''` (line 145)** **Data type:** `mixed`
+**access:** protected
+
+
+**`static $PAGE_META_IPHONE_IMAGE_72PX` = ` ''` (line 146)** **Data type:** `mixed`
+**access:** protected
+
+
+**`static $PAGE_META_IPHONE_IMAGE_114PX` = ` ''` (line 147)** **Data type:** `mixed`
+**access:** protected
+
+
+**`static $PAGE_META_OPENGRAPH_IMAGE` = ` ''` (line 144)** **Data type:** `mixed`
+**access:** protected
+
+
+**`static $PAGE_META_OPENGRAPH_TYPE` = ` ''` (line 143)** **Data type:** `mixed`
+**access:** protected
+
+
+**`static $PAGE_META_REVISIT_AFTER` = ` ''` (line 141)** **Data type:** `mixed`
+**access:** protected
+
+
+**`static $PAGE_META_ROBOTS` = ` ''` (line 139)** **Data type:** `mixed`
+**access:** protected
+
+
+**`static $PAGE_TITLE` = ` ''` (line 136)** **Data type:** `mixed`
+**access:** protected
+
+
+**`$PAGE_CACHING` = ` false` (line 151)** **Data type:** `mixed`
+**access:** protected
+
+
+**`$render` = ` null` (line 134)** **Data type:** `mixed`
+**access:** protected
+
+
+**`$USER_NO_RIGHTS_REDIRECT` = ` ''` (line 150)** **Data type:** `mixed`
+**access:** protected
+
+
+**`$USER_RIGHTS` = ` ''` (line 149)** **Data type:** `mixed`
+**access:** protected
+
+
+
+
+---
+
+## Class Constant Detail ##
+
+**`CACHE_TIME_1DAY` = ` 86400` (line 46)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_1HOUR` = ` 3600` (line 38)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_1MIN` = ` 60` (line 33)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_1MONTH` = ` 2678400` (line 52)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_1YEAR` = ` 31536000` (line 57)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_2DAYS` = ` 172800` (line 47)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_2HOURS` = ` 7200` (line 39)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_2MIN` = ` 120` (line 34)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_2MONTHS` = ` 5270400` (line 53)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_2YEARS` = ` 63072000` (line 58)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_3DAYS` = ` 259200` (line 48)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_3HOURS` = ` 10800` (line 40)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_3MONTHS` = ` 8035200` (line 54)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_4DAYS` = ` 345600` (line 49)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_4HOURS` = ` 14400` (line 41)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_4MONTHS` = ` 10713600` (line 55)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_6HOURS` = ` 21600` (line 42)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_6MONTHS` = ` 15724800` (line 56)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_7DAYS` = ` 604800` (line 50)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_8HOURS` = ` 28800` (line 43)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_10HOURS` = ` 36000` (line 44)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_10MIN` = ` 600` (line 35)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_12HOURS` = ` 43200` (line 45)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_14DAYS` = ` 1209600` (line 51)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_20MIN` = ` 1200` (line 36)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`CACHE_TIME_30MIN` = ` 1800` (line 37)**
+
+
+**Remarks**
+
+cache time
+
+
+**access:** public
+
+
+**`META_ROBOTS_INDEX_FOLLOW` = ` 'index, follow'` (line 66)**
+
+
+**Remarks**
+
+meta robots
+
+
+**access:** public
+
+
+**`META_ROBOTS_INDEX_NOFOLLOW` = ` 'index, nofollow'` (line 68)**
+
+
+**Remarks**
+
+meta robots
+
+
+**access:** public
+
+
+**`META_ROBOTS_NOINDEX_FOLLOW` = ` 'noindex, follow'` (line 69)**
+
+
+**Remarks**
+
+meta robots
+
+
+**access:** public
+
+
+**`META_ROBOTS_NOINDEX_NOFOLLOW` = ` 'noindex, nofollow'` (line 67)**
+
+
+**Remarks**
+
+meta robots
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_ACTIVITY` = ` 'activity'` (line 77)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_ACTOR` = ` 'actor'` (line 92)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_ALBUM` = ` 'album'` (line 104)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_ARTICLE` = ` 'article'` (line 113)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_ATHLETE` = ` 'athlete'` (line 93)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_AUTHOR` = ` 'author'` (line 94)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_BAND` = ` 'band'` (line 87)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_BAR` = ` 'bar'` (line 79)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_BLOG` = ` 'blog'` (line 114)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_BOOK` = ` 'book'` (line 105)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_CAFE` = ` 'cafe'` (line 81)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_CAUSE` = ` 'cause'` (line 84)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_CITY` = ` 'city'` (line 100)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_COMPANY` = ` 'company'` (line 80)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_COUNTRY` = ` 'country'` (line 101)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_DIRECTOR` = ` 'director'` (line 95)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_DRINK` = ` 'drink'` (line 106)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_FOOD` = ` 'food'` (line 107)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_GAME` = ` 'game'` (line 108)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_GOVERNMENT` = ` 'government'` (line 88)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_HOTEL` = ` 'hotel'` (line 82)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_LANDMARK` = ` 'landmark'` (line 102)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_MOVIE` = ` 'movie'` (line 109)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_MUSICIAN` = ` 'musician'` (line 96)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_NON_PROFIT` = ` 'non_profit'` (line 89)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_POLITICIAN` = ` 'politician'` (line 97)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_PRODUCT` = ` 'product'` (line 110)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_PROFILE` = ` 'profile'` (line 98)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_PUBLIC_FIGURE` = ` 'public_figure'` (line 99)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_RESTAURANT` = ` 'restaurant'` (line 83)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_SCHOOL` = ` 'school'` (line 90)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_SONG` = ` 'song'` (line 111)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_SPORT` = ` 'sport'` (line 78)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_SPORTS_LEAGUE` = ` 'sports_league'` (line 85)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_SPORTS_TEAM` = ` 'sports_team'` (line 86)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_STATE_PROVINCE` = ` 'state_province'` (line 103)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_TV_SHOW` = ` 'tv_show'` (line 112)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_UNIVERSITY` = ` 'university'` (line 91)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`OPENGRAPH_TYPE_WEBSITE` = ` 'website'` (line 115)**
+
+
+**Remarks**
+
+Open Graph Theme (http://ogp.me/#types)
+
+
+**access:** public
+
+
+**`RIGHTS_ADMINISTRATOR` = ` 'administrator'` (line 123)**
+
+
+**Remarks**
+
+Page Rights
+
+
+**access:** public
+
+
+**`RIGHTS_AUTH_USER` = ` 'auth_user'` (line 127)**
+
+
+**Remarks**
+
+Page Rights
+
+
+**access:** public
+
+
+**`RIGHTS_DEVELOPER` = ` 'developer'` (line 126)**
+
+
+**Remarks**
+
+Page Rights
+
+
+**access:** public
+
+
+**`RIGHTS_GUEST` = ` 'guest'` (line 128)**
+
+
+**Remarks**
+
+Page Rights
+
+
+**access:** public
+
+
+**`RIGHTS_MODERATOR` = ` 'moderator'` (line 124)**
+
+
+**Remarks**
+
+Page Rights
+
+
+**access:** public
+
+
+**`RIGHTS_TRANSLATOR` = ` 'translator'` (line 125)**
+
+
+**Remarks**
+
+Page Rights
+
+
+**access:** public
+
+
+
+
+---

@@ -1,0 +1,878 @@
+# Class HTTP #
+
+
+
+
+
+Location: /utils/HTTP.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class HTTP
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.7
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.99
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+  * `$cookiePath` = ``
+
+> Contains the cookie path (to be used with cURL)
+    * `$cookies` = ``
+
+> Contains the cookies for request
+    * `$curRedirect` = ``
+
+> The current number of redirects
+    * `$debug` = ``
+
+> Whether to keep debug messages
+    * `$debugMsg` = ``
+
+> Stores the debug messages
+    * `$error` = ``
+
+> Contains any error occurred
+    * `$headers` = ``
+
+> Contains the last headers
+    * `$host` = ``
+
+> Contains the target host
+    * `$maxRedirect` = ``
+
+> The maximum number of redirect to follow
+    * `$method` = ``
+
+> Contains the http method (GET or POST)
+    * `$nextToken` = ``
+
+> Store the next token
+    * `$params` = ``
+
+> Contains the parameters for request
+    * `$password` = ``
+
+> Contains the Password (for authentication)
+    * `$path` = ``
+
+> Contains the target path
+    * `$port` = ``
+
+> Contains the target port
+    * `$redirect` = ``
+
+> Whether to follow http redirect or not
+    * `$referrer` = ``
+
+> Contains the referrer URL
+    * `$result` = ``
+
+> Contains the fetched web source
+    * `$saveCookie` = ``
+
+> Whether to store cookie for subsequent requests
+    * `$schema` = ``
+
+> Contains the target schema
+    * `$status` = ``
+
+> Contains the last call's http status code
+    * `$target` = ``
+
+> Contains the target URL
+    * `$timeout` = ``
+
+> Number of seconds to timeout
+    * `$useCookie` = ``
+
+> Whether to use cookie at all
+    * `$useCurl` = ``
+
+> Whether to use cURL or not
+    * `$userAgent` = ``
+
+> Contains the User agent string
+    * `$username` = ``
+
+> Contains the Username (for authentication)
+    * `$_cookies` = ``
+
+> Contains the cookies retrieved from response
+
+
+---
+
+## Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+
+---
+
+## Method Detail ##
+
+
+
+# HTTP::addCookie #
+
+**addCookie(**
+**string**
+_$name_, **string**
+_$value_**);**
+
+
+
+
+
+**Parameters**
+> _$name_ Name of cookie
+> _$value_ Value of cookie
+
+**Remarks**
+
+Add a cookie to the request
+
+
+
+
+# HTTP::addParam #
+
+**addParam(**
+**string**
+_$name_, **string**
+_$value_**);**
+
+
+
+
+
+**Parameters**
+> _$name_ Name of the parameter
+> _$value_ Value of the parameter
+
+**Remarks**
+
+Add request parameters
+
+
+
+
+# HTTP::clear #
+
+**clear(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Clear Everything
+
+
+Clears all the properties of the class and sets the object to  the beginning state. Very handy if you are doing subsequent calls  with different data.
+
+
+
+
+# HTTP::execute #
+
+**execute(**
+[**string**
+_$target_ = ''], [**string**
+_$referrer_ = ''], [**string**
+_$method_ = ''], [**array**
+_$data_ = array()]**);**
+
+
+
+
+
+**Parameters**
+> _$target_ URL of the target page (optional)
+> _$referrer_ URL of the referrer page (optional)
+> _$method_ The http method (GET or POST) (optional)
+> _$data_ Parameter array for GET or POST (optional)
+
+**Returns**
+> Response body of the target page
+
+**Remarks**
+
+Execute a HTTP request
+
+
+Executes the http fetch using all the set properties. Intellegently  switch to fsockopen if cURL is not present. And be smart to follow  redirects (if asked so).
+
+
+
+
+# HTTP::followRedirects #
+
+**followRedirects(**
+[**boolean**
+_$value_ = TRUE]**);**
+
+
+
+
+
+**Parameters**
+> _$value_ Whether to follow HTTP redirects or not
+
+**Remarks**
+
+Whether to follow HTTP redirects
+
+
+
+
+# HTTP::getError #
+
+**getError(**
+**);**
+
+
+
+
+
+**Returns**
+> last error message (if any)
+
+**Remarks**
+
+Get last execution error
+
+
+
+
+# HTTP::getHeaders #
+
+**getHeaders(**
+**);**
+
+
+
+
+
+**Returns**
+> last headers of execution
+
+**Remarks**
+
+Get execution result headers
+
+
+
+
+# HTTP::getResult #
+
+**getResult(**
+**);**
+
+
+
+
+
+**Returns**
+> output of execution
+
+**Remarks**
+
+Get execution result body
+
+
+
+
+# HTTP::getStatus #
+
+**getStatus(**
+**);**
+
+
+
+
+
+**Returns**
+> last http status code
+
+**Remarks**
+
+Get execution status code
+
+
+
+
+# HTTP::Http #
+
+**Http(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method Http
+
+
+**since:** 1.0.99
+
+
+
+# HTTP::initialize #
+
+**initialize(**
+[**array**
+_$config_ = array()]**);**
+
+
+
+
+
+**Parameters**
+> _$config_ Config values as associative array
+
+**Remarks**
+
+Initialize preferences
+
+
+This function will take an associative array of config values and  will initialize the class variables using them.Example use:$httpConfig['method']     = 'GET';
+> $httpConfig['target']     = 'http://www.somedomain.com/index.html';
+> $httpConfig['referrer']   = 'http://www.somedomain.com';
+> $httpConfig['user\_agent'] = 'My Crawler';
+> $httpConfig['timeout']    = '30';
+> $httpConfig['params']     = array('var1' => 'testvalue', 'var2' => 'somevalue');
+
+> $http = new Http();
+> $http->initialize($httpConfig);
+
+
+
+
+# HTTP::saveCookie #
+
+**saveCookie(**
+[**boolean**
+_$value_ = TRUE]**);**
+
+
+
+
+
+**Parameters**
+> _$value_ Whether to save persistent cookies or not
+
+**Remarks**
+
+Whether to save persistent cookies in subsequent calls
+
+
+
+
+# HTTP::setAuth #
+
+**setAuth(**
+**string**
+_$username_, **string**
+_$password_**);**
+
+
+
+
+
+**Parameters**
+> _$username_ Username for authentication
+> _$password_ Password for authentication
+
+**Remarks**
+
+Set basic http authentication realm
+
+
+
+
+# HTTP::setCookiepath #
+
+**setCookiepath(**
+**string**
+_$path_**);**
+
+
+
+
+
+**Parameters**
+> _$path_ File location of cookiejar
+
+**Remarks**
+
+Set cookie path (cURL only)
+
+
+
+
+# HTTP::setMaxredirect #
+
+**setMaxredirect(**
+**integer**
+_$value_**);**
+
+
+
+
+
+**Parameters**
+> _$value_ Maximum number of redirects
+
+**Remarks**
+
+Set maximum number of redirection to follow
+
+
+
+
+# HTTP::setMethod #
+
+**setMethod(**
+**string**
+_$method_**);**
+
+
+
+
+
+**Parameters**
+> _$method_ HTTP method to use (GET or POST)
+
+**Remarks**
+
+Set http method
+
+
+
+
+# HTTP::setParams #
+
+**setParams(**
+**array**
+_$dataArray_**);**
+
+
+
+
+
+**Parameters**
+> _$dataArray_ All the parameters for GET or POST
+
+**Remarks**
+
+Set request parameters
+
+
+
+
+# HTTP::setReferrer #
+
+**setReferrer(**
+**string**
+_$referrer_**);**
+
+
+
+
+
+**Parameters**
+> _$referrer_ URL of referrer page
+
+**Remarks**
+
+Set referrer URL
+
+
+
+
+# HTTP::setTarget #
+
+**setTarget(**
+**string**
+_$url_**);**
+
+
+
+
+
+**Parameters**
+> _$url_ URL of target resource
+
+**Remarks**
+
+Set target URL
+
+
+
+
+# HTTP::setTimeout #
+
+**setTimeout(**
+**integer**
+_$seconds_**);**
+
+
+
+
+
+**Parameters**
+> _$seconds_ Timeout delay in seconds
+
+**Remarks**
+
+Set timeout of execution
+
+
+
+
+# HTTP::setUseragent #
+
+**setUseragent(**
+**string**
+_$agent_**);**
+
+
+
+
+
+**Parameters**
+> _$agent_ Full user agent string
+
+**Remarks**
+
+Set User agent string
+
+
+
+
+# HTTP::useCookie #
+
+**useCookie(**
+[**boolean**
+_$value_ = TRUE]**);**
+
+
+
+
+
+**Parameters**
+> _$value_ Whether to use cookies or not
+
+**Remarks**
+
+Whether to use cookies or not
+
+
+
+
+# HTTP::useCurl #
+
+**useCurl(**
+[**boolean**
+_$value_ = TRUE]**);**
+
+
+
+
+
+**Parameters**
+> _$value_ Whether to use cURL or not
+
+**Remarks**
+
+Whether to use cURL or not
+
+
+
+
+
+---
+
+
+## Variable Detail ##
+**`$cookiePath` = `` (line 122)** **Data type:** `string`
+
+**Remarks**
+
+Contains the cookie path (to be used with cURL)
+
+
+
+**`$cookies` = `` (line 80)** **Data type:** `array`
+
+**Remarks**
+
+Contains the cookies for request
+
+
+
+**`$curRedirect` = `` (line 192)** **Data type:** `integer`
+
+**Remarks**
+
+The current number of redirects
+
+
+
+**`$debug` = `` (line 213)** **Data type:** `boolean`
+
+**Remarks**
+
+Whether to keep debug messages
+
+
+
+**`$debugMsg` = `` (line 221)** **Data type:** `array`
+
+**Remarks**
+
+Stores the debug messages
+
+
+**todo:** will keep debug messages
+
+
+**`$error` = `` (line 199)** **Data type:** `string`
+
+**Remarks**
+
+Contains any error occurred
+
+
+
+**`$headers` = `` (line 164)** **Data type:** `string`
+
+**Remarks**
+
+Contains the last headers
+
+
+
+**`$host` = `` (line 38)** **Data type:** `string`
+
+**Remarks**
+
+Contains the target host
+
+
+
+**`$maxRedirect` = `` (line 185)** **Data type:** `integer`
+
+**Remarks**
+
+The maximum number of redirect to follow
+
+
+
+**`$method` = `` (line 66)** **Data type:** `string`
+
+**Remarks**
+
+Contains the http method (GET or POST)
+
+
+
+**`$nextToken` = `` (line 206)** **Data type:** `string`
+
+**Remarks**
+
+Store the next token
+
+
+
+**`$params` = `` (line 73)** **Data type:** `array`
+
+**Remarks**
+
+Contains the parameters for request
+
+
+
+**`$password` = `` (line 150)** **Data type:** `string`
+
+**Remarks**
+
+Contains the Password (for authentication)
+
+
+
+**`$path` = `` (line 52)** **Data type:** `string`
+
+**Remarks**
+
+Contains the target path
+
+
+
+**`$port` = `` (line 45)** **Data type:** `integer`
+
+**Remarks**
+
+Contains the target port
+
+
+
+**`$redirect` = `` (line 178)** **Data type:** `boolean`
+
+**Remarks**
+
+Whether to follow http redirect or not
+
+
+
+**`$referrer` = `` (line 108)** **Data type:** `string`
+
+**Remarks**
+
+Contains the referrer URL
+
+
+
+**`$result` = `` (line 157)** **Data type:** `string`
+
+**Remarks**
+
+Contains the fetched web source
+
+
+
+**`$saveCookie` = `` (line 136)** **Data type:** `boolean`
+
+**Remarks**
+
+Whether to store cookie for subsequent requests
+
+
+
+**`$schema` = `` (line 59)** **Data type:** `string`
+
+**Remarks**
+
+Contains the target schema
+
+
+
+**`$status` = `` (line 171)** **Data type:** `string`
+
+**Remarks**
+
+Contains the last call's http status code
+
+
+
+**`$target` = `` (line 31)** **Data type:** `string`
+
+**Remarks**
+
+Contains the target URL
+
+
+
+**`$timeout` = `` (line 94)** **Data type:** `integer`
+
+**Remarks**
+
+Number of seconds to timeout
+
+
+
+**`$useCookie` = `` (line 129)** **Data type:** `boolean`
+
+**Remarks**
+
+Whether to use cookie at all
+
+
+
+**`$useCurl` = `` (line 101)** **Data type:** `boolean`
+
+**Remarks**
+
+Whether to use cURL or not
+
+
+
+**`$userAgent` = `` (line 115)** **Data type:** `string`
+
+**Remarks**
+
+Contains the User agent string
+
+
+
+**`$username` = `` (line 143)** **Data type:** `string`
+
+**Remarks**
+
+Contains the Username (for authentication)
+
+
+
+**`$_cookies` = `` (line 87)** **Data type:** `array`
+
+**Remarks**
+
+Contains the cookies retrieved from response
+
+
+
+
+
+---
+
+## Class Constant Detail ##
+
+
+
+---

@@ -1,0 +1,803 @@
+# Class ColorPicker #
+
+WebSitePhpObject
+> |
+> --WebSitePhpEventObject
+> > |
+> > --TextBox
+> > > |
+> > > --ColorPicker
+
+
+
+Location: /display/advanced\_object/ColorPicker.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class TextBox
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.9
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+  * `COLORPICKER_MODE_HSV` = ` 'HSV'`
+
+
+> ColorPicker constant
+    * `COLORPICKER_MODE_HVS` = ` 'HVS'`
+
+> ColorPicker constant
+    * `COLORPICKER_POSITION_LEFT` = ` 'left'`
+
+> ColorPicker constant
+    * `COLORPICKER_POSITION_RIGHT` = ` 'right'`
+
+> ColorPicker constant
+    * `COLORPICKER_POSITION_TOP` = ` 'top'`
+
+> ColorPicker constant
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class TextBox ###
+
+  * `TextBox::$live_validation` = ` null`
+
+
+  * `TextBox::$type` = ` 'text'`
+
+
+
+
+### Inherited From Class WebSitePhpEventObject ###
+
+  * `WebSitePhpEventObject::$ajax_wait_message` = ` ''`
+
+
+  * `WebSitePhpEventObject::$class_name` = ` ''`
+
+
+  * `WebSitePhpEventObject::$disable_ajax_wait_message` = ` false`
+
+
+  * `WebSitePhpEventObject::$form_object` = ` null`
+
+
+  * `WebSitePhpEventObject::$id` = ` ''`
+
+
+  * `WebSitePhpEventObject::$is_ajax_event` = ` false`
+
+
+  * `WebSitePhpEventObject::$name` = ` ''`
+
+
+  * `WebSitePhpEventObject::$on_form_is_changed_js` = ` ''`
+
+
+  * `WebSitePhpEventObject::$on_form_is_changed_revert` = ` false`
+
+
+  * `WebSitePhpEventObject::$page_object` = ` null`
+
+
+
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class TextBox ###
+
+  * `TextBox::__construct()`
+> Constructor TextBox
+    * `TextBox::clearable()`
+> Method clearable
+    * `TextBox::disable()`
+> Method disable
+    * `TextBox::enable()`
+> Method enable
+    * `TextBox::forceEmpty()`
+> Method forceEmpty
+    * `TextBox::getAjaxRender()`
+> Method getAjaxRender
+    * `TextBox::getClass()`
+> Method getClass
+    * `TextBox::getDefaultValue()`
+> Method getDefaultValue
+    * `TextBox::getEncryptObject()`
+> Method getEncryptObject
+    * `TextBox::getOnBlurJs()`
+> Method getOnBlurJs
+    * `TextBox::getOnChangeJs()`
+> Method getOnChangeJs
+    * `TextBox::getOnClickJs()`
+> Method getOnClickJs
+    * `TextBox::getOnKeyPressJs()`
+> Method getOnKeyPressJs
+    * `TextBox::getOnKeyUpJs()`
+> Method getOnKeyUpJs
+    * `TextBox::getOnMouseOutJs()`
+> Method getOnMouseOutJs
+    * `TextBox::getValue()`
+> Method getValue
+    * `TextBox::isChanged()`
+> Method isChanged
+    * `TextBox::isClicked()`
+> Method isClicked
+    * `TextBox::isEncrypted()`
+> Method isEncrypted
+    * `TextBox::onBlur()`
+> Method onBlur
+    * `TextBox::onBlurJs()`
+> Method onBlurJs
+    * `TextBox::onChange()`
+> Method onChange
+    * `TextBox::onChangeJs()`
+> Method onChangeJs
+    * `TextBox::onClick()`
+> Method onClick
+    * `TextBox::onClickJs()`
+> Method onClickJs
+    * `TextBox::onKeyPress()`
+> Method onKeyPress
+    * `TextBox::onKeyPressJs()`
+> Method onKeyPressJs
+    * `TextBox::onKeyUp()`
+> Method onKeyUp
+    * `TextBox::onKeyUpJs()`
+> Method onKeyUpJs
+    * `TextBox::onMouseOutJs()`
+> Method onMouseOutJs
+    * `TextBox::onMouseOverJs()`
+> Method onMouseOverJs
+    * `TextBox::render()`
+> Method render
+    * `TextBox::setAutoComplete()`
+> Method setAutoComplete
+    * `TextBox::setClass()`
+> Method setClass
+    * `TextBox::setDefaultValue()`
+> Method setDefaultValue
+    * `TextBox::setEncryptObject()`
+> Method setEncryptObject
+    * `TextBox::setFocus()`
+> Method setFocus
+    * `TextBox::setLength()`
+> Method setLength
+    * `TextBox::setLiveValidation()`
+> Method setLiveValidation
+    * `TextBox::setName()`
+> Method setName
+    * `TextBox::setStripTags()`
+> Method setStripTags
+    * `TextBox::setStyle()`
+> Method setStyle
+    * `TextBox::setValue()`
+> Method setValue
+    * `TextBox::setWidth()`
+> Method setWidth
+
+### Inherited From Class WebSitePhpEventObject ###
+
+  * `WebSitePhpEventObject::__construct()`
+> Constructor WebSitePhpEventObject
+    * `WebSitePhpEventObject::automaticAjaxEvent()`
+> Method automaticAjaxEvent
+    * `WebSitePhpEventObject::disableAjaxWaitMessage()`
+> Method disableAjaxWaitMessage
+    * `WebSitePhpEventObject::getAjaxEventFunctionRender()`
+> Method getAjaxEventFunctionRender
+    * `WebSitePhpEventObject::getEventObjectName()`
+> Method getEventObjectName
+    * `WebSitePhpEventObject::getFormObject()`
+> Method getFormObject
+    * `WebSitePhpEventObject::getId()`
+> Method getId
+    * `WebSitePhpEventObject::getName()`
+> Method getName
+    * `WebSitePhpEventObject::getObjectEventValidationRender()`
+> Method getObjectEventValidationRender
+    * `WebSitePhpEventObject::getSubmitValueIsInit()`
+
+  * `WebSitePhpEventObject::initSubmitValue()`
+> Method initSubmitValue  Internal method used by an object like ComboBox or TextBox to init it with submitted value (if not already done).
+    * `WebSitePhpEventObject::isAjaxEvent()`
+> Method isAjaxEvent
+    * `WebSitePhpEventObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpEventObject::loadCallbackMethod()`
+> Method loadCallbackMethod
+    * `WebSitePhpEventObject::onFormIsChangedJs()`
+> Method onFormIsChangedJs
+    * `WebSitePhpEventObject::setAjaxEvent()`
+> Method setAjaxEvent
+    * `WebSitePhpEventObject::setAjaxWaitMessage()`
+> Method setAjaxWaitMessage
+    * `WebSitePhpEventObject::setSubmitValueIsInit()`
+> Method setSubmitValueIsInit
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# ColorPicker::construct #
+
+**construct(**
+**Page|Form**
+_$page\_or\_form\_object_, [**string**
+_$name_ = ''], [**string**
+_$id_ = ''], [**string**
+_$value_ = ''], [**string**
+_$width_ = ''], [**double**
+_$length_ = 0]**);**
+
+
+Overrides TextBox::construct() (Constructor TextBox)
+
+
+
+**Parameters**
+> _$page\_or\_form\_object_
+> _$name_
+> _$id_
+> _$value_
+> _$width_
+> _$length_ [value: 0](default.md)
+
+**Remarks**
+
+Constructor ColorPicker
+
+
+
+
+# ColorPicker::adjust #
+
+**adjust(**
+**boolean**
+_$bool_**);**
+
+
+
+
+
+**Parameters**
+> _$bool_
+
+**Remarks**
+
+Method adjust
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ColorPicker::caps #
+
+**caps(**
+**boolean**
+_$bool_**);**
+
+
+
+
+
+**Parameters**
+> _$bool_
+
+**Remarks**
+
+Method caps
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ColorPicker::forceEmptyValue #
+
+**forceEmptyValue(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method forceEmptyValue
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ColorPicker::hash #
+
+**hash(**
+**boolean**
+_$bool_**);**
+
+
+
+
+
+**Parameters**
+> _$bool_
+
+**Remarks**
+
+Method hash
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ColorPicker::isButton #
+
+**isButton(**
+**boolean**
+_$bool_**);**
+
+
+
+
+
+**Parameters**
+> _$bool_
+
+**Remarks**
+
+Method isButton
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ColorPicker::pickerBorder #
+
+**pickerBorder(**
+**integer**
+_$int\_value_**);**
+
+
+
+
+
+**Parameters**
+> _$int\_value_
+
+**Remarks**
+
+Method pickerBorder
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ColorPicker::pickerBorderColor #
+
+**pickerBorderColor(**
+**string**
+_$str\_color_**);**
+
+
+
+
+
+**Parameters**
+> _$str\_color_
+
+**Remarks**
+
+Method pickerBorderColor
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ColorPicker::pickerFace #
+
+**pickerFace(**
+**integer**
+_$int\_value_**);**
+
+
+
+
+
+**Parameters**
+> _$int\_value_
+
+**Remarks**
+
+Method pickerFace
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ColorPicker::pickerFaceColor #
+
+**pickerFaceColor(**
+**string**
+_$str\_color_**);**
+
+
+
+
+
+**Parameters**
+> _$str\_color_
+
+**Remarks**
+
+Method pickerFaceColor
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ColorPicker::pickerInset #
+
+**pickerInset(**
+**integer**
+_$int\_value_**);**
+
+
+
+
+
+**Parameters**
+> _$int\_value_
+
+**Remarks**
+
+Method pickerInset
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ColorPicker::pickerInsetColor #
+
+**pickerInsetColor(**
+**string**
+_$str\_color_**);**
+
+
+
+
+
+**Parameters**
+> _$str\_color_
+
+**Remarks**
+
+Method pickerInsetColor
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ColorPicker::pickerMode #
+
+**pickerMode(**
+[**string**
+_$mode_ = 'HSV']**);**
+
+
+
+
+
+**Parameters**
+> _$mode_ [value: HSV](default.md)
+
+**Remarks**
+
+Method pickerMode
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ColorPicker::pickerPosition #
+
+**pickerPosition(**
+[**string**
+_$position_ = 'left']**);**
+
+
+
+
+
+**Parameters**
+> _$position_ [value: left](default.md)
+
+**Remarks**
+
+Method pickerPosition
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ColorPicker::required #
+
+**required(**
+**boolean**
+_$bool_**);**
+
+
+
+
+
+**Parameters**
+> _$bool_
+
+**Remarks**
+
+Method required
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ColorPicker::styleElement #
+
+**styleElement(**
+**string**
+_$textbox\_id_**);**
+
+
+
+
+
+**Parameters**
+> _$textbox\_id_
+
+**Remarks**
+
+Method styleElement
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ColorPicker::valueElement #
+
+**valueElement(**
+**string**
+_$textbox\_id_**);**
+
+
+
+
+
+**Parameters**
+> _$textbox\_id_
+
+**Remarks**
+
+Method valueElement
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+**`COLORPICKER_MODE_HSV` = ` 'HSV'` (line 36)**
+
+
+**Remarks**
+
+ColorPicker constant
+
+
+**access:** public
+
+
+**`COLORPICKER_MODE_HVS` = ` 'HVS'` (line 37)**
+
+
+**Remarks**
+
+ColorPicker constant
+
+
+**access:** public
+
+
+**`COLORPICKER_POSITION_LEFT` = ` 'left'` (line 39)**
+
+
+**Remarks**
+
+ColorPicker constant
+
+
+**access:** public
+
+
+**`COLORPICKER_POSITION_RIGHT` = ` 'right'` (line 40)**
+
+
+**Remarks**
+
+ColorPicker constant
+
+
+**access:** public
+
+
+**`COLORPICKER_POSITION_TOP` = ` 'top'` (line 41)**
+
+
+**Remarks**
+
+ColorPicker constant
+
+
+**access:** public
+
+
+
+
+---

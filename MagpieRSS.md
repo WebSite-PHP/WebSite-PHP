@@ -1,0 +1,441 @@
+# Class MagpieRSS #
+
+
+
+
+
+Location: /modules/RSS-Reader/rss\_parse.inc
+
+
+---
+
+
+
+**Remarks**
+
+Hybrid parser, and object, takes RSS as a string and returns a simple object.
+
+
+see: rss\_fetch.inc for a simpler interface with integrated caching support
+
+
+
+
+---
+
+## Class Variable Summary ##
+  * `$channel` = `array()`
+
+
+  * `$current_item` = `array()`
+
+
+  * `$current_namespace` = ` false`
+
+
+  * `$encoding` = ` ''`
+
+
+  * `$ERROR` = ` ''`
+
+
+  * `$feed_type` = ``
+
+
+  * `$feed_version` = ``
+
+
+  * `$image` = `array()`
+
+
+  * `$inchannel` = ` false`
+
+
+  * `$incontent` = ` false`
+
+
+  * `$inimage` = ` false`
+
+
+  * `$initem` = ` false`
+
+
+  * `$intextinput` = ` false`
+
+
+  * `$items` = `array()`
+
+
+  * `$parser` = ``
+
+
+  * `$stack` = `array()`
+
+
+  * `$textinput` = `array()`
+
+
+  * `$WARNING` = ` ''`
+
+
+  * `$_CONTENT_CONSTRUCTS` = `array('content', 'summary', 'info', 'title', 'tagline', 'copyright')`
+
+
+  * `$_KNOWN_ENCODINGS` = `array('UTF-8', 'US-ASCII', 'ISO-8859-1')`
+
+
+  * `$_source_encoding` = ` ''`
+
+
+
+
+---
+
+## Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+
+---
+
+## Method Detail ##
+
+
+
+# MagpieRSS::MagpieRSS #
+
+**MagpieRSS(**
+**string**
+_$source_, [**string**
+_$output\_encoding_ = 'ISO-8859-1'], [**string**
+_$input\_encoding_ = null], [**bool**
+_$detect\_encoding_ = true]**);**
+
+
+
+
+
+**Parameters**
+> _$source_ string containing the RSS to be parsedNOTE:  Probably a good idea to leave the encoding options alone unless          you know what you're doing as PHP's character set support is          a little weird.NOTE:  A lot of this is unnecessary but harmless with PHP5
+> _$output\_encoding_ output the parsed RSS in this character                                   set defaults to ISO-8859-1 as this is PHP's                                   default.NOTE: might be changed to UTF-8 in future                                   versions.
+> _$input\_encoding_ the character set of the incoming RSS source.                                   Leave blank and Magpie will try to figure it                                   out.
+> _$detect\_encoding_ if false Magpie won't attempt to detect                                   source encoding. (caveat emptor)
+
+**Remarks**
+
+Set up XML parser, parse source, and return populated RSS object..
+
+
+
+
+# MagpieRSS::append #
+
+**append(**
+
+_$el_, 
+_$text_**);**
+
+
+
+
+
+**Parameters**
+> _$el_
+> _$text_
+
+
+# MagpieRSS::append\_content #
+
+**append\_content(**
+
+_$text_**);**
+
+
+
+
+
+**Parameters**
+> _$text_
+
+
+# MagpieRSS::concat #
+
+**concat(**
+
+_&$str1_, [
+_$str2_ = &quot;&quot;]**);**
+
+
+
+
+
+**Parameters**
+> _&$str1_
+> _$str2_
+
+
+# MagpieRSS::create\_parser #
+
+**create\_parser(**
+
+_$source_, 
+_$out\_enc_, 
+_$in\_enc_, 
+_$detect_**);**
+
+
+
+
+
+**Parameters**
+> _$source_
+> _$out\_enc_
+> _$in\_enc_
+> _$detect_
+
+**Remarks**
+
+return XML parser, and possibly re-encoded source
+
+
+
+
+# MagpieRSS::error #
+
+**error(**
+
+_$errormsg_, [
+_$lvl_ = E\_USER\_WARNING]**);**
+
+
+
+
+
+**Parameters**
+> _$errormsg_
+> _$lvl_
+
+
+# MagpieRSS::feed\_cdata #
+
+**feed\_cdata(**
+
+_$p_, 
+_$text_**);**
+
+
+
+
+
+**Parameters**
+> _$p_
+> _$text_
+
+
+# MagpieRSS::feed\_end\_element #
+
+**feed\_end\_element(**
+
+_$p_, 
+_$el_**);**
+
+
+
+
+
+**Parameters**
+> _$p_
+> _$el_
+
+
+# MagpieRSS::feed\_start\_element #
+
+**feed\_start\_element(**
+
+_$p_, 
+_$element_, 
+_&$attrs_**);**
+
+
+
+
+
+**Parameters**
+> _$p_
+> _$element_
+> _&$attrs_
+
+
+# MagpieRSS::is\_atom #
+
+**is\_atom(**
+**);**
+
+
+
+
+
+
+# MagpieRSS::is\_rss #
+
+**is\_rss(**
+**);**
+
+
+
+
+
+
+# MagpieRSS::known\_encoding #
+
+**known\_encoding(**
+
+_$enc_**);**
+
+
+
+
+
+**Parameters**
+> _$enc_
+
+
+# MagpieRSS::normalize #
+
+**normalize(**
+**);**
+
+
+
+
+
+
+# MagpieRSS::php4\_create\_parser #
+
+**php4\_create\_parser(**
+
+_$source_, 
+_$in\_enc_, 
+_$detect_**);**
+
+
+
+
+
+**Parameters**
+> _$source_
+> _$in\_enc_
+> _$detect_
+
+**Remarks**
+
+Instaniate an XML parser under PHP4
+
+
+Unfortunately PHP4's support for character encodings  and especially XML and character encodings sucks.  As  long as the documents you parse only contain characters  from the ISO-8859-1 character set (a superset of ASCII,  and a subset of UTF-8) you're fine.  However once you  step out of that comfy little world things get mad, bad,  and dangerous to know.The following code is based on SJM's work with FoF
+
+
+**see:**
+
+
+
+# MagpieRSS::php5\_create\_parser #
+
+**php5\_create\_parser(**
+
+_$in\_enc_, 
+_$detect_**);**
+
+
+
+
+
+**Parameters**
+> _$in\_enc_
+> _$detect_
+
+**Remarks**
+
+Instantiate an XML parser under PHP5
+
+
+PHP5 will do a fine job of detecting input encoding  if passed an empty string as the encoding.All hail libxml2!
+
+
+
+
+
+---
+
+
+## Variable Detail ##
+**`$channel` = `array()` (line 43)** **Data type:** `mixed`
+
+**`$current_item` = `array()` (line 41)** **Data type:** `mixed`
+
+**`$current_namespace` = ` false` (line 67)** **Data type:** `mixed`
+
+**`$encoding` = ` ''` (line 48)** **Data type:** `mixed`
+
+**`$ERROR` = ` ''` (line 52)** **Data type:** `mixed`
+
+**`$feed_type` = `` (line 46)** **Data type:** `mixed`
+
+**`$feed_version` = `` (line 47)** **Data type:** `mixed`
+
+**`$image` = `array()` (line 45)** **Data type:** `mixed`
+
+**`$inchannel` = ` false` (line 62)** **Data type:** `mixed`
+
+**`$incontent` = ` false` (line 64)** **Data type:** `mixed`
+
+**`$inimage` = ` false` (line 66)** **Data type:** `mixed`
+
+**`$initem` = ` false` (line 63)** **Data type:** `mixed`
+
+**`$intextinput` = ` false` (line 65)** **Data type:** `mixed`
+
+**`$items` = `array()` (line 42)** **Data type:** `mixed`
+
+**`$parser` = `` (line 39)** **Data type:** `mixed`
+
+**`$stack` = `array()` (line 61)** **Data type:** `mixed`
+
+**`$textinput` = `array()` (line 44)** **Data type:** `mixed`
+
+**`$WARNING` = ` ''` (line 53)** **Data type:** `mixed`
+
+**`$_CONTENT_CONSTRUCTS` = `array('content', 'summary', 'info', 'title', 'tagline', 'copyright')` (line 57)** **Data type:** `mixed`
+
+**`$_KNOWN_ENCODINGS` = `array('UTF-8', 'US-ASCII', 'ISO-8859-1')` (line 58)** **Data type:** `mixed`
+
+**`$_source_encoding` = ` ''` (line 50)** **Data type:** `mixed`
+
+
+
+---
+
+## Class Constant Detail ##
+
+
+
+---

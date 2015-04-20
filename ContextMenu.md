@@ -1,0 +1,390 @@
+# Class ContextMenu #
+
+WebSitePhpObject
+> |
+> --ContextMenu
+
+
+
+Location: /display/advanced\_object/menu/ContextMenu.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class ContextMenu
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.7
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.17
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+  * `CONTEXTMENU_ICON_COPY` = ` 'copy'`
+
+
+  * `CONTEXTMENU_ICON_CUT` = ` 'cut'`
+
+
+  * `CONTEXTMENU_ICON_DELETE` = ` 'delete'`
+
+
+  * `CONTEXTMENU_ICON_EDIT` = ` 'edit'`
+
+
+  * `CONTEXTMENU_ICON_FAIL` = ` 'fail'`
+
+
+  * `CONTEXTMENU_ICON_FOLDER` = ` 'folder'`
+
+
+  * `CONTEXTMENU_ICON_FOLDER_ADD` = ` 'folder_add'`
+
+
+  * `CONTEXTMENU_ICON_FOLDER_DELETE` = ` 'folder_delete'`
+
+
+  * `CONTEXTMENU_ICON_FOLDER_RENAME` = ` 'folder_rename'`
+
+
+  * `CONTEXTMENU_ICON_LINK` = ` 'link'`
+
+
+  * `CONTEXTMENU_ICON_PAGE` = ` 'page'`
+
+
+  * `CONTEXTMENU_ICON_PAGE_ADD` = ` 'page_add'`
+
+
+  * `CONTEXTMENU_ICON_PAGE_DELETE` = ` 'page_delete'`
+
+
+  * `CONTEXTMENU_ICON_PAGE_RENAME` = ` 'page_rename'`
+
+
+  * `CONTEXTMENU_ICON_PASTE` = ` 'paste'`
+
+
+  * `CONTEXTMENU_ICON_PICTURE` = ` 'picture'`
+
+
+  * `CONTEXTMENU_ICON_PICTURE_ADD` = ` 'picture_add'`
+
+
+  * `CONTEXTMENU_ICON_PICTURE_DELETE` = ` 'picture_delete'`
+
+
+  * `CONTEXTMENU_ICON_PICTURE_EDIT` = ` 'picture_edit'`
+
+
+  * `CONTEXTMENU_ICON_QUIT` = ` 'quit'`
+
+
+  * `CONTEXTMENU_ICON_REDO` = ` 'redo'`
+
+
+  * `CONTEXTMENU_ICON_RENAME` = ` 'rename'`
+
+
+  * `CONTEXTMENU_ICON_SUCCESS` = ` 'success'`
+
+
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# ContextMenu::addItem #
+
+**addItem(**
+**mixed**
+_$text_, [**string**
+_$contextmenu\_icon_ = ''], [**string**
+_$event\_js\_or\_object_ = ''], [**boolean**
+_$separator_ = false]**);**
+
+
+
+
+
+**Parameters**
+> _$text_
+> _$contextmenu\_icon_
+> _$event\_js\_or\_object_
+> _$separator_ [value: false](default.md)
+
+**Remarks**
+
+Method addItem
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ContextMenu::attachContextMenuToObjectId #
+
+**attachContextMenuToObjectId(**
+**mixed**
+_$object\_id_**);**
+
+
+
+
+
+**Parameters**
+> _$object\_id_
+
+**Remarks**
+
+Method attachContextMenuToObjectId
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# ContextMenu::construct #
+
+**construct(**
+**mixed**
+_$id_**);**
+
+
+Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Parameters**
+> _$id_
+
+**Remarks**
+
+Constructor ContextMenu
+
+
+
+
+# ContextMenu::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object ContextMenu
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+**`CONTEXTMENU_ICON_COPY` = ` 'copy'` (line 30)**
+
+
+**`CONTEXTMENU_ICON_CUT` = ` 'cut'` (line 29)**
+
+
+**`CONTEXTMENU_ICON_DELETE` = ` 'delete'` (line 40)**
+
+
+**`CONTEXTMENU_ICON_EDIT` = ` 'edit'` (line 28)**
+
+
+**`CONTEXTMENU_ICON_FAIL` = ` 'fail'` (line 48)**
+
+
+**`CONTEXTMENU_ICON_FOLDER` = ` 'folder'` (line 36)**
+
+
+**`CONTEXTMENU_ICON_FOLDER_ADD` = ` 'folder_add'` (line 37)**
+
+
+**`CONTEXTMENU_ICON_FOLDER_DELETE` = ` 'folder_delete'` (line 38)**
+
+
+**`CONTEXTMENU_ICON_FOLDER_RENAME` = ` 'folder_rename'` (line 39)**
+
+
+**`CONTEXTMENU_ICON_LINK` = ` 'link'` (line 47)**
+
+
+**`CONTEXTMENU_ICON_PAGE` = ` 'page'` (line 32)**
+
+
+**`CONTEXTMENU_ICON_PAGE_ADD` = ` 'page_add'` (line 33)**
+
+
+**`CONTEXTMENU_ICON_PAGE_DELETE` = ` 'page_delete'` (line 34)**
+
+
+**`CONTEXTMENU_ICON_PAGE_RENAME` = ` 'page_rename'` (line 35)**
+
+
+**`CONTEXTMENU_ICON_PASTE` = ` 'paste'` (line 31)**
+
+
+**`CONTEXTMENU_ICON_PICTURE` = ` 'picture'` (line 43)**
+
+
+**`CONTEXTMENU_ICON_PICTURE_ADD` = ` 'picture_add'` (line 44)**
+
+
+**`CONTEXTMENU_ICON_PICTURE_DELETE` = ` 'picture_delete'` (line 45)**
+
+
+**`CONTEXTMENU_ICON_PICTURE_EDIT` = ` 'picture_edit'` (line 46)**
+
+
+**`CONTEXTMENU_ICON_QUIT` = ` 'quit'` (line 42)**
+
+
+**`CONTEXTMENU_ICON_REDO` = ` 'redo'` (line 50)**
+
+
+**`CONTEXTMENU_ICON_RENAME` = ` 'rename'` (line 41)**
+
+
+**`CONTEXTMENU_ICON_SUCCESS` = ` 'success'` (line 49)**
+
+
+
+
+---

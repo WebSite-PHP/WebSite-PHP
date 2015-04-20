@@ -1,0 +1,803 @@
+# Class WebSitePhpEventObject #
+
+WebSitePhpObject
+> |
+> --WebSitePhpEventObject
+
+
+Classes extended from WebSitePhpEventObject:
+> AutoCompleteEvent
+> > |
+> > --Class AutoCompleteEvent
+
+> ContextMenuEvent
+> > |
+> > --Class ContextMenuEvent
+
+> DroppableEvent
+> > |
+> > --Class DroppableEvent
+
+> SortableEvent
+> > |
+> > --Class SortableEvent
+
+> Button
+> > |
+> > --Class Button
+
+> CheckBox
+> > |
+> > --Class CheckBox
+
+> ComboBox
+> > |
+> > --Class ComboBox
+
+> Editor
+> > |
+> > --Class Editor
+
+> Hidden
+> > |
+> > --Class Hidden
+
+> Object
+> > |
+> > --Class Object
+
+> Picture
+> > |
+> > --Class Picture
+
+> RadioButtonGroup
+> > |
+> > --Class RadioButtonGroup
+
+> TextArea
+> > |
+> > --Class TextArea
+
+> TextBox
+> > |
+> > --Class TextBox
+
+> UploadFile
+> > |
+> > --Class UploadFile
+
+> Raty
+> > |
+> > --Class Raty
+
+
+
+Location: /abstract/WebSitePhpEventObject.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Abstract Class WebSitePhpObject
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.9
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**abstract:**
+
+
+
+---
+
+## Class Variable Summary ##
+  * `$ajax_wait_message` = ` ''`
+
+
+  * `$class_name` = ` ''`
+
+
+  * `$disable_ajax_wait_message` = ` false`
+
+
+  * `$form_object` = ` null`
+
+
+  * `$id` = ` ''`
+
+
+  * `$is_ajax_event` = ` false`
+
+
+  * `$name` = ` ''`
+
+
+  * `$on_form_is_changed_js` = ` ''`
+
+
+  * `$on_form_is_changed_revert` = ` false`
+
+
+  * `$page_object` = ` null`
+
+
+
+
+---
+
+## Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# WebSitePhpEventObject::construct #
+
+**construct(**
+**);**
+
+
+> Overridden in child classes as:
+> > AutoCompleteEvent::construct()
+> > > Constructor AutoCompleteEvent
+
+> > ContextMenuEvent::construct()
+> > > Constructor ContextMenuEvent
+
+> > DroppableEvent::construct()
+> > > Constructor DroppableEvent
+
+> > SortableEvent::construct()
+> > > Constructor SortableEvent
+
+> > Button::construct()
+> > > Constructor Button
+
+> > CheckBox::construct()
+> > > Constructor CheckBox
+
+> > ComboBox::construct()
+> > > Constructor ComboBox
+
+> > Editor::construct()
+> > > Constructor Editor
+
+> > Hidden::construct()
+> > > Constructor Hidden
+
+> > Object::construct()
+> > > Constructor Object
+
+> > Picture::construct()
+> > > Constructor Picture
+
+> > RadioButtonGroup::construct()
+> > > Constructor RadioButtonGroup
+
+> > TextArea::construct()
+> > > Constructor TextArea
+
+> > TextBox::construct()
+> > > Constructor TextBox
+
+> > ColorPicker::construct()
+> > > Constructor ColorPicker
+
+> > Calendar::construct()
+> > > Constructor Calendar
+
+> > Password::construct()
+> > > Constructor Password
+
+> > UploadFile::construct()
+> > > Constructor UploadFile
+
+> > Raty::construct()
+> > > Constructor Raty
+
+> Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Remarks**
+
+Constructor WebSitePhpEventObject
+
+
+
+
+# WebSitePhpEventObject::automaticAjaxEvent #
+
+**automaticAjaxEvent(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method automaticAjaxEvent
+
+
+**since:** 1.0.59
+
+**access:** public
+
+
+
+# WebSitePhpEventObject::disableAjaxWaitMessage #
+
+**disableAjaxWaitMessage(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method disableAjaxWaitMessage
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# WebSitePhpEventObject::getAjaxEventFunctionRender #
+
+**getAjaxEventFunctionRender(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getAjaxEventFunctionRender
+
+
+**since:** 1.0.35
+
+**access:** protected
+
+
+
+# WebSitePhpEventObject::getEventObjectName #
+
+**getEventObjectName(**
+**);**
+
+
+> Overridden in child classes as:
+> > CheckBox::getEventObjectName()
+> > > Method getEventObjectName
+
+> > Editor::getEventObjectName()
+> > > Method getEventObjectName
+
+> > Hidden::getEventObjectName()
+> > > Method getEventObjectName
+
+> > RadioButtonGroup::getEventObjectName()
+> > > Method getEventObjectName
+
+> > UploadFile::getEventObjectName()
+> > > Method getEventObjectName
+
+
+
+**Remarks**
+
+Method getEventObjectName
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# WebSitePhpEventObject::getFormObject #
+
+**getFormObject(**
+**);**
+
+
+
+> Overridden in child classes as:
+> > CheckBox::getFormObject()
+> > > Method getFormObject
+
+> > Editor::getFormObject()
+> > > Method getFormObject
+
+> > Hidden::getFormObject()
+> > > Method getFormObject
+
+> > RadioButtonGroup::getFormObject()
+> > > Method getFormObject
+
+> > UploadFile::getFormObject()
+> > > Method getFormObject
+
+
+
+**Remarks**
+
+Method getFormObject
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# WebSitePhpEventObject::getId #
+
+**getId(**
+**);**
+
+
+
+> Overridden in child classes as:
+> > CheckBox::getId()
+> > > Method getId
+
+> > ComboBox::getId()
+> > > Method getId
+
+> > Editor::getId()
+> > > Method getId
+
+> > Hidden::getId()
+> > > Method getId
+
+> > Object::getId()
+> > > Method getId
+
+> > Picture::getId()
+> > > Method getId
+
+> > RadioButtonGroup::getId()
+> > > Method getId
+
+> > UploadFile::getId()
+> > > Method getId
+
+
+
+**Remarks**
+
+Method getId
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# WebSitePhpEventObject::getName #
+
+**getName(**
+**);**
+
+
+
+> Overridden in child classes as:
+> > DroppableEvent::getName()
+> > > Method getName
+
+> > SortableEvent::getName()
+> > > Method getName
+
+> > CheckBox::getName()
+> > > Method getName
+
+> > Editor::getName()
+> > > Method getName
+
+> > Hidden::getName()
+> > > Method getName
+
+> > RadioButtonGroup::getName()
+> > > Method getName
+
+> > UploadFile::getName()
+> > > Method getName
+
+> Overrides WebSitePhpObject::getName() (Method getName)
+
+
+
+**Remarks**
+
+Method getName
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# WebSitePhpEventObject::getObjectEventValidationRender #
+
+**getObjectEventValidationRender(**
+**string**
+_$on\_event_, **string**
+_$callback_, [**string**
+_$params_ = ''], [**boolean**
+_$abort\_last\_request_ = false]**);**
+
+
+
+
+
+**Parameters**
+> _$on\_event_
+> _$callback_
+> _$params_
+> _$abort\_last\_request_ [value: false](default.md)
+
+**Remarks**
+
+Method getObjectEventValidationRender
+
+
+**since:** 1.0.35
+
+**access:** protected
+
+
+
+# WebSitePhpEventObject::getSubmitValueIsInit #
+
+**getSubmitValueIsInit(**
+**);**
+
+
+
+
+  * ccess:**public**
+
+
+
+# WebSitePhpEventObject::initSubmitValue #
+
+**initSubmitValue(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method initSubmitValue  Internal method used by an object like ComboBox or TextBox to init it with submitted value (if not already done).
+
+
+**since:** 1.0.59
+
+**access:** protected
+
+
+
+# WebSitePhpEventObject::isAjaxEvent #
+
+**isAjaxEvent(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isAjaxEvent
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# WebSitePhpEventObject::isEventObject #
+
+**isEventObject(**
+**);**
+
+
+Overrides WebSitePhpObject::isEventObject() (Method isEventObject)
+
+
+
+**Remarks**
+
+Method isEventObject
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# WebSitePhpEventObject::loadCallbackMethod #
+
+**loadCallbackMethod(**
+**string**
+_$str\_function_, [**array**
+_$array\_args_ = array()]**);**
+
+
+
+
+
+**Parameters**
+> _$str\_function_
+> _$array\_args_ [value: array(](default.md)
+
+**Remarks**
+
+Method loadCallbackMethod
+
+
+**since:** 1.0.35
+
+**access:** protected
+
+
+
+# WebSitePhpEventObject::onFormIsChangedJs #
+
+**onFormIsChangedJs(**
+**mixed**
+_$js\_function_, [**boolean**
+_$revert\_this\_object\_to\_old\_value_ = false]**);**
+
+
+
+
+
+**Parameters**
+> _$js\_function_
+> _$revert\_this\_object\_to\_old\_value_ [value: false](default.md)
+
+**Remarks**
+
+Method onFormIsChangedJs
+
+
+**since:** 1.0.90
+
+**access:** public
+
+
+
+# WebSitePhpEventObject::setAjaxEvent #
+
+**setAjaxEvent(**
+[
+_$bool_ = true]**);**
+
+
+
+
+
+**Parameters**
+> _$bool_
+
+**Remarks**
+
+Method setAjaxEvent
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# WebSitePhpEventObject::setAjaxWaitMessage #
+
+**setAjaxWaitMessage(**
+**string|Object**
+_$message\_or\_object_**);**
+
+
+
+
+
+**Parameters**
+> _$message\_or\_object_
+
+**Remarks**
+
+Method setAjaxWaitMessage
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# WebSitePhpEventObject::setSubmitValueIsInit #
+
+**setSubmitValueIsInit(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setSubmitValueIsInit
+
+
+Internal method to set when an object have already the submitted value
+
+
+**since:** 1.0.90
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+**`$ajax_wait_message` = ` ''` (line 39)** **Data type:** `mixed`
+**access:** protected
+
+
+**`$class_name` = ` ''` (line 31)** **Data type:** `mixed`
+**access:** protected
+
+
+**`$disable_ajax_wait_message` = ` false` (line 40)** **Data type:** `mixed`
+**access:** protected
+
+
+**`$form_object` = ` null` (line 33)** **Data type:** `mixed`
+**access:** protected
+
+
+**`$id` = ` ''` (line 36)** **Data type:** `mixed`
+**access:** protected
+
+
+**`$is_ajax_event` = ` false` (line 38)** **Data type:** `mixed`
+**access:** protected
+
+
+**`$name` = ` ''` (line 35)** **Data type:** `mixed`
+**access:** protected
+
+
+**`$on_form_is_changed_js` = ` ''` (line 41)** **Data type:** `mixed`
+**access:** protected
+
+
+**`$on_form_is_changed_revert` = ` false` (line 42)** **Data type:** `mixed`
+**access:** protected
+
+
+**`$page_object` = ` null` (line 32)** **Data type:** `mixed`
+**access:** protected
+
+
+
+
+---
+
+## Class Constant Detail ##
+
+
+
+---

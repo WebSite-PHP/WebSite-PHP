@@ -1,0 +1,780 @@
+# Class Link #
+
+WebSitePhpObject
+> |
+> --Link
+
+
+
+Location: /display/Link.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class Link
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.9
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.17
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+  * `TARGET_BLANK` = ` '_blank'`
+
+> Target
+    * `TARGET_NONE` = ` ''`
+
+> Target
+    * `TARGET_PARENT` = ` '_parent'`
+
+> Target
+    * `TARGET_SELF` = ` '_self'`
+
+> Target
+    * `TARGET_TOP` = ` '_top'`
+
+> Target
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# Link::construct #
+
+**construct(**
+**mixed**
+_$link_, [**string**
+_$target_ = ''], [**object**
+_$content_ = null]**);**
+
+
+Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Parameters**
+> _$link_
+> _$target_
+> _$content_ [value: null](default.md)
+
+**Remarks**
+
+Constructor Link
+
+
+
+
+# Link::addLightbox #
+
+**addLightbox(**
+[**string**
+_$lightbox\_name_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$lightbox\_name_
+
+**Remarks**
+
+Method addLightbox
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Link::getAjaxRender #
+
+**getAjaxRender(**
+**);**
+
+
+Overrides WebSitePhpObject::getAjaxRender() (Method getAjaxRender)
+
+
+
+**Returns**
+> javascript code to update initial html of object Link (call with AJAX)
+
+**Remarks**
+
+Method getAjaxRender
+
+
+**since:** 1.2.3
+
+**access:** public
+
+
+
+# Link::getId #
+
+**getId(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getId
+
+
+**since:** 1.2.3
+
+**access:** public
+
+
+
+# Link::getLink #
+
+**getLink(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getLink
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Link::getOnClickJs #
+
+**getOnClickJs(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getOnClickJs
+
+
+**since:** 1.0.96
+
+**access:** public
+
+
+
+# Link::getTarget #
+
+**getTarget(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getTarget
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Link::getUserHaveRights #
+
+**getUserHaveRights(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getUserHaveRights
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Link::onClickJs #
+
+**onClickJs(**
+**mixed**
+_$js\_function_**);**
+
+
+
+
+
+**Parameters**
+> _$js\_function_
+
+**Remarks**
+
+Method onClickJs
+
+
+**since:** 1.0.96
+
+**access:** public
+
+
+
+# Link::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object Link
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Link::setClass #
+
+**setClass(**
+**mixed**
+_$class_**);**
+
+
+
+
+
+**Parameters**
+> _$class_
+
+**Remarks**
+
+Method setClass
+
+
+**since:** 1.2.8
+
+**access:** public
+
+
+
+# Link::setContent #
+
+**setContent(**
+**object**
+_$content_**);**
+
+
+
+
+
+**Parameters**
+> _$content_
+
+**Remarks**
+
+Method setContent
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Link::setId #
+
+**setId(**
+**mixed**
+_$id_**);**
+
+
+
+
+
+**Parameters**
+> _$id_
+
+**Remarks**
+
+Method setId
+
+
+**since:** 1.2.3
+
+**access:** public
+
+
+
+# Link::setItemProp #
+
+**setItemProp(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setItemProp
+
+
+**since:** 1.2.7
+
+**access:** public
+
+
+
+# Link::setLink #
+
+**setLink(**
+**mixed**
+_$link_**);**
+
+
+
+
+
+**Parameters**
+> _$link_
+
+**Remarks**
+
+Method setLink
+
+
+**since:** 1.2.3
+
+**access:** public
+
+
+
+# Link::setNofollowLink #
+
+**setNofollowLink(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method setNofollowLink
+
+
+**since:** 1.0.67
+
+**access:** public
+
+
+
+# Link::setProperty #
+
+**setProperty(**
+**mixed**
+_$property_**);**
+
+
+
+
+
+**Parameters**
+> _$property_
+
+**Remarks**
+
+Method setProperty
+
+
+**since:** 1.2.0
+
+**access:** public
+
+
+
+# Link::setRel #
+
+**setRel(**
+**mixed**
+_$rel_**);**
+
+
+
+
+
+**Parameters**
+> _$rel_
+
+**Remarks**
+
+Method setRel
+
+
+**since:** 1.2.0
+
+**access:** public
+
+
+
+# Link::setStyle #
+
+**setStyle(**
+**mixed**
+_$style_**);**
+
+
+
+
+
+**Parameters**
+> _$style_
+
+**Remarks**
+
+Method setStyle
+
+
+**since:** 1.2.3
+
+**access:** public
+
+
+
+# Link::setTitleTagH #
+
+**setTitleTagH(**
+**mixed**
+_$value_, [**boolean**
+_$bold_ = false]**);**
+
+
+
+
+
+**Parameters**
+> _$value_
+> _$bold_ [value: false](default.md)
+
+**Remarks**
+
+Method setTitleTagH
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Link::setTitleTagH1 #
+
+**setTitleTagH1(**
+[**boolean**
+_$bold_ = true]**);**
+
+
+
+
+
+**Parameters**
+> _$bold_ [value: true](default.md)
+
+**Remarks**
+
+Method setTitleTagH1
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Link::setTitleTagH2 #
+
+**setTitleTagH2(**
+[**boolean**
+_$bold_ = false]**);**
+
+
+
+
+
+**Parameters**
+> _$bold_ [value: false](default.md)
+
+**Remarks**
+
+Method setTitleTagH2
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# Link::setTrackEvent #
+
+**setTrackEvent(**
+**mixed**
+_$category_, **mixed**
+_$action_, [**string**
+_$label_ = '']**);**
+
+
+
+
+
+**Parameters**
+> _$category_
+> _$action_
+> _$label_
+
+**Remarks**
+
+Method setTrackEvent
+
+
+**since:** 1.0.96
+
+**access:** public
+
+
+
+# Link::tooltip #
+
+**tooltip(**
+**mixed**
+_$tooltip\_obj_, **mixed**
+_$title_**);**
+
+
+
+
+
+**Parameters**
+> _$tooltip\_obj_
+> _$title_
+
+**Remarks**
+
+Method tooltip
+
+
+**since:** 1.2.5
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+**`TARGET_BLANK` = ` '_blank'` (line 32)**
+
+
+**Remarks**
+
+Target
+
+
+**access:** public
+
+
+**`TARGET_NONE` = ` ''` (line 36)**
+
+
+**Remarks**
+
+Target
+
+
+**access:** public
+
+
+**`TARGET_PARENT` = ` '_parent'` (line 35)**
+
+
+**Remarks**
+
+Target
+
+
+**access:** public
+
+
+**`TARGET_SELF` = ` '_self'` (line 33)**
+
+
+**Remarks**
+
+Target
+
+
+**access:** public
+
+
+**`TARGET_TOP` = ` '_top'` (line 34)**
+
+
+**Remarks**
+
+Target
+
+
+**access:** public
+
+
+
+
+---

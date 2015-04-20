@@ -1,0 +1,678 @@
+# Class TreeViewItem #
+
+WebSitePhpObject
+> |
+> --TreeViewItem
+
+
+Classes extended from TreeViewItem:
+> TreeViewFile
+> > |
+> > --Class TreeViewItem
+
+> TreeViewFolder
+> > |
+> > --Class TreeViewItem
+
+
+
+Location: /display/advanced\_object/treeview/TreeViewItem.class.php
+
+
+---
+
+
+
+**Remarks**
+
+Class TreeViewItem
+
+
+WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)  Copyright (c) 2009-2014 WebSite-PHP.com  PHP versions >= 5.2Licensed under The MIT License  Redistributions of files must retain the above copyright notice.
+
+
+**author:** Emilien MOREL <>
+
+**version:** 1.2.7
+
+**copyright:** WebSite-PHP.com 17/01/2014
+
+**link:**
+
+**since:** 1.0.17
+
+**access:** public
+
+
+
+---
+
+## Class Variable Summary ##
+
+
+---
+
+## Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Constant Summary ##
+
+
+
+---
+
+## Inherited Class Variable Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::$is_javascript_object` = ` false`
+
+
+  * `WebSitePhpObject::$is_new_object_after_init` = ` false`
+
+
+  * `WebSitePhpObject::$object_change` = ` false`
+
+
+  * `WebSitePhpObject::$tag` = ` ''`
+
+
+
+
+
+
+---
+
+## Method Summary ##
+
+
+## Inherited Method Summary ##
+
+### Inherited From Class WebSitePhpObject ###
+
+  * `WebSitePhpObject::__construct()`
+
+> Constructor WebSitePhpObject
+    * `WebSitePhpObject::addCss()`
+> Method addCss
+    * `WebSitePhpObject::addJavaScript()`
+> Method addJavaScript
+    * `WebSitePhpObject::displayJavascriptTag()`
+> Method displayJavascriptTag
+    * `WebSitePhpObject::forceAjaxRender()`
+
+  * `WebSitePhpObject::getAjaxRender()`
+> Method getAjaxRender
+    * `WebSitePhpObject::getClass()`
+
+  * `WebSitePhpObject::getCssArray()`
+> Method getCssArray
+    * `WebSitePhpObject::getJavaScriptArray()`
+> Method getJavaScriptArray
+    * `WebSitePhpObject::getJavascriptTagClose()`
+> Method getJavascriptTagClose
+    * `WebSitePhpObject::getJavascriptTagOpen()`
+> Method getJavascriptTagOpen
+    * `WebSitePhpObject::getName()`
+> Method getName
+    * `WebSitePhpObject::getPage()`
+> Method getPage
+    * `WebSitePhpObject::getRegisterObjects()`
+> Method getRegisterObjects
+    * `WebSitePhpObject::getTag()`
+> Method getTag
+    * `WebSitePhpObject::getType()`
+
+  * `WebSitePhpObject::isEventObject()`
+> Method isEventObject
+    * `WebSitePhpObject::isJavascriptObject()`
+> Method isJavascriptObject
+    * `WebSitePhpObject::isObjectChange()`
+> Method isObjectChange
+    * `WebSitePhpObject::render()`
+> Method render
+    * `WebSitePhpObject::setTag()`
+> Method setTag
+
+
+---
+
+## Method Detail ##
+
+
+
+# TreeViewItem::construct #
+
+**construct(**
+**string**
+_$value_, [**string**
+_$link_ = ''], [**boolean**
+_$is\_file_ = true], [**string**
+_$path_ = '']**);**
+
+
+> Overridden in child classes as:
+> > TreeViewFile::construct()
+> > > Constructor TreeViewFile
+
+> > TreeViewFolder::construct()
+> > > Constructor TreeViewFolder
+
+> Overrides WebSitePhpObject::construct() (Constructor WebSitePhpObject)
+
+
+
+**Parameters**
+> _$value_ node text
+> _$link_ node link
+> _$is\_file_ is the node a file [value: true](default.md)
+> _$path_ path to the file (if $is\_file is true)
+
+**Remarks**
+
+Constructor TreeViewItem
+
+
+
+
+# TreeViewItem::addItem #
+
+**addItem(**
+**TreeViewItem|TreeViewFolder|TreeViewFile|TreeView**
+_$treeview\_item\_object_**);**
+
+
+
+
+
+**Parameters**
+> _$treeview\_item\_object_
+
+**Remarks**
+
+Method addItem
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::collapse #
+
+**collapse(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method collapse
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::expand #
+
+**expand(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method expand
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::getAjaxRender #
+
+**getAjaxRender(**
+**);**
+
+
+Overrides WebSitePhpObject::getAjaxRender() (Method getAjaxRender)
+
+
+
+**Returns**
+> javascript code to update initial html of object TreeViewItem (call with AJAX)
+
+**Remarks**
+
+Method getAjaxRender
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::getChildsTreeViewItemArray #
+
+**getChildsTreeViewItemArray(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getChildsTreeViewItemArray
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::getId #
+
+**getId(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getId
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::getParentTreeViewItem #
+
+**getParentTreeViewItem(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getParentTreeViewItem
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::getPath #
+
+**getPath(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getPath
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::getTreeViewItemsObject #
+
+**getTreeViewItemsObject(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getTreeViewItemsObject
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::getTreeViewObject #
+
+**getTreeViewObject(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getTreeViewObject
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::getValue #
+
+**getValue(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method getValue
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::isCollapse #
+
+**isCollapse(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isCollapse
+
+
+**since:** 1.2.3
+
+**access:** public
+
+
+
+# TreeViewItem::isExpand #
+
+**isExpand(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method isExpand
+
+
+**since:** 1.2.3
+
+**access:** public
+
+
+
+# TreeViewItem::nodeValueAlreadyExists #
+
+**nodeValueAlreadyExists(**
+**string**
+_$value_**);**
+
+
+
+
+
+**Parameters**
+> _$value_
+
+**Remarks**
+
+Method nodeValueAlreadyExists
+
+
+**since:** 1.0.35
+
+**access:** protected
+
+
+
+# TreeViewItem::removeItem #
+
+**removeItem(**
+**);**
+
+
+
+
+
+**Remarks**
+
+Method removeItem
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::render #
+
+**render(**
+[**boolean**
+_$ajax\_render_ = false]**);**
+
+
+Overrides WebSitePhpObject::render() (Method render)
+
+
+
+**Parameters**
+> _$ajax\_render_ [value: false](default.md)
+
+**Returns**
+> html code of object TreeViewItem
+
+**Remarks**
+
+Method render
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::setPath #
+
+**setPath(**
+**string**
+_$path_**);**
+
+
+
+
+
+**Parameters**
+> _$path_
+
+**Remarks**
+
+Method setPath
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::setPrefixId #
+
+**setPrefixId(**
+**string**
+_$prefix\_id_**);**
+
+
+
+
+
+**Parameters**
+> _$prefix\_id_
+
+**Remarks**
+
+Method setPrefixId
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::setTreeViewItemParent #
+
+**setTreeViewItemParent(**
+**TreeViewItem|TreeViewFolder|TreeViewFile|TreeView**
+_$treeview\_item\_object_**);**
+
+
+
+
+
+**Parameters**
+> _$treeview\_item\_object_
+
+**Remarks**
+
+Method setTreeViewItemParent
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::setTreeViewItems #
+
+**setTreeViewItems(**
+**TreeViewItems**
+_$treeview\_items\_object_**);**
+
+
+
+
+
+**Parameters**
+> _$treeview\_items\_object_
+
+**Remarks**
+
+Method setTreeViewItems
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::setValue #
+
+**setValue(**
+**mixed**
+_$value_**);**
+
+
+
+
+
+**Parameters**
+> _$value_
+
+**Remarks**
+
+Method setValue
+
+
+**since:** 1.0.35
+
+**access:** public
+
+
+
+# TreeViewItem::tooltip #
+
+**tooltip(**
+**mixed**
+_$tooltip\_obj_**);**
+
+
+
+
+
+**Parameters**
+> _$tooltip\_obj_
+
+**Remarks**
+
+Method tooltip
+
+
+**since:** 1.0.77
+
+**access:** public
+
+
+
+
+---
+
+
+## Variable Detail ##
+
+
+---
+
+## Class Constant Detail ##
+
+
+
+---
