@@ -1,8 +1,9 @@
 <?php 
 	if(!isset($_SESSION)) {
-		include_once("../config/config.inc.php"); 
-		include_once("../includes/utils_session.inc.php");
-		session_name(formalize_to_variable(SITE_NAME));
+		include_once("../config/config.inc.php");
+        include_once("../includes/utils_session.inc.php");
+        @session_set_cookie_params(0, "/", $_SERVER['SERVER_NAME'], false, true);
+		@session_name(formalize_to_variable(SITE_NAME));
 		@session_start();
 	}
 	
@@ -622,4 +623,36 @@ textarea::-webkit-input-placeholder {
 #cookieChoiceInfo span {
 	width: 70%;
 	display: inline-block;
+}
+
+<?php
+include_once("../includes/utils_image.inc.php");
+if (!defined('DEFINE_STYLE_COLOR_UPLOAD_PROGRESS_BAR')) {
+    define("DEFINE_STYLE_COLOR_UPLOAD_PROGRESS_BAR", "#448ebb");
+}
+$gradient = gradientColorGenerator(str_replace("#", "", DEFINE_STYLE_COLOR_UPLOAD_PROGRESS_BAR), null);
+define("DEFINE_STYLE_COLOR_UPLOAD_PROGRESS_BAR_BACKGROUND", "#".$gradient[3]);
+?>
+.wsp-progress-bar-container{ text-align:center; top:40%; display:none; padding:20px; }
+.wsp-progress-bar-container .wsp-progress-bar .wsp-progress-bar-1 { position:relative; top: 2px; color:<?php echo isDarkHexaColor(DEFINE_STYLE_COLOR_UPLOAD_PROGRESS_BAR)?"white":"black"; ?> }
+.wsp-progress-bar-container .wsp-progress-bar .wsp-progress-bar-2 { position:relative; top: 2px; color:<?php echo isDarkHexaColor(DEFINE_STYLE_COLOR_UPLOAD_PROGRESS_BAR_BACKGROUND)?"white":"black"; ?> }
+.wsp-progress-bar-container .wsp-progress-bar { position:relative;  height:<?php echo str_replace("pt", "", $style_font_size_value) + 8; ?>px; background-color:<?php echo DEFINE_STYLE_COLOR_UPLOAD_PROGRESS_BAR_BACKGROUND; ?>; }
+.wsp-progress-bar-container .wsp-progress-bar>div{ position:absolute; left:0; top:0; bottom:0; width:0.5%; background-color:<?php echo DEFINE_STYLE_COLOR_UPLOAD_PROGRESS_BAR; ?>;  }
+
+<?php
+if (!defined('DEFINE_STYLE_BACKCOLOR_SCROLL_TO_TOP')) {
+    define("DEFINE_STYLE_BACKCOLOR_SCROLL_TO_TOP", "#F00001");
+}
+?>
+.backtotopinstance{
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    background: #eee;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 3px 3px 3px 3px;
+    padding: 15px 25px;
+    background: url("../wsp/img/arrow-top.png") no-repeat scroll -2px -2px <?php echo DEFINE_STYLE_BACKCOLOR_SCROLL_TO_TOP; ?>;
+    height: 30px;
+	width: 10px;
 }

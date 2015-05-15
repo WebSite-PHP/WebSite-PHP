@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 08/12/2014
- * @version     1.2.11
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.17
  */
@@ -391,6 +391,90 @@ class Object extends WebSitePhpEventObject {
 	public function getId() {
 		return "wsp_object_".$this->id;
 	}
+
+	/**
+	 * Method getStyle
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.13
+	 */
+    public function getStyle() {
+        $html = "";
+        if ($this->width != "") {
+            if (is_integer($this->width)) {
+                $html .= "width:".$this->width."px;";
+            } else {
+                $html .= "width:".$this->width.";";
+            }
+        }
+        if ($this->height != "") {
+            if (is_integer($this->height)) {
+                $html .= "height:".$this->height."px;";
+            } else {
+                $html .= "height:".$this->height.";";
+            }
+        }
+        if ($this->font_size != "") {
+            if (is_integer($this->font_size)) {
+                $html .= "font-size:".$this->font_size."pt;";
+            } else {
+                $html .= "font-size:".$this->font_size.";";
+            }
+        }
+        if ($this->font_family != "") {
+            $html .= "font-family:".$this->font_family.";";
+        }
+        if ($this->font_weight != "") {
+            $html .= "font-weight:".$this->font_weight.";";
+        }
+        if ($this->border != "") {
+            $html .= "border:";
+            if (is_integer($this->border)) {
+                $html .= $this->border."px";
+            } else {
+                $html .= $this->border;
+            }
+            $html .= " ".$this->border_style." ".$this->border_color.";";
+        }
+        if ($this->hide_object) {
+            $html .= "display:none;";
+        }
+        if ($this->min_height != "") {
+            $html .= "min-height: ".$this->min_height."px;height: expression(this.scrollHeight < ".$this->min_height." ? '".$this->min_height."px' : 'auto');";
+        } else if ($this->droppable || $this->sortable) {
+            $html .= "min-height: 24px;height: expression(this.scrollHeight < 22 ? '24px' : 'auto');";
+        }
+        if ($this->max_height != "") {
+            $html .= "max-height: ".$this->max_height."px;overflow:auto;".(is_browser_ie()?"overflow-x:scroll;":"")."height: expression(this.scrollHeight > ".$this->max_height." ? '".$this->max_height."px' : 'auto');";
+        }
+        if ($this->droppable || $this->sortable) {
+            $html .= "min-width: 24px;width: expression(this.scrollWidth < 26 ? '26px' : 'auto');";
+        }
+        if ($this->style != "") {
+            $html .= $this->style;
+        }
+        return $html;
+    }
+
+	/**
+	 * Method getHeight
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.13
+	 */
+    public function getHeight() {
+        return $this->height;
+    }
+
+	/**
+	 * Method getWidth
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.13
+	 */
+    public function getWidth() {
+        return $this->width;
+    }
 	
 	/**
 	 * Method hide
@@ -893,7 +977,7 @@ class Object extends WebSitePhpEventObject {
 		$html = "";
 		$is_span_open = false;
 		if ($this->force_div_tag || $this->force_span_tag || $this->id != "" || $this->align != "" || 
-			$this->border != "" || $this->width != "" || $this->font_size != "" || $this->font_family != "" || 
+			$this->border != "" || $this->width != "" || $this->height != "" || $this->font_size != "" || $this->font_family != "" || 
 			$this->font_weight != "" || $this->style != "" || $this->class != "" || $this->min_height != "" || 
 			$this->max_height != "" || $this->onclick != "" || $this->ondblclick != "" || 
 			$this->onmouseover != "" || $this->onmouseout != "") {
@@ -932,61 +1016,7 @@ class Object extends WebSitePhpEventObject {
 			if ($this->property != "") {
 				$html .= "property=\"".$this->property."\" ";
 			}
-			$html .= "style=\"";
-			if ($this->width != "") {
-				if (is_integer($this->width)) {
-					$html .= "width:".$this->width."px;";
-				} else {
-					$html .= "width:".$this->width.";";
-				}
-			}
-			if ($this->height != "") {
-				if (is_integer($this->height)) {
-					$html .= "height:".$this->height."px;";
-				} else {
-					$html .= "height:".$this->height.";";
-				}
-			}
-			if ($this->font_size != "") {
-				if (is_integer($this->font_size)) {
-					$html .= "font-size:".$this->font_size."pt;";
-				} else {
-					$html .= "font-size:".$this->font_size.";";
-				}
-			}
-			if ($this->font_family != "") {
-				$html .= "font-family:".$this->font_family.";";
-			}
-			if ($this->font_weight != "") {
-				$html .= "font-weight:".$this->font_weight.";";
-			}
-			if ($this->border != "") {
-				$html .= "border:";
-				if (is_integer($this->border)) {
-					$html .= $this->border."px";
-				} else {
-					$html .= $this->border;
-				}
-				$html .= " ".$this->border_style." ".$this->border_color.";";
-			}
-			if ($this->hide_object) {
-				$html .= "display:none;";
-			}
-			if ($this->min_height != "") {
-				$html .= "min-height: ".$this->min_height."px;height: expression(this.scrollHeight < ".$this->min_height." ? '".$this->min_height."px' : 'auto');";
-			} else if ($this->droppable || $this->sortable) {
-				$html .= "min-height: 24px;height: expression(this.scrollHeight < 22 ? '24px' : 'auto');";
-			}
-			if ($this->max_height != "") {
-				$html .= "max-height: ".$this->max_height."px;overflow:auto;".(is_browser_ie()?"overflow-x:scroll;":"")."height: expression(this.scrollHeight > ".$this->max_height." ? '".$this->max_height."px' : 'auto');";
-			}
-			if ($this->droppable || $this->sortable) {
-				$html .= "min-width: 24px;width: expression(this.scrollWidth < 26 ? '26px' : 'auto');";
-			}
-			if ($this->style != "") {
-				$html .= $this->style;
-			}
-			$html .= "\"";
+			$html .= "style=\"".$this->getStyle()."\"";
 			
 		 	if ($this->draggable || $this->droppable || $this->sortable || $this->class != "") {
 				$html .= " class=\"";
@@ -1014,13 +1044,13 @@ class Object extends WebSitePhpEventObject {
 			}
 			
 			if ($this->callback_onclick != "") {
-				$html .= " onClick=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick, $this->getId()))."\"";
+				$html .= " onClick=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->onclick, $this->callback_onclick))."\"";
 			} else if ($this->onclick != "") {
 				$html .= " onClick=\"".str_replace("\n", "", $this->onclick)."\"";
 			}
 			
 			if ($this->callback_ondblclick != "") {
-				$html .= " onDblClick=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->ondblclick, $this->callback_ondblclick, $this->getId()))."\"";
+				$html .= " onDblClick=\"".str_replace("\n", "", $this->getObjectEventValidationRender($this->ondblclick, $this->callback_ondblclick))."\"";
 			} else if ($this->ondblclick != "") {
 				$html .= " onDblClick=\"".str_replace("\n", "", $this->ondblclick)."\"";
 			}
@@ -1306,7 +1336,7 @@ class Object extends WebSitePhpEventObject {
 			if ($this->hide_object) {
 				$html .= "display:none;";
 			} else {
-				$html .= "display:block;";
+				$html .= "display:".($this->force_span_tag?"inline":"block").";";
 			}
 			if ($this->min_height != "") {
 				$html .= "min-height: ".$this->min_height."px;height: expression(this.scrollHeight < ".$this->min_height." ? '".$this->min_height."px' : 'auto');";

@@ -1,20 +1,53 @@
 /*
- * jQuery.upload v1.0.2
- *
- * Copyright (c) 2010 lagos
- * Dual licensed under the MIT and GPL licenses.
- *
- * http://lagoscript.org
+ * jQuery.upload for WSP (http://www.website-php.com)
+ * This library used jquery.form.js (http://malsup.com/jquery/form/)
  */
 (function($) {
-
 	var uuid = 0;
 
-	$.fn.upload = function(url, data, callback, type) {
-		var self = this, inputs, checkbox, checked,
-			iframeName = 'jquery_upload' + ++uuid,
-			iframe = $('<iframe name="' + iframeName + '" style="position:absolute;top:-9999px" />').appendTo('body'),
-			form = '<form target="' + iframeName + '" method="post" enctype="multipart/form-data" />';
+    var isFeatureFileapi = $("<input type='file'/>").get(0).files !== undefined;
+    var isFeatureFormdata = window.FormData !== undefined;
+    var isFileAPIActivate = isFeatureFileapi && isFeatureFormdata;
+
+	$.fn.upload = function(url, data, callback, type, progressbar_obj, obj_to_hide, check_size_fct, upload_size, check_mime_fct, mime_types) {
+		var self = this, inputs, checkbox, checked;
+
+        if (isFileAPIActivate && typeof check_size_fct == "function") {
+            if (upload_size != "" && upload_size > 0) {
+                var files = document.getElementById(self.attr('id')).files;
+                for (var i=0; i < files.length; i++) {
+                    var file = files[i];
+                    if (file != null && file.size > upload_size) {
+                        check_size_fct(file.name);
+                        return false;
+                    }
+                }
+            }
+        }
+        if (isFileAPIActivate && typeof check_mime_fct == "function") {
+            if (mime_types != "") {
+                var files = document.getElementById(self.attr('id')).files;
+                var mime_types_array = mime_types.split(', ');
+                for (var i=0; i < files.length; i++) {
+                    var file = files[i];
+                    if (file != null && file.type != null && file.type != "") {
+                        var file_mime_type_ok = false;
+                        for (var j=0; j < mime_types_array.length; j++) {
+                            console.log(mime_types_array[j].toLowerCase()+" == "+file.type.toLowerCase());
+                            if (mime_types_array[j] != "" && mime_types_array[j].toLowerCase() == file.type.toLowerCase()) {
+                                file_mime_type_ok = true;
+                            }
+                        }
+                        if (!file_mime_type_ok) {
+                            check_mime_fct(file.name, file.type);
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        var form = '<form method="post" enctype="multipart/form-data" />';
 
 		if ($.isFunction(data)) {
 			type = callback;
@@ -34,32 +67,81 @@
 		inputs = createInputs(data);
 		inputs = inputs ? $(inputs).appendTo(form) : null;
 
-		form.submit(function() {
-			iframe.load(function() {
-				var data = handleData(this, type),
-					checked = $('input:checked', self);
+        form.ajaxSubmit({
+            beforeSend: function () {
+                if (isFileAPIActivate) {
+                    if (obj_to_hide != null) {
+                        obj_to_hide.hide();
+                    }
+                    if (progressbar_obj != null) {
+                        progressbar_obj.show();
+                    }
+                }
+            },
+            uploadProgress: function (event, position, total, percentComplete) {
+                if (isFileAPIActivate && progressbar_obj != null) {
+                    // Increase the progress bar length.
+                    if (percentComplete <= 100) {
+                        var progressTxtObj = progressbar_obj.find(".wsp-progress-bar span");
+                        if (percentComplete < 50) {
+                            if (!progressTxtObj.hasClass('wsp-progress-bar-1')) {
+                                if (progressTxtObj.hasClass('wsp-progress-bar-2')) {
+                                    progressTxtObj.removeClass('wsp-progress-bar-2');
+                                }
+                                progressTxtObj.addClass('wsp-progress-bar-1');
+                            }
+                        } else {
+                            if (!progressTxtObj.hasClass('wsp-progress-bar-2')) {
+                                if (progressTxtObj.hasClass('wsp-progress-bar-1')) {
+                                    progressTxtObj.removeClass('wsp-progress-bar-1');
+                                }
+                                progressTxtObj.addClass('wsp-progress-bar-2');
+                            }
+                        }
+                        progressTxtObj.html(percentComplete+"%");
+                        progressbar_obj.find('.wsp-progress-bar>div').css({'width': percentComplete + '%'});
 
-				form.after(self).remove();
-				checkbox.removeAttr('checked');
-				checked.attr('checked', true);
-				if (inputs) {
-					inputs.remove();
-				}
+                        if (percentComplete >= 100) {
+                            setTimeout(function() {revertUploadProgressBar(progressbar_obj, obj_to_hide);}, 100);
+                        }
+                    }
+                }
+            },
+            success: function (responseText, statusText, xhr) {
+                revertUploadProgressBar(progressbar_obj, obj_to_hide);
+                var data = handleData(responseText, type);
+                var checked = $('input:checked', self);
 
-				setTimeout(function() {
-					iframe.remove();
-					if (type === 'script') {
-						$.globalEval(data);
-					}
-					if (callback) {
-						callback.call(self, data);
-					}
-				}, 0);
-			});
-		}).submit();
+                form.after(self).remove();
+                checkbox.removeAttr('checked');
+                checked.attr('checked', true);
+                if (inputs) {
+                    inputs.remove();
+                }
 
-		return this;
+                setTimeout(function() {
+                    if (type === 'script') {
+                        $.globalEval(data);
+                    }
+                    if (typeof callback == 'function') {
+                        callback(data);
+                    }
+                }, 0);
+            }
+        });
+		return true;
 	};
+
+    function revertUploadProgressBar(progressbar_obj, obj_to_hide) {
+        if (isFileAPIActivate) {
+            if (progressbar_obj != null) {
+                progressbar_obj.hide();
+            }
+            if (obj_to_hide != null) {
+                obj_to_hide.show();
+            }
+        }
+    }
 
 	function createInputs(data) {
 		return $.map(param(data), function(param) {
@@ -100,20 +182,12 @@
 		return params;
 	}
 
-	function handleData(iframe, type) {
-		var data, contents = $(iframe).contents().get(0);
-
-		if ($.isXMLDoc(contents) || contents.XMLDocument) {
-			return contents.XMLDocument || contents;
-		}
-		data = $(contents).find('body').html();
-
+	function handleData(data, type) {
 		switch (type) {
 			case 'xml':
 				data = parseXml(data);
 				break;
 			case 'json':
-				data = $(contents).text();
 				data = eval('(' + data + ')');
 				break;
 		}

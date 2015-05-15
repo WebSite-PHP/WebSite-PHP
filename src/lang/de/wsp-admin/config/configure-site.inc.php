@@ -14,6 +14,7 @@
 	define("EDT_SITE_IPHONE_IMAGE_57PX", "Kleines Iphone Bild (57px)");
 	define("EDT_SITE_IPHONE_IMAGE_72PX", "Mittleres Iphone Bild (72px)");
 	define("EDT_SITE_IPHONE_IMAGE_114PX", "Großes Iphone Bild (114px)");
+    define("EDT_SITE_IPHONE_IMAGE_152PX", "Großes retina iphone Bild (152px)");
 	define("EDT_GOOGLE_CODE_TRACKER", "Google Analytics Code");
 	define("EDT_GOOGLE_MAP_KEY", "Google Maps Schlüssel");
 	define("CMB_META_ROBOTS", "Robots");

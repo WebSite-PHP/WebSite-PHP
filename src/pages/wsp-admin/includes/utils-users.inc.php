@@ -9,10 +9,10 @@
 		$line = $passwd_file->read_line();
 		while ($line != null) {
 			$nodata=false;
-			if ($line == "login:".$login."\n") {
+			if (str_replace("\n", "", str_replace("\r", "", $line)) == "login:".$login) {
 				$strAdminLogin = $login;
-				$strAdminPasswd = str_replace("\n", "", str_replace("passwd:", "", $passwd_file->read_line()));
-				$strAdminRights = str_replace("\n", "", str_replace("rights:", "", $passwd_file->read_line()));
+				$strAdminPasswd = str_replace("\n", "", str_replace("\r", "", str_replace("passwd:", "", $passwd_file->read_line())));
+				$strAdminRights = str_replace("\n", "", str_replace("\r", "", str_replace("rights:", "", $passwd_file->read_line())));
 				break;
 			}
 			$line = $passwd_file->read_line();

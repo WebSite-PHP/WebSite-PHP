@@ -1,9 +1,9 @@
 <?php
 include("../../config/config.inc.php");
 include("../../includes/utils_session.inc.php");
-
-session_name(formalize_to_variable(SITE_NAME)); 
-session_start();
+@session_set_cookie_params(0, "/", $_SERVER['SERVER_NAME'], false, true);
+@session_name(formalize_to_variable(SITE_NAME));
+@session_start();
 
 /**
  * Project:     Securimage: A PHP class for creating and managing form CAPTCHA images<br />

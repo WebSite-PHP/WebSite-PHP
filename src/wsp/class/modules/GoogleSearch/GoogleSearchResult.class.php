@@ -8,7 +8,7 @@
  * Class GoogleSearchResult
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,33 +18,8 @@
  * @subpackage GoogleSearch
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
- * @access      public
- * @since       1.1.5
- */
-
-/**
- * PHP file wsp\class\display\advanced_object\google\googlesearch\GoogleSearchResult.class.php
- * @package display
- * @subpackage advanced_object.google.googlesearch
- */
-/**
- * Class GoogleSearchResult
- *
- * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
- * PHP versions >= 5.2
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- * 
- * @package display
- * @subpackage advanced_object.google.googlesearch
- * @author      Emilien MOREL <admin@website-php.com>
- * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 22/10/2010
- * @version     1.0.79
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.17
  */

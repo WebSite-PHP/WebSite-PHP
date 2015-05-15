@@ -38,4 +38,6 @@
 	define("CONFIG_FILE", "Konfiguration");
 	define("CONFIG_FILE_OK", "Ihre Konfiguration wurde gespeichert !");
 	define("CONFIG_FILE_NOT_OK", "Fehler während der Speicherung der Konfigurationsdatei !");
+	define('EDT_COLOR_UPLOAD_PROGRESS_BAR', 'Fortschrittsbalken Farbe Upload');
+	define('EDT_BACKCOLOR_SCROLL_TO_TOP', 'Hintergrund ScrollToTop');
 ?>

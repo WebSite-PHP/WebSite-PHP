@@ -8,7 +8,7 @@
  * Class ShareButton
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,33 +18,8 @@
  * @subpackage ShareButton
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
- * @access      public
- * @since       1.1.5
- */
-
-/**
- * PHP file wsp\class\display\advanced_object\social_network\ShareButton.class.php
- * @package display
- * @subpackage advanced_object.social_network
- */
-/**
- * Class ShareButton
- *
- * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2011 WebSite-PHP.com
- * PHP versions >= 5.2
- *
- * Licensed under The MIT License
- * Redistributions of files must retain the above copyright notice.
- * 
- * @package display
- * @subpackage advanced_object.social_network
- * @author      Emilien MOREL <admin@website-php.com>
- * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 01/06/2011
- * @version     1.0.84
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.79
  */
@@ -345,7 +320,11 @@ class ShareButton extends WebSitePhpObject {
 			$html .= "a2a_config.color_bg = \"".$this->background."\";";
 		}
 		$html .= "</script>";
-		$html .= "<script type=\"text/javascript\" src=\"http://static.addtoany.com/menu/page.js\" defer=\"defer\"></script>";
+        if ($this->getPage()->isThirdPartyCookiesFilterEnable()) {
+            $html .= "<script type=\"text/javascript\">(tarteaucitron.job = tarteaucitron.job || []).push('addtoanyshare');</script>";
+        } else {
+            $html .= "<script type=\"text/javascript\" src=\"http://static.addtoany.com/menu/page.js\" defer=\"defer\"></script>";
+        }
 
 		return $html;
 	}

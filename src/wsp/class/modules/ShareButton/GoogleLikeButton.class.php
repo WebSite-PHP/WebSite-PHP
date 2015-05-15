@@ -8,7 +8,7 @@
  * Class GoogleLikeButton
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage ShareButton
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.88
  */
@@ -70,35 +70,53 @@ class GoogleLikeButton extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		$html = "";
-		
-		$html .= "<g:plusone";
-		if ($this->type_button != "") {
-			$html .= " size=\"".$this->type_button."\"";
-		}
-		if (!$this->count) {
-			$html .= " count=\"false\"";
-		}
-		if ($this->callback != "") {
-			$html .= " callback=\"".$this->callback."\"";
-		}
-		if ($this->url != "") {
-			$html .= " href=\"".$this->url."\"";
-		}
-		$html .= "></g:plusone>\n";
-		
-		$html .= "<script type=\"text/javascript\">\n";
-		if ($_SESSION['lang'] != "en") {
-			$html .= "window.___gcfg = {lang: '".$_SESSION['lang']."'};\n";
-		}
-		$html .= "$( document ).ready(function() {\n";
-		$html .= "(function() {\n";
-		$html .= "  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;\n";
-		$html .= "  po.src = 'https://apis.google.com/js/plusone.js';\n";
-  		$html .= "  po.defer = \"defer\";\n";
-		$html .= "  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);\n";
-		$html .= "})();\n";
-		$html .= "});\n";
-		$html .= "</script>\n";
+
+        if ($this->getPage()->isThirdPartyCookiesFilterEnable()){
+            $html .= "<div class=\"g-plusone\"";
+            if ($this->type_button != "") {
+                $html .= " data-size=\"" . $this->type_button . "\"";
+            }
+            if (!$this->count) {
+                $html .= " data-count=\"false\"";
+            }
+            if ($this->callback != "") {
+                $html .= " data-callback=\"" . $this->callback . "\"";
+            }
+            if ($this->url != "") {
+                $html .= " data-href=\"" . $this->url . "\"";
+            }
+            $html .= "></div>";
+            $html .= "<script type=\"text/javascript\">(tarteaucitron.job = tarteaucitron.job || []).push('gplus');</script>";
+        } else {
+            $html .= "<g:plusone";
+            if ($this->type_button != "") {
+                $html .= " size=\"" . $this->type_button . "\"";
+            }
+            if (!$this->count) {
+                $html .= " count=\"false\"";
+            }
+            if ($this->callback != "") {
+                $html .= " callback=\"" . $this->callback . "\"";
+            }
+            if ($this->url != "") {
+                $html .= " href=\"" . $this->url . "\"";
+            }
+            $html .= "></g:plusone>\n";
+
+            $html .= "<script type=\"text/javascript\">\n";
+            if ($_SESSION['lang'] != "en") {
+                $html .= "window.___gcfg = {lang: '" . $_SESSION['lang'] . "'};\n";
+            }
+            $html .= "$( document ).ready(function() {\n";
+            $html .= "(function() {\n";
+            $html .= "  var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;\n";
+            $html .= "  po.src = 'https://apis.google.com/js/plusone.js';\n";
+            $html .= "  po.defer = \"defer\";\n";
+            $html .= "  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);\n";
+            $html .= "})();\n";
+            $html .= "});\n";
+            $html .= "</script>\n";
+        }
 		
 		return $html;
 	}

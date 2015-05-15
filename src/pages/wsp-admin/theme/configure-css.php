@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php-install/wsp-admin/theme/configure-css.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.25
  */
@@ -333,16 +333,35 @@ class ConfigureCss extends Page {
 		$this->style_gradient->activateOnOffStyle();
 		$this->style_gradient->disableAjaxWaitMessage()->onChange("changeGradient")->setAjaxEvent();
 		$table_form->addRowColumns(__(EDT_STYLE_GRADIENT, $this->current_style_val).":&nbsp;", $this->style_gradient);
-		
-		$this->color_shadow = new ColorPicker($form);
-		if (DEFINE_STYLE_BCK_PICTURE_1 != "" && DEFINE_STYLE_BCK_PICTURE_SECOND != "") {
-			$this->color_shadow->disable();
-		}
-		$this->color_shadow->setValue(constant("DEFINE_STYLE_OMBRE_COLOR_".$this->current_style_val))->hash(true)->setWidth(200);
-		$this->color_shadow->disableAjaxWaitMessage()->onChange("changeColorShadow")->setAjaxEvent();
-		$table_form->addRowColumns(__(EDT_COLOR_SHADOW, $this->current_style_val).":&nbsp;", $this->color_shadow);
-		
-		$table_form->addRow();
+
+        $this->color_shadow = new ColorPicker($form);
+        if (DEFINE_STYLE_BCK_PICTURE_1 != "" && DEFINE_STYLE_BCK_PICTURE_SECOND != "") {
+            $this->color_shadow->disable();
+        }
+        $this->color_shadow->setValue(constant("DEFINE_STYLE_OMBRE_COLOR_".$this->current_style_val))->hash(true)->setWidth(200);
+        $this->color_shadow->disableAjaxWaitMessage()->onChange("changeColorShadow")->setAjaxEvent();
+        $table_form->addRowColumns(__(EDT_COLOR_SHADOW, $this->current_style_val).":&nbsp;", $this->color_shadow);
+
+        $table_form->addRow();
+
+        if (!defined('DEFINE_STYLE_COLOR_UPLOAD_PROGRESS_BAR')) {
+            define("DEFINE_STYLE_COLOR_UPLOAD_PROGRESS_BAR", "#448ebb");
+        }
+        $this->style_upload_progress_bar = new ColorPicker($form);
+        $this->style_upload_progress_bar->setValue(DEFINE_STYLE_COLOR_UPLOAD_PROGRESS_BAR)->hash(true)->setWidth(200);
+        $table_form->addRowColumns(__(EDT_COLOR_UPLOAD_PROGRESS_BAR).":&nbsp;", $this->style_upload_progress_bar);
+
+        $table_form->addRow();
+
+        if (!defined('DEFINE_STYLE_BACKCOLOR_SCROLL_TO_TOP')) {
+            define("DEFINE_STYLE_BACKCOLOR_SCROLL_TO_TOP", "#F00001");
+        }
+        $this->style_scroll_to_top = new ColorPicker($form);
+        $this->style_scroll_to_top->setValue(DEFINE_STYLE_BACKCOLOR_SCROLL_TO_TOP)->hash(true)->setWidth(200);
+        $table_form->addRowColumns(__(EDT_BACKCOLOR_SCROLL_TO_TOP).":&nbsp;", $this->style_scroll_to_top);
+		$this->activateScrollToTop();
+
+        $table_form->addRow();
 		
 		$btnValidate = new Button($form);
 		$btnValidate->setValue(__(BTN_VALIDATE))->onClick("configureCss");
@@ -436,7 +455,10 @@ class ConfigureCss extends Page {
 		$data_config_file .= "								// List of google web font : Cantarell, Cardo, Crimson Text, Droid Sans, Droid Sans Mono, Droid Serif, IM Fell, Inconsolata, Josefin Sans Std Light, Lobster, Molengo, Nobile, OFL Sorts Mill Goudy TT, Old Standard TT, Reenie Beanie, Tangerine, Vollkorn, Yanone Kaffeesatz.\n";
 		$data_config_file .= "define(\"DEFINE_STYLE_FONT_SIZE\", \"".str_replace("\"", "\\\"", $this->style_font_size->getValue())."pt\"); // ex: 12pt, 10pt (defautl), 8pt\n";
 		$data_config_file .= "define(\"DEFINE_STYLE_FONT_SERIF\", \"".str_replace("\"", "\\\"", $this->style_font_serif->getValue())."\"); // ex: serif, sans serif (default), monospace\n";
-		$data_config_file .= "?>\n";
+        $data_config_file .= "\n";
+        $data_config_file .= "define(\"DEFINE_STYLE_COLOR_UPLOAD_PROGRESS_BAR\", \"".str_replace("\"", "\\\"", $this->style_upload_progress_bar->getValue())."\");\n";
+		$data_config_file .= "define(\"DEFINE_STYLE_BACKCOLOR_SCROLL_TO_TOP\", \"".str_replace("\"", "\\\"", $this->style_scroll_to_top->getValue())."\");\n";
+        $data_config_file .= "?>\n";
 		
 		$config_file = new File(dirname(__FILE__)."/../../../wsp/config/config_css.inc.php", false, true);
 		if ($config_file->write($data_config_file)){

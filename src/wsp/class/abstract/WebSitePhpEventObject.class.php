@@ -16,8 +16,8 @@
  * @package abstract
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 25/01/2015
- * @version     1.2.11
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.18
  */
@@ -401,9 +401,37 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 	 * @since 1.0.35
 	 */
 	protected function getAjaxEventFunctionRender() {
+        $html = "";
+        $loading_obj = null;
+        if (get_class($this) == "UploadFile") {
+            $loading_obj = $this->getProgressBarObject();
+
+            if ($this->isSizeLimitJsCheckActivated() && $this->getFileSizeLimit() != -1) {
+                $size_alert = new DialogBox(__(ERROR), __(UPLOAD_FILESIZE_LIMIT_ERROR_MSG, $this->getFileSizeLimitStr()));
+                $size_alert->activateCloseButton()->setWidth(500);
+                $size_alert->setDialogBoxLevel(rand(90000, 99999));
+                $html .= "var displaySizeErrorDialogBox" . get_class($this) . "_" . $this->getEventObjectName() . " = function(filename) {\n";
+                $html .= $size_alert->render();
+                $html .= "};\n";
+            } else {
+                $html .= "var displaySizeErrorDialogBox" . get_class($this) . "_" . $this->getEventObjectName() . " = null;\n";
+            }
+
+            if ($this->isMimeTypeJsCheckActivated() && sizeof($this->getAuthorizedMimeTypes()) > 0) {
+                $mime_alert = new DialogBox(__(ERROR), __(UPLOAD_MIME_TYPES_ERROR_MSG, implode(", ", $this->getAuthorizedMimeTypes())));
+                $mime_alert->activateCloseButton()->setWidth(500);
+                $mime_alert->setDialogBoxLevel(rand(90000, 99999));
+                $html .= "var displayMimeErrorDialogBox" . get_class($this) . "_" . $this->getEventObjectName() . " = function(filename, mime_type) {\n";
+                $html .= $mime_alert->render();
+                $html .= "};\n";
+            } else {
+                $html .= "var displayMimeErrorDialogBox" . get_class($this) . "_" . $this->getEventObjectName() . " = null;\n";
+            }
+        }
 		if (gettype($this->ajax_wait_message) != "object") {
-			$loading_img = new Picture("wsp/img/loading.gif", 32, 32);
-			$loading_modalbox = new DialogBox(__(LOADING), new Object($this->ajax_wait_message, "<br/>", $loading_img));
+            $loading_img = new Picture("wsp/img/loading.gif", 32, 32);
+            $loading_img->setId("wspAjaxEventLoadingPic".get_class($this)."_".$this->getEventObjectName());
+			$loading_modalbox = new DialogBox(__(LOADING), new Object($this->ajax_wait_message, "<br/>", $loading_img, $loading_obj));
 			$loading_modalbox->setDialogBoxLevel(rand(90000, 99999))->modal();
 		}
 		
@@ -415,7 +443,6 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 		$error_unknow_alert->activateCloseButton()->setWidth(400);
 		$error_unknow_alert->setDialogBoxLevel(rand(90000, 99999));
 		
-		$html = "";
 		$html .= "	var isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;\n";
 		$html .= "	var lastAjaxRequest".get_class($this)."_".$this->getEventObjectName()." = Array();\n";
 		$html .= "	var nbAjaxRequest".get_class($this)."_".$this->getEventObjectName()." = 0;\n";
@@ -447,7 +474,7 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 		}
 		
 		if (get_class($this) == "UploadFile") {
-			$html .= "$('#".$this->getId()."').upload('";
+			$html .= "var upload_status = $('#".$this->getId()."').upload('";
 		} else {
 			$html .= "		lastAjaxRequest".get_class($this)."_".$this->getEventObjectName()."[lastAjaxRequest".get_class($this)."_".$this->getEventObjectName().".length] = $.ajax({ type: '";
 			if ($this->form_object != null) {
@@ -555,7 +582,15 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 	    $html .= "			},\n";
 	    
 	    if (get_class($this) == "UploadFile") {
-	    	$html .= "			'json');";
+	    	$html .= "			'json', $('#wsp_object_wspAjaxEventLoadingObj".get_class($this)."_".$this->getEventObjectName()."'), $('#wspAjaxEventLoadingPic".get_class($this)."_".$this->getEventObjectName()."'), displaySizeErrorDialogBox" . get_class($this) . "_" . $this->getEventObjectName() . ", '".$this->getFileSizeLimit()."', displayMimeErrorDialogBox" . get_class($this) . "_" . $this->getEventObjectName() . ", '".implode(", ", $this->getAuthorizedMimeTypes())."');\n";
+            $html .= "			isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;\n";
+            $html .= "			if (upload_status === false) {\n";
+            if (gettype($this->ajax_wait_message) == "object") {
+                $html .= "					$('#".$this->ajax_wait_message->getId()."').css('display', 'none');\n";
+            } else {
+                $html .= "					".$loading_modalbox->close()->render()."\n";
+            }
+            $html .= "			}\n";
 	    } else {
 		    $html .= "			error: function(transport) {\n";
 		    $html .= "				isRequestedAjaxEvent".get_class($this)."_".$this->getEventObjectName()." = false;\n";

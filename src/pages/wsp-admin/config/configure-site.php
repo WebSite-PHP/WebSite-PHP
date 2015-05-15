@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 05/02/2015
- * @version     1.2.12
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.25
  */
@@ -37,7 +37,8 @@ class ConfigureSite extends Page {
 	private $edtSiteImage = null;
 	private $edtSiteIphoneImage57 = null;
 	private $edtSiteIphoneImage72 = null;
-	private $edtSiteIphoneImage114 = null;
+    private $edtSiteIphoneImage114 = null;
+    private $edtSiteIphoneImage152 = null;
 	private $edtGoogleTracker = null;
 	private $edtGoogleMapKey = null;
 	private $cmbMetaRobots = null;
@@ -161,10 +162,17 @@ class ConfigureSite extends Page {
 		$this->edtSiteIphoneImage72 = new TextBox($this->form, "edtSiteIphoneImage72");
 		$this->edtSiteIphoneImage72->setValue(SITE_META_IPHONE_IMAGE_72PX)->setWidth(300);
 		$table_form->addRowColumns(__(EDT_SITE_IPHONE_IMAGE_72PX).":&nbsp;", $this->edtSiteIphoneImage72);
-		
-		$this->edtSiteIphoneImage114 = new TextBox($this->form, "edtSiteIphoneImage114");
-		$this->edtSiteIphoneImage114->setValue(SITE_META_IPHONE_IMAGE_114PX)->setWidth(300);
-		$table_form->addRowColumns(__(EDT_SITE_IPHONE_IMAGE_114PX).":&nbsp;", $this->edtSiteIphoneImage114);
+
+        $this->edtSiteIphoneImage114 = new TextBox($this->form, "edtSiteIphoneImage114");
+        $this->edtSiteIphoneImage114->setValue(SITE_META_IPHONE_IMAGE_114PX)->setWidth(300);
+        $table_form->addRowColumns(__(EDT_SITE_IPHONE_IMAGE_114PX).":&nbsp;", $this->edtSiteIphoneImage114);
+
+        if (!defined("SITE_META_IPHONE_IMAGE_152PX")) {
+            define("SITE_META_IPHONE_IMAGE_152PX", "");
+        }
+        $this->edtSiteIphoneImage152 = new TextBox($this->form, "edtSiteIphoneImage152");
+        $this->edtSiteIphoneImage152->setValue(SITE_META_IPHONE_IMAGE_152PX)->setWidth(300);
+        $table_form->addRowColumns(__(EDT_SITE_IPHONE_IMAGE_152PX).":&nbsp;", $this->edtSiteIphoneImage152);
 		
 		$table_form->addRow();
 		
@@ -486,7 +494,8 @@ class ConfigureSite extends Page {
 		$data_config_file .= "define(\"SITE_META_OPENGRAPH_IMAGE\", \"".$this->edtSiteImage->getValue()."\");\n";
 		$data_config_file .= "define(\"SITE_META_IPHONE_IMAGE_57PX\", \"".$this->edtSiteIphoneImage57->getValue()."\");\n";
 		$data_config_file .= "define(\"SITE_META_IPHONE_IMAGE_72PX\", \"".$this->edtSiteIphoneImage72->getValue()."\");\n";
-		$data_config_file .= "define(\"SITE_META_IPHONE_IMAGE_114PX\", \"".$this->edtSiteIphoneImage114->getValue()."\");\n";
+        $data_config_file .= "define(\"SITE_META_IPHONE_IMAGE_114PX\", \"".$this->edtSiteIphoneImage114->getValue()."\");\n";
+        $data_config_file .= "define(\"SITE_META_IPHONE_IMAGE_152PX\", \"".$this->edtSiteIphoneImage152->getValue()."\");\n";
 		$data_config_file .= "\n";
 		$data_config_file .= "define(\"GOOGLE_CODE_TRACKER\", \"".$this->edtGoogleTracker->getValue()."\");\n";
 		//$data_config_file .= "define(\"GOOGLE_MAP_KEY\", \"".$this->edtGoogleMapKey->getValue()."\");\n";

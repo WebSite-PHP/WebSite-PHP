@@ -6,7 +6,7 @@
  * Entry point of all HTML pages
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.0
  */
@@ -30,8 +30,9 @@
 	$__LOAD_VARIABLES__ = false;
 	$__DEBUG_PAGE_IS_PRINTING__ = false;
 	$__GEOLOC_ASK_USER_SHARE_POSITION__ = false;
-	
-	session_name(formalize_to_variable(SITE_NAME));
+
+    @session_set_cookie_params(0, "/", $_SERVER['SERVER_NAME'], false, true);
+	@session_name(formalize_to_variable(SITE_NAME));
 	@session_start();
 	
 	if (!defined('MAX_SESSION_TIME')) {
@@ -265,6 +266,23 @@
 					$current_page_meta_iphone_image_114px = $cdn_server_url.$current_page_meta_iphone_image_114px;
 			}
 		}
+
+        // init page iphone 152px image
+        if ($page_object->getPageMetaIphoneImage152Px() != "") {
+            $current_page_meta_iphone_image_152px = $page_object->getPageMetaIphoneImage152Px();
+        } else {
+            if (defined('SITE_META_IPHONE_IMAGE_152PX')) {
+                $current_page_meta_iphone_image_152px = SITE_META_IPHONE_IMAGE_152PX;
+            } else {
+                $current_page_meta_iphone_image_152px = "";
+            }
+        }
+        if ($current_page_meta_iphone_image_152px != "") {
+            if (strtoupper(substr($current_page_meta_iphone_image_152px, 0, 7)) != "HTTP://" &&
+                strtoupper(substr($current_page_meta_iphone_image_152px, 0, 8)) != "HTTPS://") {
+                $current_page_meta_iphone_image_152px = $cdn_server_url.$current_page_meta_iphone_image_152px;
+            }
+        }
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="<?php echo $_SESSION['lang']; ?>">
@@ -277,6 +295,9 @@
 <?php if ($page_object->isMobileWebAppMetaTag()) { ?>
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="mobile-web-app-capable" content="yes">
+<?php } ?>
+<?php if ($page_object->getJsonManifestFileName() != "") { ?>
+		<link rel="manifest" href="<?php echo $page_object->getJsonManifestFileName(); ?>">
 <?php } ?>
 		<title><?php echo utf8encode(html_entity_decode($current_page_title)); ?></title>
 		
@@ -309,6 +330,9 @@
 <?php 	} ?>
 <?php 	if ($current_page_meta_iphone_image_114px != "") { ?>
 		<link rel="apple-touch-icon" sizes="114x114" href="<?php echo $current_page_meta_iphone_image_114px; ?>" />
+<?php 	} ?>
+<?php 	if ($current_page_meta_iphone_image_152px != "") { ?>
+		<link rel="apple-touch-icon" sizes="152x152" href="<?php echo $current_page_meta_iphone_image_152px; ?>" />
 <?php 	} ?>
 		
 		<base href="<?php echo BASE_URL; ?>" />
@@ -345,15 +369,21 @@
 			define("DEFINE_STYLE_JQUERY", "");
 		}
 		if (!defined('JQUERY_LOAD_LOCAL')) {
-			define("JQUERY_LOAD_LOCAL", true);
-		}
+			$jquery_load_local = true;
+		} else {
+            $jquery_load_local = JQUERY_LOAD_LOCAL;
+            if ($jquery_load_local == false && $page_object->isThirdPartyCookiesFilterEnable()){
+                // because jsapi is necessary to load jquery from google CDN
+                $jquery_load_local = true;
+            }
+        }
 		if (!defined('JQUERY_VERSION')) {
 			define("JQUERY_VERSION", "1.6.2");
 		}
 		if (!defined('JQUERY_UI_VERSION')) {
 			define("JQUERY_UI_VERSION", "1.8.14");
 		}
-		if (JQUERY_LOAD_LOCAL == true) {
+		if ($jquery_load_local == true) {
 			$jquery_ui_ver = JQUERY_UI_VERSION;
 			if (!is_dir("wsp/css/jquery".JQUERY_UI_VERSION."/")) {
 				$jquery_ui_ver = "1.8.14";
@@ -408,7 +438,7 @@
 		<![endif]-->
 <?php		
 		// jQuery
-		if (JQUERY_LOAD_LOCAL == true) {
+		if ($jquery_load_local == true) {
 			$jquery_ver = JQUERY_VERSION;
 			if (!is_file("wsp/js/jquery/jquery-".$jquery_ver.".min.js")) {
 				$jquery_ver = "1.6.2";
@@ -425,7 +455,7 @@
 		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 		<script type="text/javascript">
 			// Load lib by google
-			google.load("jquery", "<?php echo JQUERY_VERSION; ?>");
+			google.load("jquery", "<?php echo (JQUERY_VERSION=="1.7.2"?"1.7.1":JQUERY_VERSION); ?>");
 			google.load("jqueryui", "<?php echo JQUERY_UI_VERSION; ?>");
 		</script>
 <?php
@@ -494,8 +524,7 @@
 <?php } ?>
 			}
 		 	StkFunc(windowHeaderTitle);
-			StkFunc(SaveDocumentSize);StkFuncOR(SaveDocumentSize);
-			StkFunc(SaveWindowSize);StkFuncOR(SaveWindowSize);
+			StkFunc(SaveDocumentWindowSize);StkFuncOR(SaveDocumentWindowSize);
 		</script>
 	</head>
 	
@@ -508,8 +537,12 @@
 		</div>
 	</noscript>
 	<body>
-		<?php if (GOOGLE_CODE_TRACKER != "" && !isLocalDebug() && !defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) { ?>
+    <?php if ($page_object->isThirdPartyCookiesFilterEnable()) { ?>
+        <script type="text/javascript">var tarteaucitronForceLanguage='<?php echo $page_object->getLanguage() ?>';tarteaucitron.init({"hashtag":"#thirdpartyfilter","highPrivacy":false,"orientation":"<?php echo $page_object->getThirdPartyCookiesFilterPosition(); ?>","removeCredit":false,"showAlertSmall":true,"adblocker":<?php echo $page_object->getThirdPartyCookiesFilterAdBlocker()?"true":"false"; ?>,"cookieslist":<?php echo $page_object->getThirdPartyCookiesFilterCookiesList()?"true":"false"; ?>});</script>
+    <?php } ?>
+    <?php if (GOOGLE_CODE_TRACKER != "" && !isLocalDebug() && !defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) { ?>
 		<script type="text/javascript">
+          <?php if (!$page_object->isThirdPartyCookiesFilterEnable()) { ?>
 		  window.google_analytics_uacct = "<?php echo GOOGLE_CODE_TRACKER; ?>";
 		  <?php
 			if (SUBDOMAIN_URL != "") { 
@@ -538,12 +571,27 @@
 			  'page': '<?php echo "/".str_replace($page_object->getBaseURL(), "", $page_object->getCurrentURL()); ?>',
 			  'title': '<?php echo addslashes(str_replace("\n", "", str_replace("\r", "", str_replace("\t", "", utf8encode(html_entity_decode($current_page_title)))))); ?>'
 			});
+          <?php } else { ?>
+          (tarteaucitron.job = tarteaucitron.job || []).push('analytics');
+          tarteaucitron.user.analyticsUa = '<?php echo GOOGLE_CODE_TRACKER; ?>';
+          tarteaucitron.user.analyticsMore = function () {
+              ga('require', 'displayfeatures');
+              ga('send', 'pageview', {
+                  'page': '<?php echo "/".str_replace($page_object->getBaseURL(), "", $page_object->getCurrentURL()); ?>',
+                  'title': '<?php echo addslashes(str_replace("\n", "", str_replace("\r", "", str_replace("\t", "", utf8encode(html_entity_decode($current_page_title)))))); ?>'
+              });
+          }
+          <?php } ?>
 		</script>
 		<?php 
 		}
-		if (JQUERY_LOAD_LOCAL == true) {
+		if ($jquery_load_local == true) {
 		?>
-		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+            <?php if ($page_object->isThirdPartyCookiesFilterEnable()) { ?>
+            <script type="text/javascript">(tarteaucitron.job = tarteaucitron.job || []).push('jsapi');</script>
+            <?php } else { ?>
+		    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+            <?php } ?>
 		<?php
 			}
 		?>

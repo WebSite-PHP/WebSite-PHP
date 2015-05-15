@@ -65,4 +65,7 @@
 	define('COOKIES_MSG', 'Notre site utilise des cookies. Les cookies nous permettent d\'offrir la meilleure expérience possible. En utilisant nos services, vous acceptez notre utilisation des cookies.');
 	define('COOKIES_MSG_SHORT', 'En utilisant nos services, vous acceptez notre utilisation des cookies.');
 	define('LEARN_MORE', 'En savoir plus');
+	
+	define('UPLOAD_FILESIZE_LIMIT_ERROR_MSG', 'Le fichier "{#SIMPLE_QUOTE#}+filename+{#SIMPLE_QUOTE#}" dépasse la taille maximum autorisé (%s).');
+	define('UPLOAD_MIME_TYPES_ERROR_MSG', 'Le mime type du fichier "{#SIMPLE_QUOTE#}+filename+{#SIMPLE_QUOTE#}" ({#SIMPLE_QUOTE#}+mime_type+{#SIMPLE_QUOTE#}) n\'est pas autorisé (%s).');
 ?>

@@ -8,7 +8,7 @@
  * Class TwiterLikeButton
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage ShareButton
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.2.10
  */
@@ -86,8 +86,11 @@ class TwitterLikeButton extends WebSitePhpObject {
 	 * @since 1.2.10
 	 */
 	public function render($ajax_render=false) {
-		FacebookLikeButton::getFacebookJsInclude();
-		$html = "<a href=\"https://twitter.com/share\" class=\"twitter-share-button\"";
+        $html = "";
+        if ($this->getPage()->isThirdPartyCookiesFilterEnable()) {
+            $html .= "<span class=\"tacTwitter\"></span>";
+        }
+        $html .= "<a href=\"https://twitter.com/share\" class=\"twitter-share-button\"";
 		if ($this->url != "") {
 			$html .= " data-url=\"".$this->url."\"";
 		}
@@ -99,7 +102,13 @@ class TwitterLikeButton extends WebSitePhpObject {
 			$html .= " data-size=\"".$this->size."\"";
 		}
 		$html .= " data-lang=\"".$this->getPage()->getLanguage()."\"";
-		$html .= ">Tweet</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>\n";
+		$html .= ">".($this->getPage()->isThirdPartyCookiesFilterEnable()?"":"Tweet")."</a>";
+
+        if ($this->getPage()->isThirdPartyCookiesFilterEnable()) {
+            $html .= "<script type=\"text/javascript\">(tarteaucitron.job = tarteaucitron.job || []).push('twitter');</script>";
+        } else {
+            $html .= "<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>\n";
+        }
 		
 		return $html;
 	}

@@ -8,7 +8,7 @@
  * Class GoogleSearchBar
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage GoogleSearch
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.99
  */
@@ -105,9 +105,10 @@ class GoogleSearchBar extends WebSitePhpObject {
 		$this->search_style = $search_style;
 		
 		$this->addCss("http://www.google.com/cse/style/look/".$this->search_style.".css");
+		/* Already included in index.php
 		if (JQUERY_LOAD_LOCAL == true) {
 			$this->addJavaScript("http://www.google.com/jsapi");
-		}
+		}*/
 	}
 	
 	/**
@@ -245,6 +246,7 @@ class GoogleSearchBar extends WebSitePhpObject {
 			        	last_query = q;
 			        	$('#cse-normal-content').css('display', 'none');
 				  	 	$('#cse-result-div').css('display', 'block');
+                                                document.getElementById('cse-result').firstChild.style.padding = 0;
 				  	 	document.getElementById('cse-result').firstChild.style.width = '98%';
 			        }
 			        return false;
@@ -263,10 +265,20 @@ class GoogleSearchBar extends WebSitePhpObject {
 			     	}
 			     	function CseSearchLoad() {
 			        google.load('search', '1', {language : '".$_SESSION['lang']."', callback: function () { new cse_search(); } });
-			     	}
-			      StkFunc(CseSearchPageLoaded);
-			      google.setOnLoadCallback(CseSearchOnLoad, true);
-				</script>";
+			     	}\n";
+				$html .= "   \$(document).ready(function() { \$(window).load(function() {\n";
+				$html .= "      if (typeof google != 'undefined') {\n";
+				if ($this->getPage()->isThirdPartyCookiesFilterEnable()) {
+                                        $html .= "      if (tarteaucitron.state['jsapi'] == true) {\n";
+				}
+			      $html .= "      CseSearchPageLoaded();
+				CseSearchOnLoad();\n";
+                                if ($this->getPage()->isThirdPartyCookiesFilterEnable()) {
+                                        $html .= "      } else { $('#cse-search-form').html(''); }\n";
+                                }
+				$html .= "      } else { $('#cse-search-form').html(''); }\n";
+				$html .= "   }); });\n";
+				$html .= "</script>";
        	$this->object_change = false;
 		return $html;
 	}

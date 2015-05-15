@@ -16,8 +16,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 05/02/2015
- * @version     1.2.12
+ * @copyright   WebSite-PHP.com 14/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.1.4
  */
@@ -62,7 +62,8 @@ class UpdateBrowscap extends Page {
         if (!is_dir($cacheDir)) {
             mkdir($cacheDir);
         }
-        unlink($cacheDir."cache.php");
+		unlink($cacheDir."cache.php");
+		unlink($cacheDir."browscap.ini");
         $browscap = new Browscap($cacheDir);
         $browscap->doAutoUpdate = true;
         $browser = $browscap->getBrowser();

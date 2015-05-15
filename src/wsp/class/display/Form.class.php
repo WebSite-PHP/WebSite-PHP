@@ -7,7 +7,7 @@
  * Class Form
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.17
  */
@@ -577,7 +577,7 @@ class Form extends WebSitePhpObject {
 	 */
 	private function createDbAttributeObject($row, $list_attribute, $list_attribute_type, $i, $key_attributes) {
 		$object_id = $this->id."_input_".$list_attribute[$i]."_ind_";
-		
+
 		// get property cmb_obj (created by method loadFromSqlDataView)
 		if (isset($this->from_sql_data_view_properties[$list_attribute[$i]]['cmb_obj'])) {
 			$input_obj_tmp = $this->from_sql_data_view_properties[$list_attribute[$i]]['cmb_obj'];
@@ -586,7 +586,6 @@ class Form extends WebSitePhpObject {
 			$register_objects = WebSitePhpObject::getRegisterObjects();
 			$register_objects[] = $input_obj;
 			$_SESSION['websitephp_register_object'] = $register_objects;
-			
 		} else {
 			// Get last register object when refresh the Form after an event (to update the data)
 			if ($this->from_sql_data_view_refresh) {
@@ -691,7 +690,7 @@ class Form extends WebSitePhpObject {
 				if (gettype($field_value) == "object") {
 					$input_obj->setValue($field_value);
 				} else {
-					$input_obj->setValue(utf8encode($field_value));
+                    $input_obj->setValue(utf8encode($field_value));
 				}
 			}
 		}
@@ -710,7 +709,7 @@ class Form extends WebSitePhpObject {
 		if ($this->sql_data_view_object == null) {
 			throw new NewException(get_class($this)."->saveFormFromSqlDataView() error: you need to use the method loadFromSqlDataView before.", 0, getDebugBacktrace(1));
 		}
-		
+
 		$list_attribute = $this->sql_data_view_object->getListAttributeArray();
 		$key_attributes = $this->sql_data_view_object->getPrimaryKeysAttributes();
 		$list_attribute_type = $this->sql_data_view_object->getListAttributeTypeArray();
@@ -741,7 +740,7 @@ class Form extends WebSitePhpObject {
 					(in_array($list_attribute[$i], $key_attributes) && $list_attribute[$i] != null && $list_attribute[$i] != $auto_increment_id)) && 
 					in_array(get_class($input_obj), $objects_ok_array)) {
 						$value = $input_obj->getValue();
-						
+
 						$search_pos = array_search($list_attribute[$i], $list_attribute);
 						if ($search_pos !== false && $value != "") {
 							settype($value, $list_attribute_type[$search_pos]);

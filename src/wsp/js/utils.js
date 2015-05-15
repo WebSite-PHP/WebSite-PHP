@@ -229,14 +229,8 @@ function PreloadPicture(picture_url) {
 	preload_image_object.src = picture_url;
 }
 
-function SaveDocumentSize() {
-	$.cookie("wsp_document_width", $(document).width(), { path: '/', expires: 1 });
-	$.cookie("wsp_document_height", $(document).height(), { path: '/', expires: 1 });
-}
-
-function SaveWindowSize() {
-	$.cookie("wsp_window_width", $(window).width(), { path: '/', expires: 1 });
-	$.cookie("wsp_window_height", $(window).height(), { path: '/', expires: 1 });
+function SaveDocumentWindowSize() {
+	$.cookie("wsp_page_info", '{"document_height":'+$(document).height()+', "document_width":'+$(document).width()+', "window_height":'+$(window).height()+', "window_width":'+$(window).width()+'}', { path: '/', expires: 1 });
 }
 
 function addToFavorite(siteURL, siteNOM) {
@@ -341,7 +335,7 @@ function waitForJsScripts(ind_load) {
 	if (!all_scripts_loaded) {
 		arrayIntervalWaitForJsScripts[ind_load] = setInterval("waitForJsScripts(" + ind_load + ")", 200);
 	} else {
-		eval("lauchJavascriptPage_" + ind_load + "();");
+		eval("launchJavascriptPage_" + ind_load + "();");
 	}
 }
 function loadDynamicCSS(src) {
@@ -385,13 +379,19 @@ function refreshPage() { location.reload(true); }
 /* GeoLocalisation */
 var wspGoogleClientLocationDone = false;
 function loadGoogleClientLocation() {
-	if(google.loader.ClientLocation && wspGoogleClientLocationDone == false) {
+	var isGoogleLocationAPI = false;
+	try { if (typeof google != 'undefined') { isGoogleLocationAPI = true; } } catch(err) {}
+	if(isGoogleLocationAPI == true && google.loader.ClientLocation && wspGoogleClientLocationDone == false) {
 		wspGoogleClientLocationDone = true;
 		$.ajax({type: 'GET', url: wsp_javascript_base_url + 'wsp/includes/GoogleGeolocalisationSession.php?latitude='+google.loader.ClientLocation.latitude+'&longitude='+google.loader.ClientLocation.longitude+'&city='+google.loader.ClientLocation.address.city+'&country='+google.loader.ClientLocation.address.country+'&country_code='+google.loader.ClientLocation.address.country_code+'&region='+google.loader.ClientLocation.address.region, success: function(data){ try { eval(data); } catch(err) {} } });
 	}
 }
+var wspUserShareGeoPositionDone = false;
 function userShareGeoPosition(position) {
-	$.ajax({type: 'GET', url: wsp_javascript_base_url + 'wsp/includes/GoogleGeolocalisationSession.php?user_share=1&latitude='+position.coords.latitude+'&longitude='+position.coords.longitude+'&city=&country=&country_code=&region=', success: function(data){ try { eval(data); } catch(err) {} } });
+    if (!wspUserShareGeoPositionDone) {
+        wspUserShareGeoPositionDone = true;
+        $.ajax({type: 'GET', url: wsp_javascript_base_url + 'wsp/includes/GoogleGeolocalisationSession.php?user_share=1&latitude=' + position.coords.latitude + '&longitude=' + position.coords.longitude + '&city=&country=&country_code=&region=', success: function (data) { try {eval(data);} catch (err) {} } });
+    }
 }
 function userShareGeoPositionError(error) {
 	expiresDate = new Date();
@@ -443,4 +443,7 @@ function TextAreaFitToContent(id, maxHeight)
 	}
 	text.scrollLeft = scrollLeft;
 	text.scrollTop = scrollTop;
+}
+function isGoogleAnalyticsLoaded() {
+    return typeof ga == 'function' && ga.hasOwnProperty('loaded') && ga.loaded === true;
 }

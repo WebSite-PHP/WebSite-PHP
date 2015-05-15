@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 05/02/2015
- * @version     1.2.12
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.0
  */
@@ -144,7 +144,8 @@ class Page extends AbstractPage {
 	protected static $PAGE_META_OPENGRAPH_IMAGE = "";
 	protected static $PAGE_META_IPHONE_IMAGE_57PX = "";
 	protected static $PAGE_META_IPHONE_IMAGE_72PX = "";
-	protected static $PAGE_META_IPHONE_IMAGE_114PX = "";
+    protected static $PAGE_META_IPHONE_IMAGE_114PX = "";
+    protected static $PAGE_META_IPHONE_IMAGE_152PX = "";
 	
 	protected $USER_RIGHTS = "";
 	protected $USER_NO_RIGHTS_REDIRECT = "";
@@ -191,6 +192,13 @@ class Page extends AbstractPage {
 	
 	private $is_mobile_meta_tag = false;
 	private $is_mobile_webapp_meta_tag = false;
+    private $json_manifest_filename = "";
+
+    private $cookies_accept_message = false;
+    private $third_party_cookies_filter = false;
+    private $third_party_cookies_filter_position = 'bottom';
+    private $third_party_cookies_filter_adblocker = true;
+    private $third_party_cookies_filter_cookieslist = true;
 	/**#@-*/
 	
 	/**
@@ -383,7 +391,7 @@ class Page extends AbstractPage {
 			if (!isset($_GET['mime']) || (isset($_GET['mime']) && ($_GET['mime'] == "text/html" || $_GET['mime'] == "html"))) {
 				if ($this->is_browser_ie_6) {
 					$cache_file_name = str_replace(".cache", "_ie6.cache", $cache_file_name);
-				} else if ($this->is_browser_ie) {
+				} else if ($this->is_browser_ie && get_browser_ie_version() < 9) {
 					$cache_file_name = str_replace(".cache", "_ie".get_browser_ie_version().".cache", $cache_file_name);
 				}
 				if (!$this->isAjaxPage()) {
@@ -392,9 +400,9 @@ class Page extends AbstractPage {
 						$cache_file_name = str_replace(".cache", "_".$last_css_config_file.".cache", $cache_file_name);
 					}
 				}
-				if ($this->isCss3Browser()){
+				/*if ($this->isCss3Browser()){
 					$cache_file_name = str_replace(".cache", "_css3.cache", $cache_file_name);
-				}
+				}*/
 				if ($this->isAjaxPage()){
 					$cache_file_name = str_replace(".cache", "_ajax.cache", $cache_file_name);
 				} else if ($this->isAjaxLoadPage()){
@@ -605,9 +613,19 @@ class Page extends AbstractPage {
 	 * @return mixed
 	 * @since 1.0.98
 	 */
-	public function getPageMetaIphoneImage114Px() {
-		return strip_tags(self::$PAGE_META_IPHONE_IMAGE_114PX);
-	}
+    public function getPageMetaIphoneImage114Px() {
+        return strip_tags(self::$PAGE_META_IPHONE_IMAGE_114PX);
+    }
+
+	/**
+	 * Method getPageMetaIphoneImage152Px
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.13
+	 */
+    public function getPageMetaIphoneImage152Px() {
+        return strip_tags(self::$PAGE_META_IPHONE_IMAGE_152PX);
+    }
 	
 	/**
 	 * Method getPageIsCaching
@@ -724,8 +742,9 @@ class Page extends AbstractPage {
 			$obj = $register_objects[$i];
 			if (method_exists($obj, "getId")) {
 				$obj_id = $obj->getId();
-				if ($obj_id == $id || $obj_id."_id" == $id || 
-					(get_class($obj) == "Object" && $obj_id == "wsp_object_".$id)) {
+				if ($obj_id == $id || $obj_id."_id" == $id ||
+                    (get_class($obj) == "Object" && $obj_id == "wsp_object_".$id) ||
+                    (get_class($obj) == "ComboBox" && $obj_id == str_replace($obj->getname(), "", $obj->getEventObjectName()).$id)) {
 						return $register_objects[$i];
 				}
 			}
@@ -735,7 +754,7 @@ class Page extends AbstractPage {
 	
 	/**
 	 * Method createObjectName
-	 * Create an automatique and unique name for an event object
+	 * Create an automatic and unique name for an event object
 	 * @access public
 	 * @param WebSitePhpObject $object event object (ex: TextBox, Editor, Button, ...)
 	 * @return string
@@ -987,15 +1006,18 @@ class Page extends AbstractPage {
 							// ack to set button, textbox, combobox, context menu event (is_clicked, is_changed)
 							$save_load_variables = $GLOBALS['__LOAD_VARIABLES__'];
 							$GLOBALS['__LOAD_VARIABLES__'] = true;
-							if (get_class($object) == "Object" || get_class($object) == "ContextMenuEvent" || 
-								get_class($object) == "Picture" || get_class($object) == "AutoCompleteEvent" || 
-								get_class($object) == "Raty" || get_class($object) == "CheckBox") {
+							if (get_class($object) == "Object" || is_subclass_of($object, "Object") ||
+                                get_class($object) == "ContextMenuEvent" || is_subclass_of($object, "ContextMenuEvent") ||
+                                get_class($object) == "Picture" || is_subclass_of($object, "Picture") ||
+                                get_class($object) == "AutoCompleteEvent" || is_subclass_of($object, "AutoCompleteEvent") ||
+                                get_class($object) == "Raty" || is_subclass_of($object, "Raty") ||
+                                get_class($object) == "CheckBox" || is_subclass_of($object, "CheckBox")) {
 									$object->setClick();
-							} else if (get_class($object) == "DroppableEvent") {
+							} else if (get_class($object) == "DroppableEvent" || is_subclass_of($object, "DroppableEvent")) {
 								$object->setDrop();
-							} else if (get_class($object) == "SortableEvent") {
+							} else if (get_class($object) == "SortableEvent" || is_subclass_of($object, "SortableEvent")) {
 								$object->setSort();
-							} else if (get_class($object) == "UploadFile") {
+							} else if (get_class($object) == "UploadFile" || is_subclass_of($object, "UploadFile")) {
 								$object->setChange();
 							} else {
 								$object->setValue($object->getValue());
@@ -1118,6 +1140,21 @@ class Page extends AbstractPage {
 		$array_callback_params = explodeFunky(",", $callback_params);
 		return array($callback_method, $array_callback_params);
 	}
+
+	/**
+	 * Method addCallbackWspEventObject
+	 * @access public
+	 * @param mixed $wsp_object_class_name 
+	 * @return Page
+	 * @since 1.2.13
+	 */
+    public function addCallbackWspEventObject($wsp_object_class_name) {
+        if (gettype($wsp_object_class_name) != "string") {
+            throw new NewException(get_class($this)."->addCallbackWspEventObject(): \$wsp_object_class_name must be the string name of the wsp object.", 0, getDebugBacktrace(1));
+        }
+        $this->array_callback_object[] = $wsp_object_class_name;
+        return $this;
+    }
 	
 	/**
 	 * Method addObject
@@ -1632,6 +1669,21 @@ class Page extends AbstractPage {
 	public function getRemoteIP() {
 		return getRemoteIp();
 	}
+
+	/**
+	 * Method getPageInfo
+	 * @access private
+	 * @param mixed $data_type 
+	 * @return mixed
+	 * @since 1.2.13
+	 */
+    private function getPageInfo($data_type) {
+        if ($_COOKIE['wsp_page_info'] != "") {
+            $wsp_page_info = json_decode($_COOKIE['wsp_page_info']);
+            return $wsp_page_info->$data_type;
+        }
+        return null;
+    }
 	
 	/**
 	 * Method getDocumentHeight
@@ -1640,7 +1692,7 @@ class Page extends AbstractPage {
 	 * @since 1.0.35
 	 */
 	public function getDocumentHeight() {
-		return ($_COOKIE['wsp_document_height']==""?null:$_COOKIE['wsp_document_height']);
+		return $this->getPageInfo('document_height');
 	}
 	
 	/**
@@ -1650,7 +1702,7 @@ class Page extends AbstractPage {
 	 * @since 1.0.35
 	 */
 	public function getDocumentWidth() {
-		return ($_COOKIE['wsp_document_width']==""?null:$_COOKIE['wsp_document_width']);
+        return $this->getPageInfo('document_width');
 	}
 	
 	/**
@@ -1660,7 +1712,7 @@ class Page extends AbstractPage {
 	 * @since 1.0.35
 	 */
 	public function getWindowHeight() {
-		return ($_COOKIE['wsp_window_height']==""?null:$_COOKIE['wsp_window_height']);
+        return $this->getPageInfo('window_height');
 	}
 	
 	/**
@@ -1670,7 +1722,7 @@ class Page extends AbstractPage {
 	 * @since 1.0.35
 	 */
 	public function getWindowWidth() {
-		return ($_COOKIE['wsp_window_width']==""?null:$_COOKIE['wsp_window_width']);
+        return $this->getPageInfo('window_width');
 	}
 	
 	/**
@@ -1726,10 +1778,13 @@ class Page extends AbstractPage {
 	 * @since 1.0.35
 	 */
 	public function isCss3Browser() {
-		if ($this->browser == null) {
+		/*if ($this->browser == null) {
 			$this->browser = $this->getBrowserInfo();
 		}
-		return ($this->browser['CssVersion'] >= 3)?true:false;
+		return ($this->browser['CssVersion'] >= 3)?true:false;*/
+        // Browscap.org don't give anymore the information with standard ini file (browscap.ini)
+        // The major browser version are today compatible with CSS3
+        return true;
 	}
 	
 	/**
@@ -1759,6 +1814,9 @@ class Page extends AbstractPage {
 	 * @since 1.0.80
 	 */
 	public function isCrawlerBot() {
+		if (find($this->getBrowserUserAgent(), "bot", 1) > 0 || find($this->getBrowserUserAgent(), "yahoo", 1) > 0) {
+                        return true;
+                }
 		if ($this->browser == null) {
 			$this->browser = $this->getBrowserInfo();
 		}
@@ -1911,6 +1969,31 @@ class Page extends AbstractPage {
 	public function isMobileWebAppMetaTag() {
 		return $this->is_mobile_webapp_meta_tag;
 	}
+
+	/**
+	 * Method setJsonManifestFileName
+	 * @access public
+	 * @param string $json_manifest_filename 
+	 * @return Page
+	 * @since 1.2.13
+	 */
+    public function setJsonManifestFileName($json_manifest_filename='') {
+        if ($json_manifest_filename == "") {
+            $json_manifest_filename = "manifest.json";
+        }
+        $this->json_manifest_filename = $json_manifest_filename;
+        return $this;
+    }
+
+	/**
+	 * Method getJsonManifestFileName
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.13
+	 */
+    public function getJsonManifestFileName() {
+        return $this->json_manifest_filename;
+    }
 	
 	/**
 	 * Method getCacheDirectory
@@ -1979,6 +2062,11 @@ class Page extends AbstractPage {
 	 * @since 1.2.10
 	 */
 	public function enableCookiesAcceptMessage($cookies_terms_url, $is_short_message=false) {
+        if ($this->third_party_cookies_filter) {
+            throw new NewException("Third party cookies filter is already activated. You cannot used the cookies accept message feature.", 0, getDebugBacktrace(1));
+        }
+
+        $this->cookies_accept_message = true;
 		if (strtoupper(substr($cookies_terms_url, 0, 7)) != "HTTP://" && strtoupper(substr($cookies_terms_url, 0, 8)) != "HTTPS://") {
 			$cookies_terms_url = $this->getBaseLanguageURL().$cookies_terms_url;
 		}
@@ -1987,6 +2075,109 @@ class Page extends AbstractPage {
 		$this->addObject(new JavaScript("$(document).ready(function(){cookieChoices.showCookieConsentBar(\"".($is_short_message?__(COOKIES_MSG_SHORT):__(COOKIES_MSG))."\", \"".__(CLOSE)."\", \"".__(LEARN_MORE)."\", \"".$cookies_terms_url."\");});"), false, true);
 		
 		return $this;
+	}
+
+	/**
+	 * Method enableThirdPartyCookiesFilter
+	 * @access public
+	 * @param string $disabled_services_rgb [default value: 48,48,48]
+	 * @param string $color_text [default value: white]
+	 * @param string $position [default value: bottom]
+	 * @param boolean $adblocker [default value: true]
+	 * @param boolean $cookieslist [default value: true]
+	 * @return Page
+	 * @since 1.2.13
+	 */
+    public function enableThirdPartyCookiesFilter($disabled_services_rgb='48,48,48', $color_text='white', $position='bottom', $adblocker=true, $cookieslist=true) {
+        if ($this->cookies_accept_message) {
+            throw new NewException("The cookies accept message is already activated. You cannot used the third party cookies filter feature.", 0, getDebugBacktrace(1));
+        }
+
+        $this->third_party_cookies_filter = true;
+        $this->third_party_cookies_filter_position = $position;
+        $this->third_party_cookies_filter_adblocker = $adblocker;
+        $this->third_party_cookies_filter_cookieslist = $cookieslist;
+        if (!$this->isAjaxPage() && !$this->isAjaxLoadPage()) {
+            JavaScriptInclude::getInstance()->add("wsp/js/tarteaucitron/tarteaucitron.js");
+            if ($disabled_services_rgb != "" && $disabled_services_rgb != "48,48,48") {
+                $is_ie8 = false;
+                if (is_browser_ie() && get_browser_ie_version() < 9) {
+                    $is_ie8 = true;
+                }
+                $this->addObject(new JavaScript("var rgb = '".$disabled_services_rgb."';var colorText = '".$color_text."';
+var customTheme = document.createElement('style'),
+cssRule = '#tarteaucitron #tarteaucitronServices .tarteaucitronMainLine .tarteaucitronName a, #tarteaucitron #tarteaucitronServices .tarteaucitronTitle a {color: ' + colorText + ' !important}#tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList .tarteaucitronCookiesListMain:hover, #tarteaucitron #tarteaucitronServices .tarteaucitronLine:hover {background: ".($is_ie8?"rgb":"rgba")."(' + rgb + '".($is_ie8?"":", 0.20").") !important;}#tarteaucitron #tarteaucitronServices .tarteaucitronHidden, #tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList .tarteaucitronHidden {background: ".($is_ie8?"rgb":"rgba")."(' + rgb + '".($is_ie8?"":", 0.07").") !important}#tarteaucitron .tarteaucitronBorder, #tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList .tarteaucitronCookiesListMain, #tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList, #tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList .tarteaucitronHidden, #tarteaucitron #tarteaucitronServices .tarteaucitronMainLine {border-color:rgb(' + rgb + ') !important}#tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList .tarteaucitronCookiesListMain, #tarteaucitron #tarteaucitronServices .tarteaucitronLine {background: ".($is_ie8?"rgb":"rgba")."(' + rgb + '".($is_ie8?"":", 0.1").") !important}#tarteaucitron #tarteaucitronServices .tarteaucitronMainLine .tarteaucitronName b, #tarteaucitronAlertBig #tarteaucitronDisclaimerAlert b, #tarteaucitronAlertSmall #tarteaucitronCookiesNumber, #tarteaucitronAlertSmall #tarteaucitronManager, #tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesTitle b, #tarteaucitron #tarteaucitronInfo a {color:' + colorText + ' !important}#tarteaucitron #tarteaucitronServices .tarteaucitronMainLine, #tarteaucitronAlertBig, #tarteaucitronAlertBig #tarteaucitronDisclaimerAlert, #tarteaucitronAlertSmall, .tac_activate, .tac_activate .tac_float, .tac_activate .tac_float b, #tarteaucitron #tarteaucitronClosePanel, #tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronClosePanelCookie, #tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesTitle, #tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesTitle:hover, #tarteaucitron #tarteaucitronInfo, #tarteaucitron #tarteaucitronServices .tarteaucitronDetails, #tarteaucitron #tarteaucitronServices .tarteaucitronTitle, #tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList .tarteaucitronTitle, #tarteaucitron #tarteaucitronServices .tarteaucitronMainLine:hover {background: rgb(' + rgb + ') !important;color:' + colorText + ' !important}#tarteaucitronAlertBig #tarteaucitronCloseAlert {color: rgb(' + rgb + ') !important;background:' + colorText + ' !important}';
+customTheme.type = 'text/css';
+if (customTheme.styleSheet) {
+    customTheme.styleSheet.cssText = cssRule;
+} else {
+    customTheme.appendChild(document.createTextNode(cssRule));
+}
+document.getElementsByTagName('body')[0].appendChild(customTheme)"), true);
+            }
+        }
+
+        return $this;
+    }
+
+	/**
+	 * Method isThirdPartyCookiesFilterEnable
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.13
+	 */
+    public function isThirdPartyCookiesFilterEnable() {
+        return $this->third_party_cookies_filter;
+    }
+
+	/**
+	 * Method getThirdPartyCookiesFilterPosition
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.13
+	 */
+    public function getThirdPartyCookiesFilterPosition() {
+        return $this->third_party_cookies_filter_position;
+    }
+
+	/**
+	 * Method getThirdPartyCookiesFilterAdBlocker
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.13
+	 */
+    public function getThirdPartyCookiesFilterAdBlocker() {
+        return $this->third_party_cookies_filter_adblocker;
+    }
+
+	/**
+	 * Method getThirdPartyCookiesFilterCookiesList
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.13
+	 */
+    public function getThirdPartyCookiesFilterCookiesList() {
+        return $this->third_party_cookies_filter_cookieslist;
+    }
+	
+	/**
+	 * Method activateScrollToTop
+	 * @access public
+	 * @since 1.2.13
+	 */
+	public function activateScrollToTop() {
+		$scrollToTop = new Object("
+		<script type='text/javascript' src='wsp/js/scrollToTop.min.js'></script>
+		<script type='text/javascript'>
+			jQuery(document).ready(function($){
+				$('body').backtotop({
+					topOffset: 300,
+					animationSpeed: 1000,
+					bckTopLinkTitle: ''
+				});	
+			});
+		</script>");
+		$this->addObject($scrollToTop);
 	}
 }
 ?>

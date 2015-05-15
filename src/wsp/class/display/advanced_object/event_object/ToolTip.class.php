@@ -18,8 +18,8 @@
  * @subpackage advanced_object.event_object
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 26/01/2015
- * @version     1.2.11
+ * @copyright   WebSite-PHP.com 14/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.77
  */
@@ -49,11 +49,6 @@ class ToolTip extends WebSitePhpObject {
 
 	/**
 	 * Constructor ToolTip
-	 * * Constructor ToolTip
-	 * * @param string $content of the tooltip
-	 * * @param string $params
-	 * * @param boolean $follow_cursor [default value: false]
-	 * * @param string $title title tooltip
 	 * @param string $content of the tooltip
 	 * @param string $params 
 	 * @param boolean $follow_cursor [default value: false]
@@ -72,10 +67,6 @@ class ToolTip extends WebSitePhpObject {
 
 	/**
 	 * Method setId
-	 * * Method setId
-	 * * @access public
-	 * * @param string $id
-	 * * @return ToolTip
 	 * @access public
 	 * @param string $id 
 	 * @return ToolTip
@@ -91,10 +82,6 @@ class ToolTip extends WebSitePhpObject {
 
 	/**
 	 * Method setParams
-	 * * Method setParams
-	 * * @access public
-	 * * @param string $params
-	 * * @return ToolTip
 	 * @access public
 	 * @param string $params 
 	 * @return ToolTip
@@ -107,10 +94,6 @@ class ToolTip extends WebSitePhpObject {
 
 	/**
 	 * Method setTitle
-	 * * Method setTitle
-	 * * @access public
-	 * * @param string $title
-	 * * @return ToolTip
 	 * @access public
 	 * @param string $title 
 	 * @return ToolTip
@@ -123,10 +106,6 @@ class ToolTip extends WebSitePhpObject {
 
 	/**
 	 * Method setContent
-	 * * Method setContent
-	 * * @access public
-	 * * @param string|WebSitePhpObject $content
-	 * * @return ToolTip
 	 * @access public
 	 * @param string|WebSitePhpObject $content 
 	 * @return ToolTip
@@ -143,10 +122,6 @@ class ToolTip extends WebSitePhpObject {
 
 	/**
 	 * Method setStyle
-	 * * Method setStyle
-	 * * @access public
-	 * * @param string $style [default value: widget] or [default|dark|cream|red|green|blue|youtube|youtube-red|youtube-green|jtools|cluetip|tipsy|tipped]
-	 * * @return ToolTip
 	 * @access public
 	 * @param string $style or [default|dark|cream|red|green|blue|youtube|youtube-red|youtube-green|jtools|cluetip|tipsy|tipped] [default value: widget]
 	 * @return ToolTip
@@ -164,9 +139,6 @@ class ToolTip extends WebSitePhpObject {
 
 	/**
 	 * Method getParams
-	 * * Method getParams
-	 * * @access public
-	 * * @return mixed
 	 * @access public
 	 * @return mixed
 	 * @since 1.0.91
@@ -177,9 +149,6 @@ class ToolTip extends WebSitePhpObject {
 
 	/**
 	 * Method followCursor
-	 * * Method followCursor
-	 * * @access public
-	 * * @return ToolTip
 	 * @access public
 	 * @return ToolTip
 	 * @since 1.1.0
@@ -191,9 +160,6 @@ class ToolTip extends WebSitePhpObject {
 
 	/**
 	 * Method shadow
-	 * * Method shadow
-	 * * @access public
-	 * * @return ToolTip
 	 * @access public
 	 * @return ToolTip
 	 * @since 1.1.0
@@ -209,9 +175,6 @@ class ToolTip extends WebSitePhpObject {
 
 	/**
 	 * Method rounded
-	 * * Method rounded
-	 * * @access public
-	 * * @return ToolTip
 	 * @access public
 	 * @return ToolTip
 	 * @since 1.1.0
@@ -227,9 +190,6 @@ class ToolTip extends WebSitePhpObject {
 
 	/**
 	 * Method showClick
-	 * * Method showClick
-	 * * @access public
-	 * * @return ToolTip
 	 * @access public
 	 * @return ToolTip
 	 * @since 1.1.0
@@ -241,9 +201,6 @@ class ToolTip extends WebSitePhpObject {
 
 	/**
 	 * Method showSlide
-	 * * Method showSlide
-	 * * @access public
-	 * * @return ToolTip
 	 * @access public
 	 * @return ToolTip
 	 * @since 1.1.0
@@ -255,9 +212,6 @@ class ToolTip extends WebSitePhpObject {
 
 	/**
 	 * Method showFade
-	 * * Method showFade
-	 * * @access public
-	 * * @return ToolTip
 	 * @access public
 	 * @return ToolTip
 	 * @since 1.1.0
@@ -270,10 +224,6 @@ class ToolTip extends WebSitePhpObject {
 
 	/**
 	 * Method render
-	 * * Method render
-	 * * @access public
-	 * * @param boolean $ajax_render [default value: false]
-	 * * @return string html code of object ToolTip
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
 	 * @since 1.0.77

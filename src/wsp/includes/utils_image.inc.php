@@ -6,7 +6,7 @@
  * WebSite-PHP file utils_image.inc.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.19
  */
@@ -490,6 +490,13 @@
 	
 	function gradientColorGenerator($startcol,$endcol,$graduations=10) {
 		$graduations--;
+        if ($endcol == null) {
+            $r = hexdec("FF")-(hexdec(substr($endcol,0,2))/$graduations);
+            $g = hexdec("FF")-(hexdec(substr($endcol,2,2))/$graduations);
+            $b = hexdec("FF")-(hexdec(substr($endcol,4,2))/$graduations);
+            $endcol = $startcol;
+            $startcol = dechex(intval($r)).dechex(intval($g)).dechex(intval($b));
+        }
 	 
 		$startcoln['r'] = hexdec(substr($startcol,0,2));
 		$startcoln['g'] = hexdec(substr($startcol,2,2));
@@ -514,6 +521,17 @@
 		
 		return $HexCol;
 	}
+
+    function isDarkHexaColor($hex) {
+        $hex = str_replace('#', '', $hex);
+
+        $c_r = hexdec(substr($hex, 0, 2));
+        $c_g = hexdec(substr($hex, 2, 2));
+        $c_b = hexdec(substr($hex, 4, 2));
+
+        $brightness = (($c_r * 299) + ($c_g * 587) + ($c_b * 114)) / 1000;
+        return $brightness > 175;
+    }
 
 	function jpegRotate($InFile, $OutFile, $degrees) {
 		$image = ImageCreateFromJPEG($InFile);

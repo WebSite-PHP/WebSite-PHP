@@ -8,7 +8,7 @@
  * Class FacebookLikeButton
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage ShareButton
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.103
  */
@@ -119,11 +119,30 @@ class FacebookLikeButton extends WebSitePhpObject {
 	/**
 	 * Method getFacebookJsInclude
 	 * @access static
-	 * @return mixed
 	 * @since 1.2.9
 	 */
 	public static function getFacebookJsInclude() {
-		return FacebookActivityFeed::getFacebookJsInclude();
+        if (!$GLOBALS['is_facebook_js_already_loaded']) {
+            $page = Page::getInstance($_GET['p']);
+            if ($page->isThirdPartyCookiesFilterEnable()) {
+                $page->addObject(new Object("<script type=\"text/javascript\">(tarteaucitron.job = tarteaucitron.job || []).push('facebook');</script>"));
+            } else {
+                $page->addObject(new Object("<div id=\"fb-root\"></div>"));
+                $js = "$( document ).ready(function() {\n";
+                $js .= "(function(d, s, id) {\n";
+                $js .= "  var js, fjs = d.getElementsByTagName(s)[0];\n";
+                $js .= "  if (d.getElementById(id)) return;\n";
+                $js .= "  js = d.createElement(s); js.id = id;\n";
+                $facebook_language = $page->getLanguageLocale();
+                $js .= "  js.src = \"//connect.facebook.net/" . $facebook_language . "/all.js#xfbml=1\";\n";
+                $js .= "  js.defer = \"defer\";\n";
+                $js .= "  fjs.parentNode.insertBefore(js, fjs);\n";
+                $js .= "}(document, 'script', 'facebook-jssdk'));\n";
+                $js .= "});\n";
+                $page->addObject(new JavaScript($js), false, true);
+            }
+            $GLOBALS['is_facebook_js_already_loaded'] = true;
+        }
 	}
 }
 ?>

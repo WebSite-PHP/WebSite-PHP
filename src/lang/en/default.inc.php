@@ -65,4 +65,7 @@
 	define('COOKIES_MSG', 'Our website uses cookies. Cookies enable us to provide the best experience possible. By using our services, you accept our use of cookies.');
 	define('COOKIES_MSG_SHORT', 'By using our services, you accept our use of cookies.');
 	define('LEARN_MORE', 'Learn more');
+	
+	define('UPLOAD_FILESIZE_LIMIT_ERROR_MSG', 'The file "{#SIMPLE_QUOTE#}+filename+{#SIMPLE_QUOTE#}" exceeds the maximum size allowed (%s).');
+	define('UPLOAD_MIME_TYPES_ERROR_MSG', 'The mime type "{#SIMPLE_QUOTE#}+filename+{#SIMPLE_QUOTE#}" file ({#SIMPLE_QUOTE#}+mime_type+{#SIMPLE_QUOTE#}) is not allowed (%s).');
 ?>

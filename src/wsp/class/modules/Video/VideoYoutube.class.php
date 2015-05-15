@@ -8,7 +8,7 @@
  * Class VideoYoutube
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage Video
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.2.10
  */
@@ -126,24 +126,54 @@ class VideoYoutube extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		$html = "";
-		$html .= "<iframe width=\"".$this->width."\" height=\"".$this->height."\" src=\"//www.youtube.com/embed/".$this->youtube_video_key."?";
-		if (!$this->related_video) {
-			$html .= "&amp;rel=0";
-		}
-		if (!$this->control_bar) {
-			$html .= "&amp;controls=0";
-		}
-		if (!$this->show_title) {
-			$html .= "&amp;showinfo=0";
-		}
-		if ($this->autoplay) {
-			$html .= "&amp;autoplay=1";
-		}
-		if ($this->theme != "") {
-			$html .= "&amp;theme=".$this->theme;
-		}
-		$html .= "\" frameborder=\"0\" allowfullscreen></iframe>\n";
-		
+        if ($this->getPage()->isThirdPartyCookiesFilterEnable()) {
+            $html .= "<div class=\"youtube_player\" videoID=\"".$this->youtube_video_key."\" width=\"".$this->width."\" height=\"".$this->height."\"";
+            if (!$this->related_video) {
+                $html .= " rel=\"0\"";
+            }
+            if (!$this->control_bar) {
+                $html .= " controls=\"0\"";
+            }
+            if (!$this->show_title) {
+                $html .= " showinfo=\"0\"";
+            }
+            if ($this->autoplay) {
+                $html .= " autoplay=\"1\"";
+            }
+            if ($this->theme != "") {
+                $html .= " theme=\"" . $this->theme."\"";
+            }
+            if ($this->width != "" || $this->height != "") {
+                $html .= " style=\"";
+                if ($this->width != "") {
+                    $html .= "width:".$this->width."px;";
+                }
+                if ($this->height != "") {
+                    $html .= "height:".$this->height."px;";
+                }
+                $html .= "\"";
+            }
+            $html .= "></div>";
+            $html .= "<script type=\"text/javascript\">(tarteaucitron.job = tarteaucitron.job || []).push('youtube');</script>";
+        } else {
+            $html .= "<iframe width=\"".$this->width."\" height=\"".$this->height."\" src=\"//www.youtube.com/embed/".$this->youtube_video_key."?";
+            if (!$this->related_video) {
+                $html .= "&amp;rel=0";
+            }
+            if (!$this->control_bar) {
+                $html .= "&amp;controls=0";
+            }
+            if (!$this->show_title) {
+                $html .= "&amp;showinfo=0";
+            }
+            if ($this->autoplay) {
+                $html .= "&amp;autoplay=1";
+            }
+            if ($this->theme != "") {
+                $html .= "&amp;theme=" . $this->theme;
+            }
+            $html .= "\" frameborder=\"0\" allowfullscreen></iframe>\n";
+        }
 		$this->object_change = false;
 		return $html;
 	}

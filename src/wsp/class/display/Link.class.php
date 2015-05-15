@@ -7,7 +7,7 @@
  * Class Link
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.17
  */
@@ -453,12 +453,13 @@ class Link extends WebSitePhpObject {
 			if (get_class($this->link) == "Link") {
 				$this->onclick .= "var link_url=$(this).attr('href');";
 			}
-			$this->onclick .= "ga('send', 'event', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."'";
+			$this->onclick .= "if (isGoogleAnalyticsLoaded()) { ga('send', 'event', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."'";
 			if (get_class($this->link) == "Link" && $this->link->getUserHaveRights() && $this->link->getTarget() == Link::TARGET_NONE) {
 				$this->onclick .= ", {'hitCallback': function(){window.location.href = link_url;}}); return false;";
 			} else {
 				$this->onclick .= ");";
 			}
+            $this->onclick .= "} else { window.location.href = link_url; }";
 		}
 		
 		$html .= "<a";

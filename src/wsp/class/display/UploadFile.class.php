@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 27/11/2014
- * @version     1.2.11
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.2.3
  */
@@ -31,18 +31,26 @@ class UploadFile extends WebSitePhpEventObject {
 	protected $form_object = null;
 	
 	private $array_mime_types = array();
-	private $file_size_limit = -1;
+    private $file_size_limit = -1;
+    private $file_size_limit_str = "";
 	private $file_path = array();
 	private $button_value = "";
 	private $class = "";
 	private $width = "";
 	private $tooltip = "";
 	private $is_multiple = false;
+    private $select_file_icon = "";
+
+    private $file_size_limit_js_check = false;
+    private $mime_types_js_check = false;
 	
 	private $is_changed = false;
 	private $onchange = "";
 	private $callback_onchange = "";
 	private $callback_onchange_params = array();
+
+    private $object_drop_zone = null;
+    private $drop_zone_over_style = "";
 	/**#@-*/
 	
 	/**
@@ -86,8 +94,9 @@ class UploadFile extends WebSitePhpEventObject {
 		} else {
 			$this->id = $id;
 		}
-		
-		JavaScriptInclude::getInstance()->addToEnd(BASE_URL."wsp/js/jquery.upload.js", "", true);
+
+        JavaScriptInclude::getInstance()->addToEnd(BASE_URL."wsp/js/jquery.form.js", "", true);
+        JavaScriptInclude::getInstance()->addToEnd(BASE_URL."wsp/js/jquery.upload.js", "", true);
 	}
 	
 	/**
@@ -216,6 +225,8 @@ class UploadFile extends WebSitePhpEventObject {
 	 * @since 1.2.3
 	 */
 	public function setFileSizeLimit($bytes_size) {
+        $this->file_size_limit_str = $bytes_size;
+
 		$apache_conf_size =  $this->convertSizeToBytes(ini_get('upload_max_filesize'));
 		$bytes_size =  $this->convertSizeToBytes($bytes_size);
 		if ($bytes_size > $apache_conf_size) {
@@ -274,6 +285,30 @@ class UploadFile extends WebSitePhpEventObject {
     	$this->is_multiple = true;
     	return $this;
     }
+
+	/**
+	 * Method setSelectFileIcon
+	 * @access public
+	 * @param mixed $icon 
+	 * @param double $height [default value: 32]
+	 * @param double $width [default value: 32]
+	 * @param string $align [default value: Picture::ALIGN_ABSMIDDLE]
+	 * @param string $title 
+	 * @return UploadFile
+	 * @since 1.2.13
+	 */
+    public function setSelectFileIcon($icon, $height=32, $width=32, $align=Picture::ALIGN_ABSMIDDLE, $title='') {
+        if (gettype($this->select_file_icon) != "string" && (gettype($this->select_file_icon) == "object" && get_class($this->select_file_icon) != "Picture")) {
+            throw new NewException(get_class($this)."->setSelectFileIcon() error: \$icon need to be the icon path or a Picture object.", 0, getDebugBacktrace(1));
+        }
+        if (gettype($this->select_file_icon) == "string") {
+            $icon = new Picture($icon, $height, $width, 0, $align, $title);
+        }
+        $icon->setId("UploadFilePic_" . $this->id );
+        $icon->onClickJs("\$('#".$this->id."').click();");
+        $this->select_file_icon = $icon;
+        return $this;
+    }
 	
 	/**
 	 * Method getFileMimeType
@@ -284,7 +319,7 @@ class UploadFile extends WebSitePhpEventObject {
 	 */
 	public function getFileMimeType($file_index=0) {
 		$file_info = new finfo(FILEINFO_MIME);
-		$mime_type = split(";", $file_info->buffer(file_get_contents($this->getFilePath($file_index))));  // e.g. gives "image/jpeg"
+		$mime_type = explode(";", $file_info->buffer(file_get_contents($this->getFilePath($file_index))));  // e.g. gives "image/jpeg"
 		return trim($mime_type[0]);
 	}
 	
@@ -501,6 +536,115 @@ class UploadFile extends WebSitePhpEventObject {
 	public function isChanged() {
 		return $this->is_changed;
 	}
+
+	/**
+	 * Method setObjectDropZone
+	 * @access public
+	 * @param mixed $object 
+	 * @param string $over_style [default value: 1px dashed red]
+	 * @return UploadFile
+	 * @since 1.2.13
+	 */
+    public function setObjectDropZone($object, $over_style='1px dashed red') {
+        if (gettype($object) != "object" || get_class($object) != "Object") {
+            throw new NewException(get_class($this)."->setObjectDropZone() error: \$object need to be a WSP Object.", 0, getDebugBacktrace(1));
+        }
+        $this->object_drop_zone = $object;
+        $this->drop_zone_over_style = $over_style;
+        return $this;
+    }
+
+	/**
+	 * Method activateSizeLimitJsCheck
+	 * @access public
+	 * @return UploadFile
+	 * @since 1.2.13
+	 */
+    public function activateSizeLimitJsCheck() {
+        $this->file_size_limit_js_check = true;
+        return $this;
+    }
+
+	/**
+	 * Method activateMimeTypeJsCheck
+	 * @access public
+	 * @return UploadFile
+	 * @since 1.2.13
+	 */
+    public function activateMimeTypeJsCheck() {
+        $this->mime_types_js_check = true;
+        return $this;
+    }
+
+	/**
+	 * Method isSizeLimitJsCheckActivated
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.13
+	 */
+    public function isSizeLimitJsCheckActivated() {
+        return $this->file_size_limit_js_check;
+    }
+
+	/**
+	 * Method isMimeTypeJsCheckActivated
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.13
+	 */
+    public function isMimeTypeJsCheckActivated() {
+        return $this->mime_types_js_check;
+    }
+
+	/**
+	 * Method getFileSizeLimit
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.13
+	 */
+    public function getFileSizeLimit() {
+        return $this->file_size_limit;
+    }
+
+	/**
+	 * Method getFileSizeLimitStr
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.13
+	 */
+    public function getFileSizeLimitStr() {
+        return $this->file_size_limit_str;
+    }
+
+	/**
+	 * Method getAuthorizedMimeTypes
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.13
+	 */
+    public function getAuthorizedMimeTypes() {
+        return $this->array_mime_types;
+    }
+
+	/**
+	 * Method getProgressBarObject
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.13
+	 */
+    public function getProgressBarObject() {
+        $loading_sub_percent_obj = new Object();
+        $loading_sub_percent_obj->forceDivTag();
+        $loading_sub_percent_txt_obj = new Object();
+        $loading_sub_percent_txt_obj->forceSpanTag();
+        $loading_percent_obj = new Object($loading_sub_percent_obj, $loading_sub_percent_txt_obj);
+        $loading_percent_obj->setClass("wsp-progress-bar")->forceDivTag();
+        $loading_obj = new Object($loading_percent_obj);
+        $loading_obj->setClass("wsp-progress-bar-container")->forceDivTag();
+        $loading_obj->setId("wspAjaxEventLoadingObj".get_class($this)."_".$this->getEventObjectName());
+        $loading_obj->hide();
+        return $loading_obj;
+    }
 	
 	/**
 	 * Method render
@@ -560,72 +704,122 @@ class UploadFile extends WebSitePhpEventObject {
 		}
 		
 		// Generate HTML
-		if (!is_browser_ie()) {
-			$html .= "<span class=\"UploadFile\">";
-			$html .= "<input type=\"text\" id=\"UploadFile_Path_".$this->id."\" disabled/>";
-			$html .= "<label id=\"UploadFile_Button_".$this->id."\" class=\"button";
-			if ($this->class != "") {
-				$html .= " ".$this->class;
-			}
-			$html .= "\"";
-			if ($this->tooltip != "") {
-				$html .= " title=\"".$this->tooltip."\"";
-			}
-			$html .= ">".$this->button_value."</label><input type='file' name='".$this->getEventObjectName().($this->is_multiple?"[]":"")."' id='".$this->id."' class='UploadFileInput'";
-			if ($this->is_multiple) {
-				$html .= " multiple";
-			}
-			$html .= "/>";
-			$html .= "</span>";
-		} else {
-			$html .= "<input type='file' name='".$this->getEventObjectName().($this->is_multiple?"[]":"")."' id='".$this->id."'";
-			if ($this->is_multiple) {
-				$html .= " multiple";
-			}
-			if ($this->width != "") {
-				$html .= " style=\"width:";
-				if (is_integer($this->width)) {
-					$html .= $this->width."px";
-				} else {
-					$html .= $this->width;
-				}
-				$html .= ";\"";
-			}
-			if ($this->class != "") {
-				$html .= " class='".$this->class."'";
-			}
-			if ($this->tooltip != "") {
-				$html .= " title='".$this->tooltip."'";
-			}
-			$html .= "/>";
-		}
-		
-		$html .= $this->getJavascriptTagOpen();
-		if (!is_browser_ie()) {
-			$html .= "\$('#UploadFile_Button_".$this->id."').click(function(event){\n";
-			$html .= "	\$('#".$this->id."').click()\n";
-			$html .= "});\n";
-			if ($this->width != "") {
-				$html .= "\$('#UploadFile_Path_".$this->id."').css('width', (";
-				if (is_integer($this->width)) {
-					$html .= $this->width;
-				} else {
-					$html .= trim(str_replace("px", "", $this->width));
-				}
-				$html .= " - myReplace($('#UploadFile_Button_".$this->id."').css('width'), 'px', '')) + 'px');\n";
-			}
-		}
-		$html .= "\$('#".$this->id."').change(function(){\n";
-		if (!is_browser_ie()) {
-			$html .= "	var current_file = myReplaceAll(\$(this).val(), '\\\\', '/').split('/');\n";
-			$html .= "	current_file = current_file[current_file.length-1];\n";
-			$html .= "	\$('#UploadFile_Path_".$this->id."').val(current_file);\n";
-		}
-		if ($this->onchange != "" || $this->callback_onchange != "") {
-			$html .= "	".str_replace("\n", "", $this->getObjectEventValidationRender($this->onchange, $this->callback_onchange))."\n";
-		}
-		$html .= "});";
-		$html .= $this->getJavascriptTagClose();
+        if ($this->object_drop_zone == null || (is_browser_ie() && get_browser_ie_version() <= 9)) {
+            if ($this->select_file_icon == "" || gettype($this->select_file_icon) != "object" || get_class($this->select_file_icon) != "Picture") {
+                if (!is_browser_ie()) {
+                    $html .= "<span class=\"UploadFile\">";
+                    $html .= "<input type=\"text\" id=\"UploadFile_Path_" . $this->id . "\" disabled/>";
+                    $html .= "<label id=\"UploadFile_Button_" . $this->id . "\" class=\"button";
+                    if ($this->class != "") {
+                        $html .= " " . $this->class;
+                    }
+                    $html .= "\"";
+                    if ($this->tooltip != "") {
+                        $html .= " title=\"" . $this->tooltip . "\"";
+                    }
+                    $html .= ">" . $this->button_value . "</label><input type='file' name='" . $this->getEventObjectName() . ($this->is_multiple ? "[]" : "") . "' id='" . $this->id . "' class='UploadFileInput'";
+                    if ($this->is_multiple) {
+                        $html .= " multiple";
+                    }
+                    $html .= "/>";
+                    $html .= "</span>";
+                } else {
+                    $html .= "<input type='file' name='" . $this->getEventObjectName() . ($this->is_multiple ? "[]" : "") . "' id='" . $this->id . "'";
+                    if ($this->is_multiple) {
+                        $html .= " multiple";
+                    }
+                    if ($this->width != "") {
+                        $html .= " style=\"width:";
+                        if (is_integer($this->width)) {
+                            $html .= $this->width . "px";
+                        } else {
+                            $html .= $this->width;
+                        }
+                        $html .= ";\"";
+                    }
+                    if ($this->class != "") {
+                        $html .= " class='" . $this->class . "'";
+                    }
+                    if ($this->tooltip != "") {
+                        $html .= " title='" . $this->tooltip . "'";
+                    }
+                    $html .= "/>";
+                }
+            } else {
+                $html .= "<input type='file' name='" . $this->getEventObjectName() . ($this->is_multiple ? "[]" : "") . "' id='" . $this->id . "'";
+                if ($this->is_multiple) {
+                    $html .= " multiple";
+                }
+                $html .= " style='display:none;'/>";
+                $html .= $this->select_file_icon->render($ajax_render);
+            }
+
+            $html .= $this->getJavascriptTagOpen();
+            if (!is_browser_ie() && $this->select_file_icon == "") {
+                $html .= "\$('#UploadFile_Button_".$this->id."').click(function(event){\n";
+                $html .= "	\$('#".$this->id."').click();\n";
+                $html .= "});\n";
+                if ($this->width != "") {
+                    $html .= "\$('#UploadFile_Path_".$this->id."').css('width', (";
+                    if (is_integer($this->width)) {
+                        $html .= $this->width;
+                    } else {
+                        $html .= trim(str_replace("px", "", $this->width));
+                    }
+                    $html .= " - myReplace($('#UploadFile_Button_".$this->id."').css('width'), 'px', '')) + 'px');\n";
+                }
+            }
+            $html .= "\$('#".$this->id."').change(function(){\n";
+            if (!is_browser_ie()) {
+                $html .= "	var current_file = myReplaceAll(\$(this).val(), '\\\\', '/').split('/');\n";
+                $html .= "	current_file = current_file[current_file.length-1];\n";
+                $html .= "	\$('#UploadFile_Path_".$this->id."').val(current_file);\n";
+            }
+            if ($this->onchange != "" || $this->callback_onchange != "") {
+                $html .= "	".str_replace("\n", "", $this->getObjectEventValidationRender($this->onchange, $this->callback_onchange))."\n";
+            }
+            $html .= "});";
+            $html .= $this->getJavascriptTagClose();
+        } else {
+            $html .= $this->object_drop_zone->render($ajax_render);
+            $html .= "<input type='file' name='".$this->getEventObjectName() . ($this->is_multiple ? "[]" : "") ."' id='" . $this->id . "' style='display:none;'/>";
+            $html .= $this->getJavascriptTagOpen();
+            $html .= "$(document).on('dragenter', '#".$this->object_drop_zone->getId()."', function() {
+                $(this).css('border', '".$this->drop_zone_over_style."');
+                return false;
+            });
+
+            $(document).on('dragover', '#".$this->object_drop_zone->getId()."', function(e){
+                e.preventDefault();
+                e.stopPropagation();
+                $(this).css('border', '".$this->drop_zone_over_style."');
+                return false;
+            });
+
+            $(document).on('dragleave', '#".$this->object_drop_zone->getId()."', function(e) {
+                e.preventDefault();
+                e.stopPropagation();\n";
+            if ($this->object_drop_zone->getStyle() != "") {
+                $html .= "$(this).attr('style', '" . $this->object_drop_zone->getStyle() . "');\n";
+            }
+            $html .= "return false;
+            });
+            $(document).on('drop', '#".$this->object_drop_zone->getId()."', function(e) {
+                if(e.originalEvent.dataTransfer){
+                   if(e.originalEvent.dataTransfer.files.length) {
+                       e.preventDefault();
+                       e.stopPropagation();\n";
+            $html .= "document.getElementById('".$this->id."').files = e.originalEvent.dataTransfer.files;\n";
+            $html .= str_replace("\n", "", $this->getObjectEventValidationRender($this->onchange, $this->callback_onchange))."\n";
+            $html .= "}
+                }\n";
+            if ($this->object_drop_zone->getStyle() != "") {
+                $html .= "$(this).attr('style', '" . $this->object_drop_zone->getStyle() . "');\n";
+            }
+            $html .= "return false;
+            });";
+            $html .= $this->getJavascriptTagClose();
+        }
 		
 		$this->object_change = false;
 		return $html;

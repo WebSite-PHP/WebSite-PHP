@@ -8,7 +8,7 @@
  * Class AutoComplete
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage advanced_object.autocomplete
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.17
  */
@@ -126,15 +126,15 @@ class AutoComplete extends WebSitePhpObject {
 		if (GOOGLE_CODE_TRACKER != "" && !isLocalDebug() && 
 			!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
 				if ($this->track_categ != "") {
-					$html .= "ga('send', 'event', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."'";
+					$html .= "if (isGoogleAnalyticsLoaded()) { ga('send', 'event', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."'";
 					if ($this->track_use_search_value) {
 						$html .= ", trim(\$('#".$this->link_object_id."').val())";
 					}
 					//$html .= ", {'hitCallback': function() {alert('analytics.js done sending data');}}";
-					$html .= ");";
+					$html .= "); }";
 				}
 				if ($this->track_pageview) {
-					$html .= "ga('send', 'pageview', {'page': '/".str_replace($this->getPage()->getBaseURL(), "", $this->autocomplete_url->render())."?term='+urlencode(trim(\$('#".$this->link_object_id."').val()))});";
+					$html .= "if (isGoogleAnalyticsLoaded()) { ga('send', 'pageview', {'page': '/".str_replace($this->getPage()->getBaseURL(), "", $this->autocomplete_url->render())."?term='+urlencode(trim(\$('#".$this->link_object_id."').val()))}); }";
 				}
 		}
 		if ($this->indicator_id != "") {

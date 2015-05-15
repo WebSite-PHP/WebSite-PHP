@@ -47,6 +47,7 @@ $__LOAD_VARIABLES__ = false;
 $__DEBUG_PAGE_IS_PRINTING__ = false;
 $__GEOLOC_ASK_USER_SHARE_POSITION__ = false;
 
+@session_set_cookie_params(0, "/", $_SERVER['SERVER_NAME'], false, true);
 @session_name(formalize_to_variable(SITE_NAME));
 @session_start();
 

@@ -8,7 +8,7 @@
  * Class DownloadButton
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage DownloadButton
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.17
  */
@@ -174,7 +174,7 @@ class DownloadButton extends WebSitePhpObject {
 		
 		$html .= "<a ";
 		if ($this->track_categ != "") {
-			$html .= "href=\"javascript:void(0);\" onclick=\"ga('send', 'event', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."', {'hitCallback': function(){window.location.href = '".$this->link."';}});\"";
+			$html .= "href=\"javascript:void(0);\" onclick=\"if (isGoogleAnalyticsLoaded()) { ga('send', 'event', '".addslashes($this->track_categ)."', '".addslashes($this->track_action)."', '".addslashes($this->track_label)."', {'hitCallback': function(){window.location.href = '".$this->link."';}}); } else { window.location.href = '".$this->link."'; }\"";
 		} else {
 			$html .= "href=\"".$this->link."\"";
 		}

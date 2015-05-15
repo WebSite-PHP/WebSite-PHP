@@ -7,7 +7,7 @@
  * Class Tabs
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2014 WebSite-PHP.com
+ * Copyright (c) 2009-2015 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/11/2014
- * @version     1.2.10
+ * @copyright   WebSite-PHP.com 12/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.0.17
  */
@@ -296,7 +296,7 @@ class Tabs extends WebSitePhpObject {
 		$html .= "</div>\n";
 		
 		$html .= $this->getJavascriptTagOpen();
-		$html .= "$( document ).ready(function() {\n";
+		$html .= "$(document).ready(function() {\n";
 		$html .= "	$('#".$this->getId()."').tabs({";
 		if ($this->onshow != "") {
 			$html .= "		show: function(event, ui) { ".$this->onshow." }, \n";
@@ -357,14 +357,14 @@ class Tabs extends WebSitePhpObject {
 				$html .= "			cache: true,\n";
 			} 
 			$html .= "			success: function() {},\n";
-			$html .= "			error: function (xhr, status, index, anchor) { if (status == 'error' && xhr.responseText != '') { \$(anchor.hash).html('<table><tr><td><img src=\'".$this->getPage()->getCDNServerURL()."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + xhr.responseText); } }\n";
+			$html .= "			error: function (xhr, status, index, anchor) { if (status == 'error' && xhr.responseText != '') { \$(anchor.hash).html('<table><tr><td><img src=\'".$this->getPage()->getCDNServerURL()."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + (xhr.statusText != 'undefined' ? xhr.statusText : xhr.responseText)); } }\n";
 			$html .= "		}\n";
 		}
 		$html .= "});\n";
 		if ($this->selected_index > -1 && $this->height != "") {
 			$html .= "$('#".$this->getId()."_".formalize_to_variable($this->array_tabs_name[$this->selected_index])."').attr('style', 'overflow:auto;height:' + (parseInt($('#".$this->getId()."').css('height').replace('px', ''))-($('#".$this->getId()."').find('.ui-tabs-nav').height()+40)) + 'px;');\n";
 		}
-		$html .= "})\n";
+		$html .= "});\n";
 		$html .= $this->getJavascriptTagClose();
 		
 		$this->object_change = false;

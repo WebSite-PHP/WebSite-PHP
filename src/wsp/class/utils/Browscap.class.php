@@ -16,8 +16,8 @@
  * @package utils
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 05/02/2015
- * @version     1.2.12
+ * @copyright   WebSite-PHP.com 14/05/2015
+ * @version     1.2.13
  * @access      public
  * @since       1.2.12
  */
@@ -227,9 +227,7 @@ class Browscap
 
 	/**
 	 * Constructor Browscap
-	 * * Constructor class, checks for the existence of (and loads) the cache and
-	 * * if needed updated the definitions
-	 * * @param string $cache_dir
+	 * if needed updated the definitions
 	 * @param string $cache_dir 
 	 */
     public function __construct($cache_dir)
