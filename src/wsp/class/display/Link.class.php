@@ -7,7 +7,7 @@
  * Class Link
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,12 +16,14 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 10/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.0.17
  */
 
+global $is_label_link_already_converted;
+$GLOBALS['is_label_link_already_converted'] = false;
 class Link extends WebSitePhpObject {
 	
 	/**#@+
@@ -421,11 +423,12 @@ class Link extends WebSitePhpObject {
 					}
 				}
 			}
-			if (strtoupper(substr($tmp_link, 0, 7)) != "HTTP://" && strtoupper(substr($tmp_link, 0, 8)) != "HTTPS://") {	
-				// it's a local URL
-				if (strtoupper(substr($tmp_link, 0, strlen(BASE_URL))) != strtoupper(BASE_URL)) {
-					$this->link = BASE_URL.$_SESSION['lang']."/".$this->link;
-				}
+			if ((!defined('NO_ADD_AUTO_LINK_BASE_URL') || NO_ADD_AUTO_LINK_BASE_URL !== true) &&
+				strtoupper(substr($tmp_link, 0, 7)) != "HTTP://" && strtoupper(substr($tmp_link, 0, 8)) != "HTTPS://") {
+					// it's a local URL
+					if (strtoupper(substr($tmp_link, 0, strlen(BASE_URL))) != strtoupper(BASE_URL)) {
+						$this->link = BASE_URL.$_SESSION['lang']."/".$this->link;
+					}
 			}
 		}
 		return true;
@@ -516,6 +519,10 @@ class Link extends WebSitePhpObject {
 			if (get_class($this->content) == "Object") {
 				$html_content = str_replace(">\n <br/>", "><br/>", str_replace(">\n <BR/>", "><BR/>", str_replace(">\n <br />", "><br />", str_replace(">\n <BR />", "><BR />", $this->content->render()))));
 			} else {
+				if (get_class($this->content) == "Label" && !$GLOBALS['is_label_link_already_converted']) {
+					$this->getPage()->addObject(new JavaScript("$('a label').bind('click', function() {location.href=$(this).closest('a').attr('href');});"), false, true);
+                    $GLOBALS['is_label_link_already_converted'] = true;
+				}
 				$html_content = $this->content->render();
 			}
 			// Revove carriage return on the end of the string before writing </a> 

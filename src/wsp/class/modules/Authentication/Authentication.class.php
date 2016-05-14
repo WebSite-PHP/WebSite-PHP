@@ -8,7 +8,7 @@
  * Class Authentication
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage Authentication
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.0.84
  */
@@ -98,6 +98,8 @@ class Authentication extends WebSitePhpObject {
 		$this->login_label = __(AUTHENTICATION_LOGIN);
 		$this->password_label = __(AUTHENTICATION_PASSWD);
 		$this->button_label = __(AUTHENTICATION_CONNECT);
+		
+		$this->onsubmit_args = array();
 		
 		$this->createRender();
 	}
@@ -190,6 +192,23 @@ class Authentication extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method onSubmitButtonArgs
+	 * @access public
+	 * @param mixed $arg1 [default value: null]
+	 * @param mixed $arg2 [default value: null]
+	 * @param mixed $arg3 [default value: null]
+	 * @param mixed $arg4 [default value: null]
+	 * @param mixed $arg5 [default value: null]
+	 * @return Authentication
+	 * @since 1.2.14
+	 */
+	public function onSubmitButtonArgs($arg1=null, $arg2=null, $arg3=null, $arg4=null, $arg5=null) {
+		$this->onsubmit_args = func_get_args();
+		$this->createRender(false);
+		return $this;
+	}
+	
+	/**
 	 * Method createRender
 	 * @access private
 	 * @param boolean $first_time [default value: true]
@@ -235,7 +254,7 @@ class Authentication extends WebSitePhpObject {
 		if ($this->disable_ajax_wait_message) {
 			$this->connect_button->disableAjaxWaitMessage();
 		}
-		$this->connect_button->assignEnterKey()->onClick($this->connect_method);
+		$this->connect_button->assignEnterKey()->onClick($this->connect_method, $this->onsubmit_args[0], $this->onsubmit_args[1], $this->onsubmit_args[2], $this->onsubmit_args[3], $this->onsubmit_args[4]);
 		$this->connect_button->setAjaxEvent($this->is_ajax_event);
 		
 		if ($this->style == Authentication::STYLE_2_LINES) {
@@ -574,10 +593,14 @@ class Authentication extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		if ($this->prefill_login_passwd) {
-			$this->login->setValue($this->login_label);
+			if ($this->login->getValue() == "") {
+				$this->login->setValue($this->login_label);
+			}
 			$this->login->onClickJs("if (\$('#".$this->login->getId()."').val() == '".addslashes($this->login_label)."') { \$('#".$this->login->getId()."').val(''); }");
 			$this->login->onBlurJs("if (\$('#".$this->login->getId()."').val() == '') { \$('#".$this->login->getId()."').val('".addslashes($this->login_label)."'); }");
-			$this->password->setValue($this->password_label);
+			if ($this->password->getValue() == "") {
+				$this->password->setValue($this->password_label);
+			}
 			$this->password->onClickJs("if (\$('#".$this->password->getId()."').val() == '".addslashes($this->password_label)."') { \$('#".$this->password->getId()."').val(''); }");
 			$this->password->onBlurJs("if (\$('#".$this->password->getId()."').val() == '') { \$('#".$this->password->getId()."').val('".addslashes($this->password_label)."'); }");
 		}

@@ -8,7 +8,7 @@
  * Class FacebookComments
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,20 +18,30 @@
  * @subpackage Facebook
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 10/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.0.86
  */
 
 class FacebookComments extends WebSitePhpObject {
 	/**#@+
-	* FacebookComments style
-	* @access public
-	* @var string
-	*/
+	 * FacebookComments style
+	 * @access public
+	 * @var string
+	 */
 	const STYLE_LIGHT = "light";
 	const STYLE_DARK = "dark";
+	/**#@-*/
+
+	/**#@+
+	 * FacebookComments order
+	 * @access public
+	 * @var string
+	 */
+	const ORDER_SOCIAL = "social";
+	const ORDER_REVERSE_TIME = "reverse_time";
+	const ORDER_TIME = "time";
 	/**#@-*/
 	
 	/**#@+
@@ -41,6 +51,7 @@ class FacebookComments extends WebSitePhpObject {
 	private $number_post = 2;
 	private $width = 500;
 	private $style = FacebookComments::STYLE_LIGHT;
+	private $order = FacebookComments::ORDER_SOCIAL;
 	/**#@-*/
 	
 	/**
@@ -98,6 +109,18 @@ class FacebookComments extends WebSitePhpObject {
 		$this->width = $width;
 		return $this;
 	}
+
+	/**
+	 * Method setOrder
+	 * @access public
+	 * @param mixed $order 
+	 * @return FacebookComments
+	 * @since 1.2.14
+	 */
+	public function setOrder($order) {
+		$this->order = $order;
+		return $this;
+	}
 	
 	/**
 	 * Method render
@@ -108,7 +131,7 @@ class FacebookComments extends WebSitePhpObject {
 	 */
 	public function render($ajax_render=false) {
 		FacebookComments::getFacebookJsInclude();
-		$html = "<div class=\"fb-comments\" data-href=\"".$this->url_to_comment."\" data-numposts=\"".$this->number_post."\" data-width=\"".$this->width."\" data-colorscheme=\"".$this->style."\" style=\"border:none; overflow:hidden;background-color:".($this->style=="dark"?"black":"white")."; width:".$this->width."px;\"></div>";
+		$html = "<div class=\"fb-comments\" data-href=\"".$this->url_to_comment."\" data-numposts=\"".$this->number_post."\" data-width=\"".$this->width."\" data-colorscheme=\"".$this->style."\" data-order-by=\"".$this->order."\" style=\"border:none; overflow:hidden;background-color:".($this->style=="dark"?"black":"white")."; width:".$this->width."px;\"></div>";
 		
 		return $html;
 	}

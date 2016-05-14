@@ -7,7 +7,7 @@
  * Abstract Class WebSitePhpEventObject
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package abstract
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.0.18
  */
@@ -253,6 +253,11 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 		return $this;
 	}
 	
+	public function enableAjaxWaitMessage() {
+		$this->disable_ajax_wait_message = false;
+		return $this;
+	}
+	
 	/**
 	 * Method onFormIsChangedJs
 	 * @access public
@@ -298,10 +303,10 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 			$str_function = trim($str_function[1]);
 		} else {*/
 			$str_function = trim($str_function);
-			if ($this->form_object == null || $this->form_object->getAction() == "") {
+			if ($this->form_object == null || $this->form_object->getRealAction() == "") {
 				$page_object = $this->page_object;
 			} else {
-				$action_page = $this->form_object->getAction();
+				$action_page = $this->form_object->getRealAction();
 				$action_page = explode('?', $action_page);
 				$action_page = str_replace(".html", "", $action_page[0]);
 				$page_object = Page::getInstance($action_page);
@@ -340,12 +345,12 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 						}
 					}
 				} else {
-					$this->callback_args .= "\'".addslashes($array_args[$i])."\'";
+					$this->callback_args .= "\'".str_replace('&', '{#wsp_callback_amp}', str_replace('\'', '{#wsp_callback_quote}', str_replace('+', '{#wsp_callback_plus}', str_replace('"', '{#wsp_callback_doublequote}', ($array_args[$i])))))."\'";
 				}
 			}
 			
-			if ($this->form_object == null || ($this->form_object->getAction() == "" || 
-				($this->form_object->getAction() != "" && substr($this->form_object->getAction(), 0, strlen($_GET['p'])) == $_GET['p']))) {
+			if ($this->form_object == null || ($this->form_object->getRealAction() == "" || 
+				($this->form_object->getRealAction() != "" && substr($this->form_object->getRealAction(), 0, strlen($_GET['p'])) == $_GET['p']))) {
 					$callback = $str_function_tmp;
 			} else {
 				if (find($str_function_tmp, "public_", 0, 0) > 0) {
@@ -370,8 +375,8 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 	}
 	
 	private function getJavaScriptCallbackArgValue($arg, $quote=true) {
-		$quote_begin = "myReplaceAll(myReplaceAll(";
-		$quote_end = ", '&', '{#wsp_callback_amp}'), '\'', '{#wsp_callback_quote}')";
+		$quote_begin = "myReplaceAll(myReplaceAll(myReplaceAll(myReplaceAll(";
+		$quote_end = ", '&', '{#wsp_callback_amp}'), '\'', '{#wsp_callback_quote}'), '+', '{#wsp_callback_plus}'), '\\\"', '{#wsp_callback_doublequote}')";
 		if ($quote) {
 			$quote_begin = "\''+".$quote_begin;
 			$quote_end = $quote_end."+'\'";
@@ -496,7 +501,7 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 				}
 			}
 		} else {
-			if ($this->form_object->getAction() == "") {
+			if ($this->form_object->getRealAction() == "") {
 				$html .= $this->form_object->getPageObject()->getPage().".html";
 				if (PARAMS_URL != "") {
 					$pos = find(PARAMS_URL, "?", 0, $pos);
@@ -506,7 +511,7 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 					}
 				}
 			} else {
-				$html .= $this->form_object->getAction();
+				$html .= $this->form_object->getRealAction();
 			}
 		}
 		$html .= "',\n";
@@ -834,7 +839,7 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 	public function automaticAjaxEvent() {
 		// automatic activation of ajax when events are call from DialogBox or Tabs
 		if ((isset($_GET['dialogbox_level']) || isset($_GET['tabs_object_id'])) && $this->form_object != null) {
-			if ($this->form_object->getAction() == "") {
+			if ($this->form_object->getRealAction() == "") {
 				$this->setAjaxEvent();
 			}
 		}

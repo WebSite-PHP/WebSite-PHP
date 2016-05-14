@@ -215,11 +215,12 @@ for ($i=1; $i <= $nb_def_style; $i++) {
 	font-size: <?php echo $style_font_size_value; ?>;
 	font-family: <?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
 }
-.table_<?php echo $i; ?>_bckg a,a.box_style_<?php echo $i; ?>:link {
+.table_<?php echo $i; ?>_bckg a,a.box_style_<?php echo $i; ?>:link,.table_<?php echo $i; ?>_bckg .ui-widget-content a {
 	color: <?php if (constant("DEFINE_STYLE_COLOR_".$ind."_LINK") != "") { echo constant("DEFINE_STYLE_COLOR_".$ind."_LINK"); } else { echo DEFINE_STYLE_LINK_COLOR; } ?>;
 	text-decoration: none;
 	font-size:<?php echo $style_font_size_value; ?>;
 	font-family:<?php echo $style_font_value; ?>, <?php echo $style_font_serif_value; ?>;
+	cursor: pointer;
 }
 
 .table_<?php echo $i; ?>_bckg a:hover,a.box_style_<?php echo $i; ?>:hover {
@@ -655,4 +656,16 @@ if (!defined('DEFINE_STYLE_BACKCOLOR_SCROLL_TO_TOP')) {
     background: url("../wsp/img/arrow-top.png") no-repeat scroll -2px -2px <?php echo DEFINE_STYLE_BACKCOLOR_SCROLL_TO_TOP; ?>;
     height: 30px;
 	width: 10px;
+}
+
+a label {
+	cursor: pointer;
+}
+
+.dataTables_wrapper .ui-buttonset .ui-button {
+	min-width: 1.5em;
+    padding: 0.15em;
+}
+.dataTables_wrapper .dataTables_paginate {
+	min-height: 2.3em;
 }

@@ -8,7 +8,7 @@
  * Class RSSFeedBase
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage RSS-Generator
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 10/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.1.2
  */
@@ -180,10 +180,14 @@
 	* @param : string $title
 	* @return : void
 	***************************************************/
-	public function setTitle($title)
-	{
-		$this->_title = utf8_encode($title);
-	}
+	 public function setTitle($title, $auto_encode=true)
+	 {
+		 if ($auto_encode) {
+			 $this->_title = utf8_encode($title);
+		 } else {
+			 $this->_title = $title;
+		 }
+	 }
 	
 	
 } // END CLASS

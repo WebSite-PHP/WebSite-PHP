@@ -7,7 +7,7 @@
  * Class DialogBox
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.0.17
  */
@@ -297,21 +297,7 @@ class DialogBox extends WebSitePhpObject {
 	 * @since 1.0.35
 	 */
 	public static function closeAll() {
-		$js = "";
-		$array_dialogbox = DialogBox::getArrayDialogBoxLevels();
-		$nb_dialogbox = sizeof($array_dialogbox);
-		if ($nb_dialogbox == 0) {
-			for ($i=0; $i < 5; $i++) {
-				$js .= DialogBox::closeLevel($i)->render();
-			}
-		} else {
-			for ($i=0; $i < $nb_dialogbox; $i++) {
-				if ($array_dialogbox[$i] != null) {
-					$js .= $array_dialogbox[$i]->close()->render();
-				}
-			}
-		}
-		return new JavaScript($js);
+		return new JavaScript("$('.ui-dialog-content').dialog('close');$('.ui-dialog-content').remove();");
 	}
 	
 	/**

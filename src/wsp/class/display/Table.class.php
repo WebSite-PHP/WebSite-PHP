@@ -7,7 +7,7 @@
  * Class Table
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 14/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 10/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.0.17
  */
@@ -578,22 +578,24 @@ class Table extends WebSitePhpObject {
         $auto_increment_id = $sql->getDbTableObject()->getDbTableAutoIncrement();
         $this->from_sql_data_view_properties = $properties;
 
-        // create empty row (ack to keep correct order of the table)
-        $row_table = new RowTable();
-        $row_table->setId($this->id."_emptyrow_");
-        for ($i=0; $i < sizeof($list_attribute); $i++) {
-            // get property display
-            if (isset($this->from_sql_data_view_properties[$list_attribute[$i]]["display"]) &&
-                $this->from_sql_data_view_properties[$list_attribute[$i]]["display"] == false) {
-                continue;
-            }
-            $row_table->add();
+	if ($insert || $update || $delete) {
+	        // create empty row (ack to keep correct order of the table)
+	        $row_table = new RowTable();
+	        $row_table->setId($this->id."_emptyrow_");
+	        for ($i=0; $i < sizeof($list_attribute); $i++) {
+	            // get property display
+	            if (isset($this->from_sql_data_view_properties[$list_attribute[$i]]["display"]) &&
+	                $this->from_sql_data_view_properties[$list_attribute[$i]]["display"] == false) {
+	                continue;
+	            }
+	            $row_table->add();
+	        }
+	        if ($insert || $delete) {
+	            $row_table->add();
+	        }
+	        $row_table->setStyle("display:none;");
+	        $this->addRow($row_table);
         }
-        if ($insert || $delete) {
-            $row_table->add();
-        }
-        $row_table->setStyle("display:none;");
-        $this->addRow($row_table);
 
         // Create insert row
         if ($insert) {
@@ -621,7 +623,7 @@ class Table extends WebSitePhpObject {
                 $row_table->setBorderPredefinedStyle($this->class);
             }
             $this->addRow($row_table);
-        } else if ($this->is_advance_table) {
+        } else if (($insert || $update ||$delete) && $this->is_advance_table) {
             $row_table = clone($row_table);
             $this->addRow($row_table);
         }
@@ -674,7 +676,7 @@ class Table extends WebSitePhpObject {
                         $key_str = $ind;
                     }
                 }
-                if ($key_str == "") {
+                if ($key_str === "") {
                     throw new NewException(get_class($this)."->loadFromSqlDataView() error: The system can't create empty key for row (key is created by the attribute(s): ".implode(", ",$key_attributes).")", 0, getDebugBacktrace(1));
                 }
             }
@@ -718,7 +720,7 @@ class Table extends WebSitePhpObject {
 
         // create row
         $row_table = new RowTable();
-        $row_table->setId($this->id."_row_".$ind);
+        if ($this->from_sql_data_view_delete) { $row_table->setId($this->id."_row_".$ind); }
         for ($i=0; $i < sizeof($list_attribute); $i++) {
             // get field properties
             if (is_array($this->from_sql_data_view_properties[$list_attribute[$i]])) {
@@ -801,7 +803,7 @@ class Table extends WebSitePhpObject {
         if ($is_table_defined_style) {
             $row_table->setBorderPredefinedStyle($this->class);
         }
-        if ($this->is_advance_table) {
+        if ($this->is_advance_table && ($this->from_sql_data_view_insert || $this->from_sql_data_view_update || $this->from_sql_data_view_delete)) {
             if (isset($line_nb) && $line_nb !== null) {
                 $row_table->setRowClass(($line_nb%2==0?"odd":"even"));
             } else if (is_numeric($ind)) {
@@ -1657,7 +1659,7 @@ class Table extends WebSitePhpObject {
             }
 
             $html .= $this->getJavascriptTagOpen();
-            $html .= "var oTable = $(\"#".$this->getId()."\").dataTable({'bJQueryUI': true";
+            $html .= "var oTable".str_replace("-", "_", $this->getId())." = $(\"#".$this->getId()."\").dataTable({'bJQueryUI': true";
             if ($this->is_sortable) {
                 $html .= ", 'aaSorting': [[".($this->sort_col_number-1).", '".$this->sort_order."']]";
             } else {
@@ -1727,7 +1729,7 @@ class Table extends WebSitePhpObject {
                 $html .= " });\n";
             }
             if ($this->is_fixe_header) {
-                $html .= "$(document).ready(function() { new FixedHeader( oTable ); });\n";
+                $html .= "$(window).load(function(){ new FixedHeader( oTable".str_replace("-", "_", $this->getId())." ); });\n";
             }
             if ($this->advance_table_title != "") {
                 $html .= "$('#".$this->getId()."_wrapper').find('div.toolbar').html('";
@@ -1762,7 +1764,11 @@ class Table extends WebSitePhpObject {
         if ($this->object_change && !$this->is_new_object_after_init) {
             if ($this->ajax_refresh_all_table) { // refresh all table
                 if ($this->is_advance_table || (is_browser_ie() && get_browser_ie_version() < 8)) {
-                    $html .= "var my_parent_node = $('#".$this->id."').parent();";
+                    if ($this->is_advance_table && $this->vertical_scroll) {
+                    	$html .= "var my_parent_node = $('#".$this->id."').parent().parent().parent();";
+                    } else {
+                    	$html .= "var my_parent_node = $('#".$this->id."').parent();";
+                    }
                 } else {
                     $html .= "var my_parent_node = $('#".$this->id."');";
                 }

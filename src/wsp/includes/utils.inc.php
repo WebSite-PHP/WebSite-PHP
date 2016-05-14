@@ -6,7 +6,7 @@
  * WebSite-PHP file utils.inc.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -14,16 +14,15 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 10/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.0.19
  */
 
 	
 	function is_browser_ie() {
-		$pos = find($_SERVER['HTTP_USER_AGENT'], 'MSIE', 1, 0);
-		if ($pos > 0) {
+		if (find($_SERVER['HTTP_USER_AGENT'], 'MSIE', 1, 0) > 0 || strpos($_SERVER['HTTP_USER_AGENT'], 'Trident/7.0; rv:11.0') !== false) {
 			return true;
 		}
 		return false;
@@ -52,6 +51,8 @@
 			if ($pos2 > 0) {
 				return trim(substr($_SERVER['HTTP_USER_AGENT'], $pos, $pos2-$pos-1));
 			}
+		} else if (strpos($_SERVER['HTTP_USER_AGENT'], 'Trident/7.0; rv:11.0') !== false) {
+			return 11;
 		}
 		return false;
 	}
@@ -195,7 +196,12 @@
 			}
 		}
 	}
-		
+
+	function is_ipv4($str) {
+		$ret = filter_var($str, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4);
+		return $ret;
+	}
+
 	include_once("utils_label.inc.php");
 	include_once("utils_string.inc.php");
 	include_once("utils_xml.inc.php");

@@ -309,10 +309,16 @@ function loadDynamicJS(src, ind_load) {
 	var script= document.createElement("script");
 	script.type= 'text/javascript';
 	script.src= src;
-	script.onreadystatechange = function(){
-		arrayDynamicJsScriptLoaded[ind_load][ind_src] = true;
-	};
-	script.onload = function(){
+	if (!browserIsIE() || (browserIsIE() && getInternetExplorerVersion() != 9)) {
+		script.onreadystatechange = function () {
+			if (browserIsIE() && getInternetExplorerVersion() < 9) {
+				setTimeout(function() { arrayDynamicJsScriptLoaded[ind_load][ind_src] = true; }, 100);
+			} else {
+				arrayDynamicJsScriptLoaded[ind_load][ind_src] = true;
+			}
+		};
+	}
+	script.onload = function() {
 		arrayDynamicJsScriptLoaded[ind_load][ind_src] = true;
 	};
 	head.appendChild(script);
@@ -356,12 +362,23 @@ function browserIsIE6() {
 	}
 	return browserIsIE6;
 }
-function browserIsIE() {
-	var browserIsIE = true;
-	if (navigator.appVersion.indexOf("MSIE")==-1) {
-		browserIsIE = false;
+function getInternetExplorerVersion() {
+	var rv = -1;
+	if (navigator.appName == 'Microsoft Internet Explorer') {
+		var ua = navigator.userAgent;
+		var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+		if (re.exec(ua) != null)
+			rv = parseFloat( RegExp.$1 );
+	} else if (navigator.appName == 'Netscape') {
+		var ua = navigator.userAgent;
+		var re  = new RegExp("Trident/.*rv:([0-9]{1,}[\.0-9]{0,})");
+		if (re.exec(ua) != null)
+			rv = parseFloat( RegExp.$1 );
 	}
-	return browserIsIE;
+	return rv;
+}
+function browserIsIE() {
+	return getInternetExplorerVersion() > 0;
 }
 function stopEventPropagation(e) {
 	if (e == null) {

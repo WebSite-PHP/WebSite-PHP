@@ -7,7 +7,7 @@
  * Class UploadFile
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.2.3
  */
@@ -347,7 +347,7 @@ class UploadFile extends WebSitePhpEventObject {
 	 */
 	public function checkFileSize($file_index=0) {
 		$size = $this->getFileSize($file_index);
-		if (is_numeric($size) && $size <= $this->file_size_limit) {
+		if (is_numeric($size) && ($size <= $this->file_size_limit || $this->file_size_limit == -1)) {
 			return true;
 		}
 		return false;

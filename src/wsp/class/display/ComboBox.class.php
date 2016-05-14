@@ -7,7 +7,7 @@
  * Class ComboBox
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 10/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.0.17
  */
@@ -38,6 +38,7 @@ class ComboBox extends WebSitePhpEventObject {
 	private $disable = false;
 	private $strip_tags = false;
 	private $strip_tags_allowable = "";
+	private $auto_increment_same_text = true;
 	
 	private $list_items_change = false;
 	private $is_changed = false;
@@ -201,12 +202,14 @@ class ComboBox extends WebSitePhpEventObject {
 		if ($text == "") {
 			$text = "&nbsp;";
 		}
-		
-		$ind = 1;
-		$orig_text = $text;
-		while (array_search($text, $this->item_text) !== false) {
-			$text = $orig_text." (".$ind.")";
-			$ind++;
+
+		if ($this->auto_increment_same_text) {
+			$ind = 1;
+			$orig_text = $text;
+			while (array_search($text, $this->item_text) !== false) {
+				$text = $orig_text . " (" . $ind . ")";
+				$ind++;
+			}
 		}
 		$this->item_text[] = $text;
 		
@@ -305,6 +308,17 @@ class ComboBox extends WebSitePhpEventObject {
 	public function setStripTags($allowable_tags='') {
 		$this->strip_tags = true;
 		$this->strip_tags_allowable = $allowable_tags;
+		return $this;
+	}
+
+	/**
+	 * Method disableAutoIncrementSameText
+	 * @access public
+	 * @return ComboBox
+	 * @since 1.2.14
+	 */
+	public function disableAutoIncrementSameText() {
+		$this->auto_increment_same_text = false;
 		return $this;
 	}
 
@@ -530,7 +544,8 @@ class ComboBox extends WebSitePhpEventObject {
 	public function render($ajax_render=false) {
 		$this->automaticAjaxEvent();
 		
-		$html = "<select id=\"".$this->getEventObjectName()."\" name=\"".$this->getEventObjectName()."\" onChange=\"onChangeComboBox_".$this->getEventObjectName()."();\"";
+		$html = "<span id=\"".$this->getEventObjectName()."_cmb_span\">\n";
+		$html .= "<select id=\"".$this->getEventObjectName()."\" name=\"".$this->getEventObjectName()."\" onChange=\"onChangeComboBox_".$this->getEventObjectName()."();\"";
 		if ($this->disable) {
 			$html .= " disabled";
 		}
@@ -562,6 +577,7 @@ class ComboBox extends WebSitePhpEventObject {
 			$html .= "	</optgroup>\n";
 		}
 		$html .= "</select>\n";
+		$html .= "</span>\n";
 		
 		if ($this->callback_onchange != "") {
 			$html .= "<input type='hidden' id='Callback_".$this->getEventObjectName()."' name='Callback_".$this->getEventObjectName()."' value=''/>\n";

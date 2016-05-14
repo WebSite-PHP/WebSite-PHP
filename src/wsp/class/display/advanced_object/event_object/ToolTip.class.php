@@ -8,7 +8,7 @@
  * Class ToolTip
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage advanced_object.event_object
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 14/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 10/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.0.77
  */
@@ -28,6 +28,25 @@
 
 class ToolTip extends WebSitePhpObject {
     /**#@+
+     * ToolTipe position
+     * @access public
+     * @var string
+     */
+    const POSITION_TOP_RIGHT = "topRight";
+    const POSITION_TOP_LEFT = "topLeft";
+    const POSITION_TOP_MIDDLE = "topMiddle";
+    const POSITION_BOTTOM_LEFT = "bottomLeft";
+    const POSITION_BOTTOM_RIGHT = "bottomRight";
+    const POSITION_BOTTOM_MIDDLE = "bottomMiddle";
+    const POSITION_RIGHT_MIDDLE = "rightMiddle";
+    const POSITION_RIGHT_BOTTOM = "rightBottom";
+    const POSITION_RIGHT_TOP = "rightTop";
+    const POSITION_LEFT_MIDDLE = "leftMiddle";
+    const POSITION_LEFT_TOP = "leftTop";
+    const POSITION_LEFT_BOTTOM = "leftBottom";
+    /**#@-*/
+
+    /**#@+
      * @access private
      */
     private $id = "";
@@ -35,6 +54,9 @@ class ToolTip extends WebSitePhpObject {
     private $title = "";
 
     private $params = "";
+    private $position = "";
+    private $position_adjust_x = 0;
+    private $position_adjust_y = 0;
 
     private $style = "widget";
     private $add_css = false;
@@ -112,9 +134,8 @@ class ToolTip extends WebSitePhpObject {
 	 * @since 1.0.77
 	 */
     public function setContent($content) {
-        if (gettype($content) == "object")
-        {
-            $content = $content->render();
+        if (gettype($content) == "object") {
+            $content = str_replace("\r", "", str_replace("\n", "", $content->render()));
         }
         $this->content = ($content=="")?"$('#".$this->id."').title":"'".str_replace("'", "&#39;",$content)."'";
         return $this;
@@ -221,6 +242,22 @@ class ToolTip extends WebSitePhpObject {
         return $this;
     }
 
+	/**
+	 * Method setPosition
+	 * @access public
+	 * @param mixed $position 
+	 * @param double $adjust_x [default value: 0]
+	 * @param double $adjust_y [default value: 0]
+	 * @return ToolTip
+	 * @since 1.2.14
+	 */
+    public function setPosition($position, $adjust_x=0, $adjust_y=0) {
+        $this->position = $position;
+        $this->position_adjust_x = $adjust_x;
+        $this->position_adjust_y = $adjust_y;
+        return $this;
+    }
+
 
 	/**
 	 * Method render
@@ -268,6 +305,23 @@ class ToolTip extends WebSitePhpObject {
         }
         if($this->follow_cursor) {
             $html .= ", position: { my: 'top left', target: 'mouse', viewport: $(window), adjust: { x: 10,  y: 10 } }";
+        } else if ($this->position != "") {
+            $corners = array(
+                'bottomLeft', 'bottomRight', 'bottomMiddle',
+                'topRight', 'topLeft', 'topMiddle',
+                'leftMiddle', 'leftTop', 'leftBottom',
+                'rightMiddle', 'rightBottom', 'rightTop'
+            );
+            $opposites = array(
+                'topRight', 'topLeft', 'topMiddle',
+                'bottomLeft', 'bottomRight', 'bottomMiddle',
+                'rightMiddle', 'rightBottom', 'rightTop',
+                'leftMiddle', 'leftTop', 'leftBottom'
+            );
+            if (in_array($this->position, $corners)) {
+                $array_pos = array_search($this->position, $corners);
+                $html .= ", position: { my: '" . addslashes($opposites[$array_pos]) . "', at: '" . addslashes($this->position) . "', adjust: { x: ".$this->position_adjust_x.",  y: ".$this->position_adjust_y." } }";
+            }
         }
         $html .= " });\n";
         $html .= "});\n";

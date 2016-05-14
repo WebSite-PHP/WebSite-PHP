@@ -7,7 +7,7 @@
  * Class Object
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.0.17
  */
@@ -125,6 +125,7 @@ class Object extends WebSitePhpEventObject {
 	private $force_span_tag = false;
 	
 	private $context_menu = null;
+	private $tooltip_obj = null;
 	/**#@-*/
 	
 	/**
@@ -344,6 +345,23 @@ class Object extends WebSitePhpEventObject {
 		$register_objects[] = $this;
 		$_SESSION['websitephp_register_object'] = $register_objects;
 		
+		return $this;
+	}
+
+	/**
+	 * Method tooltip
+	 * @access public
+	 * @param mixed $tooltip_obj 
+	 * @return Object
+	 * @since 1.2.14
+	 */
+	public function tooltip($tooltip_obj) {
+		if (get_class($tooltip_obj) != "ToolTip") {
+			throw new NewException("Error Object->tooltip(): \$tooltip_obj is not a ToolTip object", 0, getDebugBacktrace(1));
+		}
+		$this->tooltip_obj = $tooltip_obj;
+
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
 		
@@ -965,6 +983,21 @@ class Object extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method forceAjaxRender
+	 * @access public
+	 * @return Object
+	 * @since 1.2.14
+	 */
+	public function forceAjaxRender() {
+		$this->object_change = true;
+		$this->is_new_object_after_init = false;
+		for ($i=0; $i < sizeof($this->objects); $i++) {
+			$this->objects_after_init[$i] = true;
+		}
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -1124,6 +1157,28 @@ class Object extends WebSitePhpEventObject {
 			}
 		}
 		
+		$html .= $this->renderLoadFromUrl($ajax_render);
+
+		if ($this->tooltip_obj != null) {
+			$this->tooltip_obj->setId($this->getId());
+			$html .= $this->getJavascriptTagOpen();
+			$html .= $this->tooltip_obj->render();
+			$html .= $this->getJavascriptTagClose();
+		}
+		
+		$this->object_change = false;
+		return $html;
+	}
+	
+	/**
+	 * Method renderLoadFromUrl
+	 * @access private
+	 * @param mixed $ajax_render 
+	 * @return mixed
+	 * @since 1.2.14
+	 */
+	private function renderLoadFromUrl($ajax_render) {
+		$html = "";
 		if ($this->loaded_from_url) {
 			if ($this->id == "") {
 				throw new NewException("Error Object: You must specified an id to load an object from an URL", 0, getDebugBacktrace(1));
@@ -1133,16 +1188,14 @@ class Object extends WebSitePhpEventObject {
 			} else {
 				$loaded_url = $this->objects[0]->render();
 			}
-			$html .= $this->getJavascriptTagOpen();
+			if (!$ajax_render) { $html .= $this->getJavascriptTagOpen(); }
 			$html .= "$( document ).ready(function() {\n";
 			$html .= "var oldContentHtml = ''; if (trim($('#".$this->getId()."').html().replace(/<div[^>]*>(.*?)<\/div>/gi, '')) != '') { oldContentHtml = $('#".$this->getId()."').html(); }\n";
 			$html .= "$('#".$this->getId()."').load('".$loaded_url."', { 'oldContentHtml': oldContentHtml }, ";
-            $html .= "function (response, status, xhr) { if (status == 'error' && response != '') { $('#".$this->getId()."').html('<table><tr><td><img src=\'".$this->getPage()->getCDNServerURL()."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + response); } } );\n";
+			$html .= "function (response, status, xhr) { if (status == 'error' && response != '') { $('#".$this->getId()."').html('<table><tr><td><img src=\'".$this->getPage()->getCDNServerURL()."wsp/img/warning.png\' height=\'24\' width=\'24\' border=\'0\' align=\'absmidlle\'/></td><td><b>Error</b></td></tr></table>' + response); } } );\n";
 			$html .= "});";
-            $html .= $this->getJavascriptTagClose();
+			if (!$ajax_render) { $html .= $this->getJavascriptTagClose(); }
 		}
-		
-		$this->object_change = false;
 		return $html;
 	}
 	
@@ -1267,16 +1320,41 @@ class Object extends WebSitePhpEventObject {
 			}
 			
 			$content = "";
-			for ($i=0; $i < sizeof($this->objects); $i++) {
-				if ($this->objects_after_init[$i] === true) {
-					if ($i != 0) {
-						$html .= " ";
+			if (!$this->loaded_from_url) {
+				for ($i=0; $i < sizeof($this->objects); $i++) {
+					if ($this->objects_after_init[$i] === true) {
+						if ($i != 0) {
+							$html .= " ";
+						}
+						if (gettype($this->objects[$i]) == "object" && method_exists($this->objects[$i], "render")) {
+							$content .= $this->objects[$i]->render();
+						} else {
+							$content .= $this->objects[$i];
+						}
 					}
-					if (gettype($this->objects[$i]) == "object" && method_exists($this->objects[$i], "render")) {
-						$content .= $this->objects[$i]->render();
+				}
+			} else { // loading from Url
+				if (sizeof($this->objects) == 2) {
+					if (gettype($this->objects[0]) == "object" && method_exists($this->objects[0], "render")) {
+						$content .= $this->objects[0]->render();
 					} else {
-						$content .= $this->objects[$i];
+						$content .= $this->objects[0];
 					}
+				} else {
+					$content .= "<div align=\"center\" style=\"";
+					if ($this->height != "") {
+						if (is_integer($this->height)) {
+							$content .= "height:".$this->height."px;";
+						} else {
+							$content .= "height:".$this->height.";";
+						}
+					}
+					if (!$this->disable_ajax_wait_message) {
+						$content .= "#position:absolute;#top:50%;display:table-cell;vertical-align:middle;\"><img src=\"".$this->getPage()->getCDNServerURL()."wsp/img/loading.gif\" width=\"32\" height=\"32\"/>";
+					} else {
+						$content .= "\">";
+					}
+					$content .= "</div>";
 				}
 			}
 			
@@ -1374,6 +1452,8 @@ class Object extends WebSitePhpEventObject {
 				}
 				$html .= "');\n";
 			}
+			
+			$html .= $this->renderLoadFromUrl(true);
 			
 			$this->object_change = false;
 		}

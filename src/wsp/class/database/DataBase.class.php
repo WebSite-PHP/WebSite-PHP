@@ -7,7 +7,7 @@
  * Class DataBase
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package database
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.0.17
  */
@@ -176,7 +176,7 @@ class DataBase {
 				$query = stripslashes($query);
 			}
 			
-			if (strtoupper(substr($query, 0, 5)) == "SHOW " || strtoupper(substr($query, 0, 5)) == "DROP ") {
+			if (strtoupper(substr($query, 0, 5)) == "SHOW " || strtoupper(substr($query, 0, 5)) == "DROP " || strtoupper(substr($query, 0, 4)) == "SET " || strtoupper(substr($query, 0, 9)) == "TRUNCATE ") {
 				if ($stmt = $this->connection->query($query)) {
 					if (DEBUG && ($GLOBALS['__AJAX_LOAD_PAGE__'] == false || 
 						($GLOBALS['__AJAX_LOAD_PAGE__'] == true && $_GET['mime'] == "text/html"))) {

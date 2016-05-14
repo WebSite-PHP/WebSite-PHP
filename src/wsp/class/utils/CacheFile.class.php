@@ -7,7 +7,7 @@
  * Class CacheFile
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package utils
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 10/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.0.64
  */
@@ -160,6 +160,7 @@ class CacheFile {
 		}
 		
 		$cache = "";
+		fseek($this->file, 0);
 		while (($buffer = fgets($this->file, 4096)) !== false) {
 			$cache .= $buffer;
 		}

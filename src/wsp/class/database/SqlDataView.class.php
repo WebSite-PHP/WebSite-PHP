@@ -7,7 +7,7 @@
  * Class SqlDataView
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package database
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 10/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.0.17
  */
@@ -277,8 +277,10 @@ class SqlDataView {
 			$is_parenthesis_open = 0;
 			$tmp_list_attribute = array();
 			$list_attribute = explode(",", $this->list_custom_attribute);
+			$parenthesis_exists = false;
 			for ($i=0; $i < sizeof($list_attribute); $i++) {
 				if (find($list_attribute[$i], "(") > 0) { // is a function (it's possible to have commas when there is function)
+					$parenthesis_exists = true;
 					if ($is_parenthesis_open == 0) {
 						$tmp_attribute = "";
 					}
@@ -287,8 +289,13 @@ class SqlDataView {
 				if (find($list_attribute[$i], ")") > 0) {
 					$is_parenthesis_open -= substr_count($list_attribute[$i], ")");
 				}
-				if ($is_parenthesis_open == 0) {
-					$tmp_attribute_array = explode(' ', trim($list_attribute[$i])); // if user define a name to the field
+				if ($is_parenthesis_open == 0 || $parenthesis_exists == false) {
+					if ($parenthesis_exists == true) {
+						$tmp_attribute_array = explode(' ', trim($list_attribute[$i])); // if user define a name to the field
+						$parenthesis_exists = false;
+					} else {
+						$tmp_attribute_array = array($list_attribute[$i]);
+					}
 					$tmp_attribute_array = explode('.', $tmp_attribute_array[sizeof($tmp_attribute_array)-1]);
 					$tmp_attribute = $tmp_attribute_array[sizeof($tmp_attribute_array)-1];
 					$tmp_list_attribute[] = trim(str_replace("`", "", $tmp_attribute)); // add column name in the list

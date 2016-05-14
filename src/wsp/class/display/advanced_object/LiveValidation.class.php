@@ -8,7 +8,7 @@
  * Class LiveValidation
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage advanced_object
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.0.17
  */
@@ -166,6 +166,30 @@ class LiveValidation extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method addValidateMaxLength
+	 * @access public
+	 * @param mixed $length 
+	 * @return LiveValidation
+	 * @since 1.2.14
+	 */
+	public function addValidateMaxLength($length) {
+		$this->validate_js .= ".add(Validate.Length, {maximum: ".$length."})";
+		return $this;
+	}
+	
+	/**
+	 * Method addValidateMinLength
+	 * @access public
+	 * @param mixed $length 
+	 * @return LiveValidation
+	 * @since 1.2.14
+	 */
+	public function addValidateMinLength($length) {
+		$this->validate_js .= ".add(Validate.Length, {minimum: ".$length."})";
+		return $this;
+	}
+	
+	/**
 	 * Method addValidateInclusion
 	 * @access public
 	 * @return LiveValidation
@@ -295,7 +319,8 @@ class LiveValidation extends WebSitePhpObject {
 			return;
 		}
 		
-		$html = $this->getJavascriptTagOpen();
+		$html = "";
+		//$html .= $this->getJavascriptTagOpen();
 		
 		if (get_class($this->object) == "Editor") {
 			$id = $this->object->getHiddenId();
@@ -377,9 +402,11 @@ class LiveValidation extends WebSitePhpObject {
 		} else {
 			throw new NewException("LineValidation error: method getFormObject is missing for object ".get_class($this->object).".", 0, getDebugBacktrace(1));
 		}
-		$html .= $this->getJavascriptTagClose();
+		//$html .= $this->getJavascriptTagClose();
+		$this->getPage()->addObject(new JavaScript($html), false, true);
+		
 		$this->object_change = false;
-		return $html;
+		return "";
 	}
 }
 ?>

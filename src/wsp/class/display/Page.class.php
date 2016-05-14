@@ -7,7 +7,7 @@
  * Class Page
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.0.0
  */
@@ -57,7 +57,7 @@ class Page extends AbstractPage {
 	const CACHE_TIME_1YEAR = 31536000;
 	const CACHE_TIME_2YEARS = 63072000;
 	/**#@-*/
-	
+
 	/**#@+
 	* meta robots
 	* @access public
@@ -68,7 +68,7 @@ class Page extends AbstractPage {
 	const META_ROBOTS_INDEX_NOFOLLOW = "index, nofollow";
 	const META_ROBOTS_NOINDEX_FOLLOW = "noindex, follow";
 	/**#@-*/
-	
+
 	/**#@+
 	* Open Graph Theme (http://ogp.me/#types)
 	* @access public
@@ -114,7 +114,7 @@ class Page extends AbstractPage {
 	const OPENGRAPH_TYPE_BLOG = "blog";
 	const OPENGRAPH_TYPE_WEBSITE = "website";
 	/**#@-*/
-	
+
 	/**#@+
 	* Page Rights
 	* @access public
@@ -127,31 +127,31 @@ class Page extends AbstractPage {
 	const RIGHTS_AUTH_USER = "auth_user";
 	const RIGHTS_GUEST = "guest";
 	/**#@-*/
-	
+
 	/**#@+
 	* @access protected
 	*/
 	protected $render = null;
-	
+
 	protected static $PAGE_TITLE = "";
 	protected static $PAGE_KEYWORDS = "";
 	protected static $PAGE_DESCRIPTION = "";
 	protected static $PAGE_META_ROBOTS = "";
 	protected static $PAGE_META_GOOGLEBOTS = "";
 	protected static $PAGE_META_REVISIT_AFTER = "";
-	
+
 	protected static $PAGE_META_OPENGRAPH_TYPE = "";
 	protected static $PAGE_META_OPENGRAPH_IMAGE = "";
 	protected static $PAGE_META_IPHONE_IMAGE_57PX = "";
 	protected static $PAGE_META_IPHONE_IMAGE_72PX = "";
     protected static $PAGE_META_IPHONE_IMAGE_114PX = "";
     protected static $PAGE_META_IPHONE_IMAGE_152PX = "";
-	
+
 	protected $USER_RIGHTS = "";
 	protected $USER_NO_RIGHTS_REDIRECT = "";
 	protected $PAGE_CACHING = false;
 	/**#@-*/
-	
+
 	/**#@+
 	* @access private
 	*/
@@ -159,7 +159,7 @@ class Page extends AbstractPage {
 	private $add_to_render_begining = array();
 	private $add_to_render_ending = array();
 	private $page_is_display = false;
-	
+
 	private $page_is_caching = false;
 	private $class_name = "";
 	private $page = "";
@@ -168,28 +168,28 @@ class Page extends AbstractPage {
 	private $cache_time = 0;
 	private $cache_timezone = "";
 	private $cache_reset_on_midnight = false;
-	
+
 	private $is_browser_ie_6 = false;
 	private $is_browser_ie = false;
 	private $browser = null;
-	
+
 	private $objects = array();
 	private $force_objects_default_values = false;
 	private $log_debug_str = array();
-	
+
 	private $callback_method = "";
 	private $callback_object = null;
 	private $callback_method_called = false;
 	private $callback_method_params = array();
-	private $array_callback_object = array("Button", "ComboBox", "TextBox", "Password", "ColorPicker", "CheckBox", 
-											"ContextMenuEvent", "DroppableEvent", "SortableEvent", "Object", "Picture", 
-											"Calendar", "AutoCompleteEvent", "Raty", "TextArea", "RadioButtonGroup", 
+	private $array_callback_object = array("Button", "ComboBox", "TextBox", "Password", "ColorPicker", "CheckBox",
+											"ContextMenuEvent", "DroppableEvent", "SortableEvent", "Object", "Picture",
+											"Calendar", "AutoCompleteEvent", "Raty", "TextArea", "RadioButtonGroup",
 											"UploadFile", "SelectList");
-	
+
 	private $create_object_to_get_css_js = false;
 	private $ended_added_object_loaded = false;
 	private $array_decrypted_form = array();
-	
+
 	private $is_mobile_meta_tag = false;
 	private $is_mobile_webapp_meta_tag = false;
     private $json_manifest_filename = "";
@@ -199,8 +199,11 @@ class Page extends AbstractPage {
     private $third_party_cookies_filter_position = 'bottom';
     private $third_party_cookies_filter_adblocker = true;
     private $third_party_cookies_filter_cookieslist = true;
+
+	private $opensearchxml_url = "";
+	private $opensearchxml_title = "";
 	/**#@-*/
-	
+
 	/**
 	 * Constructor Page
 	 */
@@ -208,7 +211,7 @@ class Page extends AbstractPage {
 		$this->is_browser_ie_6 = is_browser_ie_6();
 		$this->is_browser_ie = is_browser_ie();
 	}
-	
+
 	/**
 	 * Destructor Page
 	 */
@@ -229,7 +232,7 @@ class Page extends AbstractPage {
 			// No action
 		}
 	}
-	
+
 	/**
 	 * Method getInstance
 	 * @access static
@@ -246,7 +249,7 @@ class Page extends AbstractPage {
 		for ($i=0; $i < sizeof($page_names); $i++) {
 			$page_class_name .= ucfirst($page_names[$i]);
 		}
-		
+
 		static $aoInstance = array();
 		if (!isset($aoInstance[$page_class_name])) {
 			$required_page = dirname(__FILE__)."/../../../pages/".$page.".php";
@@ -258,19 +261,19 @@ class Page extends AbstractPage {
 			}
 			require_once($required_page);
 			$aoInstance[$page_class_name] = new $page_class_name();
-			
+
 			// run ob_start only for current page and not for user rights testing
-			if (sizeof($aoInstance) == 1) { 
+			if (sizeof($aoInstance) == 1) {
 				ob_start(array('NewException', 'redirectOnError'));
 			}
-			
+
 			$aoInstance[$page_class_name]->page = $page;
 			$aoInstance[$page_class_name]->setCacheFileName($page);
 			$aoInstance[$page_class_name]->class_name = $page_class_name;
 		}
 		return $aoInstance[$page_class_name];
 	}
-   
+
 	/**
 	 * Method setCache
 	 * return true if the cache must be replace or write
@@ -288,13 +291,13 @@ class Page extends AbstractPage {
 			$cache_time = CACHE_TIME;
 			if ($this->cache_time > 0) {
 				$cache_time = $this->cache_time;
-			} 
-			
+			}
+
 			$render_current_cache = false;
 			// cache is always to define time
 			if ($cache_file_existe > time() - $cache_time) {
 				$render_current_cache = true;
-				
+
 				// if cache_reset_on_midnight is true and the caching file has not the same date like today
 				$date_cachefile = date("Ymd", $cache_file_existe);
 				$date_timezone = date("Ymd");
@@ -317,9 +320,9 @@ class Page extends AbstractPage {
 					$render_current_cache = false;
 				}
 			}
-			
+
 			// read the cache and display it in the render
-			if ($render_current_cache) { 
+			if ($render_current_cache) {
 				$tmp_render = file_get_contents($cache_file);
 				if ($tmp_render == null) {
 					return false;
@@ -332,7 +335,7 @@ class Page extends AbstractPage {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method setCacheFileName
 	 * @access protected
@@ -359,7 +362,7 @@ class Page extends AbstractPage {
 			$this->disableCache();
 		}
 	}
-	
+
 	/**
 	 * Method getRealCacheFileName
 	 * @access public
@@ -381,23 +384,23 @@ class Page extends AbstractPage {
 			}
 			$cache_file_name = str_replace($cache_directory."/", "/", $cache_file_name_orig);
 			$cache_file_name = str_replace($default_cache_directory."/", "/", $cache_file_name);
-			
+
 			$cache_file_name_ext = "";
 			if (find($cache_file_name, ".cache", 1, 0) == 0) {
 				$cache_file_name_ext = ".cache";
 			}
 			$cache_file_name = $cache_file_name.$cache_file_name_ext;
-			
+
 			if (!isset($_GET['mime']) || (isset($_GET['mime']) && ($_GET['mime'] == "text/html" || $_GET['mime'] == "html"))) {
 				if ($this->is_browser_ie_6) {
 					$cache_file_name = str_replace(".cache", "_ie6.cache", $cache_file_name);
-				} else if ($this->is_browser_ie && get_browser_ie_version() < 9) {
+				} else if ($this->is_browser_ie && (get_browser_ie_version() < 9 || $GLOBALS['is_label_link_already_converted'])) {
 					$cache_file_name = str_replace(".cache", "_ie".get_browser_ie_version().".cache", $cache_file_name);
 				}
 				if (!$this->isAjaxPage()) {
 					$last_css_config_file = CssInclude::getInstance()->getLastCssConfigFileSession();
 					if ($last_css_config_file != "config_css.inc.php" && trim($last_css_config_file) != "") {
-						$cache_file_name = str_replace(".cache", "_".$last_css_config_file.".cache", $cache_file_name);
+						$cache_file_name = str_replace(".cache", "_".str_replace("/", "_", $last_css_config_file).".cache", $cache_file_name);
 					}
 				}
 				/*if ($this->isCss3Browser()){
@@ -413,7 +416,7 @@ class Page extends AbstractPage {
 		}
 		return str_replace("\"", "", $cache_file_name);
 	}
-	
+
 	/**
 	 * Method deleteCacheFilesPage
 	 * @access public
@@ -429,7 +432,7 @@ class Page extends AbstractPage {
 		}
 		return $this;
 	}
-	
+
 	/**
 	 * Method getCacheFileName
 	 * @access protected
@@ -439,7 +442,7 @@ class Page extends AbstractPage {
 	protected function getCacheFileName() {
 		return $this->cache_file_name;
 	}
-	
+
 	/**
 	 * Method getOriginalCacheFileName
 	 * @access public
@@ -449,7 +452,7 @@ class Page extends AbstractPage {
 	public function getOriginalCacheFileName() {
 		return $this->cache_file_name_orig;
 	}
-	
+
 	/**
 	 * Method setCacheTime
 	 * @access protected
@@ -463,7 +466,7 @@ class Page extends AbstractPage {
 		$this->cache_reset_on_midnight = $reset_on_midnight;
 		$this->cache_timezone = $cache_timezone_id;
 	}
-	
+
 	/**
 	 * Method getCacheTime
 	 * @access public
@@ -473,7 +476,7 @@ class Page extends AbstractPage {
 	public function getCacheTime() {
 		return $this->cache_time;
 	}
-	
+
 	/**
 	 * Method disableCache
 	 * @access public
@@ -482,7 +485,7 @@ class Page extends AbstractPage {
 	public function disableCache() {
 		$this->PAGE_CACHING = false;
 	}
-	
+
 	/**
 	 * Method loadStretchBackground
 	 * @access private
@@ -491,10 +494,10 @@ class Page extends AbstractPage {
 	private function loadStretchBackground() {
 		// add stretch fixe background
 		CssInclude::getInstance()->loadCssConfigFileInMemory(false);
-		if (!$this->isAjaxLoadPage() && !$this->isAjaxPage() && 
+		if (!$this->isAjaxLoadPage() && !$this->isAjaxPage() &&
 			defined('DEFINE_STYLE_BCK_BODY_PIC_POSITION') && strtoupper(DEFINE_STYLE_BCK_BODY_PIC_POSITION) == "STRETCH" &&
 			defined('DEFINE_STYLE_BCK_BODY_PIC') && DEFINE_STYLE_BCK_BODY_PIC_POSITION != "") {
-				JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery.backstretch.min.js", "", true);
+				JavaScriptInclude::getInstance()->add(BASE_URL."wsp/js/jquery.backstretch.js", "", true);
 				$background_body_pic = "";
 				if (find(DEFINE_STYLE_BCK_BODY_PIC, "http://") == 0 && find(DEFINE_STYLE_BCK_BODY_PIC, "https://") == 0) {
 					$background_body_pic = $this->getCDNServerURL().DEFINE_STYLE_BCK_BODY_PIC;
@@ -502,11 +505,20 @@ class Page extends AbstractPage {
 					$background_body_pic = DEFINE_STYLE_BCK_BODY_PIC;
 				}
 				if (trim($background_body_pic) != "" && $background_body_pic != $this->getBaseURL()) {
-					$this->addObject(new JavaScript("$(document).ready(function(){\$.backstretch(\"".$background_body_pic."\"); });"), false, true);
+					$backstretch_options = "";
+					if (defined('BACKSTRETCH_FADE')) {
+						if ($backstretch_options != "") { $backstretch_options .= ","; }
+						$backstretch_options .= "fade:".BACKSTRETCH_FADE;
+					}
+					if (defined('BACKSTRETCH_MIN_WIDTH')) {
+						if ($backstretch_options != "") { $backstretch_options .= ","; }
+						$backstretch_options .= "minWidth:".BACKSTRETCH_MIN_WIDTH;
+					}
+					$this->addObject(new JavaScript("\$.backstretch(\"".$background_body_pic."\"".($backstretch_options!=""?", {".$backstretch_options."}":"").");"), false, true);
 				}
 		}
 	}
-		
+
 	/**
 	 * Method getPageTitle
 	 * @access public
@@ -516,7 +528,7 @@ class Page extends AbstractPage {
 	public function getPageTitle() {
 		return strip_tags(self::$PAGE_TITLE);
 	}
-	
+
 	/**
 	 * Method getPageKeywords
 	 * @access public
@@ -526,7 +538,7 @@ class Page extends AbstractPage {
 	public function getPageKeywords() {
 		return strip_tags(self::$PAGE_KEYWORDS);
 	}
-	
+
 	/**
 	 * Method getPageDescription
 	 * @access public
@@ -536,7 +548,7 @@ class Page extends AbstractPage {
 	public function getPageDescription() {
 		return strip_tags(self::$PAGE_DESCRIPTION);
 	}
-	
+
 	/**
 	 * Method getPageMetaRobots
 	 * @access public
@@ -546,7 +558,7 @@ class Page extends AbstractPage {
 	public function getPageMetaRobots() {
 		return self::$PAGE_META_ROBOTS;
 	}
-	
+
 	/**
 	 * Method getPageMetaGooglebots
 	 * @access public
@@ -556,7 +568,7 @@ class Page extends AbstractPage {
 	public function getPageMetaGooglebots() {
 		return self::$PAGE_META_GOOGLEBOTS;
 	}
-	
+
 	/**
 	 * Method getPageMetaRevisitAfter
 	 * @access public
@@ -566,7 +578,7 @@ class Page extends AbstractPage {
 	public function getPageMetaRevisitAfter() {
 		return self::$PAGE_META_REVISIT_AFTER;
 	}
-	
+
 	/**
 	 * Method getPageMetaOpenGraphType
 	 * @access public
@@ -576,7 +588,7 @@ class Page extends AbstractPage {
 	public function getPageMetaOpenGraphType() {
 		return strip_tags(self::$PAGE_META_OPENGRAPH_TYPE);
 	}
-	
+
 	/**
 	 * Method getPageMetaOpenGraphImage
 	 * @access public
@@ -586,7 +598,7 @@ class Page extends AbstractPage {
 	public function getPageMetaOpenGraphImage() {
 		return strip_tags(self::$PAGE_META_OPENGRAPH_IMAGE);
 	}
-	
+
 	/**
 	 * Method getPageMetaIphoneImage57Px
 	 * @access public
@@ -596,7 +608,7 @@ class Page extends AbstractPage {
 	public function getPageMetaIphoneImage57Px() {
 		return strip_tags(self::$PAGE_META_IPHONE_IMAGE_57PX);
 	}
-	
+
 	/**
 	 * Method getPageMetaIphoneImage72Px
 	 * @access public
@@ -606,7 +618,7 @@ class Page extends AbstractPage {
 	public function getPageMetaIphoneImage72Px() {
 		return strip_tags(self::$PAGE_META_IPHONE_IMAGE_72PX);
 	}
-	
+
 	/**
 	 * Method getPageMetaIphoneImage114Px
 	 * @access public
@@ -626,7 +638,7 @@ class Page extends AbstractPage {
     public function getPageMetaIphoneImage152Px() {
         return strip_tags(self::$PAGE_META_IPHONE_IMAGE_152PX);
     }
-	
+
 	/**
 	 * Method getPageIsCaching
 	 * @access public
@@ -636,7 +648,7 @@ class Page extends AbstractPage {
 	public function getPageIsCaching() {
 		return $this->page_is_caching;
 	}
-	
+
 	/**
 	 * Method isCachingAsked
 	 * @access public
@@ -645,8 +657,8 @@ class Page extends AbstractPage {
 	 */
 	public function isCachingAsked() {
 		return $this->page_is_display;
-	}	
-	
+	}
+
 	/**
 	 * Method getPage
 	 * @access public
@@ -656,7 +668,7 @@ class Page extends AbstractPage {
 	public function getPage() {
 		return $this->page;
 	}
-	
+
 	/**
 	 * Method getClassName
 	 * @access public
@@ -666,7 +678,7 @@ class Page extends AbstractPage {
 	public function getClassName() {
 		return $this->class_name;
 	}
-	
+
 	/**
 	 * Method getMimeType
 	 * @access public
@@ -679,7 +691,7 @@ class Page extends AbstractPage {
 		}
 		return "text/html";
 	}
-	
+
 	/**
 	 * Method addEventObject
 	 * @access public
@@ -703,7 +715,7 @@ class Page extends AbstractPage {
 			$this->objects[$class_name][] = $object;
 		}
 	}
-	
+
 	/**
 	 * Method getEventObjects
 	 * @access public
@@ -718,7 +730,7 @@ class Page extends AbstractPage {
 			return array();
 		}
 	}
-	
+
 	/**
 	 * Method getAllEventObjects
 	 * @access public
@@ -728,7 +740,7 @@ class Page extends AbstractPage {
 	public function getAllEventObjects() {
 		return $this->objects;
 	}
-	
+
 	/**
 	 * Method getObjectId
 	 * @access public
@@ -751,7 +763,7 @@ class Page extends AbstractPage {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Method createObjectName
 	 * Create an automatic and unique name for an event object
@@ -781,7 +793,7 @@ class Page extends AbstractPage {
 		$this->addEventObject($object, $form_object);
 		return $class_name."_".$nb_elem_object;
 	}
-	
+
 	/**
 	 * Method existsObjectName
 	 * Test if an event object already exists for this name
@@ -800,7 +812,7 @@ class Page extends AbstractPage {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method getObjectValue
 	 * @access public
@@ -815,7 +827,7 @@ class Page extends AbstractPage {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method setObjectValue
 	 * @access public
@@ -829,7 +841,7 @@ class Page extends AbstractPage {
 			$object->setValue($value);
 		}
 	}
-	
+
 	/**
 	 * Method loadAllVariables
 	 * Load all GET and POST Varaibles after submit a form
@@ -852,7 +864,7 @@ class Page extends AbstractPage {
 				}
 				foreach ($object_array as $object) {
 					// WARNING if change : This code is almost identical with: Page->getUserEventObject(), WebSitePhpEventObject->initSubmitValue()
-					
+
 					// create object name
 					if ($form_name == "") {
 						$name = $this->class_name."_".$object->getName();
@@ -861,7 +873,7 @@ class Page extends AbstractPage {
 					}
 					$name_hidden = "";
 					// use for component with hidden value
-					if ($array_class_name[0] == "Editor" && $GLOBALS['__AJAX_PAGE__'] == true) { 
+					if ($array_class_name[0] == "Editor" && $GLOBALS['__AJAX_PAGE__'] == true) {
 						if ($form_name == "") {
 							$name_hidden = $this->class_name."_hidden_".$object->getName();
 						} else {
@@ -931,7 +943,7 @@ class Page extends AbstractPage {
 		$GLOBALS['__LOAD_VARIABLES__'] = false;
 		$this->loadStretchBackground();
 	}
-	
+
 	/**
 	 * Method forceObjectsDefaultValues
 	 * Force all event object (ex: TextBox, Editor, Button, ...) to the default value (like a reset)
@@ -943,7 +955,7 @@ class Page extends AbstractPage {
 		foreach ($this->objects as $class_name => $object_array) {
 			if ($class_name != "Form") {
 				foreach ($object_array as $object) {
-					if (get_class($object) != "Button" && 
+					if (get_class($object) != "Button" &&
 						method_exists($object, "setValue") && method_exists($object, "getDefaultValue")) {
 							$object->setValue($object->getDefaultValue());
 					}
@@ -952,7 +964,7 @@ class Page extends AbstractPage {
 		}
 		$this->force_objects_default_values = true;
 	}
-	
+
 	/**
 	 * Method getUserEventObject
 	 * Save the callback method and params from user event
@@ -969,7 +981,7 @@ class Page extends AbstractPage {
 				if (in_array($array_class_name[0], $this->array_callback_object)) {
 					foreach ($object_array as $object) {
 						// WARNING if change : This code is almost identical with WebSitePhpEventObject->initSubmitValue(), Page->loadAllVariables()
-						 
+
 						// create object name
 						if ($object->getFormObject() == null) {
 							$name = "Callback_".$this->class_name."_".$object->getName();
@@ -999,10 +1011,10 @@ class Page extends AbstractPage {
 								list($callback_method, $callback_params) = $this->extractCallbackParameters(decryptRequestEncryptData($object, $name, "GET"));
 							}
 						}
-						
+
 						if ($callback_method != "") {
 							//$this->addLogDebug("Page->getUserEventObject: ".$name." - ".$_REQUEST[$name]." - ".$callback_method);
-							
+
 							// ack to set button, textbox, combobox, context menu event (is_clicked, is_changed)
 							$save_load_variables = $GLOBALS['__LOAD_VARIABLES__'];
 							$GLOBALS['__LOAD_VARIABLES__'] = true;
@@ -1023,7 +1035,7 @@ class Page extends AbstractPage {
 								$object->setValue($object->getValue());
 							}
 							$GLOBALS['__LOAD_VARIABLES__'] = $save_load_variables;
-							
+
 							$callback_params[0] = $object;
 							$this->callback_method_params = $callback_params;
 							$this->callback_method = $callback_method;
@@ -1035,10 +1047,10 @@ class Page extends AbstractPage {
 			}
 			// if method is call from an other page
 			foreach ($_REQUEST as $key => $value) {
-				if (find($key, "Callback_", 0, 0) > 0 && find($value, get_class($this)."().", 0, 0) > 0 && 
+				if (find($key, "Callback_", 0, 0) > 0 && find($value, get_class($this)."().", 0, 0) > 0 &&
 					find($value, ").public_", 0, 0) > 0) {
 					list($callback_method, $callback_params) = $this->extractCallbackParameters(str_replace(get_class($this)."().", "", $value));
-					
+
 					if ($callback_method != "") {
 						$callback_params[0] = $object;
 						$this->callback_method_params = $callback_params;
@@ -1052,7 +1064,7 @@ class Page extends AbstractPage {
 			return $this->callback_object;
 		}
 	}
-	
+
 	/**
 	 * Method executeCallback
 	 * Execute method link to the user action
@@ -1081,7 +1093,7 @@ class Page extends AbstractPage {
 							$this->callback_method_params[$i] = substr($this->callback_method_params[$i], 0, strlen($this->callback_method_params[$i])-1);
 						}
 					}
-					
+
 					if ($this->callback_method_params[$i] != "") {
 						// Check if it's a Form parameter (encode in json), in this case we create an array with all the object of the Form
 						$is_json = false;
@@ -1097,11 +1109,13 @@ class Page extends AbstractPage {
 								$is_json = true;
 							}
 						}
-						
+
 						// Convert special caracters
 	                    $this->callback_method_params[$i] = str_replace("{#wsp_callback_amp}", "&", $this->callback_method_params[$i]);
 						$this->callback_method_params[$i] = str_replace("{#wsp_callback_quote}", "'", $this->callback_method_params[$i]);
-						
+						$this->callback_method_params[$i] = str_replace("{#wsp_callback_plus}", "+", $this->callback_method_params[$i]);
+						$this->callback_method_params[$i] = str_replace("{#wsp_callback_doublequote}", "\"", $this->callback_method_params[$i]);
+
 						if (!$is_json && !is_numeric($this->callback_method_params[$i])) {
 							// Search if string is linked with object
 	    					$param_object = $this->getObjectId($this->callback_method_params[$i]);
@@ -1117,7 +1131,7 @@ class Page extends AbstractPage {
 			}
 		}
 	}
-	
+
 	/**
 	 * Method extractCallbackParameters
 	 * @access private
@@ -1135,7 +1149,7 @@ class Page extends AbstractPage {
 			$callback_params = ",".substr($callback_value, $pos, $pos2-$pos);
             $callback_method = substr($callback_value, 0, $pos-1);
 		}
-		
+
 		// Extract parameters
 		$array_callback_params = explodeFunky(",", $callback_params);
 		return array($callback_method, $array_callback_params);
@@ -1155,7 +1169,7 @@ class Page extends AbstractPage {
         $this->array_callback_object[] = $wsp_object_class_name;
         return $this;
     }
-	
+
 	/**
 	 * Method addObject
 	 * @access public
@@ -1168,7 +1182,7 @@ class Page extends AbstractPage {
 		if (!is_subclass_of($object, "WebSitePhpObject")) {
 			throw new NewException("You can't add this object ".get_class($this)." to the page, you must add WebSitePhpObject", 0, getDebugBacktrace(1));
 		}
-		if ($page_ending || (gettype($object) == "object" && (get_class($object) == "DialogBox" || is_subclass_of($object, "DialogBox"))) || 
+		if ($page_ending || (gettype($object) == "object" && (get_class($object) == "DialogBox" || is_subclass_of($object, "DialogBox"))) ||
 			$this->ended_added_object_loaded) {
 				$this->add_to_render_ending[] = $object;
 		} else if ($page_begining) {
@@ -1177,7 +1191,7 @@ class Page extends AbstractPage {
 			$this->add_to_render[] = $object;
 		}
 	}
-	
+
 	/**
 	 * Method getAddedObjects
 	 * @access public
@@ -1187,7 +1201,7 @@ class Page extends AbstractPage {
 	public function getAddedObjects() {
 		return array_merge($this->getBeginAddedObjects(), $this->getEndAddedObjects());
 	}
-		
+
 	/**
 	 * Method getBeginAddedObjects
 	 * @access public
@@ -1197,7 +1211,7 @@ class Page extends AbstractPage {
 	public function getBeginAddedObjects() {
 		return $this->add_to_render_begining;
 	}
-		
+
 	/**
 	 * Method getEndAddedObjects
 	 * @access public
@@ -1208,7 +1222,7 @@ class Page extends AbstractPage {
 		$this->ended_added_object_loaded = true;
 		return array_merge($this->add_to_render, $this->add_to_render_ending);
 	}
-	
+
 	/**
 	 * Method getNbEndAddedObjects
 	 * @access public
@@ -1218,7 +1232,7 @@ class Page extends AbstractPage {
 	public function getNbEndAddedObjects() {
 		return sizeof($this->add_to_render) + sizeof($this->add_to_render_ending);
 	}
-	
+
 	/**
 	 * Method addLogDebug
 	 * @access public
@@ -1232,7 +1246,7 @@ class Page extends AbstractPage {
 		}
 		$this->log_debug_str[] = $str;
 	}
-	
+
 	/**
 	 * Method addLogDebugRegisterObjects
 	 * @access public
@@ -1256,7 +1270,7 @@ class Page extends AbstractPage {
 		}
 		$this->addLogDebug();
 	}
-	
+
 	/**
 	 * Method getLogDebug
 	 * @access public
@@ -1266,7 +1280,7 @@ class Page extends AbstractPage {
 	public function getLogDebug() {
 		return $this->log_debug_str;
 	}
-	
+
 	/**
 	 * Method render
 	 * Render the page
@@ -1354,7 +1368,7 @@ class Page extends AbstractPage {
 			}
 		}
 	}
-	
+
 	/**
 	 * Method getRenderObject
 	 * @access public
@@ -1364,7 +1378,7 @@ class Page extends AbstractPage {
 	public function getRenderObject() {
 		return $this->render;
 	}
-	
+
 	/**
 	 * Method userHaveRights
 	 * @access public
@@ -1391,7 +1405,7 @@ class Page extends AbstractPage {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Method setUserRights
 	 * @access public
@@ -1403,7 +1417,7 @@ class Page extends AbstractPage {
 		$_SESSION['USER_RIGHTS'] = $rights;
 		return $this;
 	}
-	
+
 	/**
 	 * Method getUserRights
 	 * @access public
@@ -1413,7 +1427,7 @@ class Page extends AbstractPage {
 	public function getUserRights() {
 		return (sizeof($_SESSION['USER_RIGHTS']) == 1?$_SESSION['USER_RIGHTS'][0]:$_SESSION['USER_RIGHTS']);
 	}
-	
+
 	/**
 	 * Method getUserNoRightsRedirect
 	 * @access public
@@ -1432,7 +1446,7 @@ class Page extends AbstractPage {
 			}
 			$url_to_referer = urldecode(substr($this->getCurrentURL(), $pos, $pos2-$pos));
 		}
-		
+
 		if (find($this->USER_NO_RIGHTS_REDIRECT, "referer=") == 0) {
 			if (find($this->USER_NO_RIGHTS_REDIRECT, "?") > 0) {
 				$this->USER_NO_RIGHTS_REDIRECT .= "&";
@@ -1441,10 +1455,10 @@ class Page extends AbstractPage {
 			}
 			$this->USER_NO_RIGHTS_REDIRECT .= "referer=".urlencode($url_to_referer);
 		}
-		
+
 		return $this->USER_NO_RIGHTS_REDIRECT;
 	}
-	
+
 	/**
 	 * Method redirectErrorUserRights
 	 * @access public
@@ -1453,7 +1467,7 @@ class Page extends AbstractPage {
 	public function redirectErrorUserRights() {
 		$this->redirect($this->getBaseLanguageURL()."error/error-user-rights.html");
 	}
-	
+
 	/**
 	 * Method redirect
 	 * @access public
@@ -1469,13 +1483,13 @@ class Page extends AbstractPage {
 			$this->addObject(new JavaScript("location.href='".$url."';"));
 		} else {
 			$this->cache_time = -1;
-			header('HTTP/1.1 301 Moved Temporarily');  
+			header('HTTP/1.1 301 Moved Temporarily');
 			header('Status: 301 Moved Temporarily');
 			header("Location:".$url);
 			exit;
 		}
 	}
-	
+
 	/**
 	 * Method refreshPage
 	 * @access public
@@ -1484,7 +1498,7 @@ class Page extends AbstractPage {
 	public function refreshPage() {
 		$this->redirect($this->getCurrentURL());
 	}
-	
+
 	/**
 	 * Method redirect404
 	 * @access public
@@ -1495,7 +1509,7 @@ class Page extends AbstractPage {
 		include(dirname(__FILE__).'/../../../error_doc.php');
 		exit;
 	}
-	
+
 	/**
 	 * Method setTimeout
 	 * @access public
@@ -1505,7 +1519,28 @@ class Page extends AbstractPage {
 	public function setTimeout($timeout=30) {
 		set_time_limit($timeout);
 	}
-	
+
+	/**
+	 * Method setMetaRobots
+	 * @access public
+	 * @param mixed $meta_robots 
+	 * @since 1.2.14
+	 */
+	public function setMetaRobots($meta_robots) {
+		self::$PAGE_META_ROBOTS = $meta_robots;
+	}
+
+	/**
+	 * Method disableGoogleCodeTracker
+	 * @access public
+	 * @since 1.2.14
+	 */
+	public function disableGoogleCodeTracker() {
+		if (!defined("GOOGLE_CODE_TRACKER_NOT_ACTIF")) {
+			define(GOOGLE_CODE_TRACKER_NOT_ACTIF, true);
+		}
+	}
+
 	/**
 	 * Method getLanguage
 	 * @access public
@@ -1529,7 +1564,7 @@ class Page extends AbstractPage {
 		}
 		return $language_locale;
 	}
-	
+
 	/**
 	 * Method getCurrentURL
 	 * @access public
@@ -1537,22 +1572,9 @@ class Page extends AbstractPage {
 	 * @since 1.0.0
 	 */
 	public function getCurrentURL() {
-		if (!defined('FORCE_SERVER_NAME') || FORCE_SERVER_NAME == "") {
-			if ($_SERVER['SERVER_PORT'] == 443) {
-				$url = "https://".$_SERVER['SERVER_NAME'].$_SERVER['REQUEST_URI'];
-			} else {
-				$port = "";
-				if ($_SERVER['SERVER_PORT'] != 80 &&  $_SERVER['SERVER_PORT'] != "") {
-					$port = ":".$_SERVER['SERVER_PORT'];
-				}
-				$url = "http://".$_SERVER['SERVER_NAME'].$port.$_SERVER['REQUEST_URI'];
-			}
-		} else {
-			$url = "http://".FORCE_SERVER_NAME.$_SERVER['REQUEST_URI'];
-		}
-		return str_replace($this->getBaseLanguageURL()."ajax/", $this->getBaseLanguageURL(), $url);
+		return str_replace($this->getBaseLanguageURL()."ajax/", $this->getBaseLanguageURL(), getCurrentUrl());
 	}
-	
+
 	/**
 	 * Method getCurrentURLWithoutParameters
 	 * @access public
@@ -1564,7 +1586,7 @@ class Page extends AbstractPage {
 		$current_dir = explode("?", $current_url);
 		return $current_dir[0];
 	}
-	
+
 	/**
 	 * Method getCurrentURLDirectory
 	 * @access public
@@ -1576,7 +1598,7 @@ class Page extends AbstractPage {
 		$current_dir = substr($current_url, 0, strrpos($current_url, "/"))."/";
 		return $current_dir;
 	}
-	
+
 	/**
 	 * Method getBaseURL
 	 * @access public
@@ -1586,7 +1608,7 @@ class Page extends AbstractPage {
 	public function getBaseURL() {
 		return BASE_URL;
 	}
-	
+
 	/**
 	 * Method getSiteDirectory
 	 * @access public
@@ -1596,7 +1618,7 @@ class Page extends AbstractPage {
 	public function getSiteDirectory() {
 		return SITE_DIRECTORY;
 	}
-	
+
 	/**
 	 * Method getBaseLanguageURL
 	 * @access public
@@ -1606,7 +1628,7 @@ class Page extends AbstractPage {
 	public function getBaseLanguageURL() {
 		return BASE_URL.$_SESSION['lang']."/";
 	}
-	
+
 	/**
 	 * Method isLocalhostURL
 	 * @access public
@@ -1619,7 +1641,7 @@ class Page extends AbstractPage {
 		}
 		return false;
 	}
-    
+
 	/**
 	 * Method isLocalDebug
 	 * @access public
@@ -1629,7 +1651,7 @@ class Page extends AbstractPage {
     public function isLocalDebug() {
     	return isLocalDebug();
     }
-	
+
 	/**
 	 * Method getRootWspDirectory
 	 * @access public
@@ -1639,7 +1661,7 @@ class Page extends AbstractPage {
 	public function getRootWspDirectory() {
 		return SITE_DIRECTORY;
 	}
-	
+
 	/**
 	 * Method getSubDomainURL
 	 * @access public
@@ -1649,7 +1671,7 @@ class Page extends AbstractPage {
 	public function getSubDomainURL() {
 		return SUBDOMAIN_URL;
 	}
-	
+
 	/**
 	 * Method getRefererURL
 	 * @access public
@@ -1684,7 +1706,7 @@ class Page extends AbstractPage {
         }
         return null;
     }
-	
+
 	/**
 	 * Method getDocumentHeight
 	 * @access public
@@ -1694,7 +1716,7 @@ class Page extends AbstractPage {
 	public function getDocumentHeight() {
 		return $this->getPageInfo('document_height');
 	}
-	
+
 	/**
 	 * Method getDocumentWidth
 	 * @access public
@@ -1704,7 +1726,7 @@ class Page extends AbstractPage {
 	public function getDocumentWidth() {
         return $this->getPageInfo('document_width');
 	}
-	
+
 	/**
 	 * Method getWindowHeight
 	 * @access public
@@ -1714,7 +1736,7 @@ class Page extends AbstractPage {
 	public function getWindowHeight() {
         return $this->getPageInfo('window_height');
 	}
-	
+
 	/**
 	 * Method getWindowWidth
 	 * @access public
@@ -1724,7 +1746,7 @@ class Page extends AbstractPage {
 	public function getWindowWidth() {
         return $this->getPageInfo('window_width');
 	}
-	
+
 	/**
 	 * Method isAjaxPage
 	 * @access public
@@ -1739,7 +1761,7 @@ class Page extends AbstractPage {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method isAjaxLoadPage
 	 * @access public
@@ -1752,7 +1774,7 @@ class Page extends AbstractPage {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Method getBrowserInfo
 	 * @access private
@@ -1770,7 +1792,7 @@ class Page extends AbstractPage {
 		}
 		return $this->browser;
 	}
-	
+
 	/**
 	 * Method isCss3Browser
 	 * @access public
@@ -1786,7 +1808,7 @@ class Page extends AbstractPage {
         // The major browser version are today compatible with CSS3
         return true;
 	}
-	
+
 	/**
 	 * Method isMobileDevice
 	 * @access public
@@ -1806,7 +1828,7 @@ class Page extends AbstractPage {
 			return (trim($this->browser['isMobileDevice'])=="true")?true:false;
 		}
 	}
-	
+
 	/**
 	 * Method isCrawlerBot
 	 * @access public
@@ -1842,7 +1864,7 @@ class Page extends AbstractPage {
 		}
 		return $is_crawler;
 	}
-	
+
 	/**
 	 * Method getBrowserName
 	 * @access public
@@ -1855,7 +1877,7 @@ class Page extends AbstractPage {
 		}
 		return $this->browser['Browser'];
 	}
-	
+
 	/**
 	 * Method getBrowserVersion
 	 * @access public
@@ -1868,7 +1890,7 @@ class Page extends AbstractPage {
 		}
 		return $this->browser['Version'];
 	}
-	
+
 	/**
 	 * Method getBrowserUserAgent
 	 * @access public
@@ -1878,7 +1900,7 @@ class Page extends AbstractPage {
 	public function getBrowserUserAgent() {
 		return $_SERVER['HTTP_USER_AGENT'];
 	}
-	
+
 	/**
 	 * Method includeJsAndCssFromObjectToPage
 	 * Use to add JS and CSS to the page when Object never load on init, but load dynamically (on DialogBox, Map, ...)
@@ -1903,7 +1925,7 @@ class Page extends AbstractPage {
 		}
 		$this->create_object_to_get_css_js = false;
 	}
-	
+
 	/**
 	 * Method displayExecutionTime
 	 * @access public
@@ -1914,7 +1936,7 @@ class Page extends AbstractPage {
 		$wspPageTotalTime = elog_time($_SESSION['wspPageStartTime']);
      	echo "<b>Execution Time".($info!=""?" ".$info:"").":</b> ".round($wspPageTotalTime,3)." Seconds<br/>";
 	}
-	
+
 	/**
 	 * Method addLogDebugExecutionTime
 	 * @access public
@@ -1925,7 +1947,7 @@ class Page extends AbstractPage {
 		$wspPageTotalTime = elog_time($_SESSION['wspPageStartTime']);
      	$this->addLogDebug("<b>Execution Time".($info!=""?" ".$info:"").":</b> ".round($wspPageTotalTime,3)." Seconds");
 	}
-	
+
 	/**
 	 * Method setMobileMetaTag
 	 * @access public
@@ -1937,7 +1959,7 @@ class Page extends AbstractPage {
 		$this->is_mobile_meta_tag = $bool;
 		return $this;
 	}
-	
+
 	/**
 	 * Method isMobileMetaTag
 	 * @access public
@@ -1947,7 +1969,7 @@ class Page extends AbstractPage {
 	public function isMobileMetaTag() {
 		return $this->is_mobile_meta_tag;
 	}
-	
+
 	/**
 	 * Method setMobileWebAppMetaTag
 	 * @access public
@@ -1959,7 +1981,7 @@ class Page extends AbstractPage {
 		$this->is_mobile_webapp_meta_tag = $bool;
 		return $this;
 	}
-	
+
 	/**
 	 * Method isMobileWebAppMetaTag
 	 * @access public
@@ -1994,7 +2016,7 @@ class Page extends AbstractPage {
     public function getJsonManifestFileName() {
         return $this->json_manifest_filename;
     }
-	
+
 	/**
 	 * Method getCacheDirectory
 	 * @access public
@@ -2012,7 +2034,7 @@ class Page extends AbstractPage {
 		}
 		return $cache_directory;
 	}
-	
+
 	/**
 	 * Method getCDNServerURL
 	 * @access public
@@ -2021,7 +2043,7 @@ class Page extends AbstractPage {
 	 */
 	public function getCDNServerURL(){
 		$cdn_server_url = BASE_URL;
-		if (!isLocalDebug() && defined("CDN_SERVER") && 
+		if (!isLocalDebug() && defined("CDN_SERVER") &&
 			(CDN_SERVER != "" && CDN_SERVER != "http://")) {
 				$cdn_server_url = CDN_SERVER;
 				if ($cdn_server_url[strlen($cdn_server_url)-1] != "/") {
@@ -2030,7 +2052,7 @@ class Page extends AbstractPage {
 		}
 		return $cdn_server_url;
 	}
-	
+
 	/**
 	 * Method disableAutoCreateConstantLabels
 	 * @access public
@@ -2041,7 +2063,7 @@ class Page extends AbstractPage {
 		$GLOBALS['WSP_AUTO_CREATE_CONSTANT'] = false;
 		return $this;
 	}
-	
+
 	/**
 	 * Method enableAutoCreateConstantLabels
 	 * @access public
@@ -2052,7 +2074,7 @@ class Page extends AbstractPage {
 		$GLOBALS['WSP_AUTO_CREATE_CONSTANT'] = true;
 		return $this;
 	}
-	
+
 	/**
 	 * Method enableCookiesAcceptMessage
 	 * @access public
@@ -2070,10 +2092,10 @@ class Page extends AbstractPage {
 		if (strtoupper(substr($cookies_terms_url, 0, 7)) != "HTTP://" && strtoupper(substr($cookies_terms_url, 0, 8)) != "HTTPS://") {
 			$cookies_terms_url = $this->getBaseLanguageURL().$cookies_terms_url;
 		}
-		
+
 		$this->addObject(new Object("<script src=\"".$this->getCDNServerURL()."wsp/js/cookiechoices.js\"></script>"), false, true);
 		$this->addObject(new JavaScript("$(document).ready(function(){cookieChoices.showCookieConsentBar(\"".($is_short_message?__(COOKIES_MSG_SHORT):__(COOKIES_MSG))."\", \"".__(CLOSE)."\", \"".__(LEARN_MORE)."\", \"".$cookies_terms_url."\");});"), false, true);
-		
+
 		return $this;
 	}
 
@@ -2159,7 +2181,7 @@ document.getElementsByTagName('body')[0].appendChild(customTheme)"), true);
     public function getThirdPartyCookiesFilterCookiesList() {
         return $this->third_party_cookies_filter_cookieslist;
     }
-	
+
 	/**
 	 * Method activateScrollToTop
 	 * @access public
@@ -2174,10 +2196,34 @@ document.getElementsByTagName('body')[0].appendChild(customTheme)"), true);
 					topOffset: 300,
 					animationSpeed: 1000,
 					bckTopLinkTitle: ''
-				});	
+				});
 			});
 		</script>");
 		$this->addObject($scrollToTop);
+	}
+
+	/**
+	 * Method setOpenSearchXml
+	 * @access public
+	 * @param mixed $url 
+	 * @param mixed $title 
+	 * @return Page
+	 * @since 1.2.14
+	 */
+	public function setOpenSearchXml($url, $title) {
+		$this->opensearchxml_url = $url;
+		$this->opensearchxml_title = $title;
+		return $this;
+	}
+
+	/**
+	 * Method getOpenSearchXmlParameters
+	 * @access public
+	 * @return array
+	 * @since 1.2.14
+	 */
+	public function getOpenSearchXmlParameters() {
+		return array($this->opensearchxml_url, $this->opensearchxml_title);
 	}
 }
 ?>
