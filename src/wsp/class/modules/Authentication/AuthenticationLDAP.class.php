@@ -8,7 +8,7 @@
  * Class AuthenticationLDAP
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2016 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage Authentication
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/05/2016
- * @version     1.2.14
+ * @copyright   WebSite-PHP.com 20/07/2016
+ * @version     1.2.15
  * @access      public
  * @since       1.2.14
  */
@@ -224,7 +224,7 @@ class AuthenticationLDAP extends Authentication {
 								}
 							}
 						}
-						if (!is_array($info[0][strtolower($dn_attr)])) {
+						if (!is_array($info[0][strtolower($this->ldap_dn_attr)])) {
 							$dn = $info[0][strtolower($this->ldap_dn_attr)];
 						} else {
 							$dn = $info[0][strtolower($this->ldap_dn_attr)][0];

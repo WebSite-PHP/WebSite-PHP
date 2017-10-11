@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php/error/error-page.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 05/02/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.18
  */
@@ -123,7 +123,8 @@ class ErrorPage extends Page {
 			
 			$error_msg = new Label($error_msg, true);
 			$obj_error_msg = new Object(new Picture("wsp/img/warning.png", 48, 48, 0, "absmidlle"), "<br/>", $error_msg->setColor("red"));
-			$obj_error_msg->add("<br/><br/>", __(MAIN_PAGE_GO_BACK), new Link(BASE_URL, Link::TARGET_NONE, __(SITE_NAME)));
+			$back_link = new Link(BASE_URL, Link::TARGET_NONE, __(SITE_NAME));
+			$obj_error_msg->add("<br/><br/>", __(MAIN_PAGE_GO_BACK), $back_link, "<br/><br/>");
 			
 			$this->render = new ErrorTemplate($obj_error_msg, $error_msg_title);
 			

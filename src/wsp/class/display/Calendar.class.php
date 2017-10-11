@@ -7,7 +7,7 @@
  * Class Calendar
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 05/02/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.93
  */
@@ -47,6 +47,7 @@ class Calendar extends TextBox {
 	* @var string
 	*/
 	const DATE_FORMAT_ENGLISH = "mm-dd-yy";
+	const DATE_FORMAT_US = "yy-mm-dd";
 	const DATE_FORMAT_FRENCH = "dd/mm/yy";
 	const DATE_FORMAT_GERMAN = "dd.mm.yy";
 	/**#@-*/
@@ -69,7 +70,8 @@ class Calendar extends TextBox {
 	
 	private $dateFormatConvertPhpFormat = array("dd/mm/yy" => "d/m/Y",
 												"mm-dd-yy" => "m-d-Y",
-												"dd.mm.yy" => "d.m.Y");
+												"dd.mm.yy" => "d.m.Y",
+												"yy-mm-dd" => "Y-m-d");
 	
 	private $monthNames = array();
 	private $monthNamesShort = array();

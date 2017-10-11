@@ -7,7 +7,7 @@
  * Class SelectList
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 20/07/2016
+ * @version     1.2.15
  * @access      public
  * @since       1.2.11
  */
@@ -28,18 +28,20 @@ class SelectList extends WebSitePhpEventObject {
 	*/
 	private $width = "";
 	private $nb_lines = "";
-	private $item_value = array();
-	private $item_text = array();
-	private $item_selected = -1;
-	private $item_default_selected = -1;
+	protected $item_value = array();
+	protected $item_text = array();
+	protected $item_selected = -1;
+	protected $item_default_selected = -1;
 	private $option = "";
 	private $disable = false;
 	private $strip_tags = false;
 	private $strip_tags_allowable = "";
 	
-	private $list_items_change = false;
-	private $is_changed = false;
-	private $item_loaded = false;
+	protected $list_items_change = false;
+	protected $is_changed = false;
+	protected $item_loaded = false;
+	
+	protected $style = "";
 	
 	private $onchange = "";
 	private $callback_onchange = "";
@@ -171,6 +173,18 @@ class SelectList extends WebSitePhpEventObject {
 		$this->page_object->addEventObject($this, $this->form_object);
 		
 		$this->initSubmitValue();
+		return $this;
+	}
+	
+	/**
+	 * Method setStyle
+	 * @access public
+	 * @param mixed $style 
+	 * @return SelectList
+	 * @since 1.2.15
+	 */
+	public function setStyle($style) {
+		$this->style = $style;
 		return $this;
 	}
 	
@@ -499,14 +513,24 @@ class SelectList extends WebSitePhpEventObject {
 	public function render($ajax_render=false) {
 		$this->automaticAjaxEvent();
 		
-		$html = "<select id=\"".$this->getEventObjectName()."\" name=\"".$this->getEventObjectName()."\" onChange=\"onChangeSelectList_".$this->getEventObjectName()."();\"";
+		$html = "<select id=\"".$this->getEventObjectName()."\" name=\"".$this->getEventObjectName();
+		if (get_class($this) == "SelectListMultiple") {
+			$html .= "[]";
+		}
+		$html .= "\" onChange=\"onChangeSelectList_".$this->getEventObjectName()."();\"";
 		if ($this->disable) {
 			$html .= " disabled";
 		}
-		if ($this->width != "") {
+		if (get_class($this) == "SelectListMultiple") {
+			$html .= " multiple";
+		}
+		if ($this->width != "" || $this->style != "") {
 			$html .= " style=\"";
 			if ($this->width != "" && $this->width > 0) {
 				$html .= "width:".$this->width."px;";
+			}
+			if ($this->style != "") {
+				$html .= $this->style;
 			}
 			$html .= "\"";
 		}
@@ -516,8 +540,18 @@ class SelectList extends WebSitePhpEventObject {
 		$html .= ">\n";
 		for ($i=0; $i < sizeof($this->item_value); $i++) {
 			$html .= "	<option value=\"".$this->item_value[$i]."\"";
-			if ($i == $this->item_selected) {
-				$html .= " selected=\"selected\"";
+			$is_selected = false;
+			if (is_array($this->item_selected)) {
+				if (in_array($i, $this->item_selected)) {
+					$is_selected = true;
+				}
+			} else {
+				if ($i == $this->item_selected) {
+					$is_selected = true;
+				}
+			}
+			if ($is_selected) {
+					$html .= " selected=\"selected\"";
 			}
 			$html .= ">".$this->item_text[$i]."</option>\n";
 		}
@@ -588,8 +622,14 @@ class SelectList extends WebSitePhpEventObject {
 					$html .= "new_option.value = '".addslashes($this->item_value[$i])."';\n";
 					$html .= "new_option.appendChild(document.createTextNode('".addslashes($this->item_text[$i])."'));\n";
 					$html .= "new_option.title = '".addslashes($this->item_img[$i])."';\n";
-					if ($i == $this->item_selected) {
-						$refresh_selected_index = true;
+					if (is_array($this->item_selected)) {
+						if (in_array($i, $this->item_selected)) {
+							$refresh_selected_index = true;
+						}
+					} else {
+						if ($i == $this->item_selected) {
+							$refresh_selected_index = true;
+						}
 					}
 					$html .= "sellist_parent_node.appendChild(new_option);\n";
 				}
@@ -597,7 +637,16 @@ class SelectList extends WebSitePhpEventObject {
 				$refresh_selected_index = true;
 			}
 			if ($refresh_selected_index) {
-				$html .= "$(\"#".$this->getEventObjectName()."\").prop('selectedIndex', ".$this->item_selected.");\n";
+				if (is_array($this->item_selected)) {
+					$sel_values = "";
+					for ($i=0; $i < sizeof($this->item_selected); $i++) {
+						if ($sel_values != "") { $sel_values .= ","; }
+						$sel_values .= "\"".$this->getItemValueAt($this->item_selected[$i])."\"";
+					}
+					$html .= "$(\"#".$this->getEventObjectName()."\").val([".$sel_values."]);\n";
+				} else {
+					$html .= "$(\"#".$this->getEventObjectName()."\").prop('selectedIndex', ".$this->item_selected.");\n";
+				}
 			}
 		}
 		return $html;

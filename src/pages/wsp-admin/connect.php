@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php/wsp-admin/connect.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 10/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.0.25
  */
@@ -71,6 +71,8 @@ class Connect extends Page {
 	}
 	
 	public function Loaded() {
+		$this->mod_obj->emptyObject();
+		
 		$nb_mod_error = 0;
 		$nb_mod = 3;
 		if (strtolower(substr($_SERVER['SERVER_SOFTWARE'], 0, 6)) == "apache") {

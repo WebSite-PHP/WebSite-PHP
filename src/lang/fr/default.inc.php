@@ -17,8 +17,8 @@
 	define("ERROR_DATABASE_MSG", "Erreur: %s");
 	
 	define("ERROR_USER_BANNED", "Alerte de sécurité");
-	define("ERROR_USER_BANNED_MSG_1", "Vous avez été bloqué à ce site.");
-	define("ERROR_USER_BANNED_MSG_2", "Veuillez entrer le captcha suivant pour accéder sur le site.");
+	define("ERROR_USER_BANNED_MSG_1", "Vous avez été bloqué sur ce site.");
+	define("ERROR_USER_BANNED_MSG_2", "Veuillez entrer le captcha suivant pour accéder au site.");
 	define("ERROR_USER_BUTTON", "Débloquer");
 	
 	define("ERROR_DEBUG_MAIL_SENT", "Un problème technique s'est produit. Un administrateur a été notifié et le problème devrait être résolu rapidement.");

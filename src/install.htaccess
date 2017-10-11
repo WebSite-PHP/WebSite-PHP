@@ -46,7 +46,8 @@ AddDefaultCharset utf-8
 	RewriteRule ^LiveSearchSiteAuth.xml$ LiveSearchSiteAuth.xml [L] 
 	RewriteRule ^([a-z]{2})/LiveSearchSiteAuth.xml$ LiveSearchSiteAuth.xml [L] 
 	RewriteRule ^BingSiteAuth.xml$ BingSiteAuth.xml [L] 
-	RewriteRule ^([a-z]{2})/BingSiteAuth.xml$ BingSiteAuth.xml [L] 
+	RewriteRule ^([a-z]{2})/BingSiteAuth.xml$ BingSiteAuth.xml [L]
+    RewriteRule ^manifest.json$ manifest.json [L]
 	
 	# FrameWork Files
 	RewriteRule ^robots.txt$ robots.txt [L] 

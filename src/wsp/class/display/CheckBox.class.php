@@ -7,7 +7,7 @@
  * Class CheckBox
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/10/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.17
  */
@@ -144,6 +144,17 @@ class CheckBox extends WebSitePhpEventObject {
 		$this->setValue("on");
 		return $this;
 	}
+	
+	/**
+	 * Method setUnchecked
+	 * @access public
+	 * @return CheckBox
+	 * @since 1.2.15
+	 */
+	public function setUnchecked() {
+	    $this->setValue("off");
+	    return $this;
+	}
 
 	/**
 	 * Method setDefaultValue
@@ -237,21 +248,23 @@ class CheckBox extends WebSitePhpEventObject {
 	/**
 	 * Method getValue
 	 * @access public
+	 * @param boolean $disable_init_value [default value: false]
 	 * @return mixed
 	 * @since 1.0.36
 	 */
-	public function getValue() {
-		return $this->isChecked();
+	public function getValue($disable_init_value=false) {
+		return $this->isChecked($disable_init_value);
 	}
 
 	/**
 	 * Method isChecked
 	 * @access public
+	 * @param boolean $disable_init_value [default value: false]
 	 * @return mixed
 	 * @since 1.0.36
 	 */
-	public function isChecked() {
-		if (!$this->getSubmitValueIsInit() && $GLOBALS['__PAGE_IS_INIT__'] == true) {
+	public function isChecked($disable_init_value=false) {
+		if (!$disable_init_value && !$this->getSubmitValueIsInit() && $GLOBALS['__PAGE_IS_INIT__'] == true) {
 			$result = $this->initSubmitValue();
 			if (!$result) {
 				$this->setValue("");

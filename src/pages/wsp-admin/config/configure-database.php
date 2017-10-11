@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php-install/wsp-admin/config/configure-database.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/10/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.25
  */
@@ -284,13 +284,17 @@ class ConfigureDatabase extends Page {
 	}
 	
 	private function getFormatValue($table) {
-		$table_tmp = str_replace("_", "-", $table);
+		$table_tmp = str_replace("_", "-", formalize_to_variable($table));
 		$table_names = explode('-', $table_tmp);
 		$class_name = "";
 		for ($i=0; $i < sizeof($table_names); $i++) {
 			$class_name .= ucfirst($table_names[$i]);
 		}
 		return $class_name;
+	}
+	
+	private function getTableFieldVariable($field) {
+		return strtoupper(formalize_to_variable($field));
 	}
 	
 	private function convertFieldTypeToWspType($type) {
@@ -332,7 +336,7 @@ class ConfigureDatabase extends Page {
 		$query = "SHOW COLUMNS FROM `".$database."`.`".$table."`";
 		$result = $this->dbInstance->prepareStatement($query);
 		while ($row = $result->fetch_array()) {
-			$wsp_field = "FIELD_".str_replace("-", "_", strtoupper($row['Field']));
+			$wsp_field = "FIELD_".$this->getTableFieldVariable($row['Field']);
 			$const .= "	const ".$wsp_field." = \"".$row['Field']."\";\n";
 			if ($attr != "") { $attr .= ", "; }
 			$attr .= $class_name."DbTable::".$wsp_field;
@@ -397,7 +401,7 @@ class ".$class_name."DbTable extends DbTableObject {
 		\$this->setDbTableAttributes(array(".$attr."));
 		\$this->setDbTableAttributesType(array(".$attr_type."));
 		\$this->setDbTablePrimaryKeys(array(".$attr_key."));
-		\$this->setDbTableAutoIncrement(".($auto_increment_var==""?"''":$class_name."DbTable::FIELD_".str_replace("-", "_", strtoupper($auto_increment_var))).");
+		\$this->setDbTableAutoIncrement(".($auto_increment_var==""?"''":$class_name."DbTable::FIELD_".$this->getTableFieldVariable($auto_increment_var)).");
 		\$this->setDbTableForeignKeys(".$attr_foreign_key.");
 	}
 }
@@ -426,7 +430,7 @@ class ".$class_name."DbTable extends DbTableObject {
 		$query = "SHOW COLUMNS FROM `".$database."`.`".$table."`";
 		$result = $this->dbInstance->prepareStatement($query);
 		while ($row = $result->fetch_array()) {
-			$var = str_replace("-", "_", strtolower($row['Field']));
+			$var = strtolower($this->getTableFieldVariable($row['Field']));
 			$array_var[] = $var;
 			$var_type = $this->convertFieldTypeToWspType($row['Type']);
 			$array_var_type[] = $var_type;
@@ -459,10 +463,10 @@ class ".$class_name."DbTable extends DbTableObject {
 				$isset_key_param .= "\$".$var." != \"\"";
 				
 				if ($load_clause != "") { $load_clause .= ".\" AND \"."; }
-				$load_clause .= $class_name."DbTable::FIELD_".str_replace("-", "_", strtoupper($row['Field'])).".\"='\".addslashes(\$".$var.").\"'\"";
+				$load_clause .= "\"`\".".$class_name."DbTable::FIELD_".$this->getTableFieldVariable($row['Field']).".\"`='\".addslashes(\$".$var.").\"'\"";
 				
 				if ($load_clause_obj != "") { $load_clause_obj .= ".\" AND \"."; }
-				$load_clause_obj .= $class_name."DbTable::FIELD_".str_replace("-", "_", strtoupper($row['Field'])).".\"='\".addslashes(\$this->get".$this->getFormatValue($var)."()).\"'\"";
+				$load_clause_obj .= "\"`\".".$class_name."DbTable::FIELD_".$this->getTableFieldVariable($row['Field']).".\"`='\".addslashes(\$this->get".$this->getFormatValue($var)."()).\"'\"";
 			} else {
 				if ($construct_param != "") { $construct_param .= ", "; }
 				$construct_param .= "\$".$var."=''";
@@ -524,7 +528,7 @@ $data .= "		}
 			if (\$it->hasNext()) {
 				\$row = \$it->next();\n";
 			for ($i=0; $i < sizeof($array_var); $i++) {
-				$data .= "				\$this->set".$this->getFormatValue($array_var[$i])."(\$row->getValue(".$class_name."DbTable::FIELD_".str_replace("-", "_", strtoupper($array_var[$i]))."));\n";
+				$data .= "				\$this->set".$this->getFormatValue($array_var[$i])."(\$row->getValue(".$class_name."DbTable::FIELD_".$this->getTableFieldVariable($array_var[$i])."));\n";
 			}
 			$data .= "				\$this->is_synchronize_with_db = true;
 				\$this->is_db_object = true;
@@ -558,7 +562,7 @@ $data .= "		}
 			if (\$it->hasNext()) {
 				\$row = \$it->next();\n";
 			for ($i=0; $i < sizeof($array_var); $i++) {
-				$data .= "				\$this->set".$this->getFormatValue($array_var[$i])."(\$row->getValue(".$class_name."DbTable::FIELD_".str_replace("-", "_", strtoupper($array_var[$i]))."));\n";
+				$data .= "				\$this->set".$this->getFormatValue($array_var[$i])."(\$row->getValue(".$class_name."DbTable::FIELD_".$this->getTableFieldVariable($array_var[$i])."));\n";
 			}
 			$data .= "				\$this->is_synchronize_with_db = true;
 				\$this->is_db_object = true;
@@ -589,13 +593,13 @@ $data .= "		}
 			} else {
 				\$row = \$it->insert();\n";
 				for ($i=0; $i < sizeof($array_var_key); $i++) {
-					$data .= "				\$row->setValue(".$class_name."DbTable::FIELD_".str_replace("-", "_", strtoupper($array_var_key[$i])).", \$this->get".$this->getFormatValue($array_var_key[$i])."());\n";
+					$data .= "				\$row->setValue(".$class_name."DbTable::FIELD_".$this->getTableFieldVariable($array_var_key[$i]).", \$this->get".$this->getFormatValue($array_var_key[$i])."());\n";
 				}
 				$data .= "				\$insert = true;\n";
 			$data .= "			}\n";
 			for ($i=0; $i < sizeof($array_var); $i++) {
 				if (!in_array($array_var[$i], $array_var_key)) {
-					$data .= "			\$row->setValue(".$class_name."DbTable::FIELD_".str_replace("-", "_", strtoupper($array_var[$i])).", \$this->get".$this->getFormatValue($array_var[$i])."());\n";
+					$data .= "			\$row->setValue(".$class_name."DbTable::FIELD_".$this->getTableFieldVariable($array_var[$i]).", \$this->get".$this->getFormatValue($array_var[$i])."());\n";
 				}
 			}
 			$data .= "			\$it->save();\n";
@@ -641,6 +645,19 @@ $data .= "		}
 			\$this->is_db_object = false;
 		}
 	}
+	
+	/**
+	 * Method copy
+	 * @access public
+	 * @return ".$class_name."Obj
+	 */
+	public function copy() {
+		\$new_obj = new ".$class_name."Obj();\n";
+		for ($i=0; $i < sizeof($array_var); $i++) {
+			$data .= "		\$new_obj->set".$this->getFormatValue($array_var[$i])."(\$this->get".$this->getFormatValue($array_var[$i])."());\n";
+		}
+		$data .= "		return \$new_obj;
+	}
 ";
 		for ($i=0; $i < sizeof($array_var); $i++) {
 			$data .= "\n	/**
@@ -667,7 +684,7 @@ $data .= "		}
 	 */
 	public function set".$this->getFormatValue($array_var[$i])."(\$".$array_var[$i].") {\n";
 	if (in_array($array_var[$i], $array_var_key)) {
-		$data .= "		if (\$this->".$array_var[$i]." != \"\") {
+		$data .= "		if (\$this->is_db_object) {
 			throw new NewException(\"".$class_name."WspObject->set".$this->getFormatValue($array_var[$i])."(): you can't change the value of the key ".$array_var[$i].".\", 0, getDebugBacktrace(1));
 		}\n";
 	}
@@ -799,7 +816,7 @@ $data .= "	/**
 			$query2 = "SHOW COLUMNS FROM `".$row['table_schema']."`.`".$row['table_name']."`";
 			$result2 = $this->dbInstance->prepareStatement($query2);
 			while ($row2 = $result2->fetch_array()) {
-				$data_table .= "			\$obj_".str_replace("-", "_", strtolower($row['table_name']))."->set".$this->getFormatValue(strtolower($row2['Field']))."(\$row->getValue(".$this->getFormatValue($row['table_name'])."DbTable::FIELD_".str_replace("-", "_", strtoupper(strtolower($row2['Field'])))."));\n";
+				$data_table .= "			\$obj_".str_replace("-", "_", strtolower($row['table_name']))."->set".$this->getFormatValue(strtolower($row2['Field']))."(\$row->getValue(".$this->getFormatValue($row['table_name'])."DbTable::FIELD_".$this->getTableFieldVariable($row2['Field'])."));\n";
 			}
 			$data_table .= "			\$obj_".str_replace("-", "_", strtolower($row['table_name']))."->foreignKeyLoadMode();
 			\$array_".str_replace("-", "_", strtolower($row['table_name']))."[] = \$obj_".str_replace("-", "_", strtolower($row['table_name'])).";
@@ -844,24 +861,28 @@ $data .= "	/**
 			$construct_param = "";
 			$construct_key_param = "";
 			$params = "";
+			$key_params = "";
 			
 			$query = "SHOW COLUMNS FROM `".$database."`.`".$table."`";
 			$result = $this->dbInstance->prepareStatement($query);
 			while ($row = $result->fetch_array()) {
-				$var = str_replace("-", "_", strtolower($row['Field']));
-				if ($params != "") { $params .= ", "; }
-				$params .= "\$".$var;
+				$var = strtolower($this->getTableFieldVariable($row['Field']));
 				
 				if ($row['Key'] == $db_key_identifier) { // primary key or unique key
 					if ($construct_key_param != "") { $construct_key_param .= ", "; }
 					$construct_key_param .= "\$".$var."=''";
+					if ($key_params != "") { $key_params .= ", "; }
+					$key_params .= "\$".$var;
 				} else {
 					if ($construct_param != "") { $construct_param .= ", "; }
 					$construct_param .= "\$".$var."=''";
+					if ($params != "") { $params .= ", "; }
+					$params .= "\$".$var;
 				}
 			}
-			if ($key_param != "") { $key_param .= ", "; }
-			$key_param .= "\$activate_htmlentities";
+			if ($key_params != "") {
+				$params = $key_params.", ".$params;
+			}
 			
 			if ($construct_param != "") { $construct_key_param .= ", "; }
 			$construct_param = $construct_key_param.$construct_param;
@@ -928,7 +949,7 @@ $data .= "	/**
 			$query2 = "SHOW COLUMNS FROM `".$database."`.`".$table."`";
 			$result2 = $this->dbInstance->prepareStatement($query2);
 			while ($row2 = $result2->fetch_array()) {
-				$data .= "				\$obj_".str_replace("-", "_", strtolower($class_name))."->set".$this->getFormatValue(strtolower($row2['Field']))."(\$row->getValue(".$this->getFormatValue($class_name)."DbTable::FIELD_".str_replace("-", "_", strtoupper(strtolower($row2['Field'])))."));\n";
+				$data .= "				\$obj_".str_replace("-", "_", strtolower($class_name))."->set".$this->getFormatValue(strtolower($row2['Field']))."(\$row->getValue(".$this->getFormatValue($class_name)."DbTable::FIELD_".$this->getTableFieldVariable($row2['Field'])."));\n";
 			}
 			$data .= "				\$array_".str_replace("-", "_", strtolower($class_name))."[] = \$obj_".str_replace("-", "_", strtolower($class_name)).";
 			}

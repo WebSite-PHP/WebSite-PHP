@@ -8,7 +8,7 @@
  * Class AutoComplete
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage advanced_object.autocomplete
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/10/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.17
  */
@@ -121,7 +121,14 @@ class AutoComplete extends WebSitePhpObject {
 		$html = "";
 		$html .= $this->getJavascriptTagOpen();
 		$html .= "$(document).ready( function() {\n";
-		$html .= "\$('#".$this->link_object_id."').autocomplete({ source: '".$this->autocomplete_url->render()."', minLength: ".$this->autocomplete_min_length.", ";
+		$html .= "\$('#".$this->link_object_id."').autocomplete({ source: function(request, response) {
+	        $.ajax({
+	            url: '".$this->autocomplete_url->render()."',
+	            dataType: 'json',
+	            data: { term : request.term },
+	            success: response /* response is a callable accepting data parameter. no reason to wrap in anonymous function. */
+	        });
+        }, minLength: ".$this->autocomplete_min_length.", ";
 		$html .= "search: function( event, ui ) { ";
 		if (GOOGLE_CODE_TRACKER != "" && !isLocalDebug() && 
 			!defined('GOOGLE_CODE_TRACKER_NOT_ACTIF')) {
@@ -143,6 +150,10 @@ class AutoComplete extends WebSitePhpObject {
 		$html .= " }, ";
 		$html .= "open: function( event, ui ) { ";
 		$html .= "	$('.ui-resizable').css('z-index', '0');";
+		$html .= "	var dialog = $(this).closest('.ui-dialog');";
+		$html .= "	if(dialog.length > 0) {";
+		$html .= "		dialog.zIndex($('.ui-widget-overlay').zIndex()+1);";
+		$html .= "	}";
 		if ($this->indicator_id != "") {
 			$html .= "$('#".$this->indicator_id."').css('visibility', 'hidden');";
 		}
@@ -154,6 +165,10 @@ class AutoComplete extends WebSitePhpObject {
 		$html .= " }, ";
 		$html .= "close: function( event, ui ) { ";
 		$html .= "	$('.ui-resizable').css('z-index', '2');";
+		$html .= "	var dialog = $(this).closest('.ui-dialog');";
+		$html .= "	if(dialog.length > 0) {";
+		$html .= "		dialog.zIndex($('.ui-widget-overlay').zIndex()+1);";
+		$html .= "	}";
 		$html .= " }";
 		$html .= " })\n";
 		$html .= ".data(\"autocomplete\")._renderItem = function(ul, item) {\n";

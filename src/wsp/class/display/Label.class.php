@@ -7,7 +7,7 @@
  * Class Label
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 05/02/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.17
  */
@@ -177,6 +177,21 @@ class Label extends WebSitePhpObject {
 	}
 	
 	/**
+	 * Method getLabel
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.15
+	 */
+	public function getLabel() {
+		if (gettype($this->label) == "object" && method_exists($this->label, "render")) {
+			$label = $this->label->render();
+		} else {
+			$label = $this->label;
+		}
+		return $label;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -226,11 +241,7 @@ class Label extends WebSitePhpObject {
 			$html .= "<u>";
 		}
 		
-		if (gettype($this->label) == "object" && method_exists($this->label, "render")) {
-			$html .= $this->label->render();
-		} else {
-			$html .= $this->label;
-		}
+		$html .= $this->getLabel();
 		
 		if ($this->italic) {
 			$html .= "</i>";

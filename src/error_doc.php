@@ -40,6 +40,7 @@ if (strlen($temp_lang)==4 && $temp_lang[0] == "/" && $temp_lang[3] == "/" &&
 }
 
 include_once("wsp/includes/utils_session.inc.php");
+include_once("wsp/includes/utils_url.inc.php");
 $__AJAX_PAGE__ = false; // use for return catch exception and loadAllVariables method
 $__AJAX_LOAD_PAGE__ = false;
 $__PAGE_IS_INIT__ = false;

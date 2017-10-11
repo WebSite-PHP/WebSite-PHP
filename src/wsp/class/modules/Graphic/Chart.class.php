@@ -8,7 +8,7 @@
  * Class Chart
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage Graphic
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/10/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.91
  */
@@ -90,6 +90,7 @@ class Chart extends WebSitePhpObject {
 	private $x_max = "";
 	private $y_min = "";
 	private $y_max = "";
+	private $is_bar_line = false;
 	
 	private $array_stack = array();
 	private $array_title = array();
@@ -185,6 +186,10 @@ class Chart extends WebSitePhpObject {
 		$this->array_step[$ind] = $step;
 		$this->array_point[$ind] = $point;
 		$this->array_fill[$ind] = $fill;
+		
+		if ($this->array_bar[$ind] || $this->array_step[$ind]) {
+			$this->is_bar_line = true;
+		}
 		
 		return $this;
 	}
@@ -378,6 +383,7 @@ class Chart extends WebSitePhpObject {
 				$html .= "bars: { show: true";
 				if ($this->bar_width != "") {
 					$html .= ", barWidth: ".$this->bar_width."\n";
+					$html .= ", order: ".($i+1)."\n";
 				}
 				$html .= " }\n";
 				$chart_param = true;
@@ -495,7 +501,7 @@ class Chart extends WebSitePhpObject {
 			$html .= "var legends = $(\"#".$this->id." .legendLabel\");
 		    legends.each(function () {
 		        // fix the widths so they don't jump around
-		        $(this).css('width', $(this).width());
+		        $(this).attr('nowrap', 'true');
 		    });
 		 
 		    var updateLegendTimeout = null;
@@ -522,14 +528,21 @@ class Chart extends WebSitePhpObject {
 		            
 		            // now interpolate\n";
 					if ($this->tracking_mode == "y") {
-			            $html .= "var y, p1 = series.data[j - 1], p2 = series.data[j];
-			            if (p1 == null)
-			                y = parseFloat(p2[1]);
-			            else if (p2 == null)
-			                y = parseFloat(p1[1]);
-			            else
-			                y = parseFloat(p1[1]) + (parseFloat(p2[1]) - parseFloat(p1[1])) * (parseFloat(pos.y) - parseFloat(p1[0])) / (parseFloat(p2[0]) - parseFloat(p1[0]));
-			 \n";
+						if ($this->is_bar_line) {
+							$html .= "var p = series.data[j-1];
+							if (p != null)
+								y = parseFloat(p[1]);
+							\n";
+						} else {
+					            $html .= "var y, p1 = series.data[j - 1], p2 = series.data[j];
+					            if (p1 == null)
+			        		        y = parseFloat(p2[1]);
+					            else if (p2 == null)
+					                y = parseFloat(p1[1]);
+			        		    else
+					                y = parseFloat(p1[1]) + (parseFloat(p2[1]) - parseFloat(p1[1])) * (parseFloat(pos.y) - parseFloat(p1[0])) / (parseFloat(p2[0]) - parseFloat(p1[0]));
+						 \n";
+						}
 			            if ($this->x_data_type == "time") {
 			            	$html .= "var d = new Date(y);\n";
 			            	$html .= "legends.eq(i).text(series.label.replace(/=.*/, \"= \" + ";
@@ -553,14 +566,21 @@ class Chart extends WebSitePhpObject {
 			            	$html .= "legends.eq(i).text(series.label.replace(/=.*/, \"= \" + y.toFixed(2) + \"".$this->x_data_type."\"));\n";
 			            }
 					} else {
-			            $html .= "var x, p2 = series.data[j - 1], p1 = series.data[j];
-			            if (p1 == null)
-			                x = parseFloat(p2[1]);
-			            else if (p2 == null)
-			                x = parseFloat(p1[1]);
-			            else
-			                x = parseFloat(p1[1]) + (parseFloat(p2[1]) - parseFloat(p1[1])) * (parseFloat(pos.x) - parseFloat(p1[0])) / (parseFloat(p2[0]) - parseFloat(p1[0]));
-			 \n";
+						if ($this->is_bar_line) {
+							$html .= "var p = series.data[j-1];
+							if (p != null)
+								x = parseFloat(p[1]);
+							\n";
+						} else {
+					            $html .= "var x, p2 = series.data[j - 1], p1 = series.data[j];
+					            if (p1 == null)
+			        		        x = parseFloat(p2[1]);
+					            else if (p2 == null)
+					                x = parseFloat(p1[1]);
+			        		    else
+					                x = parseFloat(p1[1]) + (parseFloat(p2[1]) - parseFloat(p1[1])) * (parseFloat(pos.x) - parseFloat(p1[0])) / (parseFloat(p2[0]) - parseFloat(p1[0]));
+						 \n";
+						}
 			            if ($this->y_data_type == "time") {
 			            	$html .= "var d = new Date(x);\n";
 			            	$html .= "legends.eq(i).text(series.label.replace(/=.*/, \"= \" + ";
@@ -584,7 +604,8 @@ class Chart extends WebSitePhpObject {
 				            $html .= "legends.eq(i).text(series.label.replace(/=.*/, \"= \" + x.toFixed(2) + \"".$this->y_data_type."\"));\n";
 			            }
 				   }
-				$html .= "}
+				$html .= "$($('.legend').find('div')[0]).css('width', $('.legendLabel').parent().parent().width()).css('opacity', 0.65);
+				}
 		    }
 		    
 		    $(\"#".$this->id."\").bind(\"plothover\",  function (event, pos, item) {

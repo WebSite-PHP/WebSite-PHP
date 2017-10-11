@@ -7,7 +7,7 @@
  * Abstract Class WebSitePhpObject
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package abstract
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/10/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.17
  */
@@ -66,9 +66,7 @@ abstract class WebSitePhpObject {
 	 * @since 1.0.59
 	 */
 	private function registerObject() {
-		$register_objects = WebSitePhpObject::getRegisterObjects();
-		$register_objects[] = $this;
-		$_SESSION['websitephp_register_object'] = $register_objects;
+		$_SESSION['websitephp_register_object'][] = $this;
 	}
 	
 	/**

@@ -7,7 +7,7 @@
  * Abstract Class WebSitePhpEventObject
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2016 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package abstract
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/05/2016
- * @version     1.2.14
+ * @copyright   WebSite-PHP.com 20/07/2016
+ * @version     1.2.15
  * @access      public
  * @since       1.0.18
  */
@@ -389,7 +389,7 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 				$callback_arg_js = $quote_begin."(\$('#".trim($arg->getId())."').val()==null?'':addslashes(\$('#".trim($arg->getId())."').val()))".$quote_end;
 		} else if (get_class($arg) == "TextArea") {
 			$callback_arg_js = $quote_begin."(\$('#".trim($arg->getId())."').val()==null?'':myReplaceAll(myReplaceAll(addslashes(\$('#".trim($arg->getId())."').val()), '\\n', '\\\\n'), '\\r', ''))".$quote_end;
-		} else if (get_class($arg) == "ComboBox" || get_class($arg) == "SelectList") {
+		} else if (get_class($arg) == "ComboBox" || get_class($arg) == "SelectList" || get_class($arg) == "SelectListMultiple") {
 			$callback_arg_js = $quote_begin."(\$('#".trim($arg->getEventObjectName())."').val()==null?'':\$('#".trim($arg->getEventObjectName())."').val())".$quote_end;
 		} else if (get_class($arg) == "CheckBox") {
 			$callback_arg_js = $quote_begin."(\$('#".trim($arg->getId())."').attr('checked')?'on':'off')".$quote_end;
@@ -712,7 +712,7 @@ abstract class WebSitePhpEventObject extends WebSitePhpObject {
 		$html = "";
 		if ($this->on_form_is_changed_js != "" && $this->form_object != null && get_class($this->form_object) == "Form") {
 			$obj_id = $this->getId();
-			if (get_class($this) == "ComboBox" || get_class($this) == "SelectList") {
+			if (get_class($this) == "ComboBox" || get_class($this) == "SelectList" || get_class($this) == "SelectListMultiple") {
 				$obj_id = $this->getEventObjectName();
 			}
 			$html .= "if ($('#".$this->form_object->getId()."_WspFormChange').val() != ';".$obj_id.";') { ";

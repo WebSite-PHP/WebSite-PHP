@@ -6,7 +6,7 @@
  * Class NewException
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 05/02/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.15
  */
@@ -330,7 +330,7 @@ class NewException extends Exception
 					echo $debug_page->render();
 					if ($GLOBALS['__AJAX_LOAD_PAGE__'] == true && $GLOBALS['__AJAX_LOAD_PAGE_ID__'] != "") {
 						echo "<script type=\"text/javascript\">\n";
-						echo "lauchJavascriptPage_".$GLOBALS['__AJAX_LOAD_PAGE_ID__']." = function() {\n";
+						echo "launchJavascriptPage_".$GLOBALS['__AJAX_LOAD_PAGE_ID__']." = function() {\n";
 						echo "	$('#idLoadPageLoadingPicture".$GLOBALS['__AJAX_LOAD_PAGE_ID__']."').attr('style', 'display:none;');\n";
 						echo "	$('#idLoadPageContent".$GLOBALS['__AJAX_LOAD_PAGE_ID__']."').attr('style', 'display:block;');\n";
 						echo "};\n";

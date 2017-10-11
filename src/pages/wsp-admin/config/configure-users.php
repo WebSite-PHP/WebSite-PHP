@@ -7,7 +7,7 @@
  * URL: http://127.0.0.1/website-php-install/wsp-admin/config/configure-users.html
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2016 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -15,8 +15,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/05/2016
+ * @version     1.2.14
  * @access      public
  * @since       1.0.85
  */
@@ -150,6 +150,7 @@ class ConfigureUsers extends Page {
 			}
 			$users_table->addRowColumns($array_users[$i]['login'], $array_users[$i]['rights'], $edit_user, $del_user)->setColumnAlign(3, RowTable::ALIGN_CENTER)->setColumnAlign(4, RowTable::ALIGN_CENTER);
 		}
+		$this->users_table_obj->emptyObject();
 		$this->users_table_obj->add($users_table);
 	}
 	

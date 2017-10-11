@@ -7,7 +7,7 @@
  * Class Button
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/10/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.17
  */
@@ -37,6 +37,8 @@ class Button extends WebSitePhpEventObject {
 	private $force_span_tag = false;
 	private $disable = false;
 	private $tooltip = "";
+	private $class_jquery_ui = "";
+	private $disable_livevalidation = false;
 	
 	private $primary_icon = "";
 	private $secondary_icon = "";
@@ -181,6 +183,19 @@ class Button extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method setClassJQueryUI
+	 * @access public
+	 * @param mixed $class 
+	 * @return Button
+	 * @since 1.2.15
+	 */
+	public function setClassJQueryUI($class) {
+		$this->class_jquery_ui = $class;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
 	 * Method setName
 	 * @access public
 	 * @param string $name 
@@ -250,6 +265,27 @@ class Button extends WebSitePhpEventObject {
 		$this->assign_enter_key = true;
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
+	}
+	
+	/**
+	 * Method disableLiveValidation
+	 * @access public
+	 * @return Button
+	 * @since 1.2.15
+	 */
+	public function disableLiveValidation() {
+		$this->disable_livevalidation = true;
+		return $this;
+	}
+	
+	/**
+	 * Method getDisableLiveValidation
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.15
+	 */
+	public function getDisableLiveValidation() {
+		return $this->disable_livevalidation;
 	}
 
 	/**
@@ -511,6 +547,9 @@ class Button extends WebSitePhpEventObject {
 					}
 					if ($this->tooltip != "") {
 						$html .= " title=\"".$this->tooltip."\"";
+					}
+					if ($this->class_jquery_ui != "") {
+						$html .= " class=\"".$this->class_jquery_ui."\"";
 					}
 					$html .= ">";
 					$is_jquery_button = true;

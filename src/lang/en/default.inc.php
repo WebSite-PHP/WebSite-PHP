@@ -17,8 +17,8 @@
 	define("ERROR_DATABASE_MSG", "Error: %s");
 	
 	define("ERROR_USER_BANNED", "Security alert");
-	define("ERROR_USER_BANNED_MSG_1", "You have been blocked to this website.");
-	define("ERROR_USER_BANNED_MSG_2", "Please enter the following captcha to access on the website.");
+	define("ERROR_USER_BANNED_MSG_1", "You have been blocked on this website.");
+	define("ERROR_USER_BANNED_MSG_2", "Please enter the following captcha to access the website.");
 	define("ERROR_USER_BUTTON", "Unblock");
 	
 	define("ERROR_DEBUG_MAIL_SENT", "A technical problem occurred. An administrator has been notified and the problem should be solved quickly.");

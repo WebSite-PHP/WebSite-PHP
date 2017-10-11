@@ -7,7 +7,7 @@
  * Class SqlDataView
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2016 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package database
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/05/2016
- * @version     1.2.14
+ * @copyright   WebSite-PHP.com 20/07/2016
+ * @version     1.2.15
  * @access      public
  * @since       1.0.17
  */
@@ -421,7 +421,7 @@ class SqlDataView {
 			$query .= " ORDER BY ";
 			for ($i=0; $i < sizeof($this->attributes); $i++) {
 				if ($i != 0) { $query .= ", "; }
-				if (find($this->attributes[$i], "(") > 0 || find($this->attributes[$i], "-") > 0 || find($this->attributes[$i], "+") > 0) {
+				if (find($this->attributes[$i], "(") > 0 || find($this->attributes[$i], "-") > 0 || find($this->attributes[$i], "+") > 0 || is_numeric($this->attributes[$i])) {
 					$query .= $this->attributes[$i];
 				} else {
 					$query .= "`".$this->attributes[$i]."`";

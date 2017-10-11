@@ -7,7 +7,7 @@
  * Class RadioButtonGroup
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/10/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.2.3
  */
@@ -35,6 +35,7 @@ class RadioButtonGroup extends WebSitePhpEventObject {
 	private $disable = false;
 	private $array_value = array();
 	private $array_text = array();
+	private $is_carriage_return = false;
 	
 	private $is_changed = false;
 	private $onchange = "";
@@ -299,6 +300,18 @@ class RadioButtonGroup extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method activateCarriageReturn
+	 * @access public
+	 * @param boolean $bool [default value: true]
+	 * @return RadioButtonGroup
+	 * @since 1.2.15
+	 */
+	public function activateCarriageReturn($bool=true) {
+		$this->is_carriage_return = $bool;
+		return $this;
+	}
+	
+	/**
 	 * Method render
 	 * @access public
 	 * @param boolean $ajax_render [default value: false]
@@ -332,7 +345,11 @@ class RadioButtonGroup extends WebSitePhpEventObject {
 			if ($this->disable) {
 				$html .=' disabled';
 			}    
-			$html .= "/>".$this->array_text[$i]."</label>\n";
+			$html .= "/>".$this->array_text[$i]."</label>";
+			if ($this->is_carriage_return) {
+				$html .= "<br/>";
+			}
+			$html .= "\n";
 		}
 		$this->object_change = false;
 		return $html;

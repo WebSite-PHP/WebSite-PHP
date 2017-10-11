@@ -7,7 +7,7 @@
  * Class ComboBox
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2016 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/05/2016
- * @version     1.2.14
+ * @copyright   WebSite-PHP.com 11/10/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.17
  */
@@ -39,6 +39,8 @@ class ComboBox extends WebSitePhpEventObject {
 	private $strip_tags = false;
 	private $strip_tags_allowable = "";
 	private $auto_increment_same_text = true;
+	private $tabindex = -1;
+	private $specific_option_attributes = array();
 	
 	private $list_items_change = false;
 	private $is_changed = false;
@@ -46,6 +48,8 @@ class ComboBox extends WebSitePhpEventObject {
 	
 	private $onchange = "";
 	private $callback_onchange = "";
+	
+	protected $live_validation = null;
 	/**#@-*/
 
 	/**
@@ -183,6 +187,38 @@ class ComboBox extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method setTabIndex
+	 * @access public
+	 * @param mixed $tabindex 
+	 * @return ComboBox
+	 * @since 1.2.15
+	 */
+	public function setTabIndex($tabindex) {
+		if (!is_numeric($tabindex) || $tabindex < 1) {
+			throw new NewException(get_class($this)."->setTabIndex() error: \$tabindex need to > 0 !", 0, getDebugBacktrace(1));
+		}
+		$this->tabindex = $tabindex;
+		return $this;
+	}
+	
+	/**
+	 * Method setLiveValidation
+	 * @access public
+	 * @param mixed $live_validation_object 
+	 * @return ComboBox
+	 * @since 1.2.15
+	 */
+	public function setLiveValidation($live_validation_object) {
+		if (get_class($live_validation_object) != "LiveValidation") {
+			throw new NewException("setLiveValidation(): \$live_validation_object must be a valid LiveValidation object", 0, getDebugBacktrace(1));
+		}
+		$live_validation_object->setObject($this);
+		$this->live_validation = $live_validation_object;
+		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
+		return $this;
+	}
+	
+	/**
 	 * Method addItem
 	 * @access public
 	 * @param string $value 
@@ -190,10 +226,11 @@ class ComboBox extends WebSitePhpEventObject {
 	 * @param boolean $selected [default value: false]
 	 * @param string $img 
 	 * @param string $group_name 
+	 * @param array $specific_attributes exemple array('new_attribute'=>'my_value', 'new_attribute2'=>'my_value2') [default value: array(]
 	 * @return ComboBox
 	 * @since 1.0.36
 	 */
-	public function addItem($value, $text, $selected=false, $img='', $group_name='') {
+	public function addItem($value, $text, $selected=false, $img='', $group_name='', $specific_attributes=array()) {
 		$this->item_value[] = html_entity_decode($value);
 		
 		if ($this->strip_tags) {
@@ -225,6 +262,9 @@ class ComboBox extends WebSitePhpEventObject {
 		if ($selected) {
 			$this->setSelectedIndex(sizeof($this->item_value)-1);
 		}
+		
+		$this->specific_option_attributes[] = $specific_attributes;
+		
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; $this->list_items_change = true; }
 		return $this;
 	}
@@ -411,6 +451,16 @@ class ComboBox extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method getTabIndex
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.15
+	 */
+	public function getTabIndex() {
+		return $this->tabindex;
+	}
+	
+	/**
 	 * Method onChange
 	 * @access public
 	 * @param string $str_function 
@@ -501,6 +551,17 @@ class ComboBox extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method findIndexText
+	 * @access public
+	 * @param mixed $text 
+	 * @return mixed
+	 * @since 1.2.15
+	 */
+	public function findIndexText($text) {
+		return array_search($text, $this->item_text);
+	}
+	
+	/**
 	 * Method getItemValueAt
 	 * @access public
 	 * @param mixed $i 
@@ -509,6 +570,27 @@ class ComboBox extends WebSitePhpEventObject {
 	 */
 	public function getItemValueAt($i) {
 		return $this->item_value[$i];
+	}
+	
+	/**
+	 * Method findIndexValue
+	 * @access public
+	 * @param mixed $value 
+	 * @return mixed
+	 * @since 1.2.15
+	 */
+	public function findIndexValue($value) {
+		return array_search($value, $this->item_value);
+	}
+	
+	/**
+	 * Method getOnChangeJs
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.15
+	 */
+	public function getOnChangeJs() {
+		return $this->onchange;
 	}
 	
 	/**
@@ -552,7 +634,10 @@ class ComboBox extends WebSitePhpEventObject {
 		if ($this->width != "" && $this->width > 0) {
 			$html .= " style=\"width:".($this->width + 4)."px;\"";
 		}
-		$html .= ">\n";
+		if ($this->tabindex != -1) {
+			$html .= " tabindex=\"".$this->tabindex."\"";				
+		}
+		$html .= " onFocus=\"if ((typeof lastCmbIdFocused === 'undefined' || lastCmbIdFocused!='".$this->getEventObjectName()."') && $('#".$this->getEventObjectName()."').data('dd')!=null) { $('#".$this->getEventObjectName()."').data('dd').open(); lastCmbIdFocused='".$this->getEventObjectName()."'; }\" onfocusout=\"if($('#".$this->getEventObjectName()."').data('dd')!=null) { $('#".$this->getEventObjectName()."').data('dd').close(); } lastCmbIdFocused='';\">\n";
 		$last_group_name = "";
 		for ($i=0; $i < sizeof($this->item_value); $i++) {
 			if ($this->item_group_name[$i] != $last_group_name) {
@@ -571,12 +656,22 @@ class ComboBox extends WebSitePhpEventObject {
 			if ($i == $this->item_selected) {
 				$html .= " selected=\"selected\"";
 			}
+			if (sizeof($this->specific_option_attributes[$i]) > 0) {
+				foreach ($this->specific_option_attributes[$i] as $attribute => $value) {
+					$html .= " ".$attribute."=\"".str_replace("\"", "\\\"", $value)."\"";
+				}
+			}
 			$html .= ">".$this->item_text[$i]."</option>\n";
 		}
 		if ($last_group_name != "") {
 			$html .= "	</optgroup>\n";
 		}
 		$html .= "</select>\n";
+		
+		if ($this->live_validation != null) {
+			$html .= $this->live_validation->render();
+		}
+		
 		$html .= "</span>\n";
 		
 		if ($this->callback_onchange != "") {
@@ -615,7 +710,13 @@ class ComboBox extends WebSitePhpEventObject {
 		$html .= "	};\n";
 		$html .= "	onChangeComboBox_".$this->getEventObjectName()."Fct = function() {\n";
 		$html .= "		if ($('#Cmb_SelectedIndex_".$this->getEventObjectName()."').val() != document.getElementById('".$this->getEventObjectName()."').selectedIndex) {\n";
+		if ($this->live_validation != null) {
+			$html .= "			var lv_cmb_statut = LiveValidationForm_".$this->form_object->getName()."_".$this->getId()."();";
+		}
 		if ($this->callback_onchange != "") {
+			if ($this->live_validation != null && $this->form_object != null && $this->callback_onchange != "") {
+				$html .= "		if (lv_cmb_statut == false) { return false; }";
+			}
 			$html .= $this->getObjectEventValidationRender($this->onchange, $this->callback_onchange);
 		} else if ($this->onchange != "") {
 			$html .= $this->onchange;
@@ -623,6 +724,7 @@ class ComboBox extends WebSitePhpEventObject {
 		$html .= "		}\n";
 		$html .= "		$('#Cmb_SelectedIndex_".$this->getEventObjectName()."').val(document.getElementById('".$this->getEventObjectName()."').selectedIndex);\n";
 		$html .= "	};\n";
+		
 		return $html;
 	}
 	

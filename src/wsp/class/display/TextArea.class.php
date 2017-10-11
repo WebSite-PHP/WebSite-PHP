@@ -7,7 +7,7 @@
  * Class TextArea
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/10/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.2.0
  */
@@ -40,6 +40,7 @@ class TextArea extends WebSitePhpEventObject {
 	private $strip_tags_allowable = "";
 	private $no_wrap = false;
 	private $insert_tab = false;
+	private $tabindex = -1;
 	
 	private $live_validation = null;
 	private $is_clearable = false;
@@ -306,6 +307,21 @@ class TextArea extends WebSitePhpEventObject {
 	}
 	
 	/**
+	 * Method setTabIndex
+	 * @access public
+	 * @param mixed $tabindex 
+	 * @return TextArea
+	 * @since 1.2.15
+	 */
+	public function setTabIndex($tabindex) {
+		if (!is_numeric($tabindex) || $tabindex < 1) {
+			throw new NewException(get_class($this)."->setTabIndex() error: \$tabindex need to > 0 !", 0, getDebugBacktrace(1));
+		}
+		$this->tabindex = $tabindex;
+		return $this;
+	}
+	
+	/**
 	 * Method getEncryptObject
 	 * @access public
 	 * @return mixed
@@ -394,6 +410,16 @@ class TextArea extends WebSitePhpEventObject {
 	 */
 	public function getDefaultValue() {
 		return $this->default_value;
+	}
+	
+	/**
+	 * Method getTabIndex
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.15
+	 */
+	public function getTabIndex() {
+		return $this->tabindex;
 	}
 		
 	/**
@@ -950,6 +976,9 @@ function getSelStartIE(textarea) {
 					$html .= str_replace("\n", "", $this->getObjectEventValidationRender($this->onkeydown, $this->callback_onkeydown, "", true));
 				}
 				$html .= "\"";
+			}
+			if ($this->tabindex != -1) {
+				$html .= " tabindex=\"".$this->tabindex."\"";				
 			}
 			//$html .= " onFocus=\"this.select()\""; // select text on focus
 			$html .= ">";

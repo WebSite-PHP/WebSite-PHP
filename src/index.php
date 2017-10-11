@@ -6,7 +6,7 @@
  * Entry point of all HTML pages
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/10/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.0
  */
@@ -24,12 +24,23 @@
 	
 	include_once("wsp/config/config.inc.php");
 	include_once("wsp/includes/utils_session.inc.php");
+	include_once("wsp/includes/utils_url.inc.php");
 	$__AJAX_PAGE__ = false; // use for return catch exception and loadAllVariables method
 	$__AJAX_LOAD_PAGE__ = false;
 	$__PAGE_IS_INIT__ = false;
 	$__LOAD_VARIABLES__ = false;
 	$__DEBUG_PAGE_IS_PRINTING__ = false;
 	$__GEOLOC_ASK_USER_SHARE_POSITION__ = false;
+
+	if ($_SERVER['SERVER_NAME']==="localhost") { 
+		// If URL contains "localhost" we redirect to "127.0.0.1"
+		// Fix the issue on Internet Explorer with localhost URL when trying to log on wsp-admin
+		list($current_url, $http_type, $port) = getCurrentPathUrlAndType();
+		header('HTTP/1.1 301 Moved Temporarily');  
+		header('Status: 301 Moved Temporarily');  
+		header("Location:".str_replace($http_type.$_SERVER['SERVER_NAME'].$port."/", $http_type."127.0.0.1".$port."/", getCurrentUrl()));
+		exit;
+	}
 
     @session_set_cookie_params(0, "/", $_SERVER['SERVER_NAME'], false, true);
 	@session_name(formalize_to_variable(SITE_NAME));
@@ -43,6 +54,7 @@
 	    session_destroy();
 	}
 	$_SESSION['WSP_LAST_ACTIVITY'] = time();
+	ini_set("session.gc_maxlifetime", MAX_SESSION_TIME);
 	
 	/*$zlib_OC_is_set = preg_match('/On|(^[0-9]+$)/i', ini_get('zlib.output_compression'));
 	if ($zlib_OC_is_set) {
@@ -283,6 +295,7 @@
                 $current_page_meta_iphone_image_152px = $cdn_server_url.$current_page_meta_iphone_image_152px;
             }
         }
+		list($opensearchxml_url, $opensearchxml_title) = $page_object->getOpenSearchXmlParameters();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="<?php echo $_SESSION['lang']; ?>">
@@ -304,6 +317,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<meta http-equiv="pragma" content="no-cache" />
 		<meta http-equiv="cache-control" content="public" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	
 		<meta name="description" content="<?php echo utf8encode(html_entity_decode($current_page_description)); ?>" />
 		<meta name="keywords" content="<?php echo utf8encode(html_entity_decode($current_page_keywords)); ?>" />
@@ -322,17 +336,20 @@
 		<meta name="identifier-url" content="<?php echo BASE_URL; ?>" />
 		<meta name="expires" content="never" />
 		<link rel="icon" type="image/ico" href="<?php echo $cdn_server_url; ?>favicon.ico" />
-<?php 	if ($current_page_meta_iphone_image_57px != "") { ?>
-		<link rel="apple-touch-icon" sizes="57x57" href="<?php echo $current_page_meta_iphone_image_57px; ?>" />
-<?php 	} ?>
-<?php 	if ($current_page_meta_iphone_image_72px != "") { ?>
-		<link rel="apple-touch-icon" sizes="72x72" href="<?php echo $current_page_meta_iphone_image_72px; ?>" />
+<?php 	if ($current_page_meta_iphone_image_152px != "") { ?>
+		<link rel="apple-touch-icon" sizes="152x152" href="<?php echo $current_page_meta_iphone_image_152px; ?>" />
 <?php 	} ?>
 <?php 	if ($current_page_meta_iphone_image_114px != "") { ?>
 		<link rel="apple-touch-icon" sizes="114x114" href="<?php echo $current_page_meta_iphone_image_114px; ?>" />
 <?php 	} ?>
-<?php 	if ($current_page_meta_iphone_image_152px != "") { ?>
-		<link rel="apple-touch-icon" sizes="152x152" href="<?php echo $current_page_meta_iphone_image_152px; ?>" />
+<?php 	if ($current_page_meta_iphone_image_72px != "") { ?>
+		<link rel="apple-touch-icon" sizes="72x72" href="<?php echo $current_page_meta_iphone_image_72px; ?>" />
+<?php 	} ?>
+<?php 	if ($current_page_meta_iphone_image_57px != "") { ?>
+		<link rel="apple-touch-icon" sizes="57x57" href="<?php echo $current_page_meta_iphone_image_57px; ?>" />
+<?php 	} ?>
+<?php 	if ($opensearchxml_url != "") { ?>
+		<link rel="search" type="application/opensearchdescription+xml" href="<?php echo $opensearchxml_url; ?>" title="<?php echo $opensearchxml_title; ?>" />
 <?php 	} ?>
 		
 		<base href="<?php echo BASE_URL; ?>" />

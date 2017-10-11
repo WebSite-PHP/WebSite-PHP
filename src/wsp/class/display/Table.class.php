@@ -7,7 +7,7 @@
  * Class Table
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2016 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/05/2016
- * @version     1.2.14
+ * @copyright   WebSite-PHP.com 11/10/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.17
  */
@@ -147,9 +147,11 @@ class Table extends WebSitePhpObject {
     private $is_column_filter = false;
     private $column_filter_params = "";
     private $column_filter_position = "top";
+    private $column_filter_range_format = "";
     private $vertical_scroll = false;
     private $vertical_scroll_size = 200;
     private $horizontal_scroll = false;
+    private $scrollX_inner = "110%";
 
     private $sql_data_view_object = null;
     private $data_row_iterator_object = null;
@@ -708,7 +710,7 @@ class Table extends WebSitePhpObject {
     private function addRowLoadFromSqlDataView($row, $list_attribute, $list_attribute_type, $key_attributes, $ind, $is_delete_action=false, $line_nb=null) {
         if ($this->from_sql_data_view_delete) {
             // create delete button if not already exists
-            $bnt_del_id = $this->id."_btndel__ind_".$ind;
+            $bnt_del_id = $this->id."_btndel__ind_".str_replace("-", "_", $ind);
             $delete_pic = $this->getPage()->getObjectId($bnt_del_id);
             if ($delete_pic == null) {
                 $delete_pic = new Picture("img/wsp-admin/delete_16.png", 16, 16, 0, Picture::ALIGN_ABSMIDDLE);
@@ -832,7 +834,7 @@ class Table extends WebSitePhpObject {
         if (isset($this->from_sql_data_view_properties[$list_attribute[$i]]['cmb_obj'])) {
             $input_obj_tmp = $this->from_sql_data_view_properties[$list_attribute[$i]]['cmb_obj'];
             $input_obj = clone($input_obj_tmp);
-            $input_obj->setName($this->id."_input_".$list_attribute[$i]."_ind_".$ind);
+            $input_obj->setName($this->id."_input_".$list_attribute[$i]."_ind_".str_replace("-", "_", $ind));
             $register_objects = WebSitePhpObject::getRegisterObjects();
             $register_objects[] = $input_obj;
             $_SESSION['websitephp_register_object'] = $register_objects;
@@ -854,9 +856,9 @@ class Table extends WebSitePhpObject {
             }
 
             if ($wspobject == "Calendar") {
-                $input_obj = new Calendar($this->table_form_object, $this->id."_input_".$list_attribute[$i]."_ind_".$ind);
+                $input_obj = new Calendar($this->table_form_object, $this->id."_input_".$list_attribute[$i]."_ind_".str_replace("-", "_", $ind));
             } else if ($wspobject == "CheckBox") {
-                $input_obj = new CheckBox($this->table_form_object, $this->id."_input_".$list_attribute[$i]."_ind_".$ind);
+                $input_obj = new CheckBox($this->table_form_object, $this->id."_input_".$list_attribute[$i]."_ind_".str_replace("-", "_", $ind));
             } else if ($wspobject == "TextArea") {
                 $input_obj = new TextArea($this->table_form_object, $object_id);
             } else if ($wspobject == "Editor") {
@@ -877,7 +879,7 @@ class Table extends WebSitePhpObject {
                     }
                 }
             } else {
-                $input_obj = new TextBox($this->table_form_object, $this->id."_input_".$list_attribute[$i]."_ind_".$ind);
+                $input_obj = new TextBox($this->table_form_object, $this->id."_input_".$list_attribute[$i]."_ind_".str_replace("-", "_", $ind));
                 if ($list_attribute_type[$i] == "integer" || $list_attribute_type[$i] == "double") {
                     $input_obj->setWidth(70);
                 }
@@ -978,17 +980,24 @@ class Table extends WebSitePhpObject {
             throw new NewException(get_class($this)."->onChangeTableFromSqlDataView() error: \$sender object is not link to this Table", 0, getDebugBacktrace(1));
         }
 
+        $list_attribute = $this->sql_data_view_object->getListAttributeArray();
+        $key_attributes = $this->sql_data_view_object->getPrimaryKeysAttributes();
+        $list_attribute_type = $this->sql_data_view_object->getListAttributeTypeArray();
+
         $sender_id = substr($sender_id, strlen($this->id)+1, strlen($sender_id));
         $sender_id_array = explode('_', $sender_id);
         $sender_type = $sender_id_array[0];
 
         $input_ind = $sender_id_array[sizeof($sender_id_array)-1];
+        for ($i=2; $i <= sizeof($key_attributes); $i++) {
+        	$input_ind = $sender_id_array[sizeof($sender_id_array)-$i]."-".$input_ind;
+        }
         $attribute_name = str_replace($sender_type."_", "", $sender_id);
-        $attribute_name = str_replace("_ind_".$input_ind, "", $attribute_name);
-
-        $list_attribute = $this->sql_data_view_object->getListAttributeArray();
-        $key_attributes = $this->sql_data_view_object->getPrimaryKeysAttributes();
-        $list_attribute_type = $this->sql_data_view_object->getListAttributeTypeArray();
+        $attribute_name = str_replace("_ind_".str_replace("-", "_", $input_ind), "", $attribute_name);
+        if ($sender_type == "btnadd" || $sender_type == "btnreload") {
+        	$attribute_name = str_replace("_ind_", "", $attribute_name);
+        }
+	
         $it = $this->data_row_iterator_object;
 
         if ($sender_type == "input" && $attribute_name != "" && !in_array($list_attribute[$i], $key_attributes)) {
@@ -1152,7 +1161,7 @@ class Table extends WebSitePhpObject {
         } else if ($sender_type == "btndel" && $attribute_name == "") {
             if (isset($this->from_sql_data_view_data_row_array[$input_ind])) {
                 $rowToDelete = $this->from_sql_data_view_data_row_array[$input_ind];
-                $this->deleteRow($this->id."_row_".$input_ind);
+                $this->deleteRow($this->id."_row_".str_replace("-", "_", $input_ind));
 
                 try {
                     $rowToDelete->delete();
@@ -1325,7 +1334,7 @@ class Table extends WebSitePhpObject {
             throw new NewException(get_class($this)."->activateSort() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
         }
 
-        if (!is_integer($sort_col_number)) {
+        if ($sort_col_number != "" && !is_integer($sort_col_number)) {
             throw new NewException(get_class($this)."->activateSort() error: \$sort_col_number must be an integer", 0, getDebugBacktrace(1));
         }
         $this->sort_col_number = $sort_col_number;
@@ -1441,7 +1450,7 @@ class Table extends WebSitePhpObject {
 	 * @return Table
 	 * @since 1.1.7
 	 */
-    public function activateColumnsFilter($column_filter_params='', $position='top') {
+    public function activateColumnsFilter($column_filter_params='', $position='top', $column_filter_range_format='From {from} to {to}') {
         if ($this->id == "") {
             throw new NewException(get_class($this)."->activateColumnsFilter() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
         }
@@ -1449,6 +1458,9 @@ class Table extends WebSitePhpObject {
         $this->is_column_filter = true;
         $this->column_filter_params = $column_filter_params;
         $this->column_filter_position = $position;
+        if ($column_filter_range_format != "From {from} to {to}") {
+            $this->column_filter_range_format = $column_filter_range_format;
+        }
 
         $this->activateAdvanceTable();
         $this->addJavaScript(BASE_URL."wsp/js/jquery.dataTables.columnFilter.js", "", true);
@@ -1465,7 +1477,7 @@ class Table extends WebSitePhpObject {
 	 */
     public function activateVerticalScroll($height=200) {
         if ($this->id == "") {
-            throw new NewException(get_class($this)."->activateColumnsFilter() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
+            throw new NewException(get_class($this)."->activateVerticalScroll() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
         }
 
         $this->vertical_scroll = true;
@@ -1478,15 +1490,17 @@ class Table extends WebSitePhpObject {
 	/**
 	 * Method activateHorizontalScroll
 	 * @access public
+	 * @param string $scrollX_inner [default value: 110%]
 	 * @return Table
 	 * @since 1.1.7
 	 */
-    public function activateHorizontalScroll() {
+    public function activateHorizontalScroll($scrollX_inner='110%') {
         if ($this->id == "") {
-            throw new NewException(get_class($this)."->activateColumnsFilter() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
+            throw new NewException(get_class($this)."->activateHorizontalScroll() error: you must define an id to the Table (".get_class($this)."->setId())", 0, getDebugBacktrace(1));
         }
 
         $this->horizontal_scroll = true;
+        $this->scrollX_inner = $scrollX_inner;
         $this->activateAdvanceTable();
 
         return $this;
@@ -1659,9 +1673,17 @@ class Table extends WebSitePhpObject {
             }
 
             $html .= $this->getJavascriptTagOpen();
-            $html .= "var oTable".str_replace("-", "_", $this->getId())." = $(\"#".$this->getId()."\").dataTable({'bJQueryUI': true";
+            $html .= "if (typeof oTable".str_replace("-", "_", $this->getId())." !== 'undefined') { oTable".str_replace("-", "_", $this->getId()).".fnDestroy(); }";
+            $html .= "oTable".str_replace("-", "_", $this->getId())." = $(\"#".$this->getId()."\").dataTable({'bJQueryUI': true";
             if ($this->is_sortable) {
-                $html .= ", 'aaSorting': [[".($this->sort_col_number-1).", '".$this->sort_order."']]";
+            	if (sizeof($this->rows) > 1 && $this->rows[1]->getId()!=="") {
+            		// Id on a row generate a tbody tag and it's not compatible with sorting
+            		throw new NewException(get_class($this)."->activateSort() error: It's not possible to use columns sort with an Id on the rows.", 0, getDebugBacktrace(1));
+            	}
+            	$html .= ", 'bSort': true";
+            	if (is_integer($this->sort_col_number)) {
+	                $html .= ", 'aaSorting': [[".($this->sort_col_number-1).", '".$this->sort_order."']]";
+		}
             } else {
                 $html .= ", 'bSort': false";
             }
@@ -1710,12 +1732,19 @@ class Table extends WebSitePhpObject {
                     }
                     if ($this->horizontal_scroll) {
                         $html .= ", 'sScrollX': '100%'";
-                        $html .= ", 'sScrollXInner': '110%'";
+                        $html .= ", 'sScrollXInner': '".$this->scrollX_inner."'";
+                    }
+                    if ($this->width == "") {
+                   	$html .= ", 'bAutoWidth': false";
                     }
                 }
             }
             $html .= " });\n";
             if ($this->is_column_filter) {
+            	if (sizeof($this->rows) > 1 && $this->rows[1]->getId()!=="") {
+            		// Id on a row generate a tbody tag and it's not compatible with filtering
+            		throw new NewException(get_class($this)."->activateColumnsFilter() error: It's not possible to use columns filter with an Id on the rows.", 0, getDebugBacktrace(1));
+            	}
                 $is_column_filter_param = false;
                 $html .= "$(\"#".$this->getId()."\").dataTable().columnFilter({ ";
                 if ($this->column_filter_position == Table::COL_FILTER_POSITION_TOP) {
@@ -1725,6 +1754,12 @@ class Table extends WebSitePhpObject {
                 if ($this->column_filter_params != "") {
                     if ($is_column_filter_param) { $html .= ", "; }
                     $html .= "aoColumns: [".$this->column_filter_params."]";
+                    $is_column_filter_param = true;
+                }
+                if ($this->column_filter_range_format != "") {
+                    if ($is_column_filter_param) { $html .= ", "; }
+                    $html .= "sRangeFormat: \"".$this->column_filter_range_format."\"";
+                    $is_column_filter_param = true;
                 }
                 $html .= " });\n";
             }

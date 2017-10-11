@@ -6,7 +6,7 @@
  * WebSite-PHP file utils.inc.php
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2016 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 10/05/2016
- * @version     1.2.14
+ * @copyright   WebSite-PHP.com 05/02/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.19
  */
@@ -66,7 +66,7 @@
     }
     
     function isLocalDebug() {
-    	return ((getRemoteIp() == "127.0.0.1" || DEBUG) ? true : false);
+    	return ((getRemoteIp() == "127.0.0.1" || (defined('DEBUG') && DEBUG)) ? true : false);
     }
 	
 	function error_handler($code, $message, $file, $line) {

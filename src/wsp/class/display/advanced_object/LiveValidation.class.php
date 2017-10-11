@@ -8,7 +8,7 @@
  * Class LiveValidation
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2016 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage advanced_object
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/05/2016
- * @version     1.2.14
+ * @copyright   WebSite-PHP.com 11/10/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.17
  */
@@ -249,13 +249,29 @@ class LiveValidation extends WebSitePhpObject {
 	/**
 	 * Method addValidateCustom
 	 * @access public
+	 * @param mixed $js_validate 
+	 * @param string $args 
 	 * @return LiveValidation
 	 * @since 1.0.35
 	 */
-	public function addValidateCustom() {
+	public function addValidateCustom($js_validate, $args='') {
 		// Pass a function that checks if a number is divisible by one that you pass it in args object
+		
+		// Example:
+		// $js_validate: "return !(value % args.divisibleBy)" (need to return trur or false)
+		// $args: "divisibleBy: 5"
 		// In this case, 5 is passed, so should return true and validation will pass
-		// Validate.Custom( 55, { against: function(value,args){ return !(value % args.divisibleBy) }, args: {divisibleBy: 5} } );
+		
+		// Other example:
+		// $js_validate: "return value >= 0;"
+		// In this case, if value greter or equal zero then true
+		
+		if ($js_validate instanceof JavaScript) {
+			$js_validate = $js_validate->render();
+		}
+		
+		$this->validate_js .= ".add(Validate.Custom, { against: function(value,args) { ".$js_validate." }, args: {".$args."} } )";
+		
 		return $this;
 	}
 	
@@ -269,7 +285,8 @@ class LiveValidation extends WebSitePhpObject {
 	public function addValidateCalendar($calendar_format) {
 		$dateFormatRegex = array("dd/mm/yy" => "/^(0?[1-9]|[12][0-9]|3[01])[\/](0?[1-9]|1[012])[\/]\d{4}$/",
         							"mm-dd-yy" => "/^(0?[1-9]|1[012])[\-](0?[1-9]|[12][0-9]|3[01])[\-]\d{4}$/",
-        							"dd.mm.yy" => "/^(0?[1-9]|[12][0-9]|3[01])[\.](0?[1-9]|1[012])[\.]\d{4}$/");
+        							"dd.mm.yy" => "/^(0?[1-9]|[12][0-9]|3[01])[\.](0?[1-9]|1[012])[\.]\d{4}$/",
+        							"yy-mm-dd" => "/^\d{4}[\-](0?[1-9]|1[012])[\-](0?[1-9]|[12][0-9]|3[01])$/",);
 		if (!isset($dateFormatRegex[$calendar_format])) {
 			$ok_format = "";
 			foreach ($dateFormatRegex as $key => $value) {
@@ -344,6 +361,9 @@ class LiveValidation extends WebSitePhpObject {
 				$event_object_name = "Button_".$form_object->getName();
 				$eventObject = $form_object->getPageObject()->getEventObjects($event_object_name);
 				for ($i=0; $i < sizeof($eventObject); $i++) {
+					if ($eventObject[$i]->getDisableLiveValidation()) {
+						continue;
+					}
 					if (find($eventObject[$i]->getOnClickJs(), "/*LV_condition_zone*/", 0, 0) > 0) {
 						$eventObject[$i]->onClickJs(str_replace("/*LV_validate_zone*/", "LV_".$id.".validate();/*LV_validate_zone*/", $eventObject[$i]->getOnClickJs()));
 						$eventObject[$i]->onClickJs(str_replace("/*LV_condition_zone*/", "&&LiveValidationForm_".$form_object->getName()."_".$id."()/*LV_condition_zone*/", $eventObject[$i]->getOnClickJs()));
@@ -377,6 +397,12 @@ class LiveValidation extends WebSitePhpObject {
 				}
 				
 				$html .= "	LiveValidationForm_".$form_object->getName()."_".$id." = function() {\n";
+				if (get_class($this->object) == "ComboBox") {
+					// To display the livevalidation flag on ComboBox
+					$html .= "		$('#".$id."_cmb_span').find('.LV_validation_message').each(function() { if (\$(this).parent().hasClass('ddOutOfVision') == false) { \$(this).remove(); } });\n";
+					$html .= "		var lv_msg_dom = $('#".$id."_cmb_span').find('.ddOutOfVision').find('.LV_validation_message').detach();\n";
+					$html .= "		\$(lv_msg_dom).insertAfter($('#".$id."_cmb_span').find('.dd.ddcommon'));\n";
+				}
 				$html .= "		if ($('#".$id."').attr('disabled')) {\n";
 				$html .= "			return true;\n";
 				$html .= "		} else {\n";

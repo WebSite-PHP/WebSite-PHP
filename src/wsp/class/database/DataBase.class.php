@@ -7,7 +7,7 @@
  * Class DataBase
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2016 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package database
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/05/2016
- * @version     1.2.14
+ * @copyright   WebSite-PHP.com 05/02/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.17
  */
@@ -185,7 +185,7 @@ class DataBase {
 					}
 					return $stmt;
 				} else {
-					throw new NewException("Error DataBase::getInstance()->prepareStatement(): ".$this->connection->error." - Query: ".$query, 0, getDebugBacktrace(1));
+					throw new NewException("Error DataBase::getInstance()->prepareStatement() [query]: ".$this->connection->error." - Query: ".$query, 0, getDebugBacktrace(1));
 				}
 			} else {
 				if ($stmt = $this->connection->prepare($query)) {
@@ -208,7 +208,7 @@ class DataBase {
 							if ($this->is_begin_transaction) {
 								$this->rollbackTransaction();
 							}
-							throw new NewException("Error DataBase::getInstance()->prepareStatement(): ".$stmt->error." - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, getDebugBacktrace(1));
+							throw new NewException("Error DataBase::getInstance()->prepareStatement() [execute]: ".$stmt->error." - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, getDebugBacktrace(1));
 						}
 						
 						$stmt->store_result();
@@ -216,7 +216,7 @@ class DataBase {
 							if ($this->is_begin_transaction) {
 								$this->rollbackTransaction();
 							}
-							throw new NewException("Error DataBase::getInstance()->prepareStatement(): ".$stmt->error." - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, getDebugBacktrace(1));
+							throw new NewException("Error DataBase::getInstance()->prepareStatement() [store_result]: ".$stmt->error." - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, getDebugBacktrace(1));
 						}
 					
 						if (DEBUG && ($GLOBALS['__AJAX_LOAD_PAGE__'] == false || 
@@ -234,10 +234,10 @@ class DataBase {
 						
 						return $stmt;
 					} else {
-						throw new NewException("Error DataBase::getInstance()->prepareStatement(): error bind_param - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, getDebugBacktrace(1));
+						throw new NewException("Error DataBase::getInstance()->prepareStatement() [bind_param]: error bind_param - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, getDebugBacktrace(1));
 					}
 				} else {
-					throw new NewException("Error DataBase::getInstance()->prepareStatement(): ".$stmt->error." - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, getDebugBacktrace(1));
+					throw new NewException("Error DataBase::getInstance()->prepareStatement() [prepare]: ".$stmt->error." - Query: ".$query." [types: ".$list_type."] [values: ".$this->getStmtObjectsList($stmt_objects)."]", 0, getDebugBacktrace(1));
 				}
 			}
 		} else {

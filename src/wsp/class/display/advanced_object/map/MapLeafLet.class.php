@@ -8,7 +8,7 @@
  * Class MapLeafLet
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -18,8 +18,8 @@
  * @subpackage advanced_object.map
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 20/07/2016
+ * @version     1.2.15
  * @access      public
  * @since       1.2.7
  */
@@ -71,8 +71,8 @@ class MapLeafLet extends WebSitePhpObject {
     private $display_searchbar = false;
     private $geosearch_tool = MapLeafLet::GEOSEARCH_OPENSTREETMAP;
     // Example list of layers: http://leaflet-extras.github.io/leaflet-providers/preview/
-    private $tile_layer = array("http://otile4.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png");
-    private $tile_layer_attribution = array("&copy; <a href=\"http://osm.org/copyright\" target=\"_blank\" rel=\"nofollow\">OpenStreetMap</a> contributors");
+    private $tile_layer = array("http://{s}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png");
+    private $tile_layer_attribution = array("&copy; <a href=\"http://www.thunderforest.com/\">Thunderforest</a>, &copy; <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a>");
     private $tile_layer_control_name = array("");
     private $tile_layer_control_type = array("");
     private $tile_layer_display = array(true);
@@ -95,15 +95,21 @@ class MapLeafLet extends WebSitePhpObject {
     private $legend_position = array();
     /**#@-*/
 
-    /**
-     * Constructor MapLeafLet
-     * @param string $id [default value: map_canvas]
-     * @param double $zoom [default value: 13]
-     * @param double $width [default value: 400]
-     * @param double $height [default value: 300]
-     * @param double $default_latitude [default value: 48.85667]
-     * @param double $default_longitude [default value: 2.35099]
-     */
+	/**
+	 * Constructor MapLeafLet
+	 * * Constructor MapLeafLet
+	 * * @param string $id [default value: map_canvas]
+	 * * @param double $zoom [default value: 13]
+	 * * @param double $width [default value: 400]
+	 * * @param double $height [default value: 300]
+	 * * @param double $default_latitude [default value: 48.85667]
+	 * @param string $id [default value: map_canvas]
+	 * @param double $zoom [default value: 13]
+	 * @param double $width [default value: 400]
+	 * @param double $height [default value: 300]
+	 * @param double $default_latitude [default value: 48.85667]
+	 * @param double $default_longitude [default value: 2.35099]
+	 */
     function __construct($id='map_canvas', $zoom=13, $width=400, $height=300, $default_latitude=48.85667, $default_longitude=2.35099) {
         parent::__construct();
 
@@ -121,17 +127,25 @@ class MapLeafLet extends WebSitePhpObject {
         $this->addCss(BASE_URL."wsp/css/l.geosearch.css", "", true);
     }
 
-    /**
-     * Method addMarker
-     * @access public
-     * @param mixed $address
-     * @param string $text
-     * @param string $icon_url_32
-     * @param boolean $define_as_center [default value: true]
-     * @param string $marker_link
-     * @return MapLeafLet
-     * @since 1.2.7
-     */
+	/**
+	 * Method addMarker
+	 * * Method addMarker
+	 * * @access public
+	 * * @param mixed $address
+	 * * @param string $text
+	 * * @param string $icon_url_32
+	 * * @param boolean $define_as_center [default value: true]
+	 * * @param string $marker_link
+	 * * @return MapLeafLet
+	 * @access public
+	 * @param mixed $address 
+	 * @param string $text 
+	 * @param string $icon_url_32 
+	 * @param boolean $define_as_center [default value: true]
+	 * @param string $marker_link 
+	 * @return MapLeafLet
+	 * @since 1.2.7
+	 */
     public function addMarker($address, $text='', $icon_url_32='', $define_as_center=true, $marker_link='') {
         if (gettype($address) == "object" && method_exists($address, "render")) {
             $address = $address->render();
@@ -156,18 +170,27 @@ class MapLeafLet extends WebSitePhpObject {
         return $this;
     }
 
-    /**
-     * Method addLatitudeLongitudeMarker
-     * @access public
-     * @param mixed $latitude
-     * @param mixed $longitude
-     * @param string $text
-     * @param string $icon_url_32
-     * @param boolean $define_as_center [default value: true]
-     * @param string $marker_link
-     * @return MapLeafLet
-     * @since 1.2.7
-     */
+	/**
+	 * Method addLatitudeLongitudeMarker
+	 * * Method addLatitudeLongitudeMarker
+	 * * @access public
+	 * * @param mixed $latitude
+	 * * @param mixed $longitude
+	 * * @param string $text
+	 * * @param string $icon_url_32
+	 * * @param boolean $define_as_center [default value: true]
+	 * * @param string $marker_link
+	 * * @return MapLeafLet
+	 * @access public
+	 * @param mixed $latitude 
+	 * @param mixed $longitude 
+	 * @param string $text 
+	 * @param string $icon_url_32 
+	 * @param boolean $define_as_center [default value: true]
+	 * @param string $marker_link 
+	 * @return MapLeafLet
+	 * @since 1.2.7
+	 */
     public function addLatitudeLongitudeMarker($latitude, $longitude, $text='', $icon_url_32='', $define_as_center=true, $marker_link='') {
         $this->marker_latitude[] = $latitude;
         $this->marker_longitude[] = $longitude;
@@ -190,84 +213,115 @@ class MapLeafLet extends WebSitePhpObject {
         return $this;
     }
 
-    /**
-     * Method setWidth
-     * @access public
-     * @param integer $width
-     * @return MapLeafLet
-     * @since 1.2.7
-     */
+	/**
+	 * Method setWidth
+	 * * Method setWidth
+	 * * @access public
+	 * * @param integer $width
+	 * * @return MapLeafLet
+	 * @access public
+	 * @param integer $width 
+	 * @return MapLeafLet
+	 * @since 1.2.7
+	 */
     public function setWidth($width) {
         $this->width = $width;
         return $this;
     }
 
-    /**
-     * Method setHeight
-     * @access public
-     * @param integer $height
-     * @return MapLeafLet
-     * @since 1.2.7
-     */
+	/**
+	 * Method setHeight
+	 * * Method setHeight
+	 * * @access public
+	 * * @param integer $height
+	 * * @return MapLeafLet
+	 * @access public
+	 * @param integer $height 
+	 * @return MapLeafLet
+	 * @since 1.2.7
+	 */
     public function setHeight($height) {
         $this->height = $height;
         return $this;
     }
 
-    /**
-     * Method setZoom
-     * @access public
-     * @param mixed $zoom
-     * @return MapLeafLet
-     * @since 1.2.7
-     */
+	/**
+	 * Method setZoom
+	 * * Method setZoom
+	 * * @access public
+	 * * @param mixed $zoom
+	 * * @return MapLeafLet
+	 * @access public
+	 * @param mixed $zoom 
+	 * @return MapLeafLet
+	 * @since 1.2.7
+	 */
     public function setZoom($zoom) {
         $this->zoom = $zoom;
         return $this;
     }
 
-    /**
-     * Method setDefaultLatitude
-     * @access public
-     * @param mixed $default_latitude
-     * @return MapLeafLet
-     * @since 1.2.7
-     */
+	/**
+	 * Method setDefaultLatitude
+	 * * Method setDefaultLatitude
+	 * * @access public
+	 * * @param mixed $default_latitude
+	 * * @return MapLeafLet
+	 * @access public
+	 * @param mixed $default_latitude 
+	 * @return MapLeafLet
+	 * @since 1.2.7
+	 */
     public function setDefaultLatitude($default_latitude) {
         $this->default_latitude = $default_latitude;
         return $this;
     }
 
-    /**
-     * Method setDefaultLongitude
-     * @access public
-     * @param mixed $default_longitude
-     * @return MapLeafLet
-     * @since 1.2.7
-     */
+	/**
+	 * Method setDefaultLongitude
+	 * * Method setDefaultLongitude
+	 * * @access public
+	 * * @param mixed $default_longitude
+	 * * @return MapLeafLet
+	 * @access public
+	 * @param mixed $default_longitude 
+	 * @return MapLeafLet
+	 * @since 1.2.7
+	 */
     public function setDefaultLongitude($default_longitude) {
         $this->default_longitude = $default_longitude;
         return $this;
     }
 
-    /**
-     * Method displaySearchBar
-     * @access public
-     * @return MapLeafLet
-     * @since 1.2.7
-     */
+	/**
+	 * Method displaySearchBar
+	 * * Method displaySearchBar
+	 * * @access public
+	 * * @return MapLeafLet
+	 * @access public
+	 * @return MapLeafLet
+	 * @since 1.2.7
+	 */
     public function displaySearchBar() {
         $this->display_searchbar = true;
         return $this;
     }
 
-    /**
-     * Method setTileLayer
-     * @access public
-     * @param mixed $tile_layer
-     * @return MapLeafLet
-     * @since 1.2.7
-     */
+	/**
+	 * Method setTileLayer
+	 * * Method setTileLayer
+	 * * @access public
+	 * * @param mixed $tile_layer
+	 * * @return MapLeafLet
+	 * @access public
+	 * @param mixed $tile_layer 
+	 * @param string $tile_layer_attribution 
+	 * @param string $layer_control_name 
+	 * @param string $layer_control_type 
+	 * @param boolean $is_displayed_at_start [default value: true]
+	 * @return MapLeafLet
+	 * @since 1.2.7
+	 */
     public function setTileLayer($tile_layer, $tile_layer_attribution='', $layer_control_name='', $layer_control_type='', $is_displayed_at_start=true) {
         $this->tile_layer[0] = $tile_layer;
         if ($tile_layer_attribution != '') {
@@ -281,6 +335,17 @@ class MapLeafLet extends WebSitePhpObject {
         return $this;
     }
 
+	/**
+	 * Method addTileLayer
+	 * @access public
+	 * @param mixed $tile_layer 
+	 * @param string $tile_layer_attribution 
+	 * @param string $layer_control_name 
+	 * @param string $layer_control_type 
+	 * @param boolean $is_displayed_at_start [default value: true]
+	 * @return MapLeafLet
+	 * @since 1.2.15
+	 */
     public function addTileLayer($tile_layer, $tile_layer_attribution='', $layer_control_name='', $layer_control_type='', $is_displayed_at_start=true) {
         $this->tile_layer[] = $tile_layer;
         if ($tile_layer_attribution != '') {
@@ -294,13 +359,17 @@ class MapLeafLet extends WebSitePhpObject {
         return $this;
     }
 
-    /**
-     * Method setGeoSearchTool
-     * @access public
-     * @param mixed $tool
-     * @return MapLeafLet
-     * @since 1.2.7
-     */
+	/**
+	 * Method setGeoSearchTool
+	 * * Method setGeoSearchTool
+	 * * @access public
+	 * * @param mixed $tool
+	 * * @return MapLeafLet
+	 * @access public
+	 * @param mixed $tool 
+	 * @return MapLeafLet
+	 * @since 1.2.7
+	 */
     public function setGeoSearchTool($tool) {
         $this->geosearch_tool = $tool;
         if ($this->geosearch_tool == MapLeafLet::GEOSEARCH_GOOGLE) {
@@ -315,71 +384,100 @@ class MapLeafLet extends WebSitePhpObject {
         return $this;
     }
 
-    /**
-     * Method addLegend
-     * @access public
-     * @param mixed $position
-     * @param object $content
-     * @return MapLeafLet
-     * @since 1.2.7
-     */
+	/**
+	 * Method addLegend
+	 * * Method addLegend
+	 * * @access public
+	 * * @param mixed $position
+	 * * @param object $content
+	 * * @return MapLeafLet
+	 * @access public
+	 * @param mixed $position 
+	 * @param object $content 
+	 * @return MapLeafLet
+	 * @since 1.2.7
+	 */
     public function addLegend($position, $content) {
         $this->legend[] = $content;
         $this->legend_position[] = $position;
         return $this;
     }
 
-    /**
-     * Method setMaxZoom
-     * @access public
-     * @param mixed $max_zoom
-     * @return MapLeafLet
-     * @since 1.2.7
-     */
+	/**
+	 * Method setMaxZoom
+	 * * Method setMaxZoom
+	 * * @access public
+	 * * @param mixed $max_zoom
+	 * * @return MapLeafLet
+	 * @access public
+	 * @param mixed $max_zoom 
+	 * @return MapLeafLet
+	 * @since 1.2.7
+	 */
     public function setMaxZoom($max_zoom) {
         $this->max_zoom = (is_int($max_zoom)?$max_zoom:-1);
         return $this;
     }
 
-    /**
-     * Method setMinZoom
-     * @access public
-     * @param mixed $min_zoom
-     * @return MapLeafLet
-     * @since 1.2.7
-     */
+	/**
+	 * Method setMinZoom
+	 * * Method setMinZoom
+	 * * @access public
+	 * * @param mixed $min_zoom
+	 * * @return MapLeafLet
+	 * @access public
+	 * @param mixed $min_zoom 
+	 * @return MapLeafLet
+	 * @since 1.2.7
+	 */
     public function setMinZoom($min_zoom) {
         $this->min_zoom = (is_int($min_zoom)?$min_zoom:-1);
         return $this;
     }
 
-    /**
-     * Method setAutoZoom
-     * @access public
-     * @param mixed $min_latitude
-     * @param mixed $max_latitude
-     * @param mixed $min_longitude
-     * @param mixed $max_longitude
-     * @return MapLeafLet
-     * @since 1.2.7
-     */
+	/**
+	 * Method setAutoZoom
+	 * * Method setAutoZoom
+	 * * @access public
+	 * * @param mixed $min_latitude
+	 * * @param mixed $max_latitude
+	 * * @param mixed $min_longitude
+	 * * @param mixed $max_longitude
+	 * * @return MapLeafLet
+	 * @access public
+	 * @param mixed $min_latitude 
+	 * @param mixed $max_latitude 
+	 * @param mixed $min_longitude 
+	 * @param mixed $max_longitude 
+	 * @return MapLeafLet
+	 * @since 1.2.7
+	 */
     public function setAutoZoom($min_latitude, $max_latitude, $min_longitude, $max_longitude) {
         $this->zoom = intval($this->getZoomLevel($min_latitude, $max_latitude, $min_longitude, $max_longitude, $this->width, $this->height));
         return $this;
     }
 
-    /**
-     * Method getZoomLevel
-     * @access private
-     * @param mixed $min_latitude
-     * @param mixed $max_latitude
-     * @param mixed $min_longitude
-     * @param mixed $max_longitude
-     * @param mixed $map_width
-     * @param mixed $map_height
-     * @return mixed
-     * @since 1.2.7
-     */
+	/**
+	 * Method getZoomLevel
+	 * * Method getZoomLevel
+	 * * @access private
+	 * * @param mixed $min_latitude
+	 * * @param mixed $max_latitude
+	 * * @param mixed $min_longitude
+	 * * @param mixed $max_longitude
+	 * * @param mixed $map_width
+	 * * @param mixed $map_height
+	 * * @return mixed
+	 * @access private
+	 * @param mixed $min_latitude 
+	 * @param mixed $max_latitude 
+	 * @param mixed $min_longitude 
+	 * @param mixed $max_longitude 
+	 * @param mixed $map_width 
+	 * @param mixed $map_height 
+	 * @return mixed
+	 * @since 1.2.7
+	 */
     private function getZoomLevel($min_latitude, $max_latitude, $min_longitude, $max_longitude, $map_width, $map_height) {
         $WORLD_DIM = array("height" => 256, "width" => 256);
         $ZOOM_MAX = 21;
@@ -404,44 +502,57 @@ class MapLeafLet extends WebSitePhpObject {
         return min($latZoom, $lngZoom, $ZOOM_MAX);
     }
 
-    /**
-     * Method getZoom
-     * @access public
-     * @return mixed
-     * @since 1.2.7
-     */
+	/**
+	 * Method getZoom
+	 * * Method getZoom
+	 * * @access public
+	 * * @return mixed
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.7
+	 */
     public function getZoom() {
         return $this->zoom;
     }
 
-    /**
-     * Method getId
-     * @access public
-     * @return mixed
-     * @since 1.2.7
-     */
+	/**
+	 * Method getId
+	 * * Method getId
+	 * * @access public
+	 * * @return mixed
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.7
+	 */
     public function getId() {
         return $this->id;
     }
 
-    /**
-     * Method disableInitOnLoad
-     * @access public
-     * @return MapLeafLet
-     * @since 1.2.7
-     */
+	/**
+	 * Method disableInitOnLoad
+	 * * Method disableInitOnLoad
+	 * * @access public
+	 * * @return MapLeafLet
+	 * @access public
+	 * @return MapLeafLet
+	 * @since 1.2.7
+	 */
     public function disableInitOnLoad() {
         $this->init_onload = false;
         return $this;
     }
 
-    /**
-     * Method render
-     * @access public
-     * @param boolean $ajax_render [default value: false]
-     * @return mixed
-     * @since 1.2.7
-     */
+	/**
+	 * Method render
+	 * * Method render
+	 * * @access public
+	 * * @param boolean $ajax_render [default value: false]
+	 * * @return mixed
+	 * @access public
+	 * @param boolean $ajax_render [default value: false]
+	 * @return mixed
+	 * @since 1.2.7
+	 */
     public function render($ajax_render=false) {
         $map_div = "<div id=\"".$this->id."\" style=\"width:".$this->width."px;height:".$this->height."px\"></div>";
         $html = $map_div;

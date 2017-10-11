@@ -6,7 +6,7 @@
  * Entry point of all other pages (.pdf, .xml, .call, ...)
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -14,8 +14,8 @@
  * 
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/10/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.0
  */
@@ -24,6 +24,7 @@
 	
 	include_once("wsp/config/config.inc.php");
 	include_once("wsp/includes/utils_session.inc.php");
+	include_once("wsp/includes/utils_url.inc.php");
 	$__AJAX_PAGE__ = true; // use for return catch exception and loadAllVariables method
 	$__AJAX_LOAD_PAGE__ = true;
 	$__PAGE_IS_INIT__ = false;
@@ -46,6 +47,7 @@
 		    session_destroy();
 		}
 		$_SESSION['WSP_LAST_ACTIVITY'] = time();
+		ini_set("session.gc_maxlifetime", MAX_SESSION_TIME);
 	}
 	
 	include_once("wsp/includes/execution_time.php");

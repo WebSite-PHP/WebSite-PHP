@@ -7,7 +7,7 @@
  * Class Tabs
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2015 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 12/05/2015
- * @version     1.2.13
+ * @copyright   WebSite-PHP.com 11/10/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.17
  */
@@ -40,6 +40,7 @@ class Tabs extends WebSitePhpObject {
 	private $selected_index = -1;
 	private $onshow = "";
 	private $tagH = "";
+	private $add_hash_url = false;
 	/**#@-*/
 	
 	/**
@@ -209,6 +210,17 @@ class Tabs extends WebSitePhpObject {
 		if ($GLOBALS['__PAGE_IS_INIT__']) { $this->object_change =true; }
 		return $this;
 	}
+	
+	/**
+	 * Method activateAddHashToUrl
+	 * @access public
+	 * @return Tabs
+	 * @since 1.2.15
+	 */
+	public function activateAddHashToUrl() {
+		$this->add_hash_url = true;
+		return $this;
+	}
 
 	/**
 	 * Method getId
@@ -248,13 +260,18 @@ class Tabs extends WebSitePhpObject {
 		$html .= ">\n";
 		$html .= "	<ul>\n";
 		for ($i=0; $i < sizeof($this->array_tabs_name); $i++) {
+			if (gettype($this->array_tabs_name[$i]) == "object" && method_exists($this->array_tabs_name[$i], "render")) {
+				$tab_name_var = strip_tags($this->array_tabs_name[$i]->render());
+			} else {
+				$tab_name_var = $this->array_tabs_name[$i];
+			}
 			$html .= "		<li>";
 			if ($this->tagH != "") {
 				$html .= "<".$this->tagH." style=\"font-weight:inherit;\">";
 			}
 			$html .= "<a href=\"";
 			if (get_class($this->array_tabs_content[$i]) != "Url") {
-				$html .= "#".$this->getId()."_".formalize_to_variable($this->array_tabs_name[$i]);
+				$html .= "#".$this->getId()."_".formalize_to_variable($tab_name_var);
 			} else {
 				$tmp_url = $this->array_tabs_content[$i]->render($ajax_render);
 				if (!$this->ajax_loading) {
@@ -270,7 +287,17 @@ class Tabs extends WebSitePhpObject {
 					}
 				}
 			}
-			$html .= "\"><span>".$this->array_tabs_name[$i]."</span></a>";
+			$html .= "\"";
+			if ($this->add_hash_url == true) {
+				$html .= " id=\"".$this->getId()."_".strtolower(url_rewrite_format($tab_name_var))."\"";
+			}
+			$html .= "><span>";
+			if (gettype($this->array_tabs_name[$i]) == "object" && method_exists($this->array_tabs_name[$i], "render")) {
+				$html .= $this->array_tabs_name[$i]->render();
+			} else {
+				$html .= $this->array_tabs_name[$i];
+			}
+			$html .= "</span></a>";
 			if ($this->tagH != "") {
 				$html .= "</".$this->tagH.">";
 			}
@@ -284,7 +311,12 @@ class Tabs extends WebSitePhpObject {
 				} else {
 					$html_content = $this->array_tabs_content[$i];
 				}
-				$html .= "	<div id=\"".$this->getId()."_".formalize_to_variable($this->array_tabs_name[$i])."\" style=\"padding:5px;";
+				if (gettype($this->array_tabs_name[$i]) == "object" && method_exists($this->array_tabs_name[$i], "render")) {
+					$tab_name_var = strip_tags($this->array_tabs_name[$i]->render());
+				} else {
+					$tab_name_var = $this->array_tabs_name[$i];
+				}
+				$html .= "	<div id=\"".$this->getId()."_".formalize_to_variable($tab_name_var)."\" style=\"padding:5px;";
 				if ($this->width != "") {
 					$html .= "width:".($this->width-10)."px;";
 				}
@@ -301,7 +333,23 @@ class Tabs extends WebSitePhpObject {
 		if ($this->onshow != "") {
 			$html .= "		show: function(event, ui) { ".$this->onshow." }, \n";
 		}
+		if ($this->add_hash_url == true) {
+			$html .= "		create: function(event, ui) {
+					if (!location.hash) {
+						$('#".$this->getId()."').tabs('option', 'active', 0); // activate first tab by default
+						return;
+					}
+					$('#".$this->getId()." > ul > li > a').each(function (index, a) {
+						if ('#'+$(a).attr('id') == window.location.hash) {
+							$('#".$this->getId()."').tabs('option', 'selected', index);
+						}
+					});
+			}, \n";
+		}
 		$html .= "		select: function(event, ui) {\n";
+		if ($this->add_hash_url == true) {
+			$html .= "			window.location.hash = ui.tab.id;\n";
+		}
 		for ($i=0; $i < sizeof($this->array_tabs_select_js); $i++) {
 			$html .= "			if (ui.index == ".$i.") {\n";
 			$html .= "				if ($(ui.panel).html() == '') { $(ui.panel).append(\"";
@@ -362,7 +410,12 @@ class Tabs extends WebSitePhpObject {
 		}
 		$html .= "});\n";
 		if ($this->selected_index > -1 && $this->height != "") {
-			$html .= "$('#".$this->getId()."_".formalize_to_variable($this->array_tabs_name[$this->selected_index])."').attr('style', 'overflow:auto;height:' + (parseInt($('#".$this->getId()."').css('height').replace('px', ''))-($('#".$this->getId()."').find('.ui-tabs-nav').height()+40)) + 'px;');\n";
+			if (gettype($this->array_tabs_name[$this->selected_index]) == "object" && method_exists($this->array_tabs_name[$this->selected_index], "render")) {
+				$tab_name_var = strip_tags($this->array_tabs_name[$this->selected_index]->render());
+			} else {
+				$tab_name_var = $this->array_tabs_name[$this->selected_index];
+			}
+			$html .= "$('#".$this->getId()."_".formalize_to_variable($tab_name_var)."').attr('style', 'overflow:auto;height:' + (parseInt($('#".$this->getId()."').css('height').replace('px', ''))-($('#".$this->getId()."').find('.ui-tabs-nav').height()+40)) + 'px;');\n";
 		}
 		$html .= "});\n";
 		$html .= $this->getJavascriptTagClose();

@@ -189,7 +189,7 @@ if (isset($is_call_from_wsp_admin_update) && $is_call_from_wsp_admin_update == t
     if (version_compare($old_wsp_vserion, '1.2.13') <= 0 || $older_version) {
         $script_log_file->write("[".date("Y-m-d H:i:s")."] Start version 1.2.13 clean ...\n");
 
-        rrmdir($base_dir."/wsp/class/display/advanced_object");
+        rrmdir($base_dir."/wsp/class/display/advanced_object/google");
 
         $script_log_file->write("[".date("Y-m-d H:i:s")."] End version 1.2.13 clean\n");
         $older_version = true;

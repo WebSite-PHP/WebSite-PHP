@@ -7,7 +7,7 @@
  * Class Page
  *
  * WebSite-PHP : PHP Framework 100% object (http://www.website-php.com)
- * Copyright (c) 2009-2016 WebSite-PHP.com
+ * Copyright (c) 2009-2017 WebSite-PHP.com
  * PHP versions >= 5.2
  *
  * Licensed under The MIT License
@@ -16,8 +16,8 @@
  * @package display
  * @author      Emilien MOREL <admin@website-php.com>
  * @link        http://www.website-php.com
- * @copyright   WebSite-PHP.com 11/05/2016
- * @version     1.2.14
+ * @copyright   WebSite-PHP.com 11/10/2017
+ * @version     1.2.15
  * @access      public
  * @since       1.0.0
  */
@@ -184,7 +184,7 @@ class Page extends AbstractPage {
 	private $array_callback_object = array("Button", "ComboBox", "TextBox", "Password", "ColorPicker", "CheckBox",
 											"ContextMenuEvent", "DroppableEvent", "SortableEvent", "Object", "Picture",
 											"Calendar", "AutoCompleteEvent", "Raty", "TextArea", "RadioButtonGroup",
-											"UploadFile", "SelectList");
+											"UploadFile", "SelectList", "SelectListMultiple");
 
 	private $create_object_to_get_css_js = false;
 	private $ended_added_object_loaded = false;
@@ -1680,6 +1680,18 @@ class Page extends AbstractPage {
 	 */
 	public function getRefererURL() {
 		return $_SERVER['HTTP_REFERER'];
+	}
+	
+	/**
+	 * Method getRefererURLWithoutParameters
+	 * @access public
+	 * @return mixed
+	 * @since 1.2.15
+	 */
+	public function getRefererURLWithoutParameters() {
+		$referer_url = $this->getRefererURL();
+		$referer_url = explode("?", $referer_url);
+		return $referer_url[0];
 	}
 
 	/**
